@@ -1,0 +1,451 @@
+id: https://neurostuff.org/schemas/neuroimaging-study
+name: neuroimaging-study
+title: Neuroimaging Study Metadata Schema
+description: >-
+  A descriptive LinkML schema for study-level neuroimaging metadata extracted
+  from publications. The schema preserves the entities and relationships in the
+  project whiteboard and expands their reporting fields using BIDS and the OHBM
+  COBIDAS MRI reporting checklist. It describes what was reported rather than
+  prescribing an executable analysis pipeline.
+license: CC0-1.0
+version: 0.1.0
+see_also:
+  - https://www.humanbrainmapping.org/files/2016/COBIDASreport.pdf
+  - https://bids-specification.readthedocs.io/en/stable/
+  - https://bids-standard.github.io/stats-models/spec.html
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy: https://neurostuff.org/schemas/neuroimaging-study/
+
+imports:
+  - linkml:types
+
+default_prefix: neurostudy
+default_range: string
+
+classes:
+  Study:
+    tree_root: true
+    description: >-
+      The publication-level or dataset-level record that contains the groups,
+      experiments, acquisitions, preprocessing pipelines, statistical models,
+      analyses, conditions, concepts, and reported result tables belonging to
+      one study.
+    attributes:
+      id:
+        identifier: true
+        required: true
+        description: Stable identifier for the study record, such as a DOI-based or repository-local identifier.
+      title:
+        required: true
+        description: Full title of the study or publication.
+      description:
+        description: Brief free-text summary of the study aims and scope.
+      design:
+        description: >-
+          Overall study design, including observational or interventional status,
+          cross-sectional or longitudinal structure, allocation, and blinding when applicable.
+      citation:
+        description: Preferred bibliographic citation for the study.
+      doi:
+        description: Digital Object Identifier, without requiring a particular URL form.
+      bids_dataset_url:
+        range: uri
+        description: URL of a BIDS dataset associated with the study, when available.
+      groups:
+        range: Group
+        multivalued: true
+        inlined_as_list: true
+        description: Participant or demographic groups defined in the study.
+      experiments:
+        range: Experiment
+        multivalued: true
+        inlined_as_list: true
+        description: Tasks, resting-state paradigms, or other experimental protocols in the study.
+      acquisitions:
+        range: Acquisition
+        multivalued: true
+        inlined_as_list: true
+        description: Image or signal acquisition protocols used in the study.
+      preprocessings:
+        range: Preprocessing
+        multivalued: true
+        inlined_as_list: true
+        description: Preprocessing pipelines applied before statistical analysis.
+      statistical_models:
+        range: StatisticalModel
+        multivalued: true
+        inlined_as_list: true
+        description: Statistical model specifications used by one or more analyses.
+      analyses:
+        range: Analysis
+        multivalued: true
+        inlined_as_list: true
+        description: Distinct analyses or inferential tests reported by the study.
+      conditions:
+        range: Condition
+        multivalued: true
+        inlined_as_list: true
+        description: Experimental conditions referenced by experiments, models, or analyses.
+      concepts:
+        range: Concept
+        multivalued: true
+        inlined_as_list: true
+        description: Cognitive, behavioral, clinical, or anatomical concepts used to interpret analyses.
+      tables:
+        range: Table
+        multivalued: true
+        inlined_as_list: true
+        description: Publication tables from which results or analysis metadata were extracted.
+
+  Group:
+    description: >-
+      An aggregate participant group and its reported demographics. Counts are
+      group-specific; analysis-specific inclusion can be recorded with analyzed_count
+      and further qualified in attrition_description.
+    attributes:
+      id:
+        identifier: true
+        required: true
+        description: Stable identifier used by Analysis foreign-key references.
+      name:
+        required: true
+        description: Study-local group label, for example healthy controls or patients with Parkinson disease.
+      description:
+        description: Narrative definition of the group and its role in the study.
+      population:
+        description: Population from which participants were drawn.
+      group_role:
+        description: Study role such as control, patient, treatment, or comparison group.
+      approached_count:
+        range: integer
+        minimum_value: 0
+        description: Number of prospective participants approached for this group.
+      consented_count:
+        range: integer
+        minimum_value: 0
+        description: Number who consented or assented to participate.
+      enrolled_count:
+        range: integer
+        minimum_value: 0
+        description: Number enrolled after screening and before acquisition.
+      acquired_count:
+        range: integer
+        minimum_value: 0
+        description: Number for whom data were acquired or who were scanned.
+      analyzed_count:
+        range: integer
+        minimum_value: 0
+        description: Number included in the reported analysis; use the analysis link when this differs across analyses.
+      excluded_count:
+        range: integer
+        minimum_value: 0
+        description: Number excluded after consent, enrollment, acquisition, or quality control.
+      attrition_description:
+        description: Stage-specific counts and reasons for refusals, withdrawals, exclusions, dropouts, or missing data.
+      inclusion_criteria:
+        multivalued: true
+        description: Eligibility requirements that a participant had to satisfy for membership in this group.
+      exclusion_criteria:
+        multivalued: true
+        description: Screening, MRI-safety, clinical, behavioral, or quality-control criteria causing exclusion.
+      recruitment_method:
+        description: How, where, and from what setting participants were recruited.
+      recruitment_dates:
+        description: Reported recruitment period or dates, retained as text when precision varies.
+      age_mean:
+        range: float
+        minimum_value: 0
+        description: Mean participant age in the unit given by age_unit.
+      age_standard_deviation:
+        range: float
+        minimum_value: 0
+        description: Standard deviation of participant age in the unit given by age_unit.
+      age_minimum:
+        range: float
+        minimum_value: 0
+        description: Youngest age reported for the group.
+      age_maximum:
+        range: float
+        minimum_value: 0
+        description: Oldest age reported for the group.
+      age_median:
+        range: float
+        minimum_value: 0
+        description: Median participant age when reported instead of or in addition to the mean.
+      age_unit:
+        description: Unit used for age summaries, normally years but potentially months, weeks, or gestational weeks.
+      sex_distribution:
+        description: >-
+          Verbatim aggregate distribution of phenotypic sex, including category labels and counts or percentages.
+          A text value avoids imposing categories not used by the source study.
+      gender_distribution:
+        description: >-
+          Verbatim aggregate distribution of self-described gender identity, kept separate from phenotypic sex.
+      handedness_distribution:
+        description: Aggregate handedness counts or frequencies and the method used to determine handedness.
+      race_distribution:
+        description: Verbatim aggregate racial categories and counts or frequencies, including the reporting framework when stated.
+      ethnicity_distribution:
+        description: Verbatim aggregate ethnic categories and counts or frequencies, including the reporting framework when stated.
+      diagnosis:
+        multivalued: true
+        description: Clinical diagnosis or diagnoses defining or characterizing the group.
+      diagnostic_system:
+        description: Diagnostic classification system and edition, such as DSM-5 or ICD-10.
+      diagnostic_instrument:
+        multivalued: true
+        description: Interview, inventory, test, or other instrument used to establish diagnosis.
+      clinical_characteristics:
+        description: Disease duration, severity, treatment status, comorbidities, or other clinically relevant summaries.
+      medication_status:
+        description: Medication exposure and on/off medication state during acquisition or testing.
+      education_summary:
+        description: Aggregate education level and the measurement or coding system used.
+      socioeconomic_status_summary:
+        description: Aggregate socioeconomic status and the instrument or proxy used to measure it.
+
+  Experiment:
+    description: >-
+      A task, resting-state protocol, stimulation protocol, or other experimental
+      paradigm performed in association with an acquisition.
+    attributes:
+      id:
+        identifier: true
+        required: true
+        description: Stable identifier used by other study records.
+      task_name:
+        required: true
+        description: Short, unique label for the task or paradigm; corresponds conceptually to BIDS TaskName.
+      task_description:
+        description: Complete narrative description of what participants experienced and did.
+      conditions:
+        range: Condition
+        multivalued: true
+        inlined: false
+        description: The experimental conditions in this experiment.
+      design_type:
+        description: Design form such as, event-related, block, mixed, or naturalistic.
+      acquisition:
+        range: Acquisition
+        inlined: false
+        description: The acquisition protocol used for this experiment.
+      presentation_software:
+        description: Stimulus-presentation software name, version, and operating system when reported.
+      instructions:
+        description: Verbatim instructions given to participants.
+      stimuli:
+        description: Visuals/materials presented to participants.
+      behavioral_measures:
+        multivalued: true
+        description: Behavioral variables recorded and the summaries used to verify task performance.
+
+  Acquisition:
+    description: A protocol used to acquire neuroimaging or associated physiological data.
+    attributes:
+      id:
+        identifier: true
+        required: true
+        description: Stable identifier used by Experiment foreign-key references.
+      name:
+        description: Human-readable label distinguishing this acquisition protocol from others in the study.
+      modality:
+        required: true
+        description: Imaging or recording modality, such as MRI, fMRI, dMRI, PET, EEG, or MEG.
+      manufacturer:
+        description: Manufacturer of the acquisition equipment.
+      manufacturers_model_name:
+        description: Manufacturer's model name for the scanner or recording system.
+      magnetic_field_strength:
+        range: float
+        minimum_value: 0
+        description: Nominal MRI static field strength in tesla.
+      pulse_sequence:
+        description: General pulse sequence type and manufacturer-specific sequence name when available.
+      imaging_type:
+        description: Imaging readout type, such as echo-planar, spiral, or three-dimensional acquisition.
+  Preprocessing:
+    description: >-
+      An ordered preprocessing pipeline applied to acquired data before or as
+      part of statistical modeling. The fields cover the core COBIDAS reporting areas.
+    attributes:
+      id:
+        identifier: true
+        required: true
+        description: Stable identifier used by Analysis foreign-key references.
+      name:
+        required: true
+        description: Human-readable name for the preprocessing pipeline.
+      description:
+        description: Narrative overview of the pipeline, its inputs, outputs, and intended purpose.
+      software:
+        multivalued: true
+        description: Software packages or methods used, including version and revision identifiers.
+      software_citations:
+        multivalued: true
+        range: uri
+        description: URLs, RRIDs, or resolvable citations for preprocessing software.
+      steps:
+        multivalued: true
+        description: Ordered preprocessing operations as reported; list values in execution order.
+
+  StatisticalModel:
+    description: >-
+      The model and inference settings used to estimate effects. This class is
+      descriptive and accommodates both BIDS Stats Models GLMs and other model families.
+    attributes:
+      id:
+        identifier: true
+        required: true
+        description: Stable identifier used by Analysis foreign-key references.
+      name:
+        description: Human-readable label for the model or analysis stage.
+      model_type:
+        required: true
+        description: >-
+          Model family, such as mass-univariate GLM, meta-analysis, multivariate,
+          local multivariate, predictive model, ICA, or representational similarity analysis.
+      model_settings:
+        description: Essential estimator, variance, autocorrelation, covariance, regularization, and software-specific settings.
+      level:
+        description: Unit or stage of analysis, such as run, session, subject, or dataset/group.
+      estimator:
+        description: Estimation method, such as OLS, WLS, maximum likelihood, restricted maximum likelihood, permutation, or Bayesian estimation.
+      software:
+        description: Statistical software name, version, and relevant implementation details.
+      cluster_correction:
+        description: >-
+          Cluster-wise inference settings, including cluster-forming threshold,
+          cluster statistic, neighborhood definition, and TFCE parameters when used.
+      multiple_comparison_correction:
+        description: >-
+          Multiple-testing method, such as FWE, FDR, Bonferroni, permutation,
+          Monte Carlo, or none; include correction scope, alpha, and iteration count when relevant.
+
+  Analysis:
+    description: >-
+      A distinct reported analysis linking its sample, conditions, preprocessing,
+      statistical model, interpretation concepts, and source result tables.
+    attributes:
+      id:
+        identifier: true
+        required: true
+        description: Stable identifier for the analysis.
+      name:
+        description: Study-local label for the analysis or inferential result.
+      description:
+        description: Narrative summary of the analysis purpose and inputs.
+      spatial_region_model:
+        description: Spatial domain submitted to modeling, such as full brain, surface, atlas ROIs, seed regions, or a specified mask.
+      conditions:
+        range: Condition
+        multivalued: true
+        inlined: false
+        description: Conditions entering the model or contrast.
+      statistical_model:
+        range: StatisticalModel
+        inlined: false
+        description: The statistical model used for this analysis.
+      groups:
+        range: Group
+        multivalued: true
+        inlined: false
+        description: The participant groups included in the analysis.
+      preprocessing:
+        range: Preprocessing
+        inlined: false
+        description: The preprocessing pipeline that produced the analyzed data.
+      contrast_definition:
+        description: Precise tested effect, preferably expressed with named conditions, variables, and contrast weights.
+      tables:
+        range: Table
+        multivalued: true
+        inlined: false
+        description: The source tables reporting results for this analysis.
+      concepts:
+        range: Concept
+        multivalued: true
+        inlined: false
+        description: The references to cognitive, behavioral, clinical, or anatomical interpretations of this analysis.
+      coordinate_space:
+        description: Coordinate reference space or template used to report spatial results, such as MNI or Talairach.
+      sample_sizes:
+        range: integer
+        minimum_value: 0
+        description: Number of participants included specifically in this analysis.
+
+  Condition:
+    description: A named experimental condition, baseline, event type, or modeled state.
+    attributes:
+      id:
+        identifier: true
+        required: true
+        description: Stable identifier used by Experiment and Analysis foreign-key references.
+      name:
+        required: true
+        description: Short condition label that distinguishes the condition from other task periods or modeled effects.
+      description:
+        description: Complete definition of the condition, including baseline or control state when relevant.
+      instructions:
+        description: Instructions specific to this condition.
+      stimuli_description:
+        description: Stimuli presented in this condition, including modality, content, repetition, and provenance.
+      onset_definition:
+        description: Event or block onset definition relative to acquisition or another task event.
+      duration:
+        description: Event or block duration, including variability or units when reported.
+      trial_count:
+        range: integer
+        minimum_value: 0
+        description: Planned or analyzed number of trials for this condition.
+
+  Concept:
+    description: >-
+      A cognitive, behavioral, clinical, stimulus, or anatomical concept linked
+      to a condition or used to interpret an analysis.
+    attributes:
+      id:
+        identifier: true
+        required: true
+        description: Stable local identifier used by foreign-key references.
+      name:
+        required: true
+        description: Preferred human-readable concept label.
+      description:
+        description: Definition of the concept in the context of this study.
+      concept_type:
+        description: Broad category such as cognitive process, behavior, disorder, stimulus, anatomy, or measurement.
+      ontology_id:
+        description: Identifier from an external ontology or controlled vocabulary, when available.
+      ontology_url:
+        range: uri
+        description: Resolvable URI for the external concept definition.
+
+  Table:
+    description: >-
+      A publication table that supplies coordinates, statistics, or contextual
+      metadata. Raw cell structure and point-level provenance may remain in the
+      repository's coordinate-table representation and be linked with source_path.
+    attributes:
+      id:
+        identifier: true
+        required: true
+        description: Stable table identifier used by Analysis foreign-key references.
+      table_number:
+        description: Printed identifier such as Table 2 or Supplementary Table S4.
+      title:
+        description: Table title, when distinct from the caption.
+      caption:
+        description: Verbatim or faithfully normalized table caption.
+      footer:
+        description: Table notes, abbreviations, threshold statements, and footnotes.
+      source_path:
+        description: Repository path or external location of the raw or normalized table representation.
+      coordinate_space:
+        description: Coordinate reference space applying to points in the table, if stated or reliably resolved.
+      column_headings:
+        multivalued: true
+        description: Ordered leaf column headings retained to aid interpretation of extracted values.
+      description:
+        description: Summary of the table contents and its role in the reported analyses.
