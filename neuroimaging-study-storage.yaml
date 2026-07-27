@@ -13,13 +13,17 @@ description: >-
   the only way to change an extraction value is to re-run the LLM extractor.
 
 license: CC0-1.0
-version: 0.1.0
+version: 0.3.0
 see_also:
   - https://www.humanbrainmapping.org/files/2016/COBIDASreport.pdf
   - https://github.com/ohbm/cobidas_schema
   - https://github.com/ReproNim/reproschema
   - https://bids-specification.readthedocs.io/en/stable/
   - https://bids-standard.github.io/stats-models/spec.html
+  - https://bids-specification.readthedocs.io/en/stable/modality-specific-files/magnetic-resonance-imaging-data.html
+  - https://bids-specification.readthedocs.io/en/stable/modality-specific-files/electroencephalography.html
+  - https://bids-specification.readthedocs.io/en/stable/modality-specific-files/near-infrared-spectroscopy.html
+  - https://bids-specification.readthedocs.io/en/stable/modality-specific-files/positron-emission-tomography.html
 
 prefixes:
   linkml: https://w3id.org/linkml/
@@ -38,13 +42,14 @@ classes:
     description: >-
       The publication-level or dataset-level record that contains the groups,
       experiments, acquisitions, preprocessing pipelines, statistical models,
-      analyses, conditions, concepts, and reported result tables belonging to
-      one study.
+      predictors, analyses, conditions, concepts, and reported result tables
+      belonging to one study.
     attributes:
       id:
         identifier: true
         required: true
-        description: Stable identifier for the study record, such as a DOI-based or repository-local identifier.
+        description: Stable identifier for the study record, such as a DOI-based or repository-local 
+          identifier.
       title:
         required: true
         description: Full title of the study or publication.
@@ -71,7 +76,7 @@ classes:
       study_type:
         range: string
         description: >-
-          Broad classification of the publication type. Pulled from pubmed article classification.
+          Broad classification of the publication type. Pulled from PubMed article classification.
           (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types)
       groups:
         range: Group
@@ -105,6 +110,13 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Statistical model specifications used by one or more analyses.
+      predictors:
+        range: Predictor
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Study-local variables referenced by analyses, retained when their presence or source is useful for selecting,
+          grouping, or interpreting studies in a meta-analysis.
       analyses:
         range: Analysis
         multivalued: true
@@ -114,7 +126,7 @@ classes:
         range: Condition
         multivalued: true
         inlined_as_list: true
-        description: Experimental conditions referenced by experiments, models, or analyses.
+        description: Experimental conditions referenced by experiments, models, predictors, or analyses.
       concepts:
         range: Concept
         multivalued: true
@@ -163,19 +175,22 @@ classes:
       analyzed_count:
         range: integer
         minimum_value: 0
-        description: Number included in the reported analysis; use Analysis.group_sample_sizes when this differs across analyses.
+        description: Number included in the reported analysis; use Analysis.group_sample_sizes when this 
+          differs across analyses.
       excluded_count:
         range: integer
         minimum_value: 0
         description: Number excluded after consent, enrollment, acquisition, or quality control.
       attrition_description:
-        description: Stage-specific counts and reasons for refusals, withdrawals, exclusions, dropouts, or missing data.
+        description: Stage-specific counts and reasons for refusals, withdrawals, exclusions, dropouts, or 
+          missing data.
       inclusion_criteria:
         multivalued: true
         description: Eligibility requirements that a participant had to satisfy for membership in this group.
       exclusion_criteria:
         multivalued: true
-        description: Screening, MRI-safety, clinical, behavioral, or quality-control criteria causing exclusion.
+        description: Screening, imaging-safety, clinical, behavioral, or quality-control criteria causing 
+          exclusion.
       recruitment_method:
         description: How, where, and from what setting participants were recruited.
       recruitment_dates:
@@ -204,60 +219,52 @@ classes:
         minimum_value: 0
         description: Median participant age when reported instead of or in addition to the mean.
       age_unit:
-        description: Unit used for age summaries, normally years but potentially months, weeks, or gestational weeks.
+        description: Unit used for age summaries, normally years but potentially months, weeks, or gestational
+          weeks.
       sex_distribution:
         range: CategoryDistribution
         multivalued: true
         inlined_as_list: true
         description: >-
           Aggregate phenotypic sex distribution. Use one entry per reported category,
-          with the study's category label and a count and/or percentage; for example,
-          {category: female, count: 18, percentage: 60.0}.
+          with the study's category label and a count and/or percentage.
       gender_distribution:
         range: CategoryDistribution
         multivalued: true
         inlined_as_list: true
         description: >-
           Aggregate self-described gender distribution, kept separate from
-          phenotypic sex. Use one entry per reported category; for example,
-          {category: nonbinary, count: 2, percentage: 5.0}.
+          phenotypic sex. Use one entry per reported category.
       handedness_distribution:
         range: CategoryDistribution
         multivalued: true
         inlined_as_list: true
         description: >-
           Aggregate handedness distribution. Use one entry per reported category,
-          such as right-handed, left-handed, or ambidextrous, with a count and/or
-          percentage and optional measurement details.
+          such as right-handed, left-handed, or ambidextrous.
       race_distribution:
         range: CategoryDistribution
         multivalued: true
         inlined_as_list: true
-        description: >-
-          Aggregate racial distribution. Use one entry per study-reported category,
-          with a free-text category label and a count and/or percentage; for example,
-          {category: Asian, count: 12, percentage: 30.0}.
+        description: Aggregate racial distribution using the study-reported category labels.
       ethnicity_distribution:
         range: CategoryDistribution
         multivalued: true
         inlined_as_list: true
-        description: >-
-          Aggregate ethnic distribution. Use one entry per study-reported category,
-          with a free-text category label and a count and/or percentage; for example,
-          {category: Hispanic or Latino, count: 8, percentage: 20.0}.
+        description: Aggregate ethnic distribution using the study-reported category labels.
       medical_condition:
         multivalued: true
         description: >-
           Medical, neurological, psychiatric, developmental, or physiological
-          condition(s) defining or characterizing the group; may include formally
-          diagnosed conditions.
+          condition(s) defining or characterizing the group.
       diagnostic_system:
         description: Diagnostic classification system and edition, such as DSM-5 or ICD-10.
       diagnostic_instrument:
         multivalued: true
         description: Interview, inventory, test, or other instrument used to establish diagnosis.
       clinical_characteristics:
-        description: Disease duration, severity, treatment status, comorbidities, or other clinically relevant summaries.
+        description: Disease duration, severity, treatment status, comorbidities, or other clinically relevant
+          summaries.
       medication_status:
         description: Medication exposure and on/off medication state during acquisition or testing.
       education_summary:
@@ -274,38 +281,28 @@ classes:
     attributes:
       category:
         required: true
-        description: >-
-          Free-text category label used by the study; examples include female,
-          male, nonbinary, right-handed, Asian, or Hispanic or Latino.
+        description: Free-text category label used by the study.
       count:
         range: integer
         minimum_value: 0
-        description: Number of participants assigned to this category, for example 18.
+        description: Number of participants assigned to this category.
       percentage:
         range: float
         minimum_value: 0
         maximum_value: 100
-        description: Percentage of the relevant group in this category, for example 60.0.
+        description: Percentage of the relevant group in this category.
       denominator:
         range: integer
         minimum_value: 0
-        description: >-
-          Number of participants used as the denominator for the percentage when it
-          differs from or is clearer than the group sample size, for example 30.
+        description: Number of participants used as the denominator for the percentage.
       reporting_framework:
-        description: >-
-          Free-text description of the classification or reporting framework, when
-          stated; examples include participant self-report, medical record, US Census
-          categories, or Edinburgh Handedness Inventory.
+        description: Classification or reporting framework, such as self-report, medical record, or a named 
+          inventory.
       notes:
-        description: >-
-          Free-text clarification about the category or calculation, such as multiple
-          selections allowed, categories combined by the authors, or percentage
-          rounded from the reported count.
+        description: Clarification about the category or calculation.
 
   GroupSampleSize:
-    description: >-
-      The number of participants from a specific Group included in a specific Analysis.
+    description: The number of participants from a specific Group included in a specific Analysis.
     attributes:
       group:
         range: Group
@@ -329,16 +326,15 @@ classes:
       id:
         identifier: true
         required: true
-        description: Stable identifier used by Analysis and Experiment references.
+        description: Stable identifier used by Analysis, Predictor, and Experiment references.
       name:
         required: true
         description: Name of the assessment, such as Digit Span, MMSE, or BDI.
       description:
         description: Description of the assessment and the measurements it produced.
       assessment_type:
-        description: >-
-          Broad type, such as cognitive test, clinical scale, questionnaire,
-          behavioral task, or physiological assessment.
+        description: Broad type, such as cognitive test, clinical scale, questionnaire, behavioral task, or 
+          physiological assessment.
 
   Experiment:
     description: >-
@@ -352,9 +348,8 @@ classes:
         required: true
         description: Stable identifier used by other study records.
       task_name:
-        description: >-
-          Short, unique label for the task or paradigm; corresponds conceptually to
-          BIDS TaskName when applicable.
+        description: Short, unique label for the task or paradigm; corresponds conceptually to BIDS TaskName 
+          when applicable.
       task_description:
         description: Complete narrative description of what participants experienced and did.
       conditions:
@@ -373,42 +368,174 @@ classes:
       instructions:
         description: Task- or paradigm-specific instructions given to participants.
       stimuli:
-        description: Visuals/materials presented to participants.
+        description: Visuals or other materials presented to participants.
       task_performance_measures:
         multivalued: true
-        description: Behavioral variables recorded and the summaries used to verify task performance.
+        description: Behavioral variables recorded and summaries used to verify task performance.
 
   Acquisition:
     description: >-
-      A technical protocol used to acquire neuroimaging or associated physiological
-      data, with or without an associated participant paradigm.
+      A modality-agnostic protocol used to acquire neuroimaging or associated physiological data. The modality field
+      may contain any study-reported modality. Populate mri, eeg, fnirs, or pet when the corresponding compact modality-specific
+      metadata are relevant; other modalities may be represented by modality without a modality-specific object.
     attributes:
       id:
         identifier: true
         required: true
-        description: Stable identifier used by Experiment foreign-key references.
+        description: Stable identifier used by Experiment and Analysis foreign-key references.
       name:
         description: Human-readable label distinguishing this acquisition protocol from others in the study.
       modality:
         required: true
-        description: Imaging or recording modality, such as fMRI, dMRI, PET, EEG, or MEG. Normalized to BIDS terms.
-      manufacturer:
-        description: Manufacturer of the acquisition equipment.
-      manufacturers_model_name:
-        description: Manufacturer's model name for the scanner or recording system.
-      magnetic_field_strength:
+        description: Imaging or recording modality, such as fMRI, structural MRI, dMRI, PET, EEG, fNIRS, MEG, 
+          SPECT, ultrasound, or another study-reported modality. Normalize to a controlled vocabulary when 
+          possible without restricting unlisted modalities.
+      acquisition_duration_seconds:
         range: float
         minimum_value: 0
-        description: Nominal MRI static field strength in tesla.
-      pulse_sequence:
-        description: General pulse sequence type and manufacturer-specific sequence name when available.
-      imaging_type:
-        description: Imaging readout type, such as echo-planar, spiral, or three-dimensional acquisition.
+        description: Total usable acquisition or recording duration in seconds. Useful for filtering studies 
+          by the amount of data contributing to an analysis, especially resting-state and continuous 
+          recordings.
       instructions:
         description: >-
           Instructions applying to this acquisition, such as remaining still or
           keeping eyes open or closed. Task-specific instructions belong to Experiment.
-
+      mri:
+        range: MRI
+        inlined: true
+        description: Compact MRI fields useful for modality-specific filtering, subgrouping, or sensitivity 
+          analyses.
+      eeg:
+        range: EEG
+        inlined: true
+        description: Compact EEG fields useful for comparing the temporal and spatial sampling of recordings.
+      fnirs:
+        range: FNIRS
+        inlined: true
+        description: Compact fNIRS fields useful for comparing cortical sensitivity and optode sampling.
+      pet:
+        range: PET
+        inlined: true
+        description: Compact PET fields useful for tracer-specific filtering and spatial comparability.
+  MRI:
+    description: >-
+      MRI acquisition attributes that are commonly useful for study selection, subgrouping, or sensitivity analyses
+      in coordinate- or image-based meta-analysis.
+    attributes:
+      magnetic_field_strength_tesla:
+        range: float
+        minimum_value: 0
+        description: Nominal static magnetic field strength in tesla.
+      pulse_sequence_type:
+        description: General pulse sequence family, such as EPI, MPRAGE, SPGR, or spin echo.
+      mr_acquisition_type:
+        description: Acquisition dimensionality, such as 2D or 3D; useful for distinguishing protocols with 
+          materially different spatial sampling.
+      repetition_time_seconds:
+        range: float
+        minimum_value: 0
+        description: Time between the start of successive acquired volumes, in seconds.
+      echo_time_seconds:
+        range: float
+        multivalued: true
+        minimum_value: 0
+        description: Echo time or echo times in seconds.
+      acquisition_voxel_size_mm:
+        range: float
+        multivalued: true
+        minimum_value: 0
+        description: Original acquisition voxel size [x, y, z] in millimeters, before interpolation or 
+          resampling.
+      number_of_volumes:
+        range: integer
+        minimum_value: 0
+        description: Number of acquired volumes contributing to the recording, when reported; a proxy for scan
+          length and temporal sampling in functional acquisitions.
+  EEG:
+    description: >-
+      EEG acquisition attributes that can materially distinguish recordings used in source-localized coordinate
+      or image-based meta-analyses.
+    attributes:
+      sampling_frequency_hz:
+        range: float
+        minimum_value: 0
+        description: Sampling frequency of the recording in hertz.
+      eeg_reference:
+        description: Reference scheme and location used for the raw recording.
+      eeg_placement_scheme:
+        description: Electrode placement system, such as the 10-20 or 10-10 system.
+      recording_type:
+        description: Recording organization, such as continuous, discontinuous, or epoched.
+      eeg_channel_count:
+        range: integer
+        minimum_value: 0
+        description: Number of simultaneously recorded EEG channels.
+  FNIRS:
+    description: >-
+      fNIRS acquisition attributes that affect cortical sensitivity, spatial sampling, or comparability and can
+      therefore support study filtering or moderator analyses.
+    attributes:
+      sampling_frequency_hz:
+        range: float
+        minimum_value: 0
+        description: Sampling frequency of the fNIRS data in hertz.
+      nirs_system_type:
+        description: Instrument principle, such as continuous-wave, frequency-domain, or time-domain NIRS.
+      nirs_channel_count:
+        range: integer
+        minimum_value: 0
+        description: Total number of NIRS channels, including short-separation channels.
+      wavelengths_nm:
+        range: float
+        multivalued: true
+        minimum_value: 0
+        description: Nominal emitted wavelengths in nanometers.
+      short_channel_count:
+        range: integer
+        minimum_value: 0
+        description: Number of short-separation channels; zero indicates none.
+      source_detector_distances_mm:
+        range: float
+        multivalued: true
+        minimum_value: 0
+        description: Reported source-detector separations in millimeters.
+      nirs_placement_scheme:
+        multivalued: true
+        description: Standard placement system or listed optode positions, such as 10-20, Cz, or Pz.
+      recorded_signal_types:
+        multivalued: true
+        description: >-
+          Raw or derived channel signal types, such as continuous-wave amplitude,
+          optical density, oxygenated hemoglobin, or deoxygenated hemoglobin.
+  PET:
+    description: >-
+      PET acquisition attributes that define the biological signal or spatial comparability and are likely to be
+      useful for study selection, subgrouping, or image harmonization.
+    attributes:
+      image_units:
+        description: Units encoded in the PET image, such as Bq/mL or SUV.
+      tracer_name:
+        description: Name of the injected tracer compound.
+      tracer_radionuclide:
+        description: Radioisotope labeling the tracer, such as C11, F18, or O15.
+      mode_of_administration:
+        description: Tracer administration mode, such as bolus, infusion, or bolus plus infusion.
+      scan_type:
+        description: Whether the analyzed PET data were acquired or summarized as a static or dynamic scan.
+      uptake_time_seconds:
+        range: float
+        minimum_value: 0
+        description: Interval from tracer administration to the start of the analyzed scan window, in seconds.
+      reconstructed_voxel_size_mm:
+        range: float
+        multivalued: true
+        minimum_value: 0
+        description: Reconstructed PET voxel size [x, y, z] in millimeters.
+      spatial_resolution_mm:
+        range: float
+        multivalued: true
+        minimum_value: 0
+        description: Reported reconstructed spatial resolution, such as FWHM dimensions, in millimeters.
   Preprocessing:
     description: >-
       An ordered preprocessing pipeline applied to acquired data before or as
@@ -451,22 +578,25 @@ classes:
           predictive model, ICA, or representational similarity analysis.
           Normalized to controlled vocabulary by the mapper.
       model_settings:
-        description: Essential estimator, variance, autocorrelation, covariance, regularization, and software-specific settings.
+        description: Essential estimator, variance, autocorrelation, covariance, regularization, and 
+          software-specific settings.
       level:
-        description: Unit or stage of analysis, such as run, session, subject, or group. Normalized to controlled vocabulary.
+        description: Unit or stage of analysis, such as run, session, subject, or group. Normalized to 
+          controlled vocabulary.
       estimator:
-        description: Estimation method, such as OLS, WLS, maximum likelihood, restricted maximum likelihood, permutation, or Bayesian estimation.
+        description: Estimation method, such as OLS, WLS, maximum likelihood, restricted maximum likelihood, 
+          permutation, or Bayesian estimation.
       software:
         description: Statistical software name, version, and relevant implementation details.
 
   InferenceSettings:
     description: >-
       Structured inferential procedure for one reported analysis. This is the
-      canonical storage home for thresholding, correction, and cluster-inference
-      metadata.
+      canonical storage home for thresholding, correction, and cluster-inference metadata.
     attributes:
       statistic_type:
-        description: Test statistic used for inference, such as t, z, F, chi-square, or a nonparametric statistic.
+        description: Test statistic used for inference, such as t, z, F, chi-square, or a nonparametric 
+          statistic.
       inference_level:
         description: Level at which inference is made, such as voxel, vertex, cluster, region, or network.
       voxelwise_threshold_value:
@@ -490,11 +620,12 @@ classes:
       multiple_comparison_method:
         description: Correction method, such as FWE, FDR, Bonferroni, permutation, Monte Carlo, or none.
       correction_scope:
-        description: Domain over which correction was applied, such as whole brain, ROI set, hemisphere, or mask.
+        description: Domain over which correction was applied, such as whole brain, ROI set, hemisphere, or 
+          mask.
       search_volume:
-        description: Reported search volume, mask size, or number of vertices/voxels used for inference.
+        description: Reported search volume, mask size, or number of vertices or voxels used for inference.
       neighborhood_definition:
-        description: Voxel or vertex adjacency/connectivity rule used for cluster formation.
+        description: Voxel or vertex adjacency or connectivity rule used for cluster formation.
       tfce_used:
         range: boolean
         description: Whether threshold-free cluster enhancement was used.
@@ -517,8 +648,8 @@ classes:
   Analysis:
     description: >-
       A distinct reported analysis linking its source acquisitions, sample, optional
-      experiment context, conditions, preprocessing, statistical model, interpretation
-      concepts, and source result tables.
+      experiment context, conditions, predictors, preprocessing, statistical model,
+      interpretation concepts, and source result tables.
     attributes:
       id:
         identifier: true
@@ -529,7 +660,8 @@ classes:
       description:
         description: Narrative summary of the analysis purpose and inputs.
       spatial_region_model:
-        description: Spatial domain submitted to modeling, such as full brain, surface, atlas ROIs, seed regions, or a specified mask.
+        description: Spatial domain submitted to modeling, such as full brain, surface, atlas ROIs, seed 
+          regions, or a specified mask.
       acquisitions:
         range: Acquisition
         multivalued: true
@@ -542,13 +674,21 @@ classes:
         inlined: false
         description: >-
           Optional link to the meaningful participant paradigm that contextualizes this
-          analysis. Inferred from a unique condition overlap when available; analyses
-          without a paradigm leave this field unset and are linked through acquisitions.
+          analysis. Analyses without a paradigm leave this field unset and are linked
+          through acquisitions.
       conditions:
         range: Condition
         multivalued: true
         inlined: false
         description: Conditions entering the model or contrast.
+      predictors:
+        range: Predictor
+        multivalued: true
+        inlined: false
+        description: >-
+          Variables included in this analysis that may matter for meta-analysis eligibility or subgrouping, including
+          experimental conditions, groups, assessment measures, covariates, nuisance regressors, or other modeled
+          variables.
       statistical_model:
         range: StatisticalModel
         inlined: false
@@ -567,14 +707,14 @@ classes:
         inlined: false
         description: The preprocessing pipeline that produced the analyzed data.
       contrast_definition:
-        description: Precise tested effect, preferably expressed with named conditions, variables, and contrast weights.
+        description: Precise tested effect, preferably expressed with named predictors, variables, and 
+          contrast weights.
       dependent_measure:
-        description: Outcome or neuroimaging measure analyzed, such as BOLD signal, regional volume, FA, or binding potential.
+        description: Outcome or neuroimaging measure analyzed, such as BOLD signal, regional volume, FA, 
+          hemoglobin concentration, EEG amplitude, or binding potential.
       result_units:
-        description: Units of reported effects or statistics, such as percent signal change, arbitrary units, or standardized effect size.
-      covariates:
-        multivalued: true
-        description: Covariates, confounds, or nuisance variables included in this analysis but not represented as modeled conditions.
+        description: Units of reported effects or statistics, such as percent signal change, microvolts, molar
+          concentration, Bq/mL, or standardized effect size.
       independent_sample_key:
         description: >-
           Curator-assigned corpus key identifying analyses based on the same
@@ -593,24 +733,21 @@ classes:
         range: Concept
         multivalued: true
         inlined: false
-        description: The references to cognitive, behavioral, clinical, or anatomical interpretations of this analysis.
+        description: References to cognitive, behavioral, clinical, or anatomical interpretations of this 
+          analysis.
       coordinate_space:
-        description: Coordinate reference space or template used to report spatial results, such as MNI152 or Talairach.
+        description: Coordinate reference space or template used to report spatial results, such as MNI152 or 
+          Talairach.
       group_sample_sizes:
         range: GroupSampleSize
         multivalued: true
         inlined_as_list: true
-        description: >-
-          Per-group participant counts specific to this analysis. Parsed by the mapper from
-          the extraction record's sample_description prose. Replaces the single sample_sizes
-          integer, which cannot represent multi-group designs.
+        description: Per-group participant counts specific to this analysis.
       assessments:
         range: Assessment
         multivalued: true
         inlined: false
-        description: >-
-          Assessments whose measurements were used in or selected the sample for
-          this analysis.
+        description: Assessments whose measurements were used in or selected the sample for this analysis.
 
   Condition:
     description: A named experimental condition, baseline, event type, or modeled state.
@@ -618,51 +755,54 @@ classes:
       id:
         identifier: true
         required: true
-        description: Stable identifier used by Experiment and Analysis foreign-key references.
+        description: Stable identifier used by Experiment, Predictor, and Analysis foreign-key references.
       name:
         required: true
-        description: Short condition label that distinguishes the condition from other task periods or modeled effects.
+        description: Short condition label that distinguishes the condition from other task periods or modeled
+          effects.
       description:
         description: Complete definition of the condition, including baseline or control state when relevant.
 
   Predictor:
     description: >-
-      A condition, group, measurement, covariate, or other item included
-      as a predictor in a particular analysis.
-
+      A study-local variable included in an analysis. This compact representation identifies the variable and its
+      source without attempting to reproduce the full design matrix or model implementation.
     attributes:
       id:
         identifier: true
         required: true
-
+        description: Stable study-local identifier used by Analysis foreign-key references.
       name:
         required: true
-
+        description: Human-readable predictor label used in the analysis.
+      description:
+        description: Narrative definition of the predictor and how it entered the model.
       source:
         range: PredictorSource
         inlined: true
-        description: >-
-          Optional reference to the study entity represented by this predictor.
+        description: Optional reference to the study entity represented by this predictor.
 
   PredictorSource:
+    description: A reference to the study entity or free-text origin represented by a Predictor.
     attributes:
       condition:
         range: Condition
         inlined: false
-
+        description: Experimental condition represented by the predictor.
       group:
         range: Group
         inlined: false
-
+        description: Participant group represented by the predictor.
       assessment:
         range: Assessment
         inlined: false
-
+        description: Assessment whose participant-level measurement supplies the predictor.
       other:
         range: string
         description: >-
           Free-text source label when the predictor does not reference a Condition,
-          Group, or Assessment; examples include pre, post, drug, placebo, age, or dose.
+          Group, or Assessment; examples include pre, post, drug, placebo, age, dose,
+          motion parameter, cardiac phase, or scanner drift.
 
   Concept:
     description: >-
@@ -679,12 +819,15 @@ classes:
       description:
         description: Definition of the concept in the context of this study.
       concept_type:
-        description: Broad category such as cognitive process, behavior, disorder, stimulus, anatomy, or measurement. Normalized by the mapper.
+        description: Broad category such as cognitive process, behavior, disorder, stimulus, anatomy, or 
+          measurement. Normalized by the mapper.
       ontology_id:
-        description: Identifier from an external ontology or controlled vocabulary. Populated by API lookup, not LLM extraction.
+        description: Identifier from an external ontology or controlled vocabulary. Populated by API lookup, 
+          not LLM extraction.
       ontology_url:
         range: uri
-        description: Resolvable URI for the external concept definition. Populated by API lookup, not LLM extraction.
+        description: Resolvable URI for the external concept definition. Populated by API lookup, not LLM 
+          extraction.
 
   StatisticalMap:
     description: >-
@@ -697,7 +840,8 @@ classes:
         description: Stable identifier for this map record.
       map_type:
         required: true
-        description: Content type, such as statistic, effect estimate, variance, z-score, t-score, or thresholded label map.
+        description: Content type, such as statistic, effect estimate, variance, z-score, t-score, or 
+          thresholded label map.
       url:
         range: uri
         description: Resolvable location of the map or its archive landing page.
@@ -711,7 +855,8 @@ classes:
       description:
         description: Notes about map provenance, processing, or relation to the reported result.
       availability_status:
-        description: Availability state, such as public, controlled_access, requested, unavailable, or unknown.
+        description: Availability state, such as public, controlled_access, requested, unavailable, or 
+          unknown.
 
   Table:
     description: >-
@@ -729,22 +874,23 @@ classes:
         description: Table title, when distinct from the caption.
       caption:
         description: >-
-          Free-text table caption describing the table's contents; for example,
-          Regions showing greater activation for reward than neutral trials.
-          Normalize whitespace and typography without requiring exact quotation.
+          Table caption describing the table's contents.
       footer:
         description: Table notes, abbreviations, threshold statements, and footnotes.
       source_path:
-        description: Repository path or external location of the raw or normalized table representation. Set by the ingestion pipeline.
+        description: Repository path or external location of the raw or normalized table representation. Set 
+          by the ingestion pipeline.
       coordinate_space:
-        description: Coordinate reference space applying to points in the table, if stated or reliably resolved.
+        description: Coordinate reference space applying to points in the table, if stated or reliably 
+          resolved.
       column_headings:
         multivalued: true
         description: Ordered leaf column headings retained to aid interpretation of extracted values.
       description:
         description: Summary of the table contents and its role in the reported analyses.
       result_kind:
-        description: Classified result type, such as coordinate_peaks, clusters, ROI_summary, connectivity, behavioral, or descriptive.
+        description: Classified result type, such as coordinate_peaks, clusters, ROI_summary, connectivity, 
+          behavioral, or descriptive.
       contains_coordinates:
         range: boolean
         description: Whether the normalized table representation contains spatial coordinates.
