@@ -748,6 +748,22 @@ classes:
         multivalued: true
         inlined: false
         description: Assessments whose measurements were used in or selected the sample for this analysis.
+      model_representation_status:
+        description: >-
+          Whether the analysis model can be accurately represented using the
+          structured predictors and statistical-model fields in this schema.
+          Suggested values include complete, partial, not_representable, and unknown.
+      model_representation_notes:
+        description: >-
+          Explanation of model components that could not be represented or were
+          represented only approximately. Examples include random slopes, nonlinear
+          terms, mediation paths, latent variables, dynamic connectivity, custom
+          basis functions, or dependencies between predictors.
+      analysis_interpretations:
+        multivalued: true
+        description: >-
+          Interpretation of what the analysis measures.
+          Typically what process the authors assert this contrast/model measures.
 
   Condition:
     description: A named experimental condition, baseline, event type, or modeled state.
