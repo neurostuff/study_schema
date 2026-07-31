@@ -1,0 +1,125 @@
+id: https://neurostuff.org/schemas/extraction-evidence
+name: extraction-evidence
+title: Extraction Evidence Support Schema
+description: >-
+  Shared evidence and value-provenance types for schemas that record structured
+  information extracted from source documents.
+
+license: CC0-1.0
+version: 0.2.0
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  extraction_evidence: https://neurostuff.org/schemas/extraction-evidence/
+
+imports:
+  - linkml:types
+
+default_prefix: extraction_evidence
+default_range: string
+
+enums:
+
+  ExtractionStatus:
+    description: Outcome of explicitly examining a requested attribute during extraction.
+    permissible_values:
+      extracted:
+        description: A usable value was extracted or generated from source-supported information.
+      not_reported:
+        description: The attribute was examined but no value was found in the available source.
+
+  ValueSource:
+    description: Describes how an extracted value relates to the source material.
+    permissible_values:
+      reported:
+        description: Explicitly stated in the source, allowing minor lexical or formatting adaptation.
+      generated:
+        description: Created by the extraction system; evidence supports the underlying entity or concept.
+
+  EvidenceStatus:
+    description: Indicates whether source-text evidence was identified for an extracted value.
+    permissible_values:
+      present:
+        description: At least one complete evidence set was identified.
+      not_found:
+        description: A value was extracted or generated but no supporting source-text evidence was identified.
+      not_applicable:
+        description: No value was extracted because the attribute was not reported.
+
+classes:
+
+  ExtractedValue:
+    description: >-
+      A schema attribute explicitly examined during extraction, including its
+      value, source, and supporting evidence.
+    attributes:
+      extraction_status:
+        range: ExtractionStatus
+        required: true
+      value:
+        range: Any
+        description: >-
+          Extracted or generated value. Populate when extraction_status is
+          extracted; omit when it is not_reported.
+      value_source:
+        range: ValueSource
+      evidence:
+        range: Evidence
+        required: true
+        inlined: true
+
+  ExtractedString:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is text.
+    slot_usage:
+      value:
+        range: string
+
+  ExtractedInteger:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is a whole number.
+    slot_usage:
+      value:
+        range: integer
+
+  ExtractedNumber:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is numeric, including fractional values.
+    slot_usage:
+      value:
+        range: float
+
+  Evidence:
+    description: Evidence associated with an extracted value.
+    attributes:
+      status:
+        range: EvidenceStatus
+        required: true
+      sets:
+        range: EvidenceSet
+        multivalued: true
+        inlined_as_list: true
+
+  EvidenceSet:
+    description: One independently sufficient set of source-text spans supporting a value.
+    attributes:
+      spans:
+        range: EvidenceSpan
+        multivalued: true
+        inlined_as_list: true
+        required: true
+        minimum_cardinality: 1
+
+  EvidenceSpan:
+    description: An exact source-text span used as evidence for an extracted value.
+    attributes:
+      text:
+        required: true
+      start_char:
+        range: integer
+        required: true
+        minimum_value: 0
+      end_char:
+        range: integer
+        required: true
+        minimum_value: 0

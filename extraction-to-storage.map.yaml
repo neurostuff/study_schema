@@ -1,0 +1,788 @@
+# extraction-to-storage.map.yaml
+#
+# Transformation specification from neuroimaging-study-extraction to
+# neuroimaging-study-storage. Inspired by linkml-map TransformationSpecification
+# with extensions for external API lookups and multi-step parses.
+#
+# TRANSFORM TYPES
+# ---------------
+# verbatim        Copy value unchanged. ExtractedValue.evidence preserved in audit log.
+# parse_float     Extract numeric value from string text, cast to float.
+# parse_int       Extract integer from string text.
+# parse_bool      Normalize yes/no/true/false variants to boolean.
+# parse_counts    Parse "N group1 and M group2" prose into GroupSampleSize list.
+#                 One-to-many: one source field → N typed target records.
+# local_id_to_id  Resolve extraction local_id string to storage stable ID.
+# normalize_enum  Fuzzy-match raw string to closed-vocabulary enum value using
+#                 value_mappings as a lookup table; unmatched values are flagged.
+# api_lookup      Populate a value through an external API lookup.
+#                 No extraction-schema field exists for these outputs.
+# derive          Compute a value deterministically from an ingestion artifact or
+#                 normalized representation; no LLM extraction field is needed.
+# infer           Derive from document-level context; algorithm documented in notes.
+# generate        Assign by the ingestion pipeline (UUIDs, DOI-derived IDs, paths).
+#
+# READING EXTRACTION FIELDS
+# -------------------------
+# For ExtractedValue fields, use dotted paths:
+#   field.value              The raw extracted value
+#   field.evidence           Structured evidence sets and exact character offsets
+#   field.extraction_status  ExtractionStatus (extracted/not_reported)
+# Fields may use a typed ExtractedValue subtype (e.g., ExtractedInteger) as
+# their range. The type is a schema constraint, not a property of the
+# extracted record.
+# Source-derived attributes are ExtractedValues, so reference field.value.
+# Generated local IDs and local-ID relationship fields are native strings;
+# local_id_to_id resolves those strings directly.
+
+id: https://neurostuff.org/schemas/extraction-to-storage-map
+name: extraction-to-storage-map
+title: Neuroimaging Study Extraction-to-Storage Transformation Map
+version: 0.2.0
+source_schema: https://neurostuff.org/schemas/neuroimaging-study-extraction
+target_schema: https://neurostuff.org/schemas/neuroimaging-study-storage
+
+class_derivations:
+
+  Study:
+    populated_from: Study
+    slot_derivations:
+
+      id:
+        transform: generate
+        notes: Assigned by the ingestion pipeline; typically DOI-derived (doi:10.../record) or a UUID.
+
+      title:
+        populated_from: title.value
+        transform: verbatim
+
+      description:
+        populated_from: description.value
+        transform: verbatim
+
+      design:
+        populated_from: design.value
+        transform: verbatim
+
+      authors:
+        populated_from: authors.value
+        transform: verbatim
+
+      journal:
+        populated_from: journal.value
+        transform: verbatim
+
+      doi:
+        populated_from: doi.value
+        transform: verbatim
+
+      publication_year:
+        populated_from: publication_year.value
+        source_evidence: publication_year.evidence
+        status_field: publication_year.extraction_status
+        transform: parse_int
+
+      external_datasets:
+        populated_from: external_datasets
+        transform: verbatim
+
+      study_type:
+        populated_from: study_type.value
+        source_evidence: study_type.evidence
+        transform: normalize_enum
+        target_enum: StudyType
+        value_mappings:
+          original research: primary
+          empirical study: primary
+          original article: primary
+          cohort study: primary
+          experimental study: primary
+          meta-analysis: meta_analysis
+          meta analysis: meta_analysis
+          quantitative synthesis: meta_analysis
+          systematic review: systematic_review
+          scoping review: systematic_review
+          narrative review: narrative_review
+          review: narrative_review
+          review article: narrative_review
+          case report: case_report
+          case study: case_report
+          single case: case_report
+          methods paper: methods_development
+          technical note: methods_development
+          toolbox: methods_development
+          methods development: methods_development
+          simulation study: simulation
+          computational study: simulation
+          letter: commentary
+          editorial: commentary
+          commentary: commentary
+          invited commentary: commentary
+        notes: >-
+          LLM output is lowercased and fuzzy-matched first; value_mappings are
+          applied as a fallback lookup table. Unmatched values are stored verbatim
+          and flagged for human review in the curation queue.
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  ExternalDataset:
+    populated_from: ExternalDataset
+    slot_derivations:
+
+      name:
+        populated_from: name.value
+        transform: verbatim
+
+      url:
+        populated_from: url.value
+        source_evidence: url.evidence
+        status_field: url.extraction_status
+        transform: verbatim
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  Group:
+    populated_from: Group
+    slot_derivations:
+
+      id:
+        transform: generate
+        notes: UUID assigned by mapper; extraction local_id stored in audit log.
+
+      name:
+        populated_from: name.value
+        transform: verbatim
+
+      description:
+        populated_from: description.value
+        transform: verbatim
+
+      approached_count:
+        populated_from: approached_count.value
+        source_evidence: approached_count.evidence
+        status_field: approached_count.extraction_status
+        transform: parse_int
+
+      consented_count:
+        populated_from: consented_count.value
+        source_evidence: consented_count.evidence
+        status_field: consented_count.extraction_status
+        transform: parse_int
+
+      enrolled_count:
+        populated_from: enrolled_count.value
+        source_evidence: enrolled_count.evidence
+        status_field: enrolled_count.extraction_status
+        transform: parse_int
+
+      acquired_count:
+        populated_from: acquired_count.value
+        source_evidence: acquired_count.evidence
+        status_field: acquired_count.extraction_status
+        transform: parse_int
+
+      analyzed_count:
+        populated_from: analyzed_count.value
+        source_evidence: analyzed_count.evidence
+        status_field: analyzed_count.extraction_status
+        transform: parse_int
+
+      excluded_count:
+        populated_from: excluded_count.value
+        source_evidence: excluded_count.evidence
+        status_field: excluded_count.extraction_status
+        transform: parse_int
+
+      attrition_description:
+        populated_from: attrition_description.value
+        transform: verbatim
+
+      inclusion_criteria:
+        populated_from: inclusion_criteria.value
+        transform: verbatim
+
+      exclusion_criteria:
+        populated_from: exclusion_criteria.value
+        transform: verbatim
+
+      recruitment_method:
+        populated_from: recruitment_method.value
+        transform: verbatim
+
+      recruitment_dates:
+        populated_from: recruitment_dates.value
+        transform: verbatim
+
+      age_mean:
+        populated_from: age_mean.value
+        source_evidence: age_mean.evidence
+        status_field: age_mean.extraction_status
+        transform: parse_float
+        notes: Strip any trailing unit suffix before parsing.
+
+      age_standard_deviation:
+        populated_from: age_standard_deviation.value
+        source_evidence: age_standard_deviation.evidence
+        status_field: age_standard_deviation.extraction_status
+        transform: parse_float
+
+      age_minimum:
+        populated_from: age_minimum.value
+        source_evidence: age_minimum.evidence
+        status_field: age_minimum.extraction_status
+        transform: parse_float
+
+      age_maximum:
+        populated_from: age_maximum.value
+        source_evidence: age_maximum.evidence
+        status_field: age_maximum.extraction_status
+        transform: parse_float
+
+      age_median:
+        populated_from: age_median.value
+        source_evidence: age_median.evidence
+        status_field: age_median.extraction_status
+        transform: parse_float
+
+      age_unit:
+        populated_from: age_unit.value
+        source_evidence: age_unit.evidence
+        status_field: age_unit.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          year: years
+          yr: years
+          yrs: years
+          y: years
+          month: months
+          mo: months
+          mos: months
+          week: weeks
+          wk: weeks
+          wks: weeks
+          gestational week: gestational_weeks
+          gestational weeks: gestational_weeks
+          gw: gestational_weeks
+        notes: Defaults to "years" when status is not_reported, per COBIDAS convention.
+
+      sex_distribution:
+        populated_from: sex_distribution
+        transform: verbatim
+
+      gender_distribution:
+        populated_from: gender_distribution
+        transform: verbatim
+
+      handedness_distribution:
+        populated_from: handedness_distribution
+        transform: verbatim
+
+      race_distribution:
+        populated_from: race_distribution
+        transform: verbatim
+
+      ethnicity_distribution:
+        populated_from: ethnicity_distribution
+        transform: verbatim
+
+      medical_condition:
+        populated_from: medical_condition.value
+        transform: verbatim
+
+      diagnostic_system:
+        populated_from: diagnostic_system.value
+        source_evidence: diagnostic_system.evidence
+        status_field: diagnostic_system.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          DSM-IV: DSM-IV
+          DSM-IV-TR: DSM-IV-TR
+          DSM-V: DSM-5
+          DSM5: DSM-5
+          DSM 5: DSM-5
+          ICD-9: ICD-9
+          ICD-10: ICD-10
+          ICD-11: ICD-11
+          RDoC: RDoC
+
+      diagnostic_instrument:
+        populated_from: diagnostic_instrument.value
+        transform: verbatim
+
+      clinical_characteristics:
+        populated_from: clinical_characteristics.value
+        transform: verbatim
+
+      medication_status:
+        populated_from: medication_status.value
+        transform: verbatim
+
+      education_summary:
+        populated_from: education_summary.value
+        transform: verbatim
+
+      socioeconomic_status_summary:
+        populated_from: socioeconomic_status_summary.value
+        transform: verbatim
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  Experiment:
+    populated_from: Experiment
+    slot_derivations:
+
+      id:
+        transform: generate
+
+      task_name:
+        populated_from: task_name.value
+        transform: verbatim
+
+      task_description:
+        populated_from: task_description.value
+        transform: verbatim
+
+      conditions:
+        populated_from: conditions
+        transform: local_id_to_id
+        notes: Each string in the list is resolved from extraction local_id to storage Condition.id.
+
+      design_type:
+        populated_from: design_type.value
+        source_evidence: design_type.evidence
+        status_field: design_type.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          event related: event-related
+          event-related design: event-related
+          ER: event-related
+          block design: block
+          blocked: block
+          block: block
+          mixed design: mixed
+          mixed block/event: mixed
+          mixed block-event: mixed
+          naturalistic: naturalistic
+          continuous: continuous
+          resting state: resting-state
+          resting-state: resting-state
+
+      acquisitions:
+        populated_from: acquisitions
+        transform: local_id_to_id
+        notes: >-
+          Resolves every experiment acquisition local_id to a storage Acquisition
+          ID. Entries may represent simultaneous modalities or site-specific
+          variants; structural scans are excluded unless part of the paradigm.
+
+      presentation_software:
+        populated_from: presentation_software.value
+        transform: verbatim
+
+      stimuli:
+        populated_from: stimuli.value
+        transform: verbatim
+
+      task_performance_measures:
+        populated_from: task_performance_measures.value
+        transform: verbatim
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  Acquisition:
+    populated_from: Acquisition
+    slot_derivations:
+
+      id:
+        transform: generate
+
+      name:
+        populated_from: name.value
+        transform: verbatim
+
+      modality:
+        populated_from: modality.value
+        source_evidence: modality.evidence
+        status_field: modality.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          functional MRI: fMRI
+          functional magnetic resonance imaging: fMRI
+          fMRI: fMRI
+          bold fMRI: fMRI
+          diffusion MRI: dMRI
+          diffusion-weighted MRI: dMRI
+          diffusion tensor imaging: dMRI
+          DTI: dMRI
+          DWI: dMRI
+          structural MRI: sMRI
+          T1-weighted: sMRI
+          T1w: sMRI
+          T2-weighted: sMRI
+          T2w: sMRI
+          positron emission tomography: PET
+          PET: PET
+          electroencephalography: EEG
+          EEG: EEG
+          magnetoencephalography: MEG
+          MEG: MEG
+          fNIRS: fNIRS
+          functional near-infrared spectroscopy: fNIRS
+          MRI: MRI
+          magnetic resonance imaging: MRI
+
+      acquisition_duration_seconds:
+        populated_from: acquisition_duration_seconds.value
+        source_evidence: acquisition_duration_seconds.evidence
+        status_field: acquisition_duration_seconds.extraction_status
+        transform: parse_float
+
+      mri:
+        populated_from: mri
+        transform: verbatim
+
+      eeg:
+        populated_from: eeg
+        transform: verbatim
+
+      fnirs:
+        populated_from: fnirs
+        transform: verbatim
+
+      pet:
+        populated_from: pet
+        transform: verbatim
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  Preprocessing:
+    populated_from: Preprocessing
+    slot_derivations:
+
+      id:
+        transform: generate
+
+      name:
+        populated_from: name.value
+        transform: verbatim
+
+      description:
+        populated_from: description.value
+        transform: verbatim
+
+      software:
+        populated_from: software.value
+        transform: verbatim
+
+      steps:
+        populated_from: steps.value
+        transform: verbatim
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  StatisticalModel:
+    populated_from: StatisticalModel
+    slot_derivations:
+
+      id:
+        transform: generate
+
+      name:
+        populated_from: name.value
+        transform: verbatim
+
+      model_type:
+        populated_from: model_type.value
+        source_evidence: model_type.evidence
+        status_field: model_type.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          GLM: mass-univariate GLM
+          general linear model: mass-univariate GLM
+          mass univariate GLM: mass-univariate GLM
+          mass univariate: mass-univariate GLM
+          random effects model: mass-univariate GLM
+          fixed effects model: mass-univariate GLM
+          ICA: ICA
+          independent component analysis: ICA
+          RSA: representational similarity analysis
+          representational similarity: representational similarity analysis
+          representational similarity analysis: representational similarity analysis
+          MVPA: multivariate
+          multi-voxel pattern analysis: multivariate
+          multivariate pattern analysis: multivariate
+          SVM: multivariate
+          decoding: multivariate
+          searchlight: local multivariate
+          searchlight MVPA: local multivariate
+          PPI: psychophysiological interaction
+          psychophysiological interaction: psychophysiological interaction
+          Granger causality: effective connectivity
+          DCM: effective connectivity
+          dynamic causal modelling: effective connectivity
+          meta-analysis: meta-analysis
+          ALE: meta-analysis
+          MKDA: meta-analysis
+          GingerALE: meta-analysis
+
+      model_settings:
+        populated_from: model_settings.value
+        transform: verbatim
+
+      level:
+        populated_from: level.value
+        source_evidence: level.evidence
+        status_field: level.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          run: run
+          first level: run
+          first-level: run
+          1st level: run
+          session: session
+          subject: subject
+          individual: subject
+          single-subject: subject
+          within-subject: subject
+          second level: group
+          second-level: group
+          2nd level: group
+          group: group
+          group level: group
+          group-level: group
+          random effects: group
+          population: group
+
+      estimator:
+        populated_from: estimator.value
+        transform: verbatim
+
+      software:
+        populated_from: software.value
+        transform: verbatim
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  Analysis:
+    populated_from: Analysis
+    slot_derivations:
+
+      id:
+        transform: generate
+
+      name:
+        populated_from: name.value
+        transform: verbatim
+
+      description:
+        populated_from: description.value
+        transform: verbatim
+
+      spatial_region_model:
+        populated_from: spatial_region_model.value
+        transform: verbatim
+
+      acquisitions:
+        populated_from: acquisitions
+        transform: local_id_to_id
+        notes: >-
+          Each extraction Acquisition.local_id is resolved to a storage Acquisition.id.
+          Source acquisitions are explicit for all analysis types, including structural
+          and diffusion analyses without an Experiment.
+
+      conditions:
+        populated_from: conditions
+        transform: local_id_to_id
+
+      statistical_model:
+        populated_from: statistical_model
+        transform: local_id_to_id
+
+      inference_settings:
+        populated_from: inference_settings
+        transform: verbatim
+        notes: Structured inference settings are extracted at the analysis level.
+
+      groups:
+        populated_from: groups
+        transform: local_id_to_id
+
+      preprocessing:
+        populated_from: preprocessing
+        transform: local_id_to_id
+
+      contrast_definition:
+        populated_from: contrast_definition.value
+        transform: verbatim
+
+      tables:
+        populated_from: tables
+        transform: local_id_to_id
+
+      concepts:
+        populated_from: concepts
+        transform: local_id_to_id
+
+      coordinate_space:
+        populated_from: coordinate_space.value
+        source_evidence: coordinate_space.evidence
+        status_field: coordinate_space.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          MNI: MNI152
+          MNI152: MNI152
+          MNI space: MNI152
+          MNI152NLin2009cAsym: MNI152
+          Montreal Neurological Institute: MNI152
+          MNI305: MNI305
+          fsaverage: fsaverage
+          Talairach: Talairach
+          Talairach space: Talairach
+          TAL: Talairach
+          subject native: native
+          native space: native
+
+      experiment:
+        transform: infer
+        notes: >-
+          Algorithm: match Analysis.conditions (as a set of Condition IDs) against
+          Experiment.conditions for each experiment in the study.
+          (1) If the analysis conditions are a non-empty subset of exactly one
+              experiment's conditions, assign that experiment.
+          (2) If Analysis.conditions is empty, leave experiment unset; source data
+            are represented by Analysis.acquisitions.
+          (3) If non-empty conditions match multiple experiments, emit a warning and
+            set experiment to null; flag the analysis for human review.
+          See issue #1.
+
+      group_sample_sizes:
+        populated_from: group_sample_sizes
+        transform: verbatim
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  Condition:
+    populated_from: Condition
+    slot_derivations:
+
+      id:
+        transform: generate
+
+      name:
+        populated_from: name.value
+        transform: verbatim
+
+      description:
+        populated_from: description.value
+        transform: verbatim
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  Concept:
+    populated_from: Concept
+    slot_derivations:
+
+      id:
+        transform: generate
+
+      name:
+        populated_from: name.value
+        transform: verbatim
+
+      description:
+        populated_from: description.value
+        transform: verbatim
+
+      concept_type:
+        populated_from: concept_type.value
+        source_evidence: concept_type.evidence
+        status_field: concept_type.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          cognitive: cognitive process
+          cognitive process: cognitive process
+          cognition: cognitive process
+          behavior: behavior
+          behavioral: behavior
+          behavioural: behavior
+          disorder: disorder
+          clinical: disorder
+          psychiatric: disorder
+          neurological: disorder
+          anatomy: anatomy
+          anatomical: anatomy
+          brain region: anatomy
+          neural structure: anatomy
+          stimulus: stimulus
+          stimuli: stimulus
+          measure: measurement
+          measurement: measurement
+          task measure: measurement
+
+      ontology_id:
+        transform: api_lookup
+        notes: >-
+          This field is absent from the extraction schema and is populated entirely
+          through an external ontology lookup. Cache results by concept name.
+
+      ontology_url:
+        transform: api_lookup
+        notes: Retrieved with the external ontology lookup; not extracted by the LLM.
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  Table:
+    populated_from: Table
+    slot_derivations:
+
+      id:
+        transform: generate
+
+      table_number:
+        populated_from: table_number.value
+        transform: verbatim
+
+      title:
+        populated_from: title.value
+        transform: verbatim
+
+      caption:
+        populated_from: caption.value
+        transform: verbatim
+
+      footer:
+        populated_from: footer.value
+        transform: verbatim
+
+      source_path:
+        transform: generate
+        notes: Set by the ingestion pipeline to the repository path of the raw table file.
+
+      coordinate_space:
+        populated_from: coordinate_space.value
+        source_evidence: coordinate_space.evidence
+        status_field: coordinate_space.extraction_status
+        transform: normalize_enum
+        notes: Uses the same value_mappings as Analysis.coordinate_space above.
+
+      column_headings:
+        populated_from: column_headings.value
+        transform: verbatim
+
+      description:
+        populated_from: description.value
+        transform: verbatim
+
+      contains_coordinates:
+        transform: derive
+        source_representation: normalized_table
+        notes: >-
+          Set true when the normalized table contains at least one valid
+          spatial-coordinate triplet; otherwise set false.
+
+      coordinate_count:
+        transform: derive
+        source_representation: normalized_table
+        notes: >-
+          Count coordinate rows or points in the normalized table
+          representation. Set zero when contains_coordinates is false.
