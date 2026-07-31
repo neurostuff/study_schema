@@ -1,0 +1,722 @@
+id: https://neurostuff.org/schemas/neuroimaging-study-extraction
+name: neuroimaging-study-extraction
+title: Neuroimaging Study Extraction Schema
+description: 'Immutable, evidence-first structured output from extracting a neuroimaging publication.
+
+
+  Source-derived attributes are ExtractedValue instances. Their extraction_status records whether a value was found, value holds the extracted or generated representation when found, value_source describes its relationship to the source, and evidence records exact supporting spans when available. Fields that require a scalar value type use an ExtractedValue subtype such as ExtractedString, ExtractedInteger, or ExtractedNumber. Pipeline metadata, generated local IDs, and local-ID relationship fields use native LinkML types because they are not source-derived extraction values.
+
+
+  For extracted values, evidence is present when one or more independently sufficient EvidenceSets were found, or not_found when no support was located. For not_reported attributes, value is omitted and evidence.status is not_applicable. Entities use native document-local local_id strings for cross-references; ingestion resolves them and creates typed storage records. Do not manually correct an extraction record: create a new extraction version or a separate correction record.'
+license: CC0-1.0
+version: 0.4.0
+see_also:
+- https://github.com/neurostuff/study_schema/issues/3
+- https://github.com/neurostuff/study_schema/issues/5
+- https://github.com/neurostuff/study_schema/issues/6
+- https://github.com/neurostuff/study_schema/issues/9
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy_ex: https://neurostuff.org/schemas/neuroimaging-study-extraction/
+imports:
+- linkml:types
+- extraction-evidence
+default_prefix: neurostudy_ex
+default_range: string
+classes:
+  ExtractionMetadata:
+    description: Pipeline provenance stamped onto the extraction record at generation time.
+    attributes:
+      extractor_model:
+        range: string
+        required: true
+        description: Model identifier used for extraction, e.g. claude-sonnet-4-6.
+      extractor_version:
+        range: string
+        required: true
+        description: Version string of the extraction prompt or pipeline.
+      source_text_hash:
+        range: string
+        description: SHA-256 of the paper text processed, for reproducibility checking.
+      extraction_date:
+        range: date
+        description: ISO-8601 date of extraction.
+      paper_sections:
+        range: PaperSection
+        multivalued: true
+        inlined_as_list: true
+        description: Complete deterministic index of all paper sections and subsections, including character spans.
+  PaperSection:
+    description: >-
+      Deterministic document index entry for every section and subsection in the
+      processed paper text. Character offsets use the same normalized source text
+      and half-open interval convention [start_char, end_char).
+    attributes:
+      ordinal:
+        range: integer
+        required: true
+        minimum_value: 0
+        description: Zero-based document order of the section heading.
+      title:
+        range: string
+        required: true
+        description: Section or subsection heading text after deterministic normalization.
+      level:
+        range: integer
+        required: true
+        minimum_value: 0
+        description: Heading depth; 0 is the document-level title, 1 is a top-level section.
+      parent_section:
+        range: string
+        description: title of the immediately containing section, when applicable.
+      start_char:
+        range: integer
+        required: true
+        minimum_value: 0
+        description: Inclusive character offset of the section heading in normalized source text.
+      end_char:
+        range: integer
+        required: true
+        minimum_value: 0
+        description: Exclusive character offset immediately before the next same-or-higher-level heading or EOF.
+  Study:
+    tree_root: true
+    description: Root extraction record for a single publication.
+    attributes:
+      extraction_metadata:
+        range: ExtractionMetadata
+        required: true
+        inlined: true
+        description: Provenance for this extraction record.
+      doi:
+        range: ExtractedString
+        description: DOI as it appears in the paper or header; may be confirmed or corrected by the API layer.
+      authors:
+        range: ExtractedValue
+        description: Authors in the published order when shown in the source.
+      journal:
+        range: ExtractedString
+        description: Journal or publication venue when shown in the source.
+      publication_year:
+        range: ExtractedInteger
+        description: Publication year as shown in the source.
+      title:
+        range: ExtractedString
+        required: true
+        description: Full title of the publication, verbatim.
+      description:
+        range: ExtractedString
+        description: Brief summary of the study aims in the extractor's own words.
+      design:
+        range: ExtractedString
+        description: Verbatim or closely paraphrased study design description.
+      study_type:
+        range: ExtractedString
+        description: 'LLM-assigned publication category. Expected values: primary, meta_analysis, systematic_review, narrative_review, case_report, methods_development, simulation, commentary. The mapper normalizes this to the StudyType enum in the storage schema. See issue #2.'
+      external_datasets:
+        range: ExternalDataset
+        multivalued: true
+        inlined_as_list: true
+        description: Named external datasets used, cited, or made available by the study.
+      assessments:
+        range: Assessment
+        multivalued: true
+        inlined_as_list: true
+      predictors:
+        range: Predictor
+        multivalued: true
+        inlined_as_list: true
+      groups:
+        range: Group
+        multivalued: true
+        inlined_as_list: true
+        description: Participant groups extracted from the paper.
+      experiments:
+        range: Experiment
+        multivalued: true
+        inlined_as_list: true
+        description: Tasks or paradigms extracted from the paper.
+      acquisitions:
+        range: Acquisition
+        multivalued: true
+        inlined_as_list: true
+        description: Acquisition protocols extracted from the paper.
+      preprocessings:
+        range: Preprocessing
+        multivalued: true
+        inlined_as_list: true
+        description: Preprocessing pipelines extracted from the paper.
+      statistical_models:
+        range: StatisticalModel
+        multivalued: true
+        inlined_as_list: true
+        description: Statistical models extracted from the paper.
+      analyses:
+        range: Analysis
+        multivalued: true
+        inlined_as_list: true
+        description: Analyses extracted from the paper.
+      conditions:
+        range: Condition
+        multivalued: true
+        inlined_as_list: true
+        description: Experimental conditions extracted from the paper.
+      concepts:
+        range: Concept
+        multivalued: true
+        inlined_as_list: true
+        description: Cognitive/behavioral/anatomical concepts extracted from the paper.
+      tables:
+        range: Table
+        multivalued: true
+        inlined_as_list: true
+        description: Result tables extracted from the paper.
+  ExternalDataset:
+    description: Evidence-backed extraction of a named external dataset and its optional URL.
+    attributes:
+      name:
+        range: ExtractedString
+        required: true
+        description: Dataset name as stated in the source.
+      url:
+        range: ExtractedString
+        description: Dataset URL as stated in the source, when available.
+  Group:
+    description: An extracted participant group record. Source-derived attributes are ExtractedValues; local_id is a generated document-local identifier.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Short label assigned by the extractor, unique within this extraction document (e.g., "hc", "pd_patients"). Used for cross-references in Analysis and Experiment records. The mapper resolves these to stable storage IDs.
+      name:
+        range: ExtractedString
+        required: true
+        description: Group label as stated in the paper.
+      description:
+        range: ExtractedString
+        description: Narrative definition of the group, verbatim.
+      approached_count:
+        range: ExtractedInteger
+        description: Participants approached as text or number; mapper parses to integer.
+      consented_count:
+        range: ExtractedInteger
+        description: Participants consented as text or number; mapper parses to integer.
+      enrolled_count:
+        range: ExtractedInteger
+        description: Participants enrolled as text or number; mapper parses to integer.
+      acquired_count:
+        range: ExtractedInteger
+        description: Participants scanned as text or number; mapper parses to integer.
+      analyzed_count:
+        range: ExtractedInteger
+        description: Participants analyzed as text or number; mapper parses to integer.
+      excluded_count:
+        range: ExtractedInteger
+        description: Participants excluded as text or number; mapper parses to integer.
+      attrition_description:
+        range: ExtractedString
+        description: Verbatim description of exclusions and dropouts.
+      inclusion_criteria:
+        range: ExtractedValue
+        description: Eligibility requirements, one per list entry, verbatim.
+      exclusion_criteria:
+        range: ExtractedValue
+        description: Exclusion criteria, one per list entry, verbatim.
+      recruitment_method:
+        range: ExtractedString
+        description: How participants were recruited, verbatim.
+      recruitment_dates:
+        range: ExtractedString
+        description: Recruitment period as stated, verbatim.
+      age_mean:
+        range: ExtractedNumber
+        description: Mean age as text (e.g., "32.4" or "32.4 years"); mapper parses float and unit separately.
+      age_standard_deviation:
+        range: ExtractedNumber
+        description: Age SD as text; mapper parses float.
+      age_minimum:
+        range: ExtractedNumber
+        description: Minimum reported age as text; mapper parses float.
+      age_maximum:
+        range: ExtractedNumber
+        description: Maximum reported age as text; mapper parses float.
+      age_median:
+        range: ExtractedNumber
+        description: Median age as text; mapper parses float.
+      age_unit:
+        range: ExtractedString
+        description: Age unit as stated (e.g., "years", "months"); mapper normalizes to controlled vocabulary.
+      sex_distribution:
+        range: CategoryDistribution
+        multivalued: true
+        inlined_as_list: true
+      gender_distribution:
+        range: CategoryDistribution
+        multivalued: true
+        inlined_as_list: true
+      handedness_distribution:
+        range: CategoryDistribution
+        multivalued: true
+        inlined_as_list: true
+      race_distribution:
+        range: CategoryDistribution
+        multivalued: true
+        inlined_as_list: true
+      ethnicity_distribution:
+        range: CategoryDistribution
+        multivalued: true
+        inlined_as_list: true
+      medical_condition:
+        range: ExtractedValue
+        description: Medical, neurological, psychiatric, developmental, or physiological condition(s), verbatim, one per entry.
+      diagnostic_system:
+        range: ExtractedString
+        description: Diagnostic system as stated (e.g., "DSM-5", "ICD-10"); mapper normalizes abbreviations.
+      diagnostic_instrument:
+        range: ExtractedValue
+        description: Assessment instruments used, verbatim, one per entry.
+      clinical_characteristics:
+        range: ExtractedString
+        description: Disease duration, severity, and related clinical summaries, verbatim.
+      medication_status:
+        range: ExtractedString
+        description: Medication exposure and state during acquisition or testing, verbatim.
+      education_summary:
+        range: ExtractedString
+        description: Education level aggregate, verbatim.
+      socioeconomic_status_summary:
+        range: ExtractedString
+        description: SES aggregate, verbatim.
+  CategoryDistribution:
+    attributes:
+      category:
+        range: ExtractedString
+        required: true
+      count:
+        range: ExtractedInteger
+      percentage:
+        range: ExtractedNumber
+      denominator:
+        range: ExtractedInteger
+      reporting_framework:
+        range: ExtractedString
+  Experiment:
+    description: Extracted meaningful participant paradigm, such as a task, resting-state protocol, stimulation, or passive viewing.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Short label assigned by the extractor; resolved to a stable ID by the mapper.
+      task_name:
+        range: ExtractedString
+        description: Task or paradigm label as stated in the paper, when applicable.
+      task_description:
+        range: ExtractedString
+        description: Full narrative description of the paradigm, verbatim.
+      conditions:
+        range: string
+        multivalued: true
+        description: local_ids of Condition records belonging to this experiment.
+      design_type:
+        range: ExtractedString
+        description: Design form as stated in the paper (e.g., "event-related", "block design"); mapper normalizes to controlled vocabulary.
+      acquisitions:
+        range: string
+        multivalued: true
+        description: >-
+          local_ids of Acquisition records collected as part of this experiment.
+          Use multiple entries for simultaneously collected modalities (e.g., EEG
+          and fMRI) or for site-specific variants of the experimental acquisition.
+          Do not attach structural or other non-paradigm scans merely because they
+          were collected in the same session.
+      presentation_software:
+        range: ExtractedString
+        description: Stimulus presentation software, verbatim.
+      instructions:
+        range: ExtractedString
+        description: Task- or paradigm-specific instructions, verbatim.
+      stimuli:
+        range: ExtractedString
+        description: Stimulus description, verbatim.
+      task_performance_measures:
+        range: ExtractedValue
+        description: Behavioral outcome variables, verbatim, one per entry.
+  Acquisition:
+    description: Extracted technical acquisition protocol record, with or without an associated participant paradigm.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Short label assigned by the extractor; resolved to stable ID by mapper.
+      name:
+        range: ExtractedString
+        description: Human-readable acquisition label.
+      modality:
+        range: ExtractedString
+        description: Modality as stated in the paper (e.g., "functional MRI", "DTI"); mapper normalizes to BIDS terms.
+      acquisition_duration_seconds:
+        range: ExtractedNumber
+      mri:
+        range: MRI
+      eeg:
+        range: EEG
+      fnirs:
+        range: FNIRS
+      pet:
+        range: PET
+  MRI:
+    attributes:
+      magnetic_field_strength_tesla:
+        range: ExtractedNumber
+      pulse_sequence_type:
+        range: ExtractedString
+      mr_acquisition_type:
+        range: ExtractedString
+      repetition_time_seconds:
+        range: ExtractedNumber
+      echo_time_seconds:
+        range: ExtractedValue
+      acquisition_voxel_size_mm:
+        range: ExtractedValue
+      number_of_volumes:
+        range: ExtractedInteger
+  EEG:
+    attributes:
+      sampling_frequency_hz:
+        range: ExtractedNumber
+      eeg_reference:
+        range: ExtractedString
+      eeg_placement_scheme:
+        range: ExtractedString
+      recording_type:
+        range: ExtractedString
+      eeg_channel_count:
+        range: ExtractedInteger
+  FNIRS:
+    attributes:
+      sampling_frequency_hz:
+        range: ExtractedNumber
+      nirs_system_type:
+        range: ExtractedString
+      nirs_channel_count:
+        range: ExtractedInteger
+      wavelengths_nm:
+        range: ExtractedValue
+      short_channel_count:
+        range: ExtractedInteger
+      source_detector_distances_mm:
+        range: ExtractedValue
+      nirs_placement_scheme:
+        range: ExtractedValue
+      recorded_signal_types:
+        range: ExtractedValue
+  PET:
+    attributes:
+      image_units:
+        range: ExtractedString
+      tracer_name:
+        range: ExtractedString
+      tracer_radionuclide:
+        range: ExtractedString
+      mode_of_administration:
+        range: ExtractedString
+      scan_type:
+        range: ExtractedString
+      uptake_time_seconds:
+        range: ExtractedNumber
+      reconstructed_voxel_size_mm:
+        range: ExtractedString
+      spatial_resolution_mm:
+        range: ExtractedString
+  Preprocessing:
+    description: Extracted preprocessing pipeline record.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Short label assigned by the extractor.
+      name:
+        range: ExtractedString
+        required: true
+        description: Pipeline name or label, verbatim.
+      description:
+        range: ExtractedString
+        description: Narrative pipeline overview, verbatim.
+      software:
+        range: ExtractedString
+        multivalued: true
+        inlined_as_list: true
+        description: Software packages used, verbatim, one per entry.
+      steps:
+        range: ExtractedValue
+        description: Ordered preprocessing steps, verbatim, in execution order.
+  StatisticalModel:
+    description: Extracted statistical model record.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Short label assigned by the extractor.
+      name:
+        range: ExtractedString
+        description: Model label, verbatim.
+      model_type:
+        range: ExtractedString
+        required: true
+        description: Model family as stated (e.g., "GLM", "general linear model", "ICA"); mapper normalizes to controlled vocabulary.
+      model_settings:
+        range: ExtractedString
+        description: Essential model settings, verbatim.
+      level:
+        range: ExtractedString
+        description: Analysis level as stated (e.g., "first-level", "group-level"); mapper normalizes to run/session/subject/group vocabulary.
+      estimator:
+        range: ExtractedString
+        description: Estimation method, verbatim.
+      software:
+        range: ExtractedValue
+        description: Statistical software name and version, verbatim.
+  InferenceSettings:
+    attributes:
+      statistic_type:
+        range: ExtractedString
+      inference_level:
+        range: ExtractedString
+      voxelwise_threshold_value:
+        range: ExtractedNumber
+      voxelwise_threshold_type:
+        range: ExtractedString
+      cluster_forming_threshold_value:
+        range: ExtractedNumber
+      cluster_extent_threshold:
+        range: ExtractedInteger
+      clusterwise_threshold_value:
+        range: ExtractedNumber
+      multiple_comparison_method:
+        range: ExtractedString
+      correction_scope:
+        range: ExtractedString
+      search_volume:
+        range: ExtractedString
+      neighborhood_definition:
+        range: ExtractedString
+      tfce_used:
+        range: ExtractedValue
+      tfce_parameters:
+        range: ExtractedString
+      permutation_count:
+        range: ExtractedInteger
+      alpha_level:
+        range: ExtractedNumber
+      number_of_tests:
+        range: ExtractedInteger
+  Analysis:
+    description: Extracted analysis record, including direct links and analysis-level inference metadata.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Short label assigned by the extractor.
+      name:
+        range: ExtractedString
+        description: Analysis label, verbatim.
+      description:
+        range: ExtractedString
+        description: Narrative summary of the analysis, verbatim.
+      spatial_region_model:
+        range: ExtractedString
+        description: Spatial domain of the analysis, verbatim.
+      acquisitions:
+        range: string
+        multivalued: true
+        description: local_ids of Acquisition records supplying data to this analysis. Extract these explicitly, including for structural, diffusion, and other analyses without an associated Experiment.
+      experiment:
+        range: string
+        description: local_id of the Experiment record associated with this analysis.
+      conditions:
+        range: string
+        multivalued: true
+        description: local_ids of Condition records entering this analysis.
+      predictors:
+        range: string
+        multivalued: true
+        description: local_ids of Predictor records entering this analysis.
+      statistical_model:
+        range: string
+        description: local_id of the StatisticalModel used.
+      groups:
+        range: string
+        multivalued: true
+        description: local_ids of Group records included.
+      preprocessing:
+        range: string
+        description: local_id of the Preprocessing pipeline used.
+      contrast_definition:
+        range: ExtractedString
+        description: Contrast specification, verbatim.
+      dependent_measure:
+        range: ExtractedString
+        description: Outcome measure analyzed, verbatim.
+      result_units:
+        range: ExtractedString
+        description: Units of the reported result, verbatim.
+      independent_sample_key:
+        range: ExtractedString
+        description: Study-local key identifying the participant sample used by this analysis.
+      tables:
+        range: string
+        multivalued: true
+        description: local_ids of Table records reporting results.
+      concepts:
+        range: string
+        multivalued: true
+        description: local_ids of Concept records.
+      coordinate_space:
+        range: ExtractedString
+        description: Coordinate space as stated (e.g., "MNI space", "Talairach"); mapper normalizes.
+      group_sample_sizes:
+        range: GroupSampleSize
+        multivalued: true
+        inlined_as_list: true
+      assessments:
+        range: string
+        multivalued: true
+        description: local_ids of Assessment records used by this analysis.
+      inference_settings:
+        range: InferenceSettings
+        inlined: true
+      statistical_maps:
+        range: StatisticalMap
+        multivalued: true
+        inlined_as_list: true
+      model_representation_status:
+        range: ExtractedString
+      model_representation_notes:
+        range: ExtractedString
+      analysis_interpretations:
+        range: ExtractedValue
+  GroupSampleSize:
+    attributes:
+      group:
+        range: string
+        required: true
+        description: local_id of the Group included in this analysis.
+      n:
+        range: ExtractedInteger
+        required: true
+  Assessment:
+    attributes:
+      local_id:
+        range: string
+        required: true
+      name:
+        range: ExtractedString
+        required: true
+      description:
+        range: ExtractedString
+      assessment_type:
+        range: ExtractedString
+  Predictor:
+    attributes:
+      local_id:
+        range: string
+        required: true
+      name:
+        range: ExtractedString
+        required: true
+      description:
+        range: ExtractedString
+      source:
+        range: PredictorSource
+        inlined: true
+  PredictorSource:
+    attributes:
+      condition:
+        range: string
+        description: local_id of the source Condition.
+      group:
+        range: string
+        description: local_id of the source Group.
+      assessment:
+        range: string
+        description: local_id of the source Assessment.
+      other:
+        range: ExtractedString
+  StatisticalMap:
+    attributes:
+      local_id:
+        range: string
+        required: true
+      map_type:
+        range: ExtractedString
+      url:
+        range: ExtractedString
+      coordinate_space:
+        range: ExtractedString
+      is_thresholded:
+        range: ExtractedValue
+      statistic_type:
+        range: ExtractedString
+      description:
+        range: ExtractedString
+      availability_status:
+        range: ExtractedString
+  Condition:
+    description: Extracted condition record.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Short label assigned by the extractor.
+      name:
+        range: ExtractedString
+        required: true
+        description: Condition label as stated in the paper.
+      description:
+        range: ExtractedString
+        description: Condition definition, verbatim.
+  Concept:
+    description: Extracted concept record. ontology_id and ontology_url are absent because they are resolved by the mapper via external ontology API lookups (Cognitive Atlas, NeuroVault). The LLM provides only the free-text name and category.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Short label assigned by the extractor.
+      name:
+        range: ExtractedString
+        required: true
+        description: Concept label as stated or interpreted from the paper.
+      description:
+        range: ExtractedString
+        description: Concept definition in the study context, verbatim.
+      concept_type:
+        range: ExtractedString
+        description: Broad category as stated or inferred (e.g., "cognitive process", "brain region"); mapper normalizes to controlled vocabulary.
+  Table:
+    description: Extracted table record.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Short label assigned by the extractor.
+      table_number:
+        range: ExtractedString
+        description: Printed table identifier, verbatim (e.g., "Table 2", "Supplementary Table S4").
+      title:
+        range: ExtractedString
+        description: Table title, verbatim.
+      caption:
+        range: ExtractedString
+        description: Full table caption, verbatim.
+      footer:
+        range: ExtractedString
+        description: Table notes and footnotes, verbatim.
+      coordinate_space:
+        range: ExtractedString
+        description: Coordinate space from the table header or caption; mapper normalizes.
+      column_headings:
+        range: ExtractedValue
+        description: Ordered column headings, verbatim.
+      description:
+        range: ExtractedString
+        description: Summary of the table's role in the study.

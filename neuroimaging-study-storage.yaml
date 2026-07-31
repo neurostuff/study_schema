@@ -70,9 +70,6 @@ classes:
         range: integer
         minimum_value: 1600
         description: Year in which the study was first published or made publicly available.
-      bids_dataset_url:
-        range: uri
-        description: URL of a BIDS dataset associated with the study, when available.
       study_type:
         range: string
         description: >-
@@ -137,10 +134,21 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Publication tables from which results or analysis metadata were extracted.
-      sample_independence_notes:
-        description: >-
-          Evidence about shared, overlapping, or reused participant samples across
-          this study and related publications; supports corpus-level independence review.
+      external_datasets:
+        range: ExternalDataset
+        multivalued: true
+        inlined_as_list: true
+        description: Named external datasets used, cited, or made available by the study.
+
+  ExternalDataset:
+    description: A named external dataset, with an optional public location.
+    attributes:
+      name:
+        required: true
+        description: Dataset name as reported by the study or its repository.
+      url:
+        range: uri
+        description: Optional landing-page, repository, or direct-access URL for the dataset.
 
   Group:
     description: >-
@@ -298,8 +306,6 @@ classes:
       reporting_framework:
         description: Classification or reporting framework, such as self-report, medical record, or a named 
           inventory.
-      notes:
-        description: Clarification about the category or calculation.
 
   GroupSampleSize:
     description: The number of participants from a specific Group included in a specific Analysis.
@@ -314,8 +320,6 @@ classes:
         required: true
         minimum_value: 0
         description: Number of participants from this group included in the analysis.
-      notes:
-        description: Caveats about this count, such as matched subsets or outlier exclusions.
 
   Assessment:
     description: >-
@@ -359,10 +363,15 @@ classes:
         description: The experimental conditions in this experiment.
       design_type:
         description: Design form such as event-related, block, mixed, or naturalistic.
-      acquisition:
+      acquisitions:
         range: Acquisition
+        multivalued: true
         inlined: false
-        description: The acquisition protocol used to collect data for this experiment.
+        description: >-
+          The acquisition protocols used to collect data for this experiment.
+          Include simultaneous modalities and site-specific variants of the
+          paradigm acquisition; exclude structural scans unless they are part of
+          the experiment itself.
       presentation_software:
         description: Stimulus-presentation software name, version, and operating system when reported.
       instructions:
@@ -396,10 +405,6 @@ classes:
         description: Total usable acquisition or recording duration in seconds. Useful for filtering studies 
           by the amount of data contributing to an analysis, especially resting-state and continuous 
           recordings.
-      instructions:
-        description: >-
-          Instructions applying to this acquisition, such as remaining still or
-          keeping eyes open or closed. Task-specific instructions belong to Experiment.
       mri:
         range: MRI
         inlined: true
@@ -904,9 +909,6 @@ classes:
         description: Ordered leaf column headings retained to aid interpretation of extracted values.
       description:
         description: Summary of the table contents and its role in the reported analyses.
-      result_kind:
-        description: Classified result type, such as coordinate_peaks, clusters, ROI_summary, connectivity, 
-          behavioral, or descriptive.
       contains_coordinates:
         range: boolean
         description: Whether the normalized table representation contains spatial coordinates.
