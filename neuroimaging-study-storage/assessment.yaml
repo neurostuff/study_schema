@@ -1,0 +1,38 @@
+id: https://neurostuff.org/schemas/neuroimaging-study-storage/assessment
+name: neuroimaging-study-storage-assessment
+title: Neuroimaging Study Storage Assessment Module
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
+imports:
+  - linkml:types
+  - subsets
+default_prefix: neurostudy
+default_range: string
+
+classes:
+
+  Assessment:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      A behavioral, cognitive, clinical, or questionnaire-based instrument or
+      procedure that produces participant-level measurements independently of
+      the neuroimaging acquisition or experimental conditions.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        identifier: true
+        required: true
+        description: Stable identifier.
+      name:
+        in_subset: [mvp, model_extracted]
+        required: true
+        description: Name of the assessment, such as Digit Span, MMSE, or BDI.
+      description:
+        in_subset: [mvp, model_extracted]
+        description: Description of the assessment and the measurements it produced.
+      assessment_type:
+        in_subset: [mvp, model_extracted]
+        description: Broad type, such as cognitive test, clinical scale, questionnaire, behavioral task, or 
+          physiological assessment. Create a category if these categories do not fit.
+

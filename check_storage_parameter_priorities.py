@@ -10,6 +10,8 @@ import warnings
 
 import yaml
 
+from schema_utils import load_imported_classes
+
 
 ROOT = Path(__file__).resolve().parent
 STORAGE_SCHEMA = ROOT / "neuroimaging-study-storage.yaml"
@@ -57,10 +59,7 @@ def warn_paths(message: str, paths: list[str]) -> None:
 
 
 def main() -> int:
-    storage = load_yaml(STORAGE_SCHEMA)
-    class_definitions = storage.get("classes", {})
-    if not isinstance(class_definitions, Mapping):
-        raise ValueError("neuroimaging-study-storage.yaml must define a classes mapping.")
+    class_definitions = load_imported_classes(STORAGE_SCHEMA)
 
     priorities = load_yaml(PRIORITIES)
     storage_fields = field_paths(class_definitions)

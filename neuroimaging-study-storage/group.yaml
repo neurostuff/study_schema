@@ -1,0 +1,201 @@
+id: https://neurostuff.org/schemas/neuroimaging-study-storage/group
+name: neuroimaging-study-storage-group
+title: Neuroimaging Study Storage Group Module
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
+imports:
+  - linkml:types
+  - subsets
+default_prefix: neurostudy
+default_range: string
+
+classes:
+
+  Group:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      An aggregate participant group and its reported demographics. Counts are
+      group-specific; analysis-specific inclusion is recorded in Analysis.group_sample_sizes.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        identifier: true
+        required: true
+        description: Stable identifier used by Analysis foreign-key references.
+      name:
+        in_subset: [mvp, model_extracted]
+        required: true
+        description: Study-local group label, for example healthy controls or patients with Parkinson disease.
+      description:
+        in_subset: [mvp, model_extracted]
+        description: Narrative definition of the group and its role in the study.
+      approached_count:
+        in_subset: [model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Number of prospective participants approached for this group.
+      consented_count:
+        in_subset: [model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Number who consented or assented to participate.
+      enrolled_count:
+        in_subset: [model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Number enrolled after screening and before acquisition.
+      acquired_count:
+        in_subset: [mvp, model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Number for whom data were acquired or who were scanned.
+      analyzed_count:
+        in_subset: [mvp, model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Number included in the reported analysis; use Analysis.group_sample_sizes when this 
+          differs across analyses.
+      excluded_count:
+        in_subset: [mvp, model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Number excluded after consent, enrollment, acquisition, and quality control.
+      inclusion_criteria:
+        in_subset: [mvp, model_extracted]
+        multivalued: true
+        description: Eligibility requirements that a participant had to satisfy for membership in this group.
+      exclusion_criteria:
+        in_subset: [mvp, model_extracted]
+        multivalued: true
+        description: Screening, imaging-safety, clinical, behavioral, or quality-control criteria causing 
+          exclusion.
+      recruitment_method:
+        in_subset: [model_extracted]
+        description: How, where, and from what setting participants were recruited.
+      recruitment_dates:
+        in_subset: [model_extracted]
+        description: >-
+          Free-text recruitment period when the source does not support a precise
+          normalized date range; examples include January 2021 to June 2022,
+          2018-2020, or autumn 2023.
+      age_mean:
+        in_subset: [mvp, model_extracted]
+        range: float
+        minimum_value: 0
+        description: Mean participant age in the unit given by age_unit.
+      age_standard_deviation:
+        in_subset: [mvp, model_extracted]
+        range: float
+        minimum_value: 0
+        description: Standard deviation of participant age in the unit given by age_unit.
+      age_minimum:
+        in_subset: [mvp, model_extracted]
+        range: float
+        minimum_value: 0
+        description: Youngest age reported for the group.
+      age_maximum:
+        in_subset: [mvp, model_extracted]
+        range: float
+        minimum_value: 0
+        description: Oldest age reported for the group.
+      age_median:
+        in_subset: [mvp, model_extracted]
+        range: float
+        minimum_value: 0
+        description: Median participant age when reported instead of or in addition to the mean.
+      age_unit:
+        in_subset: [mvp, model_extracted]
+        description: Unit used for age summaries, normally years but potentially months, weeks, or gestational
+          weeks.
+      sex_distribution:
+        in_subset: [mvp, model_extracted]
+        range: CategoryDistribution
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Aggregate phenotypic sex distribution. Use one entry per reported category,
+          with the study's category label and a count and/or percentage.
+      gender_distribution:
+        in_subset: [mvp, model_extracted]
+        range: CategoryDistribution
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Aggregate self-described gender distribution, kept separate from
+          phenotypic sex. Use one entry per reported category.
+      handedness_distribution:
+        in_subset: [model_extracted]
+        range: CategoryDistribution
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Aggregate handedness distribution. Use one entry per reported category,
+          such as right-handed, left-handed, or ambidextrous.
+      race_distribution:
+        in_subset: [mvp, model_extracted]
+        range: CategoryDistribution
+        multivalued: true
+        inlined_as_list: true
+        description: Aggregate racial distribution using the study-reported category labels.
+      ethnicity_distribution:
+        in_subset: [mvp, model_extracted]
+        range: CategoryDistribution
+        multivalued: true
+        inlined_as_list: true
+        description: Aggregate ethnic distribution using the study-reported category labels.
+      medical_condition:
+        in_subset: [mvp, model_extracted]
+        multivalued: true
+        description: >-
+          Medical, neurological, psychiatric, developmental, or physiological
+          condition(s) defining or characterizing the group.
+      diagnostic_system:
+        in_subset: [mvp, model_extracted]
+        description: Diagnostic classification system and edition, such as DSM-5 or ICD-10.
+      diagnostic_instrument:
+        in_subset: [mvp, model_extracted]
+        multivalued: true
+        description: Interview, inventory, test, or other instrument used to establish diagnosis.
+      clinical_characteristics:
+        in_subset: [mvp, model_extracted]
+        description: Disease duration, severity, treatment status, comorbidities, or other clinically relevant
+          summaries.
+      medication_status:
+        in_subset: [mvp, model_extracted]
+        description: Medication exposure and on/off medication state during acquisition or testing.
+      education_summary:
+        in_subset: [model_extracted]
+        description: Aggregate education level and the measurement or coding system used.
+      socioeconomic_status_summary:
+        in_subset: [model_extracted]
+        description: Aggregate socioeconomic status and the instrument or proxy used to measure it.
+
+CategoryDistribution:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      One category in an aggregate participant distribution. Category labels are
+      free text so the schema can preserve study-specific terminology without
+      imposing a closed vocabulary. At least one of count or percentage should be
+      supplied when the source reports a quantitative distribution.
+    attributes:
+      category:
+        in_subset: [mvp, model_extracted]
+        required: true
+        description: Free-text category label used by the study.
+      count:
+        in_subset: [mvp, model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Number of participants assigned to this category.
+      percentage:
+        in_subset: [mvp, model_extracted]
+        range: float
+        minimum_value: 0
+        maximum_value: 100
+        description: Percentage of the relevant group in this category.
+      denominator:
+        in_subset: [mvp, model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Number of participants used as the denominator for the percentage.

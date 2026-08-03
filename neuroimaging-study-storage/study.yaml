@@ -1,0 +1,135 @@
+id: https://neurostuff.org/schemas/neuroimaging-study-storage/study
+name: neuroimaging-study-storage-study
+title: Neuroimaging Study Storage Study Module
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
+imports:
+  - linkml:types
+  - subsets
+  - group
+  - experiment
+  - assessment
+  - acquisition
+  - analysis
+default_prefix: neurostudy
+default_range: string
+
+classes:
+
+  Study:
+    in_subset: [mvp, deterministic]
+    tree_root: true
+    description: >-
+      The publication-level or dataset-level record that contains the groups,
+      experiments, acquisitions, preprocessing pipelines, model estimations,
+      analyses, conditions, concepts, and reported result tables belonging to one
+      study.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        identifier: true
+        required: true
+        description: Stable identifier for the study record, such as a DOI-based or repository-local 
+          identifier.
+      title:
+        in_subset: [mvp, deterministic]
+        required: true
+        description: Full title of the study or publication.
+      description:
+        in_subset: [mvp, deterministic]
+        description: Brief free-text summary of the study aims and scope.
+      design:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Overall study design, including observational or interventional status,
+          cross-sectional or longitudinal structure, allocation, and blinding when applicable.
+      authors:
+        in_subset: [mvp, deterministic]
+        multivalued: true
+        description: Authors of the study or publication, in published order.
+      journal:
+        in_subset: [mvp, deterministic]
+        description: Journal or other publication venue.
+      doi:
+        in_subset: [mvp, deterministic]
+        description: Digital Object Identifier, without requiring a particular URL form.
+      publication_year:
+        in_subset: [mvp, deterministic]
+        range: integer
+        minimum_value: 1600
+        description: Year in which the study was first published or made publicly available.
+      study_type:
+        in_subset: [mvp, deterministic]
+        range: string
+        description: >-
+          Broad classification of the publication type. Pulled from PubMed article classification.
+          (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types)
+      groups:
+        in_subset: [mvp, model_extracted]
+        range: Group
+        multivalued: true
+        inlined_as_list: true
+        description: Participant or demographic groups defined in the study.
+      experiments:
+        in_subset: [mvp, model_extracted]
+        range: Experiment
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Task, resting-state, stimulation, passive-viewing, or other meaningful
+          participant paradigms associated with study acquisitions.
+      assessments:
+        in_subset: [mvp, model_extracted]
+        range: Assessment
+        multivalued: true
+        inlined_as_list: true
+        description: Measures of participants that were taken independently of an acquisition.
+      acquisitions:
+        in_subset: [mvp, model_extracted]
+        range: Acquisition
+        multivalued: true
+        inlined_as_list: true
+        description: Image or signal acquisition protocols used in the study.
+      preprocessings:
+        in_subset: [model_extracted]
+        range: Preprocessing
+        multivalued: true
+        inlined_as_list: true
+        description: Preprocessing pipelines applied before statistical analysis.
+      model_estimations:
+        in_subset: [mvp, model_extracted]
+        range: ModelEstimation
+        multivalued: true
+        inlined_as_list: true
+        description: Model estimation records used by one or more analyses.
+      analyses:
+        in_subset: [mvp, model_extracted]
+        range: Analysis
+        multivalued: true
+        inlined_as_list: true
+        description: Distinct analyses or inferential tests reported by the study.
+      tables:
+        in_subset: [mvp, deterministic]
+        range: Table
+        multivalued: true
+        inlined_as_list: true
+        description: Publication tables from which results or analysis metadata were extracted.
+      external_datasets:
+        in_subset: [model_extracted]
+        range: ExternalDataset
+        multivalued: true
+        inlined_as_list: true
+        description: Named external datasets used, cited, or made available by the study.
+
+  ExternalDataset:
+    in_subset: [model_extracted]
+    description: A named external dataset, with an optional public location.
+    attributes:
+      name:
+        in_subset: [model_extracted]
+        description: Dataset name as reported by the study or its repository.
+      url:
+        in_subset: [model_extracted]
+        range: uri
+        description: Optional landing-page, repository, or direct-access URL for the dataset.

@@ -1,0 +1,85 @@
+id: https://neurostuff.org/schemas/neuroimaging-study-storage/experiment
+name: neuroimaging-study-storage-experiment
+title: Neuroimaging Study Storage Experiment Module
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
+imports:
+  - linkml:types
+  - subsets
+  - acquisition
+default_prefix: neurostudy
+default_range: string
+
+classes:
+
+  Experiment:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      A meaningful participant paradigm, such as a task, resting-state protocol,
+      stimulation, or passive viewing, performed in association with an acquisition.
+      Acquisitions without such a paradigm, including structural and diffusion scans,
+      do not require an Experiment record.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        identifier: true
+        required: true
+        description: Stable identifier used by other study records.
+      task_name:
+        in_subset: [mvp, model_extracted]
+        description: Short, unique label for the task or paradigm; corresponds conceptually to BIDS TaskName 
+          when applicable.
+      task_description:
+        in_subset: [mvp, model_extracted]
+        description: Complete narrative description of what participants experienced and did.
+      conditions:
+        in_subset: [mvp, model_extracted]
+        range: Condition
+        multivalued: true
+        inlined: false
+        description: The experimental conditions in this experiment.
+      design_type:
+        in_subset: [mvp, model_extracted]
+        description: Design form such as event-related, block, mixed, or naturalistic.
+      acquisitions:
+        in_subset: [mvp, model_extracted]
+        range: Acquisition
+        multivalued: true
+        inlined: false
+        description: >-
+          The acquisition protocols used to collect data for this experiment.
+          Include simultaneous modalities and site-specific variants of the
+          paradigm acquisition; exclude structural scans unless they are part of
+          the experiment itself.
+      presentation_software:
+        in_subset: [model_extracted]
+        description: Stimulus-presentation software name, version, and operating system when reported.
+      instructions:
+        in_subset: [model_extracted]
+        description: Task- or paradigm-specific instructions given to participants.
+      stimuli:
+        in_subset: [model_extracted]
+        description: Visuals or other materials presented to participants.
+      task_performance_measures:
+        in_subset: [model_extracted]
+        multivalued: true
+        description: Behavioral variables recorded and summaries used to verify task performance.
+
+  Condition:
+    in_subset: [mvp, model_extracted]
+    description: A named experimental condition, baseline, event type, or modeled state.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        identifier: true
+        required: true
+        description: Stable identifier.
+      name:
+        in_subset: [mvp, model_extracted]
+        required: true
+        description: Short condition label that distinguishes the condition from other task periods or modeled
+          effects.
+      description:
+        in_subset: [mvp, model_extracted]
+        description: Complete definition of the condition, including baseline or control state when relevant.

@@ -353,17 +353,40 @@ classes:
         description: Human-readable acquisition label.
       modality:
         range: ExtractedString
-        description: Modality as stated in the paper (e.g., "functional MRI", "DTI"); mapper normalizes to BIDS terms.
+        description: >-
+          Modality as stated in the paper (e.g., "functional MRI", "DTI"), verbatim; the mapper normalizes it to
+          the storage Modality vocabulary. Do not translate it here, and do not omit a modality the vocabulary has
+          no obvious slot for -- an unmatched label lands on `other` with the label preserved.
       acquisition_duration_seconds:
         range: ExtractedNumber
+      instrument:
+        range: ExtractedString
+        description: Scanner, amplifier, or recording system, verbatim, including manufacturer and model.
+      description:
+        range: ExtractedString
+        description: >-
+          Narrative account of the acquisition, verbatim, holding whatever this schema has no field for. Fill this
+          in rather than dropping a reported parameter, whatever the modality.
+      structured_details:
+        range: ExtractedString
+        description: >-
+          JSON-encoded acquisition parameters that no field below accepts, when the reported parameters have
+          structure worth keeping. A string because the schema has no free-form object range.
       mri:
         range: MRI
+        description: Fill in for an MRI acquisition of any kind, functional, structural, or diffusion.
       eeg:
         range: EEG
       fnirs:
         range: FNIRS
       pet:
         range: PET
+      other:
+        range: OtherModality
+        description: >-
+          Fill in only for a modality none of the four above covers, such as MEG, SPECT, ultrasound, or
+          intracranial EEG. Extra parameters for a modality that does have a class go in description or
+          structured_details, not here.
   MRI:
     attributes:
       magnetic_field_strength_tesla:
@@ -428,6 +451,17 @@ classes:
         range: ExtractedString
       spatial_resolution_mm:
         range: ExtractedString
+  OtherModality:
+    description: >-
+      Extracted record of an acquisition whose modality none of MRI, EEG, FNIRS, or PET covers. Its parameters go in
+      the enclosing Acquisition's description or structured_details, which no modality normalizes.
+    attributes:
+      modality_label:
+        range: ExtractedString
+        description: The paper's own name for the modality or recording technique, verbatim.
+      reason_no_modality_class_used:
+        range: ExtractedString
+        description: Why the MRI, EEG, FNIRS, and PET fields do not describe this acquisition.
   Preprocessing:
     description: Extracted preprocessing pipeline record.
     attributes:

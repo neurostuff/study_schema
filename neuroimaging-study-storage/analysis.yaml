@@ -1,0 +1,869 @@
+id: https://neurostuff.org/schemas/neuroimaging-study-storage/analysis
+name: neuroimaging-study-storage-analysis
+title: Neuroimaging Study Storage Analysis Module
+description: >-
+  A reported analysis and the effect it tested.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
+imports:
+  - linkml:types
+  - subsets
+  - acquisition
+  - experiment
+  - group
+  - assessment
+  - analysis_enums
+  - analysis_details
+default_prefix: neurostudy
+default_range: string
+
+classes:
+
+  Analysis:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      A distinct reported inferential map or tested effect, linking its source
+      acquisitions, sample, paradigm context, tested effect, preprocessing, model
+      estimation, inference settings, interpretation concepts, and source result tables.
+
+      Create one Analysis for each distinct tested effect. Separate Analyses are required
+      when normalized direction, participant-group comparison, analysis_type,
+      effect.kind, seed or connectivity model, decoded variable, component identity, or
+      spatial_scope differ, and when an omnibus effect and its directional post-hoc
+      contrast are both reported. ROI definitions, acquisition summaries, descriptive
+      sample tables, and masks without inferential effects are not Analyses.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        identifier: true
+        required: true
+        description: >-
+          Stable identifier for the analysis. Must be a deterministic function of the
+          source location, so that re-extracting a paper produces the same identifier and
+          externally stored source evidence still joins. A workable recipe is
+          study, table or figure identifier, and analysis label slug or index.
+      name:
+        in_subset: [mvp, model_extracted]
+        required: true
+        description: Study-local label for the analysis or inferential result, in the source's words.
+      definition:
+        in_subset: [mvp, model_extracted]
+        required: true
+        description: >-
+          Precise statement of the tested effect in the source's own words, minimally
+          cleaned. Always source-grounded. This is what makes a record readable on its
+          own, and for an effect kind of `other` it is where the meaning lives. For an
+          interaction it must state the direction of the interaction as the source states
+          it; for an ordered contrast it must keep the ordering that the greater and
+          lesser roles cannot express.
+      interpretations:
+        in_subset: [model_extracted]
+        multivalued: true
+        description: >-
+          Model-inferred reading of what the analysis measures, typically the process the
+          authors assert this contrast or model measures. Never treated as a source claim:
+          being in this slot is what marks a reading as inferred.
+      analysis_type:
+        in_subset: [mvp, model_extracted]
+        range: AnalysisType
+        required: true
+        description: >-
+          The method that produced the map, not what was tested about it. Method context
+          decides and names mislead: a trial-wise similarity or model-fit regressor in a
+          univariate GLM is mass_univariate with a parametric_modulation effect, and a
+          decoding accuracy map compared between groups is multivariate_decoding with a
+          contrast effect.
+      spatial_scope:
+        in_subset: [mvp, model_extracted]
+        range: SpatialScope
+        required: true
+        description: Spatial domain of the analysis. An inclusion criterion, not preprocessing metadata.
+      roi_definition:
+        in_subset: [model_extracted]
+        range: RoiDefinition
+        required: true
+        description: >-
+          How the region of interest was defined, which is primarily a statement about
+          independence. Must be not_applicable for whole-brain and searchlight analyses,
+          and must not be not_applicable when spatial_scope is roi.
+      roi_label:
+        in_subset: [model_extracted]
+        description: >-
+          The atlas, parcellation, or region name, in the source's words. Unset for
+          whole-brain analyses.
+      measure:
+        in_subset: [mvp, model_extracted]
+        range: Measure
+        inlined: true
+        required: true
+        description: The scientific quantity of the map, independent of the statistic used to test it.
+      groups:
+        in_subset: [mvp, model_extracted]
+        range: GroupTerm
+        multivalued: true
+        inlined_as_list: true
+        required: true
+        description: >-
+          The participant cohorts in the analysis and the side of the comparison each sits
+          on. Groups are participant cohorts only: experimental roles, task states, and
+          time points are Conditions or factor levels.
+      effect:
+        in_subset: [mvp, model_extracted]
+        range: Effect
+        inlined: true
+        required: true
+        description: What was tested about the map. Universal across every analysis_type.
+      details:
+        in_subset: [model_extracted]
+        range: AnalysisDetails
+        inlined: true
+        description: >-
+          Method-specific payload. The subclass must agree with analysis_type, and this
+          slot is unset for mass_univariate, whose needs are met entirely by effect.
+      acquisitions:
+        in_subset: [mvp, model_extracted]
+        range: Acquisition
+        multivalued: true
+        inlined: false
+        description: >-
+          Acquisition protocols supplying data to this analysis. Structural, diffusion,
+          and other non-paradigm analyses are linked directly through this field.
+      experiments:
+        in_subset: [mvp, model_extracted]
+        range: Experiment
+        multivalued: true
+        inlined: false
+        description: >-
+          The participant paradigms that contextualize this analysis. Multivalued because
+          an analysis can span paradigms, as a cross-task conjunction or a
+          localizer-plus-main-task analysis does. Analyses without a paradigm leave this
+          empty and are linked through acquisitions.
+      model_estimation:
+        in_subset: [mvp, model_extracted]
+        range: ModelEstimation
+        inlined: false
+        description: >-
+          How this analysis was estimated, carrying the model family, estimator, stage,
+          and software. It says nothing about what was tested: that is entirely `effect`.
+      inference_settings:
+        range: InferenceSettings
+        inlined: true
+        description: Structured thresholding and correction metadata for this reported analysis.
+      preprocessing:
+        range: Preprocessing
+        inlined: false
+        description: The preprocessing pipeline that produced the analyzed data.
+      tables:
+        in_subset: [mvp, deterministic]
+        range: Table
+        multivalued: true
+        inlined: false
+        description: The source tables reporting results for this analysis.
+      statistical_maps:
+        in_subset: [deterministic]
+        range: StatisticalMap
+        multivalued: true
+        inlined_as_list: true
+        description: Statistical maps made available for this analysis.
+      concepts:
+        in_subset: [mvp, model_extracted]
+        range: Concept
+        multivalued: true
+        inlined: false
+        description: >-
+          References to cognitive, behavioral, clinical, or anatomical interpretations of
+          this analysis.
+      coordinate_space:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Coordinate reference space or template used to report spatial results, such as
+          MNI152 or Talairach.
+      group_sample_sizes:
+        in_subset: [mvp, model_extracted]
+        range: GroupSampleSize
+        multivalued: true
+        inlined_as_list: true
+        description: Per-group participant counts specific to this analysis.
+      assessments:
+        in_subset: [mvp, model_extracted]
+        range: Assessment
+        multivalued: true
+        inlined: false
+        description: Assessments whose measurements were used in or selected the sample for this analysis.
+      model_representation_notes:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Model components that could not be represented or were represented only
+          approximately, for an analysis whose type is otherwise first-class. Examples
+          include random slopes, latent variables, dynamic connectivity, custom basis
+          functions, and dependencies between terms. An analysis whose method has no
+          stable structured decomposition at all takes analysis_type not_structurable
+          instead.
+    rules:
+      - description: A mass-univariate analysis carries no details payload.
+        preconditions:
+          slot_conditions:
+            analysis_type:
+              equals_string: mass_univariate
+        postconditions:
+          slot_conditions:
+            details:
+              value_presence: ABSENT
+      - description: Every other analysis type carries the details payload that matches it.
+        preconditions:
+          none_of:
+            - slot_conditions:
+                analysis_type:
+                  equals_string: mass_univariate
+        postconditions:
+          slot_conditions:
+            details:
+              value_presence: PRESENT
+      - description: Whole-brain and searchlight analyses have no region of interest to define.
+        preconditions:
+          slot_conditions:
+            spatial_scope:
+              any_of:
+                - equals_string: whole_brain
+                - equals_string: searchlight
+        postconditions:
+          slot_conditions:
+            roi_definition:
+              equals_string: not_applicable
+      - description: An ROI analysis must say how the region was defined.
+        preconditions:
+          slot_conditions:
+            spatial_scope:
+              equals_string: roi
+        postconditions:
+          none_of:
+            - slot_conditions:
+                roi_definition:
+                  equals_string: not_applicable
+
+  Effect:
+    description: >-
+      The inferential quantity tested about a map. Applies unchanged to every
+      analysis_type, so the method and the effect never compete for the same field.
+      Estimation facts -- model family, estimator, stage, software -- are not here: they
+      belong to the model that produced the map and live on ModelEstimation, reached
+      through Analysis.model_estimation.
+    attributes:
+      kind:
+        in_subset: [mvp, model_extracted]
+        range: EffectKind
+        required: true
+        description: >-
+          The kind of effect tested. This is a function of which terms carry direction,
+          not an independent judgement: mark the directions visible in the source and the
+          kind follows. The derivation table in the source specification is not
+          expressible in LinkML and is checked by the structural validator, which
+          recomputes this value and rejects contradictions. Where a term pattern is
+          compatible with more than one kind, the validator checks membership in the
+          compatible set. An analysis_type of `other` or not_structurable permits a kind of
+          `other` whatever the terms are, so an unusual design never has to delete true
+          terms in order to validate.
+      baseline:
+        in_subset: [mvp, model_extracted]
+        range: Baseline
+        description: >-
+          What the map was tested against. not_applicable unless the effect is a
+          one-sample test or a contrast against a baseline condition. Do not invent a
+          baseline condition: if the baseline is a modelled condition such as rest or
+          fixation, give it a `lesser` condition term, which makes the effect a contrast.
+      path:
+        in_subset: [mvp, model_extracted]
+        range: EffectPath
+        description: >-
+          Whether the tested quantity is a mediated path. not_applicable in the normal
+          case. A value other than not_applicable requires a term with role `mediator`,
+          and such a term requires such a path; that paired invariant spans a multivalued
+          nested slot and is checked by the structural validator rather than here.
+      conditions:
+        in_subset: [mvp, model_extracted]
+        range: ConditionTerm
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The experimental conditions entering the effect and the side of the comparison
+          each sits on. When the map being tested is itself a contrast, its condition terms
+          go here with their roles, so the contrast stays queryable whatever the effect
+          kind is.
+      terms:
+        in_subset: [mvp, model_extracted]
+        range: Term
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The model terms. One list covers what earlier drafts split into factors and
+          predictors, because statistically there is no difference: what matters is whether
+          a term is categorical or continuous, and a categorical term is a pointer to
+          Groups or Conditions.
+      statistic:
+        in_subset: [mvp, model_extracted]
+        range: Statistic
+        inlined: true
+        required: true
+        description: The test statistic for this effect.
+
+  Statistic:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      A test statistic and its degrees of freedom. Statistic *values* -- peak magnitudes,
+      p-values, cluster extents -- belong to the reported coordinates and are not here.
+    attributes:
+      family:
+        in_subset: [mvp, model_extracted]
+        range: StatisticFamily
+        required: true
+        description: Statistic family.
+      degrees_of_freedom_numerator:
+        in_subset: [mvp, model_extracted]
+        range: float
+        minimum_value: 0
+        description: >-
+          Numerator degrees of freedom. Normally populated only for f and
+          likelihood_ratio; a single-degree-of-freedom statistic leaves this unset,
+          because t(151) is F(1,151).
+      degrees_of_freedom_denominator:
+        in_subset: [mvp, model_extracted]
+        range: float
+        minimum_value: 0
+        description: >-
+          Denominator degrees of freedom, used alone for t, correlation, and chi_square.
+          Both are unset for z. Float rather than integer so corrected degrees of freedom,
+          as from a Greenhouse-Geisser adjustment, can be recorded as reported.
+
+  Measure:
+    description: >-
+      The scientific quantity of the map, independent of the statistic used to test it.
+      When a paper alternates terms for the same map -- grey matter concentration in
+      Methods and volume in Results -- take the Methods term for type, keep both wordings
+      in source_label, and set the record's certainty to inferred.
+    attributes:
+      family:
+        in_subset: [mvp, model_extracted]
+        range: MeasureFamily
+        required: true
+        description: Broad imaging or signal family, for coarse filtering.
+      type:
+        in_subset: [mvp, model_extracted]
+        range: MeasureType
+        required: true
+        description: Normalized quantity, for cross-study queries.
+      source_label:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          The paper's own term for the measure. Unset only when the source does not
+          identify the measure.
+      specific_metric:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Named metric when type is intentionally broad, such as fractional anisotropy,
+          ALFF, fALFF, or a specific tracer binding potential.
+      unit:
+        in_subset: [mvp, model_extracted]
+        description: Reported unit, when meaningful.
+
+  GroupTerm:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      One participant cohort in an analysis, and the side of the comparison it sits on.
+    unique_keys:
+      group_per_analysis:
+        unique_key_slots:
+          - group
+    attributes:
+      group:
+        in_subset: [mvp, model_extracted]
+        range: Group
+        required: true
+        inlined: false
+        description: The participant cohort.
+      role:
+        range: DirectionalRole
+        in_subset: [mvp, model_extracted]
+        required: true
+        description: >-
+          Which side of the comparison this cohort sits on. Direction is normalized to
+          roles, never numeric contrast weights.
+      factor_levels:
+        in_subset: [mvp, model_extracted]
+        range: FactorLevel
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The factorial cell this cohort represents, for crossed designs such as genotype
+          by diagnosis. This is what makes a group-by-group interaction expressible: four
+          cohorts each carry one level of each factor, and without it the design collapses
+          into four unrelated cohorts and the difference of differences is lost. Leave
+          empty for the ordinary case of one cohort per group.
+
+  ConditionTerm:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      One experimental condition entering an effect, and the side of the comparison it
+      sits on. A condition may be an experimental condition, task state, time point,
+      within-subject role, or composite factorial cell.
+    unique_keys:
+      condition_per_effect:
+        unique_key_slots:
+          - condition
+    attributes:
+      condition:
+        in_subset: [mvp, model_extracted]
+        range: Condition
+        required: true
+        inlined: false
+        description: The experimental condition.
+      label:
+        in_subset: [mvp, model_extracted]
+        description: The source's wording for this condition in this effect, when it differs from the Condition name.
+      role:
+        in_subset: [mvp, model_extracted]
+        range: DirectionalRole
+        required: true
+        description: >-
+          Which side of the comparison this condition sits on. For an ordered contrast,
+          mark the extremes greater and lesser, leave intermediate conditions `included`,
+          and keep the ordering in Analysis.definition.
+      factor_levels:
+        in_subset: [mvp, model_extracted]
+        range: FactorLevel
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The factorial cell this condition represents. Conditions varying over two or
+          more factors named here, each taking at least two distinct levels, make the
+          effect an interaction. A factor held constant across the directional
+          terms -- males only, or a contrast taken within one level of another
+          factor -- does not: record it and its constant level anyway, because the
+          derivation ignores it but a reader needs it.
+
+  FactorLevel:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      One factor and the level of it that an entity represents. This is an assignment,
+      which is what distinguishes it from Term: it says which cell of the design a
+      particular cohort or condition occupies, where a Term declares that the factor is
+      in the model at all. Neither derives from the other. Term.levels gives a factor's
+      level vocabulary and cannot say which cohort carries which level; factor_levels
+      gives one entity's value and cannot express a continuous term, a term's role, or a
+      product term.
+    unique_keys:
+      factor_per_entity:
+        unique_key_slots:
+          - factor_name
+    attributes:
+      factor_name:
+        in_subset: [mvp, model_extracted]
+        required: true
+        description: Name of the experimental or participant factor.
+      level:
+        in_subset: [mvp, model_extracted]
+        required: true
+        description: The level of that factor which this entity carries.
+
+  Term:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      One term of the statistical model. A categorical term is a pointer to the Groups or
+      Conditions it ranges over and takes association_direction not_applicable, because
+      its direction, where it exists, lives on those group or condition terms. A
+      continuous term carries the slope facts.
+    unique_keys:
+      name_per_effect:
+        unique_key_slots:
+          - name
+    attributes:
+      name:
+        in_subset: [mvp, model_extracted]
+        required: true
+        description: >-
+          Term label. Unique within an effect: a name appearing twice is one term recorded
+          twice.
+      type:
+        in_subset: [mvp, model_extracted]
+        range: TermType
+        required: true
+        description: Whether the term is categorical or continuous.
+      role:
+        in_subset: [mvp, model_extracted]
+        range: TermRole
+        required: true
+        description: >-
+          How the term enters the model. This is not a statement about importance: it
+          changes the derived effect kind, because the derivation reads only `primary`
+          terms. Marking a controlled covariate primary would assert that the paper tested
+          it. More than one primary term is allowed.
+      sources:
+        in_subset: [mvp, model_extracted]
+        range: TermSource
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The study entities this term ranges over or draws its values from. A categorical
+          term lists the Groups or Conditions it ranges over; a continuous term normally
+          names the Assessment supplying the measurement, or gives a free-text origin.
+      levels:
+        in_subset: [mvp, model_extracted]
+        multivalued: true
+        description: >-
+          The factor's level vocabulary. Needed when the levels are not all present as
+          directional group or condition terms -- a three-level factor where only two
+          appear in the contrast, for instance. This is a declaration, not an assignment:
+          which entity carries which level is FactorLevel's job.
+      variation_level:
+        in_subset: [mvp, model_extracted]
+        range: VariationLevel
+        description: >-
+          The level at which a continuous term varies, which is what separates a
+          parametric modulation from a cross-subject regression.
+      association_direction:
+        in_subset: [mvp, model_extracted]
+        range: AssociationDirection
+        description: >-
+          Sign of a continuous term's coefficient, or of the interaction coefficient for a
+          product term.
+      functional_form:
+        in_subset: [mvp, model_extracted]
+        range: FunctionalForm
+        description: >-
+          Shape of the term's relationship to the measure. A squared term with a negative
+          coefficient is an inverted-U relationship, not a negative association, so
+          non-linear and transformed terms must not be recorded as linear.
+      interaction_with:
+        in_subset: [mvp, model_extracted]
+        multivalued: true
+        description: >-
+          Names of the other Terms this term is a product of. Populate it when the source
+          names an interaction term in one model; leave it empty when the source describes
+          a regression on a contrast. Both readings collapse in the derived views, so the
+          choice affects only the effect kind, and it is checkable against the paper's own
+          wording.
+      unit:
+        in_subset: [mvp, model_extracted]
+        description: Unit of a continuous term, when meaningful.
+      source_definition:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          The source's own definition of the term, including the named transform when
+          functional_form is `other`.
+
+  TermSource:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      A study entity, or free-text origin, that a Term ranges over or draws its values
+      from.
+    attributes:
+      condition:
+        in_subset: [mvp, model_extracted]
+        range: Condition
+        inlined: false
+        description: An experimental condition the term ranges over.
+      group:
+        in_subset: [mvp, model_extracted]
+        range: Group
+        inlined: false
+        description: A participant cohort the term ranges over.
+      assessment:
+        in_subset: [mvp, model_extracted]
+        range: Assessment
+        inlined: false
+        description: An assessment whose participant-level measurement supplies the term.
+      other:
+        in_subset: [mvp, model_extracted]
+        range: string
+        description: >-
+          Free-text origin when the term references no Condition, Group, or Assessment;
+          examples include age, dose, a motion parameter, cardiac phase, or scanner drift.
+
+  GroupSampleSize:
+    in_subset: [mvp, model_extracted]
+    description: The number of participants from a specific Group included in a specific Analysis.
+    attributes:
+      group:
+        in_subset: [mvp, model_extracted]
+        range: Group
+        required: true
+        inlined: false
+        description: The group this count applies to.
+      n:
+        in_subset: [mvp, model_extracted]
+        range: integer
+        required: true
+        minimum_value: 0
+        description: Number of participants from this group included in the analysis.
+
+  Preprocessing:
+    in_subset: [model_extracted]
+    description: >-
+      An ordered preprocessing pipeline applied to acquired data before or as
+      part of statistical modeling. The fields cover the core COBIDAS reporting areas.
+    attributes:
+      id:
+        in_subset: [deterministic]
+        identifier: true
+        required: true
+        description: Stable identifier used by Analysis foreign-key references.
+      name:
+        in_subset: [model_extracted]
+        required: true
+        description: Human-readable name for the preprocessing pipeline.
+      description:
+        in_subset: [model_extracted]
+        description: Narrative overview of the pipeline, its inputs, outputs, and intended purpose.
+      software:
+        in_subset: [model_extracted]
+        multivalued: true
+        description: Software packages or methods used, including version and revision identifiers.
+      steps:
+        in_subset: [model_extracted]
+        multivalued: true
+        description: >-
+          Ordered free-text preprocessing operation names, listed in execution order;
+          examples include slice-timing correction, motion correction, distortion
+          correction, spatial normalization, and smoothing.
+
+  ModelEstimation:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      How a model was specified in software and estimated. This class is descriptive and
+      accommodates both BIDS Stats Models GLMs and other model families. It holds
+      estimation facts only: the model's terms and the quantity tested from it are
+      Analysis.effect, which is why this class is not called StatisticalModel. One record
+      may be referenced by several Analyses, so every field here must hold for all of
+      them; an analysis estimated differently takes its own record.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        identifier: true
+        required: true
+        description: Stable identifier used by Analysis foreign-key references.
+      name:
+        in_subset: [mvp, model_extracted]
+        description: Human-readable label for the model or analysis stage.
+      model_family:
+        in_subset: [mvp, model_extracted]
+        range: ModelFamily
+        required: true
+        description: >-
+          Normalized statistical model family, which is the queryable form. Required, so
+          `unstated` is the value for a paper that never says; do not leave it unset in
+          order to avoid the judgement. A method the enum cannot name -- ICA,
+          representational similarity, a decoder -- takes `other` here and is identified
+          by Analysis.analysis_type, which is where the method belongs.
+      model_type:
+        in_subset: [mvp, model_extracted]
+        required: true
+        description: >-
+          The source's own wording for the model, minimally cleaned, such as
+          mass-univariate GLM, meta-analysis, multivariate, predictive model, ICA, or
+          representational similarity analysis. Kept alongside model_family because the
+          wording carries method detail the family enum cannot.
+      model_settings:
+        in_subset: [model_extracted]
+        description: >-
+          Essential estimator, variance, autocorrelation, covariance, regularization, and
+          software-specific settings.
+      level:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Unit or stage of analysis, such as run, session, subject, or group. Normalized to
+          controlled vocabulary.
+      estimator:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Estimation method, such as OLS, WLS, maximum likelihood, restricted maximum
+          likelihood, permutation, or Bayesian estimation.
+      software:
+        in_subset: [mvp, model_extracted]
+        description: Statistical software name, version, and relevant implementation details.
+
+  InferenceSettings:
+    in_subset: [model_extracted]
+    description: >-
+      Structured inferential procedure for one reported analysis. This is the canonical
+      storage home for thresholding, correction, and cluster-inference metadata. The test
+      statistic itself belongs to the tested effect and lives in Effect.statistic.
+    attributes:
+      inference_level:
+        in_subset: [model_extracted]
+        description: Level at which inference is made, such as voxel, vertex, cluster, region, network or other.
+      voxelwise_threshold_value:
+        in_subset: [model_extracted]
+        range: float
+        minimum_value: 0
+        description: Numeric voxelwise or vertexwise threshold before correction or cluster formation.
+      voxelwise_threshold_type:
+        in_subset: [model_extracted]
+        description: Meaning of voxelwise_threshold_value, such as p, q, t, z, or F.
+      cluster_forming_threshold_value:
+        in_subset: [model_extracted]
+        range: float
+        minimum_value: 0
+        description: Numeric threshold used to form candidate clusters.
+      cluster_extent_threshold:
+        in_subset: [model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Minimum surviving cluster extent in voxels, vertices, or the unit stated in the source.
+      clusterwise_threshold_value:
+        in_subset: [model_extracted]
+        range: float
+        minimum_value: 0
+        description: Numeric cluster-level threshold for retaining clusters.
+      multiple_comparison_method:
+        in_subset: [model_extracted]
+        description: Correction method, such as FWE, FDR, Bonferroni, permutation, Monte Carlo, or none.
+      correction_scope:
+        in_subset: [model_extracted]
+        description: >-
+          Domain over which correction was applied, such as whole brain, ROI set,
+          hemisphere, or mask.
+      search_volume:
+        in_subset: [model_extracted]
+        description: Reported search volume, mask size, or number of vertices or voxels used for inference.
+      neighborhood_definition:
+        in_subset: [model_extracted]
+        description: Voxel or vertex adjacency or connectivity rule used for cluster formation.
+      tfce_used:
+        in_subset: [model_extracted]
+        range: boolean
+        description: Whether threshold-free cluster enhancement was used.
+      tfce_parameters:
+        in_subset: [model_extracted]
+        description: TFCE parameters such as height and extent exponents when reported.
+      permutation_count:
+        in_subset: [model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Number of permutations, randomizations, or simulations used for inference.
+      alpha_level:
+        in_subset: [model_extracted]
+        range: float
+        minimum_value: 0
+        maximum_value: 1
+        description: Family-wise, false-discovery, or nominal alpha threshold when reported.
+      number_of_tests:
+        in_subset: [model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Number of statistical tests considered by the multiple-comparison procedure.
+
+  Concept:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      A cognitive, behavioral, clinical, stimulus, or anatomical concept linked
+      to a condition or used to interpret an analysis.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        identifier: true
+        required: true
+        description: Stable local identifier used by foreign-key references.
+      name:
+        in_subset: [mvp, model_extracted]
+        required: true
+        description: Preferred human-readable concept label.
+      description:
+        in_subset: [mvp, model_extracted]
+        description: Definition of the concept in the context of this study.
+      concept_type:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Broad category such as cognitive process, behavior, disorder, stimulus, anatomy,
+          or measurement. Normalized by the mapper.
+      ontology_id:
+        in_subset: [mvp, deterministic]
+        description: >-
+          Identifier from an external ontology or controlled vocabulary.
+      ontology_url:
+        in_subset: [mvp, deterministic]
+        range: uri
+        description: >-
+          Resolvable URI for the external concept definition.
+
+  StatisticalMap:
+    in_subset: [deterministic]
+    description: >-
+      A machine-readable statistical image or derivative made available for one
+      analysis, whether hosted with the study, in a repository, or by a data archive.
+    attributes:
+      id:
+        in_subset: [deterministic]
+        identifier: true
+        required: true
+        description: Stable identifier for this map record.
+      map_type:
+        in_subset: [deterministic]
+        required: true
+        description: >-
+          Content type, such as statistic, effect estimate, variance, z-score, t-score, or
+          thresholded label map.
+      url:
+        in_subset: [deterministic]
+        range: uri
+        description: Resolvable location of the map or its archive landing page.
+      coordinate_space:
+        in_subset: [deterministic]
+        description: Coordinate reference space of the map.
+      is_thresholded:
+        in_subset: [deterministic]
+        range: boolean
+        description: Whether the available map has already been thresholded.
+      statistic_type:
+        in_subset: [deterministic]
+        description: Statistical quantity encoded by the map, when applicable.
+      description:
+        in_subset: [deterministic]
+        description: Notes about map provenance, processing, or relation to the reported result.
+
+  Table:
+    in_subset: [mvp, deterministic]
+    description: >-
+      A publication table that supplies coordinates, statistics, or contextual
+      metadata. Raw cell structure and point-level provenance may remain in the
+      repository's coordinate-table representation and be linked with source_path.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        identifier: true
+        required: true
+        description: Stable table identifier used by Analysis foreign-key references.
+      table_number:
+        in_subset: [mvp, deterministic]
+        description: Printed identifier such as Table 2 or Supplementary Table S4.
+      title:
+        in_subset: [mvp, deterministic]
+        description: Table title, when distinct from the caption.
+      caption:
+        in_subset: [mvp, deterministic]
+        description: >-
+          Table caption describing the table's contents.
+      footer:
+        in_subset: [mvp, deterministic]
+        description: Table notes, abbreviations, threshold statements, and footnotes.
+      source_path:
+        in_subset: [mvp, deterministic]
+        description: >-
+          Repository path or external location of the raw or normalized table
+          representation. Set by the ingestion pipeline.
+      coordinate_space:
+        in_subset: [mvp, deterministic]
+        description: >-
+          Coordinate reference space applying to points in the table, if stated or reliably
+          resolved.
+      column_headings:
+        in_subset: [mvp, deterministic]
+        multivalued: true
+        description: Ordered leaf column headings retained to aid interpretation of extracted values.
+      description:
+        in_subset: [mvp, deterministic]
+        description: Summary of the table contents and its role in the reported analyses.
+      coordinate_count:
+        in_subset: [mvp, deterministic]
+        range: integer
+        minimum_value: 0
+        description: Number of reported coordinate rows or points in the normalized table representation.

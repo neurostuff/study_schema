@@ -193,10 +193,6 @@ class_derivations:
         status_field: excluded_count.extraction_status
         transform: parse_int
 
-      attrition_description:
-        populated_from: attrition_description.value
-        transform: verbatim
-
       inclusion_criteria:
         populated_from: inclusion_criteria.value
         transform: verbatim
@@ -396,6 +392,15 @@ class_derivations:
       id:
         transform: generate
 
+      acquisition_type:
+        transform: derive
+        notes: >-
+          The storage subclass to emit, read off the normalized modality through that
+          permissible value's `instantiates`: MRI for fMRI, sMRI, dMRI, and MRI;
+          OtherModality for MEG, SPECT, and other; the namesake class otherwise. A modality
+          of `unstated` instantiates nothing and emits a bare Acquisition. Every derivation
+          below this one belongs to whichever subclass this names.
+
       name:
         populated_from: name.value
         transform: verbatim
@@ -405,17 +410,26 @@ class_derivations:
         source_evidence: modality.evidence
         status_field: modality.extraction_status
         transform: normalize_enum
+        target_enum: Modality
+        notes: >-
+          An unmatched label becomes `other` rather than being flagged and dropped: the raw
+          label survives in OtherModality.modality_label, so no modality is ever lost for
+          want of a vocabulary entry. `unstated` is reserved for
+          extraction_status = not_reported.
         value_mappings:
           functional MRI: fMRI
           functional magnetic resonance imaging: fMRI
           fMRI: fMRI
           bold fMRI: fMRI
+          arterial spin labeling: fMRI
+          ASL: fMRI
           diffusion MRI: dMRI
           diffusion-weighted MRI: dMRI
           diffusion tensor imaging: dMRI
           DTI: dMRI
           DWI: dMRI
           structural MRI: sMRI
+          anatomical MRI: sMRI
           T1-weighted: sMRI
           T1w: sMRI
           T2-weighted: sMRI
@@ -428,8 +442,17 @@ class_derivations:
           MEG: MEG
           fNIRS: fNIRS
           functional near-infrared spectroscopy: fNIRS
+          NIRS: fNIRS
           MRI: MRI
           magnetic resonance imaging: MRI
+          single-photon emission computed tomography: SPECT
+          SPECT: SPECT
+          intracranial EEG: other
+          iEEG: other
+          electrocorticography: other
+          ECoG: other
+          ultrasound: other
+          functional ultrasound: other
 
       acquisition_duration_seconds:
         populated_from: acquisition_duration_seconds.value
@@ -437,20 +460,209 @@ class_derivations:
         status_field: acquisition_duration_seconds.extraction_status
         transform: parse_float
 
-      mri:
-        populated_from: mri
+      instrument:
+        populated_from: instrument.value
         transform: verbatim
 
-      eeg:
-        populated_from: eeg
+      description:
+        populated_from: description.value
         transform: verbatim
 
-      fnirs:
-        populated_from: fnirs
+      structured_details:
+        populated_from: structured_details.value
         transform: verbatim
 
-      pet:
-        populated_from: pet
+  # The five Acquisition subclasses. Each inherits the derivations above through `is_a`
+  # and adds only its own attributes, read out of the matching nested extraction object:
+  # storage subclasses what extraction nests, so this is where that shape change happens.
+  # Exactly one of these runs per record, chosen by Acquisition.acquisition_type.
+
+  MRI:
+    populated_from: Acquisition
+    is_a: Acquisition
+    slot_derivations:
+
+      magnetic_field_strength_tesla:
+        populated_from: mri.magnetic_field_strength_tesla.value
+        source_evidence: mri.magnetic_field_strength_tesla.evidence
+        status_field: mri.magnetic_field_strength_tesla.extraction_status
+        transform: parse_float
+
+      pulse_sequence_type:
+        populated_from: mri.pulse_sequence_type.value
+        transform: verbatim
+
+      mr_acquisition_type:
+        populated_from: mri.mr_acquisition_type.value
+        transform: verbatim
+
+      repetition_time_seconds:
+        populated_from: mri.repetition_time_seconds.value
+        source_evidence: mri.repetition_time_seconds.evidence
+        status_field: mri.repetition_time_seconds.extraction_status
+        transform: parse_float
+
+      echo_time_seconds:
+        populated_from: mri.echo_time_seconds.value
+        source_evidence: mri.echo_time_seconds.evidence
+        status_field: mri.echo_time_seconds.extraction_status
+        transform: parse_float
+
+      acquisition_voxel_size_mm:
+        populated_from: mri.acquisition_voxel_size_mm.value
+        source_evidence: mri.acquisition_voxel_size_mm.evidence
+        status_field: mri.acquisition_voxel_size_mm.extraction_status
+        transform: parse_float
+
+      number_of_volumes:
+        populated_from: mri.number_of_volumes.value
+        source_evidence: mri.number_of_volumes.evidence
+        status_field: mri.number_of_volumes.extraction_status
+        transform: parse_int
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  EEG:
+    populated_from: Acquisition
+    is_a: Acquisition
+    slot_derivations:
+
+      sampling_frequency_hz:
+        populated_from: eeg.sampling_frequency_hz.value
+        source_evidence: eeg.sampling_frequency_hz.evidence
+        status_field: eeg.sampling_frequency_hz.extraction_status
+        transform: parse_float
+
+      eeg_reference:
+        populated_from: eeg.eeg_reference.value
+        transform: verbatim
+
+      eeg_placement_scheme:
+        populated_from: eeg.eeg_placement_scheme.value
+        transform: verbatim
+
+      recording_type:
+        populated_from: eeg.recording_type.value
+        transform: verbatim
+
+      eeg_channel_count:
+        populated_from: eeg.eeg_channel_count.value
+        source_evidence: eeg.eeg_channel_count.evidence
+        status_field: eeg.eeg_channel_count.extraction_status
+        transform: parse_int
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  FNIRS:
+    populated_from: Acquisition
+    is_a: Acquisition
+    slot_derivations:
+
+      sampling_frequency_hz:
+        populated_from: fnirs.sampling_frequency_hz.value
+        source_evidence: fnirs.sampling_frequency_hz.evidence
+        status_field: fnirs.sampling_frequency_hz.extraction_status
+        transform: parse_float
+
+      nirs_system_type:
+        populated_from: fnirs.nirs_system_type.value
+        transform: verbatim
+
+      nirs_channel_count:
+        populated_from: fnirs.nirs_channel_count.value
+        source_evidence: fnirs.nirs_channel_count.evidence
+        status_field: fnirs.nirs_channel_count.extraction_status
+        transform: parse_int
+
+      wavelengths_nm:
+        populated_from: fnirs.wavelengths_nm.value
+        source_evidence: fnirs.wavelengths_nm.evidence
+        status_field: fnirs.wavelengths_nm.extraction_status
+        transform: parse_float
+
+      short_channel_count:
+        populated_from: fnirs.short_channel_count.value
+        source_evidence: fnirs.short_channel_count.evidence
+        status_field: fnirs.short_channel_count.extraction_status
+        transform: parse_int
+
+      source_detector_distances_mm:
+        populated_from: fnirs.source_detector_distances_mm.value
+        source_evidence: fnirs.source_detector_distances_mm.evidence
+        status_field: fnirs.source_detector_distances_mm.extraction_status
+        transform: parse_float
+
+      nirs_placement_scheme:
+        populated_from: fnirs.nirs_placement_scheme.value
+        transform: verbatim
+
+      recorded_signal_types:
+        populated_from: fnirs.recorded_signal_types.value
+        transform: verbatim
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  PET:
+    populated_from: Acquisition
+    is_a: Acquisition
+    slot_derivations:
+
+      image_units:
+        populated_from: pet.image_units.value
+        transform: verbatim
+
+      tracer_name:
+        populated_from: pet.tracer_name.value
+        transform: verbatim
+
+      tracer_radionuclide:
+        populated_from: pet.tracer_radionuclide.value
+        transform: verbatim
+
+      mode_of_administration:
+        populated_from: pet.mode_of_administration.value
+        transform: verbatim
+
+      scan_type:
+        populated_from: pet.scan_type.value
+        transform: verbatim
+
+      uptake_time_seconds:
+        populated_from: pet.uptake_time_seconds.value
+        source_evidence: pet.uptake_time_seconds.evidence
+        status_field: pet.uptake_time_seconds.extraction_status
+        transform: parse_float
+
+      reconstructed_voxel_size_mm:
+        populated_from: pet.reconstructed_voxel_size_mm.value
+        source_evidence: pet.reconstructed_voxel_size_mm.evidence
+        status_field: pet.reconstructed_voxel_size_mm.extraction_status
+        transform: parse_float
+
+      spatial_resolution_mm:
+        populated_from: pet.spatial_resolution_mm.value
+        source_evidence: pet.spatial_resolution_mm.evidence
+        status_field: pet.spatial_resolution_mm.extraction_status
+        transform: parse_float
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  OtherModality:
+    populated_from: Acquisition
+    is_a: Acquisition
+    slot_derivations:
+
+      modality_label:
+        populated_from: other.modality_label.value
+        source_evidence: other.modality_label.evidence
+        transform: verbatim
+        notes: >-
+          Falls back to the raw modality.value when the extractor left it unset, so a record
+          whose modality normalized to `other` still names what the source called it. The
+          field is required in storage, so the fallback is not optional.
+
+      reason_no_modality_class_used:
+        populated_from: other.reason_no_modality_class_used.value
         transform: verbatim
 
   # ───────────────────────────────────────────────────────────────────────────
@@ -480,7 +692,7 @@ class_derivations:
 
   # ───────────────────────────────────────────────────────────────────────────
 
-  StatisticalModel:
+  ModelEstimation:
     populated_from: StatisticalModel
     slot_derivations:
 
@@ -491,39 +703,76 @@ class_derivations:
         populated_from: name.value
         transform: verbatim
 
-      model_type:
+      model_family:
         populated_from: model_type.value
         source_evidence: model_type.evidence
         status_field: model_type.extraction_status
         transform: normalize_enum
+        notes: >-
+          The extraction schema records only the source's wording, so the normalized
+          family is derived from the same field that model_type keeps verbatim. Wording
+          this table does not cover falls back to `other`, and an absent or empty
+          model_type to `unstated`; neither is guessed from surrounding prose. The method
+          families the ModelFamily enum cannot name -- ICA, representational similarity,
+          decoding, effective connectivity, coordinate-based meta-analysis -- all land on
+          `other` here and are identified by Analysis.analysis_type instead.
         value_mappings:
-          GLM: mass-univariate GLM
-          general linear model: mass-univariate GLM
-          mass univariate GLM: mass-univariate GLM
-          mass univariate: mass-univariate GLM
-          random effects model: mass-univariate GLM
-          fixed effects model: mass-univariate GLM
-          ICA: ICA
-          independent component analysis: ICA
-          RSA: representational similarity analysis
-          representational similarity: representational similarity analysis
-          representational similarity analysis: representational similarity analysis
-          MVPA: multivariate
-          multi-voxel pattern analysis: multivariate
-          multivariate pattern analysis: multivariate
-          SVM: multivariate
-          decoding: multivariate
-          searchlight: local multivariate
-          searchlight MVPA: local multivariate
-          PPI: psychophysiological interaction
-          psychophysiological interaction: psychophysiological interaction
-          Granger causality: effective connectivity
-          DCM: effective connectivity
-          dynamic causal modelling: effective connectivity
-          meta-analysis: meta-analysis
-          ALE: meta-analysis
-          MKDA: meta-analysis
-          GingerALE: meta-analysis
+          GLM: glm
+          general linear model: glm
+          mass univariate GLM: glm
+          mass-univariate GLM: glm
+          mass univariate: glm
+          multiple regression: glm
+          linear regression: glm
+          regression: glm
+          fixed effects model: glm
+          random effects model: glm
+          PPI: glm
+          psychophysiological interaction: glm
+          mixed effects model: mixed_effects
+          mixed-effects model: mixed_effects
+          linear mixed model: mixed_effects
+          linear mixed effects model: mixed_effects
+          LME: mixed_effects
+          hierarchical model: mixed_effects
+          multilevel model: mixed_effects
+          ANOVA: anova
+          analysis of variance: anova
+          repeated measures ANOVA: anova
+          rmANOVA: anova
+          ANCOVA: ancova
+          analysis of covariance: ancova
+          robust regression: robust_regression
+          ICA: other
+          independent component analysis: other
+          RSA: other
+          representational similarity: other
+          representational similarity analysis: other
+          MVPA: other
+          multi-voxel pattern analysis: other
+          multivariate pattern analysis: other
+          multivariate: other
+          SVM: other
+          decoding: other
+          searchlight: other
+          searchlight MVPA: other
+          Granger causality: other
+          DCM: other
+          dynamic causal modelling: other
+          meta-analysis: other
+          ALE: other
+          MKDA: other
+          GingerALE: other
+
+      model_type:
+        populated_from: model_type.value
+        source_evidence: model_type.evidence
+        status_field: model_type.extraction_status
+        transform: verbatim
+        notes: >-
+          Verbatim by design. This slot is the method detail the ModelFamily enum drops,
+          so normalizing it here would lose the only record of it; the normalized value is
+          model_family, derived from this same source field.
 
       model_settings:
         populated_from: model_settings.value
@@ -565,6 +814,13 @@ class_derivations:
 
   Analysis:
     populated_from: Analysis
+    # PENDING: the alpha.11 fields of the storage Analysis have no derivation yet,
+    # because the extraction schema has no counterpart for them. Missing here:
+    # certainty, analysis_type, spatial_scope, roi_definition, measure, effect
+    # (kind, baseline, path, conditions, terms, statistic), details,
+    # and the directional roles and factor levels of groups. The derivations below
+    # are the pre-alpha.11 set, retargeted so the map still resolves against the
+    # storage schema; they populate structure, not direction.
     slot_derivations:
 
       id:
@@ -578,9 +834,13 @@ class_derivations:
         populated_from: description.value
         transform: verbatim
 
-      spatial_region_model:
+      roi_label:
         populated_from: spatial_region_model.value
         transform: verbatim
+        notes: >-
+          The verbatim spatial domain is the source-grounded region label. The
+          normalized spatial_scope and roi_definition enums that accompany it have no
+          derivation yet.
 
       acquisitions:
         populated_from: acquisitions
@@ -590,13 +850,21 @@ class_derivations:
           Source acquisitions are explicit for all analysis types, including structural
           and diffusion analyses without an Experiment.
 
-      conditions:
+      effect.conditions:
         populated_from: conditions
         transform: local_id_to_id
+        notes: >-
+          Each local_id becomes a ConditionTerm whose condition is the resolved
+          Condition. The extraction schema reports no direction, so role is `unstated`
+          until it does; it must not be guessed, because an invented role would change
+          the derived effect kind.
 
-      statistical_model:
+      model_estimation:
         populated_from: statistical_model
         transform: local_id_to_id
+        notes: >-
+          The extraction schema still calls this record a StatisticalModel; the storage
+          class it populates is ModelEstimation.
 
       inference_settings:
         populated_from: inference_settings
@@ -606,14 +874,19 @@ class_derivations:
       groups:
         populated_from: groups
         transform: local_id_to_id
+        notes: >-
+          Each local_id becomes a GroupTerm whose group is the resolved Group and whose
+          role is `unstated`, on the same grounds as effect.conditions above.
+          factor_levels stays empty.
 
       preprocessing:
         populated_from: preprocessing
         transform: local_id_to_id
 
-      contrast_definition:
+      definition:
         populated_from: contrast_definition.value
         transform: verbatim
+        notes: The verbatim contrast specification is the source-grounded definition (layer L2).
 
       tables:
         populated_from: tables
@@ -642,17 +915,19 @@ class_derivations:
           subject native: native
           native space: native
 
-      experiment:
+      experiments:
         transform: infer
         notes: >-
-          Algorithm: match Analysis.conditions (as a set of Condition IDs) against
+          Algorithm: match the Condition IDs in Analysis.effect.conditions against
           Experiment.conditions for each experiment in the study.
-          (1) If the analysis conditions are a non-empty subset of exactly one
-              experiment's conditions, assign that experiment.
-          (2) If Analysis.conditions is empty, leave experiment unset; source data
+          (1) Assign every experiment whose conditions are a superset of a non-empty
+              subset of the analysis conditions.
+          (2) If the analysis has no conditions, leave experiments empty; source data
             are represented by Analysis.acquisitions.
-          (3) If non-empty conditions match multiple experiments, emit a warning and
-            set experiment to null; flag the analysis for human review.
+          (3) Matching more than one experiment is a normal result now that this slot is
+            multivalued -- a cross-task conjunction or a localizer-plus-main-task
+            analysis genuinely spans paradigms -- so it no longer nulls the link or
+            flags the analysis.
           See issue #1.
 
       group_sample_sizes:
@@ -773,16 +1048,9 @@ class_derivations:
         populated_from: description.value
         transform: verbatim
 
-      contains_coordinates:
-        transform: derive
-        source_representation: normalized_table
-        notes: >-
-          Set true when the normalized table contains at least one valid
-          spatial-coordinate triplet; otherwise set false.
-
       coordinate_count:
         transform: derive
         source_representation: normalized_table
         notes: >-
           Count coordinate rows or points in the normalized table
-          representation. Set zero when contains_coordinates is false.
+          representation. Set zero when the table has no coordinates.

@@ -1,0 +1,312 @@
+id: https://neurostuff.org/schemas/neuroimaging-study-storage/acquisition
+name: neuroimaging-study-storage-acquisition
+title: Neuroimaging Study Storage Acquisition Module
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
+imports:
+  - linkml:types
+  - subsets
+default_prefix: neurostudy
+default_range: string
+
+classes:
+
+  Acquisition:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      A modality-agnostic protocol used to acquire neuroimaging or associated physiological data, holding only what
+      every modality has in common. One Acquisition carries one modality: simultaneous recordings such as EEG+fMRI
+      are separate Acquisition records that an Experiment lists together. Everything modality-specific lives in the
+      class the Modality value instantiates -- MRI, EEG, FNIRS, PET, or OtherModality.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        identifier: true
+        required: true
+        description: Stable identifier used by Experiment and Analysis foreign-key references.
+      acquisition_type:
+        in_subset: [mvp, deterministic]
+        designates_type: true
+        required: true
+        description: >-
+          The concrete subclass this record instantiates. Derived by the mapper from modality through that value's
+          `instantiates`, never extracted, and redundant with modality by construction -- it exists because a slot
+          ranging on Acquisition cannot otherwise be loaded into the right subclass.
+      name:
+        in_subset: [mvp, model_extracted]
+        description: Human-readable label distinguishing this acquisition protocol from others in the study.
+      modality:
+        in_subset: [mvp, model_extracted]
+        range: Modality
+        required: true
+        description: >-
+          Imaging or recording modality, from the closed Modality vocabulary. The value also names the class
+          holding this acquisition's modality-specific parameters, through that value's `instantiates`.
+      acquisition_duration_seconds:
+        in_subset: [mvp, model_extracted]
+        range: float
+        minimum_value: 0
+        description: Total usable acquisition or recording duration in seconds. Useful for filtering studies
+          by the amount of data contributing to an analysis, especially resting-state and continuous
+          recordings.
+      instrument:
+        in_subset: [model_extracted]
+        description: Scanner, amplifier, or recording system as reported, including manufacturer and model.
+      description:
+        in_subset: [model_extracted]
+        description: >-
+          Narrative account of the acquisition, holding whatever the source reports that no typed field in this
+          schema accepts. On the base class rather than on OtherModality because the subclasses are siblings: an
+          unusual fMRI parameter has to have somewhere to go without the record also having to be an OtherModality.
+      structured_details:
+        in_subset: [model_extracted]
+        description: >-
+          JSON-encoded acquisition parameters that no typed field accepts, when they have structure worth keeping in
+          queryable form. A string rather than a nested object because LinkML has no free-form object range.
+  MRI:
+    in_subset: [mvp, model_extracted]
+    is_a: Acquisition
+    description: >-
+      An MRI acquisition of any kind -- functional, structural, or diffusion, as modality records. Its own
+      attributes are the ones commonly useful for study selection, subgrouping, or sensitivity analyses in
+      coordinate- or image-based meta-analysis.
+    attributes:
+      magnetic_field_strength_tesla:
+        in_subset: [mvp, model_extracted]
+        range: float
+        minimum_value: 0
+        description: Nominal static magnetic field strength in tesla.
+      pulse_sequence_type:
+        in_subset: [mvp, model_extracted]
+        description: General pulse sequence family, such as EPI, MPRAGE, SPGR, or spin echo.
+      mr_acquisition_type:
+        in_subset: [model_extracted]
+        description: Acquisition dimensionality, such as 2D or 3D; useful for distinguishing protocols with 
+          materially different spatial sampling.
+      repetition_time_seconds:
+        in_subset: [mvp, model_extracted]
+        range: float
+        minimum_value: 0
+        description: Time between the start of successive acquired volumes, in seconds.
+      echo_time_seconds:
+        in_subset: [mvp, model_extracted]
+        range: float
+        multivalued: true
+        minimum_value: 0
+        description: Echo time or echo times in seconds.
+      acquisition_voxel_size_mm:
+        in_subset: [mvp, model_extracted]
+        range: float
+        multivalued: true
+        minimum_value: 0
+        description: Original acquisition voxel size [x, y, z] in millimeters, before interpolation or 
+          resampling.
+      number_of_volumes:
+        in_subset: [mvp, model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Number of acquired volumes contributing to the recording, when reported; a proxy for scan
+          length and temporal sampling in functional acquisitions.
+  EEG:
+    in_subset: [mvp, model_extracted]
+    is_a: Acquisition
+    description: >-
+      A scalp EEG acquisition. Its own attributes are the ones that materially distinguish recordings used in
+      source-localized coordinate or image-based meta-analyses.
+    attributes:
+      sampling_frequency_hz:
+        in_subset: [mvp, model_extracted]
+        range: float
+        minimum_value: 0
+        description: Sampling frequency of the recording in hertz.
+      eeg_reference:
+        in_subset: [mvp, model_extracted]
+        description: Reference scheme and location used for the raw recording.
+      eeg_placement_scheme:
+        in_subset: [mvp, model_extracted]
+        description: Electrode placement system, such as the 10-20 or 10-10 system.
+      recording_type:
+        in_subset: [mvp, model_extracted]
+        description: Recording organization, such as continuous, discontinuous, or epoched.
+      eeg_channel_count:
+        in_subset: [mvp, model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Number of simultaneously recorded EEG channels.
+  FNIRS:
+    in_subset: [mvp, model_extracted]
+    is_a: Acquisition
+    description: >-
+      An fNIRS acquisition. Its own attributes are the ones affecting cortical sensitivity, spatial sampling, or
+      comparability, and so can support study filtering or moderator analyses.
+    attributes:
+      sampling_frequency_hz:
+        in_subset: [mvp, model_extracted]
+        range: float
+        minimum_value: 0
+        description: Sampling frequency of the fNIRS data in hertz.
+      nirs_system_type:
+        in_subset: [mvp, model_extracted]
+        description: Instrument principle, such as continuous-wave, frequency-domain, or time-domain NIRS.
+      nirs_channel_count:
+        in_subset: [mvp, model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Total number of NIRS channels, including short-separation channels.
+      wavelengths_nm:
+        in_subset: [model_extracted]
+        range: float
+        multivalued: true
+        minimum_value: 0
+        description: Nominal emitted wavelengths in nanometers.
+      short_channel_count:
+        in_subset: [model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Number of short-separation channels; zero indicates none.
+      source_detector_distances_mm:
+        in_subset: [model_extracted]
+        range: float
+        multivalued: true
+        minimum_value: 0
+        description: Reported source-detector separations in millimeters.
+      nirs_placement_scheme:
+        in_subset: [mvp, model_extracted]
+        multivalued: true
+        description: Standard placement system or listed optode positions, such as 10-20, Cz, or Pz.
+      recorded_signal_types:
+        in_subset: [mvp, model_extracted]
+        multivalued: true
+        description: >-
+          Raw or derived channel signal types, such as continuous-wave amplitude,
+          optical density, oxygenated hemoglobin, or deoxygenated hemoglobin.
+  PET:
+    in_subset: [mvp, model_extracted]
+    is_a: Acquisition
+    description: >-
+      A PET acquisition. Its own attributes are the ones defining the biological signal or spatial comparability,
+      and so are likely to be useful for study selection, subgrouping, or image harmonization.
+    attributes:
+      image_units:
+        in_subset: [mvp, model_extracted]
+        description: Units encoded in the PET image, such as Bq/mL or SUV.
+      tracer_name:
+        in_subset: [mvp, model_extracted]
+        description: Name of the injected tracer compound.
+      tracer_radionuclide:
+        in_subset: [mvp, model_extracted]
+        description: Radioisotope labeling the tracer, such as C11, F18, or O15.
+      mode_of_administration:
+        in_subset: [model_extracted]
+        description: Tracer administration mode, such as bolus, infusion, or bolus plus infusion.
+      scan_type:
+        in_subset: [model_extracted]
+        description: Whether the analyzed PET data were acquired or summarized as a static or dynamic scan.
+      uptake_time_seconds:
+        in_subset: [mvp, model_extracted]
+        range: float
+        minimum_value: 0
+        description: Interval from tracer administration to the start of the analyzed scan window, in seconds.
+      reconstructed_voxel_size_mm:
+        in_subset: [mvp, model_extracted]
+        range: float
+        multivalued: true
+        minimum_value: 0
+        description: Reconstructed PET voxel size [x, y, z] in millimeters.
+      spatial_resolution_mm:
+        in_subset: [mvp, model_extracted]
+        range: float
+        multivalued: true
+        minimum_value: 0
+        description: Reported reconstructed spatial resolution, such as FWHM dimensions, in millimeters.
+  OtherModality:
+    in_subset: [mvp, model_extracted]
+    is_a: Acquisition
+    description: >-
+      An acquisition whose modality has no class of its own, which is every Modality value instantiating this one:
+      MEG, SPECT, and `other`. Nothing here is normalized, so this is where a modality the schema never anticipated
+      keeps its parameters. The escape hatch is unconditional, so an unusual acquisition never has to drop true
+      facts in order to validate. A parameter that MRI, EEG, FNIRS, or PET has no field for is the one thing it
+      cannot hold, now that those are sibling classes rather than payloads -- extend the sibling instead.
+    attributes:
+      modality_label:
+        in_subset: [mvp, model_extracted]
+        required: true
+        description: >-
+          The source's own name for the modality or recording technique, verbatim. Always populated, because the
+          Modality vocabulary is coarser than what a source reports and this is the only record of what `other`
+          actually was.
+      reason_no_modality_class_used:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Why this is not an MRI, EEG, FNIRS, or PET record. Guards the escape hatch against absorbing acquisitions
+          that one of the typed siblings already describes.
+
+enums:
+
+  Modality:
+    in_subset: [mvp]
+    description: >-
+      Imaging or recording modality of one Acquisition, and through `instantiates` the class in this module that
+      holds that modality's parameters. fMRI, sMRI, dMRI, and MRI all instantiate MRI, which is why the vocabulary
+      can stay finer-grained than the classes; EEG, fNIRS, and PET instantiate their namesakes; MEG, SPECT, and
+      other instantiate OtherModality, having no compact class of their own.
+
+      `instantiates` is the reference, not `meaning`: these are classes in this schema rather than concepts in an
+      ontology. It carries a CURIE because that is the range LinkML gives it, and `neurostudy` is this module's own
+      default prefix, so `neurostudy:MRI` resolves to the MRI class defined below.
+    permissible_values:
+      fMRI:
+        in_subset: [mvp]
+        instantiates: [neurostudy:MRI]
+        description: Functional MRI, whether BOLD, ASL perfusion, or cerebral blood volume weighted.
+      sMRI:
+        in_subset: [mvp]
+        instantiates: [neurostudy:MRI]
+        description: >-
+          Structural MRI, such as a T1- or T2-weighted anatomical scan, used for morphometry or as a
+          coregistration target.
+      dMRI:
+        in_subset: [mvp]
+        instantiates: [neurostudy:MRI]
+        description: Diffusion-weighted MRI, including DTI and DWI.
+      MRI:
+        in_subset: [mvp]
+        instantiates: [neurostudy:MRI]
+        description: >-
+          An MRI acquisition whose functional, structural, or diffusion role the source does not make clear. Use a
+          more specific value whenever the source supports one.
+      EEG:
+        in_subset: [mvp]
+        instantiates: [neurostudy:EEG]
+        description: Scalp electroencephalography.
+      fNIRS:
+        in_subset: [mvp]
+        instantiates: [neurostudy:FNIRS]
+        description: Functional near-infrared spectroscopy.
+      PET:
+        in_subset: [mvp]
+        instantiates: [neurostudy:PET]
+        description: Positron emission tomography.
+      MEG:
+        in_subset: [mvp]
+        instantiates: [neurostudy:OtherModality]
+        description: Magnetoencephalography. A first-class value because it is common, but it has no compact class.
+      SPECT:
+        in_subset: [mvp]
+        instantiates: [neurostudy:OtherModality]
+        description: Single-photon emission computed tomography.
+      other:
+        in_subset: [mvp]
+        instantiates: [neurostudy:OtherModality]
+        description: >-
+          A modality none of the above names, such as intracranial EEG, ultrasound, or a physiological recording
+          analysed on its own. OtherModality holds both its label and its parameters.
+      unstated:
+        in_subset: [mvp]
+        description: >-
+          The source does not report the modality clearly enough to choose a value, not even MRI. Instantiates
+          nothing, because no set of parameters follows from an unknown modality. Distinct from `other`, which
+          means the modality is known and unlisted.
+

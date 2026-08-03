@@ -1,0 +1,64 @@
+id: https://neurostuff.org/schemas/neuroimaging-study-storage/subsets
+name: neuroimaging-study-storage-subsets
+title: Neuroimaging Study Storage Subsets Module
+description: >-
+  Named subsets of the storage schema. The full schema is the source of truth and is never
+  narrowed in place; a subset marks a slice of it that some consumer cares about, and
+  gen_mvp_schema.py derives a standalone schema from those marks.
+
+  This module holds no classes. It exists as a leaf that every other module imports,
+  because the modules import each other but never the entrypoint: a subset referenced by
+  an attribute in analysis.yaml has to be resolvable from analysis.yaml. This is the same
+  reason the shared vocabularies live in analysis_enums.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
+imports:
+  - linkml:types
+default_prefix: neurostudy
+default_range: string
+
+subsets:
+
+  mvp:
+    annotations:
+      generates_schema: true
+    description: >-
+      Fields the first production release extracts and stores. Membership is chosen by
+      hand, field by field, by adding `in_subset: [mvp]` to an attribute. Identifiers and
+      type designators are always included and are never marked.
+
+      An attribute is the only thing marked. A class has no mark of its own: it survives
+      into the MVP when a marked attribute's range points at it, so leaving every
+      attribute of a class unmarked is how that whole entity is dropped.
+
+      Orthogonal to how a field gets filled (`deterministic` and `model_extracted` below)
+      and to the review urgency in storage-parameter-priorities.yaml. A field can be
+      deterministic and still be outside the MVP, or low priority and inside it, so the
+      axes never collapse into one.
+
+  deterministic:
+    annotations:
+      generates_schema: false
+    description: >-
+      Filled by code rather than by reading the source: an API or web-service lookup, a
+      locally stored dataset, a value derived from other fields, or an identifier the
+      mapper generates. Re-running the pipeline reproduces the value exactly.
+
+      Identifiers and type designators belong here by definition and are never marked, in
+      the same way they are never marked for a schema-slice subset: no language model
+      could supply them.
+
+  model_extracted:
+    annotations:
+      generates_schema: false
+    description: >-
+      Filled by a language model reading the source. The value is a claim about a
+      publication, so it carries evidence in the extraction record and the only way to
+      change it is to re-run the extractor.
+
+      Every field is in exactly one of `deterministic` and `model_extracted`, which is
+      what check_field_provenance.py enforces. The split routes work rather than slicing
+      the schema, so unlike `mvp` neither one generates a standalone schema: the two are
+      interleaved down every path from the tree root, and pruning to either alone strands
+      the other's fields.

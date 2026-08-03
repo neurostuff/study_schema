@@ -1,0 +1,273 @@
+id: https://neurostuff.org/schemas/neuroimaging-study-storage/analysis_details
+name: neuroimaging-study-storage-analysis-details
+title: Neuroimaging Study Storage Analysis Details Module
+description: >-
+  Method-specific payloads for an Analysis, ported from analysis-schema
+  v0.1.0-alpha.11. Exactly one subclass of AnalysisDetails applies to an Analysis, and
+  which one is fixed by Analysis.analysis_type. A mass-univariate analysis has no
+  payload at all: everything it needs is in Effect, which is what keeps the schema small.
+
+  These classes carry method specifics only. What was tested about the map always lives
+  in Effect, whatever the method, so a connectivity, decoding, RSA, or component analysis
+  states its tested effect in exactly the same fields a voxelwise GLM does.
+
+  This module must not import the analysis module: the dependency runs the other way,
+  because Analysis.details ranges on AnalysisDetails. Shared vocabularies therefore live
+  in analysis_enums, and ConjunctionComponent references a sibling analysis by plain id
+  rather than by typed foreign key.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
+imports:
+  - linkml:types
+  - subsets
+  - analysis_enums
+  - experiment
+default_prefix: neurostudy
+default_range: string
+
+classes:
+
+  AnalysisDetails:
+    abstract: true
+    description: >-
+      Base class for the method-specific payload of one Analysis. Instantiated only
+      through its subclasses; the subclass must agree with Analysis.analysis_type, and
+      Analysis.details is unset for mass_univariate.
+    attributes:
+      details_type:
+        designates_type: true
+        required: true
+        description: >-
+          The concrete details subclass carried by this payload. Populated from the class
+          itself, not extracted.
+
+  DecodingDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for multivariate_decoding. Above-chance decoding is a simple_effect with a
+      `chance` baseline; a between-group accuracy comparison is a contrast on the group
+      axis; accuracy regressed on a behavioural score is a cross_subject_regression.
+      Spatial scope is recorded on the Analysis, including for searchlight analyses.
+    attributes:
+      decoded_variable:
+        required: true
+        description: The variable the classifier or discriminability test predicted.
+      classes:
+        range: DecodingClass
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The classes discriminated. These are non-directional: direction, where it
+          exists, is carried by Effect.
+      performance_metric:
+        required: true
+        description: Reported performance measure, such as accuracy, AUC, or d-prime.
+      reference_value:
+        range: float
+        description: >-
+          Numeric reference the metric was compared against, when reported. What kind of
+          reference it is lives in Effect.baseline.
+      performance_relation:
+        range: PerformanceRelation
+        description: Direction of the metric relative to reference_value.
+      validation_scheme:
+        description: Cross-validation or resampling scheme, such as leave-one-run-out.
+      generalization:
+        description: Train/test split for cross-decoding, when the analysis generalized across sets.
+
+  DecodingClass:
+    description: One class discriminated by a decoding analysis.
+    attributes:
+      label:
+        required: true
+        description: Class label as reported.
+      condition:
+        range: Condition
+        inlined: false
+        description: The experimental condition this class corresponds to, when it is one.
+
+  SimilarityDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for representational_similarity. The direction of a model-brain
+      association is a continuous Term in Effect, with the model RDM as the term, rather
+      than a field here. Before choosing this family, check that the association is at
+      the RDM level: a similarity regressor entered into a univariate GLM is a parametric
+      modulation, not RSA.
+    attributes:
+      model:
+        description: >-
+          The model RDM tested. Unset for a genuinely model-free test, such as within-
+          versus between-category pattern similarity or dissimilarity against zero, which
+          takes a `zero` baseline in Effect.
+      neural_representation:
+        description: How the neural pattern was defined, such as the voxel set or time window used.
+      similarity_metric:
+        description: >-
+          Similarity or distance metric. The RDM distance metric and the model-brain
+          association method are different facts, and crossnobis values are not comparable
+          with correlation-distance values; the source spec defers splitting this field
+          until the frequency of RSA is known.
+      competing_models:
+        multivalued: true
+        description: Other models the reported model was compared against.
+
+  ConnectivityDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for connectivity. The psychological term of a PPI is a directional
+      condition list in Effect, using the same mechanism every other family uses. Brain
+      regions stay source-grounded strings; ontology identifiers are deferred.
+    attributes:
+      connectivity_method:
+        range: ConnectivityMethod
+        required: true
+        description: Method used to estimate connectivity.
+      seed_regions:
+        multivalued: true
+        description: Seed or source regions, as named in the source.
+      target_regions:
+        multivalued: true
+        description: Target regions, as named in the source. Empty for a seed-to-whole-brain analysis.
+      parameter_sign:
+        range: AssociationDirection
+        description: >-
+          Sign of the connectivity parameter itself, such as a negative PPI. Applies to
+          the whole map.
+      parameter_change:
+        range: ParameterChange
+        description: >-
+          Whether the experimental effect raised or lowered the connectivity parameter.
+          Applies to the whole map.
+      edges:
+        range: ConnectivityEdge
+        multivalued: true
+        inlined_as_list: true
+        description: Named region pairs, when the source reports specific edges.
+      modulatory_input:
+        description: Modulatory input of the model, for DCM and related methods.
+      inference_target:
+        range: InferenceTarget
+        description: What the analysis drew inference about.
+
+  ConnectivityEdge:
+    description: One reported connection between two named regions.
+    attributes:
+      source_region:
+        required: true
+        description: Source region, as named in the source.
+      target_region:
+        required: true
+        description: Target region, as named in the source.
+      directionality:
+        range: EdgeDirectionality
+        description: >-
+          Whether this edge is genuinely directed. Never infer a direction that the
+          method cannot support.
+      parameter_sign:
+        range: AssociationDirection
+        description: >-
+          Sign of this edge's parameter, when reported per edge rather than for the whole
+          map.
+
+  ConjunctionDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for conjunction. Effect.kind is the kind shared by the components, or
+      `other` when they differ.
+    attributes:
+      components:
+        range: ConjunctionComponent
+        multivalued: true
+        inlined_as_list: true
+        description: The independently defined effects that were combined.
+      null_hypothesis:
+        range: NullHypothesis
+        description: Which null hypothesis was tested. Only the conjunction null licenses the strong reading.
+      implementation:
+        range: ConjunctionImplementation
+        description: >-
+          Procedure that computed the conjunction, recorded separately from the
+          hypothesis because the two are not the same statement.
+
+  ConjunctionComponent:
+    description: >-
+      One component effect of a conjunction, carrying its own direction in its
+      definition.
+    attributes:
+      analysis_id:
+        description: >-
+          Identifier of the sibling Analysis record for this component, when it is
+          separately reported. A plain identifier rather than a typed foreign key because
+          the details module cannot import the analysis module without creating an import
+          cycle.
+      analysis_type:
+        range: AnalysisType
+        description: The component's own analysis type, when it is known and differs from the others.
+      definition:
+        required: true
+        description: Source-grounded statement of the component effect, including its direction.
+
+  ComponentDecompositionDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for component_decomposition. A component map reported without an
+      inferential test takes an `other` effect kind; a loading compared between groups or
+      correlated with behaviour takes a contrast or a cross_subject_regression. Being
+      representable here does not imply eligibility for coordinate-based meta-analysis.
+    attributes:
+      method:
+        range: ComponentMethod
+        description: Decomposition method.
+      component_id:
+        required: true
+        description: Identifier of the component within the decomposition, as reported.
+      component_label:
+        description: The source's name for the component, such as a network label.
+      total_components:
+        range: integer
+        minimum_value: 0
+        description: Number of components the decomposition produced.
+      selection_criterion:
+        description: How this component was selected for reporting.
+      map_quantity:
+        range: MapQuantity
+        description: What the values of the reported map represent.
+      polarity_semantics:
+        range: PolaritySemantics
+        description: Whether the sign of the map carries meaning.
+
+  OtherAnalysisDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for a method outside the first-class families, such as a mediation
+      analysis. The escape hatch is unconditional, so an unusual design never has to
+      delete true terms in order to validate.
+    attributes:
+      method_label:
+        required: true
+        description: The source's name for the method.
+      structured_details:
+        description: >-
+          JSON-encoded method-specific payload, when the method has structure worth
+          keeping. A string rather than a nested object because LinkML has no free-form
+          object range.
+      reason_first_class_type_not_used:
+        required: true
+        description: Why no first-class analysis type fits this method.
+
+  NotStructurableDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for an effect that is grounded in the source but has no stable structured
+      decomposition. Analysis.definition remains required, so the meaning survives even
+      though the structure does not.
+    attributes:
+      reason:
+        range: NotStructurableReason
+        required: true
+        description: Why the effect could not be structured.
+      explanation:
+        required: true
+        description: What specifically could not be represented.

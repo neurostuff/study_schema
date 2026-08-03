@@ -10,6 +10,8 @@ import warnings
 
 import yaml
 
+from schema_utils import load_imported_classes
+
 
 ROOT = Path(__file__).resolve().parent
 EXTRACTION_SCHEMA = ROOT / "neuroimaging-study-extraction.yaml"
@@ -76,7 +78,7 @@ def main() -> int:
         **classes(load_yaml(EXTRACTION_EVIDENCE_SCHEMA), EXTRACTION_EVIDENCE_SCHEMA.name),
         **classes(load_yaml(EXTRACTION_SCHEMA), EXTRACTION_SCHEMA.name),
     }
-    storage_classes = classes(load_yaml(STORAGE_SCHEMA), STORAGE_SCHEMA.name)
+    storage_classes = load_imported_classes(STORAGE_SCHEMA)
     mapping = load_yaml(MAPPING_SCHEMA)
     derivations = mapping.get("class_derivations", {})
     if not isinstance(derivations, Mapping):
