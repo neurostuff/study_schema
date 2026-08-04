@@ -270,14 +270,29 @@ enums:
     permissible_values:
       glm:
         in_subset: [mvp, model_extracted]
+        description: >-
+          An ordinary least-squares general linear model, including the summary-statistics
+          two-stage approach that fMRI calls a random-effects analysis: the group stage is
+          still a GLM on contrast images.
       mixed_effects:
         in_subset: [mvp, model_extracted]
+        description: >-
+          A model estimating random effects directly, rather than by summarizing a first
+          stage -- a linear mixed model, a hierarchical model.
       anova:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Analysis of variance, with no continuous covariate.
       ancova:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Analysis of covariance: a factorial design with a continuous covariate controlled
+          for.
       robust_regression:
         in_subset: [mvp, model_extracted]
+        description: >-
+          A regression fitted to resist outliers, such as an iteratively reweighted or
+          M-estimator fit.
       unstated:
         in_subset: [mvp, model_extracted]
 
@@ -290,6 +305,9 @@ enums:
     permissible_values:
       "t":
         in_subset: [mvp, model_extracted]
+        description: >-
+          Student's t. A single-degree-of-freedom statistic, so only the denominator degrees
+          of freedom are populated.
       "z":
         in_subset: [mvp, model_extracted]
         description: Has no degrees of freedom, so both numerator and denominator stay unset.
@@ -298,12 +316,21 @@ enums:
         description: Normally the only family besides likelihood_ratio to populate the numerator.
       chi_square:
         in_subset: [mvp, model_extracted]
+        description: >-
+          A chi-square statistic.
       likelihood_ratio:
         in_subset: [mvp, model_extracted]
+        description: >-
+          A likelihood-ratio statistic, from comparing a model against a nested one.
       beta:
         in_subset: [mvp, model_extracted]
+        description: >-
+          A regression coefficient reported as the test statistic itself, which some papers
+          do instead of giving a t or z.
       correlation:
         in_subset: [mvp, model_extracted]
+        description: >-
+          A correlation coefficient reported as the statistic, r or rho.
       unstated:
         in_subset: [mvp, model_extracted]
 
@@ -317,16 +344,30 @@ enums:
     permissible_values:
       functional_bold:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The BOLD signal and anything derived from it, including connectivity, decoding
+          performance, and amplitude measures.
       structural_morphometry:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Measures of tissue shape and quantity from a structural image -- volume,
+          thickness, surface area, density.
       diffusion:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Measures from diffusion-weighted imaging.
       perfusion:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Blood flow and volume measures, from ASL or a contrast agent.
       molecular_imaging:
         in_subset: [mvp, model_extracted]
+        description: >-
+          PET and SPECT measures of a tracer's distribution or binding.
       electrophysiology:
         in_subset: [mvp, model_extracted]
+        description: >-
+          EEG, MEG, and intracranial electrical measures.
       unstated:
         in_subset: [mvp, model_extracted]
 
@@ -347,35 +388,63 @@ enums:
         description: ALFF, fALFF, regional homogeneity, and similar derived BOLD metrics.
       gray_matter_volume:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The quantity of grey matter, from voxel-based or region-based morphometry.
       gray_matter_density:
         in_subset: [mvp, model_extracted]
         description: Gray-matter density or concentration, kept distinct from volume.
       white_matter_volume:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The quantity of white matter.
       cortical_thickness:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The distance between the grey-white boundary and the pial surface.
       surface_area:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The area of a cortical surface or one of its parcels.
       structural_morphometry_other:
         in_subset: [mvp, model_extracted]
+        description: >-
+          A structural measure none of the named ones covers -- gyrification, sulcal depth,
+          a shape descriptor.
       diffusion_metric:
         in_subset: [mvp, model_extracted]
         description: Fractional anisotropy, mean diffusivity, and similar; name the metric in specific_metric.
       cerebral_blood_flow:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Perfusion as a flow rate, from ASL or a tracer.
       cerebral_blood_volume:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The fraction of tissue occupied by blood, distinct from the rate at which it
+          flows.
       metabolic_rate:
         in_subset: [mvp, model_extracted]
+        description: >-
+          A rate of consumption or turnover, such as the glucose metabolic rate from FDG-
+          PET.
       receptor_binding:
         in_subset: [mvp, model_extracted]
         description: PET receptor-binding potential.
       tracer_uptake:
         in_subset: [mvp, model_extracted]
+        description: >-
+          How much tracer accumulated, as an uptake value rather than a modelled rate or
+          binding parameter.
       electrophysiological_amplitude:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The size of a voltage or field deflection in the time domain, such as an evoked-
+          potential peak.
       electrophysiological_power:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Signal power in a frequency band. The band itself is not a field here; name it in
+          specific_metric.
       connectivity_strength:
         in_subset: [mvp, model_extracted]
         description: PPI, seed correlation, or DCM parameter.
@@ -442,16 +511,25 @@ enums:
     in_subset: [mvp, model_extracted]
     description: >-
       The level at which a continuous term varies. This is what separates a parametric
-      modulation from a cross-subject regression.
+      modulation from a cross-subject regression. Open vocabulary: write the source's own
+      wording in the field when nothing here fits.
     permissible_values:
       within_subject:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The term takes many values within a participant, trial to trial or scan to scan, which
+          is the level a parametric modulation is estimated at.
       between_subject:
         in_subset: [mvp, model_extracted]
+        description: One value per participant, so the term varies only across the sample.
       mixed:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The term varies both within and between participants: age in a longitudinal study,
+          where each person ages and people also differ in age at entry.
       unstated:
         in_subset: [mvp, model_extracted]
+        description: The source does not report the level at which the term varies.
 
   AssociationDirection:
     in_subset: [mvp, model_extracted]
@@ -463,8 +541,12 @@ enums:
     permissible_values:
       positive:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The measure rises as the term rises.
       negative:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The measure falls as the term rises.
       unstated:
         in_subset: [mvp, model_extracted]
       not_applicable:
@@ -485,8 +567,13 @@ enums:
     permissible_values:
       linear:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The measure changes by a constant amount per unit of the term.
       quadratic:
         in_subset: [mvp, model_extracted]
+        description: >-
+          A squared term. With a negative coefficient this is an inverted-U, not a negative
+          association.
       product:
         in_subset: [mvp, model_extracted]
         description: An interaction term.
@@ -497,6 +584,8 @@ enums:
           unsigned log-evidence.
       log:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The term was log-transformed before entering the model.
       unstated:
         in_subset: [mvp, model_extracted]
 
@@ -508,16 +597,37 @@ enums:
     permissible_values:
       ppi:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Psychophysiological interaction: connectivity with a seed that changes with a
+          psychological condition.
       gppi:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Generalized PPI, which models every condition rather than a single contrast.
       seed_based:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Correlation between a seed's time series and every other element, with no
+          interaction term.
       dcm:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Dynamic causal modelling, which estimates directed influence from a generative
+          model.
       granger:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Granger causality, which infers direction from temporal precedence.
       coherence:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Frequency-domain coupling between two signals.
+      structural_covariance:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Correlation of a structural measure between regions across participants, rather than
+          of a signal within one. The seed and target are regions as in any other method here,
+          but the correlation runs over subjects, so there is no time series.
       multivariate:
         in_subset: [mvp, model_extracted]
         description: >-
@@ -532,8 +642,12 @@ enums:
     permissible_values:
       increased:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The experimental effect raised the parameter.
       decreased:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The experimental effect lowered the parameter.
       unstated:
         in_subset: [mvp, model_extracted]
       not_applicable:
@@ -548,10 +662,17 @@ enums:
     permissible_values:
       connectivity_parameter:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The test was on the strength of a connection.
       model_comparison:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The test was on which of several models fits better, not on any one parameter.
       network:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The test was on a set of connections treated as a unit, rather than on individual
+          edges.
       unstated:
         in_subset: [mvp, model_extracted]
 
@@ -564,8 +685,12 @@ enums:
     permissible_values:
       directed:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The method supports a claim about which region influences which.
       undirected:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The method gives a symmetric relationship only, whatever the wording of the paper.
       unstated:
         in_subset: [mvp, model_extracted]
 
@@ -575,13 +700,19 @@ enums:
     permissible_values:
       above_reference:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Performance exceeded its reference value.
       below_reference:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Performance fell below its reference value.
       unstated:
         in_subset: [mvp, model_extracted]
       not_applicable:
         in_subset: [mvp, model_extracted]
 
+        description: >-
+          The measure has no reference to compare against.
   NullHypothesis:
     in_subset: [mvp, model_extracted]
     description: >-
@@ -608,10 +739,18 @@ enums:
     permissible_values:
       minimum_statistic:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Each element takes the smaller of its statistics, so a conjunction survives only
+          where both effects do.
       masking:
         in_subset: [mvp, model_extracted]
+        description: >-
+          One effect's map was thresholded and used to mask the other.
       logical_or:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Elements surviving either effect were combined, which tests the global null rather
+          than the conjunction null.
       unstated:
         in_subset: [mvp, model_extracted]
 
@@ -623,14 +762,26 @@ enums:
     permissible_values:
       ica:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Independent component analysis.
       tensor_ica:
         in_subset: [mvp, model_extracted]
+        description: >-
+          ICA over a subject-by-time-by-space tensor, giving one shared spatial map with
+          per-subject loadings.
       pca:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Principal component analysis, whose components are orthogonal rather than
+          independent.
       nmf:
         in_subset: [mvp, model_extracted]
+        description: >-
+          Non-negative matrix factorization, whose components cannot take negative values.
       dictionary_learning:
         in_subset: [mvp, model_extracted]
+        description: >-
+          A sparse decomposition learning an overcomplete set of components.
       unstated:
         in_subset: [mvp, model_extracted]
 
@@ -642,12 +793,21 @@ enums:
     permissible_values:
       loading:
         in_subset: [mvp, model_extracted]
+        description: >-
+          How strongly each participant or time point expresses the component.
       weight:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The component's contribution at each element, in the decomposition's own scale.
       z_score:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The component map after standardizing its values.
       spatial_map:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The component's spatial pattern, where the source does not say what the values
+          are.
       unstated:
         in_subset: [mvp, model_extracted]
 
@@ -660,10 +820,17 @@ enums:
     permissible_values:
       meaningful:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The sign is interpretable: a negative value means a decrease.
       arbitrary:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The method could have returned the component with its sign flipped, so a negative
+          value does not mean a decrease.
       unsigned:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The values carry no sign at all.
       unstated:
         in_subset: [mvp, model_extracted]
 
@@ -675,7 +842,15 @@ enums:
     permissible_values:
       method_specific_derived_metric:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The tested quantity is a metric peculiar to one method, with no counterpart in the
+          shared vocabulary.
       insufficient_standard_structure:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The design has too little of the usual structure -- no conditions, no groups, no
+          terms -- to decompose.
       source_too_vague:
         in_subset: [mvp, model_extracted]
+        description: >-
+          The paper reports an effect without saying enough about it to structure.

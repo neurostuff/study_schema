@@ -92,3 +92,83 @@ classes:
         in_subset: [mvp, model_extracted]
         range: string
         description: Complete definition of the condition, including baseline or control state when relevant.
+      condition_kind:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: ConditionKind
+          - range: string
+        required: true
+        description: >-
+          What kind of thing this condition is. Required, with `unstated` for a condition whose
+          kind the source leaves unclear.
+
+          It is what makes an analysis filterable by the manipulation it tested rather than by
+          the wording of a condition label: the directional condition terms of an effect say
+          which conditions were compared, and their kinds say whether that comparison was
+          between task states, between a drug and a placebo, or between two timepoints. Record
+          the comparator's kind as carefully as the intervention's, since a drug tested against
+          a placebo and a drug tested against an active comparator are different comparisons.
+
+enums:
+
+  ConditionKind:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      What kind of thing a condition is. Spans both the manipulation and the thing it was
+      compared against, because both are conditions here. Open vocabulary: write the source's
+      own wording in the field when nothing here fits.
+    permissible_values:
+      task_state:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A state the participant was in or a job they were doing -- encoding, retrieval, a
+          motor task, an emotional-regulation block.
+      stimulus:
+        in_subset: [mvp, model_extracted]
+        description: A class of presented material, where the stimulus rather than the task varies.
+      rest:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Resting state or fixation, as a modelled condition. Distinct from `no_intervention`,
+          which is a trial arm rather than a scanner state.
+      timepoint:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A session or occasion, where the condition is when the data were collected --
+          baseline, post-treatment, a follow-up. Directional timepoint terms are what mark an
+          analysis as a within-person change rather than a cross-sectional comparison.
+      pharmacological:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          An administered drug or other agent. The agent's name belongs in the condition's own
+          name and description; dose, route and schedule are not recorded, being replication
+          detail rather than a filter.
+      stimulation:
+        in_subset: [mvp, model_extracted]
+        description: Applied brain stimulation -- TMS, tDCS, tACS, deep brain stimulation.
+      behavioural_intervention:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A training, therapy, or education programme delivered to participants, such as a
+          course of CBT or a meditation programme.
+      placebo:
+        in_subset: [mvp, model_extracted]
+        description: An inert comparator presented as the intervention -- a placebo pill, saline, a vehicle.
+      sham:
+        in_subset: [mvp, model_extracted]
+        description: A stimulation or procedure comparator delivered without the active component.
+      active_comparator:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A second active intervention the first was compared against, rather than an inert one.
+          A drug against an active comparator is a different comparison from a drug against a
+          placebo, which is why the two have separate values.
+      usual_care:
+        in_subset: [mvp, model_extracted]
+        description: The care participants would have received anyway, as the comparator arm.
+      no_intervention:
+        in_subset: [mvp, model_extracted]
+        description: A waitlist or untreated comparator arm receiving nothing.
+      unstated:
+        in_subset: [mvp, model_extracted]
+        description: The source does not make the kind of condition clear.

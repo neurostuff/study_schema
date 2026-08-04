@@ -783,6 +783,39 @@ class_derivations:
 
   # ───────────────────────────────────────────────────────────────────────────
 
+  Measure:
+    populated_from: Measure
+    slot_derivations:
+
+      source_label:
+        populated_from: source_label.value
+        transform: verbatim
+
+      specific_metric:
+        populated_from: specific_metric.value
+        transform: verbatim
+
+      unit:
+        populated_from: unit.value
+        transform: verbatim
+
+      type:
+        populated_from: source_label.value
+        transform: normalize_enum
+        notes: >-
+          Normalized from the paper's own term for the measure; extraction records no vocabulary
+          of its own. Wording this schema's MeasureType cannot name passes through verbatim.
+
+      family:
+        populated_from: source_label.value
+        transform: normalize_enum
+        notes: >-
+          Derived from the same wording as `type`. A derived measure takes the family of the
+          underlying signal, so a BOLD-derived connectivity or decoding result is
+          functional_bold.
+
+  # ───────────────────────────────────────────────────────────────────────────
+
   Analysis:
     populated_from: Analysis
     # PENDING: the alpha.11 fields of the storage Analysis have no derivation yet,
@@ -817,8 +850,61 @@ class_derivations:
           Source acquisitions are explicit for all analysis types, including structural
           and diffusion analyses without an Experiment.
 
+      effect:
+        transform: derive
+        notes: >-
+          Assembled rather than copied: extraction holds the effect's parts flat on Analysis,
+          because a flat record is what an extractor fills and a nested one is what a query
+          wants. conditions <- conditions, terms <- terms (resolved from Study.terms by
+          local_id), statistic <- statistic, baseline <- baseline, path <- mediation_path, and
+          kind is derived from the term pattern by the derivation table.
+
+      effect.terms:
+        populated_from: terms
+        transform: local_id_to_id
+        notes: Each local_id resolves to the Study-level Term record and is inlined into the effect.
+
+      effect.statistic:
+        populated_from: statistic
+        transform: verbatim
+
+      effect.baseline:
+        populated_from: baseline.value
+        source_evidence: baseline.evidence
+        status_field: baseline.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          rest: modelled_condition
+          fixation: modelled_condition
+          control task: modelled_condition
+          implicit baseline: implicit
+          implicit: implicit
+          chance: chance
+          chance level: chance
+          zero: zero
+
+      effect.path:
+        populated_from: mediation_path.value
+        transform: normalize_enum
+        value_mappings:
+          direct effect: direct
+          direct: direct
+          indirect effect: indirect
+          indirect: indirect
+          mediated: indirect
+          total effect: total
+          total: total
+
+      details:
+        transform: derive
+        notes: >-
+          Which of the seven payload slots on the extraction Analysis is filled selects the
+          AnalysisDetails subclass. All seven empty means MassUnivariateDetails, which carries
+          no fields -- that is how a mass-univariate analysis is asserted rather than inferred
+          from an absence.
+
       effect.conditions:
-        populated_from: condition_terms
+        populated_from: conditions
         transform: local_id_to_id
         notes: >-
           Each local_id becomes a ConditionTerm whose condition is the resolved
@@ -839,7 +925,7 @@ class_derivations:
         notes: Structured inference settings are extracted at the analysis level.
 
       groups:
-        populated_from: group_terms
+        populated_from: groups
         transform: local_id_to_id
         notes: >-
           Each local_id becomes a GroupTerm whose group is the resolved Group and whose
@@ -851,7 +937,7 @@ class_derivations:
         transform: local_id_to_id
 
       definition:
-        populated_from: contrast_definition.value
+        populated_from: definition.value
         transform: verbatim
         notes: >-
           The verbatim contrast specification is the source-grounded definition (layer L2),
@@ -902,7 +988,7 @@ class_derivations:
           See issue #1.
 
       groups.n:
-        populated_from: group_terms
+        populated_from: groups
         transform: verbatim
         notes: >-
           Per-analysis counts no longer form a parallel list. Each extraction
@@ -913,9 +999,180 @@ class_derivations:
 
   # ───────────────────────────────────────────────────────────────────────────
 
+  Term:
+    populated_from: Term
+    slot_derivations:
+
+      name:
+        populated_from: name.value
+        transform: verbatim
+
+      source_definition:
+        populated_from: source_definition.value
+        transform: verbatim
+
+      type:
+        populated_from: type.value
+        source_evidence: type.evidence
+        status_field: type.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          categorical: categorical
+          factor: categorical
+          grouping variable: categorical
+          continuous: continuous
+          covariate: continuous
+          regressor: continuous
+          parametric: continuous
+
+      role:
+        populated_from: role.value
+        source_evidence: role.evidence
+        status_field: role.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          term of interest: primary
+          effect of interest: primary
+          predictor of interest: primary
+          primary: primary
+          covariate: nuisance
+          nuisance: nuisance
+          controlled for: nuisance
+          confound: nuisance
+          moderator: moderator
+          mediator: mediator
+
+      conditions:
+        populated_from: conditions
+        transform: local_id_to_id
+
+      groups:
+        populated_from: groups
+        transform: local_id_to_id
+
+      assessment:
+        populated_from: assessment
+        transform: local_id_to_id
+
+      levels:
+        populated_from: levels.value
+        transform: verbatim
+
+      variation_level:
+        populated_from: variation_level.value
+        source_evidence: variation_level.evidence
+        status_field: variation_level.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          within subject: within_subject
+          within-subject: within_subject
+          trial-wise: within_subject
+          trial by trial: within_subject
+          across trials: within_subject
+          within run: within_subject
+          between subjects: between_subject
+          between-subject: between_subject
+          across participants: between_subject
+          across subjects: between_subject
+          one value per participant: between_subject
+          both: mixed
+          within and between: mixed
+        notes: >-
+          Wording this table does not cover passes through verbatim, since the slot accepts free
+          text -- "across sessions" for a longitudinal within-person term is the case that
+          recurs. A value outside the vocabulary leaves effect.kind unrecomputable, so the
+          structural validator checks membership in the compatible set rather than rejecting the
+          record.
+
+      association_direction:
+        populated_from: association_direction.value
+        transform: normalize_enum
+        value_mappings:
+          positive: positive
+          positively: positive
+          increased: positive
+          negative: negative
+          negatively: negative
+          decreased: negative
+
+      functional_form:
+        populated_from: functional_form.value
+        transform: normalize_enum
+        value_mappings:
+          linear: linear
+          quadratic: quadratic
+          squared: quadratic
+          product: product
+          interaction: product
+          absolute: absolute
+          unsigned: absolute
+          log: log
+          log-transformed: log
+
+      interaction_with:
+        populated_from: interaction_with
+        transform: local_id_to_id
+
+      unit:
+        populated_from: unit.value
+        transform: verbatim
+
+  # ───────────────────────────────────────────────────────────────────────────
+
   Condition:
     populated_from: Condition
     slot_derivations:
+
+      condition_kind:
+        populated_from: condition_kind.value
+        source_evidence: condition_kind.evidence
+        status_field: condition_kind.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          task: task_state
+          task condition: task_state
+          block: task_state
+          encoding: task_state
+          retrieval: task_state
+          stimulus: stimulus
+          stimulus category: stimulus
+          image category: stimulus
+          rest: rest
+          resting state: rest
+          fixation: rest
+          baseline: timepoint
+          pre-treatment: timepoint
+          post-treatment: timepoint
+          follow-up: timepoint
+          session: timepoint
+          timepoint: timepoint
+          drug: pharmacological
+          drug administration: pharmacological
+          infusion: pharmacological
+          pharmacological: pharmacological
+          TMS: stimulation
+          rTMS: stimulation
+          tDCS: stimulation
+          stimulation: stimulation
+          training: behavioural_intervention
+          therapy: behavioural_intervention
+          CBT: behavioural_intervention
+          intervention: behavioural_intervention
+          placebo: placebo
+          saline: placebo
+          vehicle: placebo
+          sham: sham
+          sham stimulation: sham
+          active comparator: active_comparator
+          active control: active_comparator
+          usual care: usual_care
+          treatment as usual: usual_care
+          waitlist: no_intervention
+          wait-list: no_intervention
+          no treatment: no_intervention
+        notes: >-
+          Wording this table does not cover passes through verbatim; an absent or empty value
+          becomes `unstated`.
 
       id:
         transform: generate

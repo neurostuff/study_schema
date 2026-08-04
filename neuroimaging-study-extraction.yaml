@@ -106,10 +106,16 @@ classes:
         range: Assessment
         multivalued: true
         inlined_as_list: true
+        description: >-
+          Assessment records extracted from the paper. Every assessment a Term or an
+          Analysis refers to must appear here.
       terms:
         range: Term
         multivalued: true
         inlined_as_list: true
+        description: >-
+          Term records extracted from the paper. Analyses refer to them by local_id, so a
+          term used by two analyses is one record here, not two.
       groups:
         range: Group
         multivalued: true
@@ -196,9 +202,6 @@ classes:
       excluded_count:
         range: ExtractedInteger
         description: Participants excluded as text or number; mapper parses to integer.
-      attrition_description:
-        range: ExtractedString
-        description: Verbatim description of exclusions and dropouts.
       inclusion_criteria:
         range: ExtractedValue
         description: Eligibility requirements, one per list entry, verbatim.
@@ -233,22 +236,35 @@ classes:
         range: CategoryDistribution
         multivalued: true
         inlined_as_list: true
+        description: >-
+          Phenotypic sex distribution, one entry per category the source reports, each with
+          its label and a count or percentage.
       gender_distribution:
         range: CategoryDistribution
         multivalued: true
         inlined_as_list: true
+        description: >-
+          Self-described gender distribution, kept separate from phenotypic sex. One entry
+          per reported category.
       handedness_distribution:
         range: CategoryDistribution
         multivalued: true
         inlined_as_list: true
+        description: >-
+          Handedness distribution, one entry per reported category -- right, left,
+          ambidextrous.
       race_distribution:
         range: CategoryDistribution
         multivalued: true
         inlined_as_list: true
+        description: >-
+          Racial distribution using the study's own category labels, one entry each.
       ethnicity_distribution:
         range: CategoryDistribution
         multivalued: true
         inlined_as_list: true
+        description: >-
+          Ethnic distribution using the study's own category labels, one entry each.
       medical_condition:
         range: ExtractedValue
         description: Medical, neurological, psychiatric, developmental, or physiological condition(s), verbatim, one per entry.
@@ -275,14 +291,28 @@ classes:
       category:
         range: ExtractedString
         required: true
+        description: >-
+          The category label as the study writes it, not normalized to any external scheme.
       count:
         range: ExtractedInteger
+        description: >-
+          How many participants fall in this category, when the source gives a count.
       percentage:
         range: ExtractedNumber
+        description: >-
+          The percentage in this category, when the source gives a percentage rather than a
+          count.
       denominator:
         range: ExtractedInteger
+        description: >-
+          The total the count or percentage is out of, when it is not the whole group -- a
+          distribution reported for the subset who answered, for instance.
       reporting_framework:
         range: ExtractedString
+        description: >-
+          The classification system behind these categories, verbatim, such as the OMB or
+          NIH race and ethnicity categories or a named handedness inventory. Free-text
+          categories only compare across studies when the scheme is known.
   Experiment:
     description: Extracted meaningful participant paradigm, such as a task, resting-state protocol, stimulation, or passive viewing.
     attributes:
@@ -333,12 +363,16 @@ classes:
         description: Short label assigned by the extractor; resolved to stable ID by mapper.
       modality:
         range: ExtractedString
+        required: true
         description: >-
           Modality as stated in the paper (e.g., "functional MRI", "DTI"), verbatim; the mapper normalizes it to
           the storage Modality vocabulary. Do not translate it here, and do not omit a modality the vocabulary has
           no obvious slot for -- an unmatched label lands on `other` with the label preserved.
       acquisition_duration_seconds:
         range: ExtractedNumber
+        description: >-
+          How long the acquisition ran, in seconds. A run length, not the total across runs,
+          unless the source gives only the total.
       instrument:
         range: ExtractedString
         description: Scanner, amplifier, or recording system, verbatim, including manufacturer and model.
@@ -357,10 +391,16 @@ classes:
         description: Fill in for an MRI acquisition of any kind, functional, structural, or diffusion.
       eeg:
         range: EEG
+        description: >-
+          Fill in for an EEG recording.
       fnirs:
         range: FNIRS
+        description: >-
+          Fill in for an fNIRS recording.
       pet:
         range: PET
+        description: >-
+          Fill in for a PET scan.
       other:
         range: OtherModality
         description: >-
@@ -371,66 +411,139 @@ classes:
     attributes:
       magnetic_field_strength_tesla:
         range: ExtractedNumber
+        description: >-
+          Scanner field strength in tesla, as reported.
       pulse_sequence_type:
         range: ExtractedString
+        description: >-
+          Pulse sequence family, verbatim -- EPI, MPRAGE, SPGR, spin echo.
       mr_acquisition_type:
         range: ExtractedString
+        description: >-
+          Whether the sequence was acquired in 2D slices or as a 3D volume, verbatim.
+          Distinguishes a slab-based EPI from a whole-volume acquisition.
       repetition_time_seconds:
         range: ExtractedNumber
+        description: >-
+          Repetition time in seconds. Convert a value the paper gives in milliseconds; the
+          unit here is seconds.
       echo_time_seconds:
         range: ExtractedValue
+        description: >-
+          Echo time in seconds, as a list when the sequence is multi-echo -- one value per
+          echo, in the order the source gives them.
       acquisition_voxel_size_mm:
         range: ExtractedValue
+        description: >-
+          Acquired voxel dimensions in millimetres, as a list of the three edge lengths. The
+          size at acquisition, not after resampling in preprocessing.
       number_of_volumes:
         range: ExtractedInteger
+        description: >-
+          How many volumes the functional run contains, sometimes reported as time points or
+          dynamics.
   EEG:
     attributes:
       sampling_frequency_hz:
         range: ExtractedNumber
+        description: >-
+          Sampling rate of the recording in hertz.
       eeg_reference:
         range: ExtractedString
+        description: >-
+          The reference the raw signal was recorded against, verbatim -- linked mastoids, a
+          common average, a named electrode.
       eeg_placement_scheme:
         range: ExtractedString
+        description: >-
+          The electrode layout system, verbatim, such as the 10-20 or 10-10 system.
       recording_type:
         range: ExtractedString
+        description: >-
+          How the recording was organized, verbatim -- continuous, discontinuous, or already
+          epoched.
       eeg_channel_count:
         range: ExtractedInteger
+        description: >-
+          How many recording channels were used, excluding reference and ground unless the
+          source counts them.
   FNIRS:
     attributes:
       sampling_frequency_hz:
         range: ExtractedNumber
+        description: >-
+          Sampling rate of the recording in hertz.
       nirs_system_type:
         range: ExtractedString
+        description: >-
+          The instrument's measurement principle, verbatim -- continuous-wave, frequency-
+          domain, or time-domain.
       nirs_channel_count:
         range: ExtractedInteger
+        description: >-
+          How many source-detector pairs were recorded, which is not the number of optodes.
       wavelengths_nm:
         range: ExtractedValue
+        description: >-
+          The nominal emitted wavelengths in nanometres, as a list.
       short_channel_count:
         range: ExtractedInteger
+        description: >-
+          How many short-separation channels were used, which measure scalp signal for
+          regression rather than brain signal.
       source_detector_distances_mm:
         range: ExtractedValue
+        description: >-
+          Separation between each source and detector in millimetres, as a list. It sets the
+          depth the channel is sensitive to.
       nirs_placement_scheme:
         range: ExtractedValue
+        description: >-
+          The optode layout, verbatim -- a standard system such as 10-20, or the listed
+          positions.
       recorded_signal_types:
         range: ExtractedValue
+        description: >-
+          What the channels recorded, verbatim -- raw continuous-wave amplitude, optical
+          density, or concentrations of oxygenated and deoxygenated haemoglobin.
   PET:
     attributes:
       image_units:
         range: ExtractedString
+        description: >-
+          The unit the image voxels are in, verbatim -- Bq/mL, SUV, a binding potential.
       tracer_name:
         range: ExtractedString
+        description: >-
+          The injected tracer compound as the paper names it, such as FDG or raclopride.
       tracer_radionuclide:
         range: ExtractedString
+        description: >-
+          The isotope labelling the tracer, verbatim -- C11, F18, O15.
       mode_of_administration:
         range: ExtractedString
+        description: >-
+          How the tracer was given, verbatim -- a bolus, a constant infusion, or a bolus
+          plus infusion.
       scan_type:
         range: ExtractedString
+        description: >-
+          Whether the analysed data are a static image or a dynamic time series, verbatim.
+          It decides whether kinetic modelling was possible.
       uptake_time_seconds:
         range: ExtractedNumber
+        description: >-
+          How long after administration the analysed data were acquired, in seconds.
       reconstructed_voxel_size_mm:
         range: ExtractedString
+        description: >-
+          Voxel dimensions after reconstruction, in millimetres, as a list of the three edge
+          lengths.
       spatial_resolution_mm:
         range: ExtractedString
+        description: >-
+          The scanner's effective resolution, usually as a full width at half maximum in
+          millimetres. Coarser than the voxel size, and the figure that limits localization.
   OtherModality:
     description: >-
       Extracted record of an acquisition whose modality none of MRI, EEG, FNIRS, or PET covers. Its parameters go in
@@ -438,6 +551,7 @@ classes:
     attributes:
       modality_label:
         range: ExtractedString
+        required: true
         description: The paper's own name for the modality or recording technique, verbatim.
       reason_no_modality_class_used:
         range: ExtractedString
@@ -453,8 +567,7 @@ classes:
         range: ExtractedString
         description: Narrative pipeline overview, verbatim.
       software:
-        range: ExtractedString
-        multivalued: true
+        range: ExtractedValue
         inlined_as_list: true
         description: Software packages used, verbatim, one per entry.
       steps:
@@ -491,34 +604,85 @@ classes:
     attributes:
       inference_level:
         range: ExtractedString
+        description: >-
+          The element inference was drawn about, verbatim -- a voxel, a vertex, a cluster, a
+          region, or a network; mapper normalizes. A voxelwise threshold followed by a
+          cluster-extent criterion is cluster-level inference, not voxel-level.
       voxelwise_threshold_value:
         range: ExtractedNumber
+        description: >-
+          The per-element height threshold applied before any correction or cluster
+          formation, as a number: p < 0.001 uncorrected gives 0.001, Z > 3.09 gives 3.09.
+          voxelwise_threshold_type says which of those the number is.
       voxelwise_threshold_type:
         range: ExtractedString
+        description: >-
+          What voxelwise_threshold_value is a value of, verbatim -- an uncorrected p, an FDR
+          q, or a t, z, or F statistic.
       cluster_forming_threshold_value:
         range: ExtractedNumber
+        description: >-
+          The threshold deciding which elements join a cluster, when the source reports it
+          separately from voxelwise_threshold_value. In most software these are the same
+          number and only one is populated; fill both only when the paper gives two distinct
+          values.
       cluster_extent_threshold:
         range: ExtractedInteger
+        description: >-
+          The minimum surviving cluster size, in the unit the source uses -- contiguous
+          voxels, vertices, or a volume. Record the number as given, without converting it.
       clusterwise_threshold_value:
         range: ExtractedNumber
+        description: >-
+          The cluster-level threshold a whole cluster had to pass, as distinct from the
+          height threshold its elements passed. 'p < 0.001 voxelwise, cluster-level p <
+          0.05' gives 0.001 above and 0.05 here.
       multiple_comparison_method:
         range: ExtractedString
+        description: >-
+          How the multiple-comparison problem was handled, verbatim -- FWE, FDR, Bonferroni,
+          permutation, Monte Carlo simulation, small-volume correction, or none. Record
+          every one a paper applies, not just the first.
       correction_scope:
         range: ExtractedString
+        description: >-
+          The space the correction was applied over, verbatim -- the whole brain, a mask, an
+          ROI set, one hemisphere. A correction over a small mask is a weaker claim than the
+          same method over the whole brain, which is why the scope is recorded and not only
+          the method.
       search_volume:
         range: ExtractedString
+        description: >-
+          The size of the space searched, verbatim as reported -- a volume, a mask size, or
+          a count of voxels or vertices.
       neighborhood_definition:
         range: ExtractedString
+        description: >-
+          The adjacency rule deciding whether two elements belong to one cluster, verbatim
+          -- face, edge, or corner connectivity, often written as 6, 18, or 26 neighbours.
       tfce_used:
         range: ExtractedValue
+        description: >-
+          Whether threshold-free cluster enhancement was used, which replaces a height
+          threshold with a weighting by cluster support.
       tfce_parameters:
         range: ExtractedString
+        description: >-
+          TFCE height and extent exponents, verbatim, when the source reports them.
       permutation_count:
         range: ExtractedInteger
+        description: >-
+          How many permutations, randomizations, or simulations the inference rested on.
       alpha_level:
         range: ExtractedNumber
+        description: >-
+          The error rate the test was held to -- the family-wise, false-discovery, or
+          nominal alpha, usually 0.05. Distinct from a threshold value: alpha is the rate
+          being controlled, a threshold is what implements it.
       number_of_tests:
         range: ExtractedInteger
+        description: >-
+          How many tests the correction accounted for, when the source states it.
   Analysis:
     description: Extracted analysis record, including direct links and analysis-level inference metadata.
     attributes:
@@ -528,9 +692,11 @@ classes:
         description: Short label assigned by the extractor.
       name:
         range: ExtractedString
+        required: true
         description: Analysis label, verbatim.
       spatial_scope:
         range: ExtractedString
+        required: true
         description: Spatial extent of the inference, verbatim -- whole brain, one or more regions of
           interest, or a searchlight; mapper normalizes.
       spatial_unit:
@@ -539,6 +705,7 @@ classes:
           regions, or parcels; mapper normalizes. Distinct from spatial_scope, which gives the extent.
       roi_definition:
         range: ExtractedString
+        required: true
         description: How a region of interest was defined, verbatim -- an atlas or parcellation, prior
           literature, an a priori anatomical region, a separate functional localizer, or this study's own
           earlier analysis; mapper normalizes. Omit for a whole-brain or searchlight analysis.
@@ -549,10 +716,14 @@ classes:
         range: string
         multivalued: true
         description: local_ids of Acquisition records supplying data to this analysis. Extract these explicitly, including for structural, diffusion, and other analyses without an associated Experiment.
-      experiment:
+      experiments:
         range: string
-        description: local_id of the Experiment record associated with this analysis.
-      condition_terms:
+        multivalued: true
+        description: >-
+          local_ids of the Experiment records this analysis draws on. Multivalued because an
+          analysis can span paradigms -- a cross-task conjunction, or a localizer plus a main
+          task. Empty for an analysis with no paradigm, which is linked through acquisitions.
+      conditions:
         range: ConditionTerm
         multivalued: true
         inlined_as_list: true
@@ -565,8 +736,9 @@ classes:
       model_estimation:
         range: string
         description: local_id of the ModelEstimation used.
-      group_terms:
+      groups:
         range: GroupTerm
+        required: true
         multivalued: true
         inlined_as_list: true
         description: The participant cohorts in this analysis and, for each, which side of the comparison
@@ -574,11 +746,13 @@ classes:
       preprocessing:
         range: string
         description: local_id of the Preprocessing pipeline used.
-      contrast_definition:
+      definition:
         range: ExtractedString
+        required: true
         description: Contrast specification, verbatim.
       measure:
         range: Measure
+        required: true
         inlined: true
         description: The scientific quantity of the map, in the source's words.
       statistic:
@@ -596,9 +770,6 @@ classes:
         range: ExtractedString
         description: For a mediation analysis, which path was tested, verbatim -- the direct effect, the
           indirect or mediated path, or the total effect; mapper normalizes. Omit otherwise.
-      independent_sample_key:
-        range: ExtractedString
-        description: Study-local key identifying the participant sample used by this analysis.
       tables:
         range: string
         multivalued: true
@@ -616,10 +787,17 @@ classes:
       inference_settings:
         range: InferenceSettings
         inlined: true
+        description: >-
+          Thresholding and correction settings for this analysis. Fill this in per analysis,
+          since papers routinely use one threshold for whole-brain tests and another inside
+          an ROI.
       statistical_maps:
         range: StatisticalMap
         multivalued: true
         inlined_as_list: true
+        description: >-
+          Statistical images made available for this analysis, usually in a repository such
+          as NeuroVault.
       decoding:
         range: DecodingDetails
         inlined: true
@@ -643,30 +821,53 @@ classes:
         range: ComponentDecompositionDetails
         inlined: true
         description: Fill in for ICA and related component maps.
+      not_structurable:
+        range: NotStructurableDetails
+        inlined: true
+        description: >-
+          Fill in only when the effect is grounded in the source but has no stable structured
+          decomposition at all -- not merely a method outside the named families, which is
+          other_method.
       other_method:
         range: OtherAnalysisDetails
         inlined: true
         description: Fill in for a method none of the five above covers, such as a mediation analysis. Leave
           all six empty for a mass-univariate analysis -- a voxelwise, vertexwise, or ROI-wise GLM,
           mixed-effects model, ANOVA, ANCOVA, or robust regression -- which needs no method payload.
-      model_representation_status:
-        range: ExtractedString
       model_representation_notes:
         range: ExtractedString
-      analysis_interpretations:
+        description: >-
+          Model components this schema could not represent, verbatim -- random slopes,
+          latent variables, custom basis functions, dependencies between terms. Fill this in
+          rather than dropping a component; it is how the gap becomes visible.
+      interpretations:
         range: ExtractedValue
+        description: >-
+          What the authors say the analysis measures, in their words. A claim about the
+          paper's own reading, never the extractor's, and never a substitute for the
+          definition.
   Assessment:
     attributes:
       local_id:
         range: string
         required: true
+        description: >-
+          Short label assigned by the extractor.
       name:
         range: ExtractedString
         required: true
+        description: >-
+          The instrument's name as the paper gives it, such as Digit Span, MMSE, or BDI-II.
       description:
         range: ExtractedString
+        description: >-
+          What the assessment measured and how, verbatim.
       assessment_type:
         range: ExtractedString
+        description: >-
+          Broad type, verbatim -- a cognitive test, clinical scale, questionnaire,
+          behavioural task, physiological measure, or a biospecimen assay such as salivary
+          cortisol.
   Term:
     description: >-
       One term of a statistical model, categorical or continuous. Replaces the factor and
@@ -681,16 +882,18 @@ classes:
         required: true
         description: Term label as the source names it, verbatim. Also the factor's identity, referred to
           by FactorLevel.factor_name.
-      description:
+      source_definition:
         range: ExtractedString
         description: The source's own definition of the term, verbatim, including the origin of a continuous
           term that no Assessment supplies -- age, dose, a motion parameter, cardiac phase, scanner drift.
-      term_type:
+      type:
         range: ExtractedString
+        required: true
         description: Whether the term is categorical or continuous, as stated or as evident from the model;
           mapper normalizes.
       role:
         range: ExtractedString
+        required: true
         description: How the term enters the model, verbatim or as evident -- a term of interest, a covariate
           controlled for, a moderator, a mediator; mapper normalizes. Say "covariate" for something the
           paper controls for rather than tests.
@@ -736,20 +939,36 @@ classes:
       local_id:
         range: string
         required: true
+        description: >-
+          Short label assigned by the extractor.
       map_type:
         range: ExtractedString
+        required: true
+        description: >-
+          What the image contains, verbatim -- a statistic map, an effect estimate, a
+          variance map, or a thresholded label map.
       url:
         range: ExtractedString
+        description: >-
+          Where the map can be retrieved, or the landing page of the archive holding it.
       coordinate_space:
         range: ExtractedString
+        description: >-
+          The space the map is in, verbatim. May differ from the space the paper's tables
+          report, which is why it is recorded per map.
       is_thresholded:
         range: ExtractedValue
+        description: >-
+          Whether the shared image has already had a threshold applied, which decides
+          whether it can be re-analysed.
       statistic_type:
         range: ExtractedString
+        description: >-
+          The statistical quantity the map's values are, verbatim -- t, z, beta, a p value.
       description:
         range: ExtractedString
-      availability_status:
-        range: ExtractedString
+        description: >-
+          Notes on where the map came from and how it relates to the reported analysis.
   Condition:
     description: Extracted condition record.
     attributes:
@@ -764,6 +983,15 @@ classes:
       description:
         range: ExtractedString
         description: Condition definition, verbatim.
+      condition_kind:
+        range: ExtractedString
+        required: true
+        description: >-
+          What kind of thing this condition is, verbatim or as judged -- a task state, a class
+          of stimulus, rest, a timepoint, a drug, brain stimulation, a training or therapy
+          programme, or a comparator such as a placebo, a sham, an active comparator, usual
+          care, or no intervention; mapper normalizes. Type the comparator as carefully as the
+          manipulation.
   Table:
     description: Extracted table record.
     attributes:
@@ -800,6 +1028,7 @@ classes:
         description: local_id of the Group record.
       role:
         range: ExtractedString
+        required: true
         description: >-
           Which side of the comparison this cohort sits on, verbatim as the source frames it -- the greater
           side, the lesser side, or simply included without a direction; mapper normalizes. Omit when the
@@ -827,6 +1056,7 @@ classes:
           from the Condition name.
       role:
         range: ExtractedString
+        required: true
         description: >-
           Which side of the comparison this condition sits on, verbatim as the source frames it; mapper
           normalizes. For an ordered contrast mark the extremes and leave the middle terms undirected,
@@ -869,6 +1099,7 @@ classes:
     attributes:
       family:
         range: ExtractedString
+        required: true
         description: Test statistic as reported, verbatim -- t, z, F, chi-square, a likelihood ratio, a
           beta, or a correlation; mapper normalizes.
       degrees_of_freedom_numerator:
@@ -892,17 +1123,15 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: The classes discriminated.
-      performance_metric:
-        range: ExtractedString
+      performance_metrics:
+        range: PerformanceMetric
+        multivalued: true
+        inlined_as_list: true
         required: true
-        description: Reported performance measure, verbatim, such as accuracy, AUC, or d-prime.
-      reference_value:
-        range: ExtractedNumber
-        description: Numeric reference the metric was compared against, when reported. What kind of
-          reference it is goes in the analysis baseline.
-      performance_relation:
-        range: ExtractedString
-        description: Whether performance was above or below the reference, verbatim; mapper normalizes.
+        description: >-
+          Every performance measure the paper reports for this analysis, one entry each, with
+          its value. Record all of them -- a paper giving accuracy, sensitivity and specificity
+          gets three entries, not one.
       validation_scheme:
         range: ExtractedString
         description: Cross-validation or resampling scheme, verbatim, such as leave-one-run-out.
@@ -910,6 +1139,27 @@ classes:
         range: ExtractedString
         description: Train and test split for cross-decoding, verbatim, when the analysis generalized
           across sets.
+  PerformanceMetric:
+    description: One reported performance measure of a decoding analysis, and its value.
+    attributes:
+      name:
+        range: ExtractedString
+        required: true
+        description: The measure as the source names it, verbatim, such as accuracy, AUC, d-prime,
+          sensitivity, or specificity.
+      value:
+        range: ExtractedNumber
+        description: The value as reported, verbatim in the source's own scale. Do not convert a
+          percentage to a proportion or the reverse.
+      reference_value:
+        range: ExtractedNumber
+        description: >-
+          Numeric reference this measure was compared against, when reported -- chance for an
+          accuracy, zero for a correlation. Each measure carries its own.
+      relation:
+        range: ExtractedString
+        description: >-
+          Whether this measure was above or below its reference, verbatim; mapper normalizes.
   DecodingClass:
     description: One class discriminated by a decoding analysis.
     attributes:
@@ -1008,11 +1258,11 @@ classes:
   ConjunctionComponent:
     description: One component effect of a conjunction.
     attributes:
-      analysis:
+      analysis_id:
         range: string
         description: local_id of the sibling Analysis record for this component, when it is separately
           reported.
-      method:
+      analysis_type:
         range: ExtractedString
         description: The component's own method, verbatim, when it is known and differs from the others.
       definition:
@@ -1064,9 +1314,19 @@ classes:
         range: ExtractedString
         required: true
         description: Why none of the five named method payloads fits this analysis.
-      not_structurable_reason:
+  NotStructurableDetails:
+    description: >-
+      Payload for an effect that is grounded in the source but has no stable structured
+      decomposition.
+    attributes:
+      reason:
         range: ExtractedString
+        required: true
         description: >-
-          Set only when the effect is grounded in the source but has no stable structured decomposition at
-          all, naming why -- a method-specific derived metric, too little standard structure, or a source
-          too vague. Leave empty when the method is merely outside the named families.
+          Why the effect could not be structured, verbatim or as judged -- a method-specific
+          derived metric, too little standard structure, or a source too vague; mapper
+          normalizes.
+      explanation:
+        range: ExtractedString
+        required: true
+        description: What specifically could not be represented.

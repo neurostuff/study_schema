@@ -73,21 +73,17 @@ classes:
         description: >-
           The classes discriminated. These are non-directional: direction, where it
           exists, is carried by Effect.
-      performance_metric:
+      performance_metrics:
         in_subset: [mvp, model_extracted]
-        range: string
+        range: PerformanceMetric
+        multivalued: true
+        inlined_as_list: true
         required: true
-        description: Reported performance measure, such as accuracy, AUC, or d-prime.
-      reference_value:
-        in_subset: [model_extracted]
-        range: float
         description: >-
-          Numeric reference the metric was compared against, when reported. What kind of
-          reference it is lives in Effect.baseline.
-      performance_relation:
-        in_subset: [model_extracted]
-        range: PerformanceRelation
-        description: Direction of the metric relative to reference_value.
+          The performance measures reported for this map, one entry each. Papers routinely give
+          several of the same analysis -- accuracy with sensitivity and specificity, or accuracy
+          with AUC -- and each carries its own value, so a single field would keep whichever the
+          extractor happened to read first.
       validation_scheme:
         in_subset: [model_extracted]
         range: string
@@ -97,6 +93,37 @@ classes:
         range: string
         description: Train/test split for cross-decoding, when the analysis generalized across sets.
 
+  PerformanceMetric:
+    description: One reported performance measure of a decoding analysis, and its value.
+    attributes:
+      name:
+        in_subset: [mvp, model_extracted]
+        range: string
+        required: true
+        description: >-
+          The measure as the source names it, such as accuracy, balanced accuracy, AUC,
+          d-prime, sensitivity, specificity, or a correlation between predicted and observed
+          scores.
+      value:
+        in_subset: [mvp, model_extracted]
+        range: float
+        description: >-
+          The value as reported, in the source's own scale: a percentage and a proportion are
+          both recorded as written rather than converted, since the scale is not always stated
+          and converting would invent precision.
+      reference_value:
+        in_subset: [model_extracted]
+        range: float
+        description: >-
+          Numeric reference this measure was compared against, when reported -- chance for an
+          accuracy, zero for a correlation. Each measure carries its own: accuracy against
+          chance and AUC against 0.5 are two references, not one. What kind of reference it is
+          lives in Effect.baseline.
+      relation:
+        in_subset: [model_extracted]
+        range: PerformanceRelation
+        description: Direction of this measure relative to its own reference_value.
+
   DecodingClass:
     description: One class discriminated by a decoding analysis.
     attributes:
@@ -104,7 +131,8 @@ classes:
         in_subset: [model_extracted]
         range: string
         required: true
-        description: Class label as reported.
+        description: >-
+          The class label as the source names it, such as `faces` or `left hand`.
       condition:
         in_subset: [model_extracted]
         range: Condition
@@ -146,8 +174,13 @@ classes:
   ConnectivityDetails:
     is_a: AnalysisDetails
     description: >-
-      Payload for a connectivity analysis. The psychological term of a PPI is a
-      directional condition list in Effect. Brain regions stay source-grounded strings.
+      Payload for an analysis of a relationship between regions, whether that relationship is
+      estimated from a signal or across subjects. Signal-based connectivity is the common case;
+      structural covariance -- correlating cortical thickness or volume between a seed region
+      and every other, across participants rather than within one -- shares the same shape of
+      answer, so it takes this payload with `structural_covariance` as its method. The
+      psychological term of a PPI is a directional condition list in Effect. Brain regions stay
+      source-grounded strings.
     attributes:
       connectivity_method:
         in_subset: [mvp, model_extracted]
@@ -193,8 +226,10 @@ classes:
         any_of:
           - range: InferenceTarget
           - range: string
-        description: What the analysis drew inference about.
-
+        description: >-
+          What the statistical test was about: the strength of a connection, which of
+          several models fits better, or a network taken as a whole. A model comparison
+          and a parameter test answer different questions and are not poolable.
   ConnectivityEdge:
     description: One reported connection between two named regions.
     attributes:
@@ -283,7 +318,9 @@ classes:
         any_of:
           - range: ComponentMethod
           - range: string
-        description: Decomposition method.
+        description: >-
+          The algorithm that produced the components, which decides what their values and
+          signs mean.
       component_id:
         in_subset: [mvp, model_extracted]
         range: string
@@ -324,7 +361,9 @@ classes:
         in_subset: [mvp, model_extracted]
         range: string
         required: true
-        description: The source's name for the method.
+        description: >-
+          The method's name as the source gives it. This is the only record of what the
+          method was, so write what the paper calls it rather than a paraphrase.
       structured_details:
         in_subset: [model_extracted]
         range: string
@@ -350,9 +389,14 @@ classes:
           - range: NotStructurableReason
           - range: string
         required: true
-        description: Why the effect could not be structured.
+        description: >-
+          Which kind of obstacle prevented structuring, from a short vocabulary. Pairs
+          with `explanation`, which says what specifically was lost.
       explanation:
         in_subset: [mvp, model_extracted]
         range: string
         required: true
-        description: What specifically could not be represented.
+        description: >-
+          What specifically could not be represented, in the source's own terms. The
+          reason gives the category; this gives the instance, so a reader can judge
+          whether the effect is usable.

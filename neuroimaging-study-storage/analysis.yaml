@@ -286,8 +286,10 @@ classes:
         range: Statistic
         inlined: true
         required: true
-        description: The test statistic for this effect.
-
+        description: >-
+          The statistic this effect was tested with, and its degrees of freedom. Not the
+          value of the statistic at any location -- peak magnitudes belong to the reported
+          coordinates.
   Statistic:
     description: >-
       A test statistic and its degrees of freedom. Statistic values -- peak magnitudes,
@@ -299,7 +301,9 @@ classes:
           - range: StatisticFamily
           - range: string
         required: true
-        description: Statistic family.
+        description: >-
+          Which statistic was used. Independent of the thresholding procedure: a t-test
+          corrected by permutation is still a `t`.
       degrees_of_freedom_numerator:
         in_subset: [mvp, model_extracted]
         range: float
@@ -352,8 +356,10 @@ classes:
       unit:
         in_subset: [mvp, model_extracted]
         range: string
-        description: Reported unit, when meaningful.
-
+        description: >-
+          The unit the measure is reported in, when the source gives one and it carries
+          information -- mm for a thickness, mL for a volume. Omitted for a unitless
+          quantity such as a correlation or a normalized index.
   GroupTerm:
     description: >-
       One participant cohort in an analysis, and the side of the comparison it sits on.
@@ -367,7 +373,9 @@ classes:
         range: Group
         required: true
         inlined: false
-        description: The participant cohort.
+        description: >-
+          The cohort this term refers to, by identifier. The cohort's own properties are
+          on the Group record; what is here is its part in this analysis.
       role:
         range: DirectionalRole
         in_subset: [mvp, model_extracted]
@@ -410,7 +418,9 @@ classes:
         range: Condition
         required: true
         inlined: false
-        description: The experimental condition.
+        description: >-
+          The condition this term refers to, by identifier. The condition's own
+          properties, including what kind of thing it is, are on the Condition record.
       label:
         in_subset: [mvp, model_extracted]
         range: string
@@ -530,10 +540,14 @@ classes:
           FactorLevel's job.
       variation_level:
         in_subset: [mvp, model_extracted]
-        range: VariationLevel
+        any_of:
+          - range: VariationLevel
+          - range: string
         description: >-
-          The level at which a continuous term varies, which is what separates a
-          parametric modulation from a cross-subject regression.
+          The level at which a continuous term varies, which is what separates a parametric
+          modulation from a cross-subject regression. A level the vocabulary cannot name is
+          written here as free text; the derivation of effect.kind then has no row to apply, so
+          the kind is unrecomputable for that record rather than wrong.
       association_direction:
         in_subset: [mvp, model_extracted]
         range: AssociationDirection
@@ -562,7 +576,9 @@ classes:
       unit:
         in_subset: [mvp, model_extracted]
         range: string
-        description: Unit of a continuous term, when meaningful.
+        description: >-
+          The unit a continuous term is measured in, when the source gives one -- years
+          for age, mg for a dose. It is what makes a reported slope interpretable.
       source_definition:
         in_subset: [mvp, model_extracted]
         range: string
@@ -751,7 +767,8 @@ classes:
         range: string
         identifier: true
         required: true
-        description: Stable identifier for this map record.
+        description: >-
+          Stable identifier for this map record, assigned by the pipeline.
       map_type:
         in_subset: [deterministic]
         range: string
@@ -766,7 +783,9 @@ classes:
       coordinate_space:
         in_subset: [deterministic]
         range: string
-        description: Coordinate reference space of the map.
+        description: >-
+          The space this image is in. Recorded per map because a study can share maps in a
+          different space from the one its tables report.
       is_thresholded:
         in_subset: [deterministic]
         range: boolean
