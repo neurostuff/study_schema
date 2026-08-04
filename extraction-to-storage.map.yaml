@@ -53,8 +53,10 @@ class_derivations:
         notes: Assigned by the ingestion pipeline; typically DOI-derived (doi:10.../record) or a UUID.
 
       title:
-        populated_from: title.value
-        transform: verbatim
+        transform: api_lookup
+        notes: >-
+          Article title for the record's PMID, from the E-utilities API. Not extracted: a bibliographic fact the API states is not one a model
+          should be asked to read off the page.
 
       description:
         populated_from: description.value
@@ -65,63 +67,40 @@ class_derivations:
         transform: verbatim
 
       authors:
-        populated_from: authors.value
-        transform: verbatim
+        transform: api_lookup
+        notes: >-
+          Author list for the record's PMID, from the E-utilities API, in published order. Not extracted: a bibliographic fact the API states is not one a model
+          should be asked to read off the page.
 
       journal:
-        populated_from: journal.value
-        transform: verbatim
+        transform: api_lookup
+        notes: >-
+          Journal title for the record's PMID, from the E-utilities API. Not extracted: a bibliographic fact the API states is not one a model
+          should be asked to read off the page.
 
       doi:
-        populated_from: doi.value
-        transform: verbatim
+        transform: api_lookup
+        notes: >-
+          DOI from the record's identifiers, resolved at ingest. Not extracted: a bibliographic fact the API states is not one a model
+          should be asked to read off the page.
 
       publication_year:
-        populated_from: publication_year.value
-        source_evidence: publication_year.evidence
-        status_field: publication_year.extraction_status
-        transform: parse_int
+        transform: api_lookup
+        notes: >-
+          Publication year for the record's PMID, from the E-utilities API. Not extracted: a bibliographic fact the API states is not one a model
+          should be asked to read off the page.
 
       external_datasets:
         populated_from: external_datasets
         transform: verbatim
 
       study_type:
-        populated_from: study_type.value
-        source_evidence: study_type.evidence
-        transform: normalize_enum
-        target_enum: StudyType
-        value_mappings:
-          original research: primary
-          empirical study: primary
-          original article: primary
-          cohort study: primary
-          experimental study: primary
-          meta-analysis: meta_analysis
-          meta analysis: meta_analysis
-          quantitative synthesis: meta_analysis
-          systematic review: systematic_review
-          scoping review: systematic_review
-          narrative review: narrative_review
-          review: narrative_review
-          review article: narrative_review
-          case report: case_report
-          case study: case_report
-          single case: case_report
-          methods paper: methods_development
-          technical note: methods_development
-          toolbox: methods_development
-          methods development: methods_development
-          simulation study: simulation
-          computational study: simulation
-          letter: commentary
-          editorial: commentary
-          commentary: commentary
-          invited commentary: commentary
+        transform: api_lookup
         notes: >-
-          LLM output is lowercased and fuzzy-matched first; value_mappings are
-          applied as a fallback lookup table. Unmatched values are stored verbatim
-          and flagged for human review in the curation queue.
+          PubMed publication types for the record's PMID, from the E-utilities API, stored
+          verbatim and multivalued. Not extracted: the LLM would be guessing a bibliographic
+          fact the API states, and the value gates extraction rather than following it -- a
+          record whose types include `Meta-Analysis` is skipped before any text is read.
 
   # ───────────────────────────────────────────────────────────────────────────
 
@@ -157,6 +136,34 @@ class_derivations:
         populated_from: description.value
         transform: verbatim
 
+      species:
+        populated_from: species.value
+        source_evidence: species.evidence
+        status_field: species.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          human: human
+          humans: human
+          adult human: human
+          macaque: macaque
+          rhesus macaque: macaque
+          rhesus monkey: macaque
+          Macaca mulatta: macaque
+          cynomolgus macaque: macaque
+          marmoset: marmoset
+          common marmoset: marmoset
+          baboon: baboon
+          Papio anubis: baboon
+          rat: rat
+          rats: rat
+          Sprague-Dawley rat: rat
+          Wistar rat: rat
+          mouse: mouse
+          mice: mouse
+        notes: >-
+          Wording this table does not cover passes through verbatim, since the slot accepts free
+          text; an absent or empty species becomes `unstated`.
+
       approached_count:
         populated_from: approached_count.value
         source_evidence: approached_count.evidence
@@ -179,12 +186,6 @@ class_derivations:
         populated_from: acquired_count.value
         source_evidence: acquired_count.evidence
         status_field: acquired_count.extraction_status
-        transform: parse_int
-
-      analyzed_count:
-        populated_from: analyzed_count.value
-        source_evidence: analyzed_count.evidence
-        status_field: analyzed_count.extraction_status
         transform: parse_int
 
       excluded_count:
@@ -400,10 +401,6 @@ class_derivations:
           OtherModality for MEG, SPECT, and other; the namesake class otherwise. A modality
           of `unstated` instantiates nothing and emits a bare Acquisition. Every derivation
           below this one belongs to whichever subclass this names.
-
-      name:
-        populated_from: name.value
-        transform: verbatim
 
       modality:
         populated_from: modality.value
@@ -674,10 +671,6 @@ class_derivations:
       id:
         transform: generate
 
-      name:
-        populated_from: name.value
-        transform: verbatim
-
       description:
         populated_from: description.value
         transform: verbatim
@@ -698,10 +691,6 @@ class_derivations:
 
       id:
         transform: generate
-
-      name:
-        populated_from: name.value
-        transform: verbatim
 
       model_family:
         populated_from: model_type.value
@@ -893,6 +882,9 @@ class_derivations:
           TAL: Talairach
           subject native: native
           native space: native
+        notes: >-
+          Fallback for the space when the table parse did not recover one. Prefer
+          Table.coordinate_space where it is populated; the two disagreeing is a review signal.
 
       experiments:
         transform: infer
@@ -966,11 +958,11 @@ class_derivations:
         notes: Set by the ingestion pipeline to the repository path of the raw table file.
 
       coordinate_space:
-        populated_from: coordinate_space.value
-        source_evidence: coordinate_space.evidence
-        status_field: coordinate_space.extraction_status
-        transform: normalize_enum
-        notes: Uses the same value_mappings as Analysis.coordinate_space above.
+        transform: derive
+        notes: >-
+          Normalized from the coordinate space the table parser recovered, not extracted. This is
+          the first of the two places the space can live, and the preferred one: fill it when the
+          parse yields a space, and leave Analysis.coordinate_space blank in that case.
 
       column_headings:
         populated_from: column_headings.value

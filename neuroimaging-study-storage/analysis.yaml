@@ -177,8 +177,13 @@ classes:
         in_subset: [mvp, model_extracted]
         range: string
         description: >-
-          Coordinate reference space or template used to report spatial results, such as
-          MNI152 or Talairach.
+          Coordinate reference space or template the spatial results are reported in, such as
+          MNI152 or Talairach. The fallback of two places this can live: populated only when no
+          table of this analysis gives the space, which happens when the parse does not recover
+          one or the analysis is reported without a coordinate table. Exactly one of the two is
+          filled, never both, so a value here means the tables were silent. An analysis on a
+          surface reports a surface template, which is why the space does not follow from
+          spatial_unit.
       assessments:
         in_subset: [mvp, model_extracted]
         range: Assessment
@@ -385,9 +390,11 @@ classes:
         range: integer
         minimum_value: 0
         description: >-
-          Number of participants from this cohort included in this analysis, when the
-          source reports it per analysis. May be smaller than the cohort's own size, since
-          an analysis can drop participants for motion or missing data.
+          Number of participants from this cohort included in this analysis. This is where a
+          cohort's analysed size lives -- Group carries the recruitment funnel down to
+          acquisition and nothing past it -- so populate it whenever the source gives a number,
+          and expect it to be smaller than the acquired count when an analysis drops
+          participants for motion or missing data.
   ConditionTerm:
     description: >-
       One experimental condition entering an effect, and the side of the comparison it
@@ -575,11 +582,6 @@ classes:
         identifier: true
         required: true
         description: Stable identifier used by Analysis foreign-key references.
-      name:
-        in_subset: [model_extracted]
-        range: string
-        required: true
-        description: Human-readable name for the preprocessing pipeline.
       description:
         in_subset: [model_extracted]
         range: string
@@ -612,10 +614,6 @@ classes:
         identifier: true
         required: true
         description: Stable identifier used by Analysis foreign-key references.
-      name:
-        in_subset: [mvp, model_extracted]
-        range: string
-        description: Human-readable label for the model or analysis stage.
       model_family:
         in_subset: [mvp, model_extracted]
         any_of:
@@ -821,8 +819,9 @@ classes:
         in_subset: [mvp, deterministic]
         range: string
         description: >-
-          Coordinate reference space applying to points in the table, if stated or reliably
-          resolved.
+          Coordinate reference space applying to points in the table, from the table parser. The
+          preferred of the two places the space can live: when this is populated,
+          Analysis.coordinate_space is left blank.
       column_headings:
         in_subset: [mvp, deterministic]
         range: string

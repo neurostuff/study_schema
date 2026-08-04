@@ -14,8 +14,10 @@ classes:
 
   Group:
     description: >-
-      An aggregate participant group and its reported demographics. Counts are
-      group-specific; analysis-specific inclusion is recorded in Analysis.group_sample_sizes.
+      An aggregate participant group and its reported demographics. The counts here follow the
+      recruitment funnel down to acquisition; how many of the cohort a given analysis included is
+      GroupTerm.n, so the analysed size of a cohort is the sum over its terms rather than a field
+      of its own.
     attributes:
       id:
         in_subset: [mvp, deterministic]
@@ -32,6 +34,17 @@ classes:
         in_subset: [mvp, model_extracted]
         range: string
         description: Narrative definition of the group and its role in the study.
+      species:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: Species
+          - range: string
+        required: true
+        description: >-
+          The species of this cohort. Required, and populated for human cohorts as well as
+          animal ones: everything else on this class -- age in years, a DSM-5 diagnosis, a
+          handedness distribution -- reads as human by default, so an empty value cannot be
+          told apart from a question never asked.
       approached_count:
         in_subset: [model_extracted]
         range: integer
@@ -52,12 +65,6 @@ classes:
         range: integer
         minimum_value: 0
         description: Number for whom data were acquired or who were scanned.
-      analyzed_count:
-        in_subset: [mvp, model_extracted]
-        range: integer
-        minimum_value: 0
-        description: Number included in the reported analysis; use Analysis.group_sample_sizes when this 
-          differs across analyses.
       excluded_count:
         in_subset: [mvp, model_extracted]
         range: integer
@@ -222,3 +229,27 @@ classes:
           handedness inventory, or a self-report question's answer set. Free-text
           categories are only comparable across studies when the scheme behind them is
           known, which is what this records.
+
+enums:
+
+  Species:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      Species of a participant cohort. The listed values are the ones neuroimaging uses often;
+      open vocabulary, so write the source's own wording in the field for anything else.
+    permissible_values:
+      human:
+        in_subset: [mvp, model_extracted]
+      macaque:
+        in_subset: [mvp, model_extracted]
+      marmoset:
+        in_subset: [mvp, model_extracted]
+      baboon:
+        in_subset: [mvp, model_extracted]
+      rat:
+        in_subset: [mvp, model_extracted]
+      mouse:
+        in_subset: [mvp, model_extracted]
+      unstated:
+        in_subset: [mvp, model_extracted]
+        description: The source does not identify the species.

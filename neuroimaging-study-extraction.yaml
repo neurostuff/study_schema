@@ -7,7 +7,10 @@ description: 'Immutable, evidence-first structured output from extracting a neur
   Source-derived attributes are ExtractedValue instances. Their extraction_status records whether a value was found, value holds the extracted or generated representation when found, value_source describes its relationship to the source, and evidence records exact supporting spans when available. Fields that require a scalar value type use an ExtractedValue subtype such as ExtractedString, ExtractedInteger, or ExtractedNumber. Pipeline metadata, generated local IDs, and local-ID relationship fields use native LinkML types because they are not source-derived extraction values.
 
 
-  For extracted values, evidence is present when one or more independently sufficient EvidenceSets were found, or not_found when no support was located. For not_reported attributes, value is omitted and evidence.status is not_applicable. Entities use native document-local local_id strings for cross-references; ingestion resolves them and creates typed storage records. Do not manually correct an extraction record: create a new extraction version or a separate correction record.'
+  For extracted values, evidence is present when one or more independently sufficient EvidenceSets were found, or not_found when no support was located. For not_reported attributes, value is omitted and evidence.status is not_applicable. Entities use native document-local local_id strings for cross-references; ingestion resolves them and creates typed storage records. Do not manually correct an extraction record: create a new extraction version or a separate correction record.
+
+
+  Rules that cannot be stated in this schema -- which papers are skipped before extraction, how a multivalued extracted fact is shaped, which invariants the structural validator enforces, and what a paper may report that no field holds -- are in extraction-readme.md.'
 license: CC0-1.0
 version: 0.4.0
 see_also:
@@ -88,35 +91,12 @@ classes:
         required: true
         inlined: true
         description: Provenance for this extraction record.
-      doi:
-        range: ExtractedString
-        description: DOI as it appears in the paper or header; may be confirmed or corrected by the API layer.
-      authors:
-        range: ExtractedValue
-        description: Authors in the published order when shown in the source.
-      journal:
-        range: ExtractedString
-        description: Journal or publication venue when shown in the source.
-      publication_year:
-        range: ExtractedInteger
-        description: Publication year as shown in the source.
-      title:
-        range: ExtractedString
-        required: true
-        description: Full title of the publication, verbatim.
       description:
         range: ExtractedString
         description: Brief summary of the study aims in the extractor's own words.
       design:
         range: ExtractedString
         description: Verbatim or closely paraphrased study design description.
-      study_type:
-        range: ExtractedString
-        description: >-
-          'LLM-assigned publication category. Expected values: primary, meta_analysis,
-          systematic_review, narrative_review, case_report, methods_development, simulation,
-          commentary. The mapper normalizes this to the StudyType enum in the storage schema. See
-          issue #2.'
       external_datasets:
         range: ExternalDataset
         multivalued: true
@@ -194,6 +174,13 @@ classes:
       description:
         range: ExtractedString
         description: Narrative definition of the group, verbatim.
+      species:
+        range: ExtractedString
+        required: true
+        description: >-
+          Species of this cohort, verbatim, such as human, rhesus macaque, or Sprague-Dawley
+          rat; mapper normalizes. Populate it for human cohorts too -- everything else on this
+          record reads as human by default, so leaving it out is not the same as saying human.
       approached_count:
         range: ExtractedInteger
         description: Participants approached as text or number; mapper parses to integer.
@@ -206,9 +193,6 @@ classes:
       acquired_count:
         range: ExtractedInteger
         description: Participants scanned as text or number; mapper parses to integer.
-      analyzed_count:
-        range: ExtractedInteger
-        description: Participants analyzed as text or number; mapper parses to integer.
       excluded_count:
         range: ExtractedInteger
         description: Participants excluded as text or number; mapper parses to integer.
@@ -347,9 +331,6 @@ classes:
         range: string
         required: true
         description: Short label assigned by the extractor; resolved to stable ID by mapper.
-      name:
-        range: ExtractedString
-        description: Human-readable acquisition label.
       modality:
         range: ExtractedString
         description: >-
@@ -468,10 +449,6 @@ classes:
         range: string
         required: true
         description: Short label assigned by the extractor.
-      name:
-        range: ExtractedString
-        required: true
-        description: Pipeline name or label, verbatim.
       description:
         range: ExtractedString
         description: Narrative pipeline overview, verbatim.
@@ -490,9 +467,6 @@ classes:
         range: string
         required: true
         description: Short label assigned by the extractor.
-      name:
-        range: ExtractedString
-        description: Model label, verbatim.
       model_type:
         range: ExtractedString
         required: true
@@ -631,7 +605,10 @@ classes:
         description: local_ids of Table records reporting results.
       coordinate_space:
         range: ExtractedString
-        description: Coordinate space as stated (e.g., "MNI space", "Talairach"); mapper normalizes.
+        description: >-
+          Coordinate space the results are reported in, verbatim, such as "MNI space" or
+          "Talairach"; mapper normalizes. Extract it from the Methods even when the tables state
+          it, because table parsing does not always recover it.
       assessments:
         range: string
         multivalued: true
@@ -729,8 +706,7 @@ classes:
         range: string
         description: local_id of the Assessment supplying a continuous term's measurement.
       levels:
-        range: ExtractedString
-        multivalued: true
+        range: ExtractedValue
         description: The factor's level labels, verbatim, when they are not all present as condition or
           group terms of the analysis.
       variation_level:
@@ -807,9 +783,6 @@ classes:
       footer:
         range: ExtractedString
         description: Table notes and footnotes, verbatim.
-      coordinate_space:
-        range: ExtractedString
-        description: Coordinate space from the table header or caption; mapper normalizes.
       column_headings:
         range: ExtractedValue
         description: Ordered column headings, verbatim.
@@ -961,8 +934,7 @@ classes:
         range: ExtractedString
         description: Similarity or distance metric, verbatim.
       competing_models:
-        range: ExtractedString
-        multivalued: true
+        range: ExtractedValue
         description: Other models the reported model was compared against, verbatim.
   ConnectivityDetails:
     description: Method payload for a connectivity analysis.
@@ -973,12 +945,10 @@ classes:
         description: Method used to estimate connectivity, verbatim -- PPI, gPPI, seed-based correlation,
           DCM, Granger causality, or coherence; mapper normalizes.
       seed_regions:
-        range: ExtractedString
-        multivalued: true
+        range: ExtractedValue
         description: Seed or source regions, verbatim.
       target_regions:
-        range: ExtractedString
-        multivalued: true
+        range: ExtractedValue
         description: Target regions, verbatim. Empty for a seed-to-whole-brain analysis.
       parameter_sign:
         range: ExtractedString

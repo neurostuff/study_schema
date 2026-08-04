@@ -67,10 +67,23 @@ classes:
         description: Year in which the study was first published or made publicly available.
       study_type:
         in_subset: [mvp, deterministic]
-        range: string
+        any_of:
+          - range: StudyType
+          - range: string
+        multivalued: true
+        required: true
         description: >-
-          Broad classification of the publication type. Pulled from PubMed article classification.
-          (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types)
+          PubMed publication types for this record, verbatim as the E-utilities API returns
+          them (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). Multivalued because
+          PubMed assigns several: every article is `Journal Article`, and design and funding
+          types accumulate on top of it, so a randomized trial comes back as three or four
+          values.
+
+          It decides whether the paper is extracted at all: a record whose types include
+          `Meta-Analysis` is skipped, because its analyses pool published effects rather than
+          measure participants. The gate runs before extraction, on the API metadata, so no text
+          is read for a paper that will be dropped. It is one of two parts -- the title is the
+          other -- and extraction-readme.md gives both with the measured miss rates.
       groups:
         in_subset: [mvp, model_extracted]
         range: Group
@@ -147,3 +160,59 @@ classes:
         in_subset: [model_extracted]
         range: uri
         description: Optional landing-page, repository, or direct-access URL for the dataset.
+
+enums:
+
+  StudyType:
+    in_subset: [mvp, deterministic]
+    description: >-
+      PubMed publication types, spelled as the E-utilities API returns them so that a value
+      needs no translation. Listed here are the design-relevant types observed in the
+      development corpus; PubMed also returns funding types such as "Research Support,
+      Non-U.S. Gov't", and the vocabulary is open, so those and any unlisted type pass through
+      verbatim.
+    permissible_values:
+      "Journal Article":
+        in_subset: [mvp, deterministic]
+        description: Assigned to every article; carries no design information on its own.
+      "Meta-Analysis":
+        in_subset: [mvp, deterministic]
+        description: >-
+          A quantitative synthesis of published results, and the one value that stops
+          extraction. Its analyses have no sample, acquisition, or measure of their own, so the
+          paper is skipped rather than recorded with a fabricated cohort. 2.8% of sampled corpus
+          records carry this type. The label alone misses roughly one in eleven genuine
+          meta-analyses, so the gate pairs it with a title check and treats an unindexed record
+          as unknown; see extraction-readme.md.
+      "Systematic Review":
+        in_subset: [mvp, deterministic]
+        description: A structured synthesis with a search protocol but no pooled effect estimate.
+      "Review":
+        in_subset: [mvp, deterministic]
+        description: A review without a systematic search protocol.
+      "Randomized Controlled Trial":
+        in_subset: [mvp, deterministic]
+      "Clinical Trial":
+        in_subset: [mvp, deterministic]
+      "Observational Study":
+        in_subset: [mvp, deterministic]
+      "Comparative Study":
+        in_subset: [mvp, deterministic]
+      "Multicenter Study":
+        in_subset: [mvp, deterministic]
+      "Validation Study":
+        in_subset: [mvp, deterministic]
+      "Case Reports":
+        in_subset: [mvp, deterministic]
+        description: PubMed's spelling is plural.
+      "Editorial":
+        in_subset: [mvp, deterministic]
+      "Letter":
+        in_subset: [mvp, deterministic]
+      "Comment":
+        in_subset: [mvp, deterministic]
+      "Preprint":
+        in_subset: [mvp, deterministic]
+      "Retracted Publication":
+        in_subset: [mvp, deterministic]
+        description: Worth carrying so a retracted record can be excluded downstream.

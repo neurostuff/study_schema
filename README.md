@@ -79,6 +79,14 @@ Name the files: a bare `pytest` at the root tries to collect the vendored `label
 checkout and errors.
 
 
+## Documents
+
+| File | What it holds |
+|---|---|
+| [extraction-readme.md](extraction-readme.md) | Rules the schema cannot state: the gates that skip a paper, extraction conventions, validator invariants, mapper responsibilities, and known limits |
+| [storage-schema-design-notes.md](storage-schema-design-notes.md) | Why the storage schema is shaped the way it is |
+| [storage-schema-expressivity-probe.md](storage-schema-expressivity-probe.md) | Measured expressivity gaps against 25 corpus papers, with options |
+
 # Ideation about LLM extraction workflow
 
 | LLM entity identification | Emit |
