@@ -1,0 +1,1286 @@
+{
+ "case_id": "nmb_28131862",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "schema",
+ "tag": "schema",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "openai-api",
+   "extractor_version": "1.0",
+   "source_text_hash": "",
+   "extraction_date": "2026-08-04",
+   "paper_sections": [
+    {
+     "ordinal": 0,
+     "title": "Evidence accumulation detected in BOLD signal using slow perceptual decision making",
+     "level": 0,
+     "start_char": 0,
+     "end_char": -1
+    },
+    {
+     "ordinal": 1,
+     "title": "Introduction",
+     "level": 1,
+     "parent_section": "Evidence accumulation detected in BOLD signal using slow perceptual decision making",
+     "start_char": 0,
+     "end_char": -1
+    },
+    {
+     "ordinal": 2,
+     "title": "Materials and methods",
+     "level": 1,
+     "parent_section": "Evidence accumulation detected in BOLD signal using slow perceptual decision making",
+     "start_char": 0,
+     "end_char": -1
+    },
+    {
+     "ordinal": 3,
+     "title": "Motion discrimination task",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": -1
+    },
+    {
+     "ordinal": 4,
+     "title": "Slowing down decision time",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": -1
+    },
+    {
+     "ordinal": 5,
+     "title": "Control task",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": -1
+    },
+    {
+     "ordinal": 6,
+     "title": "Participants",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": -1
+    },
+    {
+     "ordinal": 7,
+     "title": "DDM model fits",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": -1
+    },
+    {
+     "ordinal": 8,
+     "title": "Data acquisition and preprocessing",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": -1
+    },
+    {
+     "ordinal": 9,
+     "title": "General linear model",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": -1
+    },
+    {
+     "ordinal": 10,
+     "title": "Results",
+     "level": 1,
+     "parent_section": "Evidence accumulation detected in BOLD signal using slow perceptual decision making",
+     "start_char": 0,
+     "end_char": -1
+    },
+    {
+     "ordinal": 11,
+     "title": "Behavioral results",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": -1
+    },
+    {
+     "ordinal": 12,
+     "title": "GLM results",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": -1
+    },
+    {
+     "ordinal": 13,
+     "title": "Discussion",
+     "level": 1,
+     "parent_section": "Evidence accumulation detected in BOLD signal using slow perceptual decision making",
+     "start_char": 0,
+     "end_char": -1
+    }
+   ]
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study tested whether perceptual evidence accumulation could be observed in BOLD fMRI by slowing decisions with penalties for incorrect responses and separating detection-related boxcar activity from integration-related ramping activity.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "We assessed whether evidence accumulation could be observed in the BOLD signal during perceptual decision making."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Participants performed a slow, event-related random dot motion discrimination task and a matched control task while undergoing fMRI; GLM up-ramp and down-ramp regressors were compared between tasks.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "We used a control condition in which stimuli and responses were similar to the experimental condition, but that did not engage evidence accumulation of the stimuli."
+       },
+       {
+        "text": "We performed a multiple linear regression that was designed to distinguish two component processes involved in perceptual decision making: detection and integration."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [],
+  "assessments": [],
+  "terms": [
+   {
+    "local_id": "term_task",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "task type",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We performed a three-factor repeated measures ANOVA on beta-weights from our GLM analysis, with task type (dots vs. arrows), ramp regressor type (up-ramp vs. down ramp), and participants (modeled as random effects; AFNI\u2019s 3dANOVA3) as our factors (see Methods)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [
+     "cond_dots",
+     "cond_arrows"
+    ],
+    "groups": []
+   },
+   {
+    "local_id": "term_ramp",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ramp regressor type",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We performed a three-factor repeated measures ANOVA on beta-weights from our GLM analysis, with task type (dots vs. arrows), ramp regressor type (up-ramp vs. down ramp), and participants (modeled as random effects; AFNI\u2019s 3dANOVA3) as our factors (see Methods)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [],
+    "groups": [],
+    "levels": [
+     {
+      "extraction_status": "extracted",
+      "value": "up-ramp",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We used only up-ramp and down-ramp regressors in order to minimize collinearity and thereby reliably distinguish ramping activity from boxcar activity."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "down-ramp",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We used only up-ramp and down-ramp regressors in order to minimize collinearity and thereby reliably distinguish ramping activity from boxcar activity."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "participants",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "participants",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We recruited a total of 30 participants (13 females, mean age: 22.7, range: 17.5-38.4)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants recruited from the Princeton community.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants were recruited from the Princeton community and paid $20 per hour, plus a performance bonus based on the number of points they acquired during the experimental task."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "20",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "10 participants were removed from the experiment because they failed to finish the pre-fMRI behavioral training sessions (9) or fell asleep in the scanner (1)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "excluded_count": {
+     "extraction_status": "extracted",
+     "value": "10",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "10 participants were removed from the experiment because they failed to finish the pre-fMRI behavioral training sessions (9) or fell asleep in the scanner (1)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "22.7",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We recruited a total of 30 participants (13 females, mean age: 22.7, range: 17.5-38.4)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "17.5",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We recruited a total of 30 participants (13 females, mean age: 22.7, range: 17.5-38.4)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "38.4",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We recruited a total of 30 participants (13 females, mean age: 22.7, range: 17.5-38.4)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "females",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "We recruited a total of 30 participants (13 females, mean age: 22.7, range: 17.5-38.4)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "13",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "We recruited a total of 30 participants (13 females, mean age: 22.7, range: 17.5-38.4)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "clinical_characteristics": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_motion",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "Motion discrimination task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "2.1. Motion discrimination task"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants judged the net direction of a cloud of randomly moving dots and responded bimanually with a button box.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants engaged in a visual decision making task in which they judged the net direction (leftward or rightward) of a cloud of randomly moving dots (Fig. 1A), indicating responses bimanually with a button box."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "cond_dots",
+     "cond_arrows"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Each trial began with the onset of moving dots, and participants were free to respond at any time."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "PsychToolbox",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The experiment presentation code was written in PsychToolbox (Brainard, 1997)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "Random dot kinematograms with a subset of dots moving coherently left or right.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A subset of dots moved coherently either to the left or to the right on each trial, whereas the remainder of dots were distractors that jumped randomly from frame to frame."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_bold",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "fMRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subsequently, whole brain, BOLD-weighted echo-planar images were acquired parallel to the anterior commissure-posterior commissure line with a repetition time of 2 s and echo time of 30 milliseconds while participants performed the task."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3 T Siemens (Munich, Germany) Allegra scanner",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Scanning was performed on a 3 T Siemens (Munich, Germany) Allegra scanner."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Whole-brain BOLD-weighted echo-planar images were acquired; functional images consisted of 64 \u00d7 64 \u00d7 34 voxels, 3 \u00d7 3 \u00d7 4 mm in size.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subsequently, whole brain, BOLD-weighted echo-planar images were acquired parallel to the anterior commissure-posterior commissure line with a repetition time of 2 s and echo time of 30 milliseconds while participants performed the task."
+         },
+         {
+          "text": "These images consisted of 64 \u00d7 64 \u00d7 34 voxels, 3 \u00d7 3 x 4 mm in size."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3 T",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Scanning was performed on a 3 T Siemens (Munich, Germany) Allegra scanner."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "echo-planar images",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Subsequently, whole brain, BOLD-weighted echo-planar images were acquired parallel to the anterior commissure-posterior commissure line with a repetition time of 2 s and echo time of 30 milliseconds while participants performed the task."
+          }
+         ]
+        }
+       ]
+      },
+      "repetition_time_seconds": {
+       "extraction_status": "extracted",
+       "value": "2",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Subsequently, whole brain, BOLD-weighted echo-planar images were acquired parallel to the anterior commissure-posterior commissure line with a repetition time of 2 s and echo time of 30 milliseconds while participants performed the task."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "echo_time_seconds": [
+       {
+        "extraction_status": "extracted",
+        "value": "0.03",
+        "value_source": "generated",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Subsequently, whole brain, BOLD-weighted echo-planar images were acquired parallel to the anterior commissure-posterior commissure line with a repetition time of 2 s and echo time of 30 milliseconds while participants performed the task."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      ],
+      "acquisition_voxel_size_mm": [
+       {
+        "extraction_status": "extracted",
+        "value": "3 \u00d7 3 \u00d7 4 mm",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "These images consisted of 64 \u00d7 64 \u00d7 34 voxels, 3 \u00d7 3 x 4 mm in size."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "acq_mprage",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "MRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "First an anatomical scan with voxel size 1 \u00d7 0.5 \u00d7 0.5 mm was acquired using an MPRAGE sequence."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3 T Siemens (Munich, Germany) Allegra scanner",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Scanning was performed on a 3 T Siemens (Munich, Germany) Allegra scanner."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3 T",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Scanning was performed on a 3 T Siemens (Munich, Germany) Allegra scanner."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "MPRAGE",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "First an anatomical scan with voxel size 1 \u00d7 0.5 \u00d7 0.5 mm was acquired using an MPRAGE sequence."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": [
+      {
+       "extraction_status": "extracted",
+       "value": "1 \u00d7 0.5 \u00d7 0.5 mm",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "First an anatomical scan with voxel size 1 \u00d7 0.5 \u00d7 0.5 mm was acquired using an MPRAGE sequence."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_afni",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Functional images were aligned, slice-time corrected, normalized to Montreal Neurological Institute coordinates, resampled, smoothed, and scaled.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Functional images were first aligned to correct for head movement during the scan. Slice timing correction was then performed using sine interpolation. Images were subsequently normalized to Montreal Neurological Institute coordinates (the TT_N27 template) and resampled at 3 \u00d7 3 x 3 mm3 resolution. A Gaussian smoothing kernel of 4 mm full-width at half-maximum (FWHM) was applied to improve comparison across subjects, and finally, all time series were scaled to have a mean signal value of 100."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "AFNI (Cox, 1996)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We used AFNI (Cox, 1996) to preprocess the fMRI data."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "head-motion alignment; slice timing correction using sine interpolation; normalization to Montreal Neurological Institute coordinates; resampling at 3 \u00d7 3 \u00d7 3 mm3; Gaussian smoothing with 4 mm FWHM; scaling time series to mean 100",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional images were first aligned to correct for head movement during the scan. Slice timing correction was then performed using sine interpolation. Images were subsequently normalized to Montreal Neurological Institute coordinates (the TT_N27 template) and resampled at 3 \u00d7 3 x 3 mm3 resolution. A Gaussian smoothing kernel of 4 mm full-width at half-maximum (FWHM) was applied to improve comparison across subjects, and finally, all time series were scaled to have a mean signal value of 100."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "multiple linear regression",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We performed a multiple linear regression that was designed to distinguish two component processes involved in perceptual decision making: detection and integration."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "convolved with the hemodynamic response function",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Our fMRI analysis used up-ramp and down-ramp regressors, the length of which were determined by the dot motion viewing time for each trial, convolved with the hemodynamic response function."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Ten regressors: up-ramp and down-ramp regressors for dots and arrows trials, plus six motion-correction regressors; third-order polynomial baseline detrending on each twenty-minute scanner run.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In total, our GLM had ten regressors for each participant: the up-ramp for the experimental motion discrimination (\u201cdots\u201d) trials, the up-ramp for the control condition (\u201carrows\u201d) trials, the down-ramp for dots trials, the down-ramp for arrows trials, and six standard motion-correction regressors."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "voxel-wise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For each participant we fit the convolved up-ramp and down-ramp regressors to the voxel-wise BOLD fMRI data"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "multiple linear regression (AFNI\u2019s 3dDeconvolve)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For each participant we fit the convolved up-ramp and down-ramp regressors to the voxel-wise BOLD fMRI data (with third-order polynomial baseline detrending on each twenty-minute scanner run) using multiple linear regression (AFNI\u2019s 3dDeconvolve)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "AFNI\u2019s 3dDeconvolve; AFNI\u2019s 3dANOVA3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For each participant we fit the convolved up-ramp and down-ramp regressors to the voxel-wise BOLD fMRI data (with third-order polynomial baseline detrending on each twenty-minute scanner run) using multiple linear regression (AFNI\u2019s 3dDeconvolve)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "ana_accumulation",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Areas involved in evidence accumulation",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We used two criteria to identify areas of the brain involved in evidence accumulation"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subsequently, whole brain, BOLD-weighted echo-planar images were acquired"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We identified voxels for which there was a significant main effect of condition on beta-weights"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [
+     {
+      "local_id": "cond_dots",
+      "name": {
+       "extraction_status": "extracted",
+       "value": "dots",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For shorthand, we often refer to the control task as the \u201carrows\u201d task, and the motion discrimination task as the \u201cdots\u201d task."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "description": {
+       "extraction_status": "extracted",
+       "value": "Motion discrimination trials with coherent dot motion, requiring participants to judge leftward or rightward direction.",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "A subset of dots moved coherently either to the left or to the right on each trial"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "condition_kind": {
+       "extraction_status": "extracted",
+       "value": "task state",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      }
+     },
+     {
+      "local_id": "cond_arrows",
+      "name": {
+       "extraction_status": "extracted",
+       "value": "arrows",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For shorthand, we often refer to the control task as the \u201carrows\u201d task, and the motion discrimination task as the \u201cdots\u201d task."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "description": {
+       "extraction_status": "extracted",
+       "value": "Control trials with 0% coherent motion followed by a yellow arrow indicating the response direction.",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Each control trial started with random dot motion (with 0% coherence), followed by a yellow arrow (approximately 2 \u00d7 2 inches, located in the center of the screen) indicating the direction to which a participant should respond."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "condition_kind": {
+       "extraction_status": "extracted",
+       "value": "control task",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "We used a control task in which no evidence accumulation of moving dots could take place"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "tables": [
+     {
+      "local_id": "tbl1",
+      "table_number": {
+       "extraction_status": "extracted",
+       "value": "Table 1",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Table 1. Drift Diffusion Model parameter estimates."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "title": {
+       "extraction_status": "extracted",
+       "value": "Drift Diffusion Model parameter estimates",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Table 1. Drift Diffusion Model parameter estimates. For each parameter, the mean and standard error across participants is shown for low coherence trials and high coherence trials."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "caption": {
+       "extraction_status": "extracted",
+       "value": "Table 1. Drift Diffusion Model parameter estimates. For each parameter, the mean and standard error across participants is shown for low coherence trials and high coherence trials. The very low estimates for non-decision times likely reflect the fact that estimates of these are generally in the sub-second range, which represents a substantially smaller fraction of the unusually long decision times in this dataset. Nevertheless, fits give quite a reasonable description of the response time distributions (see Fig. S1 for an assessment of model fit quality by means of expected versus observed quantile plots).",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Table 1. Drift Diffusion Model parameter estimates. For each parameter, the mean and standard error across participants is shown for low coherence trials and high coherence trials. The very low estimates for non-decision times likely reflect the fact that estimates of these are generally in the sub-second range, which represents a substantially smaller fraction of the unusually long decision times in this dataset. Nevertheless, fits give quite a reasonable description of the response time distributions (see Fig. S1 for an assessment of model fit quality by means of expected versus observed quantile plots)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "description": {
+       "extraction_status": "extracted",
+       "value": "Reports drift diffusion model parameter estimates for low- and high-coherence trials.",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Table 1 shows the estimates of the drift parameter"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "local_id": "tbl2",
+      "table_number": {
+       "extraction_status": "extracted",
+       "value": "Table 2",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Table 2. Areas showing both a main effect of trial type (dots vs. arrows) and an interaction between trial type and ramp regressor type (up-ramp vs. down-ramp) in GLM parameter estimates."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "title": {
+       "extraction_status": "extracted",
+       "value": "Areas showing both a main effect of trial type (dots vs. arrows) and an interaction between trial type and ramp regressor type (up-ramp vs. down-ramp) in GLM parameter estimates.",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Table 2. Areas showing both a main effect of trial type (dots vs. arrows) and an interaction between trial type and ramp regressor type (up-ramp vs. down-ramp) in GLM parameter estimates."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "description": {
+       "extraction_status": "extracted",
+       "value": "Reports the name, voxel size, and center-of-mass location of fourteen clusters.",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Table 2 shows the name, voxel size, and center-of-mass location of all fourteen clusters."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 20684,
+  "completion": 7260,
+  "reasoning": 60,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 30122,
+ "service_tier_echo": "flex"
+}

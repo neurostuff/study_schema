@@ -1,0 +1,3339 @@
+{
+ "case_id": "nmb_17923164",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 2,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "a_ptsd_nonptsd",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Comparison of gray matter volume between breast cancer survivors with PTSD and those without PTSD at the baseline investigation",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For group comparisons, differences in gray matter volume at the time of the baseline investigation were compared between the cancer survivors with PTSD and those without PTSD or the healthy subjects using an analysis of covariance (ANCOVA) with a basic SPM2 model and age, accumulated alcohol consumption, and total gray matter volume as nuisance variables."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "throughout the brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "With the hypothesis that the gray matter volume of the limbic system or the PFC is smaller in breast cancer survivors with PTSD than in those without PTSD or healthy subjects, we used VBM to explore structural alterations throughout the brains of patients with cancer-related PTSD."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Using voxel-based morphometry, the gray matter volume (GMV) of the cancer survivors with PTSD was compared with the GMVs of those without PTSD and of the healthy subjects."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_mri"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [
+     "term_diagnosis",
+     "term_age",
+     "term_alcohol",
+     "term_totalgmv"
+    ],
+    "model_estimation": "me_ancova",
+    "groups": [
+     {
+      "group": "g_ptsd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The GMV of the right orbitofrontal cortex (OFC) was significantly smaller in cancer survivors with PTSD than in those without PTSD or healthy subjects."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "14",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Of these 114 patients, 14 (12%) met the criteria for PTSD (current: 4 and past: 10)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_nonptsd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The GMV of the right orbitofrontal cortex (OFC) was significantly smaller in cancer survivors with PTSD than in those without PTSD or healthy subjects."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "100",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Of the other 100 patients, 12 (12%) have met 1 or 2 PTSD criteria of reexperience, avoidance, and hyperarousal symptoms in the past."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "gray matter volume in breast cancer survivors with PTSD minus gray matter volume in survivors without PTSD",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The area found to have a smaller gray matter volume in breast cancer survivors with PTSD than in those without PTSD is shown in Fig. 1"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Using voxel-based morphometry, the gray matter volume (GMV) of the cancer survivors with PTSD was compared with the GMVs of those without PTSD and of the healthy subjects."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Peak coordinate [x, y, z (mm)] = (17, 48, -38), k = 295, t = 3.60, d.f. = 109, p < 0.001"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": "109",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Peak coordinate [x, y, z (mm)] = (17, 48, -38), k = 295, t = 3.60, d.f. = 109, p < 0.001"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "survivors without PTSD",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The area found to have a smaller gray matter volume in breast cancer survivors with PTSD than in those without PTSD is shown in Fig. 1"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For regions with a hypothesis (amygdala, hippocampus, ACC, and OFC), significance was assumed at an uncorrected p-value of 0.001 and a k-value of 100 to suppress the possibility of small clusters arising by chance."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For regions with a hypothesis (amygdala, hippocampus, ACC, and OFC), significance was assumed at an uncorrected p-value of 0.001 and a k-value of 100 to suppress the possibility of small clusters arising by chance."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected p-value",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For regions with a hypothesis (amygdala, hippocampus, ACC, and OFC), significance was assumed at an uncorrected p-value of 0.001 and a k-value of 100 to suppress the possibility of small clusters arising by chance."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 100,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For regions with a hypothesis (amygdala, hippocampus, ACC, and OFC), significance was assumed at an uncorrected p-value of 0.001 and a k-value of 100 to suppress the possibility of small clusters arising by chance."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "false discovery rate (FDR) approach; small volume correction (SVC)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Significance levels were set at a p-value of 0.05 and were corrected for multiple comparisons using the false discovery rate (FDR) approach (Genovese et al., 2002) in regions without a hypothesis."
+          },
+          {
+           "text": "As an additional analysis, a small volume correction (SVC) was applied to correct for multiple comparisons at the bilateral ACC and OFC by using custom-made template."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "regions without a hypothesis; bilateral ACC and OFC",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Significance levels were set at a p-value of 0.05 and were corrected for multiple comparisons using the false discovery rate (FDR) approach (Genovese et al., 2002) in regions without a hypothesis."
+          },
+          {
+           "text": "As an additional analysis, a small volume correction (SVC) was applied to correct for multiple comparisons at the bilateral ACC and OFC by using custom-made template."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Significance levels were set at a p-value of 0.05 and were corrected for multiple comparisons using the false discovery rate (FDR) approach (Genovese et al., 2002) in regions without a hypothesis."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The smaller OFC gray matter volume might indicate a common neurobiological basis for PTSD.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thus, the smaller OFC gray matter volume found in the present study might indicate a common neurobiological basis for PTSD, rather than a mechanism specific to cancer-related PTSD."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_ptsd_healthy",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Comparison of gray matter volume between breast cancer survivors with PTSD and healthy subjects at the baseline investigation",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The area found to have a smaller gray matter volume in breast cancer survivors with PTSD than in healthy subjects is shown in Fig. 2"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "throughout the brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we used VBM to explore structural alterations throughout the brains of patients with cancer-related PTSD."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Using voxel-based morphometry, the gray matter volume (GMV) of the cancer survivors with PTSD was compared with the GMVs of those without PTSD and of the healthy subjects."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_mri"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [
+     "term_diagnosis",
+     "term_age",
+     "term_alcohol",
+     "term_totalgmv"
+    ],
+    "model_estimation": "me_ancova",
+    "groups": [
+     {
+      "group": "g_ptsd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The GMV of the right orbitofrontal cortex (OFC) was significantly smaller in cancer survivors with PTSD than in those without PTSD or healthy subjects."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "14",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Of these 114 patients, 14 (12%) met the criteria for PTSD (current: 4 and past: 10)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_healthy",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The GMV of the right orbitofrontal cortex (OFC) was significantly smaller in cancer survivors with PTSD than in those without PTSD or healthy subjects."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "70",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Seventy healthy subjects participated in the study."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "gray matter volume in breast cancer survivors with PTSD minus gray matter volume in healthy subjects",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The area found to have a smaller gray matter volume in breast cancer survivors with PTSD than in healthy subjects is shown in Fig. 2"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Using voxel-based morphometry, the gray matter volume (GMV) of the cancer survivors with PTSD was compared with the GMVs of those without PTSD and of the healthy subjects."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Peak coordinate [x, y, z (mm)] = (14, 51, -27), k = 735, t = 3.78, d.f. = 79, p < 0.001"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": "79",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Peak coordinate [x, y, z (mm)] = (14, 51, -27), k = 735, t = 3.78, d.f. = 79, p < 0.001"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "healthy subjects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The area found to have a smaller gray matter volume in breast cancer survivors with PTSD than in healthy subjects is shown in Fig. 2"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For regions with a hypothesis (amygdala, hippocampus, ACC, and OFC), significance was assumed at an uncorrected p-value of 0.001 and a k-value of 100 to suppress the possibility of small clusters arising by chance."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For regions with a hypothesis (amygdala, hippocampus, ACC, and OFC), significance was assumed at an uncorrected p-value of 0.001 and a k-value of 100 to suppress the possibility of small clusters arising by chance."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected p-value",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For regions with a hypothesis (amygdala, hippocampus, ACC, and OFC), significance was assumed at an uncorrected p-value of 0.001 and a k-value of 100 to suppress the possibility of small clusters arising by chance."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 100,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For regions with a hypothesis (amygdala, hippocampus, ACC, and OFC), significance was assumed at an uncorrected p-value of 0.001 and a k-value of 100 to suppress the possibility of small clusters arising by chance."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "small volume correction (SVC)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "significant difference found in comparison between cancer survivors with PTSD and healthy subjects survived a SVC"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "bilateral ACC and OFC",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "As an additional analysis, a small volume correction (SVC) was applied to correct for multiple comparisons at the bilateral ACC and OFC by using custom-made template."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "significant difference found in comparison between cancer survivors with PTSD and healthy subjects survived a SVC {Peak coordinate [x, y, z (mm)] = (14, 51, -27), k = 708, t = 3.78, d.f. = 79, corrected p = 0.039}."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The smaller OFC gray matter volume might indicate a common neurobiological basis for PTSD.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thus, the smaller OFC gray matter volume found in the present study might indicate a common neurobiological basis for PTSD, rather than a mechanism specific to cancer-related PTSD."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_ies_total",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Correlation of right BA11 gray matter volume with total IES score",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Among the cancer survivors with PTSD (n = 14), significant negative correlations were observed between the right BA11 gray matter volume and the total IES score and the Intrusion subscale score, as shown in Table 2."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "region of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The ROI was set within areas that were detected to be significantly smaller in cancer survivors with PTSD than in those without PTSD at the baseline investigation."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "region of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The ROI was set within areas that were detected to be significantly smaller in cancer survivors with PTSD than in those without PTSD at the baseline investigation."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "areas detected to be significantly smaller in cancer survivors with PTSD than in those without PTSD at baseline",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The ROI was set within areas that were detected to be significantly smaller in cancer survivors with PTSD than in those without PTSD at the baseline investigation."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "right BA11",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Controlling for age, accumulated alcohol consumption, and total gray matter volume. Right BA11 gray matter volume is located at {Peak coordinate [x, y, z (mm)] = (17, 48, -38), k = 295}."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_mri"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [
+     "term_ies_total",
+     "term_age",
+     "term_alcohol",
+     "term_totalgmv"
+    ],
+    "model_estimation": "me_correlation",
+    "groups": [
+     {
+      "group": "g_ptsd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Among the cancer survivors with PTSD (n = 14), significant negative correlations were observed between the right BA11 gray matter volume and the total IES score and the Intrusion subscale score, as shown in Table 2."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "14",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Among the cancer survivors with PTSD (n = 14), significant negative correlations were observed between the right BA11 gray matter volume and the total IES score and the Intrusion subscale score, as shown in Table 2."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "correlation between right BA11 gray matter volume and total IES score, controlling for age, accumulated alcohol consumption, and total gray matter volume",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We also performed a correlation analysis between regional brain volume and the IES score controlling for age, accumulated alcohol consumption, and total gray matter volume."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "right BA11 gray matter volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Among the cancer survivors with PTSD (n = 14), significant negative correlations were observed between the right BA11 gray matter volume and the total IES score and the Intrusion subscale score, as shown in Table 2."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We also performed a correlation analysis between regional brain volume and the IES score controlling for age, accumulated alcohol consumption, and total gray matter volume."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "assessments": [
+     "ass_ies"
+    ],
+    "inference_settings": {
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Significance levels were set at p < 0.05 (two-tailed)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "A smaller OFC gray matter volume might reflect difficulty in extricating fear-conditioned emotional memories, making emotional experiences easy to retrieve frequently and repeatedly.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a smaller OFC gray matter volume might reflect the difficulty of cancer survivors with PTSD in extricating fear-conditioned emotional memories of their cancer experience; as a result, it may be easy for them to retrieve their emotional experiences frequently and repeatedly."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_ies_intrusion",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Correlation of right BA11 gray matter volume with Intrusion subscale score",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Among the cancer survivors with PTSD (n = 14), significant negative correlations were observed between the right BA11 gray matter volume and the total IES score and the Intrusion subscale score, as shown in Table 2."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "region of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The ROI was set within areas that were detected to be significantly smaller in cancer survivors with PTSD than in those without PTSD at the baseline investigation."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "region of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The ROI was set within areas that were detected to be significantly smaller in cancer survivors with PTSD than in those without PTSD at the baseline investigation."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "areas detected to be significantly smaller in cancer survivors with PTSD than in those without PTSD at baseline",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The ROI was set within areas that were detected to be significantly smaller in cancer survivors with PTSD than in those without PTSD at the baseline investigation."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "right BA11",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Controlling for age, accumulated alcohol consumption, and total gray matter volume. Right BA11 gray matter volume is located at {Peak coordinate [x, y, z (mm)] = (17, 48, -38), k = 295}."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_mri"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [
+     "term_ies_intrusion",
+     "term_age",
+     "term_alcohol",
+     "term_totalgmv"
+    ],
+    "model_estimation": "me_correlation",
+    "groups": [
+     {
+      "group": "g_ptsd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Among the cancer survivors with PTSD (n = 14), significant negative correlations were observed between the right BA11 gray matter volume and the total IES score and the Intrusion subscale score, as shown in Table 2."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "14",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Among the cancer survivors with PTSD (n = 14), significant negative correlations were observed between the right BA11 gray matter volume and the total IES score and the Intrusion subscale score, as shown in Table 2."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "correlation between right BA11 gray matter volume and Intrusion subscale score, controlling for age, accumulated alcohol consumption, and total gray matter volume",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We also performed a correlation analysis between regional brain volume and the IES score controlling for age, accumulated alcohol consumption, and total gray matter volume."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "right BA11 gray matter volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Among the cancer survivors with PTSD (n = 14), significant negative correlations were observed between the right BA11 gray matter volume and the total IES score and the Intrusion subscale score, as shown in Table 2."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We also performed a correlation analysis between regional brain volume and the IES score controlling for age, accumulated alcohol consumption, and total gray matter volume."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "assessments": [
+     "ass_ies"
+    ],
+    "inference_settings": {
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Significance levels were set at p < 0.05 (two-tailed)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The OFC might play an important role in the pathophysiology of PTSD, particularly its intrusive symptoms.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Therefore, the OFC might play an important role in the pathophysiology of PTSD, particularly its intrusive symptoms."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_longitudinal_interaction",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Interaction of TIME and GROUP on right BA11 gray matter volume in breast cancer survivors",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The effect of the interaction between TIME (baseline vs. follow-up) and DIAGNOSIS (PTSD vs. non-PTSD) on the right BA11 gray matter volume was not significant in the analysis using SPSS software (Table 3), as well as in the analysis using SPM2 software."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "region of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "to examine the influence of cancer-related PTSD on the longitudinal course of the brain volume within the ROI"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "region of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "to examine the influence of cancer-related PTSD on the longitudinal course of the brain volume within the ROI"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "right BA11 region detected in the baseline investigation",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The ROI was set within areas that were detected to be significantly smaller in cancer survivors with PTSD than in those without PTSD at the baseline investigation."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "right BA11",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The effect of the interaction between TIME (baseline vs. follow-up) and DIAGNOSIS (PTSD vs. non-PTSD) on the right BA11 gray matter volume was not significant"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_mri"
+    ],
+    "experiments": [],
+    "conditions": [
+     "cond_baseline",
+     "cond_followup"
+    ],
+    "terms": [
+     "term_time",
+     "term_diagnosis",
+     "term_time_diagnosis",
+     "term_age",
+     "term_alcohol",
+     "term_totalgmv_baseline",
+     "term_days"
+    ],
+    "model_estimation": "me_longitudinal",
+    "groups": [
+     {
+      "group": "g_ptsd_followup",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Follow-up scans were performed 2 years later in 76 cancer survivors (PTSD, n=9; non-PTSD, n=67)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "9",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "PTSD, n = 9; non-PTSD, n = 67"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_nonptsd_followup",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Follow-up scans were performed 2 years later in 76 cancer survivors (PTSD, n=9; non-PTSD, n=67)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "67",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "PTSD, n = 9; non-PTSD, n = 67"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "TIME \u00d7 DIAGNOSIS interaction on right BA11 gray matter volume",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "TIME (baseline vs. follow-up), DIAGNOSIS (PTSD vs. non-PTSD), and TIME \u00d7 DIAGNOSIS were used as effects on the brain volume within the ROI."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "right BA11 gray matter volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The effect of the interaction between TIME (baseline vs. follow-up) and DIAGNOSIS (PTSD vs. non-PTSD) on the right BA11 gray matter volume was not significant"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "tables": [
+     "tbl3"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Significance levels were set at p < 0.05 (two-tailed)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The OFC gray matter volume does not increase or decrease but remains unaltered across time after the development of cancer-related PTSD.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "This result might imply that the OFC gray matter volume does not increase or decrease but remains unaltered across time after the development of cancer-related PTSD."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1. Demographic characteristics of cancer survivors with PTSD and without PTSD or healthy subjects"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Demographic characteristics of cancer survivors with PTSD and without PTSD or healthy subjects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1. Demographic characteristics of cancer survivors with PTSD and without PTSD or healthy subjects"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Demographic characteristics and group comparisons.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "No significant demographic differences between the breast cancer survivors with PTSD and those without PTSD or the healthy subjects were present (Table 1)."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2. Correlation between right BA11 gray matter volume and IES score in breast cancer survivors with PTSD (n = 14)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Correlation between right BA11 gray matter volume and IES score in breast cancer survivors with PTSD (n = 14)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2. Correlation between right BA11 gray matter volume and IES score in breast cancer survivors with PTSD (n = 14)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "Controlling for age, accumulated alcohol consumption, and total gray matter volume. Right BA11 gray matter volume is located at {Peak coordinate [x, y, z (mm)] = (17, 48, -38), k = 295}.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Controlling for age, accumulated alcohol consumption, and total gray matter volume. Right BA11 gray matter volume is located at {Peak coordinate [x, y, z (mm)] = (17, 48, -38), k = 295}."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3. Interaction of TIME and GROUP on right BA11 gray matter volume in breast cancer survivors (n = 76)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Interaction of TIME and GROUP on right BA11 gray matter volume in breast cancer survivors (n = 76)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3. Interaction of TIME and GROUP on right BA11 gray matter volume in breast cancer survivors (n = 76)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "TIME, baseline or follow-up; GROUP, the presence or absence of PTSD diagnosis; PTSD, n = 9; non-PTSD, n = 67.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "TIME, baseline or follow-up; GROUP, the presence or absence of PTSD diagnosis; PTSD, n = 9; non-PTSD, n = 67."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_baseline",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "baseline",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "scans were taken 3-15 months after breast cancer surgery (baseline investigation)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "timepoint",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "TIME (baseline vs. follow-up)"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "cond_followup",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "follow-up",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Follow-up scans were performed 2 years later"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "timepoint",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "TIME (baseline vs. follow-up)"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_diagnosis",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "DIAGNOSIS",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "TIME (baseline vs. follow-up), DIAGNOSIS (PTSD vs. non-PTSD), and TIME \u00d7 DIAGNOSIS were used as effects on the brain volume within the ROI."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "DIAGNOSIS (PTSD vs. non-PTSD)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The effects of the interactions between the diagnosis and the timing of the GMV measurements were examined."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "groups": [
+     "g_ptsd",
+     "g_nonptsd"
+    ]
+   },
+   {
+    "local_id": "term_age",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "age",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "age, accumulated alcohol consumption, and total gray matter volume as nuisance variables"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "age, accumulated alcohol consumption, and total gray matter volume as nuisance variables"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "age, accumulated alcohol consumption, and total gray matter volume as nuisance variables"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "term_alcohol",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "accumulated alcohol consumption",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "age, accumulated alcohol consumption, and total gray matter volume as nuisance variables"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "age, accumulated alcohol consumption, and total gray matter volume as nuisance variables"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "accumulated alcohol consumption was entered into the analysis model"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "term_totalgmv",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "total gray matter volume",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "age, accumulated alcohol consumption, and total gray matter volume as nuisance variables"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "age, accumulated alcohol consumption, and total gray matter volume as nuisance variables"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "age, accumulated alcohol consumption, and total gray matter volume as nuisance variables"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "term_ies_total",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "total IES score",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "significant negative correlations were observed between the right BA11 gray matter volume and the total IES score"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The IES is a self-reported questionnaire consisting of 15 items"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To measure the PTSD symptomatic responses to the cancer experience, the Impact of Event Scale (IES)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment": "ass_ies"
+   },
+   {
+    "local_id": "term_ies_intrusion",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Intrusion subscale score",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "significant negative correlations were observed between the right BA11 gray matter volume and the total IES score and the Intrusion subscale score"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "7 items assessing intrusion symptoms"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To measure the PTSD symptomatic responses to the cancer experience, the Impact of Event Scale (IES)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment": "ass_ies"
+   },
+   {
+    "local_id": "term_time",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "TIME",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "TIME (baseline vs. follow-up)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "TIME (baseline vs. follow-up)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "TIME (baseline vs. follow-up), DIAGNOSIS (PTSD vs. non-PTSD), and TIME \u00d7 DIAGNOSIS were used as effects on the brain volume within the ROI."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "cond_baseline",
+     "cond_followup"
+    ]
+   },
+   {
+    "local_id": "term_time_diagnosis",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "TIME \u00d7 DIAGNOSIS",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "TIME (baseline vs. follow-up), DIAGNOSIS (PTSD vs. non-PTSD), and TIME \u00d7 DIAGNOSIS were used as effects on the brain volume within the ROI."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "TIME \u00d7 DIAGNOSIS"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The effect of the interaction between TIME (baseline vs. follow-up) and DIAGNOSIS (PTSD vs. non-PTSD) on the right BA11 gray matter volume was not significant"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "interaction_with": [
+     "term_time",
+     "term_diagnosis"
+    ]
+   },
+   {
+    "local_id": "term_totalgmv_baseline",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "total gray matter volume at baseline",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "As covariates, age, accumulated alcohol consumption, total gray matter volume at baseline, and days from baseline to follow-up were included in the analysis."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "total gray matter volume at baseline"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "As covariates, age, accumulated alcohol consumption, total gray matter volume at baseline, and days from baseline to follow-up were included in the analysis."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "term_days",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "days from baseline to follow-up",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "As covariates, age, accumulated alcohol consumption, total gray matter volume at baseline, and days from baseline to follow-up were included in the analysis."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "days from baseline to follow-up"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "As covariates, age, accumulated alcohol consumption, total gray matter volume at baseline, and days from baseline to follow-up were included in the analysis."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_ptsd",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "cancer survivors with PTSD",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Baseline scans using magnetic resonance imaging were performed in 14 cancer survivors with PTSD"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Breast cancer survivors with current or past cancer-related PTSD.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Definition of cancer-related PTSD was PTSD related to the patient's experience of the disclosure of cancer diagnosis and/or receiving distressing anticancer treatment."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Seventy healthy subjects participated in the study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "14",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Of these 114 patients, 14 (12%) met the criteria for PTSD (current: 4 and past: 10)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The other inclusion criteria were (1) a female sex"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "cancer-related post-traumatic stress disorder",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Definition of cancer-related PTSD was PTSD related to the patient's experience of the disclosure of cancer diagnosis and/or receiving distressing anticancer treatment."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "DSM-IV",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "including the clinician version of the Structured Clinical Interview for DSM-IV Axis I Disorders (SCID)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_instrument": [
+     {
+      "extraction_status": "extracted",
+      "value": "Structured Clinical Interview for DSM-IV Axis I Disorders (SCID)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "including the clinician version of the Structured Clinical Interview for DSM-IV Axis I Disorders (SCID)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "all were antidepressant-naive",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "none of the subjects in the present study had a history of substance-related disorders and all were antidepressant-naive."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_nonptsd",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "cancer survivors without PTSD",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Baseline scans using magnetic resonance imaging were performed in 14 cancer survivors with PTSD, 100 without PTSD"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Baseline scans using magnetic resonance imaging were performed in 14 cancer survivors with PTSD, 100 without PTSD"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "100",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Of the other 100 patients"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_healthy",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "healthy subjects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "and 70 healthy subjects."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Seventy healthy subjects participated in the study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "70",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Seventy healthy subjects participated in the study."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_ptsd_followup",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "cancer survivors with PTSD at follow-up",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Follow-up scans were performed 2 years later in 76 cancer survivors (PTSD, n=9; non-PTSD, n=67)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Follow-up scans were performed 2 years later in 76 cancer survivors"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_nonptsd_followup",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "cancer survivors without PTSD at follow-up",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Follow-up scans were performed 2 years later in 76 cancer survivors (PTSD, n=9; non-PTSD, n=67)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Follow-up scans were performed 2 years later in 76 cancer survivors"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "experiments": [],
+  "acquisitions": [
+   {
+    "local_id": "acq_mri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "magnetic resonance imaging",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Baseline scans using magnetic resonance imaging were performed"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "1.5-T MRI unit (Signa Scanner; GE Medical Systems, Milwaukee, Wisconsin)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "MRI scans were performed using a 1.5-T MRI unit (Signa Scanner; GE Medical Systems, Milwaukee, Wisconsin)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Three-dimensional spoiled gradient-recalled acquisition of 1.5-mm contiguous sections; field of view = 230 mm, matrix = 256 \u00d7 256 pixels, TR = 25 ms, TE = 5 ms, and flip angle = 45\u00b0.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "MRI scans were performed using a 1.5-T MRI unit (Signa Scanner; GE Medical Systems, Milwaukee, Wisconsin) with three-dimensional spoiled gradient-recalled acquisition of 1.5-mm contiguous sections under the following conditions: field of view = 230 mm, matrix = 256 \u00d7 256 pixels, repetition time (TR) = 25 ms, echo time (TE) = 5 ms, and flip angle = 45\u00b0."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": 1.5,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "using a 1.5-T MRI unit"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "three-dimensional spoiled gradient-recalled acquisition",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "with three-dimensional spoiled gradient-recalled acquisition"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": 0.025,
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "repetition time (TR) = 25 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": [
+       0.005
+      ],
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "echo time (TE) = 5 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": [
+       1.5,
+       1.5,
+       1.5
+      ],
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "three-dimensional spoiled gradient-recalled acquisition of 1.5-mm contiguous sections"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_vbm",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "VBM was performed using an optimized method. Scans were spatially normalized to a customized template, segmented into gray and white matter, modulated, and smoothed with 12-mm FWHM Gaussian kernel.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All the scans were spatially normalized to the customized template, then smoothed with an 8-mm, full-width maximum (FWHM) smoothing kernel, followed by averaging to create a customized template."
+         },
+         {
+          "text": "Finally, the images were smoothed using a 12-mm FWHM Gaussian kernel."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM2",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "VBM using Statistical Parametric Mapping (SPM) two software"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "created an optimized study-specific template set",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "First, an optimized study-specific template set consisting of a T1 image and a priori gray, white, and cerebrospinal fluid images was created for the VBM analysis."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "spatial normalization to customized template",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the scans were spatially normalized to the customized template"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "segmentation into gray matter and white matter",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The images were then segmented into gray matter and white matter"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "modulation to correct for volume changes during spatial normalization",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "These segments were then modulated to correct for volume changes occurring during spatial normalization."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "12-mm FWHM Gaussian smoothing",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Finally, the images were smoothed using a 12-mm FWHM Gaussian kernel."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "me_ancova",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "analysis of covariance (ANCOVA)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "using an analysis of covariance (ANCOVA) with a basic SPM2 model"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "age, accumulated alcohol consumption, and total gray matter volume as nuisance variables",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "with age, accumulated alcohol consumption, and total gray matter volume as nuisance variables."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group comparisons",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For group comparisons"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM2",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "using an analysis of covariance (ANCOVA) with a basic SPM2 model"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "local_id": "me_correlation",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "correlation analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We also performed a correlation analysis between regional brain volume and the IES score"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "controlling for age, accumulated alcohol consumption, and total gray matter volume",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We also performed a correlation analysis between regional brain volume and the IES score controlling for age, accumulated alcohol consumption, and total gray matter volume."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPSS software 14.0J",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The correlational analyses, t-tests and \u03c72 tests were performed using SPSS software 14.0J."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "local_id": "me_longitudinal",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "repeated measures mixed model analysis of covariance",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a repeated measures mixed model analysis of covariance was performed using SPSS software 14.0J (SPSS, Inc., Tokyo)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "TIME, DIAGNOSIS, and TIME \u00d7 DIAGNOSIS; covariates were age, accumulated alcohol consumption, total gray matter volume at baseline, and days from baseline to follow-up",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "TIME (baseline vs. follow-up), DIAGNOSIS (PTSD vs. non-PTSD), and TIME \u00d7 DIAGNOSIS were used as effects on the brain volume within the ROI. As covariates, age, accumulated alcohol consumption, total gray matter volume at baseline, and days from baseline to follow-up were included in the analysis."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "longitudinal",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "to examine the influence of cancer-related PTSD on the longitudinal course of the brain volume"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPSS software 14.0J",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "performed using SPSS software 14.0J"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "SPM2 software",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the repeated measures mixed model analysis of covariance was also performed using SPM2 software"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "ass_ies",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Impact of Event Scale (IES)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To measure the PTSD symptomatic responses to the cancer experience, the Impact of Event Scale (IES), which is used worldwide to assess PTSD symptomatic responses to specific traumatic experiences, was used."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "A self-reported questionnaire consisting of 15 items: 7 items assessing intrusion symptoms and 8 items assessing avoidance symptoms. Each item is rated using a 4-point scale.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The IES is a self-reported questionnaire consisting of 15 items: 7 items assessing intrusion symptoms and 8 items assessing avoidance symptoms. Each item is rated using a 4-point scale"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The IES is a self-reported questionnaire"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study investigated structural brain alterations associated with cancer-related PTSD and examined the longitudinal course of gray matter volume in breast cancer survivors.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "We investigated brain structural alterations and the longitudinal courses in patients with cancer-related PTSD."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Baseline and 2-year follow-up structural MRI study comparing breast cancer survivors with PTSD, survivors without PTSD, and healthy subjects; voxel-based morphometry was used for cross-sectional group comparisons, ROI correlations, and longitudinal mixed-model analyses.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "The scans were taken 3-15 months after breast cancer surgery (baseline investigation) and 2 years after the first scan (follow-up investigation)."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [],
+  "extraction_metadata": {
+   "extractor_model": "api-model",
+   "extractor_version": "1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  }
+ },
+ "usage": {
+  "prompt": 17964,
+  "completion": 14057,
+  "reasoning": 106,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 58009,
+ "service_tier_echo": "flex"
+}
