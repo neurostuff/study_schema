@@ -92,7 +92,7 @@ checkout and errors.
 | LLM entity identification | Emit |
 |---|---|
 | `Group` | `local_id`, `name` |
-| `Experiment` | `local_id`, `task_name` |
+| `Task` | `local_id`, `name` |
 | `Acquisition` | `local_id`, `name` |
 | `Preprocessing` | `local_id`, `name` |
 | `StatisticalModel` | `local_id`, `name` |
@@ -110,6 +110,6 @@ independent parsing of tables.
 
 ## Notes
 
-Experiments can have multiple acquisitions, from either
+Tasks can have multiple acquisitions, from either
 simultaneous recordings (EEG+fMRI) for a particular task,
 or from multiple sites/or the scanner changing during data collection. I am not representing the difference on purpose.

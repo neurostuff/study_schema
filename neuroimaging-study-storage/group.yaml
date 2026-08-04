@@ -7,6 +7,7 @@ prefixes:
 imports:
   - linkml:types
   - subsets
+  - design
 default_prefix: neurostudy
 default_range: string
 
@@ -14,17 +15,13 @@ classes:
 
   Group:
     description: >-
-      An aggregate participant group and its reported demographics. The counts here follow the
-      recruitment funnel down to acquisition; how many of the cohort a given analysis included is
-      GroupTerm.n, so the analysed size of a cohort is the sum over its terms rather than a field
-      of its own.
+      An aggregate participant group and its reported demographics.
     attributes:
       id:
         in_subset: [mvp, deterministic]
         range: string
         identifier: true
         required: true
-        description: Stable identifier used by Analysis foreign-key references.
       name:
         in_subset: [mvp, model_extracted]
         range: string
@@ -41,10 +38,19 @@ classes:
           - range: string
         required: true
         description: >-
-          The species of this cohort. Required, and populated for human cohorts as well as
-          animal ones: everything else on this class -- age in years, a DSM-5 diagnosis, a
-          handedness distribution -- reads as human by default, so an empty value cannot be
-          told apart from a question never asked.
+          The species of this cohort.
+      arm:
+        in_subset: [mvp, model_extracted]
+        range: Arm
+        inlined: false
+        description: >-
+          The arm this cohort was allocated to. Groups remain participant
+          cohorts only: this records which allocation the cohort received.
+          Set it whenever a cohort was allocated to an arm;
+          a within-subject comparison of arms is carried by `Effect.arms` instead, and a
+          parallel-group comparison by the directional Group terms. Distinct from
+          `medication_status`, which is the on/off state during acquisition rather than the
+          allocation.
       approached_count:
         in_subset: [model_extracted]
         range: integer
@@ -116,7 +122,7 @@ classes:
         in_subset: [mvp, model_extracted]
         range: float
         minimum_value: 0
-        description: Median participant age when reported instead of or in addition to the mean.
+        description: Median participant age for the group.
       age_unit:
         in_subset: [mvp, model_extracted]
         range: string
@@ -203,7 +209,10 @@ classes:
         in_subset: [mvp, model_extracted]
         range: string
         required: true
-        description: Free-text category label used by the study.
+        description: >-
+          Which bucket of the distribution this entry counts, labelled as the study writes it
+          and not normalized to any external scheme: `female`, `left-handed`, `Hispanic or
+          Latino`.
       count:
         in_subset: [mvp, model_extracted]
         range: integer
@@ -226,9 +235,7 @@ classes:
         description: >-
           The classification system the study used for these categories, in its own
           words, such as the OMB or NIH race and ethnicity categories, a named
-          handedness inventory, or a self-report question's answer set. Free-text
-          categories are only comparable across studies when the scheme behind them is
-          known, which is what this records.
+          handedness inventory, or a self-report question's answer set.
 
 enums:
 

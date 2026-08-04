@@ -1,0 +1,196 @@
+id: https://neurostuff.org/schemas/neuroimaging-study-storage/task
+name: neuroimaging-study-storage-task
+title: Neuroimaging Study Storage Task Module
+description: >-
+  The paradigm participants performed, and the conditions it was made of.
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
+imports:
+  - linkml:types
+  - subsets
+  - acquisition
+  - design
+default_prefix: neurostudy
+default_range: string
+
+classes:
+
+  Task:
+    description: >-
+      A meaningful participant paradigm, such as a task, resting-state protocol,
+      stimulation, or passive viewing, performed in association with an acquisition.
+      A Task record is required wherever the study models conditions, a resting-state
+      protocol included. Acquisitions with no paradigm do not require one, even in a
+      longitudinal or interventional study: a structural comparison across occasions is
+      carried by the Effect's timepoint terms and linked through Analysis.acquisitions.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        range: string
+        identifier: true
+        required: true
+      name:
+        in_subset: [mvp, model_extracted]
+        range: string
+        description: Short, unique label for the task or paradigm; corresponds conceptually to BIDS TaskName
+          when applicable.
+      description:
+        in_subset: [mvp, model_extracted]
+        range: string
+        description: Complete narrative description of what participants experienced and did.
+      conditions:
+        in_subset: [mvp, model_extracted]
+        range: Condition
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The conditions this task was made of. These are the different states/modes of the task.
+      design_type:
+        in_subset: [mvp, model_extracted]
+        range: string
+        description: Design form such as event-related, block, mixed, or naturalistic.
+      acquisitions:
+        in_subset: [mvp, model_extracted]
+        range: Acquisition
+        multivalued: true
+        inlined: false
+        description: >-
+          The acquisition protocols used to collect data for this task.
+          Exclude structural scans unless they are part of the task itself.
+      presentation_software:
+        in_subset: [model_extracted]
+        range: string
+        description: Stimulus-presentation software name, version, and operating system when reported.
+      instructions:
+        in_subset: [model_extracted]
+        range: string
+        description: Task- or paradigm-specific instructions given to participants.
+      stimuli:
+        in_subset: [model_extracted]
+        range: string
+        description: Visuals or other materials presented to participants.
+      response_mode:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: ResponseMode
+          - range: string
+        multivalued: true
+        description: >-
+          How participants responded. Multivalued because a paradigm often collects more than
+          one -- a button press for accuracy and a spoken report afterwards.
+      performance_measures:
+        in_subset: [model_extracted]
+        range: string
+        multivalued: true
+        description: Behavioral variables recorded and summaries used to verify task performance.
+
+  Condition:
+    description: >-
+      A named condition of a task: a modelled state, event type, or baseline that an analysis
+      can contrast against another. Only what happened inside the paradigm -- the occasion the
+      task was run on and the arm it was run under are Timepoints and Arms, and enter an
+      analysis as their own directional terms on the Effect.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        range: string
+        identifier: true
+        required: true
+        description: Stable identifier.
+      name:
+        in_subset: [mvp, model_extracted]
+        range: string
+        required: true
+        description: Short condition label that distinguishes the condition from other task periods or modeled
+          effects.
+      description:
+        in_subset: [mvp, model_extracted]
+        range: string
+        description: Complete definition of the condition, including baseline or control state when relevant.
+      condition_kind:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: ConditionKind
+          - range: string
+        required: true
+        description: >-
+          Whether the condition puts a demand on the participant or is a rest or fixation
+          baseline. Required, with `unstated` when the source leaves it unclear.
+
+enums:
+
+  ConditionKind:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      Whether a condition puts a demand on the participant, or is the rest or fixation state a
+      demand was measured against. The distinction is here because what a condition was
+      contrasted against changes whether two analyses pool: a task against fixation and a task
+      against another task are different comparisons.
+      Open vocabulary: write the source's own wording in the field when nothing here fits.
+    permissible_values:
+      task_state:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A state the participant was put in or a job they were doing -- encoding, retrieval, a
+          motor task, an emotional-regulation block, viewing one class of stimulus rather than
+          another. Whether the demand came from the stimulus or from the instruction is not
+          distinguished.
+      rest:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Rest or fixation, as a modelled condition: a low-level baseline rather than a demand.
+          Distinct from `ArmKind: no_intervention`, which is a trial arm rather than a scanner
+          state, and from a whole resting-state protocol, which is a Task.
+      unstated:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          The source does not make clear whether the condition carried a demand or was a rest
+          baseline.
+
+  ResponseMode:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      How participants responded during a task.
+      Open vocabulary: write the source's own wording in the field when nothing here fits.
+    permissible_values:
+      button_press:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A discrete report on a button box, keypad, keyboard, joystick, or mouse. The
+          commonest response in the literature by a wide margin.
+      hand_movement:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A hand or arm movement that is itself the response rather than a report -- finger
+          tapping, a sequence, grasping, reaching, writing, drawing.
+      speech:
+        in_subset: [mvp, model_extracted]
+        description: An overt vocal response -- naming, reading aloud, answering, generating words.
+      covert_response:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A response made silently and not emitted -- covert naming, subvocal rehearsal,
+          imagined movement, counting to oneself. CogPO's covert response: real, instructed, and
+          unobservable, so no accuracy comes with it.
+      eye_movement:
+        in_subset: [mvp, model_extracted]
+        description: A saccade, antisaccade, smooth pursuit, fixation shift, or instructed blink.
+      foot_or_leg_movement:
+        in_subset: [mvp, model_extracted]
+        description: A pedal press, foot or toe tapping, or ankle or leg movement.
+      oral_nonspeech:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A mouth or airway action that is not speech -- swallowing, chewing, tongue or jaw
+          movement, a breath hold.
+      none:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          The task required no response: passive viewing or listening, film watching, resting
+          state. A positive statement, and not the same as leaving the field empty.
+      unstated:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          The source does not say how participants responded, or whether they responded at all.

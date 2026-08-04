@@ -16,7 +16,7 @@ classes:
     description: >-
       A modality-agnostic protocol used to acquire neuroimaging or associated physiological data, holding only what
       every modality has in common. One Acquisition carries one modality: simultaneous recordings such as EEG+fMRI
-      are separate Acquisition records that an Experiment lists together. Everything modality-specific lives in the
+      are separate Acquisition records that a Task lists together. Everything modality-specific lives in the
       class the Modality value instantiates -- MRI, EEG, FNIRS, PET, or OtherModality.
     attributes:
       id:
@@ -24,7 +24,6 @@ classes:
         range: string
         identifier: true
         required: true
-        description: Stable identifier used by Experiment and Analysis foreign-key references.
       acquisition_type:
         in_subset: [mvp, deterministic]
         range: string
@@ -49,21 +48,10 @@ classes:
           recordings.
       instrument:
         in_subset: [model_extracted]
-        range: string
-        description: Scanner, amplifier, or recording system as reported, including manufacturer and model.
-      description:
-        in_subset: [model_extracted]
-        range: string
-        description: >-
-          Narrative account of the acquisition, holding whatever the source reports that
-          no typed field in this schema accepts. Available on every modality, not only
-          OtherModality.
-      structured_details:
-        in_subset: [model_extracted]
-        range: string
-        description: >-
-          JSON-encoded acquisition parameters that no typed field accepts, when they have
-          structure worth keeping in queryable form.
+        range: Instrument
+        inlined: true
+        description: Scanner, amplifier, or recording system used for this acquisition.
+
   MRI:
     is_a: Acquisition
     description: >-
@@ -251,6 +239,26 @@ classes:
         range: string
         description: >-
           Why this is not an MRI, EEG, FNIRS, or PET record.
+
+  Instrument:
+    description: >-
+      The scanner, amplifier, or recording system an acquisition was made on, split into the
+      two parts a source reliably reports. Either part can be missing: papers name a model with
+      no manufacturer as often as the reverse.
+    attributes:
+      manufacturer:
+        in_subset: [model_extracted]
+        range: string
+        description: >-
+          Company that made the instrument, as reported, such as Siemens, GE, Philips,
+          Brain Products, or NIRx.
+      model:
+        in_subset: [model_extracted]
+        range: string
+        description: >-
+          Model or product name of the instrument, as reported, such as Prisma, Signa,
+          Achieva, or actiCHamp.
+
 enums:
 
   Modality:

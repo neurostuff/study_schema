@@ -13,6 +13,10 @@
 # parse_counts    Parse "N group1 and M group2" prose into GroupSampleSize list.
 #                 One-to-many: one source field → N typed target records.
 # local_id_to_id  Resolve extraction local_id string to storage stable ID.
+# local_id_to_record
+#                 Resolve extraction local_id string to the storage record itself and
+#                 inline it, for a slot whose target owns its children rather than
+#                 referencing them.
 # normalize_enum  Fuzzy-match raw string to closed-vocabulary enum value using
 #                 value_mappings as a lookup table; unmatched values are flagged.
 # api_lookup      Populate a value through an external API lookup.
@@ -38,7 +42,7 @@
 id: https://neurostuff.org/schemas/extraction-to-storage-map
 name: extraction-to-storage-map
 title: Neuroimaging Study Extraction-to-Storage Transformation Map
-version: 0.2.0
+version: 0.3.0
 source_schema: https://neurostuff.org/schemas/neuroimaging-study-extraction
 target_schema: https://neurostuff.org/schemas/neuroimaging-study-storage
 
@@ -63,8 +67,11 @@ class_derivations:
         transform: verbatim
 
       design:
-        populated_from: design.value
-        transform: verbatim
+        transform: derive
+        notes: >-
+          The StudyDesign record, assembled from `Study.design`, `Study.study_design`,
+          `Study.arms` and `Study.timepoints` by the StudyDesign derivation below. Held inline
+          on Study, so there is no identifier to resolve.
 
       authors:
         transform: api_lookup
@@ -163,6 +170,10 @@ class_derivations:
         notes: >-
           Wording this table does not cover passes through verbatim, since the slot accepts free
           text; an absent or empty species becomes `unstated`.
+
+      arm:
+        populated_from: arm
+        transform: local_id_to_id
 
       approached_count:
         populated_from: approached_count.value
@@ -324,25 +335,68 @@ class_derivations:
 
   # ───────────────────────────────────────────────────────────────────────────
 
-  Experiment:
-    populated_from: Experiment
+  CategoryDistribution:
+    populated_from: CategoryDistribution
+    slot_derivations:
+
+      category:
+        populated_from: category.value
+        source_evidence: category.evidence
+        status_field: category.extraction_status
+        transform: verbatim
+        notes: >-
+          The study's own label, not normalized. Required on both sides: the Group
+          distribution slots copy the list, so without this the count would arrive with
+          nothing saying what it counts.
+
+      count:
+        populated_from: count.value
+        source_evidence: count.evidence
+        status_field: count.extraction_status
+        transform: parse_int
+
+      percentage:
+        populated_from: percentage.value
+        source_evidence: percentage.evidence
+        status_field: percentage.extraction_status
+        transform: parse_float
+
+      denominator:
+        populated_from: denominator.value
+        source_evidence: denominator.evidence
+        status_field: denominator.extraction_status
+        transform: parse_int
+
+      reporting_framework:
+        populated_from: reporting_framework.value
+        transform: verbatim
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  Task:
+    populated_from: Task
     slot_derivations:
 
       id:
         transform: generate
 
-      task_name:
-        populated_from: task_name.value
+      name:
+        populated_from: name.value
         transform: verbatim
 
-      task_description:
-        populated_from: task_description.value
+      description:
+        populated_from: description.value
         transform: verbatim
 
       conditions:
         populated_from: conditions
-        transform: local_id_to_id
-        notes: Each string in the list is resolved from extraction local_id to storage Condition.id.
+        transform: local_id_to_record
+        notes: >-
+          Each local_id in the list is resolved against the flat extraction Study.conditions
+          list and the Condition record is inlined here, because storage gives a condition one
+          owning task. Extraction keeps the records flat so the extractor addresses them by
+          local_id from anywhere; a local_id claimed by two tasks is an error the mapper
+          reports rather than duplicating the record.
 
       design_type:
         populated_from: design_type.value
@@ -368,7 +422,7 @@ class_derivations:
         populated_from: acquisitions
         transform: local_id_to_id
         notes: >-
-          Resolves every experiment acquisition local_id to a storage Acquisition
+          Resolves every task acquisition local_id to a storage Acquisition
           ID. Entries may represent simultaneous modalities or site-specific
           variants; structural scans are excluded unless part of the paradigm.
 
@@ -376,12 +430,79 @@ class_derivations:
         populated_from: presentation_software.value
         transform: verbatim
 
+      instructions:
+        populated_from: instructions.value
+        transform: verbatim
+
       stimuli:
         populated_from: stimuli.value
         transform: verbatim
 
-      task_performance_measures:
-        populated_from: task_performance_measures.value
+      response_mode:
+        populated_from: response_mode.value
+        source_evidence: response_mode.evidence
+        status_field: response_mode.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          button press: button_press
+          button-press: button_press
+          button box: button_press
+          keypad: button_press
+          key press: button_press
+          keyboard: button_press
+          response box: button_press
+          joystick: button_press
+          mouse click: button_press
+          finger tapping: hand_movement
+          tapping: hand_movement
+          sequence tapping: hand_movement
+          grasp: hand_movement
+          reaching: hand_movement
+          writing: hand_movement
+          drawing: hand_movement
+          hand movement: hand_movement
+          overt speech: speech
+          speech: speech
+          naming: speech
+          reading aloud: speech
+          vocal response: speech
+          verbal response: speech
+          word generation: speech
+          covert: covert_response
+          covert naming: covert_response
+          silent: covert_response
+          subvocal: covert_response
+          imagined movement: covert_response
+          motor imagery: covert_response
+          mental counting: covert_response
+          saccade: eye_movement
+          antisaccade: eye_movement
+          eye movement: eye_movement
+          smooth pursuit: eye_movement
+          blink: eye_movement
+          pedal press: foot_or_leg_movement
+          foot tapping: foot_or_leg_movement
+          ankle movement: foot_or_leg_movement
+          leg movement: foot_or_leg_movement
+          swallowing: oral_nonspeech
+          chewing: oral_nonspeech
+          tongue movement: oral_nonspeech
+          jaw movement: oral_nonspeech
+          breath hold: oral_nonspeech
+          no response: none
+          passive viewing: none
+          passive listening: none
+          resting state: none
+          film watching: none
+        notes: >-
+          One wording per entry, since the slot is multivalued on both sides. `none` is a
+          positive statement that the paradigm asked for no response and is not the same as an
+          absent value, so do not synthesize it: an empty or absent field stays empty rather
+          than becoming `none` or `unstated`. Wording this table does not cover passes through
+          verbatim.
+
+      performance_measures:
+        populated_from: performance_measures.value
         transform: verbatim
 
   # ───────────────────────────────────────────────────────────────────────────
@@ -458,8 +579,11 @@ class_derivations:
         transform: parse_float
 
       instrument:
-        populated_from: instrument.value
-        transform: verbatim
+        transform: derive
+        notes: >-
+          The Instrument record, split out of the single verbatim `Acquisition.instrument`
+          string by the Instrument derivation below. Held inline on Acquisition, so there is
+          no identifier to resolve.
 
       description:
         populated_from: description.value
@@ -664,6 +788,34 @@ class_derivations:
 
   # ───────────────────────────────────────────────────────────────────────────
 
+  Instrument:
+    populated_from: Acquisition
+    slot_derivations:
+
+      manufacturer:
+        populated_from: instrument.value
+        source_evidence: instrument.evidence
+        status_field: instrument.extraction_status
+        transform: derive
+        notes: >-
+          The manufacturer named in the verbatim instrument string, when it names one:
+          "3T Siemens Prisma" gives Siemens. Extraction keeps the whole phrase in one
+          field because that is how papers write it, so the split happens here. A string
+          naming no company leaves this unset rather than guessing one from the model.
+
+      model:
+        populated_from: instrument.value
+        source_evidence: instrument.evidence
+        status_field: instrument.extraction_status
+        transform: derive
+        notes: >-
+          The model or product name from the same verbatim string: "3T Siemens Prisma"
+          gives Prisma. Field strength, coil count, and other parameters are dropped here,
+          since the modality classes hold them; when the string names nothing beyond a
+          manufacturer, this stays unset.
+
+  # ───────────────────────────────────────────────────────────────────────────
+
   Preprocessing:
     populated_from: Preprocessing
     slot_derivations:
@@ -744,6 +896,14 @@ class_derivations:
           Verbatim by design. This slot is the method detail the ModelFamily enum drops,
           so normalizing it here would lose the only record of it; the normalized value is
           model_family, derived from this same source field.
+
+      hrf_model:
+        populated_from: hrf_model.value
+        transform: verbatim
+        notes: >-
+          Verbatim: the basis set is reported as a name, and the storage slot is a string
+          with no vocabulary to normalize against. Unset for a measure that models no
+          timeseries, which the extractor leaves empty rather than guessing.
 
       model_settings:
         populated_from: model_settings.value
@@ -848,16 +1008,18 @@ class_derivations:
         notes: >-
           Each extraction Acquisition.local_id is resolved to a storage Acquisition.id.
           Source acquisitions are explicit for all analysis types, including structural
-          and diffusion analyses without an Experiment.
+          and diffusion analyses without a Task.
 
       effect:
         transform: derive
         notes: >-
           Assembled rather than copied: extraction holds the effect's parts flat on Analysis,
           because a flat record is what an extractor fills and a nested one is what a query
-          wants. conditions <- conditions, terms <- terms (resolved from Study.terms by
-          local_id), statistic <- statistic, baseline <- baseline, path <- mediation_path, and
-          kind is derived from the term pattern by the derivation table.
+          wants. conditions <- conditions, timepoints <- timepoints, arms <- arms, terms <-
+          terms (resolved from Study.terms by local_id), statistic <- statistic, baseline <-
+          baseline, path <- mediation_path, and kind is derived from the axis pattern. Each of
+          the three directional axes normalizes its `role` through DirectionalRole the same way,
+          and each resolves its entity local_id to a storage identifier.
 
       effect.terms:
         populated_from: terms
@@ -972,19 +1134,17 @@ class_derivations:
           Fallback for the space when the table parse did not recover one. Prefer
           Table.coordinate_space where it is populated; the two disagreeing is a review signal.
 
-      experiments:
+      tasks:
         transform: infer
         notes: >-
-          Algorithm: match the Condition IDs in Analysis.effect.conditions against
-          Experiment.conditions for each experiment in the study.
-          (1) Assign every experiment whose conditions are a superset of a non-empty
-              subset of the analysis conditions.
-          (2) If the analysis has no conditions, leave experiments empty; source data
-            are represented by Analysis.acquisitions.
-          (3) Matching more than one experiment is a normal result now that this slot is
-            multivalued -- a cross-task conjunction or a localizer-plus-main-task
-            analysis genuinely spans paradigms -- so it no longer nulls the link or
-            flags the analysis.
+          Algorithm: take the Condition IDs in Analysis.effect.conditions and assign the
+          distinct Tasks that own them. Exact rather than heuristic, because a condition now
+          belongs to exactly one Task: the superset match this slot used when conditions were
+          study-level is no longer needed.
+          (1) If the analysis has no conditions, leave tasks empty; source data are
+              represented by Analysis.acquisitions.
+          (2) More than one task is a normal result -- a cross-task conjunction or a
+              localizer-plus-main-task analysis genuinely spans paradigms.
           See issue #1.
 
       groups.n:
@@ -1140,12 +1300,155 @@ class_derivations:
           rest: rest
           resting state: rest
           fixation: rest
-          baseline: timepoint
-          pre-treatment: timepoint
-          post-treatment: timepoint
-          follow-up: timepoint
-          session: timepoint
-          timepoint: timepoint
+        notes: >-
+          The vocabulary covers task-level states only, so a condition whose wording names
+          something the participant received or an occasion the data were collected on is a
+          record in the wrong place: it belongs on Analysis.arms or Analysis.timepoints, whose
+          own tables resolve those wordings. Such a value passes through verbatim and is a
+          review signal rather than being coerced. `baseline` is deliberately absent for the
+          same reason -- on its own it is ambiguous between an occasion, a task-model baseline,
+          and a comparator arm. Other uncovered wording also passes through verbatim; an absent
+          or empty value becomes `unstated`.
+
+      id:
+        transform: generate
+
+      name:
+        populated_from: name.value
+        transform: verbatim
+
+      description:
+        populated_from: description.value
+        transform: verbatim
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  StudyDesign:
+    populated_from: Study
+    slot_derivations:
+
+      description:
+        populated_from: design.value
+        source_evidence: design.evidence
+        status_field: design.extraction_status
+        transform: verbatim
+        notes: >-
+          The narrative design paragraph, which was `Study.design` before the design axes
+          became their own records.
+
+      allocation:
+        populated_from: study_design.allocation.value
+        source_evidence: study_design.allocation.evidence
+        status_field: study_design.allocation.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          randomized: randomized
+          randomised: randomized
+          randomly assigned: randomized
+          quasi-randomized: randomized
+          counterbalanced: randomized
+          non-randomized: non_randomized
+          nonrandomized: non_randomized
+          clinician-assigned: non_randomized
+          self-selected: non_randomized
+          open-label single group: single_arm
+          single-arm: single_arm
+          single arm: single_arm
+          all participants received: single_arm
+          observational: not_applicable
+          no intervention administered: not_applicable
+        notes: >-
+          Wording this table does not cover passes through verbatim; an absent or empty value
+          becomes `unstated`.
+
+      assignment_structure:
+        populated_from: study_design.assignment_structure.value
+        source_evidence: study_design.assignment_structure.evidence
+        status_field: study_design.assignment_structure.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          parallel: parallel
+          parallel-group: parallel
+          between-groups: parallel
+          two-arm: parallel
+          crossover: crossover
+          cross-over: crossover
+          within-subject crossover: crossover
+          repeated measures: within_subject
+          within-subject: within_subject
+          pre-post: within_subject
+          longitudinal: within_subject
+          single group: single_group
+          cross-sectional: single_group
+        notes: >-
+          Wording this table does not cover passes through verbatim; an absent or empty value
+          becomes `unstated`. This value is what says whether an arm reference belongs on a
+          Group or on a Condition, so a disagreement between it and where the arms actually
+          landed is worth surfacing for review.
+
+      blinding:
+        populated_from: study_design.blinding.value
+        source_evidence: study_design.blinding.evidence
+        status_field: study_design.blinding.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          open-label: open_label
+          open label: open_label
+          unblinded: open_label
+          single-blind: participant_blind
+          participant-blind: participant_blind
+          subject-blind: participant_blind
+          rater-blind: assessor_blind
+          assessor-blind: assessor_blind
+          observer-blind: assessor_blind
+          double-blind: double_blind
+          double blind: double_blind
+          doubleblind: double_blind
+        notes: >-
+          `single-blind` maps to `participant_blind`, which is the usual meaning, but the term
+          is used both ways; it is worth review when the paper does not say who was blinded.
+          Wording this table does not cover passes through verbatim; an absent or empty value
+          becomes `unstated`.
+
+      arms:
+        populated_from: arms
+        notes: >-
+          The Arm records themselves, from the extraction root. Held inline here because every
+          reference to an Arm elsewhere is by identifier; see the Arm derivation below.
+
+      timepoints:
+        populated_from: timepoints
+        notes: >-
+          The Timepoint records themselves, from the extraction root. Held inline here for the
+          same reason as `arms`; see the Timepoint derivation below.
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  Arm:
+    populated_from: Arm
+    slot_derivations:
+
+      id:
+        transform: generate
+
+      name:
+        populated_from: name.value
+        transform: verbatim
+
+      description:
+        populated_from: description.value
+        transform: verbatim
+
+      agent:
+        populated_from: agent.value
+        transform: verbatim
+
+      arm_kind:
+        populated_from: arm_kind.value
+        source_evidence: arm_kind.evidence
+        status_field: arm_kind.extraction_status
+        transform: normalize_enum
+        value_mappings:
           drug: pharmacological
           drug administration: pharmacological
           infusion: pharmacological
@@ -1153,6 +1456,7 @@ class_derivations:
           TMS: stimulation
           rTMS: stimulation
           tDCS: stimulation
+          tACS: stimulation
           stimulation: stimulation
           training: behavioural_intervention
           therapy: behavioural_intervention
@@ -1171,8 +1475,16 @@ class_derivations:
           wait-list: no_intervention
           no treatment: no_intervention
         notes: >-
-          Wording this table does not cover passes through verbatim; an absent or empty value
-          becomes `unstated`.
+          This table is the one that used to sit on `Condition.condition_kind`, moved here
+          with its target values unchanged: the same wordings resolve to the same strings, on
+          the record that now holds the fact. Wording it does not cover passes through
+          verbatim; an absent or empty value becomes `unstated`.
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  Timepoint:
+    populated_from: Timepoint
+    slot_derivations:
 
       id:
         transform: generate
@@ -1181,9 +1493,43 @@ class_derivations:
         populated_from: name.value
         transform: verbatim
 
-      description:
-        populated_from: description.value
+      order:
+        populated_from: order.value
+        transform: parse_int
+
+      time_from_intervention:
+        populated_from: time_from_intervention.value
         transform: verbatim
+
+      relation_to_intervention:
+        populated_from: relation_to_intervention.value
+        source_evidence: relation_to_intervention.evidence
+        status_field: relation_to_intervention.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          baseline: pre_intervention
+          pre-treatment: pre_intervention
+          pre-intervention: pre_intervention
+          pre: pre_intervention
+          before: pre_intervention
+          on-drug: during_intervention
+          during: during_intervention
+          acute challenge: during_intervention
+          post-treatment: post_intervention
+          post-intervention: post_intervention
+          post: post_intervention
+          after: post_intervention
+          follow-up: post_intervention
+          followup: post_intervention
+          retention: post_intervention
+          single session: single_occasion
+          single scan: single_occasion
+          cross-sectional: single_occasion
+          observational: not_applicable
+        notes: >-
+          `baseline` resolves here, where it is unambiguous, rather than on
+          `Condition.condition_kind`, where it is not. Wording this table does not cover
+          passes through verbatim; an absent or empty value becomes `unstated`.
 
   # ───────────────────────────────────────────────────────────────────────────
 

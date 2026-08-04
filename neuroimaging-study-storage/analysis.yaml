@@ -10,7 +10,8 @@ imports:
   - linkml:types
   - subsets
   - acquisition
-  - experiment
+  - design
+  - task
   - group
   - assessment
   - analysis_enums
@@ -38,11 +39,6 @@ classes:
         range: string
         identifier: true
         required: true
-        description: >-
-          Stable identifier for the analysis. Must be a deterministic function of the
-          source location, so that re-extracting a paper produces the same identifier and
-          externally stored source evidence still joins. A workable recipe is
-          study, table or figure identifier, and analysis label slug or index.
       name:
         in_subset: [mvp, model_extracted]
         range: string
@@ -71,7 +67,7 @@ classes:
           - range: SpatialScope
           - range: string
         required: true
-        description: Spatial domain of the analysis. An inclusion criterion, not preprocessing metadata.
+        description: Spatial domain of the analysis.
       spatial_unit:
         in_subset: [mvp, model_extracted]
         any_of:
@@ -94,8 +90,7 @@ classes:
         in_subset: [model_extracted]
         range: string
         description: >-
-          The atlas, parcellation, or region name, in the source's words. Unset for
-          whole-brain analyses.
+          The atlas, parcellation, or region name, in the source's words.
       measure:
         in_subset: [mvp, model_extracted]
         range: Measure
@@ -110,8 +105,9 @@ classes:
         required: true
         description: >-
           The participant cohorts in the analysis and the side of the comparison each sits
-          on. Groups are participant cohorts only: experimental roles, task states, and
-          time points are Conditions or factor levels.
+          on. Groups are participant cohorts only: a task state is a Condition, an occasion
+          is a Timepoint, an arm the same participants crossed into is an Arm, and each has
+          its own directional term on the Effect.
       effect:
         in_subset: [mvp, model_extracted]
         range: Effect
@@ -137,9 +133,9 @@ classes:
         description: >-
           Acquisition protocols supplying data to this analysis. Structural, diffusion,
           and other non-paradigm analyses are linked directly through this field.
-      experiments:
+      tasks:
         in_subset: [mvp, model_extracted]
-        range: Experiment
+        range: Task
         multivalued: true
         inlined: false
         description: >-
@@ -227,8 +223,7 @@ classes:
       The inferential quantity tested about a map. Applies unchanged to every
       method, so the method and the effect never compete for the same field.
       Estimation facts -- model family, estimator, stage, software -- are not here: they
-      belong to the model that produced the map and live on ModelEstimation, reached
-      through Analysis.model_estimation.
+      belong to the model that produced the map and live on ModelEstimation.
     attributes:
       kind:
         in_subset: [mvp, model_extracted]
@@ -238,9 +233,13 @@ classes:
         required: true
         description: >-
           The kind of effect tested, which follows from which terms carry direction: mark
-          the directions visible in the source and the kind follows. The structural
-          validator recomputes it and rejects contradictions, checking membership in the
-          compatible set where a term pattern admits more than one kind.
+          the directions visible in the source and the kind follows.
+
+          The derivation counts *axes* carrying direction. There are
+          four -- the cohorts on Analysis.groups and the conditions, occasions and arms on
+          this Effect -- and they are treated alike: a primary continuous term makes the
+          effect a modulation or a regression whatever else is directional, one directional
+          axis makes it a contrast, and two or more make it an interaction.
 
           A term pattern matching no kind in the vocabulary takes a short characterization
           of the tested effect instead -- a mediated path, a dose-response curve, a
@@ -272,6 +271,24 @@ classes:
           each sits on. When the map being tested is itself a contrast, its condition terms
           go here with their roles, so the contrast stays queryable whatever the effect
           kind is.
+      timepoints:
+        in_subset: [mvp, model_extracted]
+        range: TimepointTerm
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The occasions entering the effect and the side of the comparison each sits on. This
+          is what makes a pre-post comparison expressible without a task: a longitudinal
+          structural contrast carries two directional timepoint terms and no conditions at all.
+      arms:
+        in_subset: [mvp, model_extracted]
+        range: ArmTerm
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The arms entering the effect and the side of the comparison each sits on. Use it when
+          the same participants passed through several arms; when the arms are separate
+          cohorts, the comparison is between Groups and the allocation is on `Group.arm`.
       terms:
         in_subset: [mvp, model_extracted]
         range: Term
@@ -405,9 +422,9 @@ classes:
           participants for motion or missing data.
   ConditionTerm:
     description: >-
-      One experimental condition entering an effect, and the side of the comparison it
-      sits on. A condition may be an experimental condition, task state, time point,
-      within-subject role, or composite factorial cell.
+      One condition entering an effect, and the side of the comparison it sits on. The
+      condition may be a task state, a rest baseline, an occasion, an arm, a within-subject
+      role, or a composite factorial cell.
     unique_keys:
       condition_per_effect:
         unique_key_slots:
@@ -444,6 +461,84 @@ classes:
           effect an interaction. A factor held constant across the directional terms --
           males only, or a contrast taken within one level of another factor -- does not,
           but record it and its constant level anyway.
+  TimepointTerm:
+    description: >-
+      One occasion entering an effect, and the side of the comparison it sits on. A directional
+      pair of these is what separates a within-person change from a cross-sectional comparison,
+      and it needs no Condition and no Task: a longitudinal structural analysis has occasions
+      but no paradigm.
+    unique_keys:
+      timepoint_per_effect:
+        unique_key_slots:
+          - timepoint
+    attributes:
+      timepoint:
+        in_subset: [mvp, model_extracted]
+        range: Timepoint
+        required: true
+        inlined: false
+        description: >-
+          The occasion this term refers to, by identifier. The occasion's own properties are
+          on the Timepoint record; what is here is its part in this effect.
+      label:
+        in_subset: [model_extracted]
+        range: string
+        description: The source's wording for this occasion in this effect, when it differs from the Timepoint name.
+      role:
+        in_subset: [mvp, model_extracted]
+        range: DirectionalRole
+        required: true
+        description: >-
+          Which side of the comparison this occasion sits on. For a series of follow-ups, mark
+          the extremes greater and lesser, leave intermediate occasions `included`, and keep
+          the ordering in Analysis.definition.
+      factor_levels:
+        in_subset: [model_extracted]
+        range: FactorLevel
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The factorial cell this occasion represents, for a design crossing occasion with
+          another factor. Leave empty for the ordinary case.
+
+  ArmTerm:
+    description: >-
+      One arm entering an effect, and the side of the comparison it sits on. Used for a
+      within-subject comparison of arms, as in a crossover; when the arms are separate cohorts
+      the comparison is carried by GroupTerm and the allocation by `Group.arm`.
+    unique_keys:
+      arm_per_effect:
+        unique_key_slots:
+          - arm
+    attributes:
+      arm:
+        in_subset: [mvp, model_extracted]
+        range: Arm
+        required: true
+        inlined: false
+        description: >-
+          The arm this term refers to, by identifier. The arm's own properties, including what
+          class of thing it delivered, are on the Arm record.
+      label:
+        in_subset: [model_extracted]
+        range: string
+        description: The source's wording for this arm in this effect, when it differs from the Arm name.
+      role:
+        in_subset: [mvp, model_extracted]
+        range: DirectionalRole
+        required: true
+        description: >-
+          Which side of the comparison this arm sits on. A drug marked greater against a
+          placebo marked lesser is what makes the effect a drug-versus-placebo contrast.
+      factor_levels:
+        in_subset: [model_extracted]
+        range: FactorLevel
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The factorial cell this arm represents, for a design crossing arm with another
+          factor. Leave empty for the ordinary case.
+
   FactorLevel:
     description: >-
       One factor and the level of it that an entity represents: which cell of the design a

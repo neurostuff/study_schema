@@ -97,6 +97,13 @@ classes:
       design:
         range: ExtractedString
         description: Verbatim or closely paraphrased study design description.
+      study_design:
+        range: StudyDesign
+        inlined: true
+        description: >-
+          How participants were assigned to what they received, when the paper reports an
+          intervention. Omit it for a purely observational study; the narrative in `design`
+          stands on its own.
       external_datasets:
         range: ExternalDataset
         multivalued: true
@@ -121,8 +128,8 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Participant groups extracted from the paper.
-      experiments:
-        range: Experiment
+      tasks:
+        range: Task
         multivalued: true
         inlined_as_list: true
         description: Tasks or paradigms extracted from the paper.
@@ -150,7 +157,24 @@ classes:
         range: Condition
         multivalued: true
         inlined_as_list: true
-        description: Experimental conditions extracted from the paper.
+        description: >-
+          Conditions extracted from the paper. Tasks refer to them by local_id, so a
+          condition is one record here however many analyses use it; the mapper inlines each
+          one under the task that owns it.
+      arms:
+        range: Arm
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Arm records extracted from the paper. Analyses and Groups refer to them by local_id,
+          so an arm two cohorts were both allocated to is one record here, not two.
+      timepoints:
+        range: Timepoint
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Timepoint records extracted from the paper. Analyses refer to them by local_id, so an
+          occasion several analyses compare across is one record here, not several.
       tables:
         range: Table
         multivalued: true
@@ -166,13 +190,97 @@ classes:
       url:
         range: ExtractedString
         description: Dataset URL as stated in the source, when available.
+  StudyDesign:
+    description: Extracted record of how participants were assigned to what they received.
+    attributes:
+      allocation:
+        range: ExtractedString
+        description: >-
+          How participants came to be in the arm they were in, verbatim or as judged --
+          randomized, quasi-randomized, assigned by clinician or by self-selection, or a
+          single-arm study where there was nothing to allocate; mapper normalizes.
+      assignment_structure:
+        range: ExtractedString
+        description: >-
+          Whether the arms were separate cohorts or the same participants passing through
+          several arms, verbatim or as judged -- parallel-group, crossover, a within-subject
+          pre-post design, or a single group measured once; mapper normalizes. This is what
+          decides whether an arm is recorded on a Group or on a Condition.
+      blinding:
+        range: ExtractedString
+        description: >-
+          Who was kept unaware of the assignment, verbatim or as judged -- open-label,
+          participant-blind, assessor- or rater-blind, or double-blind; mapper normalizes.
+  Arm:
+    description: Extracted record of one thing participants were assigned to receive.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: >-
+          Short label assigned by the extractor (e.g., "active_tdcs", "placebo"). Used for
+          cross-references in Condition and Group records; the mapper resolves it to a stable
+          storage ID.
+      name:
+        range: ExtractedString
+        required: true
+        description: Arm label as stated in the paper.
+      description:
+        range: ExtractedString
+        description: Definition of what this arm received, verbatim.
+      arm_kind:
+        range: ExtractedString
+        required: true
+        description: >-
+          What class of thing this arm received, verbatim or as judged -- a drug, brain
+          stimulation, a training or therapy programme, or a comparator such as a placebo, a
+          sham, an active comparator, usual care, or no intervention; mapper normalizes. Type
+          the comparator as carefully as the manipulation: a drug against an active comparator
+          is not the same comparison as a drug against a placebo.
+      agent:
+        range: ExtractedString
+        description: >-
+          The drug, agent, or stimulation target, as the paper names it. The name only -- dose,
+          route, and schedule are deliberately not extracted.
+  Timepoint:
+    description: Extracted record of one occasion on which data were collected.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: >-
+          Short label assigned by the extractor (e.g., "baseline", "post_6wk"). Used for
+          cross-references in Condition records; the mapper resolves it to a stable storage ID.
+      name:
+        range: ExtractedString
+        required: true
+        description: Occasion label as stated in the paper, such as baseline, post-treatment, or 6-month follow-up.
+      relation_to_intervention:
+        range: ExtractedString
+        required: true
+        description: >-
+          Where this occasion sat relative to the intervention, verbatim or as judged --
+          before, during (a scan under an acute challenge), after, or a later follow-up; mapper
+          normalizes. Say so when the study collected data once, or when it collected data
+          repeatedly with nothing administered, rather than leaving it out.
+      order:
+        range: ExtractedInteger
+        description: >-
+          Position of this occasion in the study's sequence, counting from 1; mapper parses to
+          integer. Extract it when several occasions share a relation to the intervention.
+      time_from_intervention:
+        range: ExtractedString
+        description: >-
+          Elapsed time between the intervention and this occasion, in the paper's own words and
+          units (e.g., "24 h", "6 weeks"). Extracted although other delivery timing is not,
+          because a same-day and a one-year follow-up are not comparable.
   Group:
     description: An extracted participant group record. Source-derived attributes are ExtractedValues; local_id is a generated document-local identifier.
     attributes:
       local_id:
         range: string
         required: true
-        description: Short label assigned by the extractor, unique within this extraction document (e.g., "hc", "pd_patients"). Used for cross-references in Analysis and Experiment records. The mapper resolves these to stable storage IDs.
+        description: Short label assigned by the extractor, unique within this extraction document (e.g., "hc", "pd_patients"). Used for cross-references in Analysis and Task records. The mapper resolves these to stable storage IDs.
       name:
         range: ExtractedString
         required: true
@@ -187,6 +295,12 @@ classes:
           Species of this cohort, verbatim, such as human, rhesus macaque, or Sprague-Dawley
           rat; mapper normalizes. Populate it for human cohorts too -- everything else on this
           record reads as human by default, so leaving it out is not the same as saying human.
+      arm:
+        range: string
+        description: >-
+          local_id of the Arm record this cohort was allocated to. Populate it for a
+          parallel-group trial, where each arm is a separate cohort; when the same participants
+          passed through several arms, the arm belongs on the Condition instead.
       approached_count:
         range: ExtractedInteger
         description: Participants approached as text or number; mapper parses to integer.
@@ -292,7 +406,10 @@ classes:
         range: ExtractedString
         required: true
         description: >-
-          The category label as the study writes it, not normalized to any external scheme.
+          Which bucket of the distribution this entry counts, verbatim as the paper labels it
+          -- "female", "left-handed", "Hispanic or Latino". Not the name of the distribution:
+          the slot this record sits in already says whether it is sex, gender, handedness,
+          race, or ethnicity.
       count:
         range: ExtractedInteger
         description: >-
@@ -313,23 +430,23 @@ classes:
           The classification system behind these categories, verbatim, such as the OMB or
           NIH race and ethnicity categories or a named handedness inventory. Free-text
           categories only compare across studies when the scheme is known.
-  Experiment:
+  Task:
     description: Extracted meaningful participant paradigm, such as a task, resting-state protocol, stimulation, or passive viewing.
     attributes:
       local_id:
         range: string
         required: true
         description: Short label assigned by the extractor; resolved to a stable ID by the mapper.
-      task_name:
+      name:
         range: ExtractedString
         description: Task or paradigm label as stated in the paper, when applicable.
-      task_description:
+      description:
         range: ExtractedString
         description: Full narrative description of the paradigm, verbatim.
       conditions:
         range: string
         multivalued: true
-        description: local_ids of Condition records belonging to this experiment.
+        description: local_ids of Condition records belonging to this task.
       design_type:
         range: ExtractedString
         description: Design form as stated in the paper (e.g., "event-related", "block design"); mapper normalizes to controlled vocabulary.
@@ -337,9 +454,9 @@ classes:
         range: string
         multivalued: true
         description: >-
-          local_ids of Acquisition records collected as part of this experiment.
+          local_ids of Acquisition records collected as part of this task.
           Use multiple entries for simultaneously collected modalities (e.g., EEG
-          and fMRI) or for site-specific variants of the experimental acquisition.
+          and fMRI) or for site-specific variants of the task acquisition.
           Do not attach structural or other non-paradigm scans merely because they
           were collected in the same session.
       presentation_software:
@@ -351,7 +468,15 @@ classes:
       stimuli:
         range: ExtractedString
         description: Stimulus description, verbatim.
-      task_performance_measures:
+      response_mode:
+        range: ExtractedValue
+        description: >-
+          How participants responded, verbatim or as judged, one per entry -- a button or keypad
+          press, a hand movement that is itself the response, overt speech, a covert or imagined
+          response, an eye movement, a foot or leg movement, a non-speech mouth action; mapper
+          normalizes. Say so when the task required no response at all, as in passive viewing or
+          resting state: that is a fact about the paradigm, not a missing value.
+      performance_measures:
         range: ExtractedValue
         description: Behavioral outcome variables, verbatim, one per entry.
   Acquisition:
@@ -715,12 +840,12 @@ classes:
       acquisitions:
         range: string
         multivalued: true
-        description: local_ids of Acquisition records supplying data to this analysis. Extract these explicitly, including for structural, diffusion, and other analyses without an associated Experiment.
-      experiments:
+        description: local_ids of Acquisition records supplying data to this analysis. Extract these explicitly, including for structural, diffusion, and other analyses without an associated Task.
+      tasks:
         range: string
         multivalued: true
         description: >-
-          local_ids of the Experiment records this analysis draws on. Multivalued because an
+          local_ids of the Task records this analysis draws on. Multivalued because an
           analysis can span paradigms -- a cross-task conjunction, or a localizer plus a main
           task. Empty for an analysis with no paradigm, which is linked through acquisitions.
       conditions:
@@ -729,6 +854,24 @@ classes:
         inlined_as_list: true
         description: The conditions entering this analysis and, for each, which side of the comparison it
           sits on. Every condition the analysis uses gets an entry, directional or not.
+      timepoints:
+        range: TimepointTerm
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The occasions entering this analysis and, for each, which side of the comparison it
+          sits on. This is how a pre-post comparison is recorded, including for a study with no
+          paradigm at all: give the earlier occasion and the later one their roles and leave
+          conditions empty.
+      arms:
+        range: ArmTerm
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The arms entering this analysis and, for each, which side of the comparison it sits
+          on. Use it when the same participants passed through several arms; when the arms are
+          separate cohorts the comparison is between groups and each cohort's allocation is on
+          the Group record.
       terms:
         range: string
         multivalued: true
@@ -987,11 +1130,12 @@ classes:
         range: ExtractedString
         required: true
         description: >-
-          What kind of thing this condition is, verbatim or as judged -- a task state, a class
-          of stimulus, rest, a timepoint, a drug, brain stimulation, a training or therapy
-          programme, or a comparator such as a placebo, a sham, an active comparator, usual
-          care, or no intervention; mapper normalizes. Type the comparator as carefully as the
-          manipulation.
+          Whether this condition put a demand on the participant or was the rest or fixation
+          state a demand was measured against, verbatim or as judged; mapper normalizes. Only
+          what happened inside the paradigm: when the data were collected and what the
+          participant received are Timepoint and Arm records, and enter an analysis through
+          Analysis.timepoints and Analysis.arms.
+
   Table:
     description: Extracted table record.
     attributes:
@@ -1068,6 +1212,57 @@ classes:
         description: >-
           The factorial cell this condition represents. Record a factor held constant across the directional
           terms as well, with its constant level.
+  TimepointTerm:
+    description: One occasion entering an analysis and the side of the comparison it sits on.
+    attributes:
+      timepoint:
+        range: string
+        required: true
+        description: local_id of the Timepoint record.
+      label:
+        range: ExtractedString
+        description: The source's wording for this occasion in this analysis, verbatim, when it differs
+          from the Timepoint name.
+      role:
+        range: ExtractedString
+        required: true
+        description: >-
+          Which side of the comparison this occasion sits on, verbatim as the source frames it; mapper
+          normalizes. A post-versus-pre increase makes the later occasion the greater side. For a series
+          of follow-ups mark the extremes and leave the middle occasions undirected, keeping the ordering
+          in contrast_definition.
+      factor_levels:
+        range: FactorLevel
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The factorial cell this occasion represents, for a design crossing occasion with another
+          factor. Record a factor held constant across the directional terms as well.
+  ArmTerm:
+    description: One arm entering an analysis and the side of the comparison it sits on.
+    attributes:
+      arm:
+        range: string
+        required: true
+        description: local_id of the Arm record.
+      label:
+        range: ExtractedString
+        description: The source's wording for this arm in this analysis, verbatim, when it differs from
+          the Arm name.
+      role:
+        range: ExtractedString
+        required: true
+        description: >-
+          Which side of the comparison this arm sits on, verbatim as the source frames it; mapper
+          normalizes. A drug-versus-placebo increase makes the drug arm the greater side. Type the
+          comparator side as carefully as the manipulation.
+      factor_levels:
+        range: FactorLevel
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The factorial cell this arm represents, for a design crossing arm with another factor.
+          Record a factor held constant across the directional terms as well.
   FactorLevel:
     description: One factor and the level of it that a cohort or condition represents.
     attributes:

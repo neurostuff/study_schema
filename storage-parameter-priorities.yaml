@@ -1,8 +1,30 @@
+StudyDesign:
+  description: 2
+  allocation: 1
+  assignment_structure: 1
+  blinding: 2
+  arms: 1
+  timepoints: 1
+
+Arm:
+  id: n/a
+  name: 1
+  description: 2
+  arm_kind: 0
+  agent: 1
+
+Timepoint:
+  id: n/a
+  name: 1
+  relation_to_intervention: 0
+  order: 1
+  time_from_intervention: 2
+
 Study:
   id: n/a
   title: n/a
   description: n/a
-  design: 2
+  design: n/a
   authors: n/a
   journal: n/a
   doi: n/a
@@ -10,13 +32,12 @@ Study:
   external_datasets: 1
   study_type: 0
   groups: n/a
-  experiments: n/a
+  tasks: n/a
   assessments: n/a
   acquisitions: n/a
   preprocessings: n/a
   model_estimations: n/a
   analyses: n/a
-  conditions: n/a
   tables: n/a
 
 ExternalDataset:
@@ -28,6 +49,7 @@ Group:
   name: 0
   description: 0
   species: 0
+  arm: 0
   approached_count: 0
   consented_count: 0
   enrolled_count: 0
@@ -69,17 +91,18 @@ Assessment:
   description: 2
   assessment_type: 1
 
-Experiment:
+Task:
   id: n/a
-  task_name: 1
-  task_description: 1
+  name: 1
+  description: 1
   conditions: 1
   design_type: 1
   acquisitions: 1
   presentation_software: 3
   instructions: 2
   stimuli: 1
-  task_performance_measures: 1
+  response_mode: 1
+  performance_measures: 1
 
 Acquisition:
   id: n/a
@@ -130,6 +153,10 @@ OtherModality:
   modality_label: 1
   reason_no_modality_class_used: 3
 
+Instrument:
+  manufacturer: 2
+  model: 2
+
 Preprocessing:
   id: n/a
   description: 3
@@ -177,7 +204,7 @@ Analysis:
   effect: 0
   details: 1
   acquisitions: 0
-  experiments: 0
+  tasks: 0
   model_estimation: 0
   inference_settings: 0
   preprocessing: 2
@@ -192,6 +219,8 @@ Effect:
   baseline: 0
   path: 1
   conditions: 0
+  timepoints: 0
+  arms: 0
   terms: 0
   statistic: 0
 
@@ -215,6 +244,18 @@ GroupTerm:
 
 ConditionTerm:
   condition: 0
+  label: 1
+  role: 0
+  factor_levels: 1
+
+TimepointTerm:
+  timepoint: 0
+  label: 1
+  role: 0
+  factor_levels: 1
+
+ArmTerm:
+  arm: 0
   label: 1
   role: 0
   factor_levels: 1

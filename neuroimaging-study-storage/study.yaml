@@ -7,8 +7,9 @@ prefixes:
 imports:
   - linkml:types
   - subsets
+  - design
   - group
-  - experiment
+  - task
   - assessment
   - acquisition
   - analysis
@@ -20,10 +21,10 @@ classes:
   Study:
     tree_root: true
     description: >-
-      The publication-level or dataset-level record that contains the groups,
-      experiments, acquisitions, preprocessing pipelines, model estimations,
-      analyses, conditions, and reported result tables belonging to one
-      study.
+      The publication-level record that contains the groups,
+      tasks, design, acquisitions, preprocessing pipelines, model estimations,
+      analyses, and reported result tables belonging to one
+      study. Conditions belong to the task they are part of, not to the study.
     attributes:
       id:
         in_subset: [mvp, deterministic]
@@ -43,10 +44,12 @@ classes:
         description: Brief free-text summary of the study aims and scope.
       design:
         in_subset: [mvp, model_extracted]
-        range: string
+        range: StudyDesign
+        inlined: true
         description: >-
-          Overall study design, including observational or interventional status,
-          cross-sectional or longitudinal structure, allocation, and blinding when applicable.
+          The study's design outside its tasks: how participants were assigned, the arms they
+          were assigned to, and the occasions data were collected on. The narrative design
+          description is this record's own `description`.
       authors:
         in_subset: [mvp, deterministic]
         range: string
@@ -75,29 +78,23 @@ classes:
         description: >-
           PubMed publication types for this record, verbatim as the E-utilities API returns
           them (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). Multivalued because
-          PubMed assigns several: every article is `Journal Article`, and design and funding
-          types accumulate on top of it, so a randomized trial comes back as three or four
-          values.
-
-          It decides whether the paper is extracted at all: a record whose types include
-          `Meta-Analysis` is skipped, because its analyses pool published effects rather than
-          measure participants. The gate runs before extraction, on the API metadata, so no text
-          is read for a paper that will be dropped. It is one of two parts -- the title is the
-          other -- and extraction-readme.md gives both with the measured miss rates.
+          PubMed assigns several: every article is `Journal Article` and the design of the study
+          motivates other labels.
       groups:
         in_subset: [mvp, model_extracted]
         range: Group
         multivalued: true
         inlined_as_list: true
-        description: Participant or demographic groups defined in the study.
-      experiments:
+        description: Participant or demographic groups.
+      tasks:
         in_subset: [mvp, model_extracted]
-        range: Experiment
+        range: Task
         multivalued: true
         inlined_as_list: true
         description: >-
           Task, resting-state, stimulation, passive-viewing, or other meaningful
-          participant paradigms associated with study acquisitions.
+          participant paradigms associated with study acquisitions. Each holds the
+          conditions it was made of.
       assessments:
         in_subset: [mvp, model_extracted]
         range: Assessment
@@ -128,14 +125,6 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Distinct analyses or inferential tests reported by the study.
-      conditions:
-        in_subset: [mvp, model_extracted]
-        range: Condition
-        multivalued: true
-        inlined_as_list: true
-        description: >-
-          The experimental conditions of the study. Every reference to a Condition
-          elsewhere is by identifier, so this list holds the records themselves.
       tables:
         in_subset: [mvp, deterministic]
         range: Table
@@ -178,12 +167,7 @@ enums:
       "Meta-Analysis":
         in_subset: [mvp, deterministic]
         description: >-
-          A quantitative synthesis of published results, and the one value that stops
-          extraction. Its analyses have no sample, acquisition, or measure of their own, so the
-          paper is skipped rather than recorded with a fabricated cohort. 2.8% of sampled corpus
-          records carry this type. The label alone misses roughly one in eleven genuine
-          meta-analyses, so the gate pairs it with a title check and treats an unindexed record
-          as unknown; see extraction-readme.md.
+          A quantitative synthesis of published results.
       "Systematic Review":
         in_subset: [mvp, deterministic]
         description: A structured synthesis with a search protocol but no pooled effect estimate.
@@ -215,4 +199,3 @@ enums:
         in_subset: [mvp, deterministic]
       "Retracted Publication":
         in_subset: [mvp, deterministic]
-        description: Worth carrying so a retracted record can be excluded downstream.

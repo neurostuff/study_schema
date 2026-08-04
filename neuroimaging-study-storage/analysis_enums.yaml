@@ -2,8 +2,8 @@ id: https://neurostuff.org/schemas/neuroimaging-study-storage/analysis_enums
 name: neuroimaging-study-storage-analysis-enums
 title: Neuroimaging Study Storage Analysis Vocabularies
 description: >-
-  Controlled vocabularies for the tested effect represented by an Analysis, ported from
-  analysis-schema v0.1.0-alpha.11. This module holds enumerations only, so that both the
+  Controlled vocabularies for the tested effect represented by an Analysis.
+  This module holds enumerations only, so that both the
   analysis module and the analysis-details module can bind to them without either importing
   the other.
 
@@ -19,8 +19,6 @@ description: >-
   where the value selects the OtherModality payload class. A value outside a vocabulary is a
   signal for review rather than a validation failure; canonicalization is the mapper's job,
   in the `normalize_enum` derivations of extraction-to-storage.map.yaml.
-
-  See storage-schema-design-notes.md for why the vocabularies are shaped this way.
 prefixes:
   linkml: https://w3id.org/linkml/
   neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
@@ -59,8 +57,8 @@ enums:
       connectivity:
         in_subset: [mvp, model_extracted]
         description: >-
-          PPI, gPPI, seed-based connectivity, DCM, or Granger causality. PPI stays here
-          even when the software estimates it with a GLM.
+          PPI, gPPI, seed-based connectivity, DCM, covariance, or Granger causality.
+          PPI stays here even when the software estimates it with a GLM.
       conjunction:
         in_subset: [mvp, model_extracted]
         description: Logical combination of independently defined effects.
