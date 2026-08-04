@@ -13,22 +13,24 @@ default_range: string
 classes:
 
   Group:
-    in_subset: [mvp, model_extracted]
     description: >-
       An aggregate participant group and its reported demographics. Counts are
       group-specific; analysis-specific inclusion is recorded in Analysis.group_sample_sizes.
     attributes:
       id:
         in_subset: [mvp, deterministic]
+        range: string
         identifier: true
         required: true
         description: Stable identifier used by Analysis foreign-key references.
       name:
         in_subset: [mvp, model_extracted]
+        range: string
         required: true
         description: Study-local group label, for example healthy controls or patients with Parkinson disease.
       description:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Narrative definition of the group and its role in the study.
       approached_count:
         in_subset: [model_extracted]
@@ -63,18 +65,22 @@ classes:
         description: Number excluded after consent, enrollment, acquisition, and quality control.
       inclusion_criteria:
         in_subset: [mvp, model_extracted]
+        range: string
         multivalued: true
         description: Eligibility requirements that a participant had to satisfy for membership in this group.
       exclusion_criteria:
         in_subset: [mvp, model_extracted]
+        range: string
         multivalued: true
         description: Screening, imaging-safety, clinical, behavioral, or quality-control criteria causing 
           exclusion.
       recruitment_method:
         in_subset: [model_extracted]
+        range: string
         description: How, where, and from what setting participants were recruited.
       recruitment_dates:
         in_subset: [model_extracted]
+        range: string
         description: >-
           Free-text recruitment period when the source does not support a precise
           normalized date range; examples include January 2021 to June 2022,
@@ -106,6 +112,7 @@ classes:
         description: Median participant age when reported instead of or in addition to the mean.
       age_unit:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Unit used for age summaries, normally years but potentially months, weeks, or gestational
           weeks.
       sex_distribution:
@@ -146,33 +153,39 @@ classes:
         description: Aggregate ethnic distribution using the study-reported category labels.
       medical_condition:
         in_subset: [mvp, model_extracted]
+        range: string
         multivalued: true
         description: >-
           Medical, neurological, psychiatric, developmental, or physiological
           condition(s) defining or characterizing the group.
       diagnostic_system:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Diagnostic classification system and edition, such as DSM-5 or ICD-10.
       diagnostic_instrument:
         in_subset: [mvp, model_extracted]
+        range: string
         multivalued: true
         description: Interview, inventory, test, or other instrument used to establish diagnosis.
       clinical_characteristics:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Disease duration, severity, treatment status, comorbidities, or other clinically relevant
           summaries.
       medication_status:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Medication exposure and on/off medication state during acquisition or testing.
       education_summary:
         in_subset: [model_extracted]
+        range: string
         description: Aggregate education level and the measurement or coding system used.
       socioeconomic_status_summary:
         in_subset: [model_extracted]
+        range: string
         description: Aggregate socioeconomic status and the instrument or proxy used to measure it.
 
-CategoryDistribution:
-    in_subset: [mvp, model_extracted]
+  CategoryDistribution:
     description: >-
       One category in an aggregate participant distribution. Category labels are
       free text so the schema can preserve study-specific terminology without
@@ -181,6 +194,7 @@ CategoryDistribution:
     attributes:
       category:
         in_subset: [mvp, model_extracted]
+        range: string
         required: true
         description: Free-text category label used by the study.
       count:
@@ -199,3 +213,12 @@ CategoryDistribution:
         range: integer
         minimum_value: 0
         description: Number of participants used as the denominator for the percentage.
+      reporting_framework:
+        in_subset: [mvp, model_extracted]
+        range: string
+        description: >-
+          The classification system the study used for these categories, in its own
+          words, such as the OMB or NIH race and ethnicity categories, a named
+          handedness inventory, or a self-report question's answer set. Free-text
+          categories are only comparable across studies when the scheme behind them is
+          known, which is what this records.

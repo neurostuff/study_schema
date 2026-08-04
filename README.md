@@ -91,7 +91,6 @@ checkout and errors.
 | `Assessment` | `local_id`, `name` |
 | `Predictor` | `local_id`, `name` |
 | `Condition` | `local_id`, `name` |
-| `Concept` | `local_id`, `name` |
 
 
 independent parsing of tables.

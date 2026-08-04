@@ -2,15 +2,25 @@ id: https://neurostuff.org/schemas/neuroimaging-study-storage/analysis_enums
 name: neuroimaging-study-storage-analysis-enums
 title: Neuroimaging Study Storage Analysis Vocabularies
 description: >-
-  Controlled vocabularies for the tested effect represented by an Analysis, ported
-  from analysis-schema v0.1.0-alpha.11. This module holds enumerations only, so that
-  both the analysis module and the analysis-details module can bind to them without
-  either importing the other.
+  Controlled vocabularies for the tested effect represented by an Analysis, ported from
+  analysis-schema v0.1.0-alpha.11. This module holds enumerations only, so that both the
+  analysis module and the analysis-details module can bind to them without either importing
+  the other.
 
-  Two conventions run through every enumeration here. `unstated` means the fact could
-  exist but the source does not clearly report it; `not_applicable` means the concept
-  does not apply to this analysis. They are not interchangeable, and neither is a
-  substitute for the record-level Analysis.certainty.
+  Three conventions run through every enumeration. `unstated` means the fact could exist but
+  the source does not clearly report it. `not_applicable` means the concept does not apply to
+  this analysis. They are not interchangeable, and there is no record-level confidence tier
+  alongside them.
+
+  Third, most of these vocabularies are open rather than carrying a catch-all value. An
+  attribute binding an open enumeration declares `any_of: [{range: <Enum>}, {range: string}]`
+  instead of a range, so the same field holds either a controlled value or the source's own
+  words: when nothing fits, write the wording. Modality is the exception and keeps `other`,
+  where the value selects the OtherModality payload class. A value outside a vocabulary is a
+  signal for review rather than a validation failure; canonicalization is the mapper's job,
+  in the `normalize_enum` derivations of extraction-to-storage.map.yaml.
+
+  See storage-schema-design-notes.md for why the vocabularies are shaped this way.
 prefixes:
   linkml: https://w3id.org/linkml/
   neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
@@ -23,321 +33,428 @@ default_range: string
 enums:
 
   AnalysisType:
+    in_subset: [mvp, model_extracted]
     description: >-
-      The method that produced the statistical map, which is independent of what was
-      tested about it. A between-group comparison of connectivity, decoding accuracy,
-      or component loadings keeps the derived type here and records the comparison in
-      Effect.
+      The method that produced the statistical map, independent of what was tested about
+      it. A between-group comparison of connectivity, decoding accuracy, or component
+      loadings keeps the method here and records the comparison in Effect. Bound only by
+      ConjunctionComponent.analysis_type; an Analysis states its method by which
+      AnalysisDetails subclass it fills. Open vocabulary: write the source's own wording
+      in the field when nothing here fits.
     permissible_values:
       mass_univariate:
+        in_subset: [mvp, model_extracted]
         description: >-
           Voxelwise, vertexwise, or ROI-wise GLM, mixed-effects model, ANOVA or ANCOVA,
           or robust regression. This is the default family and takes no details payload.
       multivariate_decoding:
+        in_subset: [mvp, model_extracted]
         description: Classification or pattern discriminability.
       representational_similarity:
+        in_subset: [mvp, model_extracted]
         description: >-
           Association at the level of representational dissimilarity matrices. A
           trial-wise similarity or model-fit regressor entered into a univariate GLM is
           mass_univariate with a parametric_modulation effect, not this.
       connectivity:
+        in_subset: [mvp, model_extracted]
         description: >-
           PPI, gPPI, seed-based connectivity, DCM, or Granger causality. PPI stays here
           even when the software estimates it with a GLM.
       conjunction:
+        in_subset: [mvp, model_extracted]
         description: Logical combination of independently defined effects.
       component_decomposition:
+        in_subset: [mvp, model_extracted]
         description: ICA and related component maps.
-      other:
-        description: >-
-          A method outside the first-class families. Permits an effect kind of `other`
-          whatever the terms are, so an unusual design never has to delete true terms.
       not_structurable:
+        in_subset: [mvp, model_extracted]
         description: >-
           The effect is grounded in the source but has no stable structured
           decomposition.
 
   SpatialScope:
+    in_subset: [mvp, model_extracted]
     description: >-
-      Spatial domain of the analysis. Inside this vocabulary rather than treated as
-      preprocessing metadata because it is a meta-analysis inclusion criterion.
+      Spatial domain of the analysis, and a meta-analysis inclusion criterion. Open
+      vocabulary: write the source's own wording in the field when nothing here fits.
     permissible_values:
       whole_brain:
+        in_subset: [mvp, model_extracted]
         description: Inference across the whole acquired volume or surface.
       roi:
+        in_subset: [mvp, model_extracted]
         description: Inference restricted to one or more regions of interest.
       searchlight:
+        in_subset: [mvp, model_extracted]
         description: Moving-window multivariate analysis across the whole search space.
-      other:
-        description: A spatial domain that none of the above describes.
       unstated:
+        in_subset: [mvp, model_extracted]
         description: The source does not report the spatial domain.
 
-  RoiDefinition:
+  SpatialUnit:
+    in_subset: [mvp, model_extracted]
     description: >-
-      How a region of interest was defined. This records independence, which is why the
-      distinction matters more than the atlas name: an ROI drawn from the study's own
-      prior contrast is not independent of the effect being tested.
+      The element an analysis was carried out over: the surface-versus-volume distinction
+      as well as the univariate-versus-parcellated one. Gives the element, where
+      SpatialScope gives the extent. Open vocabulary: write the source's own wording in
+      the field when nothing here fits.
+    permissible_values:
+      voxel:
+        in_subset: [mvp, model_extracted]
+        description: Volumetric voxels.
+      vertex:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Surface vertices, on a reconstructed cortical mesh. Results are vertex indices in
+          a surface template rather than stereotactic coordinates.
+      roi:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          One value per region, from an averaged or extracted regional summary rather than
+          an element-wise map.
+      parcel:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Parcels of a parcellation covering the search space, as distinct from a small set
+          of named regions of interest.
+      unstated:
+        in_subset: [mvp, model_extracted]
+        description: The source does not report which element the analysis ran over.
+
+  RoiDefinition:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      How a region of interest was defined, which records independence: an ROI drawn from
+      the study's own prior contrast is not independent of the effect being tested.
     permissible_values:
       atlas:
+        in_subset: [mvp, model_extracted]
         description: An atlas or parcellation.
       prior_literature:
+        in_subset: [mvp, model_extracted]
         description: Coordinates or regions taken from previously published work.
       anatomical_a_priori:
+        in_subset: [mvp, model_extracted]
         description: Anatomically defined regions specified in advance.
       functional_localizer:
+        in_subset: [mvp, model_extracted]
         description: A separate localizer scan or run.
       same_study_analysis:
+        in_subset: [mvp, model_extracted]
         description: >-
           Defined from another analysis in the same study, so the region is not
           independent of the reported effect.
       unstated:
+        in_subset: [mvp, model_extracted]
         description: The source restricts inference to a region but does not say how it was defined.
       not_applicable:
+        in_subset: [mvp, model_extracted]
         description: >-
           Required for whole-brain and searchlight analyses, and forbidden when
           spatial_scope is roi.
 
-  Certainty:
-    description: >-
-      How the record's design classification was arrived at. A three-level ordinal
-      rather than a probability, because the tiers are auditable: a reviewer can check
-      whether the source states the design. Its purpose is routing, so that stated
-      records can go to hard filtering and uncertain ones to human review.
-    permissible_values:
-      stated:
-        description: The design is named in the source, for example "group x condition interaction F-test".
-      inferred:
-        description: Assembled from Methods prose rather than named.
-      uncertain:
-        description: A judgement call between two defensible readings.
-
   DirectionalRole:
+    in_subset: [mvp, model_extracted]
     description: >-
-      Which side of a comparison an entity sits on. Direction is normalized to roles
-      rather than numeric contrast weights. Only `greater` and `lesser` count as
-      directional, so an unreported direction never silently changes the effect kind.
+      Which side of a comparison an entity sits on, as a role rather than a numeric
+      contrast weight. Only `greater` and `lesser` count as directional, so an unreported
+      direction never silently changes the effect kind.
     permissible_values:
       included:
+        in_subset: [mvp, model_extracted]
         description: Participates in the analysis without a directional comparison.
       greater:
+        in_subset: [mvp, model_extracted]
         description: The greater-than side of the comparison.
       lesser:
+        in_subset: [mvp, model_extracted]
         description: The lesser-than side of the comparison.
       unstated:
+        in_subset: [mvp, model_extracted]
         description: The entity is compared but the source does not report which side.
 
   EffectKind:
+    in_subset: [mvp, model_extracted]
     description: >-
-      The kind of effect tested. This is a function of which terms carry direction, and
-      is recomputed from the terms by the structural validator rather than being an
-      independent judgement call. `contrast` covers both a condition comparison and a
-      group comparison; which one it is follows from which entities carry direction.
+      The kind of effect tested, a function of which terms carry direction and recomputed
+      from them by the structural validator. `contrast` covers both a condition comparison
+      and a group comparison; which one it is follows from which entities carry direction.
+      Open vocabulary: write the source's own wording in the field when nothing here fits.
     permissible_values:
       simple_effect:
+        in_subset: [mvp, model_extracted]
         description: >-
           A one-sample test of a map against a reference. Covers activation and
           deactivation against an implicit baseline, decoding accuracy above chance,
           dissimilarity above zero, and connectivity different from zero.
       contrast:
+        in_subset: [mvp, model_extracted]
         description: >-
           A greater/lesser pair on exactly one axis. On the group axis it is a group
           comparison; on the condition axis a condition comparison. Directional terms on
           both axes are an interaction.
       interaction:
+        in_subset: [mvp, model_extracted]
         description: >-
           Direction carried by groups and conditions together, by composite conditions
           with factor levels, by crossed group cells, or by a product term.
       parametric_modulation:
+        in_subset: [mvp, model_extracted]
         description: A primary continuous term varying within subject.
       cross_subject_regression:
+        in_subset: [mvp, model_extracted]
         description: A primary continuous term varying between subject or mixed.
       omnibus:
+        in_subset: [mvp, model_extracted]
         description: >-
           A multi-degree-of-freedom test with no direction. When computed on a
           directional contrast, that contrast is recorded as a categorical term with its
           levels and the conditions stay non-directional.
-      other:
-        description: >-
-          No other kind fits. Includes component maps reported without an inferential
-          test, and mediated paths. The meaning stays in Analysis.definition.
 
   Baseline:
+    in_subset: [mvp, model_extracted]
     description: >-
       What the map was tested against, in the same field for every analysis family.
-      Whether a baseline was modelled is what separates a simple effect from a condition
-      contrast, and papers state it only about half the time, so `unstated` keeps that
-      uncertainty visible instead of burying it in the effect kind.
+      Whether a baseline was modelled separates a simple effect from a condition contrast;
+      use `unstated` when the source says only "versus baseline".
     permissible_values:
       modelled_condition:
+        in_subset: [mvp, model_extracted]
         description: >-
           An explicit condition such as rest, fixation, or a control task is a term of
           the contrast.
       implicit:
+        in_subset: [mvp, model_extracted]
         description: The unmodelled implicit baseline of the design.
       chance:
+        in_subset: [mvp, model_extracted]
         description: A classification or discriminability metric tested against chance.
       zero:
+        in_subset: [mvp, model_extracted]
         description: A similarity, dissimilarity, or connectivity parameter tested against zero.
       unstated:
+        in_subset: [mvp, model_extracted]
         description: The source says "versus baseline" without saying which.
       not_applicable:
+        in_subset: [mvp, model_extracted]
         description: >-
           The tested effect has no reference: group contrasts, interactions, slopes, and
           omnibus tests.
 
   EffectPath:
+    in_subset: [mvp, model_extracted]
     description: >-
       Separates a mediated effect from an ordinary one. Without this, an indirect-effect
       map is structurally identical to a plain regression on the same predictor, and a
       synthesis would pool the two.
     permissible_values:
       direct:
+        in_subset: [mvp, model_extracted]
         description: The effect of the primary term with the mediator controlled.
       indirect:
+        in_subset: [mvp, model_extracted]
         description: The mediated path, for example a product of coefficients.
       total:
+        in_subset: [mvp, model_extracted]
         description: The unmediated total effect.
       not_applicable:
+        in_subset: [mvp, model_extracted]
         description: No mediation model. This is the normal case.
 
   ModelFamily:
-    description: Statistical model family used to estimate the effect.
+    in_subset: [mvp, model_extracted]
+    description: >-
+      Statistical model family used to estimate the effect. Open vocabulary: write the
+      source's own wording in the field when nothing here fits.
     permissible_values:
       glm:
+        in_subset: [mvp, model_extracted]
       mixed_effects:
+        in_subset: [mvp, model_extracted]
       anova:
+        in_subset: [mvp, model_extracted]
       ancova:
+        in_subset: [mvp, model_extracted]
       robust_regression:
-      other:
+        in_subset: [mvp, model_extracted]
       unstated:
+        in_subset: [mvp, model_extracted]
 
   StatisticFamily:
+    in_subset: [mvp, model_extracted]
     description: >-
       Test statistic family for the tested effect, independent of the thresholding
-      procedure recorded in InferenceSettings.
+      procedure recorded in InferenceSettings. Open vocabulary: write the source's own
+      wording in the field when nothing here fits.
     permissible_values:
       "t":
+        in_subset: [mvp, model_extracted]
       "z":
+        in_subset: [mvp, model_extracted]
         description: Has no degrees of freedom, so both numerator and denominator stay unset.
       "f":
+        in_subset: [mvp, model_extracted]
         description: Normally the only family besides likelihood_ratio to populate the numerator.
       chi_square:
+        in_subset: [mvp, model_extracted]
       likelihood_ratio:
+        in_subset: [mvp, model_extracted]
       beta:
+        in_subset: [mvp, model_extracted]
       correlation:
-      other:
+        in_subset: [mvp, model_extracted]
       unstated:
+        in_subset: [mvp, model_extracted]
 
   MeasureFamily:
+    in_subset: [mvp, model_extracted]
     description: >-
-      Broad imaging or signal family, for coarse filtering. A BOLD-derived connectivity
-      or decoding result stays functional_bold: derived measures take the family of the
-      underlying signal.
+      Broad imaging or signal family, for coarse filtering. A BOLD-derived connectivity or
+      decoding result stays functional_bold: derived measures take the family of the
+      underlying signal. Open vocabulary: write the source's own wording in the field when
+      nothing here fits.
     permissible_values:
       functional_bold:
+        in_subset: [mvp, model_extracted]
       structural_morphometry:
+        in_subset: [mvp, model_extracted]
       diffusion:
+        in_subset: [mvp, model_extracted]
       perfusion:
+        in_subset: [mvp, model_extracted]
       molecular_imaging:
+        in_subset: [mvp, model_extracted]
       electrophysiology:
-      other:
+        in_subset: [mvp, model_extracted]
       unstated:
+        in_subset: [mvp, model_extracted]
 
   MeasureType:
+    in_subset: [mvp, model_extracted]
     description: >-
       Normalized scientific quantity of the map, for cross-study queries. Activation and
       deactivation are directions rather than measure types; both are bold_response and
-      the directional roles carry the direction. Gray-matter density is not collapsed
-      into volume. Use `unstated` only when the paper does not identify the measure.
+      the directional roles carry the direction. Gray-matter density is not collapsed into
+      volume. Use `unstated` only when the paper does not identify the measure. Open
+      vocabulary: write the source's own wording in the field when nothing here fits.
     permissible_values:
       bold_response:
+        in_subset: [mvp, model_extracted]
         description: BOLD activation, task activation, or task-evoked response.
       bold_derived_metric:
+        in_subset: [mvp, model_extracted]
         description: ALFF, fALFF, regional homogeneity, and similar derived BOLD metrics.
       gray_matter_volume:
+        in_subset: [mvp, model_extracted]
       gray_matter_density:
+        in_subset: [mvp, model_extracted]
         description: Gray-matter density or concentration, kept distinct from volume.
       white_matter_volume:
+        in_subset: [mvp, model_extracted]
       cortical_thickness:
+        in_subset: [mvp, model_extracted]
       surface_area:
+        in_subset: [mvp, model_extracted]
       structural_morphometry_other:
+        in_subset: [mvp, model_extracted]
       diffusion_metric:
+        in_subset: [mvp, model_extracted]
         description: Fractional anisotropy, mean diffusivity, and similar; name the metric in specific_metric.
       cerebral_blood_flow:
+        in_subset: [mvp, model_extracted]
       cerebral_blood_volume:
+        in_subset: [mvp, model_extracted]
       metabolic_rate:
+        in_subset: [mvp, model_extracted]
       receptor_binding:
+        in_subset: [mvp, model_extracted]
         description: PET receptor-binding potential.
       tracer_uptake:
+        in_subset: [mvp, model_extracted]
       electrophysiological_amplitude:
+        in_subset: [mvp, model_extracted]
       electrophysiological_power:
+        in_subset: [mvp, model_extracted]
       connectivity_strength:
+        in_subset: [mvp, model_extracted]
         description: PPI, seed correlation, or DCM parameter.
       decoding_performance:
+        in_subset: [mvp, model_extracted]
         description: Classifier accuracy or other pattern-discriminability performance.
       representational_similarity:
+        in_subset: [mvp, model_extracted]
         description: Model-brain similarity from an RDM-level association.
       component_loading:
+        in_subset: [mvp, model_extracted]
         description: ICA or PCA spatial loading.
-      other:
-        description: No controlled term fits; keep the quantity in Measure.source_label.
       unstated:
+        in_subset: [mvp, model_extracted]
 
   TermType:
+    in_subset: [mvp, model_extracted]
     description: >-
-      Whether a model term is categorical or continuous. This is the only distinction
-      that matters statistically, which is why factors and predictors are one list.
+      Whether a model term is categorical or continuous.
     permissible_values:
       categorical:
+        in_subset: [mvp, model_extracted]
         description: >-
           A pointer to the Groups or Conditions it ranges over. Takes
           association_direction not_applicable; its direction, if any, lives on the
           group or condition terms.
       continuous:
+        in_subset: [mvp, model_extracted]
         description: Carries the slope facts.
 
   TermRole:
+    in_subset: [mvp, model_extracted]
     description: >-
-      How a term enters the model. This is load-bearing rather than descriptive: the
-      derivation of Effect.kind reads only `primary` terms, so the role decides whether a
-      continuous term makes the effect a parametric modulation, a cross-subject
-      regression, or neither.
+      How a term enters the model. The derivation of Effect.kind reads only `primary`
+      terms, so the role decides whether a continuous term makes the effect a parametric
+      modulation, a cross-subject regression, or neither.
     permissible_values:
       primary:
+        in_subset: [mvp, model_extracted]
         description: >-
           A term of interest -- part of what the analysis tested. More than one is
           allowed: a multiple regression reports more than one effect of interest, and
           product terms need their components.
       nuisance:
+        in_subset: [mvp, model_extracted]
         description: >-
-          Controlled for, not tested. Recorded so a reader knows what was in the model,
-          and deliberately invisible to the derivation of Effect.kind: marking a covariate
-          such as age, head motion, or total intracranial volume primary would assert that
-          the paper tested an effect of it.
+          Controlled for, not tested, and invisible to the derivation of Effect.kind.
+          Marking a covariate such as age, head motion, or total intracranial volume
+          primary would assert that the paper tested an effect of it.
       moderator:
+        in_subset: [mvp, model_extracted]
         description: >-
           A variable whose level changes the size or sign of a primary effect. Rarely the
-          right choice, and unused in the source specification's development corpus: the
-          canonical encoding of moderation gives the moderator and the effect it moderates
-          both `primary`, and puts the moderation in a third term with functional_form
-          `product` and interaction_with naming the two.
+          right choice: the canonical encoding of moderation gives the moderator and the
+          effect it moderates both `primary`, and puts the moderation in a third term with
+          functional_form `product` and interaction_with naming the two.
       mediator:
+        in_subset: [mvp, model_extracted]
         description: >-
           The intervening variable of a mediation model. Requires an Effect.path other
           than not_applicable, and is required by one.
 
   VariationLevel:
+    in_subset: [mvp, model_extracted]
     description: >-
       The level at which a continuous term varies. This is what separates a parametric
       modulation from a cross-subject regression.
     permissible_values:
       within_subject:
+        in_subset: [mvp, model_extracted]
       between_subject:
+        in_subset: [mvp, model_extracted]
       mixed:
+        in_subset: [mvp, model_extracted]
       unstated:
+        in_subset: [mvp, model_extracted]
 
   AssociationDirection:
+    in_subset: [mvp, model_extracted]
     description: >-
       Sign of a continuous term's coefficient, or of a connectivity parameter. For a
       product term it is the sign of the interaction coefficient. When simple slopes
@@ -345,149 +462,220 @@ enums:
       the pattern in Analysis.definition.
     permissible_values:
       positive:
+        in_subset: [mvp, model_extracted]
       negative:
+        in_subset: [mvp, model_extracted]
       unstated:
+        in_subset: [mvp, model_extracted]
       not_applicable:
+        in_subset: [mvp, model_extracted]
         description: >-
-          The term or parameter has no sign to report. Covers categorical terms, whose
-          direction lives on the group or condition roles they point at; connectivity
-          parameters whose direction is carried by those roles instead; and continuous
-          nuisance terms, which are controlled for rather than interpreted, so no
-          coefficient sign is reported for them. Use `unstated` instead when a sign exists
-          and the source simply does not give it.
-
+          The term or parameter has no sign to report: categorical terms, whose direction
+          lives on the group or condition roles they point at; connectivity parameters
+          carrying their direction the same way; and continuous nuisance terms, which are
+          controlled for rather than interpreted. Use `unstated` when a sign exists and
+          the source simply does not give it.
   FunctionalForm:
+    in_subset: [mvp, model_extracted]
     description: >-
-      Shape of a term's relationship to the measure. This prevents a normalization
-      error: a squared term with a negative coefficient is an inverted-U relationship,
-      not a negative association. Non-linear and transformed terms must not be reported
-      as linear.
+      Shape of a term's relationship to the measure. A squared term with a negative
+      coefficient is an inverted-U relationship, not a negative association, so non-linear
+      and transformed terms must not be reported as linear. Open vocabulary: write the
+      source's own wording in the field when nothing here fits.
     permissible_values:
       linear:
+        in_subset: [mvp, model_extracted]
       quadratic:
+        in_subset: [mvp, model_extracted]
       product:
+        in_subset: [mvp, model_extracted]
         description: An interaction term.
       absolute:
+        in_subset: [mvp, model_extracted]
         description: >-
           Unsigned-magnitude regressors such as an absolute prediction error or an
           unsigned log-evidence.
       log:
-      other:
-        description: Anything else, with the transform named in Term.source_definition.
+        in_subset: [mvp, model_extracted]
       unstated:
+        in_subset: [mvp, model_extracted]
 
   ConnectivityMethod:
-    description: Method used to estimate connectivity.
+    in_subset: [mvp, model_extracted]
+    description: >-
+      Method used to estimate connectivity. Open vocabulary: write the source's own
+      wording in the field when nothing here fits.
     permissible_values:
       ppi:
+        in_subset: [mvp, model_extracted]
       gppi:
+        in_subset: [mvp, model_extracted]
       seed_based:
+        in_subset: [mvp, model_extracted]
       dcm:
+        in_subset: [mvp, model_extracted]
       granger:
+        in_subset: [mvp, model_extracted]
       coherence:
+        in_subset: [mvp, model_extracted]
       multivariate:
+        in_subset: [mvp, model_extracted]
         description: >-
           Pattern-based connectivity: multivoxel or informational connectivity between
           ensembles of voxels rather than between averaged time series.
-      other:
       unstated:
+        in_subset: [mvp, model_extracted]
 
   ParameterChange:
+    in_subset: [mvp, model_extracted]
     description: Whether the experimental effect raised or lowered a connectivity parameter.
     permissible_values:
       increased:
+        in_subset: [mvp, model_extracted]
       decreased:
+        in_subset: [mvp, model_extracted]
       unstated:
+        in_subset: [mvp, model_extracted]
       not_applicable:
+        in_subset: [mvp, model_extracted]
         description: Direction is carried by condition or group roles instead.
 
   InferenceTarget:
-    description: What the connectivity analysis drew inference about.
+    in_subset: [mvp, model_extracted]
+    description: >-
+      What the connectivity analysis drew inference about. Open vocabulary: write the
+      source's own wording in the field when nothing here fits.
     permissible_values:
       connectivity_parameter:
+        in_subset: [mvp, model_extracted]
       model_comparison:
+        in_subset: [mvp, model_extracted]
       network:
-      other:
+        in_subset: [mvp, model_extracted]
       unstated:
+        in_subset: [mvp, model_extracted]
 
   EdgeDirectionality:
+    in_subset: [mvp, model_extracted]
     description: >-
-      Whether a connectivity edge is genuinely directed. Only directed models such as
-      DCM and Granger causality qualify; a seed-to-voxel PPI or correlation is
-      undirected, and its sign travels with the edge rather than implying a direction.
-      This is an enumeration rather than a boolean because the source may not report it.
+      Whether a connectivity edge is genuinely directed. Only directed models such as DCM
+      and Granger causality qualify; a seed-to-voxel PPI or correlation is undirected, and
+      its sign travels with the edge rather than implying a direction.
     permissible_values:
       directed:
+        in_subset: [mvp, model_extracted]
       undirected:
+        in_subset: [mvp, model_extracted]
       unstated:
+        in_subset: [mvp, model_extracted]
 
   PerformanceRelation:
+    in_subset: [mvp, model_extracted]
     description: Direction of a decoding performance metric relative to its reference value.
     permissible_values:
       above_reference:
+        in_subset: [mvp, model_extracted]
       below_reference:
+        in_subset: [mvp, model_extracted]
       unstated:
+        in_subset: [mvp, model_extracted]
       not_applicable:
+        in_subset: [mvp, model_extracted]
 
   NullHypothesis:
+    in_subset: [mvp, model_extracted]
     description: >-
       Which null hypothesis a conjunction tested. Only the conjunction null licenses the
       interpretation that every component effect is present, so the hypothesis is
       recorded separately from the procedure that implemented it.
     permissible_values:
       global_null:
+        in_subset: [mvp, model_extracted]
         description: At least one component effect is present at a voxel (Friston et al.).
       conjunction_null:
+        in_subset: [mvp, model_extracted]
         description: Every component effect is present at a voxel (Nichols et al.).
       unstated:
+        in_subset: [mvp, model_extracted]
 
   ConjunctionImplementation:
+    in_subset: [mvp, model_extracted]
     description: >-
-      Procedure used to compute the conjunction. A minimum-statistic test is the usual
-      implementation of the conjunction null, but the two are not the same statement.
+      Procedure used to compute the conjunction, which is not the same statement as the
+      null hypothesis it tested: a minimum-statistic test is the usual implementation of
+      the conjunction null. Open vocabulary: write the source's own wording in the field
+      when nothing here fits.
     permissible_values:
       minimum_statistic:
+        in_subset: [mvp, model_extracted]
       masking:
+        in_subset: [mvp, model_extracted]
       logical_or:
-      other:
+        in_subset: [mvp, model_extracted]
       unstated:
+        in_subset: [mvp, model_extracted]
 
   ComponentMethod:
-    description: Decomposition method that produced the component map.
+    in_subset: [mvp, model_extracted]
+    description: >-
+      Decomposition method that produced the component map. Open vocabulary: write the
+      source's own wording in the field when nothing here fits.
     permissible_values:
       ica:
+        in_subset: [mvp, model_extracted]
       tensor_ica:
+        in_subset: [mvp, model_extracted]
       pca:
+        in_subset: [mvp, model_extracted]
       nmf:
+        in_subset: [mvp, model_extracted]
       dictionary_learning:
-      other:
+        in_subset: [mvp, model_extracted]
       unstated:
+        in_subset: [mvp, model_extracted]
 
   MapQuantity:
-    description: What the values of a component map represent.
+    in_subset: [mvp, model_extracted]
+    description: >-
+      What the values of a component map represent. Open vocabulary: write the source's
+      own wording in the field when nothing here fits.
     permissible_values:
       loading:
+        in_subset: [mvp, model_extracted]
       weight:
+        in_subset: [mvp, model_extracted]
       z_score:
+        in_subset: [mvp, model_extracted]
       spatial_map:
-      other:
+        in_subset: [mvp, model_extracted]
       unstated:
+        in_subset: [mvp, model_extracted]
 
   PolaritySemantics:
+    in_subset: [mvp, model_extracted]
     description: >-
       Whether the sign of a component map carries meaning. Decomposition methods can
       return components whose polarity is arbitrary, in which case a negative loading is
       not a decrease.
     permissible_values:
       meaningful:
+        in_subset: [mvp, model_extracted]
       arbitrary:
+        in_subset: [mvp, model_extracted]
       unsigned:
+        in_subset: [mvp, model_extracted]
       unstated:
+        in_subset: [mvp, model_extracted]
 
   NotStructurableReason:
-    description: Why a grounded effect has no stable structured decomposition.
+    in_subset: [mvp, model_extracted]
+    description: >-
+      Why a grounded effect has no stable structured decomposition. Open vocabulary: write
+      the source's own wording in the field when nothing here fits.
     permissible_values:
       method_specific_derived_metric:
+        in_subset: [mvp, model_extracted]
       insufficient_standard_structure:
+        in_subset: [mvp, model_extracted]
       source_too_vague:
-      other:
+        in_subset: [mvp, model_extracted]

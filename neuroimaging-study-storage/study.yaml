@@ -18,41 +18,47 @@ default_range: string
 classes:
 
   Study:
-    in_subset: [mvp, deterministic]
     tree_root: true
     description: >-
       The publication-level or dataset-level record that contains the groups,
       experiments, acquisitions, preprocessing pipelines, model estimations,
-      analyses, conditions, concepts, and reported result tables belonging to one
+      analyses, conditions, and reported result tables belonging to one
       study.
     attributes:
       id:
         in_subset: [mvp, deterministic]
+        range: string
         identifier: true
         required: true
         description: Stable identifier for the study record, such as a DOI-based or repository-local 
           identifier.
       title:
         in_subset: [mvp, deterministic]
+        range: string
         required: true
         description: Full title of the study or publication.
       description:
         in_subset: [mvp, deterministic]
+        range: string
         description: Brief free-text summary of the study aims and scope.
       design:
         in_subset: [mvp, model_extracted]
+        range: string
         description: >-
           Overall study design, including observational or interventional status,
           cross-sectional or longitudinal structure, allocation, and blinding when applicable.
       authors:
         in_subset: [mvp, deterministic]
+        range: string
         multivalued: true
         description: Authors of the study or publication, in published order.
       journal:
         in_subset: [mvp, deterministic]
+        range: string
         description: Journal or other publication venue.
       doi:
         in_subset: [mvp, deterministic]
+        range: string
         description: Digital Object Identifier, without requiring a particular URL form.
       publication_year:
         in_subset: [mvp, deterministic]
@@ -109,6 +115,14 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Distinct analyses or inferential tests reported by the study.
+      conditions:
+        in_subset: [mvp, model_extracted]
+        range: Condition
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The experimental conditions of the study. Every reference to a Condition
+          elsewhere is by identifier, so this list holds the records themselves.
       tables:
         in_subset: [mvp, deterministic]
         range: Table
@@ -123,11 +137,11 @@ classes:
         description: Named external datasets used, cited, or made available by the study.
 
   ExternalDataset:
-    in_subset: [model_extracted]
     description: A named external dataset, with an optional public location.
     attributes:
       name:
         in_subset: [model_extracted]
+        range: string
         description: Dataset name as reported by the study or its repository.
       url:
         in_subset: [model_extracted]

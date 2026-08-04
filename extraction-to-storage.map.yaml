@@ -693,7 +693,7 @@ class_derivations:
   # ───────────────────────────────────────────────────────────────────────────
 
   ModelEstimation:
-    populated_from: StatisticalModel
+    populated_from: ModelEstimation
     slot_derivations:
 
       id:
@@ -710,12 +710,14 @@ class_derivations:
         transform: normalize_enum
         notes: >-
           The extraction schema records only the source's wording, so the normalized
-          family is derived from the same field that model_type keeps verbatim. Wording
-          this table does not cover falls back to `other`, and an absent or empty
-          model_type to `unstated`; neither is guessed from surrounding prose. The method
-          families the ModelFamily enum cannot name -- ICA, representational similarity,
-          decoding, effective connectivity, coordinate-based meta-analysis -- all land on
-          `other` here and are identified by Analysis.analysis_type instead.
+          family is derived from the same field that model_type keeps verbatim. ModelFamily
+          has no `other` value and the slot accepts free text, so wording this table does
+          not cover passes through verbatim rather than collapsing to a catch-all; an
+          absent or empty model_type becomes `unstated`. Neither is guessed from
+          surrounding prose. That is why the method families the vocabulary cannot name --
+          ICA, representational similarity, decoding, effective connectivity,
+          coordinate-based meta-analysis -- have no mappings here: they survive as their
+          own wording, and the Analysis.details subclass identifies the method.
         value_mappings:
           GLM: glm
           general linear model: glm
@@ -743,26 +745,6 @@ class_derivations:
           ANCOVA: ancova
           analysis of covariance: ancova
           robust regression: robust_regression
-          ICA: other
-          independent component analysis: other
-          RSA: other
-          representational similarity: other
-          representational similarity analysis: other
-          MVPA: other
-          multi-voxel pattern analysis: other
-          multivariate pattern analysis: other
-          multivariate: other
-          SVM: other
-          decoding: other
-          searchlight: other
-          searchlight MVPA: other
-          Granger causality: other
-          DCM: other
-          dynamic causal modelling: other
-          meta-analysis: other
-          ALE: other
-          MKDA: other
-          GingerALE: other
 
       model_type:
         populated_from: model_type.value
@@ -816,7 +798,7 @@ class_derivations:
     populated_from: Analysis
     # PENDING: the alpha.11 fields of the storage Analysis have no derivation yet,
     # because the extraction schema has no counterpart for them. Missing here:
-    # certainty, analysis_type, spatial_scope, roi_definition, measure, effect
+    # spatial_scope, roi_definition, measure, details, effect
     # (kind, baseline, path, conditions, terms, statistic), details,
     # and the directional roles and factor levels of groups. The derivations below
     # are the pre-alpha.11 set, retargeted so the map still resolves against the
@@ -830,12 +812,8 @@ class_derivations:
         populated_from: name.value
         transform: verbatim
 
-      description:
-        populated_from: description.value
-        transform: verbatim
-
       roi_label:
-        populated_from: spatial_region_model.value
+        populated_from: roi_label.value
         transform: verbatim
         notes: >-
           The verbatim spatial domain is the source-grounded region label. The
@@ -851,7 +829,7 @@ class_derivations:
           and diffusion analyses without an Experiment.
 
       effect.conditions:
-        populated_from: conditions
+        populated_from: condition_terms
         transform: local_id_to_id
         notes: >-
           Each local_id becomes a ConditionTerm whose condition is the resolved
@@ -860,7 +838,7 @@ class_derivations:
           the derived effect kind.
 
       model_estimation:
-        populated_from: statistical_model
+        populated_from: model_estimation
         transform: local_id_to_id
         notes: >-
           The extraction schema still calls this record a StatisticalModel; the storage
@@ -872,7 +850,7 @@ class_derivations:
         notes: Structured inference settings are extracted at the analysis level.
 
       groups:
-        populated_from: groups
+        populated_from: group_terms
         transform: local_id_to_id
         notes: >-
           Each local_id becomes a GroupTerm whose group is the resolved Group and whose
@@ -886,15 +864,16 @@ class_derivations:
       definition:
         populated_from: contrast_definition.value
         transform: verbatim
-        notes: The verbatim contrast specification is the source-grounded definition (layer L2).
+        notes: >-
+          The verbatim contrast specification is the source-grounded definition (layer L2),
+          and its only source. An Analysis has a definition and no description, on either
+          side of the map: one field states the tested effect, so there is no second
+          narrative field to prefer it over and no fallback to reach for.
 
       tables:
         populated_from: tables
         transform: local_id_to_id
 
-      concepts:
-        populated_from: concepts
-        transform: local_id_to_id
 
       coordinate_space:
         populated_from: coordinate_space.value
@@ -930,9 +909,15 @@ class_derivations:
             flags the analysis.
           See issue #1.
 
-      group_sample_sizes:
-        populated_from: group_sample_sizes
+      groups.n:
+        populated_from: group_terms
         transform: verbatim
+        notes: >-
+          Per-analysis counts no longer form a parallel list. Each extraction
+          GroupSampleSize resolves its group local_id to a storage Group and writes `n`
+          onto that Group's existing GroupTerm in `groups` above. A count naming a group
+          the analysis does not include has nowhere to go, which is the point of the
+          merge: previously the two lists could disagree silently.
 
   # ───────────────────────────────────────────────────────────────────────────
 
@@ -950,59 +935,6 @@ class_derivations:
       description:
         populated_from: description.value
         transform: verbatim
-
-  # ───────────────────────────────────────────────────────────────────────────
-
-  Concept:
-    populated_from: Concept
-    slot_derivations:
-
-      id:
-        transform: generate
-
-      name:
-        populated_from: name.value
-        transform: verbatim
-
-      description:
-        populated_from: description.value
-        transform: verbatim
-
-      concept_type:
-        populated_from: concept_type.value
-        source_evidence: concept_type.evidence
-        status_field: concept_type.extraction_status
-        transform: normalize_enum
-        value_mappings:
-          cognitive: cognitive process
-          cognitive process: cognitive process
-          cognition: cognitive process
-          behavior: behavior
-          behavioral: behavior
-          behavioural: behavior
-          disorder: disorder
-          clinical: disorder
-          psychiatric: disorder
-          neurological: disorder
-          anatomy: anatomy
-          anatomical: anatomy
-          brain region: anatomy
-          neural structure: anatomy
-          stimulus: stimulus
-          stimuli: stimulus
-          measure: measurement
-          measurement: measurement
-          task measure: measurement
-
-      ontology_id:
-        transform: api_lookup
-        notes: >-
-          This field is absent from the extraction schema and is populated entirely
-          through an external ontology lookup. Cache results by concept name.
-
-      ontology_url:
-        transform: api_lookup
-        notes: Retrieved with the external ontology lookup; not extracted by the LLM.
 
   # ───────────────────────────────────────────────────────────────────────────
 

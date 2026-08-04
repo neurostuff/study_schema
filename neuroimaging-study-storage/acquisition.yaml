@@ -13,7 +13,6 @@ default_range: string
 classes:
 
   Acquisition:
-    in_subset: [mvp, model_extracted]
     description: >-
       A modality-agnostic protocol used to acquire neuroimaging or associated physiological data, holding only what
       every modality has in common. One Acquisition carries one modality: simultaneous recordings such as EEG+fMRI
@@ -22,19 +21,21 @@ classes:
     attributes:
       id:
         in_subset: [mvp, deterministic]
+        range: string
         identifier: true
         required: true
         description: Stable identifier used by Experiment and Analysis foreign-key references.
       acquisition_type:
         in_subset: [mvp, deterministic]
+        range: string
         designates_type: true
         required: true
         description: >-
-          The concrete subclass this record instantiates. Derived by the mapper from modality through that value's
-          `instantiates`, never extracted, and redundant with modality by construction -- it exists because a slot
-          ranging on Acquisition cannot otherwise be loaded into the right subclass.
+          The concrete subclass this record instantiates. Derived by the mapper from the
+          modality value's `instantiates`, never extracted.
       name:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Human-readable label distinguishing this acquisition protocol from others in the study.
       modality:
         in_subset: [mvp, model_extracted]
@@ -52,20 +53,22 @@ classes:
           recordings.
       instrument:
         in_subset: [model_extracted]
+        range: string
         description: Scanner, amplifier, or recording system as reported, including manufacturer and model.
       description:
         in_subset: [model_extracted]
+        range: string
         description: >-
-          Narrative account of the acquisition, holding whatever the source reports that no typed field in this
-          schema accepts. On the base class rather than on OtherModality because the subclasses are siblings: an
-          unusual fMRI parameter has to have somewhere to go without the record also having to be an OtherModality.
+          Narrative account of the acquisition, holding whatever the source reports that
+          no typed field in this schema accepts. Available on every modality, not only
+          OtherModality.
       structured_details:
         in_subset: [model_extracted]
+        range: string
         description: >-
-          JSON-encoded acquisition parameters that no typed field accepts, when they have structure worth keeping in
-          queryable form. A string rather than a nested object because LinkML has no free-form object range.
+          JSON-encoded acquisition parameters that no typed field accepts, when they have
+          structure worth keeping in queryable form.
   MRI:
-    in_subset: [mvp, model_extracted]
     is_a: Acquisition
     description: >-
       An MRI acquisition of any kind -- functional, structural, or diffusion, as modality records. Its own
@@ -79,9 +82,11 @@ classes:
         description: Nominal static magnetic field strength in tesla.
       pulse_sequence_type:
         in_subset: [mvp, model_extracted]
+        range: string
         description: General pulse sequence family, such as EPI, MPRAGE, SPGR, or spin echo.
       mr_acquisition_type:
         in_subset: [model_extracted]
+        range: string
         description: Acquisition dimensionality, such as 2D or 3D; useful for distinguishing protocols with 
           materially different spatial sampling.
       repetition_time_seconds:
@@ -109,7 +114,6 @@ classes:
         description: Number of acquired volumes contributing to the recording, when reported; a proxy for scan
           length and temporal sampling in functional acquisitions.
   EEG:
-    in_subset: [mvp, model_extracted]
     is_a: Acquisition
     description: >-
       A scalp EEG acquisition. Its own attributes are the ones that materially distinguish recordings used in
@@ -122,12 +126,15 @@ classes:
         description: Sampling frequency of the recording in hertz.
       eeg_reference:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Reference scheme and location used for the raw recording.
       eeg_placement_scheme:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Electrode placement system, such as the 10-20 or 10-10 system.
       recording_type:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Recording organization, such as continuous, discontinuous, or epoched.
       eeg_channel_count:
         in_subset: [mvp, model_extracted]
@@ -135,7 +142,6 @@ classes:
         minimum_value: 0
         description: Number of simultaneously recorded EEG channels.
   FNIRS:
-    in_subset: [mvp, model_extracted]
     is_a: Acquisition
     description: >-
       An fNIRS acquisition. Its own attributes are the ones affecting cortical sensitivity, spatial sampling, or
@@ -148,6 +154,7 @@ classes:
         description: Sampling frequency of the fNIRS data in hertz.
       nirs_system_type:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Instrument principle, such as continuous-wave, frequency-domain, or time-domain NIRS.
       nirs_channel_count:
         in_subset: [mvp, model_extracted]
@@ -173,16 +180,17 @@ classes:
         description: Reported source-detector separations in millimeters.
       nirs_placement_scheme:
         in_subset: [mvp, model_extracted]
+        range: string
         multivalued: true
         description: Standard placement system or listed optode positions, such as 10-20, Cz, or Pz.
       recorded_signal_types:
         in_subset: [mvp, model_extracted]
+        range: string
         multivalued: true
         description: >-
           Raw or derived channel signal types, such as continuous-wave amplitude,
           optical density, oxygenated hemoglobin, or deoxygenated hemoglobin.
   PET:
-    in_subset: [mvp, model_extracted]
     is_a: Acquisition
     description: >-
       A PET acquisition. Its own attributes are the ones defining the biological signal or spatial comparability,
@@ -190,18 +198,23 @@ classes:
     attributes:
       image_units:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Units encoded in the PET image, such as Bq/mL or SUV.
       tracer_name:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Name of the injected tracer compound.
       tracer_radionuclide:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Radioisotope labeling the tracer, such as C11, F18, or O15.
       mode_of_administration:
         in_subset: [model_extracted]
+        range: string
         description: Tracer administration mode, such as bolus, infusion, or bolus plus infusion.
       scan_type:
         in_subset: [model_extracted]
+        range: string
         description: Whether the analyzed PET data were acquired or summarized as a static or dynamic scan.
       uptake_time_seconds:
         in_subset: [mvp, model_extracted]
@@ -221,41 +234,36 @@ classes:
         minimum_value: 0
         description: Reported reconstructed spatial resolution, such as FWHM dimensions, in millimeters.
   OtherModality:
-    in_subset: [mvp, model_extracted]
     is_a: Acquisition
     description: >-
-      An acquisition whose modality has no class of its own, which is every Modality value instantiating this one:
-      MEG, SPECT, and `other`. Nothing here is normalized, so this is where a modality the schema never anticipated
-      keeps its parameters. The escape hatch is unconditional, so an unusual acquisition never has to drop true
-      facts in order to validate. A parameter that MRI, EEG, FNIRS, or PET has no field for is the one thing it
-      cannot hold, now that those are sibling classes rather than payloads -- extend the sibling instead.
+      An acquisition whose modality has no class of its own: MEG, SPECT, and `other`.
+      Nothing here is normalized, so this is where a modality the schema does not name
+      keeps its parameters. A parameter that MRI, EEG, FNIRS, or PET has no field for
+      belongs on that sibling class instead.
     attributes:
       modality_label:
         in_subset: [mvp, model_extracted]
+        range: string
         required: true
         description: >-
-          The source's own name for the modality or recording technique, verbatim. Always populated, because the
-          Modality vocabulary is coarser than what a source reports and this is the only record of what `other`
-          actually was.
+          The source's own name for the modality or recording technique, verbatim. Always
+          populated, since the Modality vocabulary is coarser than what a source reports.
       reason_no_modality_class_used:
         in_subset: [mvp, model_extracted]
+        range: string
         description: >-
-          Why this is not an MRI, EEG, FNIRS, or PET record. Guards the escape hatch against absorbing acquisitions
-          that one of the typed siblings already describes.
-
+          Why this is not an MRI, EEG, FNIRS, or PET record.
 enums:
 
   Modality:
     in_subset: [mvp]
     description: >-
-      Imaging or recording modality of one Acquisition, and through `instantiates` the class in this module that
-      holds that modality's parameters. fMRI, sMRI, dMRI, and MRI all instantiate MRI, which is why the vocabulary
-      can stay finer-grained than the classes; EEG, fNIRS, and PET instantiate their namesakes; MEG, SPECT, and
-      other instantiate OtherModality, having no compact class of their own.
-
-      `instantiates` is the reference, not `meaning`: these are classes in this schema rather than concepts in an
-      ontology. It carries a CURIE because that is the range LinkML gives it, and `neurostudy` is this module's own
-      default prefix, so `neurostudy:MRI` resolves to the MRI class defined below.
+      Imaging or recording modality of one Acquisition, and through `instantiates` the
+      class in this module holding that modality's parameters. fMRI, sMRI, dMRI, and MRI
+      all instantiate MRI; EEG, fNIRS, and PET instantiate their namesakes; MEG, SPECT,
+      and other instantiate OtherModality. `instantiates` carries a CURIE against this
+      module's own `neurostudy` prefix, so `neurostudy:MRI` resolves to the MRI class
+      below.
     permissible_values:
       fMRI:
         in_subset: [mvp]
@@ -292,7 +300,8 @@ enums:
       MEG:
         in_subset: [mvp]
         instantiates: [neurostudy:OtherModality]
-        description: Magnetoencephalography. A first-class value because it is common, but it has no compact class.
+        description: >-
+          Magnetoencephalography. A first-class value with no compact class of its own.
       SPECT:
         in_subset: [mvp]
         instantiates: [neurostudy:OtherModality]
@@ -306,7 +315,6 @@ enums:
       unstated:
         in_subset: [mvp]
         description: >-
-          The source does not report the modality clearly enough to choose a value, not even MRI. Instantiates
-          nothing, because no set of parameters follows from an unknown modality. Distinct from `other`, which
-          means the modality is known and unlisted.
-
+          The source does not report the modality clearly enough to choose a value, not
+          even MRI. Instantiates nothing. Distinct from `other`, which means the modality
+          is known and unlisted.

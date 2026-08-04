@@ -112,7 +112,11 @@ classes:
         description: Verbatim or closely paraphrased study design description.
       study_type:
         range: ExtractedString
-        description: 'LLM-assigned publication category. Expected values: primary, meta_analysis, systematic_review, narrative_review, case_report, methods_development, simulation, commentary. The mapper normalizes this to the StudyType enum in the storage schema. See issue #2.'
+        description: >-
+          'LLM-assigned publication category. Expected values: primary, meta_analysis,
+          systematic_review, narrative_review, case_report, methods_development, simulation,
+          commentary. The mapper normalizes this to the StudyType enum in the storage schema. See
+          issue #2.'
       external_datasets:
         range: ExternalDataset
         multivalued: true
@@ -122,8 +126,8 @@ classes:
         range: Assessment
         multivalued: true
         inlined_as_list: true
-      predictors:
-        range: Predictor
+      terms:
+        range: Term
         multivalued: true
         inlined_as_list: true
       groups:
@@ -146,11 +150,11 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Preprocessing pipelines extracted from the paper.
-      statistical_models:
-        range: StatisticalModel
+      model_estimations:
+        range: ModelEstimation
         multivalued: true
         inlined_as_list: true
-        description: Statistical models extracted from the paper.
+        description: Model estimation records extracted from the paper.
       analyses:
         range: Analysis
         multivalued: true
@@ -161,11 +165,6 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Experimental conditions extracted from the paper.
-      concepts:
-        range: Concept
-        multivalued: true
-        inlined_as_list: true
-        description: Cognitive/behavioral/anatomical concepts extracted from the paper.
       tables:
         range: Table
         multivalued: true
@@ -484,8 +483,8 @@ classes:
       steps:
         range: ExtractedValue
         description: Ordered preprocessing steps, verbatim, in execution order.
-  StatisticalModel:
-    description: Extracted statistical model record.
+  ModelEstimation:
+    description: Extracted record of how a model was specified and estimated.
     attributes:
       local_id:
         range: string
@@ -498,6 +497,10 @@ classes:
         range: ExtractedString
         required: true
         description: Model family as stated (e.g., "GLM", "general linear model", "ICA"); mapper normalizes to controlled vocabulary.
+      hrf_model:
+        range: ExtractedString
+        description: Haemodynamic response basis the design matrix used, verbatim, such as "canonical HRF",
+          "canonical plus temporal derivative", or "FIR". Omit for a measure that models no timeseries.
       model_settings:
         range: ExtractedString
         description: Essential model settings, verbatim.
@@ -512,8 +515,6 @@ classes:
         description: Statistical software name and version, verbatim.
   InferenceSettings:
     attributes:
-      statistic_type:
-        range: ExtractedString
       inference_level:
         range: ExtractedString
       voxelwise_threshold_value:
@@ -554,12 +555,22 @@ classes:
       name:
         range: ExtractedString
         description: Analysis label, verbatim.
-      description:
+      spatial_scope:
         range: ExtractedString
-        description: Narrative summary of the analysis, verbatim.
-      spatial_region_model:
+        description: Spatial extent of the inference, verbatim -- whole brain, one or more regions of
+          interest, or a searchlight; mapper normalizes.
+      spatial_unit:
         range: ExtractedString
-        description: Spatial domain of the analysis, verbatim.
+        description: The element the analysis ran over, verbatim -- voxels, surface vertices, averaged
+          regions, or parcels; mapper normalizes. Distinct from spatial_scope, which gives the extent.
+      roi_definition:
+        range: ExtractedString
+        description: How a region of interest was defined, verbatim -- an atlas or parcellation, prior
+          literature, an a priori anatomical region, a separate functional localizer, or this study's own
+          earlier analysis; mapper normalizes. Omit for a whole-brain or searchlight analysis.
+      roi_label:
+        range: ExtractedString
+        description: The atlas, parcellation, or region name, verbatim. Omit for a whole-brain analysis.
       acquisitions:
         range: string
         multivalued: true
@@ -567,33 +578,50 @@ classes:
       experiment:
         range: string
         description: local_id of the Experiment record associated with this analysis.
-      conditions:
+      condition_terms:
+        range: ConditionTerm
+        multivalued: true
+        inlined_as_list: true
+        description: The conditions entering this analysis and, for each, which side of the comparison it
+          sits on. Every condition the analysis uses gets an entry, directional or not.
+      terms:
         range: string
         multivalued: true
-        description: local_ids of Condition records entering this analysis.
-      predictors:
+        description: local_ids of Term records entering this analysis.
+      model_estimation:
         range: string
+        description: local_id of the ModelEstimation used.
+      group_terms:
+        range: GroupTerm
         multivalued: true
-        description: local_ids of Predictor records entering this analysis.
-      statistical_model:
-        range: string
-        description: local_id of the StatisticalModel used.
-      groups:
-        range: string
-        multivalued: true
-        description: local_ids of Group records included.
+        inlined_as_list: true
+        description: The participant cohorts in this analysis and, for each, which side of the comparison
+          it sits on and how many of its participants this analysis included.
       preprocessing:
         range: string
         description: local_id of the Preprocessing pipeline used.
       contrast_definition:
         range: ExtractedString
         description: Contrast specification, verbatim.
-      dependent_measure:
+      measure:
+        range: Measure
+        inlined: true
+        description: The scientific quantity of the map, in the source's words.
+      statistic:
+        range: Statistic
+        inlined: true
+        description: The test statistic reported for this analysis and its degrees of freedom.
+      baseline:
         range: ExtractedString
-        description: Outcome measure analyzed, verbatim.
-      result_units:
+        description: >-
+          What the map was tested against, verbatim -- a named condition such as rest or fixation,
+          an implicit baseline, chance, or zero; mapper normalizes. Do not invent a baseline
+          condition: if the baseline is a modelled condition, give it a condition term on the lesser
+          side instead.
+      mediation_path:
         range: ExtractedString
-        description: Units of the reported result, verbatim.
+        description: For a mediation analysis, which path was tested, verbatim -- the direct effect, the
+          indirect or mediated path, or the total effect; mapper normalizes. Omit otherwise.
       independent_sample_key:
         range: ExtractedString
         description: Study-local key identifying the participant sample used by this analysis.
@@ -601,17 +629,9 @@ classes:
         range: string
         multivalued: true
         description: local_ids of Table records reporting results.
-      concepts:
-        range: string
-        multivalued: true
-        description: local_ids of Concept records.
       coordinate_space:
         range: ExtractedString
         description: Coordinate space as stated (e.g., "MNI space", "Talairach"); mapper normalizes.
-      group_sample_sizes:
-        range: GroupSampleSize
-        multivalued: true
-        inlined_as_list: true
       assessments:
         range: string
         multivalued: true
@@ -623,21 +643,41 @@ classes:
         range: StatisticalMap
         multivalued: true
         inlined_as_list: true
+      decoding:
+        range: DecodingDetails
+        inlined: true
+        description: Fill in for a classification or pattern-discriminability analysis.
+      similarity:
+        range: SimilarityDetails
+        inlined: true
+        description: Fill in for a representational-similarity analysis, where the association is at the
+          level of dissimilarity matrices. A similarity regressor entered into a univariate GLM is a
+          parametric modulation instead, recorded as a Term.
+      connectivity:
+        range: ConnectivityDetails
+        inlined: true
+        description: Fill in for a connectivity analysis -- PPI, gPPI, seed-based, DCM, Granger causality,
+          or coherence.
+      conjunction:
+        range: ConjunctionDetails
+        inlined: true
+        description: Fill in for a logical combination of independently defined effects.
+      component_decomposition:
+        range: ComponentDecompositionDetails
+        inlined: true
+        description: Fill in for ICA and related component maps.
+      other_method:
+        range: OtherAnalysisDetails
+        inlined: true
+        description: Fill in for a method none of the five above covers, such as a mediation analysis. Leave
+          all six empty for a mass-univariate analysis -- a voxelwise, vertexwise, or ROI-wise GLM,
+          mixed-effects model, ANOVA, ANCOVA, or robust regression -- which needs no method payload.
       model_representation_status:
         range: ExtractedString
       model_representation_notes:
         range: ExtractedString
       analysis_interpretations:
         range: ExtractedValue
-  GroupSampleSize:
-    attributes:
-      group:
-        range: string
-        required: true
-        description: local_id of the Group included in this analysis.
-      n:
-        range: ExtractedInteger
-        required: true
   Assessment:
     attributes:
       local_id:
@@ -650,32 +690,71 @@ classes:
         range: ExtractedString
       assessment_type:
         range: ExtractedString
-  Predictor:
+  Term:
+    description: >-
+      One term of a statistical model, categorical or continuous. Replaces the factor and
+      predictor split: what matters is whether the term is categorical or continuous.
     attributes:
       local_id:
         range: string
         required: true
+        description: Short label assigned by the extractor.
       name:
         range: ExtractedString
         required: true
+        description: Term label as the source names it, verbatim. Also the factor's identity, referred to
+          by FactorLevel.factor_name.
       description:
         range: ExtractedString
-      source:
-        range: PredictorSource
-        inlined: true
-  PredictorSource:
-    attributes:
-      condition:
+        description: The source's own definition of the term, verbatim, including the origin of a continuous
+          term that no Assessment supplies -- age, dose, a motion parameter, cardiac phase, scanner drift.
+      term_type:
+        range: ExtractedString
+        description: Whether the term is categorical or continuous, as stated or as evident from the model;
+          mapper normalizes.
+      role:
+        range: ExtractedString
+        description: How the term enters the model, verbatim or as evident -- a term of interest, a covariate
+          controlled for, a moderator, a mediator; mapper normalizes. Say "covariate" for something the
+          paper controls for rather than tests.
+      conditions:
         range: string
-        description: local_id of the source Condition.
-      group:
+        multivalued: true
+        description: local_ids of Condition records a categorical term ranges over.
+      groups:
         range: string
-        description: local_id of the source Group.
+        multivalued: true
+        description: local_ids of Group records a categorical term ranges over.
       assessment:
         range: string
-        description: local_id of the source Assessment.
-      other:
+        description: local_id of the Assessment supplying a continuous term's measurement.
+      levels:
         range: ExtractedString
+        multivalued: true
+        description: The factor's level labels, verbatim, when they are not all present as condition or
+          group terms of the analysis.
+      variation_level:
+        range: ExtractedString
+        description: The level a continuous term varies at, verbatim -- within subject, between subjects,
+          or both; mapper normalizes. This is what separates a parametric modulation from a cross-subject
+          regression.
+      association_direction:
+        range: ExtractedString
+        description: Reported sign of a continuous term's coefficient, verbatim; mapper normalizes. Omit
+          when the source reports no direction.
+      functional_form:
+        range: ExtractedString
+        description: Shape of the term's relationship to the measure, verbatim -- linear, quadratic, a
+          product, an absolute value, log-transformed, or a named transform; mapper normalizes. Do not
+          report a non-linear or transformed term as linear.
+      interaction_with:
+        range: string
+        multivalued: true
+        description: local_ids of the other Term records this term is a product of, when the source names
+          an interaction term.
+      unit:
+        range: ExtractedString
+        description: Unit of a continuous term, verbatim, when meaningful.
   StatisticalMap:
     attributes:
       local_id:
@@ -709,23 +788,6 @@ classes:
       description:
         range: ExtractedString
         description: Condition definition, verbatim.
-  Concept:
-    description: Extracted concept record. ontology_id and ontology_url are absent because they are resolved by the mapper via external ontology API lookups (Cognitive Atlas, NeuroVault). The LLM provides only the free-text name and category.
-    attributes:
-      local_id:
-        range: string
-        required: true
-        description: Short label assigned by the extractor.
-      name:
-        range: ExtractedString
-        required: true
-        description: Concept label as stated or interpreted from the paper.
-      description:
-        range: ExtractedString
-        description: Concept definition in the study context, verbatim.
-      concept_type:
-        range: ExtractedString
-        description: Broad category as stated or inferred (e.g., "cognitive process", "brain region"); mapper normalizes to controlled vocabulary.
   Table:
     description: Extracted table record.
     attributes:
@@ -754,3 +816,287 @@ classes:
       description:
         range: ExtractedString
         description: Summary of the table's role in the study.
+  GroupTerm:
+    description: >-
+      One participant cohort in an analysis, the side of the comparison it sits on, and how many of its
+      participants the analysis included.
+    attributes:
+      group:
+        range: string
+        required: true
+        description: local_id of the Group record.
+      role:
+        range: ExtractedString
+        description: >-
+          Which side of the comparison this cohort sits on, verbatim as the source frames it -- the greater
+          side, the lesser side, or simply included without a direction; mapper normalizes. Omit when the
+          source compares the cohorts but does not report which way the effect went.
+      factor_levels:
+        range: FactorLevel
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The factorial cell this cohort represents, for a crossed design such as genotype by diagnosis.
+          Leave empty for the ordinary case of one cohort per group.
+      n:
+        range: ExtractedInteger
+        description: Participants from this cohort included in this analysis, when reported per analysis.
+  ConditionTerm:
+    description: One experimental condition entering an analysis and the side of the comparison it sits on.
+    attributes:
+      condition:
+        range: string
+        required: true
+        description: local_id of the Condition record.
+      label:
+        range: ExtractedString
+        description: The source's wording for this condition in this analysis, verbatim, when it differs
+          from the Condition name.
+      role:
+        range: ExtractedString
+        description: >-
+          Which side of the comparison this condition sits on, verbatim as the source frames it; mapper
+          normalizes. For an ordered contrast mark the extremes and leave the middle terms undirected,
+          keeping the ordering in contrast_definition.
+      factor_levels:
+        range: FactorLevel
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The factorial cell this condition represents. Record a factor held constant across the directional
+          terms as well, with its constant level.
+  FactorLevel:
+    description: One factor and the level of it that a cohort or condition represents.
+    attributes:
+      factor_name:
+        range: ExtractedString
+        required: true
+        description: Name of the experimental or participant factor, verbatim. Must match the name of a
+          categorical Term of this analysis.
+      level:
+        range: ExtractedString
+        required: true
+        description: The level of that factor which this cohort or condition carries, verbatim.
+  Measure:
+    description: The scientific quantity of the map, in the source's own words.
+    attributes:
+      source_label:
+        range: ExtractedString
+        description: The paper's own term for the measure, verbatim, such as "BOLD signal change", "grey
+          matter volume", or "fractional anisotropy". The mapper normalizes it to a family and a type.
+      specific_metric:
+        range: ExtractedString
+        description: Named metric when the measure is a specific one, verbatim, such as fractional
+          anisotropy, ALFF, or a named tracer binding potential.
+      unit:
+        range: ExtractedString
+        description: Reported unit of the measure, verbatim, when meaningful.
+  Statistic:
+    description: The test statistic reported for an analysis and its degrees of freedom.
+    attributes:
+      family:
+        range: ExtractedString
+        description: Test statistic as reported, verbatim -- t, z, F, chi-square, a likelihood ratio, a
+          beta, or a correlation; mapper normalizes.
+      degrees_of_freedom_numerator:
+        range: ExtractedNumber
+        description: Numerator degrees of freedom, as reported. Normally only an F or a likelihood ratio
+          has one.
+      degrees_of_freedom_denominator:
+        range: ExtractedNumber
+        description: >-
+          Denominator degrees of freedom, as reported. For a single-degree-of-freedom statistic this is the
+          only one -- t(151) is F(1,151), so record 151 here and leave the numerator out.
+  DecodingDetails:
+    description: Method payload for a classification or pattern-discriminability analysis.
+    attributes:
+      decoded_variable:
+        range: ExtractedString
+        required: true
+        description: The variable the classifier or discriminability test predicted, verbatim.
+      classes:
+        range: DecodingClass
+        multivalued: true
+        inlined_as_list: true
+        description: The classes discriminated.
+      performance_metric:
+        range: ExtractedString
+        required: true
+        description: Reported performance measure, verbatim, such as accuracy, AUC, or d-prime.
+      reference_value:
+        range: ExtractedNumber
+        description: Numeric reference the metric was compared against, when reported. What kind of
+          reference it is goes in the analysis baseline.
+      performance_relation:
+        range: ExtractedString
+        description: Whether performance was above or below the reference, verbatim; mapper normalizes.
+      validation_scheme:
+        range: ExtractedString
+        description: Cross-validation or resampling scheme, verbatim, such as leave-one-run-out.
+      generalization:
+        range: ExtractedString
+        description: Train and test split for cross-decoding, verbatim, when the analysis generalized
+          across sets.
+  DecodingClass:
+    description: One class discriminated by a decoding analysis.
+    attributes:
+      label:
+        range: ExtractedString
+        required: true
+        description: Class label as reported, verbatim.
+      condition:
+        range: string
+        description: local_id of the Condition this class corresponds to, when it is one.
+  SimilarityDetails:
+    description: Method payload for a representational-similarity analysis.
+    attributes:
+      model:
+        range: ExtractedString
+        description: The model dissimilarity matrix tested, verbatim. Omit for a model-free test such as
+          within- versus between-category pattern similarity.
+      neural_representation:
+        range: ExtractedString
+        description: How the neural pattern was defined, verbatim, such as the voxel set or time window used.
+      similarity_metric:
+        range: ExtractedString
+        description: Similarity or distance metric, verbatim.
+      competing_models:
+        range: ExtractedString
+        multivalued: true
+        description: Other models the reported model was compared against, verbatim.
+  ConnectivityDetails:
+    description: Method payload for a connectivity analysis.
+    attributes:
+      connectivity_method:
+        range: ExtractedString
+        required: true
+        description: Method used to estimate connectivity, verbatim -- PPI, gPPI, seed-based correlation,
+          DCM, Granger causality, or coherence; mapper normalizes.
+      seed_regions:
+        range: ExtractedString
+        multivalued: true
+        description: Seed or source regions, verbatim.
+      target_regions:
+        range: ExtractedString
+        multivalued: true
+        description: Target regions, verbatim. Empty for a seed-to-whole-brain analysis.
+      parameter_sign:
+        range: ExtractedString
+        description: Sign of the connectivity parameter itself, verbatim, such as a negative PPI; mapper
+          normalizes.
+      parameter_change:
+        range: ExtractedString
+        description: Whether the experimental effect raised or lowered the connectivity parameter, verbatim;
+          mapper normalizes.
+      edges:
+        range: ConnectivityEdge
+        multivalued: true
+        inlined_as_list: true
+        description: Named region pairs, when the source reports specific edges.
+      modulatory_input:
+        range: ExtractedString
+        description: Modulatory input of the model, verbatim, for DCM and related methods.
+      inference_target:
+        range: ExtractedString
+        description: What the analysis drew inference about, verbatim -- a connectivity parameter, a model
+          comparison, or a network; mapper normalizes.
+  ConnectivityEdge:
+    description: One reported connection between two named regions.
+    attributes:
+      source_region:
+        range: ExtractedString
+        required: true
+        description: Source region, verbatim.
+      target_region:
+        range: ExtractedString
+        required: true
+        description: Target region, verbatim.
+      directionality:
+        range: ExtractedString
+        description: >-
+          Whether this edge is directed, verbatim; mapper normalizes. Only a directed model such as DCM or
+          Granger causality supports a direction -- never infer one the method cannot support.
+      parameter_sign:
+        range: ExtractedString
+        description: Sign of this edge's parameter, verbatim, when reported per edge.
+  ConjunctionDetails:
+    description: Method payload for a logical combination of independently defined effects.
+    attributes:
+      components:
+        range: ConjunctionComponent
+        multivalued: true
+        inlined_as_list: true
+        description: The independently defined effects that were combined.
+      null_hypothesis:
+        range: ExtractedString
+        description: Which null hypothesis was tested, verbatim -- the global null or the conjunction null;
+          mapper normalizes.
+      implementation:
+        range: ExtractedString
+        description: Procedure that computed the conjunction, verbatim, such as a minimum-statistic test,
+          masking, or a logical OR; mapper normalizes.
+  ConjunctionComponent:
+    description: One component effect of a conjunction.
+    attributes:
+      analysis:
+        range: string
+        description: local_id of the sibling Analysis record for this component, when it is separately
+          reported.
+      method:
+        range: ExtractedString
+        description: The component's own method, verbatim, when it is known and differs from the others.
+      definition:
+        range: ExtractedString
+        required: true
+        description: Statement of the component effect, verbatim, including its direction.
+  ComponentDecompositionDetails:
+    description: Method payload for ICA and related component maps.
+    attributes:
+      method:
+        range: ExtractedString
+        description: Decomposition method, verbatim, such as ICA, tensor ICA, PCA, or dictionary learning;
+          mapper normalizes.
+      component_id:
+        range: ExtractedString
+        required: true
+        description: Identifier of the component within the decomposition, as reported.
+      component_label:
+        range: ExtractedString
+        description: The source's name for the component, verbatim, such as a network label.
+      total_components:
+        range: ExtractedInteger
+        description: Number of components the decomposition produced.
+      selection_criterion:
+        range: ExtractedString
+        description: How this component was selected for reporting, verbatim.
+      map_quantity:
+        range: ExtractedString
+        description: What the values of the reported map represent, verbatim -- a loading, a weight, a
+          z-score, or a spatial map; mapper normalizes.
+      polarity_semantics:
+        range: ExtractedString
+        description: >-
+          Whether the sign of the map carries meaning, verbatim; mapper normalizes. Decomposition methods
+          can return components whose polarity is arbitrary, in which case a negative loading is not a
+          decrease.
+  OtherAnalysisDetails:
+    description: Method payload for a method outside the first-class families, such as a mediation analysis.
+    attributes:
+      method_label:
+        range: ExtractedString
+        required: true
+        description: The source's name for the method, verbatim.
+      structured_details:
+        range: ExtractedString
+        description: JSON-encoded method-specific payload, when the method has structure worth keeping. A
+          string because the schema has no free-form object range.
+      reason_first_class_type_not_used:
+        range: ExtractedString
+        required: true
+        description: Why none of the five named method payloads fits this analysis.
+      not_structurable_reason:
+        range: ExtractedString
+        description: >-
+          Set only when the effect is grounded in the source but has no stable structured decomposition at
+          all, naming why -- a method-specific derived metric, too little standard structure, or a source
+          too vague. Leave empty when the method is merely outside the named families.

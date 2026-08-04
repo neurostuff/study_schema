@@ -14,7 +14,6 @@ default_range: string
 classes:
 
   Experiment:
-    in_subset: [mvp, model_extracted]
     description: >-
       A meaningful participant paradigm, such as a task, resting-state protocol,
       stimulation, or passive viewing, performed in association with an acquisition.
@@ -23,15 +22,18 @@ classes:
     attributes:
       id:
         in_subset: [mvp, deterministic]
+        range: string
         identifier: true
         required: true
         description: Stable identifier used by other study records.
       task_name:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Short, unique label for the task or paradigm; corresponds conceptually to BIDS TaskName 
           when applicable.
       task_description:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Complete narrative description of what participants experienced and did.
       conditions:
         in_subset: [mvp, model_extracted]
@@ -41,6 +43,7 @@ classes:
         description: The experimental conditions in this experiment.
       design_type:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Design form such as event-related, block, mixed, or naturalistic.
       acquisitions:
         in_subset: [mvp, model_extracted]
@@ -54,32 +57,38 @@ classes:
           the experiment itself.
       presentation_software:
         in_subset: [model_extracted]
+        range: string
         description: Stimulus-presentation software name, version, and operating system when reported.
       instructions:
         in_subset: [model_extracted]
+        range: string
         description: Task- or paradigm-specific instructions given to participants.
       stimuli:
         in_subset: [model_extracted]
+        range: string
         description: Visuals or other materials presented to participants.
       task_performance_measures:
         in_subset: [model_extracted]
+        range: string
         multivalued: true
         description: Behavioral variables recorded and summaries used to verify task performance.
 
   Condition:
-    in_subset: [mvp, model_extracted]
     description: A named experimental condition, baseline, event type, or modeled state.
     attributes:
       id:
         in_subset: [mvp, deterministic]
+        range: string
         identifier: true
         required: true
         description: Stable identifier.
       name:
         in_subset: [mvp, model_extracted]
+        range: string
         required: true
         description: Short condition label that distinguishes the condition from other task periods or modeled
           effects.
       description:
         in_subset: [mvp, model_extracted]
+        range: string
         description: Complete definition of the condition, including baseline or control state when relevant.
