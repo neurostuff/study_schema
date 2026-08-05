@@ -245,8 +245,7 @@ classes:
   Effect:
     description: >-
       The inferential quantity tested about a map: what was compared, whether the comparison is a
-      mediated path, and what statistic tested it. Applies unchanged to every method, so the
-      method and the effect never compete for the same field. Estimation facts -- model family,
+      mediated path, and what statistic tested it. Estimation facts -- model family,
       estimator, stage, software -- belong to the ModelEstimation that produced the map.
 
       The comparison is `cells`: one entry per level of a model term that entered the contrast,
@@ -255,9 +254,6 @@ classes:
 
       - **what the contrast was adjusted for** -- `ModelEstimation.terms` minus the terms these
         cells name.
-      - **what kind of effect it is** -- a simple effect, contrast, interaction, modulation or
-        omnibus test, from which terms carry cells of both signs. `EffectKind` names that
-        vocabulary; no slot has it as a range.
       - **what the map was tested against** -- a modelled reference is that condition's level
         with a `negative` cell; the unmodelled implicit baseline, or zero, is the absence of a
         second cell; a decoding metric's reference is `PerformanceMetric.reference_value`.
@@ -283,15 +279,6 @@ classes:
           tests that coefficient against zero, which is what the unmodelled implicit baseline is,
           and the sign distinguishes activation from deactivation. A map with no inferential test
           at all is not an Analysis.
-
-          Two things are read off this slot by subtraction. The model's terms these cells do not
-          name are the terms the contrast was adjusted for. For a term they do name, its declared
-          levels they do not name are the levels it weighted out. So an absent level is a zero
-          weight, and a term with no cells at all is a covariate.
-
-          A term tested *without* direction is neither: give its levels cells with
-          `direction: not_applicable`. That is what an omnibus F-test over a factor looks like,
-          and it keeps the term out of the adjustment set while adding nothing directional.
       mediation:
         in_subset: [mvp, model_extracted]
         range: Mediation
@@ -490,7 +477,7 @@ classes:
   Preprocessing:
     description: >-
       An ordered preprocessing pipeline applied to acquired data before or as
-      part of statistical modeling. The fields cover the core COBIDAS reporting areas.
+      part of statistical modeling. This can be expanded with COBIDAS.
     attributes:
       id:
         in_subset: [deterministic]
