@@ -53,6 +53,13 @@ classes:
           cleaned. Always source-grounded. For an interaction it must state the direction of
           the interaction as the source states it; for an ordered contrast it must keep the
           ordering that the greater and lesser roles cannot express.
+      prespecification:
+        in_subset: [mvp, model_extracted]
+        range: Prespecification
+        required: true
+        description: >-
+          Whether this contrast was planned before the data were seen or arrived at
+          afterwards.
       interpretations:
         in_subset: [model_extracted]
         range: string
@@ -79,7 +86,7 @@ classes:
           analysis can average a region or test its parcels. Record it rather than inferring
           it from coordinate_space.
       roi_definition:
-        in_subset: [model_extracted]
+        in_subset: [mvp, model_extracted]
         range: RoiDefinition
         required: true
         description: >-
@@ -146,14 +153,22 @@ classes:
         in_subset: [mvp, model_extracted]
         range: ModelEstimation
         inlined: false
+        required: true
         description: >-
-          How this analysis was estimated: the model family, estimator, stage, and
-          software. What was tested is `effect`.
+          The model this analysis's contrast was taken from: its family, estimator, stage,
+          software, and the terms it was specified with. What was selected out of those
+          terms is `effect`. Required, because every contrast comes from a model -- a paper
+          that describes a contrast and never names an estimator still takes a record, with
+          the terms it does state and `unstated` elsewhere. Analyses sharing one design
+          reference one record; an analysis specified or estimated differently takes its
+          own.
       inference_settings:
+        in_subset: [model_extracted]
         range: InferenceSettings
         inlined: true
         description: Structured thresholding and correction metadata for this reported analysis.
       preprocessing:
+        in_subset: [model_extracted]
         range: Preprocessing
         inlined: false
         description: The preprocessing pipeline that produced the analyzed data.
@@ -241,6 +256,10 @@ classes:
           effect a modulation or a regression whatever else is directional, one directional
           axis makes it a contrast, and two or more make it an interaction.
 
+          "A primary continuous term" is now a join: a `TermUse` here with role `primary`
+          whose referenced `ModelTerm` has type `continuous`. The role is a fact about this
+          contrast and the type a fact about the model, which is why they sit apart.
+
           A term pattern matching no kind in the vocabulary takes a short characterization
           of the tested effect instead -- a mediated path, a dose-response curve, a
           component map reported with no inferential test. Never delete true terms to make
@@ -291,13 +310,15 @@ classes:
           cohorts, the comparison is between Groups and the allocation is on `Group.arm`.
       terms:
         in_subset: [mvp, model_extracted]
-        range: Term
+        range: TermUse
         multivalued: true
         inlined_as_list: true
         description: >-
-          The model terms, categorical and continuous alike. A categorical term points at
-          the Groups or Conditions it ranges over; a continuous term carries the slope
-          facts.
+          Which of the model's terms this contrast uses, and how. The terms themselves --
+          what they are, what they range over, what they are measured in -- are
+          `ModelEstimation.terms`, stated once for the model; this slot says only what
+          differs contrast to contrast. A term of the model that this contrast neither
+          tests nor controls for is simply absent here.
       statistic:
         in_subset: [mvp, model_extracted]
         range: Statistic
@@ -377,7 +398,33 @@ classes:
           The unit the measure is reported in, when the source gives one and it carries
           information -- mm for a thickness, mL for a volume. Omitted for a unitless
           quantity such as a correlation or a normalized index.
+  DirectionalTerm:
+    abstract: true
+    description: >-
+      One entity entering a comparison, and the side of it that entity sits on. The four
+      directional axes -- cohort, condition, occasion, arm -- differ only in what they
+      point at, so what they share is stated once here and each subclass adds its own
+      pointer. Which cell of a factorial design the entity occupies is not here: that is a
+      property of the model, held by the `ModelTerm` whose levels name the entity.
+    attributes:
+      label:
+        in_subset: [model_extracted]
+        range: string
+        description: >-
+          The source's wording for this entity in this comparison, when it differs from
+          the entity record's own name.
+      role:
+        in_subset: [mvp, model_extracted]
+        range: DirectionalRole
+        required: true
+        description: >-
+          Which side of the comparison this entity sits on. Direction is normalized to
+          roles, never numeric contrast weights. For an ordered comparison, mark the
+          extremes greater and lesser, leave intermediate entries `included`, and keep the
+          ordering in Analysis.definition.
+
   GroupTerm:
+    is_a: DirectionalTerm
     description: >-
       One participant cohort in an analysis, and the side of the comparison it sits on.
     unique_keys:
@@ -393,23 +440,6 @@ classes:
         description: >-
           The cohort this term refers to, by identifier. The cohort's own properties are
           on the Group record; what is here is its part in this analysis.
-      role:
-        range: DirectionalRole
-        in_subset: [mvp, model_extracted]
-        required: true
-        description: >-
-          Which side of the comparison this cohort sits on. Direction is normalized to
-          roles, never numeric contrast weights.
-      factor_levels:
-        in_subset: [mvp, model_extracted]
-        range: FactorLevel
-        multivalued: true
-        inlined_as_list: true
-        description: >-
-          The factorial cell this cohort represents, for crossed designs such as genotype
-          by diagnosis: four cohorts each carry one level of each factor, which is what
-          makes a group-by-group interaction expressible. Leave empty for the ordinary
-          case of one cohort per group.
       n:
         in_subset: [mvp, model_extracted]
         range: integer
@@ -421,10 +451,12 @@ classes:
           and expect it to be smaller than the acquired count when an analysis drops
           participants for motion or missing data.
   ConditionTerm:
+    is_a: DirectionalTerm
     description: >-
-      One condition entering an effect, and the side of the comparison it sits on. The
-      condition may be a task state, a rest baseline, an occasion, an arm, a within-subject
-      role, or a composite factorial cell.
+      One condition entering an effect, and the side of the comparison it sits on.
+    slot_usage:
+      label:
+        in_subset: [mvp, model_extracted]
     unique_keys:
       condition_per_effect:
         unique_key_slots:
@@ -438,30 +470,8 @@ classes:
         description: >-
           The condition this term refers to, by identifier. The condition's own
           properties, including what kind of thing it is, are on the Condition record.
-      label:
-        in_subset: [mvp, model_extracted]
-        range: string
-        description: The source's wording for this condition in this effect, when it differs from the Condition name.
-      role:
-        in_subset: [mvp, model_extracted]
-        range: DirectionalRole
-        required: true
-        description: >-
-          Which side of the comparison this condition sits on. For an ordered contrast,
-          mark the extremes greater and lesser, leave intermediate conditions `included`,
-          and keep the ordering in Analysis.definition.
-      factor_levels:
-        in_subset: [mvp, model_extracted]
-        range: FactorLevel
-        multivalued: true
-        inlined_as_list: true
-        description: >-
-          The factorial cell this condition represents. Conditions varying over two or
-          more factors named here, each taking at least two distinct levels, make the
-          effect an interaction. A factor held constant across the directional terms --
-          males only, or a contrast taken within one level of another factor -- does not,
-          but record it and its constant level anyway.
   TimepointTerm:
+    is_a: DirectionalTerm
     description: >-
       One occasion entering an effect, and the side of the comparison it sits on. A directional
       pair of these is what separates a within-person change from a cross-sectional comparison,
@@ -480,28 +490,9 @@ classes:
         description: >-
           The occasion this term refers to, by identifier. The occasion's own properties are
           on the Timepoint record; what is here is its part in this effect.
-      label:
-        in_subset: [model_extracted]
-        range: string
-        description: The source's wording for this occasion in this effect, when it differs from the Timepoint name.
-      role:
-        in_subset: [mvp, model_extracted]
-        range: DirectionalRole
-        required: true
-        description: >-
-          Which side of the comparison this occasion sits on. For a series of follow-ups, mark
-          the extremes greater and lesser, leave intermediate occasions `included`, and keep
-          the ordering in Analysis.definition.
-      factor_levels:
-        in_subset: [model_extracted]
-        range: FactorLevel
-        multivalued: true
-        inlined_as_list: true
-        description: >-
-          The factorial cell this occasion represents, for a design crossing occasion with
-          another factor. Leave empty for the ordinary case.
 
   ArmTerm:
+    is_a: DirectionalTerm
     description: >-
       One arm entering an effect, and the side of the comparison it sits on. Used for a
       within-subject comparison of arms, as in a crossover; when the arms are separate cohorts
@@ -519,169 +510,50 @@ classes:
         description: >-
           The arm this term refers to, by identifier. The arm's own properties, including what
           class of thing it delivered, are on the Arm record.
-      label:
-        in_subset: [model_extracted]
-        range: string
-        description: The source's wording for this arm in this effect, when it differs from the Arm name.
-      role:
-        in_subset: [mvp, model_extracted]
-        range: DirectionalRole
-        required: true
-        description: >-
-          Which side of the comparison this arm sits on. A drug marked greater against a
-          placebo marked lesser is what makes the effect a drug-versus-placebo contrast.
-      factor_levels:
-        in_subset: [model_extracted]
-        range: FactorLevel
-        multivalued: true
-        inlined_as_list: true
-        description: >-
-          The factorial cell this arm represents, for a design crossing arm with another
-          factor. Leave empty for the ordinary case.
 
-  FactorLevel:
+  TermUse:
     description: >-
-      One factor and the level of it that an entity represents: which cell of the design a
-      particular cohort or condition occupies. A Term declares that the factor is in the
-      model at all and lists its level vocabulary; this says which entity carries which
-      level.
+      One of the model's terms as this contrast uses it. Everything about what the term
+      *is* lives on the referenced ModelTerm, stated once for the model; what is here is
+      only what can differ between two contrasts taken from the same design matrix.
     unique_keys:
-      factor_per_entity:
+      term_per_effect:
         unique_key_slots:
-          - factor_name
+          - term
     attributes:
-      factor_name:
+      term:
         in_subset: [mvp, model_extracted]
-        range: string
+        range: ModelTerm
         required: true
+        inlined: false
         description: >-
-          Name of the experimental or participant factor, which must equal the `name` of a
-          categorical Term in the same effect: the factor is declared once, as that Term,
-          and this slot assigns a level of it. The structural validator enforces the
-          match.
-      level:
-        in_subset: [mvp, model_extracted]
-        range: string
-        required: true
-        description: The level of that factor which this entity carries.
-
-  Term:
-    description: >-
-      One term of the statistical model. A categorical term points at the Groups or
-      Conditions it ranges over and takes association_direction not_applicable; its
-      direction, where it exists, is on those group or condition terms. A continuous term
-      carries the slope facts.
-    unique_keys:
-      name_per_effect:
-        unique_key_slots:
-          - name
-    attributes:
-      name:
-        in_subset: [mvp, model_extracted]
-        range: string
-        required: true
-        description: >-
-          Term label, unique within an effect: a name appearing twice is one term recorded
-          twice. For a categorical term it is also the factor's identity, referred to by
-          FactorLevel.factor_name.
-      type:
-        in_subset: [mvp, model_extracted]
-        range: TermType
-        required: true
-        description: Whether the term is categorical or continuous.
+          The model term this use refers to, by identifier. It must be one of the terms on
+          the ModelEstimation the containing Analysis references; the structural validator
+          enforces that, which is what the old match between FactorLevel.factor_name and a
+          Term name became.
       role:
         in_subset: [mvp, model_extracted]
         range: TermRole
         required: true
         description: >-
-          How the term enters the model, not a statement about importance. The derived
-          effect kind reads only `primary` terms, so marking a controlled covariate
-          primary asserts that the paper tested it. More than one primary term is allowed.
-      conditions:
-        in_subset: [mvp, model_extracted]
-        range: Condition
-        multivalued: true
-        inlined: false
-        description: >-
-          The experimental conditions a categorical term ranges over -- the Conditions
-          themselves, not the directional ConditionTerms of the effect. This slot says
-          which conditions the factor groups together; Effect.conditions says which side
-          of the comparison each sits on.
-      groups:
-        in_subset: [mvp, model_extracted]
-        range: Group
-        multivalued: true
-        inlined: false
-        description: >-
-          The participant cohorts a categorical term ranges over, on the same footing as
-          `conditions`. Direction stays on Analysis.groups.
-      assessment:
-        in_subset: [mvp, model_extracted]
-        range: Assessment
-        inlined: false
-        description: >-
-          The assessment whose participant-level measurement supplies a continuous term.
-          Unset when the values come from somewhere the study does not record as an
-          Assessment -- age, dose, a motion parameter, cardiac phase, scanner drift -- in
-          which case source_definition names the origin.
-      levels:
-        in_subset: [mvp, model_extracted]
-        range: string
-        multivalued: true
-        description: >-
-          The factor's level vocabulary, needed when the levels are not all present as
-          directional group or condition terms -- a three-level factor where only two
-          appear in the contrast, for instance. Which entity carries which level is
-          FactorLevel's job.
-      variation_level:
-        in_subset: [mvp, model_extracted]
-        any_of:
-          - range: VariationLevel
-          - range: string
-        description: >-
-          The level at which a continuous term varies, which is what separates a parametric
-          modulation from a cross-subject regression. A level the vocabulary cannot name is
-          written here as free text; the derivation of effect.kind then has no row to apply, so
-          the kind is unrecomputable for that record rather than wrong.
+          How the term enters *this* contrast, not a statement about importance. Per
+          contrast rather than per model: a factorial model yields both a main-effect and an
+          interaction contrast, and a factor tested by one is merely controlled for by the
+          other. The derived effect kind reads only `primary` uses, so marking a controlled
+          covariate primary asserts that the paper tested it. More than one primary use is
+          allowed.
+
+          A `nuisance` use is recorded rather than left implicit. The model's full term list
+          is on ModelEstimation, so a term absent from this slot could be one the contrast
+          did not weight or one the extractor never reached; saying `nuisance` is what
+          distinguishes them, on the same grounds as `ResponseMode: none`.
       association_direction:
         in_subset: [mvp, model_extracted]
         range: AssociationDirection
         description: >-
-          Sign of a continuous term's coefficient, or of the interaction coefficient for a
-          product term.
-      functional_form:
-        in_subset: [mvp, model_extracted]
-        any_of:
-          - range: FunctionalForm
-          - range: string
-        description: >-
-          Shape of the term's relationship to the measure. A squared term with a negative
-          coefficient is an inverted-U relationship, not a negative association, so
-          non-linear and transformed terms must not be recorded as linear.
-      interaction_with:
-        in_subset: [mvp, model_extracted]
-        range: string
-        multivalued: true
-        description: >-
-          Names of the other Terms this term is a product of. Populate it when the source
-          names an interaction term in one model; leave it empty when the source describes
-          a regression on a contrast. Both readings collapse in the derived views, so the
-          choice affects only the effect kind, and it is checkable against the paper's own
-          wording.
-      unit:
-        in_subset: [mvp, model_extracted]
-        range: string
-        description: >-
-          The unit a continuous term is measured in, when the source gives one -- years
-          for age, mg for a dose. It is what makes a reported slope interpretable.
-      source_definition:
-        in_subset: [mvp, model_extracted]
-        range: string
-        description: >-
-          The source's own definition of the term, and the origin of a continuous term
-          that no Assessment supplies, such as age, dose, a motion parameter, cardiac
-          phase, or scanner drift. A transform the FunctionalForm vocabulary cannot name
-          goes in functional_form itself.
+          Sign of the term's coefficient as this contrast reports it, or of the interaction
+          coefficient for a product term. A result rather than a specification.
+
   Preprocessing:
     description: >-
       An ordered preprocessing pipeline applied to acquired data before or as
@@ -709,15 +581,34 @@ classes:
         description: >-
           Ordered free-text preprocessing operation names, listed in execution order;
           examples include slice-timing correction, motion correction, distortion
-          correction, spatial normalization, and smoothing.
+          correction, spatial normalization, and smoothing. The smoothing kernel itself is
+          `smoothing_fwhm_mm` rather than a phrase in this list, because it is the one
+          preprocessing parameter a synthesis filters on.
+      smoothing_fwhm_mm:
+        in_subset: [mvp, model_extracted]
+        range: float
+        multivalued: true
+        minimum_value: 0
+        description: >-
+          Full width at half maximum of the applied spatial smoothing kernel, in
+          millimetres: a list of one value for an isotropic kernel and of three for an
+          anisotropic [x, y, z] one. Record 0 when the source states that no smoothing was applied.
 
   ModelEstimation:
+    see_also:
+      - https://cdisc-org.github.io/analysis-results-standard/
+      - https://bids-standard.github.io/stats-models/spec.html
+      - https://nidm.nidash.org/specs/nidm-results_120.html
     description: >-
-      How a model was specified in software and estimated: the family, the source's
-      wording for it, the estimator, the stage, and the software. Accommodates both BIDS
-      Stats Models GLMs and other model families. One record may be referenced by several
-      Analyses, so every field must hold for all of them; an analysis estimated
-      differently takes its own record.
+      How a model was specified in software and estimated: its terms, the family, the
+      source's wording for it, the estimator, the stage, and the software. Accommodates
+      both BIDS Stats Models GLMs and other model families. One record may be referenced by
+      several Analyses, so every field must hold for all of them; an analysis specified or
+      estimated differently takes its own record.
+
+      This is the model specification. The contrast specification -- which of these terms a
+      given comparison selects, on which side, and with what reported sign -- is the Effect
+      of each Analysis referencing this record. One model, many contrasts.
     attributes:
       id:
         in_subset: [mvp, deterministic]
@@ -774,6 +665,203 @@ classes:
         in_subset: [mvp, model_extracted]
         range: string
         description: Statistical software name, version, and relevant implementation details.
+      terms:
+        in_subset: [mvp, model_extracted]
+        range: ModelTerm
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The terms the model was specified with -- the columns of the design matrix, in
+          the general sense that covers a GLM's regressors and the predictors of any other
+          family. Stated once here however many contrasts are taken from them. Record the
+          terms the source states, including ones no reported contrast tests: a covariate
+          the model controls for is part of the specification whether or not a contrast
+          weights it.
+
+  ModelTerm:
+    description: >-
+      One term of the model: a column of the design matrix, or the equivalent predictor in
+      a family with no design matrix. A categorical term names its levels and the entities
+      carrying them; a continuous term carries the facts that make a slope interpretable.
+      Nothing here is a fact about any one contrast -- how a contrast uses this term is a
+      `TermUse` on that contrast's Effect.
+    unique_keys:
+      name_per_model:
+        unique_key_slots:
+          - name
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        range: string
+        identifier: true
+        required: true
+        description: Stable identifier used by TermUse and by interaction references.
+      name:
+        in_subset: [mvp, model_extracted]
+        range: string
+        required: true
+        description: >-
+          Term label, unique within the model: a name appearing twice is one term recorded
+          twice. For a categorical term this is the factor's identity.
+
+          Often a label the source never writes. A paper reporting 1-back, 2-back and
+          3-back conditions states the levels and states that they vary together, but
+          frequently names no axis; `load` is then a name supplied for a grouping the
+          source does make. That is permitted, and is not the kind of invention the schema
+          forbids elsewhere -- the levels must be source-stated, and the name must not
+          assert a comparison or a construct the paper does not.
+      type:
+        in_subset: [mvp, model_extracted]
+        range: TermType
+        required: true
+        description: Whether the term is categorical or continuous.
+      levels:
+        in_subset: [mvp, model_extracted]
+        range: FactorLevel
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The levels of a categorical term, and for each the entities carrying it. This is
+          the whole of what a factor is: its level vocabulary, and which cohort, condition,
+          occasion, or arm occupies each cell. Record a level the source names even when no
+          reported contrast uses it -- a three-level factor contrasted at two levels is
+          still a three-level factor. Empty for a continuous term.
+      assessment:
+        in_subset: [mvp, model_extracted]
+        range: Assessment
+        inlined: false
+        description: >-
+          The assessment whose participant-level measurement supplies a continuous term.
+          Unset when the values come from somewhere the study does not record as an
+          Assessment -- age, dose, a motion parameter, cardiac phase, scanner drift -- in
+          which case source_definition names the origin.
+      variation_level:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: VariationLevel
+          - range: string
+        description: >-
+          Whether this term moves within a participant or only across the sample. Populate
+          it for **any** term: a repeated-measures factor is within-subject and a diagnosis
+          factor is between-subject in exactly the sense a trial-wise modulator and an age
+          covariate are.
+
+          For a continuous term it is what separates a parametric modulation from a
+          cross-subject regression, and `Effect.kind` is derived from it on that basis. For
+          a categorical factor it feeds no derivation, so setting it changes no other value;
+          it is the factor's scope, and two studies that crossed a factor within
+          participants and between them did not estimate the same thing.
+
+          A categorical factor's levels usually settle it, and the two should agree: levels
+          naming `groups` are between-subject, since a participant belongs to one cohort;
+          levels naming `timepoints` are within-subject, since an occasion is when the same
+          people were measured again; levels naming `conditions` are within-subject in the
+          ordinary repeated-measures case; levels naming `arms` follow
+          `StudyDesign.assignment_structure`, crossover being within and parallel between.
+
+          A level the vocabulary cannot name is written here as free text; the derivation of
+          effect.kind then has no row to apply, so the kind is unrecomputable for that
+          record rather than wrong.
+      functional_form:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: FunctionalForm
+          - range: string
+        description: >-
+          Shape of the term's relationship to the measure. A squared term with a negative
+          coefficient is an inverted-U relationship, not a negative association, so
+          non-linear and transformed terms must not be recorded as linear. A model fitting
+          both a linear and a quadratic form of the same measurement has two terms, not
+          one.
+      interaction_with:
+        in_subset: [mvp, model_extracted]
+        range: ModelTerm
+        multivalued: true
+        inlined: false
+        description: >-
+          The other terms of this model that this term is a product of. Populate it when
+          the source names an interaction term in one model; leave it empty when the source
+          describes a regression on a contrast. Both readings collapse in the derived
+          views, so the choice affects only the effect kind, and it is checkable against
+          the paper's own wording.
+      unit:
+        in_subset: [mvp, model_extracted]
+        range: string
+        description: >-
+          The unit a continuous term is measured in, when the source gives one -- years
+          for age, mg for a dose. It is what makes a reported slope interpretable.
+      source_definition:
+        in_subset: [mvp, model_extracted]
+        range: string
+        description: >-
+          The source's own definition of the term, and the origin of a continuous term
+          that no Assessment supplies, such as age, dose, a motion parameter, cardiac
+          phase, or scanner drift. A transform the FunctionalForm vocabulary cannot name
+          goes in functional_form itself.
+
+  FactorLevel:
+    description: >-
+      One level of a categorical model term, and the entities that carry it. Which cell of
+      the design a cohort or condition occupies is a property of the design, not of any
+      contrast drawn from it, which is why this hangs off the ModelTerm rather than off the
+      directional terms of an Effect.
+
+      Its four entity slots are the same four axes an Effect carries direction on. A factor
+      normally ranges over one of them -- conditions for a task factor, cohorts for a
+      participant factor -- so the others stay empty; a level realized by a crossing, such
+      as a drug given at follow-up, fills more than one.
+    unique_keys:
+      level_per_factor:
+        unique_key_slots:
+          - level
+    attributes:
+      level:
+        in_subset: [mvp, model_extracted]
+        range: string
+        required: true
+        description: >-
+          The level's label, as the source words it. Unique within its term: a level
+          appearing twice is one level recorded twice.
+      order:
+        in_subset: [mvp, model_extracted]
+        range: integer
+        minimum_value: 1
+        description: >-
+          Position of this level in the factor's sequence, counting from 1, for a factor
+          whose levels are ordered. Carries the ordering that DirectionalRole cannot: a
+          contrast marks only its extremes greater and lesser and leaves everything between
+          them `included`, so 1-back, 2-back and 3-back arrive as an unordered set and the
+          monotonic load manipulation they encode survives only in Analysis.definition.
+
+          Populate it whenever the levels have an order the source states or plainly
+          implies -- a dose series, a load or difficulty series, an ordinal severity
+          grading. Leave it unset for a nominal factor, where imposing an order would
+          assert a structure the design does not have. Timepoint.order is the same
+          device for occasions.
+      conditions:
+        in_subset: [mvp, model_extracted]
+        range: Condition
+        multivalued: true
+        inlined: false
+        description: The conditions carrying this level, by identifier.
+      groups:
+        in_subset: [mvp, model_extracted]
+        range: Group
+        multivalued: true
+        inlined: false
+        description: The participant cohorts carrying this level, by identifier.
+      timepoints:
+        in_subset: [model_extracted]
+        range: Timepoint
+        multivalued: true
+        inlined: false
+        description: The occasions carrying this level, by identifier.
+      arms:
+        in_subset: [model_extracted]
+        range: Arm
+        multivalued: true
+        inlined: false
+        description: The arms carrying this level, by identifier.
 
   InferenceSettings:
     description: >-

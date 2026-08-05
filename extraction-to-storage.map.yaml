@@ -579,19 +579,14 @@ class_derivations:
         transform: parse_float
 
       instrument:
-        transform: derive
+        populated_from: instrument
+        transform: verbatim
         notes: >-
-          The Instrument record, split out of the single verbatim `Acquisition.instrument`
-          string by the Instrument derivation below. Held inline on Acquisition, so there is
-          no identifier to resolve.
-
-      description:
-        populated_from: description.value
-        transform: verbatim
-
-      structured_details:
-        populated_from: structured_details.value
-        transform: verbatim
+          The Instrument record, copied through by the derivation below. Held inline on
+          Acquisition, so there is no identifier to resolve. Extraction splits manufacturer
+          from model at the point of reading, rather than the mapper splitting one verbatim
+          string afterwards: the extractor has the sentence in front of it and the mapper
+          would only have the phrase.
 
   # The five Acquisition subclasses. Each inherits the derivations above through `is_a`
   # and adds only its own attributes, read out of the matching nested extraction object:
@@ -789,30 +784,20 @@ class_derivations:
   # ───────────────────────────────────────────────────────────────────────────
 
   Instrument:
-    populated_from: Acquisition
+    populated_from: Instrument
     slot_derivations:
 
       manufacturer:
-        populated_from: instrument.value
-        source_evidence: instrument.evidence
-        status_field: instrument.extraction_status
-        transform: derive
-        notes: >-
-          The manufacturer named in the verbatim instrument string, when it names one:
-          "3T Siemens Prisma" gives Siemens. Extraction keeps the whole phrase in one
-          field because that is how papers write it, so the split happens here. A string
-          naming no company leaves this unset rather than guessing one from the model.
+        populated_from: manufacturer.value
+        source_evidence: manufacturer.evidence
+        status_field: manufacturer.extraction_status
+        transform: verbatim
 
       model:
-        populated_from: instrument.value
-        source_evidence: instrument.evidence
-        status_field: instrument.extraction_status
-        transform: derive
-        notes: >-
-          The model or product name from the same verbatim string: "3T Siemens Prisma"
-          gives Prisma. Field strength, coil count, and other parameters are dropped here,
-          since the modality classes hold them; when the string names nothing beyond a
-          manufacturer, this stays unset.
+        populated_from: model.value
+        source_evidence: model.evidence
+        status_field: model.extraction_status
+        transform: verbatim
 
   # ───────────────────────────────────────────────────────────────────────────
 
@@ -835,6 +820,19 @@ class_derivations:
         populated_from: steps.value
         transform: verbatim
 
+      smoothing_fwhm_mm:
+        populated_from: smoothing_fwhm_mm.value
+        source_evidence: smoothing_fwhm_mm.evidence
+        status_field: smoothing_fwhm_mm.extraction_status
+        transform: parse_float
+        notes: >-
+          A scalar becomes a list of length one; three values pass through as [x, y, z].
+          Zero is a value and not an empty list: it says the source reported unsmoothed
+          data, which an absent field does not. Nothing here reads `steps` to recover a
+          kernel a phrase mentions -- parsing "smoothed with an 8 mm Gaussian" out of free
+          text is the mapper inventing a measurement, and an unpopulated field is the
+          honest result.
+
   # ───────────────────────────────────────────────────────────────────────────
 
   ModelEstimation:
@@ -843,6 +841,15 @@ class_derivations:
 
       id:
         transform: generate
+
+      terms:
+        populated_from: terms
+        transform: local_id_to_id
+        notes: >-
+          Each local_id resolves to a Term record and is inlined here as a ModelTerm. This
+          is the model specification, stated once however many analyses take contrasts from
+          it; each of those analyses records its own selection over these terms in
+          effect.terms.
 
       model_family:
         populated_from: model_type.value
@@ -1016,15 +1023,23 @@ class_derivations:
           Assembled rather than copied: extraction holds the effect's parts flat on Analysis,
           because a flat record is what an extractor fills and a nested one is what a query
           wants. conditions <- conditions, timepoints <- timepoints, arms <- arms, terms <-
-          terms (resolved from Study.terms by local_id), statistic <- statistic, baseline <-
-          baseline, path <- mediation_path, and kind is derived from the axis pattern. Each of
-          the three directional axes normalizes its `role` through DirectionalRole the same way,
-          and each resolves its entity local_id to a storage identifier.
+          term_uses, statistic <- statistic, baseline <- baseline, path <- mediation_path, and
+          kind is derived from the axis pattern. Each of the three directional axes normalizes
+          its `role` through DirectionalRole the same way, and each resolves its entity
+          local_id to a storage identifier.
+
+          What the effect does *not* assemble is the terms themselves. Those belong to the
+          ModelEstimation this analysis references, which several analyses may share; the
+          effect records only which of them this contrast used.
 
       effect.terms:
-        populated_from: terms
-        transform: local_id_to_id
-        notes: Each local_id resolves to the Study-level Term record and is inlined into the effect.
+        populated_from: term_uses
+        transform: verbatim
+        notes: >-
+          Each extraction TermUse becomes a storage TermUse by the derivation below,
+          resolving its `term` local_id to a ModelTerm of this analysis's ModelEstimation.
+          The terms themselves are not copied here: they belong to the model, which several
+          analyses may share, and this slot records only which of them this contrast used.
 
       effect.statistic:
         populated_from: statistic
@@ -1060,7 +1075,7 @@ class_derivations:
       details:
         transform: derive
         notes: >-
-          Which of the seven payload slots on the extraction Analysis is filled selects the
+          Which of the eight payload slots on the extraction Analysis is filled selects the
           AnalysisDetails subclass. All seven empty means MassUnivariateDetails, which carries
           no fields -- that is how a mass-univariate analysis is asserted rather than inferred
           from an absence.
@@ -1078,8 +1093,8 @@ class_derivations:
         populated_from: model_estimation
         transform: local_id_to_id
         notes: >-
-          The extraction schema still calls this record a StatisticalModel; the storage
-          class it populates is ModelEstimation.
+          Required on both sides: every contrast comes from a model. The record carries the
+          terms; this analysis's effect says which of them its contrast used.
 
       inference_settings:
         populated_from: inference_settings
@@ -1091,12 +1106,49 @@ class_derivations:
         transform: local_id_to_id
         notes: >-
           Each local_id becomes a GroupTerm whose group is the resolved Group and whose
-          role is `unstated`, on the same grounds as effect.conditions above.
-          factor_levels stays empty.
+          role is `unstated`, on the same grounds as effect.conditions above. Which
+          factorial cell the cohort occupies is not here: it is a level of a ModelTerm on
+          the analysis's ModelEstimation, which names the cohort.
 
       preprocessing:
         populated_from: preprocessing
         transform: local_id_to_id
+
+      prespecification:
+        populated_from: prespecification.value
+        source_evidence: prespecification.evidence
+        status_field: prespecification.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          preregistered: preregistered
+          pre-registered: preregistered
+          prospectively registered: preregistered
+          registered on ClinicalTrials.gov: preregistered
+          registered on OSF: preregistered
+          registered report: preregistered
+          prespecified in the protocol: preregistered
+          specified in the statistical analysis plan: preregistered
+          planned a priori: preregistered
+          confirmatory: preregistered
+          exploratory: exploratory
+          exploratory analysis: exploratory
+          post hoc: exploratory
+          post-hoc: exploratory
+          data-driven: exploratory
+          follow-up analysis: exploratory
+          unplanned: exploratory
+        notes: >-
+          An absent or empty value becomes `unstated`, never `exploratory`: a paper that
+          does not mention registration has not thereby called its analysis post hoc, and
+          collapsing the two would manufacture a selective-reporting signal out of silence.
+
+          The target enum is closed, so unlike every other normalize_enum here there is no
+          verbatim fallback: wording this table does not cover must still resolve to one of
+          the three, and the resolution is the same question the extractor already answered
+          -- does the source say the contrast was planned, say it was not, or say nothing.
+          `prespecified in the protocol` and its kin map to `preregistered` because what
+          matters for pooling is that the contrast was fixed before the data were seen, not
+          where the plan was deposited.
 
       definition:
         populated_from: definition.value
@@ -1159,13 +1211,21 @@ class_derivations:
 
   # ───────────────────────────────────────────────────────────────────────────
 
-  Term:
+  ModelTerm:
     populated_from: Term
     slot_derivations:
+
+      id:
+        transform: generate
 
       name:
         populated_from: name.value
         transform: verbatim
+        notes: >-
+          Verbatim where the source names the axis, and an extractor-supplied label where it
+          names only the levels -- `load` over stated 1-back and 2-back conditions. The
+          levels below are always the source's own, so the supplied part is the grouping's
+          name and nothing else.
 
       source_definition:
         populated_from: source_definition.value
@@ -1185,38 +1245,19 @@ class_derivations:
           regressor: continuous
           parametric: continuous
 
-      role:
-        populated_from: role.value
-        source_evidence: role.evidence
-        status_field: role.extraction_status
-        transform: normalize_enum
-        value_mappings:
-          term of interest: primary
-          effect of interest: primary
-          predictor of interest: primary
-          primary: primary
-          covariate: nuisance
-          nuisance: nuisance
-          controlled for: nuisance
-          confound: nuisance
-          moderator: moderator
-          mediator: mediator
-
-      conditions:
-        populated_from: conditions
-        transform: local_id_to_id
-
-      groups:
-        populated_from: groups
-        transform: local_id_to_id
-
       assessment:
         populated_from: assessment
         transform: local_id_to_id
 
       levels:
-        populated_from: levels.value
+        populated_from: levels
         transform: verbatim
+        notes: >-
+          Each extraction FactorLevel becomes a storage FactorLevel by the derivation
+          below. This one slot replaces three encodings of the same relation: the old
+          Term.conditions and Term.groups pointers, the old flat Term.levels label list,
+          and the factor_levels that used to hang off every directional term and match a
+          Term by name. The factor is now named once, by the ModelTerm this sits on.
 
       variation_level:
         populated_from: variation_level.value
@@ -1226,12 +1267,17 @@ class_derivations:
         value_mappings:
           within subject: within_subject
           within-subject: within_subject
+          within-subjects factor: within_subject
+          repeated measures: within_subject
+          crossover: within_subject
           trial-wise: within_subject
           trial by trial: within_subject
           across trials: within_subject
           within run: within_subject
           between subjects: between_subject
           between-subject: between_subject
+          between-subjects factor: between_subject
+          parallel-group: between_subject
           across participants: between_subject
           across subjects: between_subject
           one value per participant: between_subject
@@ -1244,16 +1290,10 @@ class_derivations:
           structural validator checks membership in the compatible set rather than rejecting the
           record.
 
-      association_direction:
-        populated_from: association_direction.value
-        transform: normalize_enum
-        value_mappings:
-          positive: positive
-          positively: positive
-          increased: positive
-          negative: negative
-          negatively: negative
-          decreased: negative
+          Populated for categorical terms as well as continuous ones. Papers state a factor's
+          scope in words this table already covers -- "a within-subjects factor task", "a
+          between-subjects factor group" -- and only the continuous case reaches the effect.kind
+          derivation, so a factor's scope is carried without changing any derived value.
 
       functional_form:
         populated_from: functional_form.value
@@ -1276,6 +1316,150 @@ class_derivations:
       unit:
         populated_from: unit.value
         transform: verbatim
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  FactorLevel:
+    populated_from: FactorLevel
+    slot_derivations:
+
+      level:
+        populated_from: level.value
+        transform: verbatim
+
+      order:
+        populated_from: order.value
+        source_evidence: order.evidence
+        status_field: order.extraction_status
+        transform: parse_int
+        notes: >-
+          Copied, never synthesized. An absent order means the extractor found no stated
+          sequence, and numbering the levels in the order they happened to be written would
+          assert an ordinal factor where the design may have a nominal one.
+
+      conditions:
+        populated_from: conditions
+        transform: local_id_to_id
+
+      groups:
+        populated_from: groups
+        transform: local_id_to_id
+
+      timepoints:
+        populated_from: timepoints
+        transform: local_id_to_id
+
+      arms:
+        populated_from: arms
+        transform: local_id_to_id
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  TermUse:
+    populated_from: TermUse
+    slot_derivations:
+
+      term:
+        populated_from: term
+        transform: local_id_to_id
+        notes: >-
+          Resolves to a ModelTerm of the ModelEstimation the containing Analysis
+          references. A local_id naming a term outside that model is a structural error,
+          not a record to repair by inventing one.
+
+      role:
+        populated_from: role.value
+        source_evidence: role.evidence
+        status_field: role.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          term of interest: primary
+          effect of interest: primary
+          predictor of interest: primary
+          primary: primary
+          covariate: nuisance
+          nuisance: nuisance
+          controlled for: nuisance
+          confound: nuisance
+          moderator: moderator
+          mediator: mediator
+
+      association_direction:
+        populated_from: association_direction.value
+        transform: normalize_enum
+        value_mappings:
+          positive: positive
+          positively: positive
+          increased: positive
+          negative: negative
+          negatively: negative
+          decreased: negative
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  PartialLeastSquaresDetails:
+    populated_from: PartialLeastSquaresDetails
+    slot_derivations:
+
+      pls_type:
+        populated_from: pls_type.value
+        source_evidence: pls_type.evidence
+        status_field: pls_type.extraction_status
+        transform: normalize_enum
+        value_mappings:
+          task PLS: task
+          task: task
+          mean-centred task PLS: task
+          mean-centered task PLS: task
+          spatiotemporal task PLS: task
+          experimental design: task
+          behavioural PLS: behavioral
+          behavioral PLS: behavioral
+          behaviour: behavioral
+          behavior: behavioral
+          seed PLS: seed
+          seed-based PLS: seed
+          multiblock PLS: multiblock
+          contrast-behaviour PLS: multiblock
+        notes: >-
+          An absent or empty value becomes `unstated`. Wording this table does not cover
+          passes through verbatim, since the slot accepts free text.
+
+      latent_variable_id:
+        populated_from: latent_variable_id.value
+        transform: verbatim
+
+      latent_variable_label:
+        populated_from: latent_variable_label.value
+        transform: verbatim
+
+      total_latent_variables:
+        populated_from: total_latent_variables.value
+        transform: parse_int
+
+      crossblock_covariance_percent:
+        populated_from: crossblock_covariance_percent.value
+        transform: parse_float
+
+      behavioral_variables:
+        populated_from: behavioral_variables
+        transform: local_id_to_id
+
+      seed_regions:
+        populated_from: seed_regions.value
+        transform: verbatim
+
+      salience_threshold:
+        populated_from: salience_threshold.value
+        transform: verbatim
+        notes: >-
+          Verbatim, and never copied into InferenceSettings. A bootstrap ratio is a
+          stability measure rather than a test statistic, so recording it as a voxelwise
+          threshold would misstate the inference.
+
+      polarity_semantics:
+        populated_from: polarity_semantics.value
+        transform: normalize_enum
 
   # ───────────────────────────────────────────────────────────────────────────
 

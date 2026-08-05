@@ -499,18 +499,9 @@ classes:
           How long the acquisition ran, in seconds. A run length, not the total across runs,
           unless the source gives only the total.
       instrument:
-        range: ExtractedString
-        description: Scanner, amplifier, or recording system, verbatim, including manufacturer and model.
-      description:
-        range: ExtractedString
-        description: >-
-          Narrative account of the acquisition, verbatim, holding whatever this schema has no field for. Fill this
-          in rather than dropping a reported parameter, whatever the modality.
-      structured_details:
-        range: ExtractedString
-        description: >-
-          JSON-encoded acquisition parameters that no field below accepts, when the reported parameters have
-          structure worth keeping. A string because the schema has no free-form object range.
+        range: Instrument
+        inlined: true
+        description: Scanner, amplifier, or recording system used for this acquisition.
       mri:
         range: MRI
         description: Fill in for an MRI acquisition of any kind, functional, structural, or diffusion.
@@ -530,8 +521,24 @@ classes:
         range: OtherModality
         description: >-
           Fill in only for a modality none of the four above covers, such as MEG, SPECT, ultrasound, or
-          intracranial EEG. Extra parameters for a modality that does have a class go in description or
-          structured_details, not here.
+          intracranial EEG. Not a catch-all for extra parameters: a modality with a class of its own keeps
+          its parameters there, and a reported parameter no field accepts has no home in this schema.
+  Instrument:
+    description: >-
+      The scanner, amplifier, or recording system an acquisition was made on, split into the two parts
+      a source reliably reports.
+    attributes:
+      manufacturer:
+        range: ExtractedString
+        description: >-
+          Company that made the instrument, verbatim -- Siemens, GE, Philips, Brain Products, NIRx.
+          Omit when the paper names only a model: "Prisma" with no vendor is common and inventing the
+          vendor from the model is a guess.
+      model:
+        range: ExtractedString
+        description: >-
+          Model or product name, verbatim -- Prisma, Signa, Achieva, actiCHamp. Field strength, coil
+          count and other parameters are not part of the model name; they have their own fields.
   MRI:
     attributes:
       magnetic_field_strength_tesla:
@@ -671,8 +678,9 @@ classes:
           millimetres. Coarser than the voxel size, and the figure that limits localization.
   OtherModality:
     description: >-
-      Extracted record of an acquisition whose modality none of MRI, EEG, FNIRS, or PET covers. Its parameters go in
-      the enclosing Acquisition's description or structured_details, which no modality normalizes.
+      Extracted record of an acquisition whose modality none of MRI, EEG, FNIRS, or PET covers. Only its label
+      and the reason no class fit are recorded: the schema normalizes no parameters for these modalities, and
+      since the Acquisition-level free-text and JSON hatches were removed there is nowhere else for them.
     attributes:
       modality_label:
         range: ExtractedString
@@ -697,14 +705,37 @@ classes:
         description: Software packages used, verbatim, one per entry.
       steps:
         range: ExtractedValue
-        description: Ordered preprocessing steps, verbatim, in execution order.
+        description: >-
+          Ordered preprocessing steps, verbatim, in execution order. Say that smoothing was applied,
+          but put the kernel size in smoothing_fwhm_mm rather than only in the step's wording.
+      smoothing_fwhm_mm:
+        range: ExtractedValue
+        description: >-
+          Full width at half maximum of the spatial smoothing kernel in millimetres, as a number for
+          an isotropic kernel and a list of three for an anisotropic one. Take it as the source gives
+          it and do not convert from a sigma or a voxel count. Record 0 when the paper states that no
+          smoothing was applied -- unsmoothed multivariate and searchlight analyses are common, and
+          that is a statement about the pipeline rather than a missing value. Omit only when the
+          paper does not say.
   ModelEstimation:
-    description: Extracted record of how a model was specified and estimated.
+    description: >-
+      Extracted record of how a model was specified and estimated, including the terms it
+      was specified with. Every contrast comes from a model, so every Analysis names one of
+      these; analyses whose contrasts come from the same model name the same record, and an
+      analysis specified or estimated differently gets its own.
     attributes:
       local_id:
         range: string
         required: true
         description: Short label assigned by the extractor.
+      terms:
+        range: string
+        multivalued: true
+        description: >-
+          local_ids of the Term records this model was specified with -- its design-matrix
+          columns or equivalent predictors. Record every term the source states, including
+          covariates no reported contrast tests. Which contrast uses which term is
+          Analysis.term_uses.
       model_type:
         range: ExtractedString
         required: true
@@ -872,13 +903,21 @@ classes:
           on. Use it when the same participants passed through several arms; when the arms are
           separate cohorts the comparison is between groups and each cohort's allocation is on
           the Group record.
-      terms:
-        range: string
+      term_uses:
+        range: TermUse
         multivalued: true
-        description: local_ids of Term records entering this analysis.
+        inlined_as_list: true
+        description: >-
+          Which of the model's terms this analysis's contrast uses, and how. One entry per
+          term the contrast tests or controls for; a term of the model this contrast does
+          not weight is simply omitted. What each term *is* stays on the Term record.
       model_estimation:
         range: string
-        description: local_id of the ModelEstimation used.
+        required: true
+        description: >-
+          local_id of the ModelEstimation this contrast was taken from. Required: every
+          contrast comes from a model, so a paper that describes a contrast and never names
+          an estimator still gets a ModelEstimation record holding the terms it does state.
       groups:
         range: GroupTerm
         required: true
@@ -893,6 +932,17 @@ classes:
         range: ExtractedString
         required: true
         description: Contrast specification, verbatim.
+      prespecification:
+        range: ExtractedString
+        required: true
+        description: >-
+          Whether this contrast was planned before the data were seen, verbatim as the source frames
+          it -- a registration identifier or registry name, a reference to a protocol or analysis
+          plan, or wording calling the analysis exploratory, post hoc, or data-driven; mapper
+          normalizes to exactly one of planned, not planned, or not said. Required, and
+          `not_reported` for the many papers that say nothing, which is a fact about the paper.
+          Take only what the source states: silence about registration is not a statement that an
+          analysis was exploratory, and confident wording is not a statement that it was planned.
       measure:
         range: Measure
         required: true
@@ -964,6 +1014,12 @@ classes:
         range: ComponentDecompositionDetails
         inlined: true
         description: Fill in for ICA and related component maps.
+      partial_least_squares:
+        range: PartialLeastSquaresDetails
+        inlined: true
+        description: >-
+          Payload for a partial least squares analysis. One latent variable per Analysis: a second
+          LV from the same decomposition is a second Analysis.
       not_structurable:
         range: NotStructurableDetails
         inlined: true
@@ -1013,8 +1069,10 @@ classes:
           cortisol.
   Term:
     description: >-
-      One term of a statistical model, categorical or continuous. Replaces the factor and
-      predictor split: what matters is whether the term is categorical or continuous.
+      One term of a statistical model, categorical or continuous -- a design-matrix column
+      or equivalent predictor. Belongs to a ModelEstimation and is stated once there,
+      however many analyses contrast it; how a given contrast uses it is a TermUse on that
+      analysis.
     attributes:
       local_id:
         range: string
@@ -1023,8 +1081,13 @@ classes:
       name:
         range: ExtractedString
         required: true
-        description: Term label as the source names it, verbatim. Also the factor's identity, referred to
-          by FactorLevel.factor_name.
+        description: >-
+          Term label as the source names it, verbatim where the source names it at all.
+          Papers routinely state the levels and not the axis -- 1-back, 2-back and 3-back
+          conditions with no name for what varies -- so this may be a label supplied for a
+          grouping the source does make, such as `load`. Supplying it is expected; the
+          levels below must still be the source's own, and the name must not assert a
+          comparison or a construct the paper does not make.
       source_definition:
         range: ExtractedString
         description: The source's own definition of the term, verbatim, including the origin of a continuous
@@ -1034,41 +1097,35 @@ classes:
         required: true
         description: Whether the term is categorical or continuous, as stated or as evident from the model;
           mapper normalizes.
-      role:
-        range: ExtractedString
-        required: true
-        description: How the term enters the model, verbatim or as evident -- a term of interest, a covariate
-          controlled for, a moderator, a mediator; mapper normalizes. Say "covariate" for something the
-          paper controls for rather than tests.
-      conditions:
-        range: string
-        multivalued: true
-        description: local_ids of Condition records a categorical term ranges over.
-      groups:
-        range: string
-        multivalued: true
-        description: local_ids of Group records a categorical term ranges over.
       assessment:
         range: string
         description: local_id of the Assessment supplying a continuous term's measurement.
       levels:
-        range: ExtractedValue
-        description: The factor's level labels, verbatim, when they are not all present as condition or
-          group terms of the analysis.
+        range: FactorLevel
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The levels of a categorical term, and for each the cohorts, conditions, occasions, or arms
+          carrying it. Record every level the source names, including ones no reported contrast uses:
+          a three-level factor contrasted at two levels is still a three-level factor. Leave empty for
+          a continuous term.
       variation_level:
         range: ExtractedString
-        description: The level a continuous term varies at, verbatim -- within subject, between subjects,
-          or both; mapper normalizes. This is what separates a parametric modulation from a cross-subject
-          regression.
-      association_direction:
-        range: ExtractedString
-        description: Reported sign of a continuous term's coefficient, verbatim; mapper normalizes. Omit
-          when the source reports no direction.
+        description: >-
+          Whether the term moves within a participant or only across the sample, verbatim -- within
+          subject, between subjects, or both; mapper normalizes. Fill it for every term, categorical
+          as well as continuous: a factor every participant met every level of is within-subject and
+          one each participant sits in a single level of is between-subject, exactly as a trial-wise
+          modulator and an age covariate are. For a continuous term this is also what separates a
+          parametric modulation from a cross-subject regression. Papers state it plainly for factors
+          -- "a within-subjects factor task", "a between-subjects factor group" -- so take that
+          wording rather than inferring scope from the design.
       functional_form:
         range: ExtractedString
         description: Shape of the term's relationship to the measure, verbatim -- linear, quadratic, a
           product, an absolute value, log-transformed, or a named transform; mapper normalizes. Do not
-          report a non-linear or transformed term as linear.
+          report a non-linear or transformed term as linear. A model fitting both a linear and a
+          quadratic form of the same measurement has two Term records, not one.
       interaction_with:
         range: string
         multivalued: true
@@ -1170,6 +1227,10 @@ classes:
         range: string
         required: true
         description: local_id of the Group record.
+      label:
+        range: ExtractedString
+        description: The source's wording for this cohort in this analysis, verbatim, when it differs from
+          the Group name.
       role:
         range: ExtractedString
         required: true
@@ -1177,13 +1238,6 @@ classes:
           Which side of the comparison this cohort sits on, verbatim as the source frames it -- the greater
           side, the lesser side, or simply included without a direction; mapper normalizes. Omit when the
           source compares the cohorts but does not report which way the effect went.
-      factor_levels:
-        range: FactorLevel
-        multivalued: true
-        inlined_as_list: true
-        description: >-
-          The factorial cell this cohort represents, for a crossed design such as genotype by diagnosis.
-          Leave empty for the ordinary case of one cohort per group.
       n:
         range: ExtractedInteger
         description: Participants from this cohort included in this analysis, when reported per analysis.
@@ -1205,13 +1259,6 @@ classes:
           Which side of the comparison this condition sits on, verbatim as the source frames it; mapper
           normalizes. For an ordered contrast mark the extremes and leave the middle terms undirected,
           keeping the ordering in contrast_definition.
-      factor_levels:
-        range: FactorLevel
-        multivalued: true
-        inlined_as_list: true
-        description: >-
-          The factorial cell this condition represents. Record a factor held constant across the directional
-          terms as well, with its constant level.
   TimepointTerm:
     description: One occasion entering an analysis and the side of the comparison it sits on.
     attributes:
@@ -1231,13 +1278,6 @@ classes:
           normalizes. A post-versus-pre increase makes the later occasion the greater side. For a series
           of follow-ups mark the extremes and leave the middle occasions undirected, keeping the ordering
           in contrast_definition.
-      factor_levels:
-        range: FactorLevel
-        multivalued: true
-        inlined_as_list: true
-        description: >-
-          The factorial cell this occasion represents, for a design crossing occasion with another
-          factor. Record a factor held constant across the directional terms as well.
   ArmTerm:
     description: One arm entering an analysis and the side of the comparison it sits on.
     attributes:
@@ -1256,25 +1296,60 @@ classes:
           Which side of the comparison this arm sits on, verbatim as the source frames it; mapper
           normalizes. A drug-versus-placebo increase makes the drug arm the greater side. Type the
           comparator side as carefully as the manipulation.
-      factor_levels:
-        range: FactorLevel
-        multivalued: true
-        inlined_as_list: true
-        description: >-
-          The factorial cell this arm represents, for a design crossing arm with another factor.
-          Record a factor held constant across the directional terms as well.
   FactorLevel:
-    description: One factor and the level of it that a cohort or condition represents.
+    description: >-
+      One level of a categorical Term, and the entities carrying it. The factor is named
+      once, by the Term this sits on, so nothing here repeats it.
     attributes:
-      factor_name:
-        range: ExtractedString
-        required: true
-        description: Name of the experimental or participant factor, verbatim. Must match the name of a
-          categorical Term of this analysis.
       level:
         range: ExtractedString
         required: true
-        description: The level of that factor which this cohort or condition carries, verbatim.
+        description: The level's label, verbatim.
+      order:
+        range: ExtractedInteger
+        description: >-
+          Position of this level in the factor's sequence, counting from 1, for a factor whose levels
+          are ordered -- a dose series, a load or difficulty series, an ordinal severity grading. The
+          directional roles record only which levels a contrast put at its extremes, so without this
+          the sequence of 1-back, 2-back and 3-back is lost. Omit for a nominal factor: an order the
+          design does not have must not be invented.
+      conditions:
+        range: string
+        multivalued: true
+        description: local_ids of the Condition records carrying this level.
+      groups:
+        range: string
+        multivalued: true
+        description: local_ids of the Group records carrying this level.
+      timepoints:
+        range: string
+        multivalued: true
+        description: local_ids of the Timepoint records carrying this level.
+      arms:
+        range: string
+        multivalued: true
+        description: local_ids of the Arm records carrying this level.
+  TermUse:
+    description: >-
+      One of a model's Terms as one analysis's contrast uses it. Holds only what can differ
+      between two contrasts taken from the same model.
+    attributes:
+      term:
+        range: string
+        required: true
+        description: local_id of the Term record, which must be one of the terms of this analysis's
+          ModelEstimation.
+      role:
+        range: ExtractedString
+        required: true
+        description: >-
+          How the term enters this contrast, verbatim or as evident -- a term of interest, a covariate
+          controlled for, a moderator, a mediator; mapper normalizes. Say "covariate" for something the
+          paper controls for rather than tests in this particular contrast.
+      association_direction:
+        range: ExtractedString
+        description: Reported sign of the term's coefficient in this contrast, verbatim; mapper
+          normalizes. Omit when the source reports no direction.
   Measure:
     description: The scientific quantity of the map, in the source's own words.
     attributes:
@@ -1509,6 +1584,52 @@ classes:
         range: ExtractedString
         required: true
         description: Why none of the five named method payloads fits this analysis.
+  PartialLeastSquaresDetails:
+    description: >-
+      Extracted partial least squares payload. PLS decomposes the covariance between the brain data
+      and another block, so what that other block was is the thing to get right.
+    attributes:
+      pls_type:
+        range: ExtractedString
+        required: true
+        description: >-
+          What the brain data were decomposed against, verbatim -- the task or experimental design,
+          behavioural or clinical measures, a seed region's activity, or more than one block at
+          once; mapper normalizes. Say so when the paper reports PLS without saying which.
+      latent_variable_id:
+        range: ExtractedString
+        required: true
+        description: >-
+          Which latent variable this analysis reports, as the source labels it, commonly "LV1".
+          Required: without it two analyses from one decomposition cannot be told apart.
+      latent_variable_label:
+        range: ExtractedString
+        description: The source's name for what the latent variable captures, verbatim, when it gives one.
+      total_latent_variables:
+        range: ExtractedInteger
+        description: How many latent variables the decomposition produced.
+      crossblock_covariance_percent:
+        range: ExtractedNumber
+        description: >-
+          Percentage of crossblock covariance this latent variable accounts for, as reported. Record
+          the number as given and do not convert a proportion.
+      behavioral_variables:
+        range: string
+        multivalued: true
+        description: local_ids of the Assessment records forming the behavioural block. Empty for a task PLS.
+      seed_regions:
+        range: ExtractedValue
+        description: Regions whose activity formed the seed block, verbatim, one per entry. Empty otherwise.
+      salience_threshold:
+        range: ExtractedString
+        description: >-
+          The criterion for a reliable contributing voxel, verbatim -- conventionally a bootstrap
+          ratio cutoff such as "|BSR| > 3.0". Do not record it as a voxelwise statistical threshold.
+      polarity_semantics:
+        range: ExtractedString
+        description: >-
+          What the sign of the salience map means, verbatim; mapper normalizes. A latent variable's
+          sign is arbitrary up to a flip, so record what the paper says positive means.
   NotStructurableDetails:
     description: >-
       Payload for an effect that is grounded in the source but has no stable structured

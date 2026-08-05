@@ -143,7 +143,8 @@ classes:
     is_a: AnalysisDetails
     description: >-
       Payload for a representational-similarity analysis. The direction of a model-brain
-      association is a continuous Term in Effect, with the model RDM as the term. Before
+      association is a continuous ModelTerm on the analysis's ModelEstimation, with the
+      model RDM as the term, used by the Effect through a TermUse. Before
       choosing this family, check that the association is at the RDM level: a similarity
       regressor entered into a univariate GLM is a parametric modulation, not RSA.
     attributes:
@@ -349,6 +350,92 @@ classes:
         in_subset: [model_extracted]
         range: PolaritySemantics
         description: Whether the sign of the map carries meaning.
+
+  PartialLeastSquaresDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for a partial least squares analysis. PLS decomposes the covariance between
+      brain measures and a design or behavioural block into latent variables, so one
+      analysis reports one latent variable: a second LV from the same decomposition is a
+      second Analysis, as a second ICA component is.
+
+      Distinct from component_decomposition, which decomposes the brain data alone. What
+      makes an analysis PLS is that the decomposition is of a *covariance* between blocks,
+      which is why `pls_type` -- what the brain block was crossed with -- is the field that
+      decides whether two PLS maps are comparable at all.
+
+      Earned a class of its own on the evidence: it was the method the extractor reached
+      for OtherAnalysisDetails over most often that has a settled literature, naming itself
+      as "not one of the five named first-class analysis method families".
+    attributes:
+      pls_type:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: PlsType
+          - range: string
+        required: true
+        description: >-
+          What the brain block was decomposed against, which is the primary filter: a task
+          PLS and a behavioural PLS answer different questions from the same data and do
+          not pool.
+      latent_variable_id:
+        in_subset: [mvp, model_extracted]
+        range: string
+        required: true
+        description: >-
+          Identifier of the latent variable this analysis reports, as the source names it
+          -- commonly an index such as `LV1`. Required for the same reason
+          ComponentDecompositionDetails.component_id is: without it, two analyses from one
+          decomposition are indistinguishable.
+      latent_variable_label:
+        in_subset: [model_extracted]
+        range: string
+        description: The source's name for what the latent variable captures, when it gives one.
+      total_latent_variables:
+        in_subset: [model_extracted]
+        range: integer
+        minimum_value: 0
+        description: Number of latent variables the decomposition produced.
+      crossblock_covariance_percent:
+        in_subset: [model_extracted]
+        range: float
+        minimum_value: 0
+        maximum_value: 100
+        description: >-
+          Percentage of crossblock covariance this latent variable accounts for, as
+          reported. The nearest thing PLS has to an effect size, and what a paper uses to
+          justify reporting one LV and not another.
+      behavioral_variables:
+        in_subset: [model_extracted]
+        range: Assessment
+        multivalued: true
+        inlined: false
+        description: >-
+          The measures forming the behavioural block of a behavioural or multiblock PLS, by
+          identifier. Empty for a task PLS, whose second block is the design.
+      seed_regions:
+        in_subset: [model_extracted]
+        range: string
+        multivalued: true
+        description: >-
+          The regions whose activity formed the seed block of a seed PLS, in the source's
+          words. Empty otherwise.
+      salience_threshold:
+        in_subset: [model_extracted]
+        range: string
+        description: >-
+          The criterion deciding which voxels count as reliable contributors, as reported
+          -- conventionally a bootstrap ratio cutoff such as "|BSR| > 3.0". Recorded here
+          rather than as a voxelwise threshold because a bootstrap ratio is a stability
+          measure and not a test statistic, so reading it as one would misstate the
+          inference.
+      polarity_semantics:
+        in_subset: [model_extracted]
+        range: PolaritySemantics
+        description: >-
+          Whether the sign of the reported salience map carries meaning. A latent
+          variable's sign is arbitrary up to a flip, so a paper must say what positive
+          means before a direction can be pooled.
 
   OtherAnalysisDetails:
     is_a: AnalysisDetails
