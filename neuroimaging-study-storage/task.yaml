@@ -91,7 +91,7 @@ classes:
       A named condition of a task: a modelled state, event type, or baseline that an analysis
       can contrast against another. Only what happened inside the paradigm -- the occasion the
       task was run on and the arm it was run under are Timepoints and Arms, and enter an
-      analysis as their own directional terms on the Effect.
+      analysis as levels of their own model terms, compared by `Cell`s on the Effect.
     attributes:
       id:
         in_subset: [mvp, deterministic]
@@ -108,46 +108,15 @@ classes:
       description:
         in_subset: [mvp, model_extracted]
         range: string
-        description: Complete definition of the condition, including baseline or control state when relevant.
-      condition_kind:
-        in_subset: [mvp, model_extracted]
-        any_of:
-          - range: ConditionKind
-          - range: string
-        required: true
         description: >-
-          Whether the condition puts a demand on the participant or is a rest or fixation
-          baseline. Required, with `unstated` when the source leaves it unclear.
+          Complete definition of the condition, including whether it was a rest, fixation, or
+          control state, and whether it put a demand on the participant.
+
+          What a tested effect was measured against is not recorded here: a contrast against this
+          condition gives it a `negative` cell, and a contrast against the unmodelled implicit
+          baseline has no second cell.
 
 enums:
-
-  ConditionKind:
-    in_subset: [mvp, model_extracted]
-    description: >-
-      Whether a condition puts a demand on the participant, or is the rest or fixation state a
-      demand was measured against. The distinction is here because what a condition was
-      contrasted against changes whether two analyses pool: a task against fixation and a task
-      against another task are different comparisons.
-      Open vocabulary: write the source's own wording in the field when nothing here fits.
-    permissible_values:
-      task_state:
-        in_subset: [mvp, model_extracted]
-        description: >-
-          A state the participant was put in or a job they were doing -- encoding, retrieval, a
-          motor task, an emotional-regulation block, viewing one class of stimulus rather than
-          another. Whether the demand came from the stimulus or from the instruction is not
-          distinguished.
-      rest:
-        in_subset: [mvp, model_extracted]
-        description: >-
-          Rest or fixation, as a modelled condition: a low-level baseline rather than a demand.
-          Distinct from `ArmKind: no_intervention`, which is a trial arm rather than a scanner
-          state, and from a whole resting-state protocol, which is a Task.
-      unstated:
-        in_subset: [mvp, model_extracted]
-        description: >-
-          The source does not make clear whether the condition carried a demand or was a rest
-          baseline.
 
   ResponseMode:
     in_subset: [mvp, model_extracted]

@@ -2,7 +2,8 @@ id: https://neurostuff.org/schemas/neuroimaging-study-storage/analysis_details
 name: neuroimaging-study-storage-analysis-details
 title: Neuroimaging Study Storage Analysis Details Module
 description: >-
-  Method-specific payloads for an Analysis, ported from analysis-schema v0.1.0-alpha.11.
+  Method-specific payloads for an Analysis: the fields that only make sense for one family of
+  method, kept out of Analysis so that the method and the effect never compete for a field.
   Exactly one subclass of AnalysisDetails applies to an Analysis, and which one is filled
   states the method. A mass-univariate analysis takes MassUnivariateDetails, which adds no
   fields of its own.
@@ -54,11 +55,12 @@ classes:
   DecodingDetails:
     is_a: AnalysisDetails
     description: >-
-      Payload for a classification or pattern-discriminability analysis. Above-chance
-      decoding is a simple_effect with a `chance` baseline; a between-group accuracy
-      comparison is a contrast on the group axis; accuracy regressed on a behavioural
-      score is a cross_subject_regression. Spatial scope is recorded on the Analysis,
-      including for searchlight analyses.
+      Payload for a classification or pattern-discriminability analysis. Above-chance decoding is
+      one signed cell with nothing crossed, and the reference it beat is
+      `PerformanceMetric.reference_value`, which is per metric because accuracy against chance and
+      AUC against 0.5 are two references. A between-cohort accuracy comparison is a crossed cohort
+      term; accuracy regressed on a behavioural score is a cell on a continuous term. Spatial scope
+      is recorded on the Analysis, including for searchlight analyses.
     attributes:
       decoded_variable:
         in_subset: [mvp, model_extracted]
@@ -117,8 +119,8 @@ classes:
         description: >-
           Numeric reference this measure was compared against, when reported -- chance for an
           accuracy, zero for a correlation. Each measure carries its own: accuracy against
-          chance and AUC against 0.5 are two references, not one. What kind of reference it is
-          lives in Effect.baseline.
+          chance and AUC against 0.5 are two references, not one, which is why this is here and
+          not once on the Effect. `relation` says which side of it the measure fell on.
       relation:
         in_subset: [model_extracted]
         range: PerformanceRelation
@@ -144,7 +146,7 @@ classes:
     description: >-
       Payload for a representational-similarity analysis. The direction of a model-brain
       association is a continuous ModelTerm on the analysis's ModelEstimation, with the
-      model RDM as the term, used by the Effect through a TermUse. Before
+      model RDM as the term, tested by the Effect through a `Cell`. Before
       choosing this family, check that the association is at the RDM level: a similarity
       regressor entered into a univariate GLM is a parametric modulation, not RSA.
     attributes:
@@ -154,7 +156,7 @@ classes:
         description: >-
           The model RDM tested. Unset for a genuinely model-free test, such as within-
           versus between-category pattern similarity or dissimilarity against zero, which
-          takes a `zero` baseline in Effect.
+          is tested against zero, which is a single signed cell rather than a comparison.
       neural_representation:
         in_subset: [model_extracted]
         range: string
@@ -202,7 +204,7 @@ classes:
         description: Target regions, as named in the source. Empty for a seed-to-whole-brain analysis.
       parameter_sign:
         in_subset: [model_extracted]
-        range: AssociationDirection
+        range: Direction
         description: >-
           Sign of the connectivity parameter itself, such as a negative PPI. Applies to
           the whole map.
@@ -252,15 +254,17 @@ classes:
           cannot support.
       parameter_sign:
         in_subset: [model_extracted]
-        range: AssociationDirection
+        range: Direction
         description: >-
           Sign of this edge's parameter, when reported per edge rather than for the whole
           map.
   ConjunctionDetails:
     is_a: AnalysisDetails
     description: >-
-      Payload for a conjunction. Effect.kind is the kind shared by the components; when
-      they differ it says so in free text.
+      Payload for a conjunction. The conjunction's own cells describe the conjoint effect, so
+      its kind derives like any other; what each component was in its own right is on that
+      component's `analysis_type` and `definition`, which is where a conjunction over unlike
+      components records the difference.
     attributes:
       components:
         in_subset: [model_extracted]
@@ -308,11 +312,11 @@ classes:
   ComponentDecompositionDetails:
     is_a: AnalysisDetails
     description: >-
-      Payload for a component decomposition. A component map reported without an
-      inferential test matches no kind in the vocabulary, so effect.kind describes it in
-      free text; a loading compared between groups or correlated with behaviour takes a
-      contrast or a cross_subject_regression. Being representable here does not imply
-      eligibility for coordinate-based meta-analysis.
+      Payload for a component decomposition. Covers a component whose map or loading was tested --
+      compared between cohorts, correlated with behaviour, or otherwise given an inferential
+      result. A component map presented descriptively with no test is not an Analysis, so it takes
+      no record here. Being representable here does not imply eligibility for coordinate-based
+      meta-analysis.
     attributes:
       method:
         in_subset: [mvp, model_extracted]

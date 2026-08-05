@@ -903,6 +903,21 @@ classes:
           on. Use it when the same participants passed through several arms; when the arms are
           separate cohorts the comparison is between groups and each cohort's allocation is on
           the Group record.
+      factors:
+        range: FactorTerm
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The levels of a categorical Term entering this analysis and, for each, which side of
+          the comparison it sits on. Use this only for a factor whose levels are not entities
+          of the study -- brain regions, hemispheres, tasks, frequency bands, acquisition
+          sessions or modalities. A factor whose levels are conditions, cohorts, occasions or
+          arms is recorded through conditions, groups, timepoints or arms instead.
+
+          This is what to reach for when the source reports a dissociation: "a region by
+          condition interaction" gives the two regions their sides here and the two conditions
+          their sides in conditions. Putting the direction only on the conditions would state
+          an ordering the source reports for one region and denies for the other.
       term_uses:
         range: TermUse
         multivalued: true
@@ -956,9 +971,13 @@ classes:
         range: ExtractedString
         description: >-
           What the map was tested against, verbatim -- a named condition such as rest or fixation,
-          an implicit baseline, chance, or zero; mapper normalizes. Do not invent a baseline
-          condition: if the baseline is a modelled condition, give it a condition term on the lesser
-          side instead.
+          an implicit baseline, chance, or zero. Record the source's wording; the mapper routes it
+          rather than normalizing it, because storage has no baseline field and each kind of
+          reference belongs somewhere different.
+
+          Do not invent a baseline condition. When the baseline *is* a modelled condition, also
+          give it a condition term on the lesser side -- that term is what survives, and this
+          field is the evidence for it.
       mediation_path:
         range: ExtractedString
         description: For a mediation analysis, which path was tested, verbatim -- the direct effect, the
@@ -1122,15 +1141,33 @@ classes:
           wording rather than inferring scope from the design.
       functional_form:
         range: ExtractedString
-        description: Shape of the term's relationship to the measure, verbatim -- linear, quadratic, a
-          product, an absolute value, log-transformed, or a named transform; mapper normalizes. Do not
-          report a non-linear or transformed term as linear. A model fitting both a linear and a
-          quadratic form of the same measurement has two Term records, not one.
+        description: >-
+          Shape of the term's relationship to the measure, verbatim -- linear, quadratic, an absolute
+          value, log-transformed, or a named transform; mapper normalizes. Do not report a non-linear
+          or transformed term as linear. A model fitting both a linear and a quadratic form of the
+          same measurement has two Term records, not one.
+
+          Not where a product goes. That a term is a product of others is `interaction_with`, and
+          saying it in both places means saying it twice.
       interaction_with:
         range: string
         multivalued: true
-        description: local_ids of the other Term records this term is a product of, when the source names
-          an interaction term.
+        description: >-
+          local_ids of the other Term records this term is a product of, when the source names an
+          interaction term. Populate it only for a term the source presents as its own column --
+          "an age by group interaction term", "the PCL-R x diagnosis product".
+
+          The case that needs it is a crossing involving a **continuous** measure. A continuous term
+          has no levels, so an age-by-group interaction cannot be read off the compared levels the
+          way a condition-by-group one can; the product term is the only record of it, and without
+          it the analysis reads as a plain regression on age.
+
+          A crossing of two **categorical** factors does not need it. Give each factor's levels their
+          sides and the crossing is already stated; adding a product term on top says nothing further
+          and is flagged for review. This is the most over-applied field in the schema -- of 19 bench
+          disagreements on it, all 19 were a model setting it where the reference left it empty, and
+          most were categorical crossings. When in doubt, record the levels and their sides and leave
+          this empty.
       unit:
         range: ExtractedString
         description: Unit of a continuous term, verbatim, when meaningful.
@@ -1182,15 +1219,10 @@ classes:
         description: Condition label as stated in the paper.
       description:
         range: ExtractedString
-        description: Condition definition, verbatim.
-      condition_kind:
-        range: ExtractedString
-        required: true
         description: >-
-          Whether this condition put a demand on the participant or was the rest or fixation
-          state a demand was measured against, verbatim or as judged; mapper normalizes. Only
-          what happened inside the paradigm: when the data were collected and what the
-          participant received are Timepoint and Arm records, and enter an analysis through
+          Condition definition, verbatim, including whether it was a rest, fixation, or control
+          state. Only what happened inside the paradigm: when the data were collected and what
+          the participant received are Timepoint and Arm records, and enter an analysis through
           Analysis.timepoints and Analysis.arms.
 
   Table:
@@ -1236,8 +1268,11 @@ classes:
         required: true
         description: >-
           Which side of the comparison this cohort sits on, verbatim as the source frames it -- the greater
-          side, the lesser side, or simply included without a direction; mapper normalizes. Omit when the
-          source compares the cohorts but does not report which way the effect went.
+          side, the lesser side, or without a direction; mapper normalizes.
+
+          A cohort with no side is the same three-way choice `FactorTerm.role` sets out, and for the
+          same reason: say "weighted out", "held constant" for a comparison taken within this cohort,
+          or "direction not reported". "Included" alone names all three and is flagged for review.
       n:
         range: ExtractedInteger
         description: Participants from this cohort included in this analysis, when reported per analysis.
@@ -1296,6 +1331,55 @@ classes:
           Which side of the comparison this arm sits on, verbatim as the source frames it; mapper
           normalizes. A drug-versus-placebo increase makes the drug arm the greater side. Type the
           comparator side as carefully as the manipulation.
+  FactorTerm:
+    description: >-
+      One level of a categorical Term entering an analysis, and the side of the comparison it
+      sits on. For a factor whose levels are not entities of the study -- a region, a
+      hemisphere, a task, a frequency band, an acquisition session.
+    attributes:
+      term:
+        range: string
+        required: true
+        description: >-
+          local_id of the Term record this level belongs to. The Term must be one this
+          analysis's ModelEstimation carries, and its type must be categorical.
+      level:
+        range: ExtractedString
+        required: true
+        description: >-
+          The level's label, verbatim, matching one of the levels recorded on that Term. Copy
+          the wording from the Term's FactorLevel rather than rephrasing it; the two are joined
+          on this string.
+      label:
+        range: ExtractedString
+        description: The source's wording for this level in this analysis, verbatim, when it differs
+          from the level's own label.
+      role:
+        range: ExtractedString
+        required: true
+        description: >-
+          Which side of the comparison this level sits on, verbatim as the source frames it;
+          mapper normalizes. In a dissociation, the level in which the effect was found is the
+          greater side and the level in which it was absent or reversed is the lesser side.
+
+          **A level with no side is three different facts. Say which.** "Included" names all three
+          and the mapper cannot resolve it, so a bare "included" is flagged for review:
+
+          - **weighted out** -- a three-level factor compared at two of its levels. Say "weighted
+            out" or "not weighted". Storage records a zero weight by having no entry for the level,
+            so the mapper drops it.
+          - **held constant** -- the contrast was taken *within* this level, as a group comparison
+            run inside the incongruent condition is. Say "held constant", "held at", "within this
+            level", or "restricted to". The level took part and sat on neither side, which is a
+            different claim from either of the others: it keeps the factor out of the analysis's
+            adjustment set, because it was not averaged over.
+          - **direction unreported** -- the level was compared and the source does not say which
+            way. Say "direction not reported".
+
+          Guessing among them is an invention. Saying "weighted out" of a level whose direction was
+          merely unreported denies a weight the contrast gave; saying "unstated" of a level held
+          constant asserts a comparison the contrast did not make; and calling a held-constant level
+          averaged-over puts a term in the adjustment set that the contrast never averaged.
   FactorLevel:
     description: >-
       One level of a categorical Term, and the entities carrying it. The factor is named
@@ -1344,8 +1428,13 @@ classes:
         required: true
         description: >-
           How the term enters this contrast, verbatim or as evident -- a term of interest, a covariate
-          controlled for, a moderator, a mediator; mapper normalizes. Say "covariate" for something the
-          paper controls for rather than tests in this particular contrast.
+          controlled for, a mediator; mapper normalizes. Say "covariate" for something the paper
+          controls for rather than tests in this particular contrast.
+
+          Do not say "moderator". A moderated effect is recorded as the source describes it: the
+          moderator and the effect it moderates are both terms of interest, and the moderation is a
+          third Term with functional_form `product` naming the two in interaction_with. There is
+          nowhere for a moderator role to go, because that structure already says it.
       association_direction:
         range: ExtractedString
         description: Reported sign of the term's coefficient in this contrast, verbatim; mapper

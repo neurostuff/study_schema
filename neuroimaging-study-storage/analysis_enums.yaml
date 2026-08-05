@@ -158,100 +158,82 @@ enums:
           Required for whole-brain and searchlight analyses, and forbidden when
           spatial_scope is roi.
 
-  DirectionalRole:
-    in_subset: [mvp, model_extracted]
-    description: >-
-      Which side of a comparison an entity sits on, as a role rather than a numeric
-      contrast weight. Only `greater` and `lesser` count as directional, so an unreported
-      direction never silently changes the effect kind.
-    permissible_values:
-      included:
-        in_subset: [mvp, model_extracted]
-        description: Participates in the analysis without a directional comparison.
-      greater:
-        in_subset: [mvp, model_extracted]
-        description: The greater-than side of the comparison.
-      lesser:
-        in_subset: [mvp, model_extracted]
-        description: The lesser-than side of the comparison.
-      unstated:
-        in_subset: [mvp, model_extracted]
-        description: The entity is compared but the source does not report which side.
-
   EffectKind:
     in_subset: [mvp, model_extracted]
     description: >-
-      The kind of effect tested, a function of which terms carry direction and recomputed
-      from them by the structural validator. `contrast` covers both a condition comparison
-      and a group comparison; which one it is follows from which entities carry direction.
-      Open vocabulary: write the source's own wording in the field when nothing here fits.
+      The vocabulary of the derived kind view. **No slot has this as a range** -- an `Effect`
+      does not record what kind of thing it is, because that follows entirely from its cells.
+      This enum is here so that a query layer, a facet list, or a reader has one place to see
+      the labels that derivation produces, and one statement of what each means.
+
+      The rule, in full: a term with cells of both signs is a *crossed* term. Two or more
+      crossed terms is an `interaction`, one is a `contrast`, and none -- with some cell still
+      signed -- is a `simple_effect`, a quantity tested against zero. Cells present but none
+      signed is an `omnibus`. A cell on a continuous term overrides all of that and gives a
+      `parametric_modulation` or a `cross_subject_regression` by the term's `variation_level`.
+
+      `contrast` covers both a condition comparison and a group comparison; which one it is
+      follows from what the crossed term's levels range over, which `FactorLevel` states once on
+      the model. There is no free-text branch: a cell pattern always yields one of these labels
+      or none, and a pattern yielding none is a record whose cells do not describe a test.
     permissible_values:
       simple_effect:
         in_subset: [mvp, model_extracted]
         description: >-
-          A one-sample test of a map against a reference. Covers activation and
-          deactivation against an implicit baseline, decoding accuracy above chance,
-          dissimilarity above zero, and connectivity different from zero.
+          A quantity tested against zero rather than against another level: signed cells, no
+          crossed term. Covers activation and deactivation against the unmodelled implicit
+          baseline, decoding accuracy above chance, dissimilarity above zero, and connectivity
+          different from zero. A single `positive` cell *is* this -- a lone +1 weight tests that
+          coefficient against zero, and zero is what the implicit baseline is.
       contrast:
         in_subset: [mvp, model_extracted]
         description: >-
-          A greater/lesser pair on exactly one axis. On the group axis it is a group
-          comparison; on the condition axis a condition comparison. Directional terms on
-          both axes are an interaction.
+          Exactly one crossed term -- one term carrying both a positive and a negative cell.
+          Whether it reads as a group comparison, a condition comparison, a pre-post change or a
+          region comparison follows from what that term's levels range over, not from a
+          different field. Other terms may carry cells of one sign without making it an
+          interaction: a cohort comparison of an activation contrast is a comparison of cohorts,
+          which is what crossing rather than mere signedness captures.
       interaction:
         in_subset: [mvp, model_extracted]
         description: >-
-          Direction carried by groups and conditions together, by composite conditions
-          with factor levels, by crossed group cells, or by a product term.
+          Two or more crossed terms at once -- a group factor and a condition factor together,
+          occasions and arms, or either of those and a factor whose levels are not entities at
+          all, such as region, hemisphere, task or frequency band. Each side of each comparison
+          must be signed: a difference of differences needs two terms compared against
+          themselves, not two terms merely present with a direction.
+
+          Also the kind of a **moderation**, which reaches it a different way. A crossing that
+          involves a continuous term cannot be two crossed terms, because a continuous term has no
+          levels to cross; there the interaction column carries the cell, and a celled term with a
+          non-empty `interaction_with` derives this kind before `variation_level` is consulted. That
+          is what stops an `age x group` interaction reading as a plain cross-subject regression.
+
+          A multi-degree-of-freedom interaction F-test carries no direction on any term and is
+          `omnibus`, not this; what marks it as an interaction rather than a main effect is the
+          product `ModelTerm` in the model, not the kind.
       parametric_modulation:
         in_subset: [mvp, model_extracted]
-        description: A primary continuous term varying within subject.
+        description: A tested continuous term varying within subject.
       cross_subject_regression:
         in_subset: [mvp, model_extracted]
-        description: A primary continuous term varying between subject or mixed.
+        description: A tested continuous term varying between subject or mixed.
       omnibus:
         in_subset: [mvp, model_extracted]
         description: >-
-          A multi-degree-of-freedom test with no direction. When computed on a
-          directional contrast, that contrast is recorded as a categorical term with its
-          levels and the conditions stay non-directional.
-
-  Baseline:
-    in_subset: [mvp, model_extracted]
-    description: >-
-      What the map was tested against, in the same field for every analysis family.
-      Whether a baseline was modelled separates a simple effect from a condition contrast;
-      use `unstated` when the source says only "versus baseline".
-    permissible_values:
-      modelled_condition:
-        in_subset: [mvp, model_extracted]
-        description: >-
-          An explicit condition such as rest, fixation, or a control task is a term of
-          the contrast.
-      implicit:
-        in_subset: [mvp, model_extracted]
-        description: The unmodelled implicit baseline of the design.
-      chance:
-        in_subset: [mvp, model_extracted]
-        description: A classification or discriminability metric tested against chance.
-      zero:
-        in_subset: [mvp, model_extracted]
-        description: A similarity, dissimilarity, or connectivity parameter tested against zero.
-      unstated:
-        in_subset: [mvp, model_extracted]
-        description: The source says "versus baseline" without saying which.
-      not_applicable:
-        in_subset: [mvp, model_extracted]
-        description: >-
-          The tested effect has no reference: group contrasts, interactions, slopes, and
-          omnibus tests.
+          A multi-degree-of-freedom test with no direction: cells present, none of them signed.
+          Its levels take `direction: not_applicable`, which is what keeps the term tested rather
+          than falling into the derived adjustment set.
 
   EffectPath:
     in_subset: [mvp, model_extracted]
     description: >-
-      Separates a mediated effect from an ordinary one. Without this, an indirect-effect
-      map is structurally identical to a plain regression on the same predictor, and a
-      synthesis would pool the two.
+      Which path through a mediation model an effect's map is. Without it, an indirect-effect
+      map is structurally identical to a plain regression on the same predictor, and a synthesis
+      would pool the two.
+
+      There is no `not_applicable`: an effect that is not a mediated path has no `Mediation`
+      object, so there is no slot to fill. That is what moving the pair into a class bought.
     permissible_values:
       direct:
         in_subset: [mvp, model_extracted]
@@ -262,9 +244,6 @@ enums:
       total:
         in_subset: [mvp, model_extracted]
         description: The unmediated total effect.
-      not_applicable:
-        in_subset: [mvp, model_extracted]
-        description: No mediation model. This is the normal case.
 
   ModelFamily:
     in_subset: [mvp, model_extracted]
@@ -337,6 +316,9 @@ enums:
           A correlation coefficient reported as the statistic, r or rho.
       unstated:
         in_subset: [mvp, model_extracted]
+        description: >-
+          A test was run and the source does not name its statistic. There is no value for "no
+          test was run", a map reported without an inferential test not being an Analysis.
 
   MeasureFamily:
     in_subset: [mvp, model_extracted]
@@ -510,45 +492,18 @@ enums:
         in_subset: [mvp, model_extracted]
         description: >-
           A factor, defined by its levels and the cohorts, conditions, occasions, or arms
-          carrying them. Takes association_direction not_applicable; its direction, where
-          it has one, lives on the directional terms of an Effect.
+          carrying them. Its cells name a `level`, and a cell's `direction` is the sign of the
+          contrast weight put on that level -- something the analyst specified.
       continuous:
         in_subset: [mvp, model_extracted]
-        description: Carries the slope facts, and has no levels.
+        description: >-
+          Carries the slope facts, and has no levels. Its cell names no `level`, there being no
+          level for a slope to be, and the cell's `direction` is the sign of the fitted
+          coefficient -- something the data produced rather than something specified.
 
-  TermRole:
-    in_subset: [mvp, model_extracted]
-    description: >-
-      How a term enters one contrast -- a property of the TermUse, not of the ModelTerm,
-      since a covariate controlled for in one contrast can be the term of interest in
-      another taken from the same model. The derivation of Effect.kind reads only `primary`
-      uses, so the role decides whether a continuous term makes the effect a parametric
-      modulation, a cross-subject regression, or neither.
-    permissible_values:
-      primary:
-        in_subset: [mvp, model_extracted]
-        description: >-
-          A term of interest -- part of what the analysis tested. More than one is
-          allowed: a multiple regression reports more than one effect of interest, and
-          product terms need their components.
-      nuisance:
-        in_subset: [mvp, model_extracted]
-        description: >-
-          Controlled for, not tested, and invisible to the derivation of Effect.kind.
-          Marking a covariate such as age, head motion, or total intracranial volume
-          primary would assert that the paper tested an effect of it.
-      moderator:
-        in_subset: [mvp, model_extracted]
-        description: >-
-          A variable whose level changes the size or sign of a primary effect. Rarely the
-          right choice: the canonical encoding of moderation gives the moderator and the
-          effect it moderates both `primary`, and puts the moderation in a third term with
-          functional_form `product` and interaction_with naming the two.
-      mediator:
-        in_subset: [mvp, model_extracted]
-        description: >-
-          The intervening variable of a mediation model. Requires an Effect.path other
-          than not_applicable, and is required by one.
+  # There is no enum for a term's role in a contrast. A term is tested iff it has a `Cell`,
+  # adjusted for iff it is a term of the model with no cell, a moderator iff it is a component of
+  # a product term whose components carry cells, and the mediator is named by `Effect.mediation`.
 
   VariationLevel:
     in_subset: [mvp, model_extracted]
@@ -559,7 +514,7 @@ enums:
       diagnosis factor and an age covariate are both between-subject.
 
       For a continuous term it is what separates a parametric modulation from a
-      cross-subject regression, and the derivation of `Effect.kind` reads it on that basis.
+      cross-subject regression, and the derived kind of an effect testing it reads this.
       For a categorical factor it is what the literature calls the factor's scope, and it
       feeds no derivation -- it is recorded because it is a fact about the design that
       decides whether two studies estimated the same thing.
@@ -588,32 +543,77 @@ enums:
         in_subset: [mvp, model_extracted]
         description: The source does not report the level at which the term varies.
 
-  AssociationDirection:
+  Direction:
     in_subset: [mvp, model_extracted]
     description: >-
-      Sign of a continuous term's coefficient, or of a connectivity parameter. For a
-      product term it is the sign of the interaction coefficient. When simple slopes
-      differ by moderator level and no single sign is reported, use `unstated` and state
-      the pattern in Analysis.definition.
+      Which way a term entered or came out of an analysis, in one vocabulary for every kind of
+      term. It is a sign, not a magnitude: the schema records signs and never numeric contrast
+      weights, so `[1, -1/2, -1/2]` and `[1, -1, 0]` over the same three levels are both one
+      positive level against two others, and a contrast whose magnitudes matter keeps them in
+      Analysis.definition.
+
+      There is no value for a zero weight: a zero weight is a level with no `Cell`. A level of a
+      tested term that a contrast did not weight is absent from `cells`, as a term the contrast did
+      not test is absent entirely, and both are read by subtraction -- from the term's
+      `FactorLevel`s and from `ModelEstimation.terms` respectively.
+
+      One vocabulary serves both kinds of term. A categorical level put on the plus side of a
+      comparison and a continuous term whose coefficient came out positive are both `positive`, and
+      "A greater than B" is a positive cell and a negative cell on one term. Which of the two a
+      given cell carries follows from the referenced term's `type`.
+
+      On a cell over a **product** term it is the sign of the interaction coefficient -- a fact
+      about the crossing, such as "the age-related decline was steeper in patients", rather than
+      about either component's own slope. When simple slopes differ by moderator level and no
+      single sign is reported, use `unstated` and state the pattern in Analysis.definition.
+
+      Only `positive` and `negative` count as directional, so a cell recording no sign never
+      silently changes the derived kind.
     permissible_values:
       positive:
         in_subset: [mvp, model_extracted]
         description: >-
-          The measure rises as the term rises.
+          A level on the plus side of the comparison, or a coefficient under which the measure
+          rises as the term rises.
       negative:
         in_subset: [mvp, model_extracted]
         description: >-
-          The measure falls as the term rises.
+          A level on the minus side of the comparison, or a coefficient under which the measure
+          falls as the term rises.
       unstated:
         in_subset: [mvp, model_extracted]
+        description: >-
+          A sign exists and the source does not report it. When simple slopes differ by
+          moderator level and no single sign is given, use this and state the pattern in
+          Analysis.definition.
+
+          Distinct from omitting the cell, which says the contrast weighted this level out, and
+          from `not_applicable`, which says there is no sign to have.
       not_applicable:
         in_subset: [mvp, model_extracted]
         description: >-
-          The term or parameter has no sign to report: categorical terms, whose direction
-          lives on the group or condition roles they point at; connectivity parameters
-          carrying their direction the same way; and continuous nuisance terms, which are
-          controlled for rather than interpreted. Use `unstated` when a sign exists and
-          the source simply does not give it.
+          There is no sign to have. On a `Cell` this is what an undirected test of a term looks
+          like: a multi-degree-of-freedom F-test over a factor involves its levels and signs
+          none of them, so those levels take cells with this value. That keeps the term out of
+          the derived adjustment set -- it was tested, not controlled for -- while contributing
+          nothing to the directional count, which is what makes such an effect an `omnibus`.
+          It is not `unstated`, which is a sign the source withheld.
+
+          Two shapes use it. An F-test of an **interaction** puts it on a cell over the product
+          column: signed there is a moderation and derives `interaction`, unsigned is an F-test and
+          derives `omnibus`.
+
+          A contrast taken *within* one level of a factor puts it on that level, which appears on
+          **both sides** of the comparison and so has no net sign -- "patients versus controls, in
+          the task condition" has task on the plus side and the minus side at once. The effect stays
+          a `contrast` on whatever else is crossed, and the factor stays out of the adjustment set.
+
+          The two are distinguishable in a record: a factor F-tested without direction has **all**
+          its levels unsigned, a factor held constant has **one** unsigned level and the rest
+          absent.
+
+          Also the value for a parameter-sign slot on a method payload that has no sign to give.
+  # No `product` value: a column is a product iff `ModelTerm.interaction_with` is non-empty.
   FunctionalForm:
     in_subset: [mvp, model_extracted]
     description: >-
@@ -631,9 +631,6 @@ enums:
         description: >-
           A squared term. With a negative coefficient this is an inverted-U, not a negative
           association.
-      product:
-        in_subset: [mvp, model_extracted]
-        description: An interaction term.
       absolute:
         in_subset: [mvp, model_extracted]
         description: >-

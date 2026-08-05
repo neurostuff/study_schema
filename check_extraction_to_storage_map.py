@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
-"""Check that extraction-to-storage map references resolve in their schemas."""
+"""Check the extraction-to-storage map against both schemas.
+
+Two checks. The first is that every path the map names resolves -- a target field on storage, a
+source field on extraction. The second is *completeness*: that no extraction field is left
+dangling, meaning neither mapped by a class_derivation nor listed in `absorbed_sources`.
+
+The second check exists because `class_derivations` is keyed by storage path, so it structurally
+cannot record an extraction field that has no storage field to land in. Those fields used to be
+documented in prose comments, which meant a storage field could be removed and its extraction
+counterpart would quietly stop going anywhere. `absorbed_sources` makes each one explicit and this
+check makes the set exhaustive.
+"""
 
 from __future__ import annotations
 
@@ -138,8 +149,174 @@ def main() -> int:
         warn_paths("Invalid extraction-to-storage map references", issues)
         return 1
 
-    print(f"Extraction-to-storage map references are valid across {len(derivations)} classes and {mapped_fields} fields.")
+    coverage_issues = check_coverage(extraction_classes, storage_classes, mapping, derivations)
+    if coverage_issues:
+        warn_paths("Extraction fields with no destination", coverage_issues)
+        return 1
+
+    print(
+        f"Extraction-to-storage map references are valid across {len(derivations)} classes "
+        f"and {mapped_fields} fields."
+    )
+    print(
+        f"Every extraction field has a destination: mapped by a derivation, or listed in "
+        f"absorbed_sources ({len(mapping.get('absorbed_sources') or {})} entries)."
+    )
     return 0
+
+
+#: Extraction machinery that describes the extraction run rather than the study. None of it is
+#: storage-bound, and none of it needs an absorbed_sources entry.
+INFRASTRUCTURE = frozenset({
+    "StudyExtraction", "ExtractionMetadata", "PaperSection",
+    "Evidence", "EvidenceSet", "EvidenceSpan",
+    "ExtractedValue", "ExtractedNumber", "ExtractedString", "ExtractedFloat",
+    "ExtractedInteger", "ExtractedBoolean", "ExtractedStringList",
+})
+
+#: Present on every extraction record and consumed by local_id_to_id rather than mapped.
+INFRASTRUCTURE_FIELDS = frozenset({"local_id"})
+
+
+def check_coverage(
+    extraction_classes: Mapping[str, object],
+    storage_classes: Mapping[str, object],
+    mapping: Mapping[str, object],
+    derivations: Mapping[str, object],
+) -> list[str]:
+    """Every extraction class and field must have somewhere to go, and say where."""
+
+    absorbed = mapping.get("absorbed_sources") or {}
+    if not isinstance(absorbed, Mapping):
+        return ["absorbed_sources (must be a mapping)"]
+
+    issues: list[str] = []
+
+    # An absorbed_sources key is either an extraction class or an extraction Class.field, and its
+    # absorbed_by entries are storage Class.field paths -- so the section cannot rot either.
+    for key, entry in absorbed.items():
+        source_class, _, source_field = str(key).partition(".")
+        if source_class not in extraction_classes:
+            issues.append(f"absorbed_sources.{key} (no such extraction class)")
+            continue
+        if source_field and not resolve_path(extraction_classes, source_class, source_field):
+            issues.append(f"absorbed_sources.{key} (no such extraction field)")
+        if not isinstance(entry, Mapping) or "reason" not in entry:
+            issues.append(f"absorbed_sources.{key} (needs a reason)")
+            continue
+        for target in entry.get("absorbed_by") or ():
+            target_class, _, target_field = str(target).partition(".")
+            if target_class not in storage_classes or (
+                target_field and not resolve_path(storage_classes, target_class, target_field)
+            ):
+                issues.append(f"absorbed_sources.{key}.absorbed_by -> {target!r} (not a storage path)")
+
+    # Which extraction classes a derivation reads, and which of their fields it names.
+    read_classes: set[str] = set()
+    named_fields: dict[str, set[str]] = {}
+    for class_derivation in derivations.values():
+        if not isinstance(class_derivation, Mapping):
+            continue
+        source_class = class_derivation.get("populated_from")
+        if not isinstance(source_class, str):
+            continue
+        read_classes.add(source_class)
+        slots = class_derivation.get("slot_derivations")
+        if not isinstance(slots, Mapping):
+            continue
+        for derivation in slots.values():
+            if not isinstance(derivation, Mapping):
+                continue
+            for key in ("populated_from", "source_evidence", "status_field", "source_reference"):
+                path = derivation.get(key)
+                if isinstance(path, str):
+                    named_fields.setdefault(source_class, set()).add(path.split(".")[0])
+            for path in (derivation.get("source_fields") or {}).values():
+                if isinstance(path, str) and "." in path:
+                    referenced_class, referenced_field = path.split(".", 1)
+                    read_classes.add(referenced_class)
+                    named_fields.setdefault(referenced_class, set()).add(referenced_field.split(".")[0])
+
+    # A slot the map reads carries its whole object when its range is a class: `transform: verbatim`
+    # on a slot of range Statistic copies the Statistic. So reachability follows slot ranges,
+    # transitively, and those copies are only lossless if the field names agree -- which is checked
+    # below rather than assumed.
+    copied: dict[str, str] = {}  # extraction class -> the extraction field path that copies it
+    frontier = list(read_classes)
+    while frontier:
+        class_name = frontier.pop()
+        for field_name, spec in attributes_of(extraction_classes, class_name).items():
+            if class_name in read_classes and field_name not in named_fields.get(class_name, frozenset()):
+                # Not named by any derivation; only reachable if a same-named storage field copies it.
+                pass
+            range_name = spec.get("range") if isinstance(spec, Mapping) else None
+            if not isinstance(range_name, str) or range_name in INFRASTRUCTURE:
+                continue
+            if range_name in extraction_classes and range_name not in read_classes:
+                read_classes.add(range_name)
+                copied[range_name] = f"{class_name}.{field_name}"
+                frontier.append(range_name)
+
+    for class_name, definition in sorted(extraction_classes.items()):
+        if class_name in INFRASTRUCTURE or not isinstance(definition, Mapping):
+            continue
+        if definition.get("abstract"):
+            continue
+        if class_name in absorbed:
+            continue  # the whole class is accounted for
+        if class_name not in read_classes:
+            issues.append(f"{class_name} (no class_derivation reads it, no absorbed_sources entry)")
+            continue
+
+        # Where this class's fields can land: a storage class a derivation targets from it, or --
+        # for a class copied wholesale through a slot -- the storage class of the same name.
+        storage_names: set[str] = set()
+        for target_class, class_derivation in derivations.items():
+            if isinstance(class_derivation, Mapping) and class_derivation.get("populated_from") == class_name:
+                if target_class in storage_classes:
+                    storage_names |= set(attributes_of(storage_classes, target_class))
+        if class_name in copied:
+            if class_name not in storage_classes:
+                issues.append(
+                    f"{class_name} (copied through {copied[class_name]}, but storage has no such class)"
+                )
+                continue
+            storage_names |= set(attributes_of(storage_classes, class_name))
+
+        for field_name in attributes_of(extraction_classes, class_name):
+            if field_name in INFRASTRUCTURE_FIELDS:
+                continue
+            if field_name in named_fields.get(class_name, frozenset()):
+                continue
+            if field_name in storage_names:
+                continue
+            if f"{class_name}.{field_name}" in absorbed:
+                continue
+            where = f" (copied through {copied[class_name]})" if class_name in copied else ""
+            issues.append(
+                f"{class_name}.{field_name} mapped nowhere{where}, and not in absorbed_sources"
+            )
+
+    return issues
+
+
+def attributes_of(class_definitions: Mapping[str, object], class_name: str) -> dict[str, object]:
+    """A class's attributes including LinkML is_a ancestors."""
+    collected: dict[str, object] = {}
+    current: str | None = class_name
+    seen: set[str] = set()
+    while current and current not in seen:
+        seen.add(current)
+        definition = class_definitions.get(current)
+        if not isinstance(definition, Mapping):
+            break
+        attributes = definition.get("attributes")
+        if isinstance(attributes, Mapping):
+            for name, spec in attributes.items():
+                collected.setdefault(name, spec)
+        parent = definition.get("is_a")
+        current = parent if isinstance(parent, str) else None
+    return collected
 
 
 if __name__ == "__main__":
