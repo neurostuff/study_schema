@@ -1,0 +1,310 @@
+id: https://neurostuff.org/schemas/neuroimaging-study-storage/design
+name: neuroimaging-study-storage-design
+title: Neuroimaging Study Storage Design Module
+description: >-
+  What happened to participants outside the task: which occasion the data were collected on,
+  and what the participant received.
+
+  The module records the class of the manipulation and the position of the occasion.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
+imports:
+  - linkml:types
+  - subsets
+default_prefix: neurostudy
+default_range: string
+
+classes:
+
+  StudyDesign:
+    description: >-
+      The design of the study; how participants were assigned, what they
+      were assigned to, and the occasions on which data were collected.
+      The arms and timepoints it holds are referenced by identifier from Condition and Group.
+    attributes:
+      description:
+        in_subset: [mvp, model_extracted]
+        range: string
+        description: >-
+          Overall study design in narrative form, including observational or interventional
+          status, cross-sectional or longitudinal structure, allocation, and blinding when
+          applicable.
+      allocation:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: Allocation
+          - range: string
+        description: How participants came to be in the arm they were in.
+      assignment_structure:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: AssignmentStructure
+          - range: string
+        description: >-
+          Whether the arms are separate cohorts or the same participants passing through
+          several arms. This is what says whether an arm reference belongs on a Group or on a
+          Condition.
+      blinding:
+        in_subset: [model_extracted]
+        any_of:
+          - range: Blinding
+          - range: string
+        description: Who was kept unaware of the assignment.
+      arms:
+        in_subset: [mvp, model_extracted]
+        range: Arm
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The arms of the study, active and comparator alike. Every reference to an Arm
+          elsewhere is by identifier, so this list holds the records themselves.
+      timepoints:
+        in_subset: [mvp, model_extracted]
+        range: Timepoint
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The occasions on which data were collected.
+
+  Arm:
+    description: >-
+      One thing participants were assigned to receive, or to receive in place of it.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        range: string
+        identifier: true
+        required: true
+      name:
+        in_subset: [mvp, model_extracted]
+        range: string
+        required: true
+        description: Short arm label as the source states it, for example methylphenidate, sham tDCS, waitlist.
+      description:
+        in_subset: [model_extracted]
+        range: string
+        description: Complete definition of what this arm received.
+      arm_kind:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: ArmKind
+          - range: string
+        required: true
+        description: >-
+          What class of thing this arm received. Required, with `unstated` for an arm whose
+          kind the source leaves unclear.
+      agent:
+        in_subset: [model_extracted]
+        range: string
+        description: >-
+          The drug, agent, or stimulation target this arm received, as the source names it.
+          The name only; dose, unit, route, and schedule are not recorded.
+
+  Timepoint:
+    description: >-
+      One occasion on which data were collected, and where it sits relative to the
+      intervention.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        range: string
+        identifier: true
+        required: true
+      name:
+        in_subset: [mvp, model_extracted]
+        range: string
+        required: true
+        description: >-
+          Short occasion label as the source states it, for example baseline,
+          post-treatment, six-month follow-up.
+      relation_to_intervention:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: TimepointRelation
+          - range: string
+        required: true
+        description: >-
+          Where this occasion sits relative to the intervention. Required, with `unstated`
+          for an occasion the source does not place.
+      order:
+        in_subset: [mvp, model_extracted]
+        range: integer
+        minimum_value: 1
+        description: >-
+          Position of this occasion in the study's sequence, counting from 1. Carries the
+          ordering that `relation_to_intervention` cannot when several occasions share a
+          relation -- the earliest `post_intervention` occasion is the study's endpoint,
+          later ones are follow-ups.
+      time_from_intervention:
+        in_subset: [model_extracted]
+        range: string
+        description: >-
+          Elapsed time between the intervention and this occasion, in the source's own words
+          and units, for example 24 h or six weeks.
+
+enums:
+
+  Allocation:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      How participants came to be in the arm they were in.
+      Open vocabulary: write the source's own wording in the field when nothing here fits.
+    permissible_values:
+      randomized:
+        in_subset: [mvp, model_extracted]
+        description: Participants were assigned to arms by a random or quasi-random procedure.
+      non_randomized:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Participants were assigned to arms by some deliberate non-random procedure, such as
+          clinician choice, self-selection, or an existing exposure.
+      single_arm:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Every participant received the same thing, so there was nothing to allocate. An
+          open-label pre-post drug study is single-arm.
+      not_applicable:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Nothing was administered, so allocation does not apply. An observational
+          cross-sectional study takes this value.
+      unstated:
+        in_subset: [mvp, model_extracted]
+        description: The source does not make the allocation procedure clear.
+
+  AssignmentStructure:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      Whether the arms of the study are separate cohorts or the same participants at
+      different times. Open vocabulary: write the source's own wording in the field when
+      nothing here fits.
+    permissible_values:
+      parallel:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Each arm is a separate cohort, and no participant is in more than one. The arm is a
+          property of a Group here, not of a Condition.
+      crossover:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Every participant passes through several arms, in an order that was randomized or
+          counterbalanced. The arm is a property of a Condition here, not of a Group.
+      within_subject:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Every participant is measured on several occasions around one intervention, with no
+          randomized order of arms to cross over. A single-arm pre-post design is this rather
+          than a crossover.
+      single_group:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          One cohort measured once, with no arms and no repeated occasions to structure.
+      unstated:
+        in_subset: [mvp, model_extracted]
+        description: The source does not make the assignment structure clear.
+
+  Blinding:
+    in_subset: [model_extracted]
+    description: >-
+      Who was kept unaware of the assignment.
+      Open vocabulary: write the source's own wording in the field when nothing here fits.
+    permissible_values:
+      open_label:
+        in_subset: [model_extracted]
+        description: Nobody was blinded to the assignment.
+      participant_blind:
+        in_subset: [model_extracted]
+        description: Participants were unaware of their assignment; those delivering or assessing were not.
+      assessor_blind:
+        in_subset: [model_extracted]
+        description: Those delivering or assessing were unaware of the assignment; participants were not.
+      double_blind:
+        in_subset: [model_extracted]
+        description: Both participants and those delivering or assessing were unaware of the assignment.
+      not_applicable:
+        in_subset: [model_extracted]
+        description: Nothing was administered, so there was no assignment to be blind to.
+      unstated:
+        in_subset: [model_extracted]
+        description: The source does not make the blinding clear.
+
+  ArmKind:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      What class of thing an arm received. Spans both the manipulation and the thing it was
+      compared against, because both are arms here: a drug against an active comparator is a
+      different comparison from a drug against a placebo, which is why the two have separate
+      values. Open vocabulary: write the source's own wording in the field when nothing here
+      fits.
+    permissible_values:
+      pharmacological:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          An administered drug or other agent. The agent's name belongs in `agent`; dose,
+          route and schedule are not recorded, being replication detail rather than a filter.
+      stimulation:
+        in_subset: [mvp, model_extracted]
+        description: Applied brain stimulation -- TMS, tDCS, tACS, deep brain stimulation.
+      behavioural_intervention:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A training (includes exercise), therapy, or education programme delivered to participants,
+          such as a course of CBT or a meditation programme.
+      placebo:
+        in_subset: [mvp, model_extracted]
+        description: An inert comparator presented as the intervention -- a placebo pill, saline, a vehicle.
+      sham:
+        in_subset: [mvp, model_extracted]
+        description: A stimulation or procedure comparator delivered without the active component.
+      active_comparator:
+        in_subset: [mvp, model_extracted]
+        description: A second active intervention the first was compared against, rather than an inert one.
+      usual_care:
+        in_subset: [mvp, model_extracted]
+        description: The care participants would have received anyway, as the comparator arm.
+      no_intervention:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A waitlist or untreated comparator arm receiving nothing. Distinct from a rest or
+          fixation Condition, which is a scanner state rather than an arm.
+      unstated:
+        in_subset: [mvp, model_extracted]
+        description: The source does not make the kind of thing this arm received clear.
+
+  TimepointRelation:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      Where an occasion sits relative to the intervention. Directional terms over these
+      values are what mark an analysis as a within-person change rather than a
+      cross-sectional comparison. Open vocabulary: write the source's own wording in the
+      field when nothing here fits.
+    permissible_values:
+      pre_intervention:
+        in_subset: [mvp, model_extracted]
+        description: Before the intervention was delivered -- a baseline or pre-treatment occasion.
+      during_intervention:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          While the intervention was in effect, including a scan under an acute drug
+          challenge or during a stimulation train.
+      post_intervention:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          After the intervention was delivered. Covers both the occasion the study treats as
+          its endpoint and any later follow-up testing whether an effect persisted; use
+          `order` and `time_from_intervention` to separate several post occasions.
+      single_occasion:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          The study collected data once, so the occasion stands in no relation to an
+          intervention.
+      not_applicable:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Data were collected on several occasions but nothing was administered, so there is
+          no intervention to be relative to. A longitudinal observational study takes this
+          value.
+      unstated:
+        in_subset: [mvp, model_extracted]
+        description: The source does not place this occasion relative to the intervention.

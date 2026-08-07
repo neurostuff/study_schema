@@ -171,6 +171,11 @@ classes:
           the terms it does state and `unstated` elsewhere. Analyses sharing one design
           reference one record; an analysis specified or estimated differently takes its
           own.
+
+          For an analysis estimated in stages this is the **top** stage, the one that produced
+          the statistics reported here. The stages below it are reached through that record's
+          `inputs_from`, and their terms count as this contrast's just as the top stage's do,
+          so a first-level model is never referenced here and is never left dangling either.
       inference_settings:
         in_subset: [model_extracted]
         range: InferenceSettings
@@ -182,7 +187,7 @@ classes:
         inlined: false
         description: The preprocessing pipeline that produced the analyzed data.
       tables:
-        in_subset: [mvp, deterministic]
+        in_subset: [mvp, model_extracted]
         range: Table
         multivalued: true
         inlined: false
@@ -252,8 +257,8 @@ classes:
       each with the side it sat on. Three things a reader might expect to find here are read off
       that instead:
 
-      - **what the contrast was adjusted for** -- `ModelEstimation.terms` minus the terms these
-        cells name.
+      - **what the contrast was adjusted for** -- the terms of the `ModelEstimation`, plus those
+        of the stages it reaches through `inputs_from`, minus the terms these cells name.
       - **what the map was tested against** -- a modelled reference is that condition's level
         with a `negative` cell; the unmodelled implicit baseline, or zero, is the absence of a
         second cell; a decoding metric's reference is `PerformanceMetric.reference_value`.
@@ -386,7 +391,7 @@ classes:
         inlined: false
         description: >-
           The intervening term, by identifier. It must be a term of the ModelEstimation the
-          containing Analysis names.
+          containing Analysis names, or of a stage that model reaches through `inputs_from`.
 
   Cell:
     description: >-
@@ -414,7 +419,9 @@ classes:
         inlined: false
         description: >-
           The model term this cell belongs to, by identifier. It must be one of the terms of the
-          ModelEstimation the containing Analysis references.
+          ModelEstimation the containing Analysis references, or of a stage that model reaches
+          through `inputs_from` -- a group contrast of a first-level condition, or of a seed's
+          time series, is a cell on that stage's term rather than on a copy of it.
       level:
         in_subset: [mvp, model_extracted]
         range: string
@@ -524,7 +531,15 @@ classes:
       source's wording for it, the estimator, the stage, and the software. Accommodates
       both BIDS Stats Models GLMs and other model families. One record may be referenced by
       several Analyses, so every field must hold for all of them; an analysis specified or
-      estimated differently takes its own record.
+      estimated differently takes its own record. **The data a model was fitted to is part
+      of its specification**, so two stages fitted with the same design matrix to different
+      inputs -- a group model over a left-seed connectivity map and the same group model over
+      a right-seed one -- are two records differing in `inputs_from`.
+
+      One record is one estimation stage. Neuroimaging splits a model across stages for
+      tractability, and `inputs_from` is what puts it back together: a stage's terms are its
+      own plus those of the stages it consumed, so the split costs the record nothing while
+      each stage keeps its own family, estimator, software and basis.
 
       This is the model specification. The contrast specification -- which of these terms a
       given comparison selects, on which side, and with what reported sign -- is the Effect
@@ -573,8 +588,13 @@ classes:
         in_subset: [mvp, model_extracted]
         range: string
         description: >-
-          Unit or stage of analysis, such as run, session, subject, or group. Normalized to
-          controlled vocabulary.
+          Unit or stage of analysis, in the source's terms: run, session, subject and group are
+          the usual words, and any other the source uses is storable as written. Deliberately
+          left open -- no vocabulary fits every design, and nothing derives anything from it.
+
+          A label, not an ordering. Which stage fed which is `inputs_from`, and only
+          `inputs_from`: two records both saying `group` say nothing about their relation, and
+          a chain is never inferred from these strings.
       estimator:
         in_subset: [mvp, model_extracted]
         range: string
@@ -585,22 +605,55 @@ classes:
         in_subset: [mvp, model_extracted]
         range: string
         description: Statistical software name, version, and relevant implementation details.
+      inputs_from:
+        in_subset: [mvp, model_extracted]
+        range: ModelEstimation
+        multivalued: true
+        inlined: false
+        description: >-
+          The models whose fitted output this model was estimated on: the first-level GLM whose
+          contrast images a group model takes as its data, the subject-level fit an ROI ANOVA
+          summarises. The stage graph, recorded only where the source states it.
+
+          **A model's terms are its own plus, transitively, those of the models named here.**
+          That combined list is what `terms` would be had the analysis been fitted in one step,
+          and it is what every derivation reads: it is the adjustment set of each contrast minus
+          the terms the contrast's cells name, it is what a `Cell` may name, and it is what
+          `interaction_with` may cross. Motion regressed out at the first level adjusts the group
+          contrast, and a group contrast of a first-level condition is a cell on that condition's
+          term -- neither needs the column copied upward.
+
+          Leave it empty when the source describes one design matrix, and when it describes the
+          lower stage too thinly to constitute a model. Empty is not a claim that no lower stage
+          existed; it is the absence of a statement about one, exactly as an unrecorded term is.
+
+          Points downward, from the consumer to what it consumed, and must be acyclic: no model
+          may reach itself. Names must not collide across the whole chain -- a column is one
+          column wherever it was fitted, so a term is declared at the stage that fitted it and
+          never re-declared above. A stage that genuinely refits a factor over different levels
+          is declaring a different column, which takes a name of its own.
       terms:
         in_subset: [mvp, model_extracted]
         range: ModelTerm
         multivalued: true
         inlined_as_list: true
         description: >-
-          The terms the model was specified with -- the columns of the design matrix, in the
+          The terms **this stage** was specified with -- the columns of its design matrix, in the
           general sense that covers a GLM's regressors and the predictors of any other family.
-          Stated once here however many contrasts are taken from them.
+          Stated once here however many contrasts are taken from them, and never restated on a
+          stage above: the terms of a lower stage are reached through `inputs_from`.
 
           Record every term the source states, including ones no reported contrast tests, and
           including ones mentioned only in passing: "controlling for age and sex" is a statement
-          about the design matrix. This list is also **the adjustment set of every contrast taken
-          from this model** -- each contrast's is this list minus the terms its cells name -- so a
-          term omitted here reads as one the model did not adjust for. Where the list is
+          about the design matrix. This list, together with the lists reached through
+          `inputs_from`, is **the adjustment set of every contrast taken from this model** --
+          each contrast's is that combined list minus the terms its cells name -- so a term
+          omitted from every stage reads as one the model did not adjust for. Where the list is
           incomplete, the slot's extraction_status is what says so.
+
+          May be empty, and legitimately is for a stage that fits only an intercept: a one-sample
+          group test over first-level contrast images has no column of its own. Do not invent an
+          intercept term to fill it.
 
           Analyses whose design matrices differ take their own records rather than sharing one.
 
@@ -711,9 +764,14 @@ classes:
         multivalued: true
         inlined: false
         description: >-
-          The other terms of this model that this term is a product of -- what makes this column an
-          interaction column. Populate it when the source names an interaction term in one model;
-          leave it empty when the source describes a regression on a contrast.
+          The other terms this term is a product of -- what makes this column an interaction
+          column. Populate it when the source names an interaction term in one model; leave it
+          empty when the source describes a regression on a contrast.
+
+          The terms it may name are those of this model and of the stages it reaches through
+          `inputs_from`, which is how a group stage crosses a cohort factor with a first-level
+          condition: the product column is declared where it was fitted and names the lower
+          stage's column directly.
 
           A crossing of two factors is normally read off the cells, since a factor compared against
           itself carries a positive cell and a negative one. A continuous term has no levels and so
@@ -939,20 +997,20 @@ classes:
         required: true
         description: Stable table identifier used by Analysis foreign-key references.
       table_number:
-        in_subset: [mvp, deterministic]
+        in_subset: [mvp, model_extracted]
         range: string
         description: Printed identifier such as Table 2 or Supplementary Table S4.
       title:
-        in_subset: [mvp, deterministic]
+        in_subset: [mvp, model_extracted]
         range: string
         description: Table title, when distinct from the caption.
       caption:
-        in_subset: [mvp, deterministic]
+        in_subset: [mvp, model_extracted]
         range: string
         description: >-
           Table caption describing the table's contents.
       footer:
-        in_subset: [mvp, deterministic]
+        in_subset: [mvp, model_extracted]
         range: string
         description: Table notes, abbreviations, threshold statements, and footnotes.
       source_path:
@@ -969,12 +1027,12 @@ classes:
           preferred of the two places the space can live: when this is populated,
           Analysis.coordinate_space is left blank.
       column_headings:
-        in_subset: [mvp, deterministic]
+        in_subset: [mvp, model_extracted]
         range: string
         multivalued: true
         description: Ordered leaf column headings retained to aid interpretation of extracted values.
       description:
-        in_subset: [mvp, deterministic]
+        in_subset: [mvp, model_extracted]
         range: string
         description: Summary of the table contents and its role in the reported analyses.
       coordinate_count:

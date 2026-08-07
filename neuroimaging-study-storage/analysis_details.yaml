@@ -309,97 +309,133 @@ classes:
         required: true
         description: Source-grounded statement of the component effect, including its direction.
 
-  ComponentDecompositionDetails:
+  LatentDecompositionDetails:
     is_a: AnalysisDetails
     description: >-
-      Payload for a component decomposition. Covers a component whose map or loading was tested --
-      compared between cohorts, correlated with behaviour, or otherwise given an inferential
-      result. A component map presented descriptively with no test is not an Analysis, so it takes
-      no record here. Being representable here does not imply eligibility for coordinate-based
-      meta-analysis.
+      Payload for an analysis whose map is one component or latent variable of a
+      decomposition -- ICA, PCA, NMF, PLS, CCA, and the multimodal fusion methods. Covers a
+      component whose map or loading was *tested*: compared between cohorts, correlated with
+      behaviour, or otherwise given an inferential result. A component map presented
+      descriptively with no test is not an Analysis, so it takes no record here. Being
+      representable here does not imply eligibility for coordinate-based meta-analysis.
+
+      One analysis reports one component: a second latent variable or component from the
+      same decomposition is a second Analysis.
+
+      **The class boundary is the block structure, not the algorithm.** `second_block` says
+      how many blocks were decomposed and what the others held, and that -- not which
+      algorithm ran -- is what decides whether two decompositions answer the same question.
+      A brain-behaviour covariance decomposed by PLS and one decomposed by CCA pool with each
+      other more readily than a task PLS pools with a behavioural PLS, so the filter has to
+      be the blocks and the algorithm has to be a separate field.
+
+      This class replaces the former `ComponentDecompositionDetails` and
+      `PartialLeastSquaresDetails`, which held one fact in three homes: the block structure
+      was the boundary between them, *and* an enum inside PLS (`pls_type`), *and* absent
+      altogether for parallel ICA and mCCA+jICA, whose second block is another imaging
+      modality or a SNP array. Four of PLS's nine fields were the component fields under
+      other names, and the split had already begun to drift -- `map_quantity` existed on one
+      side and not the other, though PLS maps are the ones most in need of it. See
+      storage-schema-design-notes.md.
+
+      One invariant LinkML does not express, so the structural validator carries it:
+      `crossblock_covariance_percent` is meaningless when `second_block` is `[none]`, there
+      being no second block for the covariance to cross. `variance_explained_percent` is
+      permitted either way, since a two-block decomposition may still report how much of the
+      brain block its component captures.
     attributes:
       method:
         in_subset: [mvp, model_extracted]
         any_of:
-          - range: ComponentMethod
+          - range: DecompositionMethod
           - range: string
+        required: true
         description: >-
           The algorithm that produced the components, which decides what their values and
-          signs mean.
+          signs mean. Required, so `unstated` is the value for a paper that names no
+          algorithm; the method is this payload's identity and an absent value would be
+          indistinguishable from an extractor that never reached the question.
+      second_block:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: SecondBlock
+          - range: string
+        multivalued: true
+        required: true
+        description: >-
+          What the brain block was decomposed against, one value per additional block, and
+          the primary filter on this payload. `[none]` for a decomposition of the brain data
+          alone, which is a positive assertion rather than an empty slot -- exactly as
+          `MassUnivariateDetails` asserts the commonest method rather than leaving it to be
+          inferred.
+
+          Multivalued because papers cross more than two blocks: a three-modality
+          mCCA+jICA carries `other_imaging_modality` twice, and a design-plus-behaviour PLS
+          carries `[design, behavioral]` rather than a `multiblock` token that would discard
+          which blocks they were.
+      second_block_assessments:
+        in_subset: [model_extracted]
+        range: Assessment
+        multivalued: true
+        inlined: false
+        description: >-
+          The measures forming a behavioural or clinical block, by identifier, when they are
+          `Assessment` records of this study. Empty when the second block is the design,
+          another imaging modality, or anything else that is not an assessment -- those are
+          named in `second_block_detail`.
+      second_block_detail:
+        in_subset: [model_extracted]
+        range: string
+        multivalued: true
+        description: >-
+          What each non-assessment block held, in the source's words: the seed regions of a
+          seed decomposition, the modalities of a fusion ("ALFF, FA, grey matter"), the
+          genotype array of a parallel ICA ("367 SNPs"). Free text because the range of
+          things that form a second block is open, and a SNP array is neither an
+          `Assessment` nor an `Acquisition` of this study.
       component_id:
         in_subset: [mvp, model_extracted]
         range: string
         required: true
-        description: Identifier of the component within the decomposition, as reported.
+        description: >-
+          Identifier of the component or latent variable within the decomposition, as
+          reported -- commonly an index such as `IC12` or `LV1`. Required because without it
+          two analyses from one decomposition are indistinguishable.
       component_label:
         in_subset: [model_extracted]
         range: string
-        description: The source's name for the component, such as a network label.
+        description: >-
+          The source's name for the component, such as a network label, or for what a latent
+          variable captures.
       total_components:
         in_subset: [model_extracted]
         range: integer
         minimum_value: 0
-        description: Number of components the decomposition produced.
+        description: Number of components or latent variables the decomposition produced.
+      dimensionality_selection_method:
+        in_subset: [model_extracted]
+        range: string
+        description: >-
+          How the number of components was chosen, as reported -- minimum description
+          length, a variance-retained cutoff, a scree criterion, permutation on the singular
+          values, or a fixed a priori number. Distinct from `selection_criterion`, which is
+          about which single component the paper went on to report: this is a property of the
+          decomposition and governs how finely the signal was carved, so two ICAs at 20 and
+          at 100 components are not reporting comparable networks.
       selection_criterion:
         in_subset: [model_extracted]
         range: string
         description: How this component was selected for reporting.
-      map_quantity:
+      variance_explained_percent:
         in_subset: [model_extracted]
-        any_of:
-          - range: MapQuantity
-          - range: string
-        description: What the values of the reported map represent.
-      polarity_semantics:
-        in_subset: [model_extracted]
-        range: PolaritySemantics
-        description: Whether the sign of the map carries meaning.
-
-  PartialLeastSquaresDetails:
-    is_a: AnalysisDetails
-    description: >-
-      Payload for a partial least squares analysis. PLS decomposes the covariance between
-      brain measures and a design or behavioural block into latent variables, so one
-      analysis reports one latent variable: a second LV from the same decomposition is a
-      second Analysis, as a second ICA component is.
-
-      Distinct from component_decomposition, which decomposes the brain data alone. What
-      makes an analysis PLS is that the decomposition is of a *covariance* between blocks,
-      which is why `pls_type` -- what the brain block was crossed with -- is the field that
-      decides whether two PLS maps are comparable at all.
-
-      Earned a class of its own on the evidence: it was the method the extractor reached
-      for OtherAnalysisDetails over most often that has a settled literature, naming itself
-      as "not one of the five named first-class analysis method families".
-    attributes:
-      pls_type:
-        in_subset: [mvp, model_extracted]
-        any_of:
-          - range: PlsType
-          - range: string
-        required: true
-        description: >-
-          What the brain block was decomposed against, which is the primary filter: a task
-          PLS and a behavioural PLS answer different questions from the same data and do
-          not pool.
-      latent_variable_id:
-        in_subset: [mvp, model_extracted]
-        range: string
-        required: true
-        description: >-
-          Identifier of the latent variable this analysis reports, as the source names it
-          -- commonly an index such as `LV1`. Required for the same reason
-          ComponentDecompositionDetails.component_id is: without it, two analyses from one
-          decomposition are indistinguishable.
-      latent_variable_label:
-        in_subset: [model_extracted]
-        range: string
-        description: The source's name for what the latent variable captures, when it gives one.
-      total_latent_variables:
-        in_subset: [model_extracted]
-        range: integer
+        range: float
         minimum_value: 0
-        description: Number of latent variables the decomposition produced.
+        maximum_value: 100
+        description: >-
+          Percentage of the brain block's variance this component accounts for, as reported.
+          Not interchangeable with `crossblock_covariance_percent`: one is variance within a
+          block and the other covariance between blocks, and averaging across the two would
+          combine incomparable quantities.
       crossblock_covariance_percent:
         in_subset: [model_extracted]
         range: float
@@ -407,39 +443,34 @@ classes:
         maximum_value: 100
         description: >-
           Percentage of crossblock covariance this latent variable accounts for, as
-          reported. The nearest thing PLS has to an effect size, and what a paper uses to
-          justify reporting one LV and not another.
-      behavioral_variables:
+          reported. The nearest thing a two-block decomposition has to an effect size, and
+          what a paper uses to justify reporting one latent variable and not another. Unset
+          when `second_block` is `[none]`, there being no second block to cross.
+      map_quantity:
         in_subset: [model_extracted]
-        range: Assessment
-        multivalued: true
-        inlined: false
+        any_of:
+          - range: MapQuantity
+          - range: string
         description: >-
-          The measures forming the behavioural block of a behavioural or multiblock PLS, by
-          identifier. Empty for a task PLS, whose second block is the design.
-      seed_regions:
-        in_subset: [model_extracted]
-        range: string
-        multivalued: true
-        description: >-
-          The regions whose activity formed the seed block of a seed PLS, in the source's
-          words. Empty otherwise.
+          What the values of the reported map represent -- a loading, a weight, a PLS
+          salience, a standardized score.
       salience_threshold:
         in_subset: [model_extracted]
         range: string
         description: >-
-          The criterion deciding which voxels count as reliable contributors, as reported
-          -- conventionally a bootstrap ratio cutoff such as "|BSR| > 3.0". Recorded here
-          rather than as a voxelwise threshold because a bootstrap ratio is a stability
-          measure and not a test statistic, so reading it as one would misstate the
+          The criterion deciding which elements count as reliable contributors, as reported
+          -- conventionally a bootstrap ratio cutoff such as "|BSR| > 3.0", or a
+          standardized cutoff such as "|Z| > 3.5". Recorded here rather than in
+          `InferenceSettings` because a bootstrap ratio is a stability measure and not a
+          test statistic, so reading it as a voxelwise threshold would misstate the
           inference.
       polarity_semantics:
         in_subset: [model_extracted]
         range: PolaritySemantics
         description: >-
-          Whether the sign of the reported salience map carries meaning. A latent
-          variable's sign is arbitrary up to a flip, so a paper must say what positive
-          means before a direction can be pooled.
+          Whether the sign of the reported map carries meaning. A latent variable's sign is
+          arbitrary up to a flip, and so is an independent component's, so a paper must say
+          what positive means before a direction can be pooled.
 
   OtherAnalysisDetails:
     is_a: AnalysisDetails

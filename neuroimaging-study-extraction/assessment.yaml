@@ -1,0 +1,43 @@
+# GENERATED FILE -- DO NOT EDIT.
+#
+# Produced by gen_extraction_schema.py from neuroimaging-study-storage.yaml and
+# extraction-deviations.yaml. Change the storage schema or the deviations and
+# regenerate:
+#
+#     python3 gen_extraction_schema.py
+#
+id: https://neurostuff.org/schemas/neuroimaging-study-extraction/assessment
+name: neuroimaging-study-extraction-assessment
+title: Neuroimaging Study Extraction Assessment Module
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy_ex: https://neurostuff.org/schemas/neuroimaging-study-extraction/
+default_prefix: neurostudy_ex
+default_range: string
+imports:
+  - linkml:types
+  - ../extraction-evidence
+classes:
+  Assessment:
+    description: >-
+      A behavioral, cognitive, biological, clinical, or questionnaire-based instrument or
+      procedure that produces participant-level measurements independently of the neuroimaging
+      acquisition or experimental conditions.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Stable identifier.
+      name:
+        range: ExtractedString
+        required: true
+        description: Name of the assessment, such as Digit Span, MMSE, or BDI.
+      description:
+        range: ExtractedString
+        description: Description of the assessment and the measurements it produced.
+      assessment_type:
+        range: ExtractedString
+        description: >-
+          Broad type, such as cognitive test, clinical scale, questionnaire, behavioral task,
+          physiological measure, or a biospecimen assay such as salivary cortisol or a plasma
+          marker. Free text rather than a vocabulary: create a category if none of these fit.

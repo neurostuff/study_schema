@@ -38,6 +38,11 @@ where something goes, ask whether a second contrast from the same model would re
 as the model's term list minus what the contrast used, so two design matrices behind one term list
 makes that derivation wrong for both.
 
+**And one qualification.** "One per design matrix" counts *estimation stages*: a first-level GLM
+and the group model fitted on its output are two records, linked by `inputs_from` on the group one.
+The link is what keeps them one model — a stage's terms are its own plus those of the stages it
+consumed — so nothing above has to restate a column fitted below. §5.12 works this through.
+
 ---
 
 ## 2. The classes, and where each one's job ends
@@ -57,14 +62,20 @@ Separate Analyses are required when the direction, the cohorts compared, the met
 pattern, the seed, the decoded variable, the component identity, or the spatial scope differ. An
 omnibus effect and its directional post-hoc contrast are two Analyses.
 
-### `ModelEstimation` — one design matrix
+### `ModelEstimation` — one design matrix, at one stage
 
 The model's terms and how it was fit. Referenced by every Analysis whose contrast came out of it.
 
 **Where it ends.** It says nothing about any one contrast. It also carries the **full** term list —
 including terms no reported contrast tests. "Controlling for age and sex" is a statement about the
 design matrix, so age and sex are terms here even though no contrast will name them. A term omitted
-here reads as one the model did not adjust for.
+from every stage reads as one the model did not adjust for.
+
+`inputs_from` names the stages this one was fitted on, and `level` labels the stage in the source's
+own words. Only the link orders them: two records both saying `group` say nothing about their
+relation. An `Analysis` names the **top** stage — the one that produced the reported statistics —
+and the stages below are reached from there, which is why a first-level model is referenced by no
+Analysis and is not thereby orphaned.
 
 ### `ModelTerm` — one column
 
@@ -103,7 +114,7 @@ because they are derived:
 | looked-for | actually |
 |---|---|
 | what kind of effect it is | from which terms carry cells of both signs |
-| what it was adjusted for | `ModelEstimation.terms` minus the terms the cells name |
+| what it was adjusted for | the model's terms, plus those of the stages it was fitted on, minus the terms the cells name |
 | what it was tested against | a `negative` cell on the reference level, or the absence of a second cell, or `PerformanceMetric.reference_value` |
 
 ### `Cell` — one level on one side
@@ -474,6 +485,80 @@ so a path always names its mediator.
 Which path was tested decides the mediator's status. A `direct` path is by definition the effect
 holding the mediator constant, so there it *is* adjusted for. An `indirect` path is undefined without
 it and a `total` path is estimated without conditioning on it, so in neither is it a covariate.
+
+### 5.12 A model estimated in two stages
+
+"Seed-based connectivity of the left amygdala, computed per participant with white-matter, CSF and
+motion regressors, then compared between patients and controls in a group model with age, sex and
+scanner as covariates of no interest."
+
+Two design matrices, so two records — and one model, so a link:
+
+```yaml
+model_estimations:
+  - id: me-l1-left
+    model_family: glm
+    level: subject
+    estimator: OLS (AR1)
+    terms:
+      - {id: t-lamyg, name: left amygdala time series,
+         type: continuous, variation_level: within_subject}
+      - {id: t-nuisance, name: WM, CSF and motion,
+         type: continuous, variation_level: within_subject}
+
+  - id: me-group-left
+    model_family: mixed_effects
+    level: group
+    estimator: FLAME
+    inputs_from: [me-l1-left]
+    terms:
+      - id: t-dx
+        type: categorical
+        variation_level: between_subject
+        levels:
+          - {level: patients, groups: [grp-pt]}
+          - {level: controls, groups: [grp-hc]}
+      - {id: t-age, type: continuous, variation_level: between_subject}
+```
+
+```yaml
+analysis:
+  model_estimation: me-group-left      # the top stage, always
+  effect:
+    cells:
+      - {term: t-dx, level: controls, direction: positive}
+      - {term: t-dx, level: patients, direction: negative}
+```
+→ **`contrast`**, adjusted for `t-age`, `t-nuisance` **and** `t-lamyg`.
+
+Two of those three covariates are columns of a record this analysis does not name. That is the
+point: motion regressed out at the first level adjusts the group betas, and without the link the
+record asserted the opposite by omission.
+
+**Do not cell the seed.** The link makes `{term: t-lamyg, direction: not_applicable}` constructible,
+and it is the trap: a cell says the contrast *tested* that column, and a tested continuous
+within-subject term derives `parametric_modulation` by step 2 of §3 — so the diagnosis contrast
+stops reading as a contrast. What the map is *of* is `Measure` and `ConnectivityDetails`; what the
+contrast *compared* is the cells. The seed belongs in the adjustment set, which is exactly what the
+connectivity beta is conditional on.
+
+The rule is unchanged by stages: cell what the comparison compared, and nothing else. Where a
+first-level column genuinely *is* what was compared — a group contrast of a task condition fitted
+per subject — cell it, and the derivation reads it as it reads any other factor.
+
+**A crossing spanning the stages** is a product column on the stage that fitted it, naming the
+lower stage's column directly: a group-level `t-dx-x-lamyg` with
+`interaction_with: [t-dx, t-lamyg]` is "the seed's connectivity related to diagnosis", and derives
+`interaction` by §5.4's rule. The lower column is never copied upward.
+
+**Two seeds are two chains.** The left-seed and right-seed group models have identical term lists
+and different inputs, and the input is part of the specification, so they are two records rather
+than one shared by four analyses.
+
+**When not to split.** `inputs_from` records a stage the source describes. A one-sample activation
+map has a group stage too — an intercept over the first-level contrast images — and papers say
+nothing about it, so it takes no record of its own and the first-level record stands alone. Where
+such a stage *is* described, its `terms` is legitimately empty; do not invent an intercept term.
 
 ---
 

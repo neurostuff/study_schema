@@ -62,15 +62,16 @@ enums:
       conjunction:
         in_subset: [mvp, model_extracted]
         description: Logical combination of independently defined effects.
-      component_decomposition:
-        in_subset: [mvp, model_extracted]
-        description: ICA and related component maps.
-      partial_least_squares:
+      latent_decomposition:
         in_subset: [mvp, model_extracted]
         description: >-
-          Task, behavioural, seed, or multiblock PLS. Distinct from
-          component_decomposition: PLS decomposes a covariance between the brain data and
-          another block, not the brain data alone.
+          One component or latent variable of a decomposition -- ICA, PCA, NMF, PLS, CCA, or
+          a multimodal fusion. Covers what `component_decomposition` and
+          `partial_least_squares` named separately: the two were merged because the fact that
+          separates them is how many blocks were decomposed, which is
+          `LatentDecompositionDetails.second_block` and not a method family. A conjunction
+          component that needs the distinction states it in this field's free-text escape
+          hatch.
       not_structurable:
         in_subset: [mvp, model_extracted]
         description: >-
@@ -808,44 +809,71 @@ enums:
       unstated:
         in_subset: [mvp, model_extracted]
 
-  PlsType:
+  SecondBlock:
     in_subset: [mvp, model_extracted]
     description: >-
-      What a partial least squares analysis crossed the brain block with. This is what
-      decides whether two PLS maps answer the same question, so it is the payload's one
-      required vocabulary.
+      What a decomposition crossed the brain block with, one value per block. This decides
+      whether two decompositions answer the same question, so it is the payload's one
+      required vocabulary -- a task PLS and a behavioural PLS are not poolable, and neither
+      is a one-block ICA with either of them.
+
+      Multivalued, and `none` is a value rather than an absent field: a one-block
+      decomposition is a positive assertion, not a gap. The old `PlsType: multiblock` is
+      gone, because it named the *number* of blocks where its siblings named their
+      *contents*, so a design-plus-behaviour PLS had to select it and thereby discard both
+      facts. Two blocks is now `[design, behavioral]`, and the count is derived from the
+      list's length.
+
       Open vocabulary: write the source's own wording in the field when nothing here fits.
     permissible_values:
-      task:
+      none:
         in_subset: [mvp, model_extracted]
         description: >-
-          The brain block is decomposed against the experimental design -- mean-centred
-          task PLS, including the spatiotemporal variant that carries a time dimension.
-          The commonest form in the literature.
+          The brain data were decomposed alone -- ordinary ICA, PCA, or a related
+          single-block method. The commonest case by a wide margin.
+      design:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          The experimental design, as in mean-centred task PLS, including the
+          spatiotemporal variant that carries a time dimension.
       behavioral:
         in_subset: [mvp, model_extracted]
         description: >-
-          The brain block is decomposed against participant-level behavioural or clinical
-          measures, which are named in `behavioral_variables`.
-      seed:
+          Participant-level behavioural or clinical measures. Where those measures are
+          `Assessment` records of this study, `second_block_assessments` names them.
+      seed_activity:
         in_subset: [mvp, model_extracted]
         description: >-
-          The brain block is decomposed against activity in one or more seed regions, which
-          are named in `seed_regions`. A connectivity question asked with PLS machinery.
-      multiblock:
+          Activity in one or more seed regions, named in `second_block_detail`. A
+          connectivity question asked with decomposition machinery.
+      other_imaging_modality:
         in_subset: [mvp, model_extracted]
         description: >-
-          More than one non-brain block enters at once, such as design and behaviour
-          together. Also called multiblock or contrast-behaviour PLS.
+          A second (or third) imaging measure of the same participants -- the multimodal
+          fusion case. Joint, linked and parallel ICA and mCCA+jICA all land here, and a
+          three-modality fusion carries this value once per additional modality.
+      genetic:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Genotype data such as a SNP array. Not an `Assessment`, so its contents belong in
+          `second_block_detail`.
       unstated:
         in_subset: [mvp, model_extracted]
-        description: The source says it ran PLS but not which block the brain data were crossed with.
+        description: >-
+          The source says the decomposition crossed two blocks but does not say what the
+          second held. Distinct from `none`, which asserts there was only one.
 
-  ComponentMethod:
+  DecompositionMethod:
     in_subset: [mvp, model_extracted]
     description: >-
-      Decomposition method that produced the component map. Open vocabulary: write the
-      source's own wording in the field when nothing here fits.
+      The algorithm that produced the components or latent variables, which decides what
+      their values and signs mean. Independent of `second_block`: the block structure is
+      what a synthesis filters on, and the same block structure is reachable by several
+      algorithms -- a brain-behaviour covariance can be decomposed by PLS or by CCA, and
+      those results pool with each other more readily than a task PLS pools with a
+      behavioural one.
+
+      Open vocabulary: write the source's own wording in the field when nothing here fits.
     permissible_values:
       ica:
         in_subset: [mvp, model_extracted]
@@ -856,6 +884,16 @@ enums:
         description: >-
           ICA over a subject-by-time-by-space tensor, giving one shared spatial map with
           per-subject loadings.
+      joint_ica:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          ICA on features concatenated across modalities, sharing one mixing matrix. Takes
+          `other_imaging_modality` in `second_block`.
+      parallel_ica:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          ICA run on two blocks at once with their mixing profiles linked, so a component
+          of one block is paired with a component of the other. Covers linked ICA.
       pca:
         in_subset: [mvp, model_extracted]
         description: >-
@@ -869,14 +907,40 @@ enums:
         in_subset: [mvp, model_extracted]
         description: >-
           A sparse decomposition learning an overcomplete set of components.
+      pls:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Partial least squares, where the source does not distinguish the correlation and
+          regression variants.
+      pls_correlation:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          PLS correlation (PLS-C), decomposing the cross-block correlation matrix by SVD.
+          The variant most fMRI work means by "PLS".
+      pls_regression:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          PLS regression, which predicts one block from the other rather than decomposing
+          their shared covariance symmetrically.
+      cca:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Canonical correlation analysis, which maximizes correlation between blocks where
+          PLS maximizes covariance.
+      mcca:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Multi-set CCA, over three or more blocks. Frequently chained into joint ICA as
+          mCCA+jICA, which takes this value with `joint_ica` noted in
+          `Analysis.model_representation_notes` when the chaining matters.
       unstated:
         in_subset: [mvp, model_extracted]
 
   MapQuantity:
     in_subset: [mvp, model_extracted]
     description: >-
-      What the values of a component map represent. Open vocabulary: write the source's
-      own wording in the field when nothing here fits.
+      What the values of a component or latent-variable map represent. Open vocabulary:
+      write the source's own wording in the field when nothing here fits.
     permissible_values:
       loading:
         in_subset: [mvp, model_extracted]
@@ -886,6 +950,13 @@ enums:
         in_subset: [mvp, model_extracted]
         description: >-
           The component's contribution at each element, in the decomposition's own scale.
+      salience:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A PLS salience: the element's contribution to a latent variable. Kept distinct
+          from `weight` because saliences are conventionally reported as bootstrap ratios,
+          which are stability measures rather than test statistics -- the threshold applied
+          to them is `salience_threshold`, not a voxelwise statistic threshold.
       z_score:
         in_subset: [mvp, model_extracted]
         description: >-

@@ -1,323 +1,335 @@
 #!/usr/bin/env python3
-"""Check the extraction-to-storage map against both schemas.
+"""Check that the extraction-to-storage map is still an identity map.
 
-Two checks. The first is that every path the map names resolves -- a target field on storage, a
-source field on extraction. The second is *completeness*: that no extraction field is left
-dangling, meaning neither mapped by a class_derivation nor listed in `absorbed_sources`.
+The extraction schema is generated from the storage schema, so the two describe the same
+records with the same slots and the map has almost nothing to say. That is the point, and
+it is also the thing that can quietly stop being true. What this script asserts is the
+"almost": that the correspondence really is one-to-one everywhere the map does not
+explicitly say otherwise, and that the few things it does say still hold.
 
-The second check exists because `class_derivations` is keyed by storage path, so it structurally
-cannot record an extraction field that has no storage field to land in. Those fields used to be
-documented in prose comments, which meant a storage field could be removed and its extraction
-counterpart would quietly stop going anywhere. `absorbed_sources` makes each one explicit and this
-check makes the set exhaustive.
+Four checks, each failing in its own way:
+
+  identity        Every storage field a model fills has an extraction field of the same
+                  name on the same class, and every extraction field has a storage field
+                  to land in. Catches a rename on either side, and a shape difference
+                  applied through extraction-deviations.yaml without a matching entry
+                  here.
+
+  derivations     `derivations` names exactly the storage fields no extraction field
+                  feeds -- the ones marked `in_subset: [deterministic]`. A field that
+                  changes hands, from an API lookup to something a model reads, shows up
+                  as an entry with nothing to derive or a mark with no entry.
+
+  vocabularies    Each enum-ranged storage field's extraction counterpart wraps that same
+                  vocabulary, with the same range: closed where storage is closed, and
+                  keeping its `any_of: [<Enum>, string]` escape hatch where storage left
+                  one. This is what replaced the map's synonym tables. Extraction used to
+                  flatten every vocabulary to text and 316 table entries were the only
+                  route back to a permissible value; now the extractor emits a value
+                  storage already accepts, and what has to hold instead is that the
+                  projection did not quietly open or close a vocabulary on the way.
+
+Run gen_extraction_schema.py --check alongside this: that asserts the extraction schema is
+the projection it claims to be, and this asserts the map over it is honest.
 """
 
 from __future__ import annotations
 
-from collections.abc import Mapping
+import argparse
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 import sys
-import warnings
 
 import yaml
 
-from schema_utils import load_imported_classes
+from schema_utils import (
+    LOCAL_ID,
+    attribute_ranges,
+    is_marked,
+    is_structural,
+    load_imported_classes,
+    own_attributes,
+)
 
 
 ROOT = Path(__file__).resolve().parent
-EXTRACTION_SCHEMA = ROOT / "neuroimaging-study-extraction.yaml"
-EXTRACTION_EVIDENCE_SCHEMA = ROOT / "extraction-evidence.yaml"
 STORAGE_SCHEMA = ROOT / "neuroimaging-study-storage.yaml"
-MAPPING_SCHEMA = ROOT / "extraction-to-storage.map.yaml"
+EXTRACTION_SCHEMA = ROOT / "neuroimaging-study-extraction.yaml"
+MAP = ROOT / "extraction-to-storage.map.yaml"
+DEVIATIONS = ROOT / "extraction-deviations.yaml"
+
+EXTRACTED_SUBSET = "model_extracted"
+DETERMINISTIC_SUBSET = "deterministic"
 
 
-def load_yaml(path: Path) -> Mapping[str, object]:
+def load_yaml(path: Path) -> dict:
     with path.open(encoding="utf-8") as stream:
-        contents = yaml.safe_load(stream)
-    if not isinstance(contents, Mapping):
+        document = yaml.safe_load(stream)
+    if not isinstance(document, Mapping):
         raise ValueError(f"{path.name} must contain a YAML mapping.")
-    return contents
+    return dict(document)
 
 
-def classes(schema: Mapping[str, object], schema_name: str) -> Mapping[str, object]:
-    class_definitions = schema.get("classes", {})
-    if not isinstance(class_definitions, Mapping):
-        raise ValueError(f"{schema_name} must define a classes mapping.")
-    return class_definitions
+def extraction_name(attribute_name: str, attribute: Mapping[str, object]) -> str:
+    """What the projection calls a storage attribute."""
+
+    return LOCAL_ID if attribute.get("identifier") is True else attribute_name
 
 
-def resolve_path(
-    class_definitions: Mapping[str, object], class_name: str, path: str
-) -> bool:
-    def attributes_for(class_name: str) -> Mapping[str, object]:
-        """Return a class's attributes, including LinkML is_a ancestors."""
-        collected: dict[str, object] = {}
-        current_name: str | None = class_name
-        seen: set[str] = set()
-        while current_name and current_name not in seen:
-            seen.add(current_name)
-            definition = class_definitions.get(current_name)
-            if not isinstance(definition, Mapping):
-                return {}
-            attributes = definition.get("attributes", {})
-            if isinstance(attributes, Mapping):
-                collected.update(attributes)
-            parent = definition.get("is_a")
-            current_name = parent if isinstance(parent, str) else None
-        return collected
+def declared_extras() -> tuple[set[str], set[str]]:
+    """Classes and slots extraction is allowed to have without a storage counterpart.
 
-    current_class = class_name
-    for index, field_name in enumerate(path.split(".")):
-        attributes = attributes_for(current_class)
-        attribute = attributes.get(field_name)
-        if not isinstance(attribute, Mapping):
-            return False
-        if index < len(path.split(".")) - 1:
-            attribute_range = attribute.get("range", "string")
-            if not isinstance(attribute_range, str) or attribute_range not in class_definitions:
-                return False
-            current_class = attribute_range
-    return True
+    Read from extraction-deviations.yaml rather than hardcoded, so that the one file
+    declaring how the schemas may differ is also the one this check trusts. Anything not
+    declared there is drift.
+    """
 
+    if not DEVIATIONS.is_file():
+        return set(), set()
+    document = load_yaml(DEVIATIONS)
+    additions = document.get("required_additions") or {}
 
-def warn_paths(message: str, paths: list[str]) -> None:
-    warnings.warn(f"{message}:\n  - " + "\n  - ".join(sorted(paths)), stacklevel=2)
-
-
-def main() -> int:
-    extraction_classes = {
-        **classes(load_yaml(EXTRACTION_EVIDENCE_SCHEMA), EXTRACTION_EVIDENCE_SCHEMA.name),
-        **classes(load_yaml(EXTRACTION_SCHEMA), EXTRACTION_SCHEMA.name),
+    classes = set(additions.get("classes") or {})
+    slots = {
+        f"{target.partition('.')[2]}.{slot}"
+        for target, added in (additions.get("slots") or {}).items()
+        for slot in added
     }
-    storage_classes = load_imported_classes(STORAGE_SCHEMA)
-    mapping = load_yaml(MAPPING_SCHEMA)
-    derivations = mapping.get("class_derivations", {})
-    if not isinstance(derivations, Mapping):
-        raise ValueError("extraction-to-storage.map.yaml must define class_derivations.")
 
-    issues: list[str] = []
-    mapped_fields = 0
-
-    for target_class, class_derivation in derivations.items():
-        if target_class not in storage_classes:
-            issues.append(f"{target_class} (target class is absent from storage)")
-            continue
-        if not isinstance(class_derivation, Mapping):
-            issues.append(f"{target_class} (class derivation must be a mapping)")
-            continue
-
-        source_class = class_derivation.get("populated_from")
-        if not isinstance(source_class, str) or source_class not in extraction_classes:
-            issues.append(f"{target_class} (source class {source_class!r} is absent from extraction)")
-            continue
-
-        slot_derivations = class_derivation.get("slot_derivations", {})
-        if not isinstance(slot_derivations, Mapping):
-            issues.append(f"{target_class} (slot_derivations must be a mapping)")
-            continue
-
-        for target_field, derivation in slot_derivations.items():
-            mapped_fields += 1
-            target_path = f"{target_class}.{target_field}"
-            if not resolve_path(storage_classes, target_class, target_field):
-                issues.append(f"{target_path} (target field is absent from storage)")
-            if not isinstance(derivation, Mapping):
-                issues.append(f"{target_path} (derivation must be a mapping)")
-                continue
-
-            for key in ("populated_from", "source_evidence", "status_field", "source_reference"):
-                source_path = derivation.get(key)
-                if source_path is not None and (
-                    not isinstance(source_path, str)
-                    or not resolve_path(extraction_classes, source_class, source_path)
-                ):
-                    issues.append(f"{target_path}.{key} -> {source_path!r} (source path is absent from extraction)")
-
-            source_fields = derivation.get("source_fields", {})
-            if source_fields and not isinstance(source_fields, Mapping):
-                issues.append(f"{target_path}.source_fields (must be a mapping)")
-            elif isinstance(source_fields, Mapping):
-                for source_name, source_path in source_fields.items():
-                    if not isinstance(source_path, str) or "." not in source_path:
-                        issues.append(f"{target_path}.source_fields.{source_name} -> {source_path!r} (expected Class.field)")
-                        continue
-                    referenced_class, referenced_path = source_path.split(".", 1)
-                    if not resolve_path(extraction_classes, referenced_class, referenced_path):
-                        issues.append(f"{target_path}.source_fields.{source_name} -> {source_path!r} (source path is absent from extraction)")
-
-    if issues:
-        warn_paths("Invalid extraction-to-storage map references", issues)
-        return 1
-
-    coverage_issues = check_coverage(extraction_classes, storage_classes, mapping, derivations)
-    if coverage_issues:
-        warn_paths("Extraction fields with no destination", coverage_issues)
-        return 1
-
-    print(
-        f"Extraction-to-storage map references are valid across {len(derivations)} classes "
-        f"and {mapped_fields} fields."
-    )
-    print(
-        f"Every extraction field has a destination: mapped by a derivation, or listed in "
-        f"absorbed_sources ({len(mapping.get('absorbed_sources') or {})} entries)."
-    )
-    return 0
+    for deviation in document.get("deviations") or ():
+        operation = deviation.get("operation")
+        if operation in ("add_slot", "replace_slot"):
+            classes_name = str(deviation.get("class", "")).partition(".")[2]
+            slots.add(f"{classes_name}.{deviation.get('slot')}")
+        elif operation == "add_class":
+            classes.add(str(deviation.get("class")))
+    return classes, slots
 
 
-#: Extraction machinery that describes the extraction run rather than the study. None of it is
-#: storage-bound, and none of it needs an absorbed_sources entry.
-INFRASTRUCTURE = frozenset({
-    "StudyExtraction", "ExtractionMetadata", "PaperSection",
-    "Evidence", "EvidenceSet", "EvidenceSpan",
-    "ExtractedValue", "ExtractedNumber", "ExtractedString", "ExtractedFloat",
-    "ExtractedInteger", "ExtractedBoolean", "ExtractedStringList",
-})
-
-#: Present on every extraction record and consumed by local_id_to_id rather than mapped.
-INFRASTRUCTURE_FIELDS = frozenset({"local_id"})
+# --------------------------------------------------------------------------------------
+# Checks
+# --------------------------------------------------------------------------------------
 
 
-def check_coverage(
-    extraction_classes: Mapping[str, object],
-    storage_classes: Mapping[str, object],
-    mapping: Mapping[str, object],
-    derivations: Mapping[str, object],
+def check_identity(
+    storage: Mapping[str, object], extraction: Mapping[str, object]
 ) -> list[str]:
-    """Every extraction class and field must have somewhere to go, and say where."""
+    """Assert the two schemas name the same things in the same places."""
 
-    absorbed = mapping.get("absorbed_sources") or {}
-    if not isinstance(absorbed, Mapping):
-        return ["absorbed_sources (must be a mapping)"]
+    problems: list[str] = []
 
-    issues: list[str] = []
-
-    # An absorbed_sources key is either an extraction class or an extraction Class.field, and its
-    # absorbed_by entries are storage Class.field paths -- so the section cannot rot either.
-    for key, entry in absorbed.items():
-        source_class, _, source_field = str(key).partition(".")
-        if source_class not in extraction_classes:
-            issues.append(f"absorbed_sources.{key} (no such extraction class)")
-            continue
-        if source_field and not resolve_path(extraction_classes, source_class, source_field):
-            issues.append(f"absorbed_sources.{key} (no such extraction field)")
-        if not isinstance(entry, Mapping) or "reason" not in entry:
-            issues.append(f"absorbed_sources.{key} (needs a reason)")
-            continue
-        for target in entry.get("absorbed_by") or ():
-            target_class, _, target_field = str(target).partition(".")
-            if target_class not in storage_classes or (
-                target_field and not resolve_path(storage_classes, target_class, target_field)
-            ):
-                issues.append(f"absorbed_sources.{key}.absorbed_by -> {target!r} (not a storage path)")
-
-    # Which extraction classes a derivation reads, and which of their fields it names.
-    read_classes: set[str] = set()
-    named_fields: dict[str, set[str]] = {}
-    for class_derivation in derivations.values():
-        if not isinstance(class_derivation, Mapping):
-            continue
-        source_class = class_derivation.get("populated_from")
-        if not isinstance(source_class, str):
-            continue
-        read_classes.add(source_class)
-        slots = class_derivation.get("slot_derivations")
-        if not isinstance(slots, Mapping):
-            continue
-        for derivation in slots.values():
-            if not isinstance(derivation, Mapping):
+    for class_name in sorted(storage):
+        target = extraction.get(class_name)
+        for attribute_name, attribute in own_attributes(storage, class_name).items():
+            if not (is_structural(attribute) or is_marked(attribute, EXTRACTED_SUBSET)):
                 continue
-            for key in ("populated_from", "source_evidence", "status_field", "source_reference"):
-                path = derivation.get(key)
-                if isinstance(path, str):
-                    named_fields.setdefault(source_class, set()).add(path.split(".")[0])
-            for path in (derivation.get("source_fields") or {}).values():
-                if isinstance(path, str) and "." in path:
-                    referenced_class, referenced_field = path.split(".", 1)
-                    read_classes.add(referenced_class)
-                    named_fields.setdefault(referenced_class, set()).add(referenced_field.split(".")[0])
-
-    # A slot the map reads carries its whole object when its range is a class: `transform: verbatim`
-    # on a slot of range Statistic copies the Statistic. So reachability follows slot ranges,
-    # transitively, and those copies are only lossless if the field names agree -- which is checked
-    # below rather than assumed.
-    copied: dict[str, str] = {}  # extraction class -> the extraction field path that copies it
-    frontier = list(read_classes)
-    while frontier:
-        class_name = frontier.pop()
-        for field_name, spec in attributes_of(extraction_classes, class_name).items():
-            if class_name in read_classes and field_name not in named_fields.get(class_name, frozenset()):
-                # Not named by any derivation; only reachable if a same-named storage field copies it.
-                pass
-            range_name = spec.get("range") if isinstance(spec, Mapping) else None
-            if not isinstance(range_name, str) or range_name in INFRASTRUCTURE:
-                continue
-            if range_name in extraction_classes and range_name not in read_classes:
-                read_classes.add(range_name)
-                copied[range_name] = f"{class_name}.{field_name}"
-                frontier.append(range_name)
-
-    for class_name, definition in sorted(extraction_classes.items()):
-        if class_name in INFRASTRUCTURE or not isinstance(definition, Mapping):
-            continue
-        if definition.get("abstract"):
-            continue
-        if class_name in absorbed:
-            continue  # the whole class is accounted for
-        if class_name not in read_classes:
-            issues.append(f"{class_name} (no class_derivation reads it, no absorbed_sources entry)")
-            continue
-
-        # Where this class's fields can land: a storage class a derivation targets from it, or --
-        # for a class copied wholesale through a slot -- the storage class of the same name.
-        storage_names: set[str] = set()
-        for target_class, class_derivation in derivations.items():
-            if isinstance(class_derivation, Mapping) and class_derivation.get("populated_from") == class_name:
-                if target_class in storage_classes:
-                    storage_names |= set(attributes_of(storage_classes, target_class))
-        if class_name in copied:
-            if class_name not in storage_classes:
-                issues.append(
-                    f"{class_name} (copied through {copied[class_name]}, but storage has no such class)"
+            expected = extraction_name(attribute_name, attribute)
+            if target is None:
+                # A whole class can be absent legitimately: nothing marked
+                # model_extracted points at it, so extraction never builds one.
+                if is_structural(attribute):
+                    continue
+                problems.append(
+                    f"storage {class_name}.{attribute_name} is extracted, but extraction "
+                    f"has no {class_name} class"
                 )
                 continue
-            storage_names |= set(attributes_of(storage_classes, class_name))
+            if expected not in (target.get("attributes") or {}):
+                problems.append(
+                    f"storage {class_name}.{attribute_name} has no extraction "
+                    f"counterpart {class_name}.{expected}"
+                )
 
-        for field_name in attributes_of(extraction_classes, class_name):
-            if field_name in INFRASTRUCTURE_FIELDS:
+    extra_classes, extra_slots = declared_extras()
+    storage_names = {
+        class_name: {
+            extraction_name(name, attribute)
+            for name, attribute in own_attributes(storage, class_name).items()
+        }
+        for class_name in storage
+    }
+    for class_name in sorted(extraction):
+        if class_name not in storage:
+            # Evidence types and pipeline provenance have no storage counterpart by
+            # design; extraction-deviations.yaml is what puts them there.
+            if class_name not in extra_classes and not class_name.startswith(
+                ("Extracted", "Evidence")
+            ):
+                problems.append(
+                    f"extraction has a {class_name} class that storage does not, and "
+                    f"extraction-deviations.yaml does not declare it"
+                )
+            continue
+        for attribute_name in own_attributes(extraction, class_name):
+            if attribute_name in storage_names[class_name]:
                 continue
-            if field_name in named_fields.get(class_name, frozenset()):
+            if f"{class_name}.{attribute_name}" in extra_slots:
                 continue
-            if field_name in storage_names:
-                continue
-            if f"{class_name}.{field_name}" in absorbed:
-                continue
-            where = f" (copied through {copied[class_name]})" if class_name in copied else ""
-            issues.append(
-                f"{class_name}.{field_name} mapped nowhere{where}, and not in absorbed_sources"
+            problems.append(
+                f"extraction {class_name}.{attribute_name} has nowhere to land in storage"
             )
+    return problems
 
-    return issues
+
+def check_derivations(
+    storage: Mapping[str, object], extraction: Mapping[str, object], mapping: Mapping
+) -> list[str]:
+    """Assert `derivations` covers exactly the storage fields code fills."""
+
+    problems: list[str] = []
+    derivations = mapping.get("derivations") or {}
+
+    needed: set[str] = set()
+    for class_name in storage:
+        if class_name not in extraction:
+            # Storage-only classes are populated wholesale by the pipeline; the map does
+            # not itemize them and neither does this check.
+            continue
+        for attribute_name, attribute in own_attributes(storage, class_name).items():
+            if attribute.get("designates_type") is True:
+                # Extraction supplies the discriminator, so it is an identity slot.
+                continue
+            if is_marked(attribute, DETERMINISTIC_SUBSET):
+                needed.add(f"{class_name}.{attribute_name}")
+
+    for path in sorted(needed - set(derivations)):
+        problems.append(f"{path} is deterministic but the map does not say how it is filled")
+    for path in sorted(set(derivations) - needed):
+        class_name, _, attribute_name = path.rpartition(".")
+        attribute = own_attributes(storage, class_name).get(attribute_name)
+        if attribute is None:
+            problems.append(f"derivations names a storage field that does not exist: {path}")
+        else:
+            problems.append(
+                f"derivations covers {path}, but storage does not mark it deterministic"
+            )
+    return problems
 
 
-def attributes_of(class_definitions: Mapping[str, object], class_name: str) -> dict[str, object]:
-    """A class's attributes including LinkML is_a ancestors."""
-    collected: dict[str, object] = {}
-    current: str | None = class_name
-    seen: set[str] = set()
-    while current and current not in seen:
-        seen.add(current)
-        definition = class_definitions.get(current)
-        if not isinstance(definition, Mapping):
-            break
-        attributes = definition.get("attributes")
-        if isinstance(attributes, Mapping):
-            for name, spec in attributes.items():
-                collected.setdefault(name, spec)
-        parent = definition.get("is_a")
-        current = parent if isinstance(parent, str) else None
-    return collected
+def value_declaration(
+    extraction: Mapping[str, object], wrapper_name: str
+) -> Mapping[str, object] | None:
+    """The `value` slot of an ExtractedValue subtype, as the wrapper narrows it."""
+
+    definition = extraction.get(wrapper_name)
+    if not isinstance(definition, Mapping):
+        return None
+    usage = definition.get("slot_usage") or {}
+    value = usage.get("value") if isinstance(usage, Mapping) else None
+    return value if isinstance(value, Mapping) else None
+
+
+def check_vocabularies(
+    storage: Mapping[str, object],
+    extraction: Mapping[str, object],
+    enums: Mapping[str, object],
+) -> list[str]:
+    """Assert each vocabulary reaches extraction with storage's own range.
+
+    Storage decides per field whether a vocabulary is closed or has a free-text escape
+    hatch, and that decision is a real one -- a closed field is one where any other answer
+    is wrong, an open one is where the paper's own wording is worth keeping and the gap in
+    the vocabulary is worth seeing. The projection has to carry it across intact; opening a
+    closed vocabulary lets a value through that storage will reject, and closing an open
+    one makes the extractor coerce and hides that the vocabulary was short a value.
+    """
+
+    problems: list[str] = []
+    for class_name in sorted(storage):
+        target = extraction.get(class_name)
+        if not isinstance(target, Mapping):
+            continue
+        for attribute_name, attribute in own_attributes(storage, class_name).items():
+            if is_structural(attribute) or not is_marked(attribute, EXTRACTED_SUBSET):
+                continue
+            ranges = attribute_ranges(attribute)
+            enum_ranges = [item for item in ranges if item in enums]
+            if not enum_ranges:
+                continue
+
+            path = f"{class_name}.{attribute_name}"
+            projected = (target.get("attributes") or {}).get(attribute_name) or {}
+            wrapper = projected.get("range")
+            value = value_declaration(extraction, wrapper)
+            if value is None:
+                problems.append(
+                    f"{path} ranges on {enum_ranges[0]}, but its extraction range "
+                    f"{wrapper!r} is not a wrapper narrowing `value`"
+                )
+                continue
+
+            storage_open = "string" in ranges
+            extraction_open = "any_of" in value
+            if storage_open != extraction_open:
+                became = "opened" if extraction_open else "closed"
+                problems.append(
+                    f"{path}: storage declares {enum_ranges[0]} "
+                    f"{'with' if storage_open else 'without'} a free-text escape hatch, "
+                    f"but the projection {became} it in {wrapper}"
+                )
+                continue
+
+            reached = {
+                item.get("range")
+                for item in (value.get("any_of") or [])
+                if isinstance(item, Mapping)
+            } or {value.get("range")}
+            if enum_ranges[0] not in reached:
+                problems.append(
+                    f"{path}: {wrapper}.value reaches {sorted(reached)}, not "
+                    f"{enum_ranges[0]}"
+                )
+                continue
+
+            if (attribute.get("multivalued") is True) != (
+                value.get("multivalued") is True
+            ):
+                problems.append(
+                    f"{path}: storage is "
+                    f"{'multivalued' if attribute.get('multivalued') else 'single-valued'}, "
+                    f"but {wrapper}.value is not"
+                )
+    return problems
+
+
+# --------------------------------------------------------------------------------------
+# Entry point
+# --------------------------------------------------------------------------------------
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.parse_args(argv)
+
+    storage = load_imported_classes(STORAGE_SCHEMA)
+    extraction = load_imported_classes(EXTRACTION_SCHEMA)
+    enums = load_imported_classes(STORAGE_SCHEMA, key="enums")
+    mapping = load_yaml(MAP)
+
+    sections = [
+        ("identity", check_identity(storage, extraction)),
+        ("derivations", check_derivations(storage, extraction, mapping)),
+        ("vocabularies", check_vocabularies(storage, extraction, enums)),
+    ]
+
+    failed = False
+    for name, problems in sections:
+        if not problems:
+            print(f"{name}: ok")
+            continue
+        failed = True
+        print(f"{name}: {len(problems)} problem(s)")
+        for problem in problems:
+            print(f"  - {problem}")
+
+    derivations = mapping.get("derivations") or {}
+    free_text = mapping.get("free_text_normalizations") or {}
+    print(
+        f"\nThe map holds {len(derivations)} derivations and {len(free_text)} free-text "
+        "tables. Everything else is identity."
+    )
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    raise SystemExit(main())

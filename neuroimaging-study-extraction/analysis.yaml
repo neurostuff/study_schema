@@ -1,0 +1,638 @@
+# GENERATED FILE -- DO NOT EDIT.
+#
+# Produced by gen_extraction_schema.py from neuroimaging-study-storage.yaml and
+# extraction-deviations.yaml. Change the storage schema or the deviations and
+# regenerate:
+#
+#     python3 gen_extraction_schema.py
+#
+id: https://neurostuff.org/schemas/neuroimaging-study-extraction/analysis
+name: neuroimaging-study-extraction-analysis
+title: Neuroimaging Study Extraction Analysis Module
+description: A reported analysis and the effect it tested.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy_ex: https://neurostuff.org/schemas/neuroimaging-study-extraction/
+default_prefix: neurostudy_ex
+default_range: string
+imports:
+  - linkml:types
+  - ../extraction-evidence
+  - acquisition
+  - design
+  - task
+  - group
+  - assessment
+  - analysis_enums
+  - analysis_details
+classes:
+  Analysis:
+    description: |-
+      A distinct reported inferential map or tested effect, linking its source acquisitions, sample, paradigm context, tested effect, preprocessing, model estimation, inference settings, and source result tables.
+      Create one Analysis for each distinct tested effect. Separate Analyses are required when normalized direction, participant-group comparison, method, the pattern of `effect.cells`, seed or connectivity model, decoded variable, component identity, or spatial_scope differ, and when an omnibus effect and its directional post-hoc contrast are both reported. ROI definitions, acquisition summaries, descriptive sample tables, and masks without inferential effects are not Analyses. Nor is a map reported with no inferential test at all -- an ICA or PCA component map presented descriptively, a connectivity matrix given without a test. Extraction is driven by the existence of a result, so there is nothing for such a map to be the effect of, and `Effect.cells` is required rather than admitting one with an empty effect.
+    attributes:
+      local_id:
+        range: string
+        required: true
+      name:
+        range: ExtractedString
+        required: true
+        description: Study-local label for the analysis or inferential result, in the source's
+          words.
+      definition:
+        range: ExtractedString
+        required: true
+        description: >-
+          Precise statement of the tested effect in the source's own words, minimally cleaned.
+          Always source-grounded. For an interaction it must state the direction of the interaction
+          as the source states it; for an ordered contrast it must keep the ordering that
+          the cell directions cannot express.
+      prespecification:
+        range: ExtractedPrespecification
+        required: true
+        description: Whether this contrast was planned before the data were seen or arrived
+          at afterwards.
+      interpretations:
+        range: ExtractedStringList
+        description: >-
+          Model-inferred reading of what the analysis measures, typically the process the
+          authors assert this contrast or model measures. Never treated as a source claim:
+          being in this slot is what marks a reading as inferred.
+      spatial_scope:
+        range: ExtractedSpatialScope
+        required: true
+        description: Spatial domain of the analysis.
+      spatial_unit:
+        range: ExtractedSpatialUnit
+        description: >-
+          The element the analysis was carried out over. Distinct from spatial_scope, which
+          gives the extent: a whole-brain analysis can be voxelwise or vertexwise, and an
+          ROI analysis can average a region or test its parcels. Record it rather than inferring
+          it from coordinate_space.
+      roi_definition:
+        range: ExtractedRoiDefinition
+        required: true
+        description: >-
+          How the region of interest was defined, which is primarily a statement about independence.
+          Must be not_applicable for whole-brain and searchlight analyses, and must not be
+          not_applicable when spatial_scope is roi.
+      roi_label:
+        range: ExtractedString
+        description: >-
+          The atlas, parcellation, or region name, in the source's words. Single-valued, so
+          an analysis running over several named regions cannot list them here. When the regions
+          are a factor of the analysis rather than a list of places it ran, they are the levels
+          of a categorical ModelTerm and the comparison between them is carried by `Cell`s.
+      measure:
+        range: Measure
+        required: true
+        inlined: true
+        description: The scientific quantity of the map, independent of the statistic used
+          to test it.
+      groups:
+        range: AnalysisGroup
+        multivalued: true
+        required: true
+        inlined_as_list: true
+        description: >-
+          The participant cohorts the analysis ran on, and how many participants each contributed.
+          Membership only: this slot says which people were analysed, never what was compared.
+          A cohort comparison is a pair of directional `Cell`s on the model term whose levels
+          name the cohorts, exactly as a condition or occasion comparison is, so direction
+          has one home rather than five.
+      effect:
+        range: Effect
+        required: true
+        inlined: true
+        description: What was tested about the map. Universal across every method.
+      details:
+        range: AnalysisDetails
+        required: true
+        inlined: true
+        description: >-
+          The method that produced the map, and its method-specific payload. Which subclass
+          is filled states the method. A voxelwise, vertexwise, or ROI-wise GLM, mixed-effects
+          model, ANOVA, ANCOVA, or robust regression takes MassUnivariateDetails; a method
+          outside the first-class families takes OtherAnalysisDetails and names itself in
+          method_label.
+      acquisitions:
+        range: Acquisition
+        multivalued: true
+        inlined: false
+        description: >-
+          Acquisition protocols supplying data to this analysis. Structural, diffusion, and
+          other non-paradigm analyses are linked directly through this field.
+      tasks:
+        range: Task
+        multivalued: true
+        inlined: false
+        description: >-
+          The participant paradigms that contextualize this analysis. An analysis can span
+          paradigms, as a cross-task conjunction or a localizer-plus-main-task analysis does.
+          Analyses without a paradigm leave this empty and are linked through acquisitions.
+      model_estimation:
+        range: ModelEstimation
+        required: true
+        inlined: false
+        description: |-
+          The model this analysis's contrast was taken from: its family, estimator, stage, software, and the terms it was specified with. What was selected out of those terms is `effect`. Required, because every contrast comes from a model -- a paper that describes a contrast and never names an estimator still takes a record, with the terms it does state and `unstated` elsewhere. Analyses sharing one design reference one record; an analysis specified or estimated differently takes its own.
+          For an analysis estimated in stages this is the **top** stage, the one that produced the statistics reported here. The stages below it are reached through that record's `inputs_from`, and their terms count as this contrast's just as the top stage's do, so a first-level model is never referenced here and is never left dangling either.
+      inference_settings:
+        range: InferenceSettings
+        inlined: true
+        description: Structured thresholding and correction metadata for this reported analysis.
+      preprocessing:
+        range: Preprocessing
+        inlined: false
+        description: The preprocessing pipeline that produced the analyzed data.
+      tables:
+        range: Table
+        multivalued: true
+        inlined: false
+        description: The source tables reporting results for this analysis.
+      coordinate_space:
+        range: ExtractedString
+        description: >-
+          Coordinate reference space or template the spatial results are reported in, such
+          as MNI152 or Talairach. The fallback of two places this can live: populated only
+          when no table of this analysis gives the space, which happens when the parse does
+          not recover one or the analysis is reported without a coordinate table. Exactly
+          one of the two is filled, never both, so a value here means the tables were silent.
+          An analysis on a surface reports a surface template, which is why the space does
+          not follow from spatial_unit.
+      assessments:
+        range: Assessment
+        multivalued: true
+        inlined: false
+        description: Assessments whose measurements were used in or selected the sample for
+          this analysis.
+      model_representation_notes:
+        range: ExtractedString
+        description: >-
+          Model components that could not be represented or were represented only approximately,
+          for an analysis whose method is otherwise first-class. Examples include random slopes,
+          latent variables, dynamic connectivity, and dependencies between terms. An analysis
+          whose method has no stable structured decomposition at all takes NotStructurableDetails
+          instead.
+  Effect:
+    description: |-
+      The inferential quantity tested about a map: what was compared, whether the comparison is a mediated path, and what statistic tested it. Estimation facts -- model family, estimator, stage, software -- belong to the ModelEstimation that produced the map.
+      The comparison is `cells`: one entry per level of a model term that entered the contrast, each with the side it sat on. Three things a reader might expect to find here are read off that instead:
+      - **what the contrast was adjusted for** -- the terms of the `ModelEstimation`, plus those
+        of the stages it reaches through `inputs_from`, minus the terms these cells name.
+      - **what the map was tested against** -- a modelled reference is that condition's level
+        with a `negative` cell; the unmodelled implicit baseline, or zero, is the absence of a
+        second cell; a decoding metric's reference is `PerformanceMetric.reference_value`.
+    attributes:
+      cells:
+        range: Cell
+        multivalued: true
+        required: true
+        inlined_as_list: true
+        description: |-
+          What this contrast compared: one entry per level of a model term that entered it, each with the side it sat on. The only place direction lives.
+          Every cell names its term, so the axis of a comparison is explicit. Two cells naming one term compare levels within that factor; cells naming different terms compare across them. A condition contrast, a cohort comparison, a pre-post change, a crossover comparison of arms and a region-by-condition dissociation all take this one form, and what distinguishes them is what the named term's levels range over, which `FactorLevel` states on the model.
+          Required and non-empty. A one-sample test is one signed cell: a lone `positive` cell tests that coefficient against zero, which is what the unmodelled implicit baseline is, and the sign distinguishes activation from deactivation. A map with no inferential test at all is not an Analysis.
+      mediation:
+        range: Mediation
+        inlined: true
+        description: >-
+          The mediation model this effect's quantity is a path through. Present only for a
+          mediation analysis and absent otherwise, so an effect carries either a complete
+          Mediation or none.
+      statistic:
+        range: Statistic
+        required: true
+        inlined: true
+        description: >-
+          The statistic this effect was tested with, and its degrees of freedom. Not the value
+          of the statistic at any location -- peak magnitudes belong to the reported coordinates.
+  Statistic:
+    description: >-
+      A test statistic and its degrees of freedom. Statistic values -- peak magnitudes, p-values,
+      cluster extents -- belong to the reported coordinates.
+    attributes:
+      family:
+        range: ExtractedStatisticFamily
+        required: true
+        description: >-
+          Which statistic was used. Independent of the thresholding procedure: a t-test corrected
+          by permutation is still a `t`.
+      degrees_of_freedom_numerator:
+        range: ExtractedNumber
+        description: >-
+          Numerator degrees of freedom, normally populated only for f and likelihood_ratio.
+          A single-degree-of-freedom statistic leaves this unset, since t(151) is F(1,151).
+      degrees_of_freedom_denominator:
+        range: ExtractedNumber
+        description: >-
+          Denominator degrees of freedom, used alone for t, correlation, and chi_square. Both
+          are unset for z. Float, so corrected degrees of freedom such as a Greenhouse-Geisser
+          adjustment can be recorded as reported.
+  Measure:
+    description: >-
+      The scientific quantity of the map, independent of the statistic used to test it. When
+      a paper alternates terms for the same map -- grey matter concentration in Methods and
+      volume in Results -- take the Methods term for type and keep both wordings in source_label.
+    attributes:
+      family:
+        range: ExtractedMeasureFamily
+        required: true
+        description: Broad imaging or signal family, for coarse filtering.
+      type:
+        range: ExtractedMeasureType
+        required: true
+        description: Normalized quantity, for cross-study queries.
+      source_label:
+        range: ExtractedString
+        description: >-
+          The paper's own term for the measure. Unset only when the source does not identify
+          the measure.
+      specific_metric:
+        range: ExtractedString
+        description: >-
+          Named metric when type is intentionally broad, such as fractional anisotropy, ALFF,
+          fALFF, or a specific tracer binding potential.
+      unit:
+        range: ExtractedString
+        description: >-
+          The unit the measure is reported in, when the source gives one and it carries information
+          -- mm for a thickness, mL for a volume. Omitted for a unitless quantity such as
+          a correlation or a normalized index.
+  Mediation:
+    description: >-
+      The mediation model an effect's tested quantity is a path through: which path, and the
+      intervening term it runs through. Present only when there is one; the ordinary case
+      leaves `Effect.mediation` unset. Both slots are required, so a path always names its
+      mediator.
+    attributes:
+      path:
+        range: ExtractedEffectPath
+        required: true
+        description: >-
+          Which path through the mediation model this effect's map is. An effect that is not
+          a mediated path has no Mediation, so there is no `not_applicable` case.
+      mediator:
+        range: ModelTerm
+        required: true
+        inlined: false
+        description: >-
+          The intervening term, by identifier. It must be a term of the ModelEstimation the
+          containing Analysis names, or of a stage that model reaches through `inputs_from`.
+  Cell:
+    description: |-
+      One side of the tested comparison: a level of a model term, and which way that level entered. The unit a contrast is built from.
+      A cell points at a `ModelTerm`, not at a study entity. Which cohort, condition, occasion or arm carries a level is a property of the design, held by the term's `FactorLevel`s, so the entity view of a contrast -- which conditions were compared, which cohorts -- is recovered by joining through the model. The `term` is therefore the axis of the comparison: cells sharing a term compare within a factor, cells on different terms compare across them.
+      A cell over a term that declares no levels -- a slope, or a product column -- leaves `level` unset and carries its `direction` alone.
+    attributes:
+      term:
+        range: ModelTerm
+        required: true
+        inlined: false
+        description: >-
+          The model term this cell belongs to, by identifier. It must be one of the terms
+          of the ModelEstimation the containing Analysis references, or of a stage that model
+          reaches through `inputs_from` -- a group contrast of a first-level condition, or
+          of a seed's time series, is a cell on that stage's term rather than on a copy of
+          it.
+      level:
+        range: ExtractedString
+        description: |-
+          Which level of that term this cell is, matching a `FactorLevel.level` of the referenced ModelTerm. The level vocabulary is stated on the model, so what is here is only which of them this comparison put on this side.
+          Required exactly when the referenced term declares levels, and unset when it does not. A factor declares levels; a slope and a product column declare none, and their cells name none.
+      direction:
+        range: ExtractedDirection
+        required: true
+        description: |-
+          Which way this cell entered the contrast: for a categorical term the sign of the weight put on this level, for a continuous one the sign of the fitted coefficient, and for a product column the sign of the interaction coefficient.
+          Signs, never numeric weights. For an ordered comparison mark the extremes `positive` and `negative`, leave the levels in between out of `cells` -- absence is the zero weight -- and keep the ordering on `FactorLevel.order`.
+      label:
+        range: ExtractedString
+        description: >-
+          The source's wording for this level in this comparison, when it differs from the
+          level's own label on the model.
+  AnalysisGroup:
+    description: >-
+      One participant cohort the analysis ran on, and how many of its participants it included.
+      Membership and sample size only. A comparison *between* cohorts is a pair of directional
+      `Cell`s on the term whose levels name them.
+    attributes:
+      group:
+        range: Group
+        required: true
+        inlined: false
+        description: >-
+          The cohort this entry refers to, by identifier. The cohort's own properties are
+          on the Group record.
+      n:
+        range: ExtractedInteger
+        description: >-
+          Number of participants from this cohort included in this analysis. This is where
+          a cohort's analysed size lives -- Group carries the recruitment funnel down to acquisition
+          and nothing past it -- so populate it whenever the source gives a number, and expect
+          it to be smaller than the acquired count when an analysis drops participants for
+          motion or missing data.
+  Preprocessing:
+    description: >-
+      An ordered preprocessing pipeline applied to acquired data before or as part of statistical
+      modeling. This can be expanded with COBIDAS.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Stable identifier used by Analysis foreign-key references.
+      description:
+        range: ExtractedString
+        description: Narrative overview of the pipeline, its inputs, outputs, and intended
+          purpose.
+      software:
+        range: ExtractedStringList
+        description: Software packages or methods used, including version and revision identifiers.
+      steps:
+        range: ExtractedStringList
+        description: >-
+          Ordered free-text preprocessing operation names, listed in execution order; examples
+          include slice-timing correction, motion correction, distortion correction, spatial
+          normalization, and smoothing. The smoothing kernel itself is `smoothing_fwhm_mm`
+          rather than a phrase in this list, because it is the one preprocessing parameter
+          a synthesis filters on.
+      smoothing_fwhm_mm:
+        range: ExtractedNumberList
+        description: >-
+          Full width at half maximum of the applied spatial smoothing kernel, in millimetres:
+          a list of one value for an isotropic kernel and of three for an anisotropic [x,
+          y, z] one. Record 0 when the source states that no smoothing was applied.
+  ModelEstimation:
+    see_also:
+      - https://cdisc-org.github.io/analysis-results-standard/
+      - https://bids-standard.github.io/stats-models/spec.html
+      - https://nidm.nidash.org/specs/nidm-results_120.html
+    description: |-
+      How a model was specified in software and estimated: its terms, the family, the source's wording for it, the estimator, the stage, and the software. Accommodates both BIDS Stats Models GLMs and other model families. One record may be referenced by several Analyses, so every field must hold for all of them; an analysis specified or estimated differently takes its own record. **The data a model was fitted to is part of its specification**, so two stages fitted with the same design matrix to different inputs -- a group model over a left-seed connectivity map and the same group model over a right-seed one -- are two records differing in `inputs_from`.
+      One record is one estimation stage. Neuroimaging splits a model across stages for tractability, and `inputs_from` is what puts it back together: a stage's terms are its own plus those of the stages it consumed, so the split costs the record nothing while each stage keeps its own family, estimator, software and basis.
+      This is the model specification. The contrast specification -- which of these terms a given comparison selects, on which side, and with what reported sign -- is the Effect of each Analysis referencing this record. One model, many contrasts.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Stable identifier used by Analysis foreign-key references.
+      model_family:
+        range: ExtractedModelFamily
+        required: true
+        description: >-
+          Normalized statistical model family, which is the queryable form. Required, so `unstated`
+          is the value for a paper that never says. A method the vocabulary cannot name --
+          ICA, representational similarity, a decoder -- is written here as free text; the
+          Analysis.details subclass also identifies the method.
+      model_type:
+        range: ExtractedString
+        required: true
+        description: >-
+          The source's own wording for the model, minimally cleaned, such as mass- univariate
+          GLM, meta-analysis, multivariate, predictive model, ICA, or representational similarity
+          analysis.
+      hrf_model:
+        range: ExtractedString
+        description: >-
+          The haemodynamic response basis the design matrix was built with: a canonical HRF,
+          a canonical plus temporal or dispersion derivatives, an FIR or gamma basis, or a
+          named alternative. Unset for a measure that models no timeseries -- morphometry,
+          diffusion, static PET.
+      model_settings:
+        range: ExtractedString
+        description: >-
+          Essential estimator, variance, autocorrelation, covariance, regularization, and
+          software-specific settings.
+      level:
+        range: ExtractedString
+        description: |-
+          Unit or stage of analysis, in the source's terms: run, session, subject and group are the usual words, and any other the source uses is storable as written. Deliberately left open -- no vocabulary fits every design, and nothing derives anything from it.
+          A label, not an ordering. Which stage fed which is `inputs_from`, and only `inputs_from`: two records both saying `group` say nothing about their relation, and a chain is never inferred from these strings.
+      estimator:
+        range: ExtractedString
+        description: >-
+          Estimation method, such as OLS, WLS, maximum likelihood, restricted maximum likelihood,
+          permutation, or Bayesian estimation.
+      software:
+        range: ExtractedString
+        description: Statistical software name, version, and relevant implementation details.
+      inputs_from:
+        range: ModelEstimation
+        multivalued: true
+        inlined: false
+        description: |-
+          The models whose fitted output this model was estimated on: the first-level GLM whose contrast images a group model takes as its data, the subject-level fit an ROI ANOVA summarises. The stage graph, recorded only where the source states it.
+          **A model's terms are its own plus, transitively, those of the models named here.** That combined list is what `terms` would be had the analysis been fitted in one step, and it is what every derivation reads: it is the adjustment set of each contrast minus the terms the contrast's cells name, it is what a `Cell` may name, and it is what `interaction_with` may cross. Motion regressed out at the first level adjusts the group contrast, and a group contrast of a first-level condition is a cell on that condition's term -- neither needs the column copied upward.
+          Leave it empty when the source describes one design matrix, and when it describes the lower stage too thinly to constitute a model. Empty is not a claim that no lower stage existed; it is the absence of a statement about one, exactly as an unrecorded term is.
+          Points downward, from the consumer to what it consumed, and must be acyclic: no model may reach itself. Names must not collide across the whole chain -- a column is one column wherever it was fitted, so a term is declared at the stage that fitted it and never re-declared above. A stage that genuinely refits a factor over different levels is declaring a different column, which takes a name of its own.
+      terms:
+        range: ModelTerm
+        multivalued: true
+        inlined_as_list: true
+        description: |-
+          The terms **this stage** was specified with -- the columns of its design matrix, in the general sense that covers a GLM's regressors and the predictors of any other family. Stated once here however many contrasts are taken from them, and never restated on a stage above: the terms of a lower stage are reached through `inputs_from`.
+          Record every term the source states, including ones no reported contrast tests, and including ones mentioned only in passing: "controlling for age and sex" is a statement about the design matrix. This list, together with the lists reached through `inputs_from`, is **the adjustment set of every contrast taken from this model** -- each contrast's is that combined list minus the terms its cells name -- so a term omitted from every stage reads as one the model did not adjust for. Where the list is incomplete, the slot's extraction_status is what says so.
+          May be empty, and legitimately is for a stage that fits only an intercept: a one-sample group test over first-level contrast images has no column of its own. Do not invent an intercept term to fill it.
+          Analyses whose design matrices differ take their own records rather than sharing one.
+  ModelTerm:
+    description: >-
+      One term of the model: a column of the design matrix, or the equivalent predictor in
+      a family with no design matrix. A categorical term names its levels and the entities
+      carrying them; a continuous term carries the facts that make a slope interpretable.
+      Nothing here is a fact about any one contrast -- what a contrast did with this term
+      is a `Cell` on that contrast's Effect. A term with no cell on some contrast is a term
+      that contrast was adjusted for rather than tested.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: >-
+          Stable identifier, referenced by an Effect's `cells` and its `mediation.mediator`,
+          and by `interaction_with`.
+      name:
+        range: ExtractedString
+        required: true
+        description: |-
+          Term label, unique within the model: a name appearing twice is one term recorded twice. For a categorical term this is the factor's identity.
+          Often a label the source never writes. A paper reporting 1-back, 2-back and 3-back conditions states the levels and states that they vary together, but frequently names no axis; `load` is then a name supplied for a grouping the source does make. That is permitted, and is not the kind of invention the schema forbids elsewhere -- the levels must be source-stated, and the name must not assert a comparison or a construct the paper does not.
+      type:
+        range: ExtractedTermType
+        required: true
+        description: Whether the term is categorical or continuous.
+      levels:
+        range: FactorLevel
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The levels of a categorical term, and for each the entities carrying it. This is
+          the whole of what a factor is: its level vocabulary, and which cohort, condition,
+          occasion, or arm occupies each cell. Record a level the source names even when no
+          reported contrast uses it -- a three-level factor contrasted at two levels is still
+          a three-level factor. Empty for a continuous term.
+      assessment:
+        range: Assessment
+        inlined: false
+        description: >-
+          The assessment whose participant-level measurement supplies a continuous term. Unset
+          when the values come from somewhere the study does not record as an Assessment --
+          age, dose, a motion parameter, cardiac phase, scanner drift -- in which case source_definition
+          names the origin.
+      variation_level:
+        range: ExtractedVariationLevel
+        description: |-
+          Whether this term moves within a participant or only across the sample. Populate it for **any** term: a repeated-measures factor is within-subject and a diagnosis factor is between-subject in exactly the sense a trial-wise modulator and an age covariate are.
+          For a continuous term it is what separates a parametric modulation from a cross-subject regression, and the derived kind of any effect testing it reads this on that basis. For a categorical factor it feeds no derivation, so setting it changes no other value; it is the factor's scope, and two studies that crossed a factor within participants and between them did not estimate the same thing.
+          A categorical factor's levels usually settle it, and the two should agree: levels naming `groups` are between-subject, since a participant belongs to one cohort; levels naming `timepoints` are within-subject, since an occasion is when the same people were measured again; levels naming `conditions` are within-subject in the ordinary repeated-measures case; levels naming `arms` follow `StudyDesign.assignment_structure`, crossover being within and parallel between.
+          A level the vocabulary cannot name is written here as free text; the derived kind then cannot choose between a modulation and a regression, so it is undetermined for that record rather than wrong.
+      functional_form:
+        range: ExtractedFunctionalForm
+        description: |-
+          Shape of the term's relationship to the measure. A squared term with a negative coefficient is an inverted-U relationship, not a negative association, so non-linear and transformed terms must not be recorded as linear. A model fitting both a linear and a quadratic form of the same measurement has two terms, not one.
+          Not where a product is recorded: a non-empty `interaction_with` is what makes a column a product.
+      interaction_with:
+        range: ModelTerm
+        multivalued: true
+        inlined: false
+        description: |-
+          The other terms this term is a product of -- what makes this column an interaction column. Populate it when the source names an interaction term in one model; leave it empty when the source describes a regression on a contrast.
+          The terms it may name are those of this model and of the stages it reaches through `inputs_from`, which is how a group stage crosses a cohort factor with a first-level condition: the product column is declared where it was fitted and names the lower stage's column directly.
+          A crossing of two factors is normally read off the cells, since a factor compared against itself carries a positive cell and a negative one. A continuous term has no levels and so cannot be crossed that way, which makes this slot the only record of a moderation such as `age x group`; the derived kind reads it before `variation_level`.
+          A product of terms that are all categorical and all crossed is legal but decides nothing, the crossed cells already saying what it says, and is flagged for review.
+          A product column declares no `levels`, so a cell on it names none. Such a column is not a covariate of a contrast whose cells name all of its components.
+      unit:
+        range: ExtractedString
+        description: >-
+          The unit a continuous term is measured in, when the source gives one -- years for
+          age, mg for a dose. It is what makes a reported slope interpretable.
+      source_definition:
+        range: ExtractedString
+        description: >-
+          The source's own definition of the term, and the origin of a continuous term that
+          no Assessment supplies, such as age, dose, a motion parameter, cardiac phase, or
+          scanner drift. A transform the FunctionalForm vocabulary cannot name goes in functional_form
+          itself.
+  FactorLevel:
+    description: |-
+      One level of a categorical model term, and the entities that carry it. Which cell of the design a cohort or condition occupies is a property of the design rather than of any contrast drawn from it, so it is held here on the ModelTerm.
+      The four entity slots are what make the entity view of a contrast recoverable: an Effect's cells name levels, and joining those levels here says which cohorts, conditions, occasions or arms were compared. A factor normally ranges over one of the four -- conditions for a task factor, cohorts for a participant factor -- so the others stay empty; a level realized by a crossing, such as a drug given at follow-up, fills more than one.
+      A factor whose levels are not entities of the study at all -- regions, hemispheres, tasks, frequency bands, acquisition sessions -- leaves all four empty and is carried by `level` alone. Such a factor is complete, and takes `Cell`s like any other.
+    attributes:
+      level:
+        range: ExtractedString
+        required: true
+        description: >-
+          The level's label, as the source words it. Unique within its term: a level appearing
+          twice is one level recorded twice.
+      order:
+        range: ExtractedInteger
+        description: |-
+          Position of this level in the factor's sequence, counting from 1, for a factor whose levels are ordered. It carries an ordering `Effect.cells` cannot: a contrast signs only its extremes and omits what lies between, so without this 1-back, 2-back and 3-back are an unordered set.
+          Populate it whenever the levels have an order the source states or plainly implies -- a dose series, a load or difficulty series, an ordinal severity grading. Leave it unset for a nominal factor, where imposing an order would assert a structure the design does not have. Timepoint.order is the same device for occasions.
+      conditions:
+        range: Condition
+        multivalued: true
+        inlined: false
+        description: The conditions carrying this level, by identifier.
+      groups:
+        range: Group
+        multivalued: true
+        inlined: false
+        description: The participant cohorts carrying this level, by identifier.
+      timepoints:
+        range: Timepoint
+        multivalued: true
+        inlined: false
+        description: The occasions carrying this level, by identifier.
+      arms:
+        range: Arm
+        multivalued: true
+        inlined: false
+        description: The arms carrying this level, by identifier.
+  InferenceSettings:
+    description: >-
+      Structured inferential procedure for one reported analysis. This is the canonical storage
+      home for thresholding, correction, and cluster-inference metadata. The test statistic
+      itself belongs to the tested effect and lives in Effect.statistic.
+    attributes:
+      inference_level:
+        range: ExtractedString
+        description: >-
+          Level at which inference is made, such as voxel, vertex, cluster, region, network
+          or other.
+      voxelwise_threshold_value:
+        range: ExtractedNumber
+        description: Numeric voxelwise or vertexwise threshold before correction or cluster
+          formation.
+      voxelwise_threshold_type:
+        range: ExtractedString
+        description: Meaning of voxelwise_threshold_value, such as p, q, t, z, or F.
+      cluster_forming_threshold_value:
+        range: ExtractedNumber
+        description: Numeric threshold used to form candidate clusters.
+      cluster_extent_threshold:
+        range: ExtractedInteger
+        description: Minimum surviving cluster extent in voxels, vertices, or the unit stated
+          in the source.
+      clusterwise_threshold_value:
+        range: ExtractedNumber
+        description: Numeric cluster-level threshold for retaining clusters.
+      multiple_comparison_method:
+        range: ExtractedString
+        description: Correction method, such as FWE, FDR, Bonferroni, permutation, Monte Carlo,
+          or none.
+      correction_scope:
+        range: ExtractedString
+        description: >-
+          Domain over which correction was applied, such as whole brain, ROI set, hemisphere,
+          or mask.
+      search_volume:
+        range: ExtractedString
+        description: Reported search volume, mask size, or number of vertices or voxels used
+          for inference.
+      neighborhood_definition:
+        range: ExtractedString
+        description: Voxel or vertex adjacency or connectivity rule used for cluster formation.
+      tfce_used:
+        range: ExtractedBoolean
+        description: Whether threshold-free cluster enhancement was used.
+      tfce_parameters:
+        range: ExtractedString
+        description: TFCE parameters such as height and extent exponents when reported.
+      permutation_count:
+        range: ExtractedInteger
+        description: Number of permutations, randomizations, or simulations used for inference.
+      alpha_level:
+        range: ExtractedNumber
+        description: Family-wise, false-discovery, or nominal alpha threshold when reported.
+      number_of_tests:
+        range: ExtractedInteger
+        description: Number of statistical tests considered by the multiple-comparison procedure.
+  Table:
+    description: >-
+      A publication table that supplies coordinates, statistics, or contextual metadata. Raw
+      cell structure and point-level provenance may remain in the repository's coordinate-table
+      representation and be linked with source_path.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Stable table identifier used by Analysis foreign-key references.
+      table_number:
+        range: ExtractedString
+        description: Printed identifier such as Table 2 or Supplementary Table S4.
+      title:
+        range: ExtractedString
+        description: Table title, when distinct from the caption.
+      caption:
+        range: ExtractedString
+        description: Table caption describing the table's contents.
+      footer:
+        range: ExtractedString
+        description: Table notes, abbreviations, threshold statements, and footnotes.
+      column_headings:
+        range: ExtractedStringList
+        description: Ordered leaf column headings retained to aid interpretation of extracted
+          values.
+      description:
+        range: ExtractedString
+        description: Summary of the table contents and its role in the reported analyses.

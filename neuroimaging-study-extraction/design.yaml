@@ -1,0 +1,293 @@
+# GENERATED FILE -- DO NOT EDIT.
+#
+# Produced by gen_extraction_schema.py from neuroimaging-study-storage.yaml and
+# extraction-deviations.yaml. Change the storage schema or the deviations and
+# regenerate:
+#
+#     python3 gen_extraction_schema.py
+#
+id: https://neurostuff.org/schemas/neuroimaging-study-extraction/design
+name: neuroimaging-study-extraction-design
+title: Neuroimaging Study Extraction Design Module
+description: |-
+  What happened to participants outside the task: which occasion the data were collected on, and what the participant received.
+  The module records the class of the manipulation and the position of the occasion.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy_ex: https://neurostuff.org/schemas/neuroimaging-study-extraction/
+default_prefix: neurostudy_ex
+default_range: string
+imports:
+  - linkml:types
+  - ../extraction-evidence
+enums:
+  Allocation:
+    description: >-
+      How participants came to be in the arm they were in. Open vocabulary: write the source's
+      own wording in the field when nothing here fits.
+    permissible_values:
+      randomized:
+        description: Participants were assigned to arms by a random or quasi-random procedure.
+      non_randomized:
+        description: >-
+          Participants were assigned to arms by some deliberate non-random procedure, such
+          as clinician choice, self-selection, or an existing exposure.
+      single_arm:
+        description: >-
+          Every participant received the same thing, so there was nothing to allocate. An
+          open-label pre-post drug study is single-arm.
+      not_applicable:
+        description: >-
+          Nothing was administered, so allocation does not apply. An observational cross-sectional
+          study takes this value.
+      unstated:
+        description: The source does not make the allocation procedure clear.
+  AssignmentStructure:
+    description: >-
+      Whether the arms of the study are separate cohorts or the same participants at different
+      times. Open vocabulary: write the source's own wording in the field when nothing here
+      fits.
+    permissible_values:
+      parallel:
+        description: >-
+          Each arm is a separate cohort, and no participant is in more than one. The arm is
+          a property of a Group here, not of a Condition.
+      crossover:
+        description: >-
+          Every participant passes through several arms, in an order that was randomized or
+          counterbalanced. The arm is a property of a Condition here, not of a Group.
+      within_subject:
+        description: >-
+          Every participant is measured on several occasions around one intervention, with
+          no randomized order of arms to cross over. A single-arm pre-post design is this
+          rather than a crossover.
+      single_group:
+        description: One cohort measured once, with no arms and no repeated occasions to structure.
+      unstated:
+        description: The source does not make the assignment structure clear.
+  Blinding:
+    description: >-
+      Who was kept unaware of the assignment. Open vocabulary: write the source's own wording
+      in the field when nothing here fits.
+    permissible_values:
+      open_label:
+        description: Nobody was blinded to the assignment.
+      participant_blind:
+        description: Participants were unaware of their assignment; those delivering or assessing
+          were not.
+      assessor_blind:
+        description: Those delivering or assessing were unaware of the assignment; participants
+          were not.
+      double_blind:
+        description: Both participants and those delivering or assessing were unaware of the
+          assignment.
+      not_applicable:
+        description: Nothing was administered, so there was no assignment to be blind to.
+      unstated:
+        description: The source does not make the blinding clear.
+  ArmKind:
+    description: >-
+      What class of thing an arm received. Spans both the manipulation and the thing it was
+      compared against, because both are arms here: a drug against an active comparator is
+      a different comparison from a drug against a placebo, which is why the two have separate
+      values. Open vocabulary: write the source's own wording in the field when nothing here
+      fits.
+    permissible_values:
+      pharmacological:
+        description: >-
+          An administered drug or other agent. The agent's name belongs in `agent`; dose,
+          route and schedule are not recorded, being replication detail rather than a filter.
+      stimulation:
+        description: Applied brain stimulation -- TMS, tDCS, tACS, deep brain stimulation.
+      behavioural_intervention:
+        description: >-
+          A training (includes exercise), therapy, or education programme delivered to participants,
+          such as a course of CBT or a meditation programme.
+      placebo:
+        description: An inert comparator presented as the intervention -- a placebo pill,
+          saline, a vehicle.
+      sham:
+        description: A stimulation or procedure comparator delivered without the active component.
+      active_comparator:
+        description: A second active intervention the first was compared against, rather than
+          an inert one.
+      usual_care:
+        description: The care participants would have received anyway, as the comparator arm.
+      no_intervention:
+        description: >-
+          A waitlist or untreated comparator arm receiving nothing. Distinct from a rest or
+          fixation Condition, which is a scanner state rather than an arm.
+      unstated:
+        description: The source does not make the kind of thing this arm received clear.
+  TimepointRelation:
+    description: >-
+      Where an occasion sits relative to the intervention. Directional terms over these values
+      are what mark an analysis as a within-person change rather than a cross-sectional comparison.
+      Open vocabulary: write the source's own wording in the field when nothing here fits.
+    permissible_values:
+      pre_intervention:
+        description: Before the intervention was delivered -- a baseline or pre-treatment
+          occasion.
+      during_intervention:
+        description: >-
+          While the intervention was in effect, including a scan under an acute drug challenge
+          or during a stimulation train.
+      post_intervention:
+        description: >-
+          After the intervention was delivered. Covers both the occasion the study treats
+          as its endpoint and any later follow-up testing whether an effect persisted; use
+          `order` and `time_from_intervention` to separate several post occasions.
+      single_occasion:
+        description: The study collected data once, so the occasion stands in no relation
+          to an intervention.
+      not_applicable:
+        description: >-
+          Data were collected on several occasions but nothing was administered, so there
+          is no intervention to be relative to. A longitudinal observational study takes this
+          value.
+      unstated:
+        description: The source does not place this occasion relative to the intervention.
+classes:
+  StudyDesign:
+    description: >-
+      The design of the study; how participants were assigned, what they were assigned to,
+      and the occasions on which data were collected. The arms and timepoints it holds are
+      referenced by identifier from Condition and Group.
+    attributes:
+      description:
+        range: ExtractedString
+        description: >-
+          Overall study design in narrative form, including observational or interventional
+          status, cross-sectional or longitudinal structure, allocation, and blinding when
+          applicable.
+      allocation:
+        range: ExtractedAllocation
+        description: How participants came to be in the arm they were in.
+      assignment_structure:
+        range: ExtractedAssignmentStructure
+        description: >-
+          Whether the arms are separate cohorts or the same participants passing through several
+          arms. This is what says whether an arm reference belongs on a Group or on a Condition.
+      blinding:
+        range: ExtractedBlinding
+        description: Who was kept unaware of the assignment.
+      arms:
+        range: Arm
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The arms of the study, active and comparator alike. Every reference to an Arm elsewhere
+          is by identifier, so this list holds the records themselves.
+      timepoints:
+        range: Timepoint
+        multivalued: true
+        inlined_as_list: true
+        description: The occasions on which data were collected.
+  Arm:
+    description: One thing participants were assigned to receive, or to receive in place of
+      it.
+    attributes:
+      local_id:
+        range: string
+        required: true
+      name:
+        range: ExtractedString
+        required: true
+        description: >-
+          Short arm label as the source states it, for example methylphenidate, sham tDCS,
+          waitlist.
+      description:
+        range: ExtractedString
+        description: Complete definition of what this arm received.
+      arm_kind:
+        range: ExtractedArmKind
+        required: true
+        description: >-
+          What class of thing this arm received. Required, with `unstated` for an arm whose
+          kind the source leaves unclear.
+      agent:
+        range: ExtractedString
+        description: >-
+          The drug, agent, or stimulation target this arm received, as the source names it.
+          The name only; dose, unit, route, and schedule are not recorded.
+  Timepoint:
+    description: >-
+      One occasion on which data were collected, and where it sits relative to the intervention.
+    attributes:
+      local_id:
+        range: string
+        required: true
+      name:
+        range: ExtractedString
+        required: true
+        description: >-
+          Short occasion label as the source states it, for example baseline, post-treatment,
+          six-month follow-up.
+      relation_to_intervention:
+        range: ExtractedTimepointRelation
+        required: true
+        description: >-
+          Where this occasion sits relative to the intervention. Required, with `unstated`
+          for an occasion the source does not place.
+      order:
+        range: ExtractedInteger
+        description: >-
+          Position of this occasion in the study's sequence, counting from 1. Carries the
+          ordering that `relation_to_intervention` cannot when several occasions share a relation
+          -- the earliest `post_intervention` occasion is the study's endpoint, later ones
+          are follow-ups.
+      time_from_intervention:
+        range: ExtractedString
+        description: >-
+          Elapsed time between the intervention and this occasion, in the source's own words
+          and units, for example 24 h or six weeks.
+  ExtractedAllocation:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is Allocation, or the source's own wording when the vocabulary
+      does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: Allocation
+          - range: string
+  ExtractedAssignmentStructure:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is AssignmentStructure, or the source's own wording when
+      the vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: AssignmentStructure
+          - range: string
+  ExtractedBlinding:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is Blinding, or the source's own wording when the vocabulary
+      does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: Blinding
+          - range: string
+  ExtractedArmKind:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is ArmKind, or the source's own wording when the vocabulary
+      does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: ArmKind
+          - range: string
+  ExtractedTimepointRelation:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is TimepointRelation, or the source's own wording when
+      the vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: TimepointRelation
+          - range: string

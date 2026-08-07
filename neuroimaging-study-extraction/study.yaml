@@ -1,0 +1,171 @@
+# GENERATED FILE -- DO NOT EDIT.
+#
+# Produced by gen_extraction_schema.py from neuroimaging-study-storage.yaml and
+# extraction-deviations.yaml. Change the storage schema or the deviations and
+# regenerate:
+#
+#     python3 gen_extraction_schema.py
+#
+id: https://neurostuff.org/schemas/neuroimaging-study-extraction/study
+name: neuroimaging-study-extraction-study
+title: Neuroimaging Study Extraction Study Module
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy_ex: https://neurostuff.org/schemas/neuroimaging-study-extraction/
+default_prefix: neurostudy_ex
+default_range: string
+imports:
+  - linkml:types
+  - ../extraction-evidence
+  - design
+  - group
+  - task
+  - assessment
+  - acquisition
+  - analysis
+classes:
+  Study:
+    tree_root: true
+    description: >-
+      The publication-level record that contains the groups, tasks, design, acquisitions,
+      preprocessing pipelines, model estimations, analyses, and reported result tables belonging
+      to one study. Conditions belong to the task they are part of, not to the study.
+    attributes:
+      extraction_metadata:
+        range: ExtractionMetadata
+        required: true
+        inlined: true
+        description: Provenance for this extraction record.
+      local_id:
+        range: string
+        required: true
+        description: >-
+          Stable identifier for the study record, such as a DOI-based or repository-local
+          identifier.
+      description:
+        range: ExtractedString
+        description: Brief free-text summary of the study aims and scope.
+      design:
+        range: StudyDesign
+        inlined: true
+        description: >-
+          The study's design outside its tasks: how participants were assigned, the arms they
+          were assigned to, and the occasions data were collected on. The narrative design
+          description is this record's own `description`.
+      groups:
+        range: Group
+        multivalued: true
+        inlined_as_list: true
+        description: Participant or demographic groups.
+      tasks:
+        range: Task
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Task, resting-state, stimulation, passive-viewing, or other meaningful participant
+          paradigms associated with study acquisitions. Each holds the conditions it was made
+          of.
+      assessments:
+        range: Assessment
+        multivalued: true
+        inlined_as_list: true
+        description: Measures of participants that were taken independently of an acquisition.
+      acquisitions:
+        range: Acquisition
+        multivalued: true
+        inlined_as_list: true
+        description: Image or signal acquisition protocols used in the study.
+      preprocessings:
+        range: Preprocessing
+        multivalued: true
+        inlined_as_list: true
+        description: Preprocessing pipelines applied before statistical analysis.
+      model_estimations:
+        range: ModelEstimation
+        multivalued: true
+        inlined_as_list: true
+        description: Model estimation records used by one or more analyses.
+      analyses:
+        range: Analysis
+        multivalued: true
+        inlined_as_list: true
+        description: Distinct analyses or inferential tests reported by the study.
+      tables:
+        range: Table
+        multivalued: true
+        inlined_as_list: true
+        description: Publication tables from which results or analysis metadata were extracted.
+      external_datasets:
+        range: ExternalDataset
+        multivalued: true
+        inlined_as_list: true
+        description: Named external datasets used, cited, or made available by the study.
+  ExternalDataset:
+    description: A named external dataset, with an optional public location.
+    attributes:
+      name:
+        range: ExtractedString
+        description: Dataset name as reported by the study or its repository.
+      url:
+        range: ExtractedString
+        description: Optional landing-page, repository, or direct-access URL for the dataset.
+  ExtractionMetadata:
+    description: Pipeline provenance stamped onto the extraction record at generation time.
+    attributes:
+      extractor_model:
+        range: string
+        required: true
+        description: Model identifier used for extraction, e.g. claude-sonnet-4-6.
+      extractor_version:
+        range: string
+        required: true
+        description: Version string of the extraction prompt or pipeline.
+      source_text_hash:
+        range: string
+        description: SHA-256 of the paper text processed, for reproducibility checking.
+      extraction_date:
+        range: date
+        description: ISO-8601 date of extraction.
+      paper_sections:
+        range: PaperSection
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Complete deterministic index of all paper sections and subsections, including character
+          spans.
+  PaperSection:
+    description: >-
+      Deterministic document index entry for every section and subsection in the processed
+      paper text. Character offsets use the same normalized source text and half-open interval
+      convention [start_char, end_char).
+    attributes:
+      ordinal:
+        range: integer
+        required: true
+        minimum_value: 0
+        description: Zero-based document order of the section heading.
+      title:
+        range: string
+        required: true
+        description: Section or subsection heading text after deterministic normalization.
+      level:
+        range: integer
+        required: true
+        minimum_value: 0
+        description: Heading depth; 0 is the document-level title, 1 is a top-level section.
+      parent_section:
+        range: string
+        description: title of the immediately containing section, when applicable.
+      start_char:
+        range: integer
+        required: true
+        minimum_value: 0
+        description: Inclusive character offset of the section heading in normalized source
+          text.
+      end_char:
+        range: integer
+        required: true
+        minimum_value: 0
+        description: >-
+          Exclusive character offset immediately before the next same-or-higher-level heading
+          or EOF.

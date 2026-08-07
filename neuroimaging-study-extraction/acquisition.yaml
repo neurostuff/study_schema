@@ -1,0 +1,283 @@
+# GENERATED FILE -- DO NOT EDIT.
+#
+# Produced by gen_extraction_schema.py from neuroimaging-study-storage.yaml and
+# extraction-deviations.yaml. Change the storage schema or the deviations and
+# regenerate:
+#
+#     python3 gen_extraction_schema.py
+#
+id: https://neurostuff.org/schemas/neuroimaging-study-extraction/acquisition
+name: neuroimaging-study-extraction-acquisition
+title: Neuroimaging Study Extraction Acquisition Module
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy_ex: https://neurostuff.org/schemas/neuroimaging-study-extraction/
+default_prefix: neurostudy_ex
+default_range: string
+imports:
+  - linkml:types
+  - ../extraction-evidence
+enums:
+  Modality:
+    description: >-
+      Imaging or recording modality of one Acquisition, and through `instantiates` the class
+      in this module holding that modality's parameters. fMRI, sMRI, dMRI, and MRI all instantiate
+      MRI; EEG, fNIRS, and PET instantiate their namesakes; MEG, SPECT, and other instantiate
+      OtherModality. `instantiates` carries a CURIE against this module's own `neurostudy`
+      prefix, so `neurostudy_ex:MRI` resolves to the MRI class below.
+    permissible_values:
+      fMRI:
+        instantiates:
+          - neurostudy_ex:MRI
+        description: Functional MRI, whether BOLD, ASL perfusion, or cerebral blood volume
+          weighted.
+      sMRI:
+        instantiates:
+          - neurostudy_ex:MRI
+        description: >-
+          Structural MRI, such as a T1- or T2-weighted anatomical scan, used for morphometry
+          or as a coregistration target.
+      dMRI:
+        instantiates:
+          - neurostudy_ex:MRI
+        description: Diffusion-weighted MRI, including DTI and DWI.
+      MRI:
+        instantiates:
+          - neurostudy_ex:MRI
+        description: >-
+          An MRI acquisition whose functional, structural, or diffusion role the source does
+          not make clear. Use a more specific value whenever the source supports one.
+      EEG:
+        instantiates:
+          - neurostudy_ex:EEG
+        description: Scalp electroencephalography.
+      fNIRS:
+        instantiates:
+          - neurostudy_ex:FNIRS
+        description: Functional near-infrared spectroscopy.
+      PET:
+        instantiates:
+          - neurostudy_ex:PET
+        description: Positron emission tomography.
+      MEG:
+        instantiates:
+          - neurostudy_ex:OtherModality
+        description: Magnetoencephalography. A first-class value with no compact class of
+          its own.
+      SPECT:
+        instantiates:
+          - neurostudy_ex:OtherModality
+        description: Single-photon emission computed tomography.
+      other:
+        instantiates:
+          - neurostudy_ex:OtherModality
+        description: >-
+          A modality none of the above names, such as intracranial EEG, ultrasound, or a physiological
+          recording analysed on its own. OtherModality holds both its label and its parameters.
+      unstated:
+        description: >-
+          The source does not report the modality clearly enough to choose a value, not even
+          MRI. Instantiates nothing. Distinct from `other`, which means the modality is known
+          and unlisted.
+classes:
+  Acquisition:
+    description: >-
+      A modality-agnostic protocol used to acquire neuroimaging or associated physiological
+      data, holding only what every modality has in common. One Acquisition carries one modality:
+      simultaneous recordings such as EEG+fMRI are separate Acquisition records that a Task
+      lists together. Everything modality-specific lives in the class the Modality value instantiates
+      -- MRI, EEG, FNIRS, PET, or OtherModality.
+    attributes:
+      local_id:
+        range: string
+        required: true
+      acquisition_type:
+        range: string
+        required: true
+        designates_type: true
+        description: >-
+          The concrete subclass this record instantiates. Derived by the mapper from the modality
+          value's `instantiates`, never extracted.
+      modality:
+        range: ExtractedModality
+        required: true
+        description: >-
+          Imaging or recording modality, from the closed Modality vocabulary. The value also
+          names the class holding this acquisition's modality-specific parameters, through
+          that value's `instantiates`.
+      acquisition_duration_seconds:
+        range: ExtractedNumber
+        description: >-
+          Total usable acquisition or recording duration in seconds. Useful for filtering
+          studies by the amount of data contributing to an analysis, especially resting-state
+          and continuous recordings.
+      instrument:
+        range: Instrument
+        inlined: true
+        description: Scanner, amplifier, or recording system used for this acquisition.
+  MRI:
+    is_a: Acquisition
+    description: >-
+      An MRI acquisition of any kind -- functional, structural, or diffusion, as modality
+      records. Its own attributes are the ones commonly useful for study selection, subgrouping,
+      or sensitivity analyses in coordinate- or image-based meta-analysis.
+    attributes:
+      magnetic_field_strength_tesla:
+        range: ExtractedNumber
+        description: Nominal static magnetic field strength in tesla.
+      pulse_sequence_type:
+        range: ExtractedString
+        description: General pulse sequence family, such as EPI, MPRAGE, SPGR, or spin echo.
+      mr_acquisition_type:
+        range: ExtractedString
+        description: >-
+          Acquisition dimensionality, such as 2D or 3D; useful for distinguishing protocols
+          with materially different spatial sampling.
+      repetition_time_seconds:
+        range: ExtractedNumber
+        description: Time between the start of successive acquired volumes, in seconds.
+      echo_time_seconds:
+        range: ExtractedNumberList
+        description: >-
+          Echo time in seconds, as a list of one value per echo. A multi-echo sequence has
+          several; a single-echo one has a list of length one.
+      acquisition_voxel_size_mm:
+        range: ExtractedNumberList
+        description: >-
+          Original acquisition voxel size [x, y, z] in millimeters, before interpolation or
+          resampling.
+      number_of_volumes:
+        range: ExtractedInteger
+        description: >-
+          Number of acquired volumes contributing to the recording, when reported; a proxy
+          for scan length and temporal sampling in functional acquisitions.
+  EEG:
+    is_a: Acquisition
+    description: >-
+      A scalp EEG acquisition. Its own attributes are the ones that materially distinguish
+      recordings used in source-localized coordinate or image-based meta-analyses.
+    attributes:
+      sampling_frequency_hz:
+        range: ExtractedNumber
+        description: Sampling frequency of the recording in hertz.
+      eeg_reference:
+        range: ExtractedString
+        description: Reference scheme and location used for the raw recording.
+      eeg_placement_scheme:
+        range: ExtractedString
+        description: Electrode placement system, such as the 10-20 or 10-10 system.
+      recording_type:
+        range: ExtractedString
+        description: Recording organization, such as continuous, discontinuous, or epoched.
+      eeg_channel_count:
+        range: ExtractedInteger
+        description: Number of simultaneously recorded EEG channels.
+  FNIRS:
+    is_a: Acquisition
+    description: >-
+      An fNIRS acquisition. Its own attributes are the ones affecting cortical sensitivity,
+      spatial sampling, or comparability, and so can support study filtering or moderator
+      analyses.
+    attributes:
+      sampling_frequency_hz:
+        range: ExtractedNumber
+        description: Sampling frequency of the fNIRS data in hertz.
+      nirs_system_type:
+        range: ExtractedString
+        description: Instrument principle, such as continuous-wave, frequency-domain, or time-domain
+          NIRS.
+      nirs_channel_count:
+        range: ExtractedInteger
+        description: Total number of NIRS channels, including short-separation channels.
+      wavelengths_nm:
+        range: ExtractedNumberList
+        description: Nominal emitted wavelengths in nanometers.
+      short_channel_count:
+        range: ExtractedInteger
+        description: Number of short-separation channels; zero indicates none.
+      source_detector_distances_mm:
+        range: ExtractedNumberList
+        description: Reported source-detector separations in millimeters.
+      nirs_placement_scheme:
+        range: ExtractedStringList
+        description: Standard placement system or listed optode positions, such as 10-20,
+          Cz, or Pz.
+      recorded_signal_types:
+        range: ExtractedStringList
+        description: >-
+          Raw or derived channel signal types, such as continuous-wave amplitude, optical
+          density, oxygenated hemoglobin, or deoxygenated hemoglobin.
+  PET:
+    is_a: Acquisition
+    description: >-
+      A PET acquisition. Its own attributes are the ones defining the biological signal or
+      spatial comparability, and so are likely to be useful for study selection, subgrouping,
+      or image harmonization.
+    attributes:
+      image_units:
+        range: ExtractedString
+        description: Units encoded in the PET image, such as Bq/mL or SUV.
+      tracer_name:
+        range: ExtractedString
+        description: Name of the injected tracer compound.
+      tracer_radionuclide:
+        range: ExtractedString
+        description: Radioisotope labeling the tracer, such as C11, F18, or O15.
+      mode_of_administration:
+        range: ExtractedString
+        description: Tracer administration mode, such as bolus, infusion, or bolus plus infusion.
+      scan_type:
+        range: ExtractedString
+        description: Whether the analyzed PET data were acquired or summarized as a static
+          or dynamic scan.
+      uptake_time_seconds:
+        range: ExtractedNumber
+        description: >-
+          Interval from tracer administration to the start of the analyzed scan window, in
+          seconds.
+      reconstructed_voxel_size_mm:
+        range: ExtractedNumberList
+        description: Reconstructed PET voxel size [x, y, z] in millimeters.
+      spatial_resolution_mm:
+        range: ExtractedNumberList
+        description: Reported reconstructed spatial resolution, such as FWHM dimensions, in
+          millimeters.
+  OtherModality:
+    is_a: Acquisition
+    description: >-
+      An acquisition whose modality has no class of its own: MEG, SPECT, and `other`. Nothing
+      here is normalized, so this is where a modality the schema does not name keeps its parameters.
+      A parameter that MRI, EEG, FNIRS, or PET has no field for belongs on that sibling class
+      instead.
+    attributes:
+      modality_label:
+        range: ExtractedString
+        required: true
+        description: >-
+          The source's own name for the modality or recording technique, verbatim. Always
+          populated, since the Modality vocabulary is coarser than what a source reports.
+      reason_no_modality_class_used:
+        range: ExtractedString
+        description: Why this is not an MRI, EEG, FNIRS, or PET record.
+  Instrument:
+    description: >-
+      The scanner, amplifier, or recording system an acquisition was made on, split into the
+      two parts a source reliably reports. Either part can be missing: papers name a model
+      with no manufacturer as often as the reverse.
+    attributes:
+      manufacturer:
+        range: ExtractedString
+        description: >-
+          Company that made the instrument, as reported, such as Siemens, GE, Philips, Brain
+          Products, or NIRx.
+      model:
+        range: ExtractedString
+        description: >-
+          Model or product name of the instrument, as reported, such as Prisma, Signa, Achieva,
+          or actiCHamp.
+  ExtractedModality:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is Modality.
+    slot_usage:
+      value:
+        range: Modality

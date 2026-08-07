@@ -58,10 +58,10 @@ typed study entities and `ModelTerm` carries `variation_level`, `unit`, and `ass
 |---|---|---|
 | `BIDSStatsModel{Name, BIDSModelVersion, Description, Input, Nodes, Edges}` | `Study` + its `ModelEstimation` records | weak. A BSM document is one model spanning every stage; a `Study` is a publication containing many models. |
 | `Input` (entity filter selecting the data) | `Analysis.acquisitions`, `.tasks` | partial. Both say what the model ran on — an entity query there, a reference to a described protocol here. |
-| `Node{Name, Level, GroupBy, Transformations, Model, Contrasts, DummyContrasts}` | `ModelEstimation` | **the central row, and only partial.** A Node is one stage; a `ModelEstimation` is one design matrix, and for a summary-statistics analysis both stages collapse into it. See finding 5. |
-| `Node.Level` ∈ `Run`, `Session`, `Subject`, `Dataset` | `ModelEstimation.level` (free text) | weak. Same concept, closed vocabulary there and unnormalized string here. |
+| `Node{Name, Level, GroupBy, Transformations, Model, Contrasts, DummyContrasts}` | `ModelEstimation` | **the central row, and now largely parity.** A Node is one stage and so is a `ModelEstimation`; what a Node holds and this does not is `GroupBy` and `Transformations`. See finding 5. |
+| `Node.Level` ∈ `Run`, `Session`, `Subject`, `Dataset` | `ModelEstimation.level` (free text) | weak, and deliberately. Same concept, closed vocabulary there and open string here — the stage *order* is `inputs_from`, so nothing reads the label. |
 | `Node.GroupBy` | — | no equivalent. How inputs partition into estimation units is not represented. |
-| `Edges[{Source, Destination, Filter}]` | — | **gap.** Nothing carries "this stage consumed that stage's contrasts." See finding 5. |
+| `Edges[{Source, Destination, Filter}]` | `ModelEstimation.inputs_from` | partial. Carries "this stage consumed that stage," pointing from consumer to consumed; `Filter`, which of the source's contrasts feed on, has no counterpart. See finding 5. |
 
 #### The model
 
@@ -140,7 +140,7 @@ typed study entities and `ModelTerm` carries `variation_level`, `unit`, and `ass
 | `Peak`, `SupraThresholdCluster`, `Coordinate` values | `roi_definition` — independence as a claim |
 | `sha512` and file-level integrity | `Analysis.prespecification` |
 | `hasAlternativeHypothesis` | `Effect.mediation{path, mediator}` |
-| `SearchSpaceMaskMap` RFT quantities | `DecodingDetails`, `SimilarityDetails`, `ConnectivityDetails`, `ComponentDecompositionDetails`, `PartialLeastSquaresDetails` |
+| `SearchSpaceMaskMap` RFT quantities | `DecodingDetails`, `SimilarityDetails`, `ConnectivityDetails`, `LatentDecompositionDetails` |
 | `CoordinateSpace` geometry | `NotStructurableDetails`, `model_representation_notes`, `unstated` vs `not_applicable` |
 
 ---
@@ -222,34 +222,49 @@ Making `inference_settings` multivalued is the small fix and breaks nothing. Not
 with finding 2 rather than substituting for it: multivalued `InferenceSettings` fixes *two
 inferences on one contrast*, and a `Threshold` class fixes *two corrections within one inference*.
 
-### 5. The stage graph is not represented, and the flattening is deliberate
+### 5. The stage graph is represented after all — the edges, not the recipe
+
+**Reversed.** This finding used to read "the flattening is deliberate" and sat on the
+not-to-be-relitigated list. `ModelEstimation.inputs_from` was added because the price it recorded
+came due; what follows is what changed, and what did not.
 
 BSM models the hierarchy explicitly: `Node.Level` ∈ `Run`/`Session`/`Subject`/`Dataset`,
 `Node.GroupBy` saying how inputs partition into estimation units, and
 `Edges[{Source, Destination, Filter}]` saying which node's contrasts feed which. A three-stage
 analysis is three nodes and two edges.
 
-Here, `ModelEstimation.level` is one free-text value and `Analysis.model_estimation` is a single
-reference. **This is a documented decision, not an omission** — `ModelFamily.glm` says the
-summary-statistics two-stage approach "is still a GLM on contrast images," and the position stands.
-Recording the consequences honestly:
+Here, each stage the source describes takes a `ModelEstimation` and the higher one names the lower
+in `inputs_from` — Edges without `Filter`. A model's terms are its own plus, transitively, those of
+the stages it names, so the mixed term list is unmixed and every derivation reads the whole chain.
 
-- The `terms` list of such a record mixes first-level regressors (conditions, HRF, motion) with
-  second-level ones (diagnosis, age), and `level` can name only one stage. Since the term list is
-  also the adjustment set of every contrast taken from the model, that mixing is not inert — it is
-  the derivation's input.
-- Nothing links a group-level analysis to the first-level contrasts it consumed.
-  `ConjunctionComponent.analysis_id` is the only analysis-to-analysis reference in the schema, and
-  it is conjunction-specific. ARS has one generic mechanism for this
-  (`ReferencedOperationRelationship`); this schema has three specific ones — `interaction_with`,
-  `ConjunctionComponent`, `Mediation.mediator` — and no general one.
-- `GroupBy` has no counterpart at all, so "one model per run, then averaged within subject" and
-  "one model over concatenated runs" are the same record.
+**What forced it.** The old defence was that a paper states its group-level design matrix and
+rarely its first-level one in enough detail to constitute a separate model, so two linked records
+would come out one populated and one full of `unstated`. Extraction found the opposite often
+enough to matter. In pmid 24600410 the model produced exactly two records — a FEAT first level
+holding the amygdala seed regressors and the WM/CSF/motion nuisance covariates, and a FLAME group
+model holding diagnosis, age, sex and scanner — and with no link between them the first was
+referenced by nothing, no `Cell` could name the seed the maps were *of*, and all four contrasts
+derived as unadjusted for motion. The mixing this finding called "not inert" is the same problem
+seen from the other side: whether the stages are flattened into one record or split into two
+unlinked ones, the adjustment set comes out wrong, and the schema had no third option.
 
-The defence is the domain: a paper states its group-level design matrix and rarely states its
-first-level one in enough detail to constitute a separate model, so a schema that required two
-linked records would get one populated and one full of `unstated`. BSM can afford the graph
-because it is writing a recipe rather than reading a paper.
+The cheapness of the fix is the other half of the argument. `inputs_from` is optional and adds one
+slot: a paper that describes one design matrix still takes one record, and `level` is still free
+text with no ordering read from it.
+
+Still not represented, and still deliberately:
+
+- `GroupBy` has no counterpart, so "one model per run, then averaged within subject" and "one model
+  over concatenated runs" remain the same record. That is a statement about how estimation units
+  partition, which is recipe rather than result.
+- BSM's `Edges[].Filter` — *which* of a node's contrasts feeds the next — has no counterpart
+  either. The link says the stage was consumed, not which output of it was.
+- There is still no general "this result was computed from that one" mechanism. ARS has one
+  (`ReferencedOperationRelationship`); this schema now has four specific ones — `interaction_with`,
+  `ConjunctionComponent`, `Mediation.mediator`, and `inputs_from`. `inputs_from` relates *models*;
+  the analysis→analysis case, where a second model is fitted to a first analysis's map, is F3 in
+  the expressivity probe and remains open. The two are complementary: a first-level model no paper
+  reports a contrast from has no Analysis for an analysis→analysis link to point at.
 
 ### 6. Signs instead of weights: the trade, and its price
 
@@ -340,9 +355,9 @@ Ranked by how much of the schema's purpose depends on it rather than by size.
    weights and a design matrix you could work out a crossing; without `variation_level` you could
    not reach the modulation/regression split at any effort.
 5. **Method families beyond the mass-univariate GLM.** NIDM-Results is mass-univariate only. BSM
-   `Type` is `glm` or `meta`. The eight `AnalysisDetails` subclasses — decoding with per-metric
-   `reference_value`, RSA, connectivity with `EdgeDirectionality` and `InferenceTarget`, PLS with
-   `pls_type`, component decomposition with `PolaritySemantics` — have no counterpart anywhere in
+   `Type` is `glm` or `meta`. The seven `AnalysisDetails` subclasses — decoding with per-metric
+   `reference_value`, RSA, connectivity with `EdgeDirectionality` and `InferenceTarget`, latent
+   decomposition with `second_block` and `PolaritySemantics` — have no counterpart anywhere in
    the comparison set.
 6. **`Measure`.** The scientific quantity of the map. For BSM and NIDM it is implicit in the input
    files; ARS has no imaging measure. A schema deciding poolability cannot leave it implicit —
@@ -379,7 +394,7 @@ runs strongest to weakest:
 | voxel size of the analysed space | 3 | `voxel_size_mm` on `Table`, or a `CoordinateSpace` class | one slot, or one class done properly |
 | error dependence | 7 | `error_dependence` + `error_variance_homogeneous` on `ModelEstimation` | two slots, one enum |
 
-Settled and recorded, not to be relitigated: the two-stage flattening (finding 5), signs rather
+Settled and recorded, not to be relitigated: signs rather
 than weights and the two losses that follow (finding 6), `Formula` and `Transformations`
 (finding 8), event timing (finding 8), and the delegation of all result values to the coordinate
 layer (finding 1).

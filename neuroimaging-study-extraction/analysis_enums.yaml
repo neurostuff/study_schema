@@ -1,0 +1,836 @@
+# GENERATED FILE -- DO NOT EDIT.
+#
+# Produced by gen_extraction_schema.py from neuroimaging-study-storage.yaml and
+# extraction-deviations.yaml. Change the storage schema or the deviations and
+# regenerate:
+#
+#     python3 gen_extraction_schema.py
+#
+id: https://neurostuff.org/schemas/neuroimaging-study-extraction/analysis_enums
+name: neuroimaging-study-extraction-analysis-enums
+title: Neuroimaging Study Extraction Analysis Vocabularies
+description: |-
+  Controlled vocabularies for the tested effect represented by an Analysis. This module holds enumerations only, so that both the analysis module and the analysis-details module can bind to them without either importing the other.
+  Three conventions run through every enumeration. `unstated` means the fact could exist but the source does not clearly report it. `not_applicable` means the concept does not apply to this analysis. They are not interchangeable, and there is no record-level confidence tier alongside them.
+  Third, most of these vocabularies are open rather than carrying a catch-all value. An attribute binding an open enumeration declares `any_of: [{range: <Enum>}, {range: string}]` instead of a range, so the same field holds either a controlled value or the source's own words: when nothing fits, write the wording. Modality is the exception and keeps `other`, where the value selects the OtherModality payload class. A value outside a vocabulary is a signal for review rather than a validation failure; canonicalization is the mapper's job, in the `normalize_enum` derivations of extraction-to-storage.map.yaml.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy_ex: https://neurostuff.org/schemas/neuroimaging-study-extraction/
+default_prefix: neurostudy_ex
+default_range: string
+imports:
+  - linkml:types
+  - ../extraction-evidence
+enums:
+  AnalysisType:
+    description: >-
+      The method that produced the statistical map, independent of what was tested about it.
+      A between-group comparison of connectivity, decoding accuracy, or component loadings
+      keeps the method here and records the comparison in Effect. Bound only by ConjunctionComponent.analysis_type;
+      an Analysis states its method by which AnalysisDetails subclass it fills. Open vocabulary:
+      write the source's own wording in the field when nothing here fits.
+    permissible_values:
+      mass_univariate:
+        description: >-
+          Voxelwise, vertexwise, or ROI-wise GLM, mixed-effects model, ANOVA or ANCOVA, or
+          robust regression. This is the default family and takes no details payload.
+      multivariate_decoding:
+        description: Classification or pattern discriminability.
+      representational_similarity:
+        description: >-
+          Association at the level of representational dissimilarity matrices. A trial-wise
+          similarity or model-fit regressor entered into a univariate GLM is mass_univariate
+          with a parametric_modulation effect, not this.
+      connectivity:
+        description: >-
+          PPI, gPPI, seed-based connectivity, DCM, covariance, or Granger causality. PPI stays
+          here even when the software estimates it with a GLM.
+      conjunction:
+        description: Logical combination of independently defined effects.
+      latent_decomposition:
+        description: >-
+          One component or latent variable of a decomposition -- ICA, PCA, NMF, PLS, CCA,
+          or a multimodal fusion. Covers what `component_decomposition` and `partial_least_squares`
+          named separately: the two were merged because the fact that separates them is how
+          many blocks were decomposed, which is `LatentDecompositionDetails.second_block`
+          and not a method family. A conjunction component that needs the distinction states
+          it in this field's free-text escape hatch.
+      not_structurable:
+        description: The effect is grounded in the source but has no stable structured decomposition.
+  SpatialScope:
+    description: >-
+      Spatial domain of the analysis, and a meta-analysis inclusion criterion. Open vocabulary:
+      write the source's own wording in the field when nothing here fits.
+    permissible_values:
+      whole_brain:
+        description: Inference across the whole acquired volume or surface.
+      roi:
+        description: Inference restricted to one or more regions of interest.
+      searchlight:
+        description: Moving-window multivariate analysis across the whole search space.
+      unstated:
+        description: The source does not report the spatial domain.
+  SpatialUnit:
+    description: >-
+      The element an analysis was carried out over: the surface-versus-volume distinction
+      as well as the univariate-versus-parcellated one. Gives the element, where SpatialScope
+      gives the extent. Open vocabulary: write the source's own wording in the field when
+      nothing here fits.
+    permissible_values:
+      voxel:
+        description: Volumetric voxels.
+      vertex:
+        description: >-
+          Surface vertices, on a reconstructed cortical mesh. Results are vertex indices in
+          a surface template rather than stereotactic coordinates.
+      roi:
+        description: >-
+          One value per region, from an averaged or extracted regional summary rather than
+          an element-wise map.
+      parcel:
+        description: >-
+          Parcels of a parcellation covering the search space, as distinct from a small set
+          of named regions of interest.
+      unstated:
+        description: The source does not report which element the analysis ran over.
+  RoiDefinition:
+    description: >-
+      How a region of interest was defined, which records independence: an ROI drawn from
+      the study's own prior contrast is not independent of the effect being tested.
+    permissible_values:
+      atlas:
+        description: An atlas or parcellation.
+      prior_literature:
+        description: Coordinates or regions taken from previously published work.
+      anatomical_a_priori:
+        description: Anatomically defined regions specified in advance.
+      functional_localizer:
+        description: A separate localizer scan or run.
+      same_study_analysis:
+        description: >-
+          Defined from another analysis in the same study, so the region is not independent
+          of the reported effect.
+      unstated:
+        description: The source restricts inference to a region but does not say how it was
+          defined.
+      not_applicable:
+        description: >-
+          Required for whole-brain and searchlight analyses, and forbidden when spatial_scope
+          is roi.
+  EffectPath:
+    description: |-
+      Which path through a mediation model an effect's map is. Without it, an indirect-effect map is structurally identical to a plain regression on the same predictor, and a synthesis would pool the two.
+      There is no `not_applicable`: an effect that is not a mediated path has no `Mediation` object, so there is no slot to fill. That is what moving the pair into a class bought.
+    permissible_values:
+      direct:
+        description: The effect of the primary term with the mediator controlled.
+      indirect:
+        description: The mediated path, for example a product of coefficients.
+      total:
+        description: The unmediated total effect.
+  ModelFamily:
+    description: >-
+      Statistical model family used to estimate the effect. Open vocabulary: write the source's
+      own wording in the field when nothing here fits.
+    permissible_values:
+      glm:
+        description: >-
+          An ordinary least-squares general linear model, including the summary-statistics
+          two-stage approach that fMRI calls a random-effects analysis: the group stage is
+          still a GLM on contrast images.
+      mixed_effects:
+        description: >-
+          A model estimating random effects directly, rather than by summarizing a first stage
+          -- a linear mixed model, a hierarchical model.
+      anova:
+        description: Analysis of variance, with no continuous covariate.
+      ancova:
+        description: 'Analysis of covariance: a factorial design with a continuous covariate
+          controlled for.'
+      robust_regression:
+        description: >-
+          A regression fitted to resist outliers, such as an iteratively reweighted or M-estimator
+          fit.
+      unstated: {}
+  StatisticFamily:
+    description: >-
+      Test statistic family for the tested effect, independent of the thresholding procedure
+      recorded in InferenceSettings. Open vocabulary: write the source's own wording in the
+      field when nothing here fits.
+    permissible_values:
+      t:
+        description: >-
+          Student's t. A single-degree-of-freedom statistic, so only the denominator degrees
+          of freedom are populated.
+      z:
+        description: Has no degrees of freedom, so both numerator and denominator stay unset.
+      f:
+        description: Normally the only family besides likelihood_ratio to populate the numerator.
+      chi_square:
+        description: A chi-square statistic.
+      likelihood_ratio:
+        description: A likelihood-ratio statistic, from comparing a model against a nested
+          one.
+      beta:
+        description: >-
+          A regression coefficient reported as the test statistic itself, which some papers
+          do instead of giving a t or z.
+      correlation:
+        description: A correlation coefficient reported as the statistic, r or rho.
+      unstated:
+        description: >-
+          A test was run and the source does not name its statistic. There is no value for
+          "no test was run", a map reported without an inferential test not being an Analysis.
+  MeasureFamily:
+    description: >-
+      Broad imaging or signal family, for coarse filtering. A BOLD-derived connectivity or
+      decoding result stays functional_bold: derived measures take the family of the underlying
+      signal. Open vocabulary: write the source's own wording in the field when nothing here
+      fits.
+    permissible_values:
+      functional_bold:
+        description: >-
+          The BOLD signal and anything derived from it, including connectivity, decoding performance,
+          and amplitude measures.
+      structural_morphometry:
+        description: >-
+          Measures of tissue shape and quantity from a structural image -- volume, thickness,
+          surface area, density.
+      diffusion:
+        description: Measures from diffusion-weighted imaging.
+      perfusion:
+        description: Blood flow and volume measures, from ASL or a contrast agent.
+      molecular_imaging:
+        description: PET and SPECT measures of a tracer's distribution or binding.
+      electrophysiology:
+        description: EEG, MEG, and intracranial electrical measures.
+      unstated: {}
+  MeasureType:
+    description: >-
+      Normalized scientific quantity of the map, for cross-study queries. Activation and deactivation
+      are directions rather than measure types; both are bold_response and the directional
+      roles carry the direction. Gray-matter density is not collapsed into volume. Use `unstated`
+      only when the paper does not identify the measure. Open vocabulary: write the source's
+      own wording in the field when nothing here fits.
+    permissible_values:
+      bold_response:
+        description: BOLD activation, task activation, or task-evoked response.
+      bold_derived_metric:
+        description: ALFF, fALFF, regional homogeneity, and similar derived BOLD metrics.
+      gray_matter_volume:
+        description: The quantity of grey matter, from voxel-based or region-based morphometry.
+      gray_matter_density:
+        description: Gray-matter density or concentration, kept distinct from volume.
+      white_matter_volume:
+        description: The quantity of white matter.
+      cortical_thickness:
+        description: The distance between the grey-white boundary and the pial surface.
+      surface_area:
+        description: The area of a cortical surface or one of its parcels.
+      structural_morphometry_other:
+        description: >-
+          A structural measure none of the named ones covers -- gyrification, sulcal depth,
+          a shape descriptor.
+      diffusion_metric:
+        description: >-
+          Fractional anisotropy, mean diffusivity, and similar; name the metric in specific_metric.
+      cerebral_blood_flow:
+        description: Perfusion as a flow rate, from ASL or a tracer.
+      cerebral_blood_volume:
+        description: The fraction of tissue occupied by blood, distinct from the rate at which
+          it flows.
+      metabolic_rate:
+        description: A rate of consumption or turnover, such as the glucose metabolic rate
+          from FDG- PET.
+      receptor_binding:
+        description: PET receptor-binding potential.
+      tracer_uptake:
+        description: >-
+          How much tracer accumulated, as an uptake value rather than a modelled rate or binding
+          parameter.
+      electrophysiological_amplitude:
+        description: >-
+          The size of a voltage or field deflection in the time domain, such as an evoked-
+          potential peak.
+      electrophysiological_power:
+        description: >-
+          Signal power in a frequency band. The band itself is not a field here; name it in
+          specific_metric.
+      connectivity_strength:
+        description: PPI, seed correlation, or DCM parameter.
+      decoding_performance:
+        description: Classifier accuracy or other pattern-discriminability performance.
+      representational_similarity:
+        description: Model-brain similarity from an RDM-level association.
+      component_loading:
+        description: ICA or PCA spatial loading.
+      unstated: {}
+  Prespecification:
+    description: |-
+      Whether a contrast was planned before the data were seen. The distinction has a query behind it: a preregistered primary contrast and a post-hoc sweep from the same paper are not equivalent evidence, and a synthesis that cannot tell them apart cannot address selective reporting.
+      Closed, and exhaustive by construction rather than by survey. The question admits three answers -- the source says it was planned, the source says it was not, the source does not say -- and every paper falls in one. That is why this enum takes no free-text binding while most others do: an open vocabulary earns its place by collecting the wording that reveals a missing category, and there is no category here left to find.
+    permissible_values:
+      preregistered:
+        description: >-
+          The source states the analysis was planned before the data were seen. A public registration
+          is the strongest form -- a registry entry, a trial identifier, a registered report
+          -- but a stated protocol or analysis plan counts, since what matters for pooling
+          is that the contrast was fixed in advance rather than where it was deposited. The
+          claim must be the source's, and a registration covering the study does not by itself
+          cover every contrast reported from it.
+      exploratory:
+        description: >-
+          The source presents the analysis as exploratory, post hoc, data-driven, or follow-up
+          to something else it found. A positive statement by the authors, not an inference
+          from an absent registration.
+      unstated:
+        description: >-
+          The source says nothing either way. The expected value for most of the literature,
+          and distinct from `exploratory`: an unregistered analysis the authors never characterize
+          is not thereby an admitted post-hoc one.
+  TermType:
+    description: Whether a model term is categorical or continuous.
+    permissible_values:
+      categorical:
+        description: >-
+          A factor, defined by its levels and the cohorts, conditions, occasions, or arms
+          carrying them. Its cells name a `level`, and a cell's `direction` is the sign of
+          the contrast weight put on that level -- something the analyst specified.
+      continuous:
+        description: >-
+          Carries the slope facts, and has no levels. Its cell names no `level`, there being
+          no level for a slope to be, and the cell's `direction` is the sign of the fitted
+          coefficient -- something the data produced rather than something specified.
+  VariationLevel:
+    description: |-
+      The level at which a term varies -- whether it moves within a participant or only across the sample. A property of **any** term, categorical or continuous: a repeated-measures factor and a trial-wise modulator are both within-subject, and a diagnosis factor and an age covariate are both between-subject.
+      For a continuous term it is what separates a parametric modulation from a cross-subject regression, and the derived kind of an effect testing it reads this. For a categorical factor it is what the literature calls the factor's scope, and it feeds no derivation -- it is recorded because it is a fact about the design that decides whether two studies estimated the same thing. Open vocabulary: write the source's own wording in the field when nothing here fits.
+    permissible_values:
+      within_subject:
+        description: >-
+          The term moves within a participant: a continuous term taking many values trial
+          to trial or scan to scan, which is the level a parametric modulation is estimated
+          at, or a categorical factor every participant met every level of -- a repeated-measures
+          or crossover design.
+      between_subject:
+        description: >-
+          The term varies only across the sample: one value per participant for a continuous
+          term, or a categorical factor each participant sits in exactly one level of, as
+          a diagnosis or a parallel-group allocation does.
+      mixed:
+        description: >-
+          The term varies both within and between participants: age in a longitudinal study,
+          where each person ages and people also differ in age at entry, or a partially crossed
+          factor some participants met every level of and others did not.
+      unstated:
+        description: The source does not report the level at which the term varies.
+  Direction:
+    description: |-
+      Which way a term entered or came out of an analysis, in one vocabulary for every kind of term. It is a sign, not a magnitude: the schema records signs and never numeric contrast weights, so `[1, -1/2, -1/2]` and `[1, -1, 0]` over the same three levels are both one positive level against two others, and a contrast whose magnitudes matter keeps them in Analysis.definition.
+      There is no value for a zero weight: a zero weight is a level with no `Cell`. A level of a tested term that a contrast did not weight is absent from `cells`, as a term the contrast did not test is absent entirely, and both are read by subtraction -- from the term's `FactorLevel`s and from `ModelEstimation.terms` respectively.
+      One vocabulary serves both kinds of term. A categorical level put on the plus side of a comparison and a continuous term whose coefficient came out positive are both `positive`, and "A greater than B" is a positive cell and a negative cell on one term. Which of the two a given cell carries follows from the referenced term's `type`.
+      On a cell over a **product** term it is the sign of the interaction coefficient -- a fact about the crossing, such as "the age-related decline was steeper in patients", rather than about either component's own slope. When simple slopes differ by moderator level and no single sign is reported, use `unstated` and state the pattern in Analysis.definition.
+      Only `positive` and `negative` count as directional, so a cell recording no sign never silently changes the derived kind.
+    permissible_values:
+      positive:
+        description: >-
+          A level on the plus side of the comparison, or a coefficient under which the measure
+          rises as the term rises.
+      negative:
+        description: >-
+          A level on the minus side of the comparison, or a coefficient under which the measure
+          falls as the term rises.
+      unstated:
+        description: |-
+          A sign exists and the source does not report it. When simple slopes differ by moderator level and no single sign is given, use this and state the pattern in Analysis.definition.
+          Distinct from omitting the cell, which says the contrast weighted this level out, and from `not_applicable`, which says there is no sign to have.
+      not_applicable:
+        description: |-
+          There is no sign to have. On a `Cell` this is what an undirected test of a term looks like: a multi-degree-of-freedom F-test over a factor involves its levels and signs none of them, so those levels take cells with this value. That keeps the term out of the derived adjustment set -- it was tested, not controlled for -- while contributing nothing to the directional count, which is what makes such an effect an `omnibus`. It is not `unstated`, which is a sign the source withheld.
+          Two shapes use it. An F-test of an **interaction** puts it on a cell over the product column: signed there is a moderation and derives `interaction`, unsigned is an F-test and derives `omnibus`.
+          A contrast taken *within* one level of a factor puts it on that level, which appears on **both sides** of the comparison and so has no net sign -- "patients versus controls, in the task condition" has task on the plus side and the minus side at once. The effect stays a `contrast` on whatever else is crossed, and the factor stays out of the adjustment set.
+          The two are distinguishable in a record: a factor F-tested without direction has **all** its levels unsigned, a factor held constant has **one** unsigned level and the rest absent.
+          Also the value for a parameter-sign slot on a method payload that has no sign to give.
+  FunctionalForm:
+    description: >-
+      Shape of a term's relationship to the measure. A squared term with a negative coefficient
+      is an inverted-U relationship, not a negative association, so non-linear and transformed
+      terms must not be reported as linear. Open vocabulary: write the source's own wording
+      in the field when nothing here fits.
+    permissible_values:
+      linear:
+        description: The measure changes by a constant amount per unit of the term.
+      quadratic:
+        description: >-
+          A squared term. With a negative coefficient this is an inverted-U, not a negative
+          association.
+      absolute:
+        description: >-
+          Unsigned-magnitude regressors such as an absolute prediction error or an unsigned
+          log-evidence.
+      log:
+        description: The term was log-transformed before entering the model.
+      unstated: {}
+  ConnectivityMethod:
+    description: >-
+      Method used to estimate connectivity. Open vocabulary: write the source's own wording
+      in the field when nothing here fits.
+    permissible_values:
+      ppi:
+        description: >-
+          Psychophysiological interaction: connectivity with a seed that changes with a psychological
+          condition.
+      gppi:
+        description: Generalized PPI, which models every condition rather than a single contrast.
+      seed_based:
+        description: >-
+          Correlation between a seed's time series and every other element, with no interaction
+          term.
+      dcm:
+        description: Dynamic causal modelling, which estimates directed influence from a generative
+          model.
+      granger:
+        description: Granger causality, which infers direction from temporal precedence.
+      coherence:
+        description: Frequency-domain coupling between two signals.
+      structural_covariance:
+        description: >-
+          Correlation of a structural measure between regions across participants, rather
+          than of a signal within one. The seed and target are regions as in any other method
+          here, but the correlation runs over subjects, so there is no time series.
+      multivariate:
+        description: >-
+          Pattern-based connectivity: multivoxel or informational connectivity between ensembles
+          of voxels rather than between averaged time series.
+      unstated: {}
+  ParameterChange:
+    description: Whether the experimental effect raised or lowered a connectivity parameter.
+    permissible_values:
+      increased:
+        description: The experimental effect raised the parameter.
+      decreased:
+        description: The experimental effect lowered the parameter.
+      unstated: {}
+      not_applicable:
+        description: Direction is carried by condition or group roles instead.
+  InferenceTarget:
+    description: >-
+      What the connectivity analysis drew inference about. Open vocabulary: write the source's
+      own wording in the field when nothing here fits.
+    permissible_values:
+      connectivity_parameter:
+        description: The test was on the strength of a connection.
+      model_comparison:
+        description: The test was on which of several models fits better, not on any one parameter.
+      network:
+        description: The test was on a set of connections treated as a unit, rather than on
+          individual edges.
+      unstated: {}
+  EdgeDirectionality:
+    description: >-
+      Whether a connectivity edge is genuinely directed. Only directed models such as DCM
+      and Granger causality qualify; a seed-to-voxel PPI or correlation is undirected, and
+      its sign travels with the edge rather than implying a direction.
+    permissible_values:
+      directed:
+        description: The method supports a claim about which region influences which.
+      undirected:
+        description: The method gives a symmetric relationship only, whatever the wording
+          of the paper.
+      unstated: {}
+  PerformanceRelation:
+    description: Direction of a decoding performance metric relative to its reference value.
+    permissible_values:
+      above_reference:
+        description: Performance exceeded its reference value.
+      below_reference:
+        description: Performance fell below its reference value.
+      unstated: {}
+      not_applicable:
+        description: The measure has no reference to compare against.
+  NullHypothesis:
+    description: >-
+      Which null hypothesis a conjunction tested. Only the conjunction null licenses the interpretation
+      that every component effect is present, so the hypothesis is recorded separately from
+      the procedure that implemented it.
+    permissible_values:
+      global_null:
+        description: At least one component effect is present at a voxel (Friston et al.).
+      conjunction_null:
+        description: Every component effect is present at a voxel (Nichols et al.).
+      unstated: {}
+  ConjunctionImplementation:
+    description: >-
+      Procedure used to compute the conjunction, which is not the same statement as the null
+      hypothesis it tested: a minimum-statistic test is the usual implementation of the conjunction
+      null. Open vocabulary: write the source's own wording in the field when nothing here
+      fits.
+    permissible_values:
+      minimum_statistic:
+        description: >-
+          Each element takes the smaller of its statistics, so a conjunction survives only
+          where both effects do.
+      masking:
+        description: One effect's map was thresholded and used to mask the other.
+      logical_or:
+        description: >-
+          Elements surviving either effect were combined, which tests the global null rather
+          than the conjunction null.
+      unstated: {}
+  SecondBlock:
+    description: |-
+      What a decomposition crossed the brain block with, one value per block. This decides whether two decompositions answer the same question, so it is the payload's one required vocabulary -- a task PLS and a behavioural PLS are not poolable, and neither is a one-block ICA with either of them.
+      Multivalued, and `none` is a value rather than an absent field: a one-block decomposition is a positive assertion, not a gap. The old `PlsType: multiblock` is gone, because it named the *number* of blocks where its siblings named their *contents*, so a design-plus-behaviour PLS had to select it and thereby discard both facts. Two blocks is now `[design, behavioral]`, and the count is derived from the list's length.
+      Open vocabulary: write the source's own wording in the field when nothing here fits.
+    permissible_values:
+      none:
+        description: >-
+          The brain data were decomposed alone -- ordinary ICA, PCA, or a related single-block
+          method. The commonest case by a wide margin.
+      design:
+        description: >-
+          The experimental design, as in mean-centred task PLS, including the spatiotemporal
+          variant that carries a time dimension.
+      behavioral:
+        description: >-
+          Participant-level behavioural or clinical measures. Where those measures are `Assessment`
+          records of this study, `second_block_assessments` names them.
+      seed_activity:
+        description: >-
+          Activity in one or more seed regions, named in `second_block_detail`. A connectivity
+          question asked with decomposition machinery.
+      other_imaging_modality:
+        description: >-
+          A second (or third) imaging measure of the same participants -- the multimodal fusion
+          case. Joint, linked and parallel ICA and mCCA+jICA all land here, and a three-modality
+          fusion carries this value once per additional modality.
+      genetic:
+        description: >-
+          Genotype data such as a SNP array. Not an `Assessment`, so its contents belong in
+          `second_block_detail`.
+      unstated:
+        description: >-
+          The source says the decomposition crossed two blocks but does not say what the second
+          held. Distinct from `none`, which asserts there was only one.
+  DecompositionMethod:
+    description: |-
+      The algorithm that produced the components or latent variables, which decides what their values and signs mean. Independent of `second_block`: the block structure is what a synthesis filters on, and the same block structure is reachable by several algorithms -- a brain-behaviour covariance can be decomposed by PLS or by CCA, and those results pool with each other more readily than a task PLS pools with a behavioural one.
+      Open vocabulary: write the source's own wording in the field when nothing here fits.
+    permissible_values:
+      ica:
+        description: Independent component analysis.
+      tensor_ica:
+        description: >-
+          ICA over a subject-by-time-by-space tensor, giving one shared spatial map with per-subject
+          loadings.
+      joint_ica:
+        description: >-
+          ICA on features concatenated across modalities, sharing one mixing matrix. Takes
+          `other_imaging_modality` in `second_block`.
+      parallel_ica:
+        description: >-
+          ICA run on two blocks at once with their mixing profiles linked, so a component
+          of one block is paired with a component of the other. Covers linked ICA.
+      pca:
+        description: Principal component analysis, whose components are orthogonal rather
+          than independent.
+      nmf:
+        description: Non-negative matrix factorization, whose components cannot take negative
+          values.
+      dictionary_learning:
+        description: A sparse decomposition learning an overcomplete set of components.
+      pls:
+        description: >-
+          Partial least squares, where the source does not distinguish the correlation and
+          regression variants.
+      pls_correlation:
+        description: >-
+          PLS correlation (PLS-C), decomposing the cross-block correlation matrix by SVD.
+          The variant most fMRI work means by "PLS".
+      pls_regression:
+        description: >-
+          PLS regression, which predicts one block from the other rather than decomposing
+          their shared covariance symmetrically.
+      cca:
+        description: >-
+          Canonical correlation analysis, which maximizes correlation between blocks where
+          PLS maximizes covariance.
+      mcca:
+        description: >-
+          Multi-set CCA, over three or more blocks. Frequently chained into joint ICA as mCCA+jICA,
+          which takes this value with `joint_ica` noted in `Analysis.model_representation_notes`
+          when the chaining matters.
+      unstated: {}
+  MapQuantity:
+    description: >-
+      What the values of a component or latent-variable map represent. Open vocabulary: write
+      the source's own wording in the field when nothing here fits.
+    permissible_values:
+      loading:
+        description: How strongly each participant or time point expresses the component.
+      weight:
+        description: The component's contribution at each element, in the decomposition's
+          own scale.
+      salience:
+        description: >-
+          A PLS salience: the element's contribution to a latent variable. Kept distinct from
+          `weight` because saliences are conventionally reported as bootstrap ratios, which
+          are stability measures rather than test statistics -- the threshold applied to them
+          is `salience_threshold`, not a voxelwise statistic threshold.
+      z_score:
+        description: The component map after standardizing its values.
+      spatial_map:
+        description: The component's spatial pattern, where the source does not say what the
+          values are.
+      unstated: {}
+  PolaritySemantics:
+    description: >-
+      Whether the sign of a component map carries meaning. Decomposition methods can return
+      components whose polarity is arbitrary, in which case a negative loading is not a decrease.
+    permissible_values:
+      meaningful:
+        description: 'The sign is interpretable: a negative value means a decrease.'
+      arbitrary:
+        description: >-
+          The method could have returned the component with its sign flipped, so a negative
+          value does not mean a decrease.
+      unsigned:
+        description: The values carry no sign at all.
+      unstated: {}
+  NotStructurableReason:
+    description: >-
+      Why a grounded effect has no stable structured decomposition. Open vocabulary: write
+      the source's own wording in the field when nothing here fits.
+    permissible_values:
+      method_specific_derived_metric:
+        description: >-
+          The tested quantity is a metric peculiar to one method, with no counterpart in the
+          shared vocabulary.
+      insufficient_standard_structure:
+        description: >-
+          The design has too little of the usual structure -- no conditions, no groups, no
+          terms -- to decompose.
+      source_too_vague:
+        description: The paper reports an effect without saying enough about it to structure.
+classes:
+  ExtractedAnalysisType:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is AnalysisType, or the source's own wording when the
+      vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: AnalysisType
+          - range: string
+  ExtractedSpatialScope:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is SpatialScope, or the source's own wording when the
+      vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: SpatialScope
+          - range: string
+  ExtractedSpatialUnit:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is SpatialUnit, or the source's own wording when the vocabulary
+      does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: SpatialUnit
+          - range: string
+  ExtractedRoiDefinition:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is RoiDefinition.
+    slot_usage:
+      value:
+        range: RoiDefinition
+  ExtractedEffectPath:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is EffectPath.
+    slot_usage:
+      value:
+        range: EffectPath
+  ExtractedModelFamily:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is ModelFamily, or the source's own wording when the vocabulary
+      does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: ModelFamily
+          - range: string
+  ExtractedStatisticFamily:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is StatisticFamily, or the source's own wording when the
+      vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: StatisticFamily
+          - range: string
+  ExtractedMeasureFamily:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is MeasureFamily, or the source's own wording when the
+      vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: MeasureFamily
+          - range: string
+  ExtractedMeasureType:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is MeasureType, or the source's own wording when the vocabulary
+      does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: MeasureType
+          - range: string
+  ExtractedPrespecification:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is Prespecification.
+    slot_usage:
+      value:
+        range: Prespecification
+  ExtractedTermType:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is TermType.
+    slot_usage:
+      value:
+        range: TermType
+  ExtractedVariationLevel:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is VariationLevel, or the source's own wording when the
+      vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: VariationLevel
+          - range: string
+  ExtractedDirection:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is Direction.
+    slot_usage:
+      value:
+        range: Direction
+  ExtractedFunctionalForm:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is FunctionalForm, or the source's own wording when the
+      vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: FunctionalForm
+          - range: string
+  ExtractedConnectivityMethod:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is ConnectivityMethod, or the source's own wording when
+      the vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: ConnectivityMethod
+          - range: string
+  ExtractedParameterChange:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is ParameterChange.
+    slot_usage:
+      value:
+        range: ParameterChange
+  ExtractedInferenceTarget:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is InferenceTarget, or the source's own wording when the
+      vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: InferenceTarget
+          - range: string
+  ExtractedEdgeDirectionality:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is EdgeDirectionality.
+    slot_usage:
+      value:
+        range: EdgeDirectionality
+  ExtractedPerformanceRelation:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is PerformanceRelation.
+    slot_usage:
+      value:
+        range: PerformanceRelation
+  ExtractedNullHypothesis:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is NullHypothesis.
+    slot_usage:
+      value:
+        range: NullHypothesis
+  ExtractedConjunctionImplementation:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is ConjunctionImplementation, or the source's own wording
+      when the vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: ConjunctionImplementation
+          - range: string
+  ExtractedSecondBlockList:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is a list of SecondBlock, or the source's own wording
+      when the vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: SecondBlock
+          - range: string
+        multivalued: true
+  ExtractedDecompositionMethod:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is DecompositionMethod, or the source's own wording when
+      the vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: DecompositionMethod
+          - range: string
+  ExtractedMapQuantity:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is MapQuantity, or the source's own wording when the vocabulary
+      does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: MapQuantity
+          - range: string
+  ExtractedPolaritySemantics:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is PolaritySemantics.
+    slot_usage:
+      value:
+        range: PolaritySemantics
+  ExtractedNotStructurableReason:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is NotStructurableReason, or the source's own wording
+      when the vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: NotStructurableReason
+          - range: string

@@ -1,0 +1,148 @@
+# GENERATED FILE -- DO NOT EDIT.
+#
+# Produced by gen_extraction_schema.py from neuroimaging-study-storage.yaml and
+# extraction-deviations.yaml. Change the storage schema or the deviations and
+# regenerate:
+#
+#     python3 gen_extraction_schema.py
+#
+id: https://neurostuff.org/schemas/neuroimaging-study-extraction/task
+name: neuroimaging-study-extraction-task
+title: Neuroimaging Study Extraction Task Module
+description: The paradigm participants performed, and the conditions it was made of.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy_ex: https://neurostuff.org/schemas/neuroimaging-study-extraction/
+default_prefix: neurostudy_ex
+default_range: string
+imports:
+  - linkml:types
+  - ../extraction-evidence
+  - acquisition
+  - design
+enums:
+  ResponseMode:
+    description: >-
+      How participants responded during a task. Open vocabulary: write the source's own wording
+      in the field when nothing here fits.
+    permissible_values:
+      button_press:
+        description: >-
+          A discrete report on a button box, keypad, keyboard, joystick, or mouse. The commonest
+          response in the literature by a wide margin.
+      hand_movement:
+        description: >-
+          A hand or arm movement that is itself the response rather than a report -- finger
+          tapping, a sequence, grasping, reaching, writing, drawing.
+      speech:
+        description: An overt vocal response -- naming, reading aloud, answering, generating
+          words.
+      covert_response:
+        description: >-
+          A response made silently and not emitted -- covert naming, subvocal rehearsal, imagined
+          movement, counting to oneself. CogPO's covert response: real, instructed, and unobservable,
+          so no accuracy comes with it.
+      eye_movement:
+        description: A saccade, antisaccade, smooth pursuit, fixation shift, or instructed
+          blink.
+      foot_or_leg_movement:
+        description: A pedal press, foot or toe tapping, or ankle or leg movement.
+      oral_nonspeech:
+        description: >-
+          A mouth or airway action that is not speech -- swallowing, chewing, tongue or jaw
+          movement, a breath hold.
+      none:
+        description: >-
+          The task required no response: passive viewing or listening, film watching, resting
+          state. A positive statement, and not the same as leaving the field empty.
+      unstated:
+        description: The source does not say how participants responded, or whether they responded
+          at all.
+classes:
+  Task:
+    description: >-
+      A meaningful participant paradigm, such as a task, resting-state protocol, stimulation,
+      or passive viewing, performed in association with an acquisition. A Task record is required
+      wherever the study models conditions, a resting-state protocol included. Acquisitions
+      with no paradigm do not require one, even in a longitudinal or interventional study:
+      a structural comparison across occasions is carried by the Effect's timepoint terms
+      and linked through Analysis.acquisitions.
+    attributes:
+      local_id:
+        range: string
+        required: true
+      name:
+        range: ExtractedString
+        description: >-
+          Short, unique label for the task or paradigm; corresponds conceptually to BIDS TaskName
+          when applicable.
+      description:
+        range: ExtractedString
+        description: Complete narrative description of what participants experienced and did.
+      conditions:
+        range: Condition
+        multivalued: true
+        inlined_as_list: true
+        description: The conditions this task was made of. These are the different states/modes
+          of the task.
+      design_type:
+        range: ExtractedString
+        description: Design form such as event-related, block, mixed, or naturalistic.
+      acquisitions:
+        range: Acquisition
+        multivalued: true
+        inlined: false
+        description: >-
+          The acquisition protocols used to collect data for this task. Exclude structural
+          scans unless they are part of the task itself.
+      presentation_software:
+        range: ExtractedString
+        description: Stimulus-presentation software name, version, and operating system when
+          reported.
+      instructions:
+        range: ExtractedString
+        description: Task- or paradigm-specific instructions given to participants.
+      stimuli:
+        range: ExtractedString
+        description: Visuals or other materials presented to participants.
+      response_mode:
+        range: ExtractedResponseModeList
+        description: >-
+          How participants responded. Multivalued because a paradigm often collects more than
+          one -- a button press for accuracy and a spoken report afterwards.
+      performance_measures:
+        range: ExtractedStringList
+        description: Behavioral variables recorded and summaries used to verify task performance.
+  Condition:
+    description: >-
+      A named condition of a task: a modelled state, event type, or baseline that an analysis
+      can contrast against another. Only what happened inside the paradigm -- the occasion
+      the task was run on and the arm it was run under are Timepoints and Arms, and enter
+      an analysis as levels of their own model terms, compared by `Cell`s on the Effect.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Stable identifier.
+      name:
+        range: ExtractedString
+        required: true
+        description: >-
+          Short condition label that distinguishes the condition from other task periods or
+          modeled effects.
+      description:
+        range: ExtractedString
+        description: |-
+          Complete definition of the condition, including whether it was a rest, fixation, or control state, and whether it put a demand on the participant.
+          What a tested effect was measured against is not recorded here: a contrast against this condition gives it a `negative` cell, and a contrast against the unmodelled implicit baseline has no second cell.
+  ExtractedResponseModeList:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is a list of ResponseMode, or the source's own wording
+      when the vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: ResponseMode
+          - range: string
+        multivalued: true

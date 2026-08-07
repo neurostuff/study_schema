@@ -89,6 +89,49 @@ classes:
       value:
         range: float
 
+  ExtractedBoolean:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is true or false.
+    slot_usage:
+      value:
+        range: boolean
+
+  # A multivalued fact is one wrapper holding a list, not a list of wrappers. The list
+  # usually comes from one sentence, so one evidence record covers all of it, and a list
+  # of wrappers would ask for evidence per item that the source does not separate.
+
+  ExtractedStringList:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is a list of strings, under one evidence record.
+    slot_usage:
+      value:
+        range: string
+        multivalued: true
+
+  ExtractedIntegerList:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is a list of whole numbers, under one evidence record.
+    slot_usage:
+      value:
+        range: integer
+        multivalued: true
+
+  ExtractedNumberList:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is a list of numbers, under one evidence record.
+    slot_usage:
+      value:
+        range: float
+        multivalued: true
+
+  ExtractedBooleanList:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is a list of booleans, under one evidence record.
+    slot_usage:
+      value:
+        range: boolean
+        multivalued: true
+
   Evidence:
     description: Evidence associated with an extracted value.
     attributes:

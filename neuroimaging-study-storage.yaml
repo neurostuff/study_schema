@@ -17,7 +17,9 @@ description: >-
   v0.1.0-alpha.11 (analysis-schema/analysis-schema-v0.1.0-alpha.11.md). That
   specification's invariants that LinkML cannot express, chiefly the derivation of
   Effect.kind from which terms carry direction, are enforced by a separate structural
-  validator.
+  validator. So are the two the stage chain adds: ModelEstimation.inputs_from must be
+  acyclic, and a ModelTerm.name must be unique across a whole chain rather than within
+  the one record ModelTerm.unique_keys can scope.
 
 license: CC0-1.0
 version: 0.6.0

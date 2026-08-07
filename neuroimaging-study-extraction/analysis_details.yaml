@@ -1,0 +1,396 @@
+# GENERATED FILE -- DO NOT EDIT.
+#
+# Produced by gen_extraction_schema.py from neuroimaging-study-storage.yaml and
+# extraction-deviations.yaml. Change the storage schema or the deviations and
+# regenerate:
+#
+#     python3 gen_extraction_schema.py
+#
+id: https://neurostuff.org/schemas/neuroimaging-study-extraction/analysis_details
+name: neuroimaging-study-extraction-analysis-details
+title: Neuroimaging Study Extraction Analysis Details Module
+description: |-
+  Method-specific payloads for an Analysis: the fields that only make sense for one family of method, kept out of Analysis so that the method and the effect never compete for a field. Exactly one subclass of AnalysisDetails applies to an Analysis, and which one is filled states the method. A mass-univariate analysis takes MassUnivariateDetails, which adds no fields of its own.
+  These classes carry method specifics only. What was tested about the map always lives in Effect, whatever the method, so a connectivity, decoding, RSA, or component analysis states its tested effect in exactly the same fields a voxelwise GLM does.
+  This module must not import the analysis module: Analysis.details ranges on AnalysisDetails, so the dependency runs the other way. Shared vocabularies therefore live in analysis_enums, and ConjunctionComponent references a sibling analysis by plain id.
+  See storage-schema-design-notes.md for the reasoning behind this shape.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy_ex: https://neurostuff.org/schemas/neuroimaging-study-extraction/
+default_prefix: neurostudy_ex
+default_range: string
+imports:
+  - linkml:types
+  - ../extraction-evidence
+  - analysis_enums
+  - task
+classes:
+  AnalysisDetails:
+    abstract: true
+    description: >-
+      Base class for the method-specific payload of one Analysis, instantiated only through
+      its subclasses. Analysis.details is required, so exactly one subclass always applies.
+    attributes:
+      details_type:
+        range: string
+        required: true
+        designates_type: true
+        description: >-
+          The concrete details subclass carried by this payload. Populated from the class
+          itself, not extracted.
+  MassUnivariateDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for a voxelwise, vertexwise, or ROI-wise GLM, mixed-effects model, ANOVA, ANCOVA,
+      or robust regression -- the default family. It adds no fields: what was tested is in
+      Effect and how it was estimated is in ModelEstimation.
+    attributes: {}
+  DecodingDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for a classification or pattern-discriminability analysis. Above-chance decoding
+      is one signed cell with nothing crossed, and the reference it beat is `PerformanceMetric.reference_value`,
+      which is per metric because accuracy against chance and AUC against 0.5 are two references.
+      A between-cohort accuracy comparison is a crossed cohort term; accuracy regressed on
+      a behavioural score is a cell on a continuous term. Spatial scope is recorded on the
+      Analysis, including for searchlight analyses.
+    attributes:
+      decoded_variable:
+        range: ExtractedString
+        required: true
+        description: The variable the classifier or discriminability test predicted.
+      classes:
+        range: DecodingClass
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The classes discriminated. These are non-directional: direction, where it exists,
+          is carried by Effect.
+      performance_metrics:
+        range: PerformanceMetric
+        multivalued: true
+        required: true
+        inlined_as_list: true
+        description: >-
+          The performance measures reported for this map, one entry each. Papers routinely
+          give several of the same analysis -- accuracy with sensitivity and specificity,
+          or accuracy with AUC -- and each carries its own value, so a single field would
+          keep whichever the extractor happened to read first.
+      validation_scheme:
+        range: ExtractedString
+        description: Cross-validation or resampling scheme, such as leave-one-run-out.
+      generalization:
+        range: ExtractedString
+        description: Train/test split for cross-decoding, when the analysis generalized across
+          sets.
+  PerformanceMetric:
+    description: One reported performance measure of a decoding analysis, and its value.
+    attributes:
+      name:
+        range: ExtractedString
+        required: true
+        description: >-
+          The measure as the source names it, such as accuracy, balanced accuracy, AUC, d-prime,
+          sensitivity, specificity, or a correlation between predicted and observed scores.
+      value:
+        range: ExtractedNumber
+        description: >-
+          The value as reported, in the source's own scale: a percentage and a proportion
+          are both recorded as written rather than converted, since the scale is not always
+          stated and converting would invent precision.
+      reference_value:
+        range: ExtractedNumber
+        description: >-
+          Numeric reference this measure was compared against, when reported -- chance for
+          an accuracy, zero for a correlation. Each measure carries its own: accuracy against
+          chance and AUC against 0.5 are two references, not one, which is why this is here
+          and not once on the Effect. `relation` says which side of it the measure fell on.
+      relation:
+        range: ExtractedPerformanceRelation
+        description: Direction of this measure relative to its own reference_value.
+  DecodingClass:
+    description: One class discriminated by a decoding analysis.
+    attributes:
+      label:
+        range: ExtractedString
+        required: true
+        description: The class label as the source names it, such as `faces` or `left hand`.
+      condition:
+        range: Condition
+        inlined: false
+        description: The experimental condition this class corresponds to, when it is one.
+  SimilarityDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for a representational-similarity analysis. The direction of a model-brain association
+      is a continuous ModelTerm on the analysis's ModelEstimation, with the model RDM as the
+      term, tested by the Effect through a `Cell`. Before choosing this family, check that
+      the association is at the RDM level: a similarity regressor entered into a univariate
+      GLM is a parametric modulation, not RSA.
+    attributes:
+      model:
+        range: ExtractedString
+        description: >-
+          The model RDM tested. Unset for a genuinely model-free test, such as within- versus
+          between-category pattern similarity or dissimilarity against zero, which is tested
+          against zero, which is a single signed cell rather than a comparison.
+      neural_representation:
+        range: ExtractedString
+        description: How the neural pattern was defined, such as the voxel set or time window
+          used.
+      similarity_metric:
+        range: ExtractedString
+        description: >-
+          Similarity or distance metric. The RDM distance metric and the model-brain association
+          method are different facts, and crossnobis values are not comparable with correlation-distance
+          values.
+      competing_models:
+        range: ExtractedStringList
+        description: Other models the reported model was compared against.
+  ConnectivityDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for an analysis of a relationship between regions, whether that relationship
+      is estimated from a signal or across subjects. Signal-based connectivity is the common
+      case; structural covariance -- correlating cortical thickness or volume between a seed
+      region and every other, across participants rather than within one -- shares the same
+      shape of answer, so it takes this payload with `structural_covariance` as its method.
+      The psychological term of a PPI is a directional condition list in Effect. Brain regions
+      stay source-grounded strings.
+    attributes:
+      connectivity_method:
+        range: ExtractedConnectivityMethod
+        required: true
+        description: Method used to estimate connectivity.
+      seed_regions:
+        range: ExtractedStringList
+        description: Seed or source regions, as named in the source.
+      target_regions:
+        range: ExtractedStringList
+        description: Target regions, as named in the source. Empty for a seed-to-whole-brain
+          analysis.
+      parameter_sign:
+        range: ExtractedDirection
+        description: >-
+          Sign of the connectivity parameter itself, such as a negative PPI. Applies to the
+          whole map.
+      parameter_change:
+        range: ExtractedParameterChange
+        description: >-
+          Whether the experimental effect raised or lowered the connectivity parameter. Applies
+          to the whole map.
+      edges:
+        range: ConnectivityEdge
+        multivalued: true
+        inlined_as_list: true
+        description: Named region pairs, when the source reports specific edges.
+      modulatory_input:
+        range: ExtractedString
+        description: Modulatory input of the model, for DCM and related methods.
+      inference_target:
+        range: ExtractedInferenceTarget
+        description: >-
+          What the statistical test was about: the strength of a connection, which of several
+          models fits better, or a network taken as a whole. A model comparison and a parameter
+          test answer different questions and are not poolable.
+  ConnectivityEdge:
+    description: One reported connection between two named regions.
+    attributes:
+      source_region:
+        range: ExtractedString
+        required: true
+        description: Source region, as named in the source.
+      target_region:
+        range: ExtractedString
+        required: true
+        description: Target region, as named in the source.
+      directionality:
+        range: ExtractedEdgeDirectionality
+        description: >-
+          Whether this edge is genuinely directed. Never infer a direction the method cannot
+          support.
+      parameter_sign:
+        range: ExtractedDirection
+        description: Sign of this edge's parameter, when reported per edge rather than for
+          the whole map.
+  ConjunctionDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for a conjunction. The conjunction's own cells describe the conjoint effect,
+      so its kind derives like any other; what each component was in its own right is on that
+      component's `analysis_type` and `definition`, which is where a conjunction over unlike
+      components records the difference.
+    attributes:
+      components:
+        range: ConjunctionComponent
+        multivalued: true
+        inlined_as_list: true
+        description: The independently defined effects that were combined.
+      null_hypothesis:
+        range: ExtractedNullHypothesis
+        description: Which null hypothesis was tested. Only the conjunction null licenses
+          the strong reading.
+      implementation:
+        range: ExtractedConjunctionImplementation
+        description: >-
+          Procedure that computed the conjunction, recorded separately from the hypothesis
+          it tested.
+  ConjunctionComponent:
+    description: One component effect of a conjunction, carrying its own direction in its
+      definition.
+    attributes:
+      analysis_id:
+        range: ExtractedString
+        description: >-
+          Identifier of the sibling Analysis record for this component, when it is separately
+          reported.
+      analysis_type:
+        range: ExtractedAnalysisType
+        description: >-
+          The component's own method, when it is known and differs from the others. A method
+          the vocabulary cannot name is written here as free text.
+      definition:
+        range: ExtractedString
+        required: true
+        description: Source-grounded statement of the component effect, including its direction.
+  LatentDecompositionDetails:
+    is_a: AnalysisDetails
+    description: |-
+      Payload for an analysis whose map is one component or latent variable of a decomposition -- ICA, PCA, NMF, PLS, CCA, and the multimodal fusion methods. Covers a component whose map or loading was *tested*: compared between cohorts, correlated with behaviour, or otherwise given an inferential result. A component map presented descriptively with no test is not an Analysis, so it takes no record here. Being representable here does not imply eligibility for coordinate-based meta-analysis.
+      One analysis reports one component: a second latent variable or component from the same decomposition is a second Analysis.
+      **The class boundary is the block structure, not the algorithm.** `second_block` says how many blocks were decomposed and what the others held, and that -- not which algorithm ran -- is what decides whether two decompositions answer the same question. A brain-behaviour covariance decomposed by PLS and one decomposed by CCA pool with each other more readily than a task PLS pools with a behavioural PLS, so the filter has to be the blocks and the algorithm has to be a separate field.
+      This class replaces the former `ComponentDecompositionDetails` and `PartialLeastSquaresDetails`, which held one fact in three homes: the block structure was the boundary between them, *and* an enum inside PLS (`pls_type`), *and* absent altogether for parallel ICA and mCCA+jICA, whose second block is another imaging modality or a SNP array. Four of PLS's nine fields were the component fields under other names, and the split had already begun to drift -- `map_quantity` existed on one side and not the other, though PLS maps are the ones most in need of it. See storage-schema-design-notes.md.
+      One invariant LinkML does not express, so the structural validator carries it: `crossblock_covariance_percent` is meaningless when `second_block` is `[none]`, there being no second block for the covariance to cross. `variance_explained_percent` is permitted either way, since a two-block decomposition may still report how much of the brain block its component captures.
+    attributes:
+      method:
+        range: ExtractedDecompositionMethod
+        required: true
+        description: >-
+          The algorithm that produced the components, which decides what their values and
+          signs mean. Required, so `unstated` is the value for a paper that names no algorithm;
+          the method is this payload's identity and an absent value would be indistinguishable
+          from an extractor that never reached the question.
+      second_block:
+        range: ExtractedSecondBlockList
+        required: true
+        description: |-
+          What the brain block was decomposed against, one value per additional block, and the primary filter on this payload. `[none]` for a decomposition of the brain data alone, which is a positive assertion rather than an empty slot -- exactly as `MassUnivariateDetails` asserts the commonest method rather than leaving it to be inferred.
+          Multivalued because papers cross more than two blocks: a three-modality mCCA+jICA carries `other_imaging_modality` twice, and a design-plus-behaviour PLS carries `[design, behavioral]` rather than a `multiblock` token that would discard which blocks they were.
+      second_block_assessments:
+        range: Assessment
+        multivalued: true
+        inlined: false
+        description: >-
+          The measures forming a behavioural or clinical block, by identifier, when they are
+          `Assessment` records of this study. Empty when the second block is the design, another
+          imaging modality, or anything else that is not an assessment -- those are named
+          in `second_block_detail`.
+      second_block_detail:
+        range: ExtractedStringList
+        description: >-
+          What each non-assessment block held, in the source's words: the seed regions of
+          a seed decomposition, the modalities of a fusion ("ALFF, FA, grey matter"), the
+          genotype array of a parallel ICA ("367 SNPs"). Free text because the range of things
+          that form a second block is open, and a SNP array is neither an `Assessment` nor
+          an `Acquisition` of this study.
+      component_id:
+        range: ExtractedString
+        required: true
+        description: >-
+          Identifier of the component or latent variable within the decomposition, as reported
+          -- commonly an index such as `IC12` or `LV1`. Required because without it two analyses
+          from one decomposition are indistinguishable.
+      component_label:
+        range: ExtractedString
+        description: >-
+          The source's name for the component, such as a network label, or for what a latent
+          variable captures.
+      total_components:
+        range: ExtractedInteger
+        description: Number of components or latent variables the decomposition produced.
+      dimensionality_selection_method:
+        range: ExtractedString
+        description: >-
+          How the number of components was chosen, as reported -- minimum description length,
+          a variance-retained cutoff, a scree criterion, permutation on the singular values,
+          or a fixed a priori number. Distinct from `selection_criterion`, which is about
+          which single component the paper went on to report: this is a property of the decomposition
+          and governs how finely the signal was carved, so two ICAs at 20 and at 100 components
+          are not reporting comparable networks.
+      selection_criterion:
+        range: ExtractedString
+        description: How this component was selected for reporting.
+      variance_explained_percent:
+        range: ExtractedNumber
+        description: >-
+          Percentage of the brain block's variance this component accounts for, as reported.
+          Not interchangeable with `crossblock_covariance_percent`: one is variance within
+          a block and the other covariance between blocks, and averaging across the two would
+          combine incomparable quantities.
+      crossblock_covariance_percent:
+        range: ExtractedNumber
+        description: >-
+          Percentage of crossblock covariance this latent variable accounts for, as reported.
+          The nearest thing a two-block decomposition has to an effect size, and what a paper
+          uses to justify reporting one latent variable and not another. Unset when `second_block`
+          is `[none]`, there being no second block to cross.
+      map_quantity:
+        range: ExtractedMapQuantity
+        description: >-
+          What the values of the reported map represent -- a loading, a weight, a PLS salience,
+          a standardized score.
+      salience_threshold:
+        range: ExtractedString
+        description: >-
+          The criterion deciding which elements count as reliable contributors, as reported
+          -- conventionally a bootstrap ratio cutoff such as "|BSR| > 3.0", or a standardized
+          cutoff such as "|Z| > 3.5". Recorded here rather than in `InferenceSettings` because
+          a bootstrap ratio is a stability measure and not a test statistic, so reading it
+          as a voxelwise threshold would misstate the inference.
+      polarity_semantics:
+        range: ExtractedPolaritySemantics
+        description: >-
+          Whether the sign of the reported map carries meaning. A latent variable's sign is
+          arbitrary up to a flip, and so is an independent component's, so a paper must say
+          what positive means before a direction can be pooled.
+  OtherAnalysisDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for a method outside the first-class families, such as a mediation analysis.
+      Available for any analysis, so an unusual design never has to delete true terms in order
+      to validate.
+    attributes:
+      method_label:
+        range: ExtractedString
+        required: true
+        description: >-
+          The method's name as the source gives it. This is the only record of what the method
+          was, so write what the paper calls it rather than a paraphrase.
+      structured_details:
+        range: ExtractedString
+        description: JSON-encoded method-specific payload, when the method has structure worth
+          keeping.
+      reason_first_class_type_not_used:
+        range: ExtractedString
+        required: true
+        description: Why no first-class details subclass fits this method.
+  NotStructurableDetails:
+    is_a: AnalysisDetails
+    description: >-
+      Payload for an effect that is grounded in the source but has no stable structured decomposition.
+      Analysis.definition remains required, so the meaning survives even though the structure
+      does not.
+    attributes:
+      reason:
+        range: ExtractedNotStructurableReason
+        required: true
+        description: >-
+          Which kind of obstacle prevented structuring, from a short vocabulary. Pairs with
+          `explanation`, which says what specifically was lost.
+      explanation:
+        range: ExtractedString
+        required: true
+        description: >-
+          What specifically could not be represented, in the source's own terms. The reason
+          gives the category; this gives the instance, so a reader can judge whether the effect
+          is usable.
