@@ -1,0 +1,4378 @@
+{
+ "case_id": "pmc_12132253",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 4,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "analyses": [
+   {
+    "local_id": "a_group_avg_positive",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Group-Averaged Habenula Connectivity: positive connectivity",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A group-averaged map (ASD+NT) was generated to visualize regions exhibiting positive and negative habenula connectivity for the combined ASD and NT groups."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The whole-brain, group-averaged (ASD+NT) habenula connectivity map ( Fig. 1A \u2013 B ) depicts positive and negative habenula connectivity through an extensive network of bilateral cortical and subcortical regions ( Table 2 )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "manually defined bilateral habenula ROIs",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Bilateral habenula ROIs were manually defined on the MNI\u2019s 152-subject averaged T1 template brain (i.e., ICBM152) ( 42 , 43 )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "left and right habenula",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Voxelwise time series were extracted from each ROI (i.e., left and right habenula) using the unsmoothed, preprocessed, and denoised data via AFNI\u2019s 3dmaskave."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [],
+    "terms": [
+     "term_group",
+     "term_age",
+     "term_sex",
+     "term_site"
+    ],
+    "model_estimation": "me_group",
+    "groups": [
+     {
+      "group": "g_asd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "A group-averaged map (ASD+NT) was generated to visualize regions exhibiting positive and negative habenula connectivity for the combined ASD and NT groups."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      }
+     },
+     {
+      "group": "g_nt",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "A group-averaged map (ASD+NT) was generated to visualize regions exhibiting positive and negative habenula connectivity for the combined ASD and NT groups."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmriprep",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "whole-brain correlation maps for each participant, followed by a group-averaged map (ASD+NT)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The averaged ROI time series were entered into a general linear model to generate whole-brain correlation maps for each participant."
+         },
+         {
+          "text": "A group-averaged map (ASD+NT) was generated to visualize regions exhibiting positive and negative habenula connectivity for the combined ASD and NT groups."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "habenula connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The whole-brain, group-averaged (ASD+NT) habenula connectivity map ( Fig. 1A \u2013 B ) depicts positive and negative habenula connectivity through an extensive network of bilateral cortical and subcortical regions ( Table 2 )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Fisher r-to-z transformed correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The resulting z-transformed (Fisher r-to-z transformation) correlation maps were entered into group-level regression models with diagnosis (ASD, NT) as a categorical factor and age as a continuous factor, controlling for sex and scanning site using AFNI\u2019s 3dLMEr ( 46 , 47 )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "unit": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute (MNI) space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For all participants, a T1-weighted structural image was collected and used for registration to Montreal Neurological Institute (MNI) space."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Thresholded z-maps were generated using 3dClustSim to compute a cluster size at a voxel threshold of p = 0.0001, and a cluster threshold of p = 0.01."
+          }
+         ]
+        }
+       ]
+      },
+      "voxelwise_threshold_value": {
+       "extraction_status": "extracted",
+       "value": 0.0001,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thresholded z-maps were generated using 3dClustSim to compute a cluster size at a voxel threshold of p = 0.0001, and a cluster threshold of p = 0.01."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "voxelwise_threshold_type": {
+       "extraction_status": "extracted",
+       "value": "voxel threshold p",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thresholded z-maps were generated using 3dClustSim to compute a cluster size at a voxel threshold of p = 0.0001, and a cluster threshold of p = 0.01."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "clusterwise_threshold_value": {
+       "extraction_status": "extracted",
+       "value": 0.01,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thresholded z-maps were generated using 3dClustSim to compute a cluster size at a voxel threshold of p = 0.0001, and a cluster threshold of p = 0.01."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "multiple_comparison_method": {
+       "extraction_status": "extracted",
+       "value": "3dClustSim",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thresholded z-maps were generated using 3dClustSim to compute a cluster size at a voxel threshold of p = 0.0001, and a cluster threshold of p = 0.01."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     "statistical_maps": [],
+     "decoding": {},
+     "similarity": {},
+     "connectivity": {
+      "connectivity_method": {
+       "extraction_status": "extracted",
+       "value": "whole-brain correlation maps",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The averaged ROI time series were entered into a general linear model to generate whole-brain correlation maps for each participant."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "seed_regions": {
+       "extraction_status": "extracted",
+       "value": "left and right habenula",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Voxelwise time series were extracted from each ROI (i.e., left and right habenula) using the unsmoothed, preprocessed, and denoised data via AFNI\u2019s 3dmaskave."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "target_regions": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      },
+      "parameter_sign": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      },
+      "parameter_change": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      },
+      "edges": [],
+      "inference_target": {
+       "extraction_status": "extracted",
+       "value": "habenula connectivity",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The whole-brain, group-averaged (ASD+NT) habenula connectivity map ( Fig. 1A \u2013 B ) depicts positive and negative habenula connectivity through an extensive network of bilateral cortical and subcortical regions ( Table 2 )."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     "conjunction": {},
+     "component_decomposition": {},
+     "not_structurable": {},
+     "other_method": {},
+     "model_representation_notes": {
+      "extraction_status": "extracted",
+      "value": "Diagnosis was modeled as a categorical factor and age as a continuous factor, controlling for sex and scanning site.",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The resulting z-transformed (Fisher r-to-z transformation) correlation maps were entered into group-level regression models with diagnosis (ASD, NT) as a categorical factor and age as a continuous factor, controlling for sex and scanning site using AFNI\u2019s 3dLMEr ( 46 , 47 )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "interpretations": {
+      "extraction_status": "extracted",
+      "value": "This connectivity pattern is commonly associated with terms for fear, reward, and emotion processing.",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Neurosynth-based functional decoding revealed that this connectivity pattern is commonly associated with terms for fear, reward, and emotion processing ( Fig. 1C )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "a_group_diff": {
+     "local_id": "a_group_diff",
+     "name": {
+      "extraction_status": "extracted",
+      "value": "Group Differences in Habenula Connectivity (ASD>NT)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A group-difference map was generated to identify regions that exhibited atypical habenula rsFC among ASD participants (ASD vs. NT)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "spatial_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The whole-brain group-difference (ASD>NT) habenula connectivity map ( Fig. 2A \u2013 B ) depicts regions of increased habenula connectivity for the ASD group ( Table 3 )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "roi_definition": {
+      "extraction_status": "extracted",
+      "value": "group-averaged map used to mask functionally connected regions",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The group-averaged map was used to mask regions functionally connected with the habenula in both the ASD and NT groups."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "roi_label": {
+      "extraction_status": "extracted",
+      "value": "habenula",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The group-averaged map was used to mask regions functionally connected with the habenula in both the ASD and NT groups."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisitions": [
+      "acq_fmri"
+     ],
+     "experiments": [
+      "exp_rest"
+     ],
+     "conditions": [],
+     "terms": [
+      "term_group",
+      "term_age",
+      "term_sex",
+      "term_site"
+     ],
+     "model_estimation": "me_group",
+     "groups": [
+      {
+       "group": "g_asd",
+       "role": {
+        "extraction_status": "extracted",
+        "value": "greater side: ASD>NT",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "The whole-brain group-difference (ASD>NT) habenula connectivity map ( Fig. 2A \u2013 B ) depicts regions of increased habenula connectivity for the ASD group ( Table 3 )."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "n": {
+        "extraction_status": "extracted",
+        "value": 705,
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "The final sample included 1,584 participants (mean age: 16.26 \u00b1 8.15 years) from the ABIDE I and II datasets, with 705 ASD participants ( Table 1 )."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      },
+      {
+       "group": "g_nt",
+       "role": {
+        "extraction_status": "extracted",
+        "value": "lesser side: NT",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "The whole-brain group-difference (ASD>NT) habenula connectivity map ( Fig. 2A \u2013 B ) depicts regions of increased habenula connectivity for the ASD group ( Table 3 )."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "n": {
+        "extraction_status": "not_reported",
+        "evidence": {
+         "status": "not_applicable"
+        }
+       }
+      }
+     ],
+     "preprocessing": "prep_fmriprep",
+     "definition": {
+      "extraction_status": "extracted",
+      "value": "ASD>NT habenula connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A group-difference map was generated to identify regions that exhibited atypical habenula rsFC among ASD participants (ASD vs. NT)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "measure": {
+      "source_label": {
+       "extraction_status": "extracted",
+       "value": "habenula rsFC",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "A group-difference map was generated to identify regions that exhibited atypical habenula rsFC among ASD participants (ASD vs. NT)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "specific_metric": {
+       "extraction_status": "extracted",
+       "value": "z-transformed correlation",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The resulting z-transformed (Fisher r-to-z transformation) correlation maps were entered into group-level regression models with diagnosis (ASD, NT) as a categorical factor and age as a continuous factor, controlling for sex and scanning site using AFNI\u2019s 3dLMEr ( 46 , 47 )."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     "statistic": {
+      "family": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      }
+     },
+     "tables": [
+      "tbl3"
+     ],
+     "coordinate_space": {
+      "extraction_status": "extracted",
+      "value": "MNI space",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For all participants, a T1-weighted structural image was collected and used for registration to Montreal Neurological Institute (MNI) space."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "assessments": [],
+     "inference_settings": {
+      "inference_level": {
+       "extraction_status": "extracted",
+       "value": "cluster",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thresholded z-maps were generated at a voxel threshold of p = 0.0001 and a cluster threshold of p = 0.01."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "voxelwise_threshold_value": {
+       "extraction_status": "extracted",
+       "value": 0.0001,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thresholded z-maps were generated at a voxel threshold of p = 0.0001 and a cluster threshold of p = 0.01."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "voxelwise_threshold_type": {
+       "extraction_status": "extracted",
+       "value": "voxel threshold p",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thresholded z-maps were generated at a voxel threshold of p = 0.0001 and a cluster threshold of p = 0.01."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "clusterwise_threshold_value": {
+       "extraction_status": "extracted",
+       "value": 0.01,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thresholded z-maps were generated at a voxel threshold of p = 0.0001 and a cluster threshold of p = 0.01."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "multiple_comparison_method": {
+       "extraction_status": "extracted",
+       "value": "cluster threshold",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thresholded z-maps were generated at a voxel threshold of p = 0.0001 and a cluster threshold of p = 0.01."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     "statistical_maps": [],
+     "decoding": {},
+     "similarity": {},
+     "connectivity": {
+      "connectivity_method": {
+       "extraction_status": "extracted",
+       "value": "whole-brain correlation maps",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The averaged ROI time series were entered into a general linear model to generate whole-brain correlation maps for each participant."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "seed_regions": {
+       "extraction_status": "extracted",
+       "value": "habenula",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "A group-difference map was generated to identify regions that exhibited atypical habenula rsFC among ASD participants (ASD vs. NT)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "target_regions": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      },
+      "parameter_sign": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      },
+      "parameter_change": {
+       "extraction_status": "extracted",
+       "value": "increased habenula connectivity for the ASD group",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The whole-brain group-difference (ASD>NT) habenula connectivity map ( Fig. 2A \u2013 B ) depicts regions of increased habenula connectivity for the ASD group ( Table 3 )."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "edges": [],
+      "inference_target": {
+       "extraction_status": "extracted",
+       "value": "group difference in habenula rsFC",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "A group-difference map was generated to identify regions that exhibited atypical habenula rsFC among ASD participants (ASD vs. NT)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     "conjunction": {},
+     "component_decomposition": {},
+     "not_structurable": {},
+     "other_method": {},
+     "model_representation_notes": {
+      "extraction_status": "extracted",
+      "value": "Controlled for age, sex, and scanning site.",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The whole-brain group-difference (ASD>NT) habenula connectivity map ( Fig. 2A \u2013 B ) depicts regions of increased habenula connectivity for the ASD group ( Table 3 )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "interpretations": {
+      "extraction_status": "extracted",
+      "value": "These regions are commonly associated with terms for speech, language, and action processing.",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Neurosynth-based functional decoding revealed that these regions of increased habenula connectivity among ASD participants are commonly associated with terms for speech, language, and action processing ( Fig. 2C )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "a_age_group_interaction": {
+     "local_id": "a_age_group_interaction",
+     "name": {
+      "extraction_status": "extracted",
+      "value": "Age-Related Variability in Habenula Connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Next, a whole-brain regression analysis was performed to probe for age-related changes in habenula connectivity."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "spatial_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The age-related variability connectivity map ( Fig. 3A \u2013 B ) depicts regions that exhibit altered developmental trajectories in habenula connectivity between the ASD and NT groups ( Table 4 )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "roi_definition": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "acquisitions": [
+      "acq_fmri"
+     ],
+     "experiments": [
+      "exp_rest"
+     ],
+     "conditions": [],
+     "terms": [
+      "term_group",
+      "term_age",
+      "term_sex",
+      "term_site",
+      "term_group_age"
+     ],
+     "model_estimation": "me_age",
+     "groups": [
+      {
+       "group": "g_asd",
+       "role": {
+        "extraction_status": "included",
+        "value_source": "generated",
+        "evidence": {
+         "status": "not_found"
+        }
+       },
+       "n": {
+        "extraction_status": "not_reported",
+        "evidence": {
+         "status": "not_applicable"
+        }
+       }
+      },
+      {
+       "group": "g_nt",
+       "role": {
+        "extraction_status": "included",
+        "value_source": "generated",
+        "evidence": {
+         "status": "not_found"
+        }
+       },
+       "n": {
+        "extraction_status": "not_reported",
+        "evidence": {
+         "status": "not_applicable"
+        }
+       }
+      }
+     ],
+     "preprocessing": "prep_fmriprep",
+     "definition": {
+      "extraction_status": "extracted",
+      "value": "age-by-group interactions in habenula connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Next, z-transformed participant-level correlation maps were analyzed using a linear effects model to probe for age-by-group interactions, controlling for sex and scanning site."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "measure": {
+      "source_label": {
+       "extraction_status": "extracted",
+       "value": "habenula connectivity",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The age-related variability connectivity map ( Fig. 3A \u2013 B ) depicts regions that exhibit altered developmental trajectories in habenula connectivity between the ASD and NT groups ( Table 4 )."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "specific_metric": {
+       "extraction_status": "extracted",
+       "value": "z-scored beta coefficients",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For each of the clusters, beta coefficients were averaged and entered into a linear regression model to determine the direction of developmental changes in connectivity for each group, following the approach outlined by Padmanabhan et al. (2013)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     "statistic": {
+      "family": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      }
+     },
+     "tables": [
+      "tbl4"
+     ],
+     "coordinate_space": {
+      "extraction_status": "extracted",
+      "value": "MNI space",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For all participants, a T1-weighted structural image was collected and used for registration to Montreal Neurological Institute (MNI) space."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "assessments": [],
+     "inference_settings": {
+      "inference_level": {
+       "extraction_status": "extracted",
+       "value": "cluster",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thresholded z-maps were generated with a voxel threshold of p = 0.005 and a cluster threshold of p = 0.05."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "voxelwise_threshold_value": {
+       "extraction_status": "extracted",
+       "value": 0.005,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thresholded z-maps were generated with a voxel threshold of p = 0.005 and a cluster threshold of p = 0.05."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "voxelwise_threshold_type": {
+       "extraction_status": "extracted",
+       "value": "voxel threshold p",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thresholded z-maps were generated with a voxel threshold of p = 0.005 and a cluster threshold of p = 0.05."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "clusterwise_threshold_value": {
+       "extraction_status": "extracted",
+       "value": 0.05,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thresholded z-maps were generated with a voxel threshold of p = 0.005 and a cluster threshold of p = 0.05."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     "statistical_maps": [],
+     "decoding": {},
+     "similarity": {},
+     "connectivity": {
+      "connectivity_method": {
+       "extraction_status": "extracted",
+       "value": "whole-brain correlation maps",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "z-transformed participant-level correlation maps were analyzed using a linear effects model to probe for age-by-group interactions"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "seed_regions": {
+       "extraction_status": "extracted",
+       "value": "habenula",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The age-related variability connectivity map ( Fig. 3A \u2013 B ) depicts regions that exhibit altered developmental trajectories in habenula connectivity between the ASD and NT groups ( Table 4 )."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "target_regions": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      },
+      "parameter_sign": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      },
+      "parameter_change": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      },
+      "edges": [],
+      "inference_target": {
+       "extraction_status": "extracted",
+       "value": "age-by-group interaction in habenula connectivity",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "z-transformed participant-level correlation maps were analyzed using a linear effects model to probe for age-by-group interactions, controlling for sex and scanning site."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     "conjunction": {},
+     "component_decomposition": {},
+     "not_structurable": {},
+     "other_method": {},
+     "model_representation_notes": {
+      "extraction_status": "extracted",
+      "value": "Participants were restricted to ages 5\u201321 years; sex and scanning site were covariates.",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Thus, we chose to focus on participants aged 5\u201321 years, which included the majority of ABIDE participants."
+          },
+          {
+           "text": "Next, z-transformed participant-level correlation maps were analyzed using a linear effects model to probe for age-by-group interactions, controlling for sex and scanning site."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "interpretations": {
+      "extraction_status": "extracted",
+      "value": "Habenula connectivity increases across development for ASD participants, whereas NTs inversely decrease.",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Extracting and entering the z-scored beta coefficients from these regions into a linear regression model revealed habenula connectivity increases across development for ASD participants, whereas NTs inversely decrease ( Fig. 3C )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "a_sm": {
+     "local_id": "a_sm",
+     "name": {
+      "extraction_status": "extracted",
+      "value": "Associations Between Habenula Connectivity and Autism Symptomatology: SM",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For SM, a significant interaction was identified in the right middle temporal gyrus (rMTG) and the left superior temporal gyrus (lSTG)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "spatial_scope": {
+      "extraction_status": "extracted",
+      "value": "clusters showing atypical habenula connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "z-scored beta coefficients were extracted from clusters showing atypical habenula connectivity using a 3mm spherical mask."
+          }
+         ]
+        }
+       ]
+      },
+      "roi_definition": {
+       "extraction_status": "extracted",
+       "value": "3mm spherical masks placed on clusters showing atypical habenula connectivity",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "z-scored beta coefficients were extracted from clusters showing atypical habenula connectivity using a 3mm spherical mask."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "roi_label": {
+       "extraction_status": "extracted",
+       "value": "right middle temporal gyrus and left superior temporal gyrus",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For SM, a significant interaction was identified in the right middle temporal gyrus (rMTG) and the left superior temporal gyrus (lSTG)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "acquisitions": [
+       "acq_fmri"
+      ],
+      "experiments": [
+       "exp_rest"
+      ],
+      "conditions": [],
+      "terms": [
+       "term_group",
+       "term_age",
+       "term_sex",
+       "term_site",
+       "term_sm"
+      ],
+      "model_estimation": "me_pheno",
+      "groups": [
+       {
+        "group": "g_asd",
+        "role": {
+         "extraction_status": "included",
+         "value_source": "generated",
+         "evidence": {
+          "status": "not_found"
+         }
+        },
+        "n": {
+         "extraction_status": "extracted",
+         "value": 300,
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "we accessed SM and SC scores for 300 ASD and 361 NT"
+             }
+            ]
+           }
+          ]
+         }
+        }
+       },
+       {
+        "group": "g_nt",
+        "role": {
+         "extraction_status": "included",
+         "value_source": "generated",
+         "evidence": {
+          "status": "not_found"
+         }
+        },
+        "n": {
+         "extraction_status": "extracted",
+         "value": 361,
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "we accessed SM and SC scores for 300 ASD and 361 NT"
+             }
+            ]
+           }
+          ]
+         }
+        }
+       }
+      ],
+      "preprocessing": "prep_fmriprep",
+      "definition": {
+       "extraction_status": "extracted",
+       "value": "phenotypic interaction effect of SM on habenula connectivity",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For SM, a significant interaction was identified in the right middle temporal gyrus (rMTG) and the left superior temporal gyrus (lSTG)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "measure": {
+       "source_label": {
+        "extraction_status": "extracted",
+        "value": "habenula connectivity",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Higher SM scores were associated with constant or slightly decreasing habenula connectivity in the ASD group, whereas the NT group showed increasing connectivity ( Fig. 4A )."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "specific_metric": {
+        "extraction_status": "extracted",
+        "value": "z-scored beta coefficients",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "z-scored beta coefficients were extracted from clusters showing atypical habenula connectivity using a 3mm spherical mask."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      },
+      "statistic": {
+       "family": {
+        "extraction_status": "not_reported",
+        "evidence": {
+         "status": "not_applicable"
+        }
+       }
+      },
+      "tables": [
+       "tbl5"
+      ],
+      "coordinate_space": {
+       "extraction_status": "extracted",
+       "value": "MNI space",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For all participants, a T1-weighted structural image was collected and used for registration to Montreal Neurological Institute (MNI) space."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "assessments": [
+       "assess_srs_sm"
+      ],
+      "inference_settings": {
+       "alpha_level": {
+        "extraction_status": "extracted",
+        "value": 0.05,
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "For clusters that were identified to exhibit a significant effect, correlation coefficients were entered into a linear regression model as a function of subscore for each of the phenotypic measures."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "multiple_comparison_method": {
+        "extraction_status": "extracted",
+        "value": "Benjamini-Hochberg procedure to control the false discovery rate",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "To correct for multiple comparisons, the Benjamini-Hochberg procedure was applied to control the false discovery rate ( p < 0.05) ( 52 )."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      },
+      "statistical_maps": [],
+      "decoding": {},
+      "similarity": {},
+      "connectivity": {},
+      "conjunction": {},
+      "component_decomposition": {},
+      "not_structurable": {},
+      "other_method": {
+       "method_label": {
+        "extraction_status": "extracted",
+        "value": "linear regression model",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "For clusters that were identified to exhibit a significant effect, correlation coefficients were entered into a linear regression model as a function of subscore for each of the phenotypic measures."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "reason_first_class_type_not_used": {
+        "extraction_status": "extracted",
+        "value": "This was a phenotypic regression analysis rather than a decoding, similarity, connectivity, conjunction, or component-decomposition analysis.",
+        "value_source": "generated",
+        "evidence": {
+         "status": "not_found"
+        }
+       }
+      },
+      "model_representation_notes": {
+       "extraction_status": "extracted",
+       "value": "Group was categorical and age was continuous, controlling for sex and scanning site.",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "we tested clusters for significant phenotypic main effects among ASD participants, as well as phenotypic interactions between ASD and NT groups ( p < 0.05) using group as a categorical factor and age as a continuous factor, while controlling for sex and scanning site."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "interpretations": {
+       "extraction_status": "extracted",
+       "value": "Higher SM scores were associated with constant or slightly decreasing habenula connectivity in the ASD group, whereas the NT group showed increasing connectivity.",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Higher SM scores were associated with constant or slightly decreasing habenula connectivity in the ASD group, whereas the NT group showed increasing connectivity ( Fig. 4A )."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     "a_ef": {
+      "local_id": "a_ef",
+      "name": {
+       "extraction_status": "extracted",
+       "value": "Associations Between Habenula Connectivity and Autism Symptomatology: EF",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For EF, a significant between-group interaction effect was identified in the rSTG."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "spatial_scope": {
+       "extraction_status": "extracted",
+       "value": "clusters showing atypical habenula connectivity",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "z-scored beta coefficients were extracted from clusters showing atypical habenula connectivity using a 3mm spherical mask."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "roi_definition": {
+       "extraction_status": "extracted",
+       "value": "3mm spherical mask",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "z-scored beta coefficients were extracted from clusters showing atypical habenula connectivity using a 3mm spherical mask."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "roi_label": {
+       "extraction_status": "extracted",
+       "value": "rSTG",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For EF, a significant between-group interaction effect was identified in the rSTG."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "acquisitions": [
+       "acq_fmri"
+      ],
+      "experiments": [
+       "exp_rest"
+      ],
+      "conditions": [],
+      "terms": [
+       "term_group",
+       "term_age",
+       "term_sex",
+       "term_site",
+       "term_ef"
+      ],
+      "model_estimation": "me_pheno",
+      "groups": [
+       {
+        "group": "g_asd",
+        "role": {
+         "extraction_status": "included",
+         "value_source": "generated",
+         "evidence": {
+          "status": "not_found"
+         }
+        },
+        "n": {
+         "extraction_status": "extracted",
+         "value": 134,
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "EF scores for 134 ASD and 201 NT"
+             }
+            ]
+           }
+          ]
+         }
+        }
+       },
+       {
+        "group": "g_nt",
+        "role": {
+         "extraction_status": "included",
+         "value_source": "generated",
+         "evidence": {
+          "status": "not_found"
+         }
+        },
+        "n": {
+         "extraction_status": "extracted",
+         "value": 201,
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "EF scores for 134 ASD and 201 NT"
+             }
+            ]
+           }
+          ]
+         }
+        }
+       }
+      ],
+      "preprocessing": "prep_fmriprep",
+      "definition": {
+       "extraction_status": "extracted",
+       "value": "between-group interaction effect of EF on habenula connectivity",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For EF, a significant between-group interaction effect was identified in the rSTG."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "measure": {
+       "source_label": {
+        "extraction_status": "extracted",
+        "value": "habenula connectivity",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Higher EF scores were associated with increasing habenula connectivity in the ASD group, whereas the NT group showed decreasing connectivity ( Fig. 4B )."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "specific_metric": {
+        "extraction_status": "extracted",
+        "value": "z-scored beta coefficients",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "z-scored beta coefficients were extracted from clusters showing atypical habenula connectivity using a 3mm spherical mask."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      },
+      "statistic": {
+       "family": {
+        "extraction_status": "not_reported",
+        "evidence": {
+         "status": "not_applicable"
+        }
+       }
+      },
+      "tables": [
+       "tbl5"
+      ],
+      "coordinate_space": {
+       "extraction_status": "extracted",
+       "value": "MNI space",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For all participants, a T1-weighted structural image was collected and used for registration to Montreal Neurological Institute (MNI) space."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "assessments": [
+       "assess_brief"
+      ],
+      "inference_settings": {
+       "alpha_level": {
+        "extraction_status": "extracted",
+        "value": 0.05,
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "we tested clusters for significant phenotypic main effects among ASD participants, as well as phenotypic interactions between ASD and NT groups ( p < 0.05)"
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "statistical_maps": [],
+       "decoding": {},
+       "similarity": {},
+       "connectivity": {},
+       "conjunction": {},
+       "component_decomposition": {},
+       "not_structurable": {},
+       "other_method": {
+        "method_label": {
+         "extraction_status": "extracted",
+         "value": "linear regression model",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "For clusters that were identified to exhibit a significant effect, correlation coefficients were entered into a linear regression model as a function of subscore for each of the phenotypic measures."
+             }
+            ]
+           }
+          ]
+         }
+        },
+        "reason_first_class_type_not_used": {
+         "extraction_status": "extracted",
+         "value": "Phenotypic regression analysis.",
+         "value_source": "generated",
+         "evidence": {
+          "status": "not_found"
+         }
+        }
+       },
+       "model_representation_notes": {
+        "extraction_status": "extracted",
+        "value": "Group and age predictors, with sex and scanning site as covariates.",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "we tested clusters for significant phenotypic main effects among ASD participants, as well as phenotypic interactions between ASD and NT groups ( p < 0.05) using group as a categorical factor and age as a continuous factor, while controlling for sex and scanning site."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "interpretations": {
+        "extraction_status": "extracted",
+        "value": "Higher EF scores were associated with increasing habenula connectivity in the ASD group, whereas the NT group showed decreasing connectivity.",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Higher EF scores were associated with increasing habenula connectivity in the ASD group, whereas the NT group showed decreasing connectivity ( Fig. 4B )."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      },
+      "a_dls": {
+       "local_id": "a_dls",
+       "name": {
+        "extraction_status": "extracted",
+        "value": "Associations Between Habenula Connectivity and Autism Symptomatology: DLS",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "For DLS, we observed a significant main effect for the ASD group, as well as a significant interaction effect in the lSTG."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "spatial_scope": {
+        "extraction_status": "extracted",
+        "value": "clusters showing atypical habenula connectivity",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "z-scored beta coefficients were extracted from clusters showing atypical habenula connectivity using a 3mm spherical mask."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "roi_definition": {
+        "extraction_status": "extracted",
+        "value": "3mm spherical mask",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "z-scored beta coefficients were extracted from clusters showing atypical habenula connectivity using a 3mm spherical mask."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "roi_label": {
+        "extraction_status": "extracted",
+        "value": "lSTG",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "For DLS, we observed a significant main effect for the ASD group, as well as a significant interaction effect in the lSTG."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "acquisitions": [
+        {
+         "local_id": "acq_fmri",
+         "modality": {
+          "extraction_status": "extracted",
+          "value": "functional and structural MRI",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Resting state, functional, and structural MRI data were acquired across the 24 scanning sites using 3T MRI scanners."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "instrument": {
+          "extraction_status": "extracted",
+          "value": "3T MRI scanners",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Resting state, functional, and structural MRI data were acquired across the 24 scanning sites using 3T MRI scanners."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "description": {
+          "extraction_status": "extracted",
+          "value": "For all participants, a T1-weighted structural image was collected and used for registration to MNI space.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "For all participants, a T1-weighted structural image was collected and used for registration to Montreal Neurological Institute (MNI) space."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "mri": {
+          "magnetic_field_strength_tesla": {
+           "extraction_status": "extracted",
+           "value": 3,
+           "value_source": "reported",
+           "evidence": {
+            "status": "present",
+            "sets": [
+             {
+              "spans": [
+               {
+                "text": "Resting state, functional, and structural MRI data were acquired across the 24 scanning sites using 3T MRI scanners."
+               }
+              ]
+             }
+            ]
+           }
+          },
+          "pulse_sequence_type": {
+           "extraction_status": "not_reported",
+           "evidence": {
+            "status": "not_applicable"
+           }
+          },
+          "repetition_time_seconds": {
+           "extraction_status": "not_reported",
+           "evidence": {
+            "status": "not_applicable"
+           }
+          },
+          "echo_time_seconds": {
+           "extraction_status": "not_reported",
+           "evidence": {
+            "status": "not_applicable"
+           }
+          },
+          "acquisition_voxel_size_mm": {
+           "extraction_status": "not_reported",
+           "evidence": {
+            "status": "not_applicable"
+           }
+          },
+          "number_of_volumes": {
+           "extraction_status": "not_reported",
+           "evidence": {
+            "status": "not_applicable"
+           }
+          }
+         }
+        }
+       ],
+       "experiments": [
+        {
+         "local_id": "exp_rest",
+         "task_name": {
+          "extraction_status": "extracted",
+          "value": "Resting state",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Resting state, functional, and structural MRI data were acquired across the 24 scanning sites using 3T MRI scanners."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "task_description": {
+          "extraction_status": "extracted",
+          "value": "Resting-state functional MRI protocol.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Resting state, functional, and structural MRI data were acquired across the 24 scanning sites using 3T MRI scanners."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "conditions": [],
+         "acquisitions": [
+          "acq_fmri"
+         ],
+         "task_performance_measures": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         }
+        }
+       ],
+       "conditions": [],
+       "terms": [
+        {
+         "local_id": "term_group",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "diagnosis",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "The resulting z-transformed (Fisher r-to-z transformation) correlation maps were entered into group-level regression models with diagnosis (ASD, NT) as a categorical factor"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "type": {
+          "extraction_status": "extracted",
+          "value": "categorical",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "diagnosis (ASD, NT) as a categorical factor"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "role": {
+          "extraction_status": "extracted",
+          "value": "term of interest",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "with diagnosis (ASD, NT) as a categorical factor"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "conditions": [],
+         "groups": [
+          "g_asd",
+          "g_nt"
+         ],
+         "levels": {
+          "extraction_status": "extracted",
+          "value": [
+           "ASD",
+           "NT"
+          ],
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "with diagnosis (ASD, NT) as a categorical factor"
+              }
+             ]
+            }
+           ]
+          }
+         }
+        },
+        {
+         "local_id": "term_age",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "age",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "and age as a continuous factor"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "type": {
+          "extraction_status": "extracted",
+          "value": "continuous",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "age as a continuous factor"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "role": {
+          "extraction_status": "extracted",
+          "value": "covariate",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "controlling for sex and scanning site"
+              }
+             ]
+            }
+           ]
+          }
+         }
+        },
+        {
+         "local_id": "term_sex",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "sex",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "controlling for sex and scanning site"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "type": {
+          "extraction_status": "extracted",
+          "value": "covariate",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "role": {
+          "extraction_status": "extracted",
+          "value": "covariate",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "controlling for sex and scanning site"
+              }
+             ]
+            }
+           ]
+          }
+         }
+        },
+        {
+         "local_id": "term_site",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "scanning site",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "controlling for sex and scanning site"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "type": {
+          "extraction_status": "extracted",
+          "value": "covariate",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "role": {
+          "extraction_status": "extracted",
+          "value": "covariate",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "controlling for sex and scanning site"
+              }
+             ]
+            }
+           ]
+          }
+         }
+        },
+        {
+         "local_id": "term_group_age",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "age-by-group interaction",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "probe for age-by-group interactions"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "type": {
+          "extraction_status": "extracted",
+          "value": "categorical-by-continuous interaction",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "role": {
+          "extraction_status": "extracted",
+          "value": "term of interest",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "interaction_with": [
+          "term_group",
+          "term_age"
+         ]
+        },
+        {
+         "local_id": "term_sm",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "SM",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "SM refers to the extent to which an individual is generally motivated to engage in social-interpersonal behavior, which was measured with the 11-item Social Responsiveness Scale (SRS) Social Motivation subscale"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "source_definition": {
+          "extraction_status": "extracted",
+          "value": "the extent to which an individual is generally motivated to engage in social-interpersonal behavior",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "SM refers to the extent to which an individual is generally motivated to engage in social-interpersonal behavior"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "type": {
+          "extraction_status": "extracted",
+          "value": "continuous",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "role": {
+          "extraction_status": "extracted",
+          "value": "term of interest",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "assessment": "assess_srs_sm"
+        },
+        {
+         "local_id": "term_sc",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "SC",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "SC refers to the reciprocal and expressive communication in social situations, which was measured with the 22-item SRS Social Communication subscale"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "source_definition": {
+          "extraction_status": "extracted",
+          "value": "the reciprocal and expressive communication in social situations",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "SC refers to the reciprocal and expressive communication in social situations"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "type": {
+          "extraction_status": "extracted",
+          "value": "continuous",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "role": {
+          "extraction_status": "extracted",
+          "value": "term of interest",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "assessment": "assess_srs_sc"
+        },
+        {
+         "local_id": "term_ef",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "EF",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "EF refers to working memory, flexible thinking, and self-control"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "source_definition": {
+          "extraction_status": "extracted",
+          "value": "working memory, flexible thinking, and self-control",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "EF refers to working memory, flexible thinking, and self-control, which was measured through the Behavior Rating Inventory of Executive Function (BRIEF) Global Executive Composite Score (GEC) T-score"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "type": {
+          "extraction_status": "extracted",
+          "value": "continuous",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "role": {
+          "extraction_status": "extracted",
+          "value": "term of interest",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "assessment": "assess_brief"
+        },
+        {
+         "local_id": "term_dls",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "DLS",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "DLS are a measure of adaptive behavior encompassing everyday tasks necessary for independent living"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "source_definition": {
+          "extraction_status": "extracted",
+          "value": "adaptive behavior encompassing everyday tasks necessary for independent living",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "DLS are a measure of adaptive behavior encompassing everyday tasks necessary for independent living"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "type": {
+          "extraction_status": "extracted",
+          "value": "continuous",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "role": {
+          "extraction_status": "extracted",
+          "value": "term of interest",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "assessment": "assess_vineland"
+        }
+       ],
+       "model_estimation": "me_pheno",
+       "groups": [
+        {
+         "local_id": "g_asd",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "ASD participants",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "with 705 ASD participants"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "description": {
+          "extraction_status": "extracted",
+          "value": "Participants with autism spectrum disorder.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "autism spectrum disorder 2 (ASD) diagnoses were made according to the Diagnosis and Statistical Manual of Mental Disorders\u20144th edition (DSM-IV) ( 34 ) and 5th edition (DSM-5) ( 35 )."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "species": {
+          "extraction_status": "extracted",
+          "value": "human",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "acquired_count": {
+          "extraction_status": "extracted",
+          "value": 705,
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "with 705 ASD participants"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "medical_condition": {
+          "extraction_status": "extracted",
+          "value": "autism spectrum disorder",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "autism spectrum disorder 2 (ASD) diagnoses were made"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "diagnostic_system": {
+          "extraction_status": "extracted",
+          "value": "DSM-IV and DSM-5",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "autism spectrum disorder 2 (ASD) diagnoses were made according to the Diagnosis and Statistical Manual of Mental Disorders\u20144th edition (DSM-IV) ( 34 ) and 5th edition (DSM-5) ( 35 )."
+              }
+             ]
+            }
+           ]
+          }
+         }
+        },
+        {
+         "local_id": "g_nt",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "NT participants",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "between the ASD and NT groups"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "description": {
+          "extraction_status": "extracted",
+          "value": "Neurotypical control participants.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "between the ASD and NT groups"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "species": {
+          "extraction_status": "extracted",
+          "value": "human",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         }
+        }
+       ],
+       "preprocessing": "prep_fmriprep",
+       "definition": {
+        "extraction_status": "extracted",
+        "value": "main and interaction effects of DLS on habenula connectivity",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "For DLS, we observed a significant main effect for the ASD group, as well as a significant interaction effect in the lSTG."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "measure": {
+        "source_label": {
+         "extraction_status": "extracted",
+         "value": "habenula connectivity",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "Higher DSL scores were associated with increasing habenula connectivity in the ASD group, whereas the NT group showed decreasing connectivity ( Fig. 4C )."
+             }
+            ]
+           }
+          ]
+         }
+        },
+        "specific_metric": {
+         "extraction_status": "extracted",
+         "value": "z-scored beta coefficients",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "z-scored beta coefficients were extracted from clusters showing atypical habenula connectivity using a 3mm spherical mask."
+             }
+            ]
+           }
+          ]
+         }
+        }
+       },
+       "statistic": {
+        "family": {
+         "extraction_status": "not_reported",
+         "evidence": {
+          "status": "not_applicable"
+         }
+        }
+       },
+       "tables": [
+        {
+         "local_id": "tbl1",
+         "table_number": {
+          "extraction_status": "extracted",
+          "value": "Table 1",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Table 1. Participant Information."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "title": {
+          "extraction_status": "extracted",
+          "value": "Participant Information",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Table 1. Participant Information."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "caption": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "footer": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "column_headings": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "description": {
+          "extraction_status": "extracted",
+          "value": "Participant demographic and sample information.",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         }
+        },
+        {
+         "local_id": "tbl2",
+         "table_number": {
+          "extraction_status": "extracted",
+          "value": "Table 2",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Table 2. Peak coordinates for clusters of positive and negative group-averaged (ASD+NT) habenula connectivity, controlling for age, sex, and scanning site."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "title": {
+          "extraction_status": "extracted",
+          "value": "Peak coordinates for clusters of positive and negative group-averaged (ASD+NT) habenula connectivity, controlling for age, sex, and scanning site.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Table 2. Peak coordinates for clusters of positive and negative group-averaged (ASD+NT) habenula connectivity, controlling for age, sex, and scanning site."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "caption": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "footer": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "column_headings": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "description": {
+          "extraction_status": "extracted",
+          "value": "Peak coordinates for positive and negative group-averaged habenula connectivity clusters.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Table 2. Peak coordinates for clusters of positive and negative group-averaged (ASD+NT) habenula connectivity, controlling for age, sex, and scanning site."
+              }
+             ]
+            }
+           ]
+          }
+         }
+        },
+        {
+         "local_id": "tbl3",
+         "table_number": {
+          "extraction_status": "extracted",
+          "value": "Table 3",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Table 3. Peak coordinates for clusters of increased habenula connectivity among ASD participants compared to neurotypical controls (ASD>NT), controlling for age, sex, and scanning site."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "title": {
+          "extraction_status": "extracted",
+          "value": "Peak coordinates for clusters of increased habenula connectivity among ASD participants compared to neurotypical controls (ASD>NT), controlling for age, sex, and scanning site.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Table 3. Peak coordinates for clusters of increased habenula connectivity among ASD participants compared to neurotypical controls (ASD>NT), controlling for age, sex, and scanning site."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "caption": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "footer": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "column_headings": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "description": {
+          "extraction_status": "extracted",
+          "value": "Peak coordinates for increased ASD compared with NT habenula connectivity.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Table 3. Peak coordinates for clusters of increased habenula connectivity among ASD participants compared to neurotypical controls (ASD>NT), controlling for age, sex, and scanning site."
+              }
+             ]
+            }
+           ]
+          }
+         }
+        },
+        {
+         "local_id": "tbl4",
+         "table_number": {
+          "extraction_status": "extracted",
+          "value": "Table 4",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Table 4. Peak coordinates for clusters of regions that showed an age by group interaction, controlling for sex and scanning site."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "title": {
+          "extraction_status": "extracted",
+          "value": "Peak coordinates for clusters of regions that showed an age by group interaction, controlling for sex and scanning site.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Table 4. Peak coordinates for clusters of regions that showed an age by group interaction, controlling for sex and scanning site."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "caption": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "footer": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "column_headings": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "description": {
+          "extraction_status": "extracted",
+          "value": "Peak coordinates for age-by-group interaction clusters.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Table 4. Peak coordinates for clusters of regions that showed an age by group interaction, controlling for sex and scanning site."
+              }
+             ]
+            }
+           ]
+          }
+         }
+        },
+        {
+         "local_id": "tbl5",
+         "table_number": {
+          "extraction_status": "extracted",
+          "value": "Table 5",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Table 5. Group-difference (ASD>NT) main effect and interaction of phenotypic measures on habenula connectivity."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "title": {
+          "extraction_status": "extracted",
+          "value": "Group-difference (ASD>NT) main effect and interaction of phenotypic measures on habenula connectivity.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Table 5. Group-difference (ASD>NT) main effect and interaction of phenotypic measures on habenula connectivity."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "caption": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "footer": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "column_headings": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "description": {
+          "extraction_status": "extracted",
+          "value": "Phenotypic main effects and group interactions on habenula connectivity.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Table 5. Group-difference (ASD>NT) main effect and interaction of phenotypic measures on habenula connectivity."
+              }
+             ]
+            }
+           ]
+          }
+         }
+        }
+       ],
+       "coordinate_space": {
+        "extraction_status": "extracted",
+        "value": "MNI space",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "For all participants, a T1-weighted structural image was collected and used for registration to Montreal Neurological Institute (MNI) space."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "assessments": [
+        {
+         "local_id": "assess_srs_sm",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "11-item Social Responsiveness Scale (SRS) Social Motivation subscale",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "SM refers to the extent to which an individual is generally motivated to engage in social-interpersonal behavior, which was measured with the 11-item Social Responsiveness Scale (SRS) Social Motivation subscale"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "description": {
+          "extraction_status": "extracted",
+          "value": "Measures social motivation.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "SM refers to the extent to which an individual is generally motivated to engage in social-interpersonal behavior"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "assessment_type": {
+          "extraction_status": "extracted",
+          "value": "phenotypic measure",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "The phenotypic measures included in this study assessed behavioral differences commonly occurring in autism"
+              }
+             ]
+            }
+           ]
+          }
+         }
+        },
+        {
+         "local_id": "assess_srs_sc",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "22-item SRS Social Communication subscale",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "SC refers to the reciprocal and expressive communication in social situations, which was measured with the 22-item SRS Social Communication subscale"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "description": {
+          "extraction_status": "extracted",
+          "value": "Measures reciprocal and expressive communication in social situations.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "SC refers to the reciprocal and expressive communication in social situations"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "assessment_type": {
+          "extraction_status": "extracted",
+          "value": "phenotypic measure",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "The phenotypic measures included in this study assessed behavioral differences commonly occurring in autism"
+              }
+             ]
+            }
+           ]
+          }
+         }
+        },
+        {
+         "local_id": "assess_brief",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "Behavior Rating Inventory of Executive Function (BRIEF) Global Executive Composite Score (GEC) T-score",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "EF refers to working memory, flexible thinking, and self-control, which was measured through the Behavior Rating Inventory of Executive Function (BRIEF) Global Executive Composite Score (GEC) T-score"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "description": {
+          "extraction_status": "extracted",
+          "value": "Measures executive function by compiling scores from three composite indexes testing behavior regulation, emotional recognition, and cognitive regulation.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "The BRIEF GEC T-score measures EF by compiling scores from three composite indexes that test for behavior regulation, emotional recognition, and cognitive regulation."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "assessment_type": {
+          "extraction_status": "extracted",
+          "value": "phenotypic measure",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "The phenotypic measures included in this study assessed behavioral differences commonly occurring in autism"
+              }
+             ]
+            }
+           ]
+          }
+         }
+        },
+        {
+         "local_id": "assess_vineland",
+         "name": {
+          "extraction_status": "extracted",
+          "value": "DLS domain of Vineland-2 nd edition",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "DLS were measured with the DLS domain of Vineland-2 nd edition"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "description": {
+          "extraction_status": "extracted",
+          "value": "Measures adaptive behavior and everyday tasks necessary for independent living.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "DLS are a measure of adaptive behavior encompassing everyday tasks necessary for independent living, including personal care, household responsibilities, and community activities such as maintaining hygiene, preparing meals, and managing money and time."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "assessment_type": {
+          "extraction_status": "extracted",
+          "value": "phenotypic measure",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "The phenotypic measures included in this study assessed behavioral differences commonly occurring in autism"
+              }
+             ]
+            }
+           ]
+          }
+         }
+        }
+       ],
+       "inference_settings": {
+        "alpha_level": {
+         "extraction_status": "extracted",
+         "value": 0.05,
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "we tested clusters for significant phenotypic main effects among ASD participants, as well as phenotypic interactions between ASD and NT groups ( p < 0.05)"
+             }
+            ]
+           }
+          ]
+         }
+        },
+        "statistical_maps": [],
+        "decoding": {},
+        "similarity": {},
+        "connectivity": {},
+        "conjunction": {},
+        "component_decomposition": {},
+        "not_structurable": {},
+        "other_method": {
+         "method_label": {
+          "extraction_status": "extracted",
+          "value": "linear regression model",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "For clusters that were identified to exhibit a significant effect, correlation coefficients were entered into a linear regression model as a function of subscore for each of the phenotypic measures."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "reason_first_class_type_not_used": {
+          "extraction_status": "extracted",
+          "value": "Phenotypic regression analysis.",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         }
+        },
+        "model_representation_notes": {
+         "extraction_status": "extracted",
+         "value": "Group and age predictors, with sex and scanning site as covariates.",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "we tested clusters for significant phenotypic main effects among ASD participants, as well as phenotypic interactions between ASD and NT groups ( p < 0.05) using group as a categorical factor and age as a continuous factor, while controlling for sex and scanning site."
+             }
+            ]
+           }
+          ]
+         }
+        },
+        "interpretations": {
+         "extraction_status": "extracted",
+         "value": "Higher DSL scores were associated with increasing habenula connectivity in the ASD group, whereas the NT group showed decreasing connectivity.",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "Higher DSL scores were associated with increasing habenula connectivity in the ASD group, whereas the NT group showed decreasing connectivity ( Fig. 4C )."
+             }
+            ]
+           }
+          ]
+         }
+        }
+       },
+       "a_functional_decoding": {
+        "local_id": "a_functional_decoding",
+        "name": {
+         "extraction_status": "extracted",
+         "value": "Functional Decoding of Habenula Connectivity",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "We performed functional decoding ( 49 ) on each of the thresholded z-maps to provide additional information regarding the functional role of the habenula among ASD participants."
+             }
+            ]
+           }
+          ]
+         }
+        },
+        "spatial_scope": {
+         "extraction_status": "extracted",
+         "value": "thresholded z-maps",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "We performed functional decoding ( 49 ) on each of the thresholded z-maps"
+             }
+            ]
+           }
+          ]
+         }
+        },
+        "roi_definition": {
+         "extraction_status": "not_reported",
+         "evidence": {
+          "status": "not_applicable"
+         }
+        },
+        "acquisitions": [
+         "acq_fmri"
+        ],
+        "experiments": [
+         "exp_rest"
+        ],
+        "conditions": [],
+        "terms": [],
+        "model_estimation": "me_decode",
+        "groups": [
+         {
+          "group": "g_asd",
+          "role": {
+           "extraction_status": "included",
+           "value_source": "generated",
+           "evidence": {
+            "status": "not_found"
+           }
+          },
+          "n": {
+           "extraction_status": "not_reported",
+           "evidence": {
+            "status": "not_applicable"
+           }
+          }
+         }
+        ],
+        "preprocessing": "prep_fmriprep",
+        "definition": {
+         "extraction_status": "extracted",
+         "value": "functional decoding of each thresholded z-map using Neurosynth terms correlated with the habenula connectivity maps",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "Using Gradec , we extracted Neurosynth terms that were correlated with the habenula connectivity maps and generated word clouds and radar plots to visualize the correlations between the terms and the spatial distribution of connectivity ( 50 )."
+             }
+            ]
+           }
+          ]
+         }
+        },
+        "measure": {
+         "source_label": {
+          "extraction_status": "extracted",
+          "value": "correlations between Neurosynth terms and the spatial distribution of connectivity",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "generated word clouds and radar plots to visualize the correlations between the terms and the spatial distribution of connectivity"
+              }
+             ]
+            }
+           ]
+          }
+         }
+        },
+        "statistic": {
+         "family": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         }
+        },
+        "baseline": {
+         "extraction_status": "not_reported",
+         "evidence": {
+          "status": "not_applicable"
+         }
+        },
+        "tables": [],
+        "coordinate_space": {
+         "extraction_status": "not_reported",
+         "evidence": {
+          "status": "not_applicable"
+         }
+        },
+        "assessments": [],
+        "inference_settings": {},
+        "statistical_maps": [],
+        "decoding": {
+         "decoded_variable": {
+          "extraction_status": "extracted",
+          "value": "functional role of the habenula",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "We performed functional decoding ( 49 ) on each of the thresholded z-maps to provide additional information regarding the functional role of the habenula among ASD participants."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "classes": [],
+         "performance_metrics": [],
+         "validation_scheme": {
+          "extraction_status": "not_applicable",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         },
+         "generalization": {
+          "extraction_status": "not_applicable",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         }
+        },
+        "similarity": {},
+        "connectivity": {},
+        "conjunction": {},
+        "component_decomposition": {},
+        "not_structurable": {},
+        "other_method": {},
+        "model_representation_notes": {
+         "extraction_status": "not_reported",
+         "evidence": {
+          "status": "not_applicable"
+         }
+        },
+        "interpretations": {
+         "extraction_status": "extracted",
+         "value": "The group-averaged connectivity pattern was commonly associated with fear, reward, and emotion processing; increased ASD connectivity regions were associated with speech, language, and action processing; age-related regions were associated with reward, risk, and negative outcomes.",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "Neurosynth-based functional decoding revealed that this connectivity pattern is commonly associated with terms for fear, reward, and emotion processing ( Fig. 1C )."
+             },
+             {
+              "text": "Neurosynth-based functional decoding revealed that these regions of increased habenula connectivity among ASD participants are commonly associated with terms for speech, language, and action processing ( Fig. 2C )."
+             },
+             {
+              "text": "Neurosynth-based functional decoding revealed that the regions exhibiting age-related variability in habenula connectivity are commonly associated with terms related to reward, risk, and negative outcomes ( Fig. 3D )."
+             }
+            ]
+           }
+          ]
+         }
+        }
+       },
+       "a_sc": {
+        "local_id": "a_sc",
+        "name": {
+         "extraction_status": "extracted",
+         "value": "Associations Between Habenula Connectivity and Autism Symptomatology: SC",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "For SC, no significant main or interaction effects were found."
+             }
+            ]
+           }
+          ]
+         }
+        },
+        "spatial_scope": {
+         "extraction_status": "extracted",
+         "value": "clusters showing atypical habenula connectivity",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "z-scored beta coefficients were extracted from clusters showing atypical habenula connectivity using a 3mm spherical mask."
+             }
+            ]
+           }
+          ]
+         }
+        },
+        "roi_definition": {
+         "extraction_status": "extracted",
+         "value": "3mm spherical mask",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "z-scored beta coefficients were extracted from clusters showing atypical habenula connectivity using a 3mm spherical mask."
+             }
+            ]
+           }
+          ]
+         }
+        },
+        "acquisitions": [
+         "acq_fmri"
+        ],
+        "experiments": [
+         "exp_rest"
+        ],
+        "conditions": [],
+        "terms": [
+         "term_group",
+         "term_age",
+         "term_sex",
+         "term_site",
+         "term_sc"
+        ],
+        "model_estimation": "me_pheno",
+        "groups": [
+         {
+          "group": "g_asd",
+          "role": {
+           "extraction_status": "included",
+           "value_source": "generated",
+           "evidence": {
+            "status": "not_found"
+           }
+          },
+          "n": {
+           "extraction_status": "extracted",
+           "value": 300,
+           "value_source": "reported",
+           "evidence": {
+            "status": "present",
+            "sets": [
+             {
+              "spans": [
+               {
+                "text": "we accessed SM and SC scores for 300 ASD and 361 NT"
+               }
+              ]
+             }
+            ]
+           }
+          }
+         },
+         {
+          "group": "g_nt",
+          "role": {
+           "extraction_status": "included",
+           "value_source": "generated",
+           "evidence": {
+            "status": "not_found"
+           }
+          },
+          "n": {
+           "extraction_status": "extracted",
+           "value": 361,
+           "value_source": "reported",
+           "evidence": {
+            "status": "present",
+            "sets": [
+             {
+              "spans": [
+               {
+                "text": "we accessed SM and SC scores for 300 ASD and 361 NT"
+               }
+              ]
+             }
+            ]
+           }
+          }
+         }
+        ],
+        "preprocessing": "prep_fmriprep",
+        "definition": {
+         "extraction_status": "extracted",
+         "value": "main and interaction effects of SC on habenula connectivity",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "For SC, no significant main or interaction effects were found."
+             }
+            ]
+           }
+          ]
+         }
+        },
+        "measure": {
+         "source_label": {
+          "extraction_status": "extracted",
+          "value": "habenula connectivity",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "For SC, no significant main or interaction effects were found."
+              }
+             ]
+            }
+           ]
+          }
+         }
+        },
+        "statistic": {
+         "family": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         }
+        },
+        "tables": [
+         "tbl5"
+        ],
+        "coordinate_space": {
+         "extraction_status": "extracted",
+         "value": "MNI space",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "For all participants, a T1-weighted structural image was collected and used for registration to Montreal Neurological Institute (MNI) space."
+             }
+            ]
+           }
+          ]
+         }
+        },
+        "assessments": [
+         "assess_srs_sc"
+        ],
+        "inference_settings": {
+         "alpha_level": {
+          "extraction_status": "extracted",
+          "value": 0.05,
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "we tested clusters for significant phenotypic main effects among ASD participants, as well as phenotypic interactions between ASD and NT groups ( p < 0.05)"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "statistical_maps": [],
+         "decoding": {},
+         "similarity": {},
+         "connectivity": {},
+         "conjunction": {},
+         "component_decomposition": {},
+         "not_structurable": {},
+         "other_method": {
+          "method_label": {
+           "extraction_status": "extracted",
+           "value": "linear regression model",
+           "value_source": "reported",
+           "evidence": {
+            "status": "present",
+            "sets": [
+             {
+              "spans": [
+               {
+                "text": "For clusters that were identified to exhibit a significant effect, correlation coefficients were entered into a linear regression model as a function of subscore for each of the phenotypic measures."
+               }
+              ]
+             }
+            ]
+           }
+          },
+          "reason_first_class_type_not_used": {
+           "extraction_status": "extracted",
+           "value": "Phenotypic regression analysis.",
+           "value_source": "generated",
+           "evidence": {
+            "status": "not_found"
+           }
+          }
+         },
+         "model_representation_notes": {
+          "extraction_status": "extracted",
+          "value": "Group and age predictors, with sex and scanning site as covariates.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "we tested clusters for significant phenotypic main effects among ASD participants, as well as phenotypic interactions between ASD and NT groups ( p < 0.05) using group as a categorical factor and age as a continuous factor, while controlling for sex and scanning site."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "interpretations": {
+          "extraction_status": "extracted",
+          "value": "No significant main or interaction effects were found for SC.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "For SC, no significant main or interaction effects were found."
+              }
+             ]
+            }
+           ]
+          }
+         }
+        }
+       },
+       "preprocessings": [
+        {
+         "local_id": "prep_fmriprep",
+         "description": {
+          "extraction_status": "extracted",
+          "value": "Data were preprocessed using fMRIPrep 23.1.3. Anatomical images were intensity-corrected, skull-stripped, segmented, and spatially normalized to MNI152 space; quality control and denoising were performed.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Data were preprocessed using fMRIPrep 23.1.3, which utilizes the Brain Imaging Data Structure (BIDS) to ensure high-quality preprocessing with minimal user intervention ( 39 , 40 )."
+              },
+              {
+               "text": "The anatomical images were intensity-corrected, skull-stripped, segmented, and spatially normalized to a standard brain template in MNI152 space."
+              },
+              {
+               "text": "Lastly, denoising was performed on the remaining participants using AFNI\u2019s 3dTproject , which utilizes a linear regression model to nuisance time series from each voxel within a dataset."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "software": {
+          "extraction_status": "extracted",
+          "value": [
+           "fMRIPrep 23.1.3",
+           "MRIQC 23.1.0",
+           "AFNI\u2019s 3dTproject"
+          ],
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Data were preprocessed using fMRIPrep 23.1.3, which utilizes the Brain Imaging Data Structure (BIDS) to ensure high-quality preprocessing with minimal user intervention ( 39 , 40 )."
+              },
+              {
+               "text": "We then used MRIQC 23.1.0 to inspect, flag, and remove participants, sessions, or runs"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "steps": {
+          "extraction_status": "extracted",
+          "value": [
+           "intensity correction",
+           "skull stripping",
+           "segmentation",
+           "spatial normalization to MNI152 space",
+           "manual and automated quality control",
+           "motion censoring",
+           "nuisance regression denoising"
+          ],
+          "value_source": "generated",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "The anatomical images were intensity-corrected, skull-stripped, segmented, and spatially normalized to a standard brain template in MNI152 space."
+              },
+              {
+               "text": "Furthermore, the preprocessed data underwent both manual and automated quality control."
+              },
+              {
+               "text": "Lastly, denoising was performed on the remaining participants using AFNI\u2019s 3dTproject"
+              }
+             ]
+            }
+           ]
+          }
+         }
+        }
+       ],
+       "model_estimations": [
+        {
+         "local_id": "me_group",
+         "model_type": {
+          "extraction_status": "extracted",
+          "value": "general linear model",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "The averaged ROI time series were entered into a general linear model to generate whole-brain correlation maps for each participant."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "model_settings": {
+          "extraction_status": "extracted",
+          "value": "Diagnosis as a categorical factor and age as a continuous factor, controlling for sex and scanning site.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "The resulting z-transformed (Fisher r-to-z transformation) correlation maps were entered into group-level regression models with diagnosis (ASD, NT) as a categorical factor and age as a continuous factor, controlling for sex and scanning site using AFNI\u2019s 3dLMEr ( 46 , 47 )."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "level": {
+          "extraction_status": "extracted",
+          "value": "group-level",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "The resulting z-transformed (Fisher r-to-z transformation) correlation maps were entered into group-level regression models"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "software": {
+          "extraction_status": "extracted",
+          "value": [
+           "AFNI\u2019s 3dLMEr",
+           "AFNI v22.3.05"
+          ],
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Participant-level functional connectivity analyses were conducted using AFNI (v22.3.05)."
+              },
+              {
+               "text": "using AFNI\u2019s 3dLMEr"
+              }
+             ]
+            }
+           ]
+          }
+         }
+        },
+        {
+         "local_id": "me_age",
+         "model_type": {
+          "extraction_status": "extracted",
+          "value": "linear effects model",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "z-transformed participant-level correlation maps were analyzed using a linear effects model to probe for age-by-group interactions"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "model_settings": {
+          "extraction_status": "extracted",
+          "value": "Age-by-group interactions, controlling for sex and scanning site.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Next, z-transformed participant-level correlation maps were analyzed using a linear effects model to probe for age-by-group interactions, controlling for sex and scanning site."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "level": {
+          "extraction_status": "extracted",
+          "value": "group-level",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "software": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         }
+        },
+        {
+         "local_id": "me_pheno",
+         "model_type": {
+          "extraction_status": "extracted",
+          "value": "linear regression model",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "correlation coefficients were entered into a linear regression model as a function of subscore for each of the phenotypic measures."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "model_settings": {
+          "extraction_status": "extracted",
+          "value": "Group as a categorical factor and age as a continuous factor, controlling for sex and scanning site.",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "we tested clusters for significant phenotypic main effects among ASD participants, as well as phenotypic interactions between ASD and NT groups ( p < 0.05) using group as a categorical factor and age as a continuous factor, while controlling for sex and scanning site."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "level": {
+          "extraction_status": "extracted",
+          "value": "group-level",
+          "value_source": "generated",
+          "evidence": {
+           "status": "not_found"
+          }
+         },
+         "software": {
+          "extraction_status": "not_reported",
+          "evidence": {
+           "status": "not_applicable"
+          }
+         }
+        },
+        {
+         "local_id": "me_decode",
+         "model_type": {
+          "extraction_status": "extracted",
+          "value": "meta-analytic functional decoding",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Gradec (v0.0.1rc5), a Python package designed for meta-analytic functional decoding"
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "software": {
+          "extraction_status": "extracted",
+          "value": [
+           "Gradec v0.0.1rc5",
+           "Neurosynth"
+          ],
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "we utilized Gradec (v0.0.1rc5), a Python package designed for meta-analytic functional decoding"
+              },
+              {
+               "text": "the decoder algorithms utilize the Neurosynth database"
+              }
+             ]
+            }
+           ]
+          }
+         }
+        }
+       ],
+       "description": {
+        "extraction_status": "extracted",
+        "value": "The study examined habenula resting-state functional connectivity in autistic and neurotypical individuals, including group differences, developmental age-by-group interactions, and associations with autism-related phenotypic measures.",
+        "value_source": "generated",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "A group-difference map was generated to identify regions that exhibited atypical habenula rsFC among ASD participants (ASD vs. NT)."
+            },
+            {
+             "text": "Lastly, a separate regression analysis was performed to examine associations between atypical habenula connectivity and phenotypic measures"
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "design": {
+        "extraction_status": "extracted",
+        "value": "Multisite retrospective analysis of ABIDE I and II resting-state and structural MRI data, using manually defined bilateral habenula ROIs and whole-brain functional connectivity analyses with group, age, and phenotypic regressions.",
+        "value_source": "generated",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Participants for the current study were selected from the large-scale, multisite ABIDE I and II datasets."
+            },
+            {
+             "text": "The averaged ROI time series were entered into a general linear model to generate whole-brain correlation maps for each participant."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "external_datasets": [
+        {
+         "name": {
+          "extraction_status": "extracted",
+          "value": "ABIDE I and II datasets",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Participants for the current study were selected from the large-scale, multisite ABIDE I and II datasets."
+              }
+             ]
+            }
+           ]
+          }
+         },
+         "url": {
+          "extraction_status": "extracted",
+          "value": "http://fcon_1000.projects.nitrc.org/indi/abide/abide_I.html",
+          "value_source": "reported",
+          "evidence": {
+           "status": "present",
+           "sets": [
+            {
+             "spans": [
+              {
+               "text": "Further information regarding the ABIDE data collection can be found at http://fcon_1000.projects.nitrc.org/indi/abide/abide_I.html ."
+              }
+             ]
+            }
+           ]
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 11919,
+  "completion": 18640,
+  "reasoning": 90,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 79493,
+ "service_tier_echo": "flex"
+}

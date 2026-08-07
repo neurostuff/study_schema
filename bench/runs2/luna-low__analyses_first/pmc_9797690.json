@@ -1,0 +1,263 @@
+{
+ "case_id": "pmc_9797690",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "a_cn_ec",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Effective connectivity for CN subjects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Figure 2 Effective connectivity for CN (A) , EMCI (B) , LMCI (C) , and AD (D) subject groups."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We modeled the regions of interest (ROIs) as nodes in the EC networks."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We summarized ROI activity by extracting time series at all voxels within a sphere having radius 8 mm around an associated MNI coordinate for the ROI."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "previous investigations",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The coordinates were chosen based on previous investigations on bilateral PCC (Jeong et al., 2009 ), dlPFC (Gruber et al., 2010 ), ACC (Mannell et al., 2010 ), and mPFC (Maguire et al., 2010 )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "mPFC and bilateral PCC, dlPFC, ACC",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To include regions from DMN, SAN, and CEN networks, mPFC and bilateral PCC, dlPFC, ACC were chosen as regions of interest"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "c_rest",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For the resting state, the neuronal model tasks the form as follows:"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "me_dcm_peb",
+    "groups": [
+     {
+      "group": "g_cn",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The PEB process estimates group EC at five levels of confidence."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "31",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "In this study, 34 AD patients, 31 LMCI patients, 34 EMCI patients, and 31 CN subjects were selected and analyzed."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "pp_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Intrinsic effective connectivity among seven brain regions during resting state in CN subjects",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The subject-specific matrices represent the intrinsic EC among the seven brain regions during the resting state."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity strengths",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The group EC strengths were calculated following the calculation of connection probabilities."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We used PEB to infer the connectivity strengths for the four subject groups."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "resting state",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The subject-specific matrices represent the intrinsic EC among the seven brain regions during the resting state."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   "tables ype_error_placeholder:null,"
+  ]
+ },
+ "usage": {
+  "prompt": 16278,
+  "completion": 1024,
+  "reasoning": 100,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 3757,
+ "service_tier_echo": "flex"
+}

@@ -1,0 +1,1778 @@
+{
+ "case_id": "nmb_22956675",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "a_target_supp_appraise",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Target Suppression > Target Appraise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To explore brain activity during the expressive suppression itself, we compared activity for expressive suppression with the control condition appraisal (Target Suppression > Target Appraise)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The resulting statistical values were thresholded with a level of significance of P < 0.05, corrected for family-wise error (FWE, whole-brain analysis) with a cluster extent >5."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The statistical parameter estimates were computed separately for each voxel for all columns in the design matrix."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_emotion"
+    ],
+    "conditions": [
+     {
+      "condition": "c_suppression",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Target Suppression > Target Appraise"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_appraise",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Target Suppression > Target Appraise"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_female",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "a group of 42 female participants"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "42",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "a group of 42 female participants"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Target Suppression > Target Appraise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To explore brain activity during the expressive suppression itself, we compared activity for expressive suppression with the control condition appraisal (Target Suppression > Target Appraise)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD contrast activity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Whole-brain functional images were collected using a T2*-weighted echo planar imaging (EPI) sequence sensitive to BOLD contrast"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "Z-score",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Area BA Peak coordinates (MNI) Z -score Voxel extent"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "appraisal",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Target Suppression > Target Appraise"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI coordinate system",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the coordinates reported correspond to the MNI coordinate system."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "corrected for family-wise error (FWE, whole-brain analysis) with a cluster extent >5."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The resulting statistical values were thresholded with a level of significance of P < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "P",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The resulting statistical values were thresholded with a level of significance of P < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": "5",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "with a cluster extent >5."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "family-wise error (FWE)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "corrected for family-wise error (FWE, whole-brain analysis)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain analysis",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "corrected for family-wise error (FWE, whole-brain analysis)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "both the strategies of suppression and reappraisal elicited activation in overlapping prefrontal brain areas",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Whole-brain imaging data of the target phase demonstrated that both the strategies of suppression and reappraisal elicited activation in overlapping prefrontal brain areas (compared with appraisal, FWE-corrected)."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_target_reapp_appraise",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Target Reappraisal > Target Appraise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To explore brain activity during the reappraisal of emotions, we compared activity for cognitive reappraisal with appraisal (Target Reappraisal > Target Appraise)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "corrected for family-wise error (FWE, whole-brain analysis)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The statistical parameter estimates were computed separately for each voxel for all columns in the design matrix."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "roi_label": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_emotion"
+    ],
+    "conditions": [
+     {
+      "condition": "c_reappraisal",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Target Reappraisal > Target Appraise"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_appraise",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Target Reappraisal > Target Appraise"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_female",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "a group of 42 female participants"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "42",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "a group of 42 female participants"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Target Reappraisal > Target Appraise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we compared activity for cognitive reappraisal with appraisal (Target Reappraisal > Target Appraise)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD contrast activity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "sequence sensitive to BOLD contrast"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "Z-score",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Area BA Peak coordinates (MNI) Z -score Voxel extent"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "appraisal",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Target Reappraisal > Target Appraise"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI coordinate system",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the coordinates reported correspond to the MNI coordinate system."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "FWE, P < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "FWE, P < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "FWE, whole-brain analysis"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "actual reappraisal of negative emotions was associated with typical prefrontal brain activation",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The actual reappraisal of negative emotions, on the other hand, was associated with typical prefrontal brain activation"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1. Areas showing significant activation during the target-phase within the contrasts Target Suppression > Target Appraise and Target Reappraisal > Target Appraise (FWE, P < 0.05)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Areas showing significant activation during the target-phase within the contrasts Target Suppression > Target Appraise and Target Reappraisal > Target Appraise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1. Areas showing significant activation during the target-phase within the contrasts Target Suppression > Target Appraise and Target Reappraisal > Target Appraise (FWE, P < 0.05)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "caption": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "footer": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "Area BA Peak coordinates (MNI) Z-score Voxel extent",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Area BA Peak coordinates (MNI) Z -score Voxel extent"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Results for target-phase suppression and reappraisal contrasts.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1. Areas showing significant activation during the target-phase within the contrasts Target Suppression > Target Appraise and Target Reappraisal > Target Appraise (FWE, P < 0.05)"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "c_suppression",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "suppression",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "participants were cued to suppress, reappraise and appraise"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "suppress displaying their feelings elicited by the picture",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the \u2018suppression\u2019 instruction, participants were trained to suppress displaying their feelings elicited by the picture."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the \u2018suppression\u2019 instruction"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_reappraisal",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "reappraisal",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "participants were cued to suppress, reappraise and appraise"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "reinterpret the situational event depicted by changing the emotions, actions and outcomes",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the \u2018reappraisal\u2019 instruction, participants were trained to reinterpret the situational event depicted by changing the emotions, actions and outcomes of individuals depicted in that situational context."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the \u2018reappraisal\u2019 instruction"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_appraise",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "appraise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "participants were cued to suppress, reappraise and appraise"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "simply look at the pictures, feel their natural feelings and not change anything",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the \u2018appraise\u2019 instruction, participants were trained to simply look at the pictures, feel their natural feelings and not change anything."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the \u2018appraise\u2019 instruction"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "terms": [],
+  "groups": [
+   {
+    "local_id": "g_female",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "female participants",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a group of 42 female participants"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "42 female participants with a mean age of 21.26 (s.d. = 2.29, [18\u201331]) years and without medical conditions that might influence the interpretation of brain functioning related to emotion and cognitive processing.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Postings on the university website were used to recruit a group of 42 female participants with a mean age of 21.26 (s.d. = 2.29, [18\u201331]) years and without medical conditions that might influence the interpretation of brain functioning related to emotion and cognitive processing."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "It is a unique human ability to regulate negative thoughts and feelings."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "42",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a group of 42 female participants"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "21.26",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a mean age of 21.26"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "2.29",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "(s.d. = 2.29"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "18",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "[18\u201331]"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "31",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "[18\u201331]"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All participants were right-handed"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "42",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All participants were right-handed"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": "without medical conditions that might influence the interpretation of brain functioning related to emotion and cognitive processing",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "without medical conditions that might influence the interpretation of brain functioning related to emotion and cognitive processing"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_instrument": {
+     "extraction_status": "extracted",
+     "value": "structured Mini-International Neuropsychiatric Interview",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Individuals with psychiatric disorders (and/or a history of) were excluded using the structured Mini-International Neuropsychiatric Interview"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_emotion",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "emotion-regulation paradigm",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the emotion-regulation paradigm was administered in the fMRI scanner."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants were cued to suppress, reappraise and appraise a series of 63 randomly intermixed trials in three blocks, with negative, high-arousing IAPS images presented after a preparation cue.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "During the emotion-regulation paradigm, participants were cued to suppress, reappraise and appraise a series of 63 randomly intermixed trials in three blocks."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_suppression",
+     "c_reappraisal",
+     "c_appraise"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "It is a unique human ability to regulate negative thoughts and feelings."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "63 negative pictures of the IAPS",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The stimuli set consisted of 63 negative pictures of the IAPS"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "how successful they were in regulating or appraising their negative emotions",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a Likert scale allowed participants to rate how successful they were in regulating or appraising their negative emotions"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional magnetic resonance imaging",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "event-related functional magnetic resonance imaging was recorded in 42 participants"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3T Magnetom Trio MRI scanner system (Siemens Medical Systems, Erlangen, Germany) using an eight-channel radiofrequency head coil",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Images were collected with a 3T Magnetom Trio MRI scanner system (Siemens Medical Systems, Erlangen, Germany) using an eight-channel radiofrequency head coil."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "High-resolution anatomical T1-weighted 3D MPRAGE images and whole-brain functional T2*-weighted EPI images sensitive to BOLD contrast were collected.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "First, high-resolution anatomical images were acquired using a T1-weighted 3D Magnetization Prepared RApid Gradient Echo (3D MPRAGE) sequence"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3T",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a 3T Magnetom Trio MRI scanner system"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "T2*-weighted echo planar imaging (EPI)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Whole-brain functional images were collected using a T2*-weighted echo planar imaging (EPI) sequence sensitive to BOLD contrast"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TR = 2000 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.035",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TE = 35 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "3.5 \u00d7 3.5 \u00d7 3 mm",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel size 3.5 \u00d7 3.5 \u00d7 3 mm 3"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Slice-time correction, realignment, co-registration, normalization to the MNI template, resampling, spatial smoothing, and removal of low-frequency drifts were performed.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Data processing started with slice-time correction and realignment of the EPI datasets."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM5",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The fMRI data were analyzed with statistical parametric mapping using SPM5 software"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "slice-time correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Data processing started with slice-time correction and realignment of the EPI datasets."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "realignment",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Data processing started with slice-time correction and realignment of the EPI datasets."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "co-registration",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The high-resolution structural image was co-registered with the mean image of the EPI series."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "normalization to the Montreal Neurological Institute template",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Then the structural image was normalized to the Montreal Neurological Institute (MNI) template"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "8 mm full-width at half maximum filter",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A filter of 8 mm full-width at half maximum was used."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "me_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "general linear model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The subject-level statistical analyses were performed using the general linear model."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "canonical hemodynamic response function and its temporal derivative",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All resulting vectors were convolved with the canonical hemodynamic response function and its temporal derivative"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Separate regressors modeled cue and target phases for suppression, reappraisal and appraisal; movement parameters were included; low-frequency drifts were modeled with discrete cosine functions using a 128 s cut-off.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The model contained separate regressors for the Cue Suppression, Reappraisal and Appraise cue"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "subject-level and group-level random effects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Next, a group-level random effects analysis was performed."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM5",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "using SPM5 software"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "ass_mini",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Mini-International Neuropsychiatric Interview",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Individuals with psychiatric disorders (and/or a history of) were excluded using the structured Mini-International Neuropsychiatric Interview"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Used to exclude individuals with psychiatric disorders or a history of psychiatric disorders.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Individuals with psychiatric disorders (and/or a history of) were excluded using the structured Mini-International Neuropsychiatric Interview"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical interview",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Individuals with psychiatric disorders (and/or a history of) were excluded using the structured Mini-International Neuropsychiatric Interview"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study investigated neural correlates of proactively preparing to use expressive suppression or cognitive reappraisal before viewing negative emotional images, and neural activity during the subsequent regulation period.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Altogether, the primary goal of this study was to explore neural correlates of preparatory control associated with the purpose to suppress or reappraise upcoming negative emotions."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Event-related fMRI study of 42 female participants performing a three-condition emotion-regulation paradigm with suppression, reappraisal and appraisal conditions, including cue and target phases.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Using event-related fMRI, we investigated neural correlates while participants were anticipating reappraisal or suppression (proactive, cue phase), as well as while they were applying these ERS (reactive, target phase), all within the context of negative, high-arousing emotions."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [
+   {
+    "name": {
+     "extraction_status": "extracted",
+     "value": "International Affective Picture System (IAPS)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The stimuli set consisted of 63 negative pictures of the IAPS"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "extraction_metadata": {
+   "extractor_model": "openai-api",
+   "extractor_version": "neuroimaging-methods-curation-v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  }
+ },
+ "usage": {
+  "prompt": 24868,
+  "completion": 6522,
+  "reasoning": 68,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 27358,
+ "service_tier_echo": "flex"
+}

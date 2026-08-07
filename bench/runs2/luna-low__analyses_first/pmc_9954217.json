@@ -1,0 +1,2673 @@
+{
+ "case_id": "pmc_9954217",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "analyses": [
+   {
+    "local_id": "a_ic_group",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Group differences in the single Stroop conditions: incongruent condition",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Individuals with MA dependence demonstrated in the IC a significantly lower fMRI signal bilaterally in the DLPFC (BA9/46), frontal eye fields (FEF, BA8), SMA (BA 6), insula, superior (BA7), and inferior parietal cortices (BA39, BA40), thalamus, in the right aMCC (BA32), as well as in the left caudate and putamen, compared to healthy controls ( Figure 1 and Supplementary Table S1 )."
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "As depicted in Table 2 , clusters in the occipital cortex, right superior temporal gyrus, left DLPFC, and right insula survived the FWE correction for multiple comparisons at p < 0.05."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain group comparisons",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the whole-brain group comparisons, the statistical comparisons were thresholded on the voxel level at p < 0.001 (uncorrected) with a minimum cluster size of k \u2265 16, based on the expected voxels per cluster determined by random field theory in SPM12 software."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the whole-brain group comparisons, the statistical comparisons were thresholded on the voxel level at p < 0.001 (uncorrected) with a minimum cluster size of k \u2265 16, based on the expected voxels per cluster determined by random field theory in SPM12 software."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_stroop"
+    ],
+    "conditions": [
+     {
+      "condition": "c_ic",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "incongruent condition",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Individuals with MA dependence demonstrated in the IC a significantly lower fMRI signal bilaterally in the DLPFC (BA9/46), frontal eye fields (FEF, BA8), SMA (BA 6), insula, superior (BA7), and inferior parietal cortices (BA39, BA40), thalamus, in the right aMCC (BA32), as well as in the left caudate and putamen, compared to healthy controls ( Figure 1 and Supplementary Table S1 )."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_ic",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side of the contrast",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_group",
+     "t_task",
+     "t_interaction",
+     "t_age"
+    ],
+    "model_estimation": "me_group",
+    "groups": [
+     {
+      "group": "g_ma",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Individuals with MA dependence demonstrated in the IC a significantly lower fMRI signal ... compared to healthy controls"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The final sample consisted of 39 participants: 18 MA-dependent individuals ... and 21 healthy controls"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_hc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Individuals with MA dependence demonstrated in the IC a significantly lower fMRI signal ... compared to healthy controls"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "21",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The final sample consisted of 39 participants: 18 MA-dependent individuals ... and 21 healthy controls"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "MA vs HC group comparison during the incongruent Stroop condition",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Individuals with MA dependence demonstrated in the IC a significantly lower fMRI signal ... compared to healthy controls"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI signal",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Individuals with MA dependence demonstrated in the IC a significantly lower fMRI signal"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "unit": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t statistics",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "analyzed voxel-wise within the general linear model to calculate the statistical parametric maps of t statistics for condition specific effects."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "mediation_path": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl2",
+     "tbls1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Then, T1 images were normalized to the MNI space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel level with cluster size threshold",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For the whole-brain group comparisons, the statistical comparisons were thresholded on the voxel level at p < 0.001 (uncorrected) with a minimum cluster size of k \u2265 16"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "thresholded on the voxel level at p < 0.001 (uncorrected)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "thresholded on the voxel level at p < 0.001 (uncorrected)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 16,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "with a minimum cluster size of k \u2265 16"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE correction for multiple comparisons",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "survived the FWE correction for multiple comparisons at p < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "search_volume": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": false,
+      "value_source": "generated",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "survived the FWE correction for multiple comparisons at p < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {
+     "decoded_variable": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "classes": [],
+     "performance_metrics": [],
+     "validation_scheme": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "generalization": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "similarity": {
+     "model": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "neural_representation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "similarity_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "competing_models": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "target_regions": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "parameter_sign": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "edges": [],
+     "modulatory_input": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "inference_target": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "conjunction": {
+     "components": [],
+     "null_hypothesis": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "implementation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "component_decomposition": {
+     "method": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "component_id": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "component_label": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "total_components": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "selection_criterion": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "map_quantity": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "polarity_semantics": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "not_structurable": {
+     "reason": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "explanation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "other_method": {
+     "method_label": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "structured_details": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "reason_first_class_type_not_used": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "ANCOVA design with a between-subjects factor group, a within-subjects factor task, and age as a covariate",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we set up an ANCOVA design with a between-subjects factor group (MA vs HC), a within-subjects factor task (CC vs. IC), and age as a covariate"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "cognitive control network activation during the Stroop task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "This manual version of the Stroop test has been used extensively by our group producing significant and robust activation of the cognitive control network in the brain"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Differences between individuals with methamphetamine dependence and healthy controls, regarding self-reported impulsivity, as assessed with the UPPS scale."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Differences between individuals with methamphetamine dependence and healthy controls, regarding self-reported impulsivity, as assessed with the UPPS scale.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Differences between individuals with methamphetamine dependence and healthy controls, regarding self-reported impulsivity, as assessed with the UPPS scale."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "caption": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "footer": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "column_headings": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Impulsivity group comparisons.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Maxima of regions showing significantly reduced fMRI signals in individuals with crystal meth dependence, compared to healthy controls in the incongruent Stroop task condition (voxel-level p < 0.001 uncorr., cluster size \u226516, according to the expected voxels per cluster)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Maxima of regions showing significantly reduced fMRI signals in individuals with crystal meth dependence, compared to healthy controls in the incongruent Stroop task condition",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Maxima of regions showing significantly reduced fMRI signals in individuals with crystal meth dependence, compared to healthy controls in the incongruent Stroop task condition (voxel-level p < 0.001 uncorr., cluster size \u226516, according to the expected voxels per cluster)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "caption": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "footer": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "column_headings": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Peak regions for the incongruent Stroop group comparison.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "c_cc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "congruent (CC)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "which consisted of two conditions: a congruent (CC) and an incongruent condition (IC)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "18 color words were presented in the color denoted by the corresponding word",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the CC, 18 color words were presented in the color denoted by the corresponding word"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_ic",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "incongruent condition (IC)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "which consisted of two conditions: a congruent (CC) and an incongruent condition (IC)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "18 color words were displayed in one of three colors, which were not denoted by the word",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "in the IC, 18 color words were displayed in one of three colors, which were not denoted by the word."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "t_group",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we set up an ANCOVA design with a between-subjects factor group (MA vs HC)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [],
+    "groups": [
+     "g_ma",
+     "g_hc"
+    ],
+    "assessment": "",
+    "levels": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "variation_level": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "association_direction": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "functional_form": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interaction_with": [],
+    "unit": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   },
+   {
+    "local_id": "t_task",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a within-subjects factor task (CC vs. IC)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [
+     "c_cc",
+     "c_ic"
+    ],
+    "groups": [],
+    "assessment": "",
+    "levels": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "variation_level": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "association_direction": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "functional_form": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interaction_with": [],
+    "unit": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   },
+   {
+    "local_id": "t_age",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "age",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "and age as a covariate"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [],
+    "groups": [],
+    "assessment": "",
+    "levels": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "variation_level": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "association_direction": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "functional_form": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interaction_with": [],
+    "unit": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_ma",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "individuals with MA dependence",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A sample of 21 individuals with MA dependence and 21 healthy controls was recruited for the present study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "18 MA-dependent individuals remained in the final sample after three could not complete the study due to non-adherence to the study protocol.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Three MA-dependent individuals could not complete the study due to non-adherence to the study protocol. The final sample consisted of 39 participants: 18 MA-dependent individuals"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "approached_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "consented_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": 21,
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A sample of 21 individuals with MA dependence and 21 healthy controls was recruited for the present study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "excluded_count": {
+     "extraction_status": "extracted",
+     "value": 3,
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Three MA-dependent individuals could not complete the study due to non-adherence to the study protocol."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "inclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": [
+      "older than 18 years",
+      "had to fulfill the criteria of the methamphetamine dependence, according to the DSM-IV criteria"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "As inclusion criteria, individuals with MA dependence must be older than 18 years and had to fulfill the criteria of the methamphetamine dependence, according to the DSM-IV criteria"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "exclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": [
+      "comorbid schizophrenia and other psychotic, as well as affective disorders, neurological diseases of the central nervous system, and traumatic brain injury",
+      "other substance dependence in the last 12 months"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The exclusion criteria were comorbid schizophrenia and other psychotic, as well as affective disorders, neurological diseases of the central nervous system, and traumatic brain injury. Furthermore, patients, who fulfilled the criteria of other substance dependence in the last 12 months, were excluded from the study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "recruitment_method": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "32.4",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "18 MA-dependent individuals (M age = 32.4, SD = 7.4, range: 18\u201346 years)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "7.4",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "18 MA-dependent individuals (M age = 32.4, SD = 7.4, range: 18\u201346 years)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "18",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "18 MA-dependent individuals (M age = 32.4, SD = 7.4, range: 18\u201346 years)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "46",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "18 MA-dependent individuals (M age = 32.4, SD = 7.4, range: 18\u201346 years)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_median": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "range: 18\u201346 years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "men",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The MA group included 14 men (78%) and four women (22%)"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": 14,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The MA group included 14 men (78%)"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "percentage": {
+       "extraction_status": "extracted",
+       "value": 78,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The MA group included 14 men (78%)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "women",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "and four women (22%)"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": 4,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "and four women (22%)"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "percentage": {
+       "extraction_status": "extracted",
+       "value": 22,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "and four women (22%)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "gender_distribution": [],
+    "handedness_distribution": [],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": [
+      "methamphetamine dependence"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A sample of 21 individuals with MA dependence and 21 healthy controls was recruited for the present study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "DSM-IV",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "according to the DSM-IV criteria"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_instrument": {
+     "extraction_status": "extracted",
+     "value": [
+      "M.I.N.I. interview"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "which was established using the M.I.N.I. interview"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "clinical_characteristics": {
+     "extraction_status": "extracted",
+     "value": "MA abusers reported MA consumption for approximately 15.3 years (SD = 6.1) on average (M g/week = 3.2, SD = 2.3), with a mean age of 17.8 years (SD = 4.0) when beginning the first MA consumption. At the time of measurement, methamphetamine abstinence existed for an average of 8.3 \u00b1 6.4 days.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "MA abusers reported MA consumption for approximately 15.3 years (SD = 6.1) on average (M g/week = 3.2, SD = 2.3), with a mean age of 17.8 years (SD = 4.0) when beginning the first MA consumption. At the time of measurement, methamphetamine abstinence existed for an average of 8.3 \u00b1 6.4 days."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "medication_status": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "education_summary": {
+     "extraction_status": "extracted",
+     "value": "Control subjects had a median of 12 years schooling, whereas the MA group had a median of nine years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Control subjects had a median of 12 years schooling, whereas the MA group had a median of nine years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   },
+   {
+    "local_id": "g_hc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "healthy controls",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A sample of 21 individuals with MA dependence and 21 healthy controls was recruited for the present study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Healthy subjects without substance abuse or dependence, other psychiatric disorders, or neurological disorders.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Healthy subjects who met criteria for substance abuse or dependence or other psychiatric disorders according to DSM-IV criteria as determined by the M.I.N.I. interview or who were diagnosed with neurological disorders assessed by a checklist were excluded from the study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "approached_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "consented_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": 21,
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A sample of 21 individuals with MA dependence and 21 healthy controls was recruited for the present study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "excluded_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "inclusion_criteria": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "exclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": [
+      "substance abuse or dependence",
+      "other psychiatric disorders",
+      "neurological disorders"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Healthy subjects who met criteria for substance abuse or dependence or other psychiatric disorders according to DSM-IV criteria as determined by the M.I.N.I. interview or who were diagnosed with neurological disorders assessed by a checklist were excluded from the study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "recruitment_method": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "27.6",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "21 healthy controls (M age = 27.6, SD = 3.5, range: 23\u201335 years)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "3.5",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "21 healthy controls (M age = 27.6, SD = 3.5, range: 23\u201335 years)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "23",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "range: 23\u201335 years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "35",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "range: 23\u201335 years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_median": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "range: 23\u201335 years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "men",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "the control group included 14 men (66.7%)"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": 14,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "the control group included 14 men (66.7%)"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "percentage": {
+       "extraction_status": "extracted",
+       "value": 66.7,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "the control group included 14 men (66.7%)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "women",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "and seven women (33.3%)"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": 7,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "and seven women (33.3%)"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "percentage": {
+       "extraction_status": "extracted",
+       "value": 33.3,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "and seven women (33.3%)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "gender_distribution": [],
+    "handedness_distribution": [],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": [
+      "healthy controls"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A sample of 21 individuals with MA dependence and 21 healthy controls was recruited for the present study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "DSM-IV",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "according to DSM-IV criteria"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_instrument": {
+     "extraction_status": "extracted",
+     "value": [
+      "M.I.N.I. interview",
+      "checklist"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "as determined by the M.I.N.I. interview or who were diagnosed with neurological disorders assessed by a checklist"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "clinical_characteristics": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "medication_status": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "education_summary": {
+     "extraction_status": "extracted",
+     "value": "Control subjects had a median of 12 years schooling",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Control subjects had a median of 12 years schooling"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_stroop",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "The Stroop task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "2.3. The Stroop Task"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "The manual version of the Stroop test consisted of a congruent and an incongruent condition, with participants indicating the color by pressing one of two buttons.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All subjects were instructed to indicate as fast as possible the type of color by pressing one of two buttons"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_cc",
+     "c_ic"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "presentation software (Neurobehavioral Systems Inc., Albany, California)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The Stroop task was implemented using presentation software (Neurobehavioral Systems Inc., Albany, California"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "indicate as fast as possible the type of color by pressing one of two buttons",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All subjects were instructed to indicate as fast as possible the type of color by pressing one of two buttons"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "18 color words in congruent and incongruent displays",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the CC, 18 color words were presented in the color denoted by the corresponding word; in the IC, 18 color words were displayed in one of three colors, which were not denoted by the word."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_performance_measures": {
+     "extraction_status": "extracted",
+     "value": [
+      "reaction time",
+      "number of correct responses"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A two-way ANOVA was used with one between-subjects factor group (MA vs. HC), one within-subjects factor condition (CC vs. IC) for the reaction time. Group differences in the number of correct responses were analyzed non-parametrically"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "fMRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Then, the Stroop test was presented in the MR scanner to measure brain activation during cognitive control."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "extracted",
+     "value": 480,
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a series of 220 whole-brain volume sets were acquired in one session, lasting approximately 8 min."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "MAGNETOM PRISMA FIT, Siemens Healthineers, Erlangen, Germany",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All imaging data were collected on a 3 T whole body system equipped with a 64-element head matrix coil (MAGNETOM PRISMA FIT, Siemens Healthineers, Erlangen, Germany)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "T2*-weighted images were obtained using a multiband multislice GE-EPI sequence with 104 contiguous transverse slices covering the entire brain.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "T2*-weighted images were obtained using a multiband multislice GE-EPI sequence (TR = 2120 ms, TE = 36 ms, flip angle = 90\u00b0, multiband factor = 4) with 104 contiguous transverse slices of 1.4 mm thickness covering the entire brain and including the lower brainstem."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "structured_details": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": 3,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All imaging data were collected on a 3 T whole body system"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "multiband multislice GE-EPI",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "T2*-weighted images were obtained using a multiband multislice GE-EPI sequence"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "2D slices",
+      "value_source": "generated",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": 2.12,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TR = 2120 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": [
+       0.036
+      ],
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TE = 36 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": [
+       1.4,
+       1.4,
+       1.4
+      ],
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "104 contiguous transverse slices of 1.4 mm thickness"
+          }
+         ]
+        },
+        {
+         "spans": [
+          {
+           "text": "The matrix size was 160 \u00d7 160 pixels with an in-plane resolution of 1.4 \u00d7 1.4 mm\u00b2."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "number_of_volumes": {
+      "extraction_status": "extracted",
+      "value": 220,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a series of 220 whole-brain volume sets were acquired"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "eeg": {},
+    "fnirs": {},
+    "pet": {},
+    "other": {}
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Functional images were slice-time corrected, corrected for head motion, co-registered to the T1 reference, normalized to MNI space, and spatially smoothed with a 6 mm FWHM Gaussian kernel.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The functional images were slice-time corrected using 3dTshift from AFNI, and corrected for head-motion."
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "Subsequently, the functional images were then co-registered to the T1 reference using bbregister (FreeSurfer)"
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "The derived transformation parameters were used to normalize the functional images and afterward spatially smoothed with the Gaussian kernel of 6 mm FWHM"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": {
+     "extraction_status": "extracted",
+     "value": [
+      "fMRIPrep 20.1.1",
+      "AFNI",
+      "FreeSurfer",
+      "ANTs version 2.2.0",
+      "FSL 5.0.9",
+      "SPM12"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the preprocessing of the fMRI data, we used fMRIPrep 20.1.1"
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "using 3dTshift from AFNI"
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "using bbregister (FreeSurfer)"
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "using ANTs (version: 2.2.0)"
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "using mcflirt (FSL 5.0.9"
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "For the statistical analysis, SPM12 software was used"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "steps": {
+     "extraction_status": "extracted",
+     "value": [
+      "slice-time correction",
+      "head-motion correction",
+      "intensity non-uniformity correction",
+      "non-brain tissue removal",
+      "boundary-based co-registration",
+      "nonlinear normalization to MNI space",
+      "spatial smoothing with 6 mm FWHM Gaussian kernel"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The functional images were slice-time corrected using 3dTshift from AFNI, and corrected for head-motion."
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "Structural T1 image was adjusted for the intensity non-uniformity and the non-brain tissue was removed."
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "Subsequently, the functional images were then co-registered to the T1 reference using bbregister (FreeSurfer), which implements boundary-based registration."
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "Then, T1 images were normalized to the MNI space by applying nonlinear registration using ANTs (version: 2.2.0)."
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "The derived transformation parameters were used to normalize the functional images and afterward spatially smoothed with the Gaussian kernel of 6 mm FWHM"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "me_group",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "general linear model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "analyzed voxel-wise within the general linear model"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "hrf_model": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "High-pass filter cutoff period of 128 s; serial correlations corrected using AR(1); fixed-effect single-subject model followed by second-level RFX ANCOVA with group, task, and age.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The data were high-pass filtered with a cutoff period of 128 s, corrected for serial correlations choosing AR(1), and analyzed voxel-wise within the general linear model"
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "As a first step, a fixed-effect model was performed at the single-subject level"
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "we set up an ANCOVA design with a between-subjects factor group (MA vs HC), a within-subjects factor task (CC vs. IC), and age as a covariate"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "second-level RFX analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "used for the second-level RFX analysis"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "estimator": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "software": {
+     "extraction_status": "extracted",
+     "value": [
+      "SPM12"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the statistical analysis, SPM12 software was used"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "ass_upps",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "UPPS",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Impulsivity was assessed by a German version of the impulsive behavior scale, UPPS"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Exploring four dimensions of impulsivity: lack of premeditation, urgency, sensation seeking, and lack of perseverance.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "exploring four dimensions of impulsivity: lack of premeditation, urgency, sensation seeking, and lack of perseverance."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   }
+  ],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined whether methamphetamine dependence is associated with impaired cognitive-control-related brain activation during the Stroop task and whether activation relates to task performance and drug-use characteristics.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "not_found"
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "A cross-sectional case-control fMRI study comparing 18 individuals with methamphetamine dependence and 21 healthy controls during congruent and incongruent Stroop conditions, using a second-level ANCOVA with group and task factors and age as a covariate.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "not_found"
+   }
+  },
+  "external_datasets": []
+ },
+ "usage": {
+  "prompt": 12258,
+  "completion": 10597,
+  "reasoning": 90,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 43545,
+ "service_tier_echo": "flex"
+}
