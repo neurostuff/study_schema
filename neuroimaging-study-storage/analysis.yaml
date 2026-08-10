@@ -66,13 +66,14 @@ classes:
           Whether this contrast was planned before the data were seen or arrived at
           afterwards.
       interpretations:
-        in_subset: [model_extracted]
+        in_subset: [mvp, model_extracted]
         range: string
         multivalued: true
         description: >-
-          Model-inferred reading of what the analysis measures, typically the process the
-          authors assert this contrast or model measures. Never treated as a source claim:
-          being in this slot is what marks a reading as inferred.
+          The source's own statement of what this analysis found and what it means, typically in
+          Results and Discussion, verbatim or minimally cleaned. Always source-grounded, and
+          the counterpart of `definition`: that field is the Methods-side statement of what was
+          tested, this one is the Results/Discussion-side statement of what came of it.
       spatial_scope:
         in_subset: [mvp, model_extracted]
         any_of:
@@ -98,14 +99,13 @@ classes:
           How the region of interest was defined, which is primarily a statement about
           independence. Must be not_applicable for whole-brain and searchlight analyses,
           and must not be not_applicable when spatial_scope is roi.
-      roi_label:
+      roi_labels:
         in_subset: [model_extracted]
         range: string
+        multivalued: true
         description: >-
-          The atlas, parcellation, or region name, in the source's words. Single-valued, so an
-          analysis running over several named regions cannot list them here. When the regions are
-          a factor of the analysis rather than a list of places it ran, they are the levels of a
-          categorical ModelTerm and the comparison between them is carried by `Cell`s.
+          The atlas, parcellation, or region names the analysis ran over, in the source's words,
+          one entry per region.
       measure:
         in_subset: [mvp, model_extracted]
         range: Measure
@@ -157,7 +157,11 @@ classes:
         description: >-
           The participant paradigms that contextualize this analysis. An analysis can span
           paradigms, as a cross-task conjunction or a localizer-plus-main-task analysis does.
-          Analyses without a paradigm leave this empty and are linked through acquisitions.
+
+          A resting-state analysis names its Task here like any other: the resting-state
+          protocol is a paradigm, and a Task record exists for it. What leaves this empty is an
+          analysis with no paradigm at all -- morphometry, diffusion, a static PET scan -- which
+          is linked through `acquisitions` instead.
       model_estimation:
         in_subset: [mvp, model_extracted]
         range: ModelEstimation

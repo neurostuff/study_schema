@@ -164,13 +164,20 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Aggregate ethnic distribution using the study-reported category labels.
+      is_healthy:
+        in_subset: [mvp, model_extracted]
+        range: boolean
+        description: >-
+          Whether the source characterizes this cohort as healthy: a healthy control group,
+          typically developing children, healthy volunteers. 
       medical_condition:
         in_subset: [mvp, model_extracted]
         range: string
         multivalued: true
         description: >-
           Medical, neurological, psychiatric, developmental, or physiological
-          condition(s) defining or characterizing the group.
+          condition(s) defining or characterizing the group. List the primary diagnosis
+          and all comorbidities.
       diagnostic_system:
         in_subset: [mvp, model_extracted]
         range: string
@@ -183,12 +190,22 @@ classes:
       clinical_characteristics:
         in_subset: [mvp, model_extracted]
         range: string
-        description: Disease duration, severity, treatment status, comorbidities, or other clinically relevant
-          summaries.
+        description: >-
+          Disease duration, severity, treatment status, or other clinically relevant summaries.
+      medications:
+        in_subset: [model_extracted]
+        range: string
+        multivalued: true
+        description: >-
+          The drugs or other agents this cohort was taking, as the source names them, one agent
+          per entry. Names only.
       medication_status:
         in_subset: [mvp, model_extracted]
         range: string
-        description: Medication exposure and on/off medication state during acquisition or testing.
+        description: >-
+          Whether the cohort was medicated, unmedicated, drug-naive, or withdrawn, and the on/off
+          medication state during acquisition or testing. The state, not the agents: which drugs
+          they were taking is `medications`.
       education_summary:
         in_subset: [model_extracted]
         range: string

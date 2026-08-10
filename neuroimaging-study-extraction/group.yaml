@@ -144,11 +144,18 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Aggregate ethnic distribution using the study-reported category labels.
+      is_healthy:
+        range: ExtractedBoolean
+        description: |-
+          Whether the source characterizes this cohort as healthy: a healthy control group, typically developing children, healthy volunteers. Unset when the source does not characterize the cohort's health at all, which is the absence of a statement rather than a claim either way.
+          `true` requires `medical_condition` to be empty, since a cohort cannot both be healthy and be characterized by a condition. LinkML cannot state that constraint -- a rule testing a boolean's value generates a vacuous precondition, so the rule would reject `is_healthy: false` alongside a condition too -- and it is enforced in code with the other invariants of that kind. This is where a screening statement about what the cohort does *not* have belongs -- "no history of neurological or psychiatric disorder" is `is_healthy: true`, with the screening detail in `exclusion_criteria`, and is never a `medical_condition` entry.
+          A cohort defined by its relation to a clinical one is still healthy: unaffected siblings of patients take `is_healthy: true` with `medical_condition` empty, and the risk status goes in `description` and `inclusion_criteria`.
       medical_condition:
         range: ExtractedStringList
-        description: >-
-          Medical, neurological, psychiatric, developmental, or physiological condition(s)
-          defining or characterizing the group.
+        description: |-
+          Medical, neurological, psychiatric, developmental, or physiological condition(s) defining or characterizing the group. The primary diagnosis and every comorbidity are entries of this one list; the list does not say which is which, and nothing derives a primary condition from its position.
+          One condition per entry. "Bipolar disorder, depression and psychosis" is three entries, not one string: a joined string is one unmatchable value where a vocabulary-mapping step downstream should get three matchable ones.
+          Never a negated statement. What the cohort does not have is `is_healthy` and `exclusion_criteria`; an entry here always names a condition the cohort has.
       diagnostic_system:
         range: ExtractedString
         description: Diagnostic classification system and edition, such as DSM-5 or ICD-10.
@@ -158,12 +165,21 @@ classes:
       clinical_characteristics:
         range: ExtractedString
         description: >-
-          Disease duration, severity, treatment status, comorbidities, or other clinically
-          relevant summaries.
+          Disease duration, severity, treatment status, or other clinically relevant summaries.
+          Not comorbidities: those are entries of `medical_condition`, which is the one home
+          for a named condition.
+      medications:
+        range: ExtractedStringList
+        description: |-
+          The drugs or other agents this cohort was taking, as the source names them, one agent per entry. Names only -- the on/off state, dose, and schedule are not here.
+          Split out from `medication_status` so the agent names are a list something can map to a drug vocabulary. Whether the cohort was medicated, unmedicated, drug-naive, or washed out stays in `medication_status`, and an unmedicated or drug-naive cohort leaves this empty.
       medication_status:
         range: ExtractedString
-        description: Medication exposure and on/off medication state during acquisition or
-          testing.
+        description: >-
+          Whether the cohort was medicated, unmedicated, drug-naive, or withdrawn, and the
+          on/off medication state during acquisition or testing. The state, not the agents:
+          which drugs they were taking is `medications`. A drug-naive first-episode cohort
+          and a medicated one are not poolable, which is what this field is for.
       education_summary:
         range: ExtractedString
         description: Aggregate education level and the measurement or coding system used.

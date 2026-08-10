@@ -19,10 +19,18 @@ description: >-
   Effect.kind from which terms carry direction, are enforced by a separate structural
   validator. So are the two the stage chain adds: ModelEstimation.inputs_from must be
   acyclic, and a ModelTerm.name must be unique across a whole chain rather than within
-  the one record ModelTerm.unique_keys can scope.
+  the one record ModelTerm.unique_keys can scope. And one more that is not from that
+  specification: Group.is_healthy being true requires Group.medical_condition to be
+  empty, which LinkML cannot state because no slot condition emits a boolean constant.
+
+  No field in this schema binds a subject-matter vocabulary, and none stores a cognitive
+  concept, construct, or domain. Values are the source's own wording; mapping them onto
+  ONVOC, Cognitive Atlas, MeSH or an anatomical vocabulary is a later stage that reads the
+  free text and its evidence sentences. onvoc-mapping-audit.md records which fields that
+  stage can map and which facets have no field to map.
 
 license: CC0-1.0
-version: 0.6.0
+version: 0.7.0
 see_also:
   - https://www.humanbrainmapping.org/files/2016/COBIDASreport.pdf
   - https://github.com/ohbm/cobidas_schema
@@ -30,6 +38,8 @@ see_also:
   - https://brainmap.org/taxonomy/
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC3682219/
   - https://www.cognitiveatlas.org/
+  - https://w3id.org/onvoc/
+  - https://bioportal.bioontology.org/ontologies/ONVOC
   - https://training.cochrane.org/handbook/current/chapter-03
   - https://www.equator-network.org/reporting-guidelines/consort/
   - https://www.equator-network.org/reporting-guidelines/tidier/

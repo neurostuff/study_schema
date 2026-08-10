@@ -54,10 +54,11 @@ classes:
           at afterwards.
       interpretations:
         range: ExtractedStringList
-        description: >-
-          Model-inferred reading of what the analysis measures, typically the process the
-          authors assert this contrast or model measures. Never treated as a source claim:
-          being in this slot is what marks a reading as inferred.
+        description: |-
+          The source's own statement of what this analysis found and what it means, taken from Results and Discussion, verbatim or minimally cleaned. Always source-grounded, and the counterpart of `definition`: that field is the Methods-side statement of what was tested, this one is the Results-side statement of what came of it.
+          One entry per sentence, so a downstream normalization step can derive cognitive concepts from these sentences and keep each derived term attached to the sentence it came from. No concept, construct, or domain label is stored anywhere in this schema; this slot is the raw material they are derived from.
+          The sentence is the value here, not evidence for some other value. Every other field is a claim the source's text supports, and the evidence artifact is where that supporting text lives; nothing else in the schema is a claim that a Discussion sentence supports, which is why the sentence needs a slot of its own.
+          Never an inferred reading. A process the extractor believes the contrast measures but the source does not assert has no home here, or anywhere.
       spatial_scope:
         range: ExtractedSpatialScope
         required: true
@@ -76,13 +77,11 @@ classes:
           How the region of interest was defined, which is primarily a statement about independence.
           Must be not_applicable for whole-brain and searchlight analyses, and must not be
           not_applicable when spatial_scope is roi.
-      roi_label:
-        range: ExtractedString
-        description: >-
-          The atlas, parcellation, or region name, in the source's words. Single-valued, so
-          an analysis running over several named regions cannot list them here. When the regions
-          are a factor of the analysis rather than a list of places it ran, they are the levels
-          of a categorical ModelTerm and the comparison between them is carried by `Cell`s.
+      roi_labels:
+        range: ExtractedStringList
+        description: |-
+          The atlas, parcellation, or region names the analysis ran over, in the source's words, one entry per region. An analysis running over several named regions lists them all, which is what makes the list mappable to an anatomical vocabulary downstream: one region per entry, never several joined into one string.
+          A list of places the analysis ran, not a comparison between them. When the regions are a factor of the analysis instead, they are the levels of a categorical ModelTerm and the comparison between them is carried by `Cell`s.
       measure:
         range: Measure
         required: true
@@ -126,10 +125,9 @@ classes:
         range: Task
         multivalued: true
         inlined: false
-        description: >-
-          The participant paradigms that contextualize this analysis. An analysis can span
-          paradigms, as a cross-task conjunction or a localizer-plus-main-task analysis does.
-          Analyses without a paradigm leave this empty and are linked through acquisitions.
+        description: |-
+          The participant paradigms that contextualize this analysis. An analysis can span paradigms, as a cross-task conjunction or a localizer-plus-main-task analysis does.
+          A resting-state analysis names its Task here like any other: the resting-state protocol is a paradigm, and a Task record exists for it. What leaves this empty is an analysis with no paradigm at all -- morphometry, diffusion, a static PET scan -- which is linked through `acquisitions` instead.
       model_estimation:
         range: ModelEstimation
         required: true

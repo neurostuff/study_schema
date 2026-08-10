@@ -46,6 +46,15 @@ names are *abstract identifiers*. What a regressor means is recoverable by openi
 schema has no data, so the meaning has to be in the record — which is why `FactorLevel` points at
 typed study entities and `ModelTerm` carries `variation_level`, `unit`, and `assessment`.
 
+**A subject-matter vocabulary is not a fourth row.** ONVOC, Cognitive Atlas, CogPO, BrainMap's
+taxonomy, MeSH and UBERON are a different kind of artifact: they supply *values*, where the three
+standards above supply *structure*. None of this table's columns means anything for a SKOS concept
+scheme, so they are deliberately not crosswalked here, and no field in this schema binds one —
+[storage-schema-design-notes.md §"Conditions belong to a task"](storage-schema-design-notes.md)
+gives the reason. What a vocabulary can be checked against instead is whether a field exists whose
+free-text value a later normalization step could map onto it, which is a per-field audit rather
+than a crosswalk; [onvoc-mapping-audit.md](onvoc-mapping-audit.md) is that audit for ONVOC.
+
 ---
 
 ## 2. The crosswalk

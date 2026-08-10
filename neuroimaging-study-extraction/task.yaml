@@ -87,7 +87,11 @@ classes:
           of the task.
       design_type:
         range: ExtractedString
-        description: Design form such as event-related, block, mixed, or naturalistic.
+        description: >-
+          Design form such as event-related, block, mixed, naturalistic, or continuous with
+          no modelled events, which is what a resting-state protocol is. Resting state is
+          a design form here rather than the absence of one, because the protocol is a paradigm
+          and takes a Task record like any other.
       acquisitions:
         range: Acquisition
         multivalued: true
@@ -134,6 +138,7 @@ classes:
         range: ExtractedString
         description: |-
           Complete definition of the condition, including whether it was a rest, fixation, or control state, and whether it put a demand on the participant.
+          A rest or fixation period inside another paradigm is a Condition of that paradigm's Task. A standalone resting-state run is not: it is its own Task, with one condition or none. The distinction is which paradigm the participant was in, not what they were doing -- a fixation baseline between working-memory blocks belongs to the working-memory Task.
           What a tested effect was measured against is not recorded here: a contrast against this condition gives it a `negative` cell, and a contrast against the unmodelled implicit baseline has no second cell.
   ExtractedResponseModeList:
     is_a: ExtractedValue

@@ -50,7 +50,9 @@ classes:
       design_type:
         in_subset: [mvp, model_extracted]
         range: string
-        description: Design form such as event-related, block, mixed, or naturalistic.
+        description: >-
+          Design form such as event-related, block, mixed, naturalistic, or continuous with no
+          modelled events (such as resting state).
       acquisitions:
         in_subset: [mvp, model_extracted]
         range: Acquisition
@@ -111,6 +113,12 @@ classes:
         description: >-
           Complete definition of the condition, including whether it was a rest, fixation, or
           control state, and whether it put a demand on the participant.
+
+          A rest or fixation period inside another paradigm is a Condition of that paradigm's
+          Task. A standalone resting-state run is not: it is its own Task, with one condition or
+          none. The distinction is which paradigm the participant was in, not what they were
+          doing -- a fixation baseline between working-memory blocks belongs to the
+          working-memory Task.
 
           What a tested effect was measured against is not recorded here: a contrast against this
           condition gives it a `negative` cell, and a contrast against the unmodelled implicit
