@@ -1,0 +1,39 @@
+# Overrides label-studio/docker-compose.yml for attribute-level extraction review.
+#
+# Adds two things the stock compose lacks: local-files serving, so tasks can
+# reference paper text by URL instead of embedding it (task JSON for one paper is
+# ~1 MB this way versus ~18 MB inlined), and a route from the app container to
+# `review/chat_backend.py` running on the host.
+#
+# Run from the repo root:
+#
+#   export NS_REVIEW_FILES="$(pwd)/review/ls_files"
+#   docker compose \
+#     -f label-studio/docker-compose.yml \
+#     -f review/docker-compose.override.yml \
+#     up -d
+#
+# Then open http://localhost:8080 and create the first user.
+#
+# LOCAL_FILES_SERVING_ENABLED is off by default upstream because it will serve
+# anything beneath the document root. The mount below is a dedicated directory
+# holding nothing but staged paper text, and it is mounted read-only.
+
+services:
+  app:
+    environment:
+      - LOCAL_FILES_SERVING_ENABLED=true
+      - LOCAL_FILES_DOCUMENT_ROOT=/label-studio/files
+      # ml/api_connector.py:27 defaults this to 100s and abandons the request at
+      # that point, leaving the reviewer's question unanswered with no message.
+      # chat_backend.py gives up at 150s and answers with the failure instead, so
+      # LS has to wait long enough to hear it.
+      - ML_TIMEOUT_PREDICT=180
+    volumes:
+      - ${NS_REVIEW_FILES:?set NS_REVIEW_FILES to the absolute path of review/ls_files}:/label-studio/files:ro
+    # The chat backend runs on the host, like every other script in review/, so it
+    # reads .env and the staged texts straight off disk. On Linux the app container
+    # has no route to the host by default; this is what makes the URL entered in
+    # Settings > Model -- http://host.docker.internal:9090 -- resolve.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

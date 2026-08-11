@@ -1,0 +1,24 @@
+__pycache__/
+*.py[cod]
+
+# Paper full text, re-syncable from beast-proxy with review/sync_texts.py.
+# Kept out of version control because it is bulk source material, not schema.
+review/texts/
+
+# Label Studio's own database, and the text tree it serves. Both are regenerated:
+# the database by review/ls.py deploy, the texts by review/ls.py export.
+review/ls_data/
+review/ls_files/
+
+# Annotation snapshots taken before a destructive operation. Recovery material,
+# not source.
+review/backup/
+
+# Label Studio source checkout (has its own git history).
+label-studio/
+
+# uv-managed virtualenv for the extractor.
+.venv/
+
+# Pinned upstream checkout used by review/parse_tables.py (has its own git history).
+.tmp_repos/

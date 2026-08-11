@@ -1,0 +1,434 @@
+<View>
+  <Style>
+.ns-row { display: flex; gap: 16px; align-items: flex-start; }
+/* A flex column, not a scroller: the text scrolls inside .ns-paper-body and the
+   chat box stays pinned under it, where a question about what is on screen is
+   asked without scrolling back. */
+.ns-paper { flex: 1 1 55%; max-height: 82vh; display: flex; flex-direction: column;
+            padding-right: 12px;
+            border-right: 1px solid var(--color-neutral-border); }
+/* Monospace, because the paper text now carries its own formatting: headings over a
+   rule, and coordinate tables as markdown with the columns padded to a common width.
+   None of that lines up in a proportional face, and the pane cannot render markup --
+   it is a Text tag, which is the only region-bearing tag whose offsets serialize as
+   plain integers, and naming it in angle brackets here would trip the Style sanitizer. */
+.ns-paper-body { flex: 1 1 auto; min-height: 0; overflow-y: auto;
+                 font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+                 font-size: 12.5px; line-height: 1.5;
+                 background: transparent; color: var(--color-neutral-content); }
+.ns-chat { flex: 0 0 auto; margin-top: 8px; padding-top: 8px;
+           border-top: 1px solid var(--color-neutral-border); }
+
+/* The exchange reads question, answer, question, answer, with the box you type
+   in at the bottom -- see _chat_pane and _chat_order_css.
+
+   Each control renders its own entries as a block: every question, then every
+   answer. Interleaving them means the individual entries have to become siblings
+   in one column, which is what `display: contents` does here -- it drops the two
+   wrappers, each control's block, and each list container out of the layout, so
+   what is left as flex items of .ns-chat-body are the entries themselves
+   (`div.lsf-row`, regions/TextAreaRegion.jsx) and the form.
+
+   `div:has(...)` rather than a child combinator: sanitizeHtml escapes the
+   child-combinator character and voids the whole rule it appears in, which here
+   would leave the wrappers opaque and the order unchanged, silently. A row never
+   contains a row or a form, so nothing inside an entry is flattened by these. */
+.ns-chat-body { display: flex; flex-direction: column; }
+.ns-chat-q, .ns-chat-a,
+.ns-chat-q div:has(form),
+.ns-chat-q div:has(.lsf-row),
+.ns-chat-a div:has(.lsf-row) { display: contents; }
+/* Past CHAT_TURNS an entry keeps this and falls in after the paired ones, still
+   above the typing bar, rather than jumping to the top on order:0. */
+.ns-chat-q .lsf-row, .ns-chat-a .lsf-row { order: 998; }
+.ns-chat-q form { order: 999; margin-top: 4px; }
+
+/* The question box reads as a composer. There is no submit button to place: the
+   chat box sets showSubmitButton="false" and Shift+Enter submits, which any
+   multi-row TextArea binds anyway (TextArea.jsx:376-386, independent of the
+   button). An absolutely-positioned button was tried and it overlapped the
+   submitted question beneath it -- the region list renders after the form and
+   outside it, so there is nothing to anchor to that stays clear.
+   `textarea` rather than a Label Studio class on purpose: 1.22 renders
+   `lsf-text-area`, 1.24 renames the block, and both have a textarea. Inside
+   .ns-chat there is exactly one, because chat_a carries maxSubmissions="0". */
+.ns-chat form textarea { border-radius: 14px !important; resize: none !important;
+                         padding: 11px 14px !important; }
+/* 1.24 puts a character/submission counter under the box; it is noise here. */
+.ns-chat form [data-testid="textarea-counts"],
+.ns-chat form [data-testid="textarea-instruction"] { display: none !important; }
+.ns-form { flex: 1 1 45%; max-height: 82vh; overflow-y: auto; }
+.ns-llm { background: var(--color-warning-background);
+          color: var(--color-neutral-content);
+          border-left: 3px solid var(--color-warning-border);
+          padding: 8px 12px; margin: 8px 0; border-radius: 3px; }
+.ns-quote { background: var(--color-positive-background);
+            color: var(--color-neutral-content);
+            border-left: 3px solid var(--color-positive-border);
+            padding: 8px 12px; margin: 8px 0; border-radius: 3px; }
+.ns-para { background: var(--color-primary-background);
+           color: var(--color-neutral-content);
+           border-left: 3px solid var(--color-primary-border);
+           padding: 10px 12px; margin: 8px 0; border-radius: 3px;
+           font-size: 15px; line-height: 1.5; }
+.ns-warn { background: var(--color-negative-background);
+           color: var(--color-neutral-content);
+           border-left: 3px solid var(--color-negative-border);
+           padding: 8px 12px; margin: 8px 0; border-radius: 3px; }
+.ns-card { background: var(--color-neutral-surface);
+           color: var(--color-neutral-content);
+           border: 1px solid var(--color-neutral-border);
+           padding: 10px 12px; margin: 10px 0; border-radius: 4px; }
+.ns-cell { background: var(--color-neutral-surface);
+           color: var(--color-neutral-content);
+           border-bottom: 1px solid var(--color-neutral-border-subtle);
+           padding: 4px 8px; }
+.ns-side { display: flex; gap: 12px; align-items: flex-start; }
+
+/* Label Studio's Choices, Table and Collapse are antd components, and
+   assets/styles/antd-no-reset.css hardcodes colours on 87 of their rules --
+   `.ant-radio-wrapper { color: rgba(0,0,0,0.85) }` with no background of its
+   own, `.ant-collapse-content` likewise. Those inherit onto the label text and
+   go invisible against a dark page. Theme tokens invert with the scheme, so
+   these overrides are what make the controls readable in both modes; each sets
+   background and foreground as a pair. */
+.ant-radio-wrapper, .ant-radio-group, .ant-radio, .ant-radio span,
+.ant-checkbox-wrapper, .ant-checkbox, .ant-checkbox + span {
+    background: transparent;
+    color: var(--color-neutral-content); }
+.ant-radio-inner, .ant-checkbox-inner {
+    background: var(--color-neutral-surface);
+    color: var(--color-neutral-content);
+    border-color: var(--color-neutral-border-bold); }
+
+/* The legacy Taxonomy, which the table task uses so a reviewer can name an analysis
+   the parse missed. Not antd -- a CSS module -- but the same failure: its
+   `.taxonomy__search` rule sets neither a background nor a colour, so the input takes
+   the browser default white and the page's light text, and what you type is white on
+   white. The add-a-label input hardcodes `color: #09f` on a 3%-black background, and
+   the chips for what is already selected hardcode `hsl(0deg 0% 95%)`.
+
+   Matched on the class prefix, never on `name=`. The class names are CSS-module output
+   and carry a build hash (`taxonomy__search--qkTHD`), so only the readable prefix the
+   hash is appended to can be relied on. The `name` attribute would be the more stable
+   handle and is the obvious thing to reach for -- but Label Studio validates a config
+   by regex-scanning it for `name="..."`, stylesheet included, and rejects the whole
+   config with "contains non-unique names" when a CSS selector mentions one. The add
+   input carries no class of its own, so it is reached through its container. */
+[class*="taxonomy__search"], [class*="taxonomy__newitem"] input {
+    background: var(--color-neutral-background);
+    color: var(--color-neutral-content); }
+[class*="taxonomy__search"]::placeholder, [class*="taxonomy__newitem"] input::placeholder {
+    background: transparent;
+    color: var(--color-neutral-content-subtler); }
+[class*="taxonomy__selected"] div {
+    background: var(--color-neutral-surface);
+    color: var(--color-neutral-content); }
+[class*="taxonomy__item"]:focus-within {
+    background: var(--color-primary-background);
+    color: var(--color-neutral-content); }
+.ant-radio-checked .ant-radio-inner, .ant-checkbox-checked .ant-checkbox-inner {
+    background: var(--color-primary-surface);
+    color: var(--color-neutral-content);
+    border-color: var(--color-primary-border); }
+.ant-table, .ant-table-tbody td, .ant-table-placeholder {
+    background: var(--color-neutral-surface) !important;
+    color: var(--color-neutral-content) !important;
+    border-color: var(--color-neutral-border) !important; }
+.ant-table-thead th {
+    background: var(--color-neutral-surface-hover) !important;
+    color: var(--color-neutral-content) !important;
+    border-color: var(--color-neutral-border) !important; }
+.ant-collapse, .ant-collapse-item, .ant-collapse-header,
+.ant-collapse-content, .ant-collapse-content-box {
+    background: var(--color-neutral-surface) !important;
+    color: var(--color-neutral-content) !important;
+    border-color: var(--color-neutral-border) !important; }
+.ns-half { flex: 1 1 50%;
+           background: var(--color-neutral-surface);
+           color: var(--color-neutral-content);
+           border: 1px solid var(--color-neutral-border);
+           padding: 8px 12px; border-radius: 4px; }
+
+/* The rendered coordinate table. Every colour is a token pair because the
+   reference implementation this is ported from was a fixed dark palette, and a
+   hardcoded background here keeps the theme's own text colour and goes invisible
+   in the other mode -- which the theming tests enforce.
+
+   `td:first-child` below is a pseudo-class, not a child combinator, so it
+   survives the Style sanitizer -- which escapes the greater-than character, and
+   which is why that character cannot appear even in this comment.
+
+   The box-shadow reads a --color-* token for a border colour and is exempt from
+   the background/foreground pairing check only because that check cannot see
+   "color" inside a custom property name. It is decoration on a row whose pair is
+   already set two rules above; do not "fix" it by adding a bare color here. */
+.ns-tbl-host { margin: 8px 0;
+               background: transparent; color: var(--color-neutral-content); }
+.ns-table  { max-height: 42vh; overflow: auto; border-radius: 4px;
+             background: var(--color-neutral-surface);
+             color: var(--color-neutral-content);
+             border: 1px solid var(--color-neutral-border); }
+.ns-tbl    { border-collapse: separate; border-spacing: 0; width: 100%;
+             font-size: 12px;
+             background: transparent; color: var(--color-neutral-content); }
+.ns-tbl th { position: sticky; top: 0; z-index: 1; text-align: left;
+             font-weight: 600; padding: 5px 8px; white-space: nowrap;
+             background: var(--color-neutral-surface-hover);
+             color: var(--color-neutral-content);
+             border-bottom: 1px solid var(--color-neutral-border); }
+.ns-tbl td { padding: 4px 8px; vertical-align: top;
+             background: transparent;
+             color: var(--color-neutral-content);
+             border-bottom: 1px solid var(--color-neutral-border-subtle); }
+.ns-tbl td.ns-num { text-align: right; font-variant-numeric: tabular-nums;
+             background: transparent; color: var(--color-neutral-content); }
+.ns-tbl td.ns-coord { font-weight: 600;
+             background: transparent; color: var(--color-primary-content); }
+.ns-tbl td.ns-gut { width: 2.2em; text-align: right; font-size: 10.5px;
+             background: transparent;
+             color: var(--color-neutral-content-subtler); }
+/* A section row is structure, not a state: it says where the table divides, which
+   is a different kind of fact from "this row is contested". Giving it the warning
+   colour put it in the same vocabulary as the row states and left amber meaning
+   two things at once. Weight and a rule carry it instead. */
+.ns-tbl tr.ns-sec td { font-weight: 700; letter-spacing: 0.02em;
+             background: var(--color-neutral-surface-hover);
+             color: var(--color-neutral-content);
+             border-top: 2px solid var(--color-neutral-border); }
+.ns-tbl tr.ns-hit td { background: var(--color-positive-background);
+             color: var(--color-neutral-content); }
+.ns-tbl tr.ns-hit td:first-child {
+             box-shadow: inset 3px 0 0 var(--color-positive-border);
+             background: var(--color-positive-background);
+             color: var(--color-neutral-content); }
+/* Amber, not red. A contested row is an ambiguity the reviewer is being shown, not
+   an error they made: two analyses report the same peak and the parser cannot say
+   whose it is. Red read as "this row is wrong".
+   Quieter than a marked row, too, and that ordering is the point. On this corpus a
+   contrast can have 3 rows of its own against 22 contested, and filling all 22 with
+   a saturated warning tint buried the answer under the caveat. The fill is neutral;
+   the amber is carried by the rule and the mark. */
+.ns-tbl tr.ns-maybe td { background: var(--color-neutral-surface-hover);
+             color: var(--color-neutral-content); }
+.ns-tbl tr.ns-maybe td:first-child {
+             box-shadow: inset 3px 0 0 var(--color-warning-border);
+             background: var(--color-neutral-surface-hover);
+             color: var(--color-neutral-content); }
+/* The gutter mark ties to its legend chip, so the two are read as one thing. */
+.ns-tbl tr.ns-maybe td.ns-gut { font-weight: 700;
+             background: var(--color-neutral-surface-hover);
+             color: var(--color-warning-content); }
+.ns-tbl tr.ns-hit td.ns-gut { font-weight: 700;
+             background: var(--color-positive-background);
+             color: var(--color-positive-content); }
+.ns-tbl-cap { font-size: 12.5px; margin: 2px 0 6px;
+             background: transparent;
+             color: var(--color-neutral-content-subtler); }
+.ns-tbl-note { font-size: 11.5px; margin-top: 5px;
+             background: transparent;
+             color: var(--color-neutral-content-subtler); }
+.ns-tbl-key { font-size: 11.5px; margin: 0 0 5px;
+             background: transparent;
+             color: var(--color-neutral-content-subtler); }
+.ns-key    { margin-right: 12px; white-space: nowrap;
+             background: transparent;
+             color: var(--color-neutral-content-subtler); }
+.ns-key-mark { display: inline-block; min-width: 1.5em; text-align: center;
+             margin-right: 4px; padding: 0 3px; border-radius: 3px;
+             font-weight: 700;
+             background: var(--color-neutral-surface-hover);
+             color: var(--color-neutral-content); }
+.ns-key-hit { background: var(--color-positive-background);
+             color: var(--color-positive-content); }
+.ns-key-maybe { background: var(--color-warning-background);
+             color: var(--color-warning-content); }
+.ns-key-own { background: var(--color-primary-background);
+             color: var(--color-primary-content); }
+.ns-wide { flex: 1 1 58%;
+           background: transparent; color: var(--color-neutral-content); }
+
+.ns-tbl tr.ns-a0 td { background: var(--color-primary-background); color: var(--color-neutral-content); }
+.ns-tbl tr.ns-a0 td:first-child { box-shadow: inset 3px 0 0 var(--color-primary-border); background: var(--color-primary-background); color: var(--color-neutral-content); }
+.ns-tbl tr.ns-a1 td { background: var(--color-positive-background); color: var(--color-neutral-content); }
+.ns-tbl tr.ns-a1 td:first-child { box-shadow: inset 3px 0 0 var(--color-positive-border); background: var(--color-positive-background); color: var(--color-neutral-content); }
+.ns-tbl tr.ns-a2 td { background: var(--color-warning-background); color: var(--color-neutral-content); }
+.ns-tbl tr.ns-a2 td:first-child { box-shadow: inset 3px 0 0 var(--color-warning-border); background: var(--color-warning-background); color: var(--color-neutral-content); }
+
+/* generated: question N above answer N, for CHAT_TURNS turns */
+.ns-chat-q .lsf-row:nth-of-type(1) { order: 1; }
+.ns-chat-a .lsf-row:nth-of-type(1) { order: 2; }
+.ns-chat-q .lsf-row:nth-of-type(2) { order: 3; }
+.ns-chat-a .lsf-row:nth-of-type(2) { order: 4; }
+.ns-chat-q .lsf-row:nth-of-type(3) { order: 5; }
+.ns-chat-a .lsf-row:nth-of-type(3) { order: 6; }
+.ns-chat-q .lsf-row:nth-of-type(4) { order: 7; }
+.ns-chat-a .lsf-row:nth-of-type(4) { order: 8; }
+.ns-chat-q .lsf-row:nth-of-type(5) { order: 9; }
+.ns-chat-a .lsf-row:nth-of-type(5) { order: 10; }
+.ns-chat-q .lsf-row:nth-of-type(6) { order: 11; }
+.ns-chat-a .lsf-row:nth-of-type(6) { order: 12; }
+.ns-chat-q .lsf-row:nth-of-type(7) { order: 13; }
+.ns-chat-a .lsf-row:nth-of-type(7) { order: 14; }
+.ns-chat-q .lsf-row:nth-of-type(8) { order: 15; }
+.ns-chat-a .lsf-row:nth-of-type(8) { order: 16; }
+.ns-chat-q .lsf-row:nth-of-type(9) { order: 17; }
+.ns-chat-a .lsf-row:nth-of-type(9) { order: 18; }
+.ns-chat-q .lsf-row:nth-of-type(10) { order: 19; }
+.ns-chat-a .lsf-row:nth-of-type(10) { order: 20; }
+.ns-chat-q .lsf-row:nth-of-type(11) { order: 21; }
+.ns-chat-a .lsf-row:nth-of-type(11) { order: 22; }
+.ns-chat-q .lsf-row:nth-of-type(12) { order: 23; }
+.ns-chat-a .lsf-row:nth-of-type(12) { order: 24; }
+.ns-chat-q .lsf-row:nth-of-type(13) { order: 25; }
+.ns-chat-a .lsf-row:nth-of-type(13) { order: 26; }
+.ns-chat-q .lsf-row:nth-of-type(14) { order: 27; }
+.ns-chat-a .lsf-row:nth-of-type(14) { order: 28; }
+.ns-chat-q .lsf-row:nth-of-type(15) { order: 29; }
+.ns-chat-a .lsf-row:nth-of-type(15) { order: 30; }
+.ns-chat-q .lsf-row:nth-of-type(16) { order: 31; }
+.ns-chat-a .lsf-row:nth-of-type(16) { order: 32; }
+.ns-chat-q .lsf-row:nth-of-type(17) { order: 33; }
+.ns-chat-a .lsf-row:nth-of-type(17) { order: 34; }
+.ns-chat-q .lsf-row:nth-of-type(18) { order: 35; }
+.ns-chat-a .lsf-row:nth-of-type(18) { order: 36; }
+.ns-chat-q .lsf-row:nth-of-type(19) { order: 37; }
+.ns-chat-a .lsf-row:nth-of-type(19) { order: 38; }
+.ns-chat-q .lsf-row:nth-of-type(20) { order: 39; }
+.ns-chat-a .lsf-row:nth-of-type(20) { order: 40; }
+.ns-chat-q .lsf-row:nth-of-type(21) { order: 41; }
+.ns-chat-a .lsf-row:nth-of-type(21) { order: 42; }
+.ns-chat-q .lsf-row:nth-of-type(22) { order: 43; }
+.ns-chat-a .lsf-row:nth-of-type(22) { order: 44; }
+.ns-chat-q .lsf-row:nth-of-type(23) { order: 45; }
+.ns-chat-a .lsf-row:nth-of-type(23) { order: 46; }
+.ns-chat-q .lsf-row:nth-of-type(24) { order: 47; }
+.ns-chat-a .lsf-row:nth-of-type(24) { order: 48; }
+.ns-chat-q .lsf-row:nth-of-type(25) { order: 49; }
+.ns-chat-a .lsf-row:nth-of-type(25) { order: 50; }
+</Style>
+  <View className="ns-row">
+    <View className="ns-paper">
+      <Header value="$paper_title" size="5" />
+      <Header value="$paper_citation" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
+      <View className="ns-paper-body">
+        <Text name="paper" value="$paper_url" valueType="url" saveTextResult="yes" granularity="symbol" />
+      </View>
+      <View className="ns-chat">
+        <Collapse accordion="true">
+          <Panel value="Ask about this paper" open="true">
+            <View className="ns-chat-body">
+              <View className="ns-chat-q">
+                <TextArea name="chat_q" toName="paper" rows="2" editable="true" smart="true" showSubmitButton="false" placeholder="Ask a question, then Shift+Enter. Saved with your review." />
+              </View>
+              <View className="ns-chat-a">
+                <TextArea name="chat_a" toName="paper" rows="6" maxSubmissions="0" placeholder="Answers appear here, oldest first." smart="false" />
+              </View>
+            </View>
+          </Panel>
+        </Collapse>
+      </View>
+    </View>
+    <View className="ns-form">
+      <Repeater on="$entities" indexFlag="{{vdx}}">
+        <Header value="$entities[{{vdx}}].label" size="4" />
+        <Header value="$entities[{{vdx}}].meta" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
+        <View className="ns-card">
+          <Markdown value="$entities[{{vdx}}].guidance" />
+        </View>
+        <Table name="entity_inventory_{{vdx}}" value="$entity_table" />
+        <Header value="Is this the right set of instances?" size="5" />
+        <Choices name="inv_verdict_{{vdx}}" toName="paper" choice="single-radio" showInline="false" required="true" requiredMessage="Answer 'Is this the right set of instances?'" smart="false">
+          <Choice value="inventory_correct" hint="The right instances, and no others, were extracted" />
+          <Choice value="instance_missing" hint="The paper describes one that is not here" />
+          <Choice value="instance_spurious" hint="One here is not a real instance of this class" />
+          <Choice value="duplicates_present" hint="Two rows are the same thing" />
+          <Choice value="should_split" hint="One row covers two distinct things" />
+          <Choice value="uncertain" hint="Cannot determine from the paper" />
+        </Choices>
+        <Header value="Where each instance appears" size="5" />
+        <Labels name="st_e_{{vdx}}" toName="paper" value="$structure_labels" showInline="false" smart="false" />
+        <View visibleWhen="choice-unselected" whenTagName="inv_verdict_{{vdx}}" whenChoiceValue="inventory_correct">
+          <Header value="Disposition" size="5" />
+          <Repeater on="$entity_rows" indexFlag="{{rdx}}">
+            <View className="ns-cell">
+              <Header value="$entity_rows[{{rdx}}].label" size="5" />
+              <Header value="$entity_rows[{{rdx}}].descriptor" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
+              <Header value="$entity_rows[{{rdx}}].referenced_by" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
+              <Choices name="inv_row_{{vdx}}_{{rdx}}" toName="paper" choice="single-radio" showInline="true" smart="false">
+                <Choice value="keep" hint="A real, distinct instance" />
+                <Choice value="rename" hint="Right instance, wrong label -- propagates as a rewrite" />
+                <Choice value="merge" hint="Same thing as another row -- name it below; propagates as a rewrite" />
+                <Choice value="drop" hint="Not a real instance; every reference to it needs re-review" />
+                <Choice value="split" hint="Two things recorded as one; every reference to it needs re-review" />
+              </Choices>
+              <TextArea name="inv_note_{{vdx}}_{{rdx}}" toName="paper" rows="1" editable="true" maxSubmissions="1" placeholder="note" smart="false" />
+            </View>
+          </Repeater>
+          <Header value="Missing instances" size="5" />
+          <TextArea name="new_instances_{{vdx}}" toName="paper" rows="3" editable="true" maxSubmissions="1" placeholder="One per line." smart="false" />
+        </View>
+      </Repeater>
+      <Repeater on="$model" indexFlag="{{gdx}}">
+        <Header value="$model[{{gdx}}].label" size="4" />
+        <Header value="$model[{{gdx}}].meta" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
+        <View className="ns-card">
+          <Markdown value="$model[{{gdx}}].summary" />
+        </View>
+        <Header value="Is this the right term list?" size="5" />
+        <Choices name="model_verdict_{{gdx}}" toName="paper" choice="single-radio" showInline="false" required="true" requiredMessage="Answer 'Is this the right term list?'" smart="false">
+          <Choice value="terms_correct" hint="The term list and its levels are right" />
+          <Choice value="term_missing" hint="The paper states a term this model does not list" />
+          <Choice value="term_spurious" hint="A term here is not real -- mark which below to drop it" />
+          <Choice value="term_wrong" hint="A term's name, type or scope is wrong -- fix it below" />
+          <Choice value="levels_wrong" hint="A factor's levels are wrong or incomplete" />
+          <Choice value="uncertain" hint="Cannot determine from the paper" />
+        </Choices>
+        <Header value="Where each term appears" size="5" />
+        <Labels name="st_m_{{gdx}}" toName="paper" value="$structure_labels" showInline="false" smart="false" />
+        <Header value="Missing terms" size="5" />
+        <TextArea name="new_terms_{{gdx}}" toName="paper" rows="3" editable="true" maxSubmissions="1" placeholder="One per line." smart="false" />
+        <Repeater on="$terms" indexFlag="{{tdx}}">
+          <Collapse accordion="true">
+            <Panel value="$terms[{{tdx}}].heading">
+              <Header value="$terms[{{tdx}}].summary" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
+              <Choices name="tv_{{gdx}}_{{tdx}}" toName="paper" choice="single-radio" showInline="false" smart="false">
+                <Choice value="correct" hint="This term is right as recorded" />
+                <Choice value="wrong_name" hint="The name misdescribes the term" />
+                <Choice value="wrong_type" hint="Categorical vs continuous is wrong" />
+                <Choice value="wrong_variation_level" hint="Within- vs between-subject is wrong" />
+                <Choice value="should_be_two_terms" hint="This is two terms recorded as one" />
+                <Choice value="duplicate_of_another_term" hint="Another term in this model is the same term" />
+                <Choice value="not_a_term_of_this_model" hint="The model does not contain this term -- drops it" />
+                <Choice value="spurious_interaction" hint="interaction_with is set on a crossing the cells already state" />
+              </Choices>
+              <TextArea name="tname_{{gdx}}_{{tdx}}" toName="paper" rows="1" editable="true" maxSubmissions="1" placeholder="corrected name" smart="false" />
+              <Header value="Type" size="5" />
+              <Choices name="ttype_{{gdx}}_{{tdx}}" toName="paper" choice="single-radio" layout="inline" smart="false">
+                <Choice value="categorical" hint="Declares levels" />
+                <Choice value="continuous" hint="A slope or product column; declares no levels" />
+              </Choices>
+              <Header value="Scope" size="5" />
+              <Choices name="tvar_{{gdx}}_{{tdx}}" toName="paper" choice="single-radio" layout="inline" smart="false">
+                <Choice value="within_subject" hint="Moves within a participant, like a repeated-measures factor" />
+                <Choice value="between_subject" hint="Moves only across the sample, like a diagnosis or an age covariate" />
+                <Choice value="both" hint="Moves both within and across participants" />
+                <Choice value="unstated" hint="The paper does not say" />
+              </Choices>
+              <Repeater on="$terms[{{tdx}}].levels" indexFlag="{{ldx}}">
+                <View className="ns-cell">
+                  <Header value="$terms[{{tdx}}].levels[{{ldx}}].label" size="5" />
+                  <TextArea name="lv_{{gdx}}_{{tdx}}_{{ldx}}" toName="paper" rows="1" editable="true" maxSubmissions="1" placeholder="corrected level" smart="false" />
+                  <Header value="Order" size="5" />
+                  <Number name="lo_{{gdx}}_{{tdx}}_{{ldx}}" toName="paper" min="1" smart="false" />
+                </View>
+              </Repeater>
+            </Panel>
+          </Collapse>
+        </Repeater>
+      </Repeater>
+      <Header value="Notes" size="5" />
+      <TextArea name="comment" toName="paper" rows="2" editable="true" maxSubmissions="1" placeholder="" smart="false" />
+    </View>
+  </View>
+</View>

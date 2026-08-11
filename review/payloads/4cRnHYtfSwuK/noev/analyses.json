@@ -1,0 +1,857 @@
+{
+ "analyses": [
+  {
+   "local_id": "analysis_left_hc_gt_mdd",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "Brain regions exhibiting a significant difference between patients with MDD and HC in the resting-state functional connectivity with the left amygdala",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "HC > MDD in resting-state functional connectivity with the left amygdala",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "extracted",
+    "value": "unstated",
+    "value_source": "generated"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "whole_brain",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "generated"
+   },
+   "roi_definition": {
+    "extraction_status": "extracted",
+    "value": "not_applicable",
+    "value_source": "generated"
+   },
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "connectivity_strength",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "resting-state functional connectivity",
+     "value_source": "reported"
+    },
+    "specific_metric": {
+     "extraction_status": "extracted",
+     "value": "Pearson correlation-based low frequency resting-state functional connectivity",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "group_mdd",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 55,
+      "value_source": "reported"
+     }
+    },
+    {
+     "group": "group_hc",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 19,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term_group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "HC",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term_group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "MDD",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "ConnectivityDetails",
+    "connectivity_method": {
+     "extraction_status": "extracted",
+     "value": "seed_based",
+     "value_source": "generated"
+    },
+    "seed_regions": {
+     "extraction_status": "extracted",
+     "value": [
+      "left amygdala"
+     ],
+     "value_source": "reported"
+    },
+    "target_regions": {
+     "extraction_status": "extracted",
+     "value": [],
+     "value_source": "generated"
+    },
+    "parameter_sign": {
+     "extraction_status": "extracted",
+     "value": "unstated",
+     "value_source": "generated"
+    },
+    "parameter_change": {
+     "extraction_status": "extracted",
+     "value": "decreased",
+     "value_source": "reported"
+    },
+    "edges": [],
+    "modulatory_input": {
+     "extraction_status": "not_reported"
+    },
+    "inference_target": {
+     "extraction_status": "extracted",
+     "value": "connectivity_parameter",
+     "value_source": "generated"
+    }
+   },
+   "acquisitions": [
+    "acq_fmri_rest"
+   ],
+   "tasks": [
+    "task_resting_state"
+   ],
+   "model_estimation": "model_group_flame",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "generated"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 2.3,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "z",
+     "value_source": "reported"
+    },
+    "cluster_forming_threshold_value": {
+     "extraction_status": "not_reported"
+    },
+    "cluster_extent_threshold": {
+     "extraction_status": "extracted",
+     "value": 77,
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "Monte Carlo simulations using AlphaSim",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated"
+    },
+    "search_volume": {
+     "extraction_status": "not_reported"
+    },
+    "neighborhood_definition": {
+     "extraction_status": "not_reported"
+    },
+    "tfce_used": {
+     "extraction_status": "not_reported"
+    },
+    "tfce_parameters": {
+     "extraction_status": "not_reported"
+    },
+    "permutation_count": {
+     "extraction_status": "not_reported"
+    },
+    "alpha_level": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "number_of_tests": {
+     "extraction_status": "not_reported"
+    }
+   },
+   "preprocessing": "preproc_fsl",
+   "tables": [
+    "tbl2"
+   ]
+  },
+  {
+   "local_id": "analysis_left_mdd_gt_hc",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "Brain regions exhibiting a significant difference between patients with MDD and HC in the resting-state functional connectivity with the left amygdala",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "MDD > HC in resting-state functional connectivity with the left amygdala",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "extracted",
+    "value": "unstated",
+    "value_source": "generated"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "whole_brain",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "generated"
+   },
+   "roi_definition": {
+    "extraction_status": "extracted",
+    "value": "not_applicable",
+    "value_source": "generated"
+   },
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "connectivity_strength",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "resting-state functional connectivity",
+     "value_source": "reported"
+    },
+    "specific_metric": {
+     "extraction_status": "extracted",
+     "value": "Pearson correlation-based low frequency resting-state functional connectivity",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "group_mdd",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 55,
+      "value_source": "reported"
+     }
+    },
+    {
+     "group": "group_hc",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 19,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term_group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "MDD",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term_group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "HC",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "ConnectivityDetails",
+    "connectivity_method": {
+     "extraction_status": "extracted",
+     "value": "seed_based",
+     "value_source": "generated"
+    },
+    "seed_regions": {
+     "extraction_status": "extracted",
+     "value": [
+      "left amygdala"
+     ],
+     "value_source": "reported"
+    },
+    "target_regions": {
+     "extraction_status": "extracted",
+     "value": [],
+     "value_source": "generated"
+    },
+    "parameter_sign": {
+     "extraction_status": "extracted",
+     "value": "unstated",
+     "value_source": "generated"
+    },
+    "parameter_change": {
+     "extraction_status": "extracted",
+     "value": "increased",
+     "value_source": "reported"
+    },
+    "edges": [],
+    "modulatory_input": {
+     "extraction_status": "not_reported"
+    },
+    "inference_target": {
+     "extraction_status": "extracted",
+     "value": "connectivity_parameter",
+     "value_source": "generated"
+    }
+   },
+   "acquisitions": [
+    "acq_fmri_rest"
+   ],
+   "tasks": [
+    "task_resting_state"
+   ],
+   "model_estimation": "model_group_flame",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "generated"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 2.3,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "z",
+     "value_source": "reported"
+    },
+    "cluster_extent_threshold": {
+     "extraction_status": "extracted",
+     "value": 77,
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "Monte Carlo simulations using AlphaSim",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated"
+    },
+    "alpha_level": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "preproc_fsl",
+   "tables": [
+    "tbl2"
+   ]
+  },
+  {
+   "local_id": "analysis_right_hc_gt_mdd",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "Brain regions exhibiting a significant difference between patients with MDD and HC in the resting-state functional connectivity of the right amygdala",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "HC > MDD in resting-state functional connectivity of the right amygdala",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "extracted",
+    "value": "unstated",
+    "value_source": "generated"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "whole_brain",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "generated"
+   },
+   "roi_definition": {
+    "extraction_status": "extracted",
+    "value": "not_applicable",
+    "value_source": "generated"
+   },
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "connectivity_strength",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "resting-state functional connectivity",
+     "value_source": "reported"
+    },
+    "specific_metric": {
+     "extraction_status": "extracted",
+     "value": "Pearson correlation-based low frequency resting-state functional connectivity",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "group_mdd",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 55,
+      "value_source": "reported"
+     }
+    },
+    {
+     "group": "group_hc",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 19,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term_group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "HC",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term_group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "MDD",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "ConnectivityDetails",
+    "connectivity_method": {
+     "extraction_status": "extracted",
+     "value": "seed_based",
+     "value_source": "generated"
+    },
+    "seed_regions": {
+     "extraction_status": "extracted",
+     "value": [
+      "right amygdala"
+     ],
+     "value_source": "reported"
+    },
+    "target_regions": {
+     "extraction_status": "extracted",
+     "value": [],
+     "value_source": "generated"
+    },
+    "parameter_sign": {
+     "extraction_status": "extracted",
+     "value": "unstated",
+     "value_source": "generated"
+    },
+    "parameter_change": {
+     "extraction_status": "extracted",
+     "value": "decreased",
+     "value_source": "reported"
+    },
+    "edges": [],
+    "modulatory_input": {
+     "extraction_status": "not_reported"
+    },
+    "inference_target": {
+     "extraction_status": "extracted",
+     "value": "connectivity_parameter",
+     "value_source": "generated"
+    }
+   },
+   "acquisitions": [
+    "acq_fmri_rest"
+   ],
+   "tasks": [
+    "task_resting_state"
+   ],
+   "model_estimation": "model_group_flame",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "generated"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 2.3,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "z",
+     "value_source": "reported"
+    },
+    "cluster_extent_threshold": {
+     "extraction_status": "extracted",
+     "value": 77,
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "Monte Carlo simulations using AlphaSim",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated"
+    },
+    "alpha_level": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "preproc_fsl",
+   "tables": [
+    "tbl3"
+   ]
+  },
+  {
+   "local_id": "analysis_right_mdd_gt_hc",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "Brain regions exhibiting a significant difference between patients with MDD and HC in the resting-state functional connectivity of the right amygdala",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "MDD > HC in resting-state functional connectivity of the right amygdala",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "extracted",
+    "value": "unstated",
+    "value_source": "generated"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "whole_brain",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "generated"
+   },
+   "roi_definition": {
+    "extraction_status": "extracted",
+    "value": "not_applicable",
+    "value_source": "generated"
+   },
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "connectivity_strength",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "resting-state functional connectivity",
+     "value_source": "reported"
+    },
+    "specific_metric": {
+     "extraction_status": "extracted",
+     "value": "Pearson correlation-based low frequency resting-state functional connectivity",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "group_mdd",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 55,
+      "value_source": "reported"
+     }
+    },
+    {
+     "group": "group_hc",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 19,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term_group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "MDD",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term_group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "HC",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "ConnectivityDetails",
+    "connectivity_method": {
+     "extraction_status": "extracted",
+     "value": "seed_based",
+     "value_source": "generated"
+    },
+    "seed_regions": {
+     "extraction_status": "extracted",
+     "value": [
+      "right amygdala"
+     ],
+     "value_source": "reported"
+    },
+    "target_regions": {
+     "extraction_status": "extracted",
+     "value": [],
+     "value_source": "generated"
+    },
+    "parameter_sign": {
+     "extraction_status": "extracted",
+     "value": "unstated",
+     "value_source": "generated"
+    },
+    "parameter_change": {
+     "extraction_status": "extracted",
+     "value": "increased",
+     "value_source": "reported"
+    },
+    "edges": [],
+    "modulatory_input": {
+     "extraction_status": "not_reported"
+    },
+    "inference_target": {
+     "extraction_status": "extracted",
+     "value": "connectivity_parameter",
+     "value_source": "generated"
+    }
+   },
+   "acquisitions": [
+    "acq_fmri_rest"
+   ],
+   "tasks": [
+    "task_resting_state"
+   ],
+   "model_estimation": "model_group_flame",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "generated"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 2.3,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "z",
+     "value_source": "reported"
+    },
+    "cluster_extent_threshold": {
+     "extraction_status": "extracted",
+     "value": 77,
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "Monte Carlo simulations using AlphaSim",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated"
+    },
+    "alpha_level": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "preproc_fsl",
+   "tables": [
+    "tbl3"
+   ]
+  }
+ ]
+}
