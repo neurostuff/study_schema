@@ -413,7 +413,7 @@ def test_no_config_carries_a_control_character(project) -> None:
     `content: "\\2191"` written with one backslash is read as octal \\21 plus "91",
     which puts a literal control character in the XML and makes the whole config
     unparseable -- every task in the project, not just the chat. It is caught by
-    `check_label_config.py` but only once the file is written, so this asserts the
+    `review/ls.py lint` but only once the file is written, so this asserts the
     property at the source.
     """
 
