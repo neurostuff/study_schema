@@ -27,11 +27,14 @@ same peak repeated across contrasts -- so they are rendered as contested and cou
 never handed to the first claimant. Showing a wrong attribution confidently is worse than
 showing none.
 
-Standard library only, apart from reading the tint count out of `spec`, so the exporter
-and any future decoder can both use it. That one import is the point: the number of row
-tints this cycles through and the number of `.ns-aN` rules the stylesheet writes are one
-constant, and they were two before -- a hardcoded `tints=4` against three rules, so a
-fourth analysis was tinted with a class nothing styled.
+Standard library only, so the exporter and any future decoder can both use it, and so
+this module can stay on the schema side of the split while the review layer that renders
+its output lives in its own repo.
+
+`TINTS` is the one number shared across that boundary: it is how many `ns-aN` classes
+this emits, and the review layer's stylesheet has to write exactly that many rules.
+The two were a hardcoded `tints=4` against three rules once, so a fourth analysis was
+tinted with a class nothing styled; `ns-validate` asserts the two agree.
 """
 
 from __future__ import annotations
@@ -44,10 +47,13 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
-import spec
-
 #: Where `sync_texts.py` puts the per-table CSVs, relative to `<study>/source/pubget`.
 TABLES_SUBDIR = "tables"
+
+#: How many row tints `render_table_html` cycles through. Past this the tint repeats
+#: and the gutter's number -- not the colour -- tells the fourth analysis from the
+#: first: the colour is a scanning aid, the number is the identity.
+TINTS = 3
 
 #: pandas' name for a header cell that was empty in the source.
 PLACEHOLDER = re.compile(r"^Unnamed:\s*\d+(_level_\d+)?$")
@@ -627,7 +633,7 @@ def render_table_html(
     owner: Mapping[int, int] | None = None,
     contested: Mapping[int, Sequence[int]] | None = None,
     highlight: Iterable[int] = (),
-    tints: int = len(spec.TINTS),
+    tints: int = TINTS,
     note: str = "",
     missing: str = "",
 ) -> str:

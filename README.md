@@ -148,14 +148,17 @@ keeping, since an answer the vocabulary has no slot for is the evidence it is sh
 ## Tests
 
 ```bash
-python3 -m pytest test_storage_schema_modules.py test_mvp_schema.py \
-                 test_field_provenance.py test_review_layer.py test_map_coverage.py \
-                 test_effect_kind_derivation.py test_representing_models.py \
-                 test_extraction_prompt.py
+python3 -m pytest
 ```
 
-Name the files: a bare `pytest` at the root tries to collect the vendored `label-studio/`
-checkout and errors.
+`pytest.ini` keeps the vendored checkouts out of collection, so a bare run works.
+
+`test_review_foundation.py` covers what the review layer stands on and what feeds it:
+text normalization, span resolution, record building and validation, and the coordinate
+table parser. The Label Studio layer itself lives in the
+[ns-validate](https://github.com/neurostuff/ns-validate) repo, which carries this one as
+a submodule and reads the schema, the priority inventory and
+`review/{spans,text_index,tables}.py` from it.
 
 
 ## Documents
