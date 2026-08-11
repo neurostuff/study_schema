@@ -82,15 +82,22 @@ def describe(path: str, field: dict) -> str:
     return f"{path} = {rendered}"
 
 
-def ask(client, model: str, text: str, batch: list[tuple[str, dict]]) -> dict[str, str]:
+def ask(client, model: str, text: str, batch: list[tuple[str, dict]],
+        effort: str = "") -> dict[str, str]:
     listing = "\n".join(describe(path, field) for path, field in batch)
     user = (f"# Paper\n\n{text}\n\n# Facts needing a supporting quote\n\n{listing}\n\n"
             "Return the JSON object mapping each id to its quote now.")
-    response = client.chat.completions.create(
-        model=model,
-        messages=[{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}],
-        response_format={"type": "json_object"},
-    )
+    kwargs: dict[str, Any] = {
+        "model": model,
+        "messages": [{"role": "system", "content": SYSTEM},
+                     {"role": "user", "content": user}],
+        "response_format": {"type": "json_object"},
+    }
+    # Without this the pass runs at the model's default, which on a reasoning model is
+    # not the low setting the other three passes were measured at.
+    if effort:
+        kwargs["reasoning_effort"] = effort
+    response = client.chat.completions.create(**kwargs)
     parsed = json.loads(strip_fence(response.choices[0].message.content or "{}"))
     usage = response.usage
     return ({k: v for k, v in parsed.items() if isinstance(v, str) and v.strip()},
@@ -104,6 +111,8 @@ def main() -> int:
     parser.add_argument("--payloads", required=True, type=Path)
     parser.add_argument("--key-file", type=Path)
     parser.add_argument("--model", default=DEFAULT_MODEL)
+    parser.add_argument("--effort", default="low",
+                        help="reasoning effort; empty string to send none at all")
     parser.add_argument("--batch", type=int, default=BATCH)
     parser.add_argument("--redo", action="store_true")
     args = parser.parse_args()
@@ -147,7 +156,7 @@ def main() -> int:
         for start in range(0, len(wanted), args.batch):
             batch = wanted[start:start + args.batch]
             try:
-                found, tin, tout = ask(client, args.model, text, batch)
+                found, tin, tout = ask(client, args.model, text, batch, args.effort)
             except Exception as exc:
                 print(f"  {target.name} batch {start // args.batch}: "
                       f"FAILED {type(exc).__name__}: {exc}"[:200], file=sys.stderr)

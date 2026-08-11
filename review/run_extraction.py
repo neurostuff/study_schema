@@ -36,6 +36,28 @@ from sync_texts import read_pmids  # noqa: E402
 STAGES = ["tables", "entities", "analyses", "evidence", "build"]
 DEFAULT_MODEL = "@psyc-aid338-ope-333f18/gpt-5.6-luna"
 
+#: In the order `ls.py:_paper_text` in ns-validate tries them, and that agreement is the
+#: point. The record's `source_text_hash` is the sha256 of whichever of these the
+#: extraction ran against, and `ls.py export` refuses to stage a text whose hash does not
+#: match it. Extracting from the corpus text while the reviewer is shown the built one is
+#: not a degradation, it is a hard export failure -- and the built one is the only variant
+#: with the coordinate tables in it, so it is also the one worth extracting from.
+TEXT_VARIANTS = ("processed/local/text.tables.txt", "processed/pubget/text.txt")
+
+
+def paper_text(study_dir: Path) -> Path:
+    """The text every stage of this run addresses."""
+
+    for relative in TEXT_VARIANTS:
+        candidate = study_dir / relative
+        if candidate.is_file():
+            return candidate
+    raise SystemExit(
+        f"no text for {study_dir.name} under {study_dir}: tried "
+        + ", ".join(TEXT_VARIANTS)
+        + ".\nRun review/sync_texts.py, then review/build_text.py to inline the tables."
+    )
+
 
 def field(value: str | None, source: str = "reported") -> dict:
     """One ExtractedValue. Evidence is left to the evidence pass, as everywhere else."""
@@ -97,7 +119,8 @@ def main() -> int:
     for pmid, study, axis in read_pmids(args.pmids):
         print(f"\n=== {study} (pmid {pmid}) — {axis}")
         study_dir = args.texts / study
-        text = study_dir / "processed" / "pubget" / "text.txt"
+        text = paper_text(study_dir)
+        print(f"  text: {text.relative_to(study_dir)} ({text.stat().st_size:,} bytes)")
         payload_dir = args.payloads / study
         payload_dir.mkdir(parents=True, exist_ok=True)
         stage1 = study_dir / "stage1" / "analyses.json"
@@ -136,6 +159,7 @@ def main() -> int:
                                   "--paper", study, "--text", text,
                                   "--payloads", payload_dir,
                                   "--key-file", args.key_file, "--model", args.model,
+                                  "--effort", args.effort,
                                   *(["--redo"] if args.redo else [])]))
 
         if "build" in args.stages:
