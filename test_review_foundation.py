@@ -27,7 +27,7 @@ sys.path.insert(0, str(REVIEW))
 
 import build_record  # noqa: E402
 import spans as span_tools  # noqa: E402
-import tables  # noqa: E402
+import table_parse as tables  # noqa: E402
 import text_index  # noqa: E402
 import validate_record  # noqa: E402
 
@@ -489,19 +489,22 @@ requires_tables = pytest.mark.skipif(
 
 
 def _table_fixture(paper: str, table_id: str):
-    """(table, parsed analyses) for one paper's table, straight off disk."""
+    """One paper's table, straight off disk.
+
+    Attributing its rows to analyses, and rendering the result, belong to the review
+    layer -- `ns-validate` owns those and tests them against its own superset of this
+    module. What is left here is the parse: the grid, its header, and the markdown
+    `build_text.py` inlines into the paper.
+    """
 
     root = REVIEW / "texts" / paper
-    manifest = tables.read_manifest(root)
-    record = manifest[table_id]
-    table = tables.read_table(
+    record = tables.read_manifest(root)[table_id]
+    return tables.read_table(
         root / "source" / "pubget",
         record["data_file"],
         label=record["table_label"],
         caption=record["caption"],
     )
-    parsed = tables.load_stage1(root / "stage1" / "analyses.json")
-    return table, parsed.get(table_id, [])
 
 
 def _data_rows(table) -> int:
@@ -528,13 +531,13 @@ def test_read_table_joins_on_the_csv_filename_not_the_table_id() -> None:
     )
     assert info["table_id"] == "T2", "the premise of this test changed"
 
-    table, _ = _table_fixture("4cRnHYtfSwuK", "t2")
+    table = _table_fixture("4cRnHYtfSwuK", "t2")
     assert table is not None and _data_rows(table) == 14
 
 
 @requires_tables
 def test_header_runs_collapse_into_colspans() -> None:
-    table, _ = _table_fixture("4cRnHYtfSwuK", "t2")
+    table = _table_fixture("4cRnHYtfSwuK", "t2")
     first = [(cell["text"], cell["span"]) for cell in table["header"][0]]
     assert ("MNI coordinate", 3) in first
     assert sum(cell["span"] for cell in table["header"][0]) == table["width"]
@@ -551,7 +554,7 @@ def test_axis_columns_are_not_captured_by_a_z_statistic_column() -> None:
     the first row -- which has the Z but neither x nor y.
     """
 
-    table, _ = _table_fixture("5Rw4BhGBShSR", "t0005")
+    table = _table_fixture("5Rw4BhGBShSR", "t0005")
     assert table["axis_cols"] == [3, 4, 5]
     # The statistic column is real and still there; it is simply not an axis. Read off
     # the collapsed header, where "Peak Coordinate" occupies one cell of span 3.
@@ -568,7 +571,7 @@ def test_a_consecutive_axis_triple_beats_a_leftward_statistic() -> None:
 
 @requires_tables
 def test_section_rows_are_recognised_as_headings_not_data() -> None:
-    table, _ = _table_fixture("HU6mqxmtySg3", "brb3829-tbl-0003")
+    table = _table_fixture("HU6mqxmtySg3", "brb3829-tbl-0003")
     # Whitespace is folded before comparing: this publisher sets the contrast names with
     # U+00A0 around the ">", and a retyped literal would differ invisibly.
     sections = [
@@ -579,306 +582,6 @@ def test_section_rows_are_recognised_as_headings_not_data() -> None:
         "Transparent proverbs > Literal sentences",
         "Opaque proverbs > Literal sentences",
     ]
-
-
-@requires_tables
-@pytest.mark.parametrize(
-    "paper,table_id",
-    [("HU6mqxmtySg3", "brb3829-tbl-0003"), ("5Rw4BhGBShSR", "t0005"), ("4cRnHYtfSwuK", "t2")],
-)
-def test_the_strict_match_never_claims_more_than_the_fallback(paper, table_id) -> None:
-    """On this corpus the two rules agree, and that is worth stating rather than implying.
-
-    Restricting the comparison to the x/y/z columns does *not* reduce the match count on
-    any of the three papers here -- `5Rw4BhGBShSR` Table 1 yields 107 claims either way.
-    What it buys is a well-defined answer when a coordinate value also appears in a
-    cluster-size or statistic column (the next test), and it may never be looser. The
-    reduction from 107 claims to 47 owned and 30 contested comes from `attribute_rows`.
-    """
-
-    table, analyses = _table_fixture(paper, table_id)
-    assert table["axis_cols"] is not None
-    strict = sum(len(tables.match_rows(table, a["points"])) for a in analyses)
-    loose = sum(
-        len(tables.match_rows({**table, "axis_cols": None}, a["points"]))
-        for a in analyses
-    )
-    assert strict <= loose
-
-
-def test_a_coordinate_repeated_in_a_cluster_column_does_not_match() -> None:
-    """The case the axis columns exist for, absent from the three papers on disk.
-
-    Row two's cluster size and t value happen to be 10 and 20, and its z is 30, so the
-    row contains the whole triple -- but not in the coordinate columns, and it is not
-    this analysis's peak.
-    """
-
-    table = {
-        "width": 6,
-        "header": [[{"text": t, "span": 1} for t in ("region", "k", "t", "x", "y", "z")]],
-        "body": [
-            {"type": "data", "cells": ["hit", "5", "3", "10", "20", "30"]},
-            {"type": "data", "cells": ["miss", "10", "20", "1", "2", "30"]},
-        ],
-        "axis_cols": [3, 4, 5],
-        "coord_cols": [3, 4, 5],
-    }
-    points = [{"coordinates": [10, 20, 30]}]
-    assert tables.match_rows(table, points) == [0]
-    assert tables.match_rows({**table, "axis_cols": None}, points) == [0, 1]
-
-
-@requires_tables
-def test_the_same_peak_in_two_blocks_is_settled_by_the_section_heading() -> None:
-    """This paper reports (-58, 22, 16) under two contrasts, so coordinates alone tie.
-
-    Raw matching hands rows 1, 3, 9 and 11 to both "Proverbs > Literal" and "Opaque
-    proverbs > Literal", which is correct -- those coordinates really do appear twice.
-    The table names each contrast in a section heading, and that is what resolves it:
-    every analysis ends up with exactly the three rows of its own block.
-    """
-
-    table, analyses = _table_fixture("HU6mqxmtySg3", "brb3829-tbl-0003")
-    raw = [tables.match_rows(table, a["points"]) for a in analyses]
-    assert len(set(raw[0]) & set(raw[2])) == 4, "the premise of this test changed"
-
-    owner, contested = tables.attribute_rows(table, analyses)
-    assert not contested
-    for position in range(len(analyses)):
-        assert sum(1 for holder in owner.values() if holder == position) == 3
-
-
-@requires_tables
-@pytest.mark.parametrize(
-    "paper,table_id",
-    [
-        ("4cRnHYtfSwuK", "t2"),
-        ("4cRnHYtfSwuK", "t3"),
-        ("5Rw4BhGBShSR", "t0015"),
-        ("HU6mqxmtySg3", "brb3829-tbl-0003"),
-        ("HU6mqxmtySg3", "brb3829-tbl-0004"),
-    ],
-)
-def test_every_row_of_an_unambiguous_table_gets_exactly_one_analysis(paper, table_id) -> None:
-    """Five of the six real coordinate tables attribute cleanly and must stay that way."""
-
-    table, analyses = _table_fixture(paper, table_id)
-    owner, contested = tables.attribute_rows(table, analyses)
-    assert not contested
-    assert len(owner) == _data_rows(table)
-
-
-@requires_tables
-@pytest.mark.parametrize(
-    "paper,table_id",
-    [("5Rw4BhGBShSR", "t0005"), ("5Rw4BhGBShSR", "t0015"), ("4cRnHYtfSwuK", "t2"),
-     ("4cRnHYtfSwuK", "t3"), ("HU6mqxmtySg3", "brb3829-tbl-0003"),
-     ("HU6mqxmtySg3", "brb3829-tbl-0004")],
-)
-def test_the_parse_already_partitions_the_table(paper: str, table_id: str) -> None:
-    """The parser hands each analysis a run of consecutive rows, so nothing is ambiguous.
-
-    Coordinate matching discarded that and asked "which analyses report this triple?",
-    which on a paper reporting one peak under several contrasts answers "several" -- 22
-    of 77 rows on `5Rw4BhGBShSR` Table 1 came out contested when the parse had assigned
-    every one of them. Confirmed rather than assumed: each row's own x/y/z must equal
-    the point the ordering predicts, and it does on all six tables in the corpus.
-    """
-
-    table, analyses = _table_fixture(paper, table_id)
-    owner, contested = tables.attribute_rows(table, analyses)
-
-    assert contested == {}, "the parse partitions this table; nothing should be contested"
-    assert len(owner) == _data_rows(table)
-    assert sorted(set(owner.values())) == list(range(len(analyses)))
-    for position, analysis in enumerate(analyses):
-        mine = [row for row, holder in owner.items() if holder == position]
-        assert len(mine) == len(analysis.get("points") or [])
-
-
-@requires_tables
-def test_a_repeated_peak_is_reported_contested_rather_than_guessed() -> None:
-    """The fallback's guarantee, which still has to hold when the ordering cannot.
-
-    `5Rw4BhGBShSR` Table 1 is seven analyses over 77 rows with no section headings, and
-    the same peak is reported under several contrasts. When the parse cannot be checked
-    against the rows -- here because its points no longer account for every one -- the
-    ambiguity is real, and handing each row to whichever analysis matched first would
-    hide a `wrong_rows` finding behind a confident colour.
-    """
-
-    table, analyses = _table_fixture("5Rw4BhGBShSR", "t0005")
-    # Drop one point so the counts no longer reconcile, which is exactly the condition
-    # under which `sequential_partition` declines and matching takes over.
-    lame = [dict(a) for a in analyses]
-    lame[0] = {**lame[0], "points": (lame[0].get("points") or [])[1:]}
-    assert tables.sequential_partition(table, lame) is None
-
-    owner, contested = tables.attribute_rows(table, lame)
-    assert contested, "ambiguity was resolved by guessing"
-    assert not set(owner) & set(contested)
-
-    markup = tables.render_table_html(table, owner=owner, contested=contested)
-    assert f"claimed by more than one — {len(contested)}" in markup
-
-
-@requires_tables
-def test_a_section_block_settles_its_own_contested_rows() -> None:
-    """A table that names the contrast in a heading has already said whose block it is."""
-
-    table = {
-        "width": 4,
-        "body": [
-            {"type": "section", "text": "A > B"},
-            {"type": "data", "cells": ["r1", "1", "2", "3"]},
-            {"type": "data", "cells": ["r2", "4", "5", "6"]},
-            {"type": "section", "text": "B > A"},
-            {"type": "data", "cells": ["r3", "7", "8", "9"]},
-        ],
-        "axis_cols": [1, 2, 3],
-        "coord_cols": [1, 2, 3],
-        "header": [[{"text": "region", "span": 1}, {"text": "x", "span": 1},
-                    {"text": "y", "span": 1}, {"text": "z", "span": 1}]],
-    }
-    analyses = [
-        {"points": [{"coordinates": [1, 2, 3]}, {"coordinates": [4, 5, 6]}]},
-        {"points": [{"coordinates": [4, 5, 6]}, {"coordinates": [7, 8, 9]}]},
-    ]
-    owner, contested = tables.attribute_rows(table, analyses)
-    assert owner == {1: 0, 2: 0, 4: 1}
-    assert not contested
-
-
-# -- joining a parsed analysis to an encoded one ----------------------------
-
-
-def test_name_score_refuses_a_reversed_contrast() -> None:
-    assert tables.name_score("HC > MDD", "MDD > HC") < 0.5
-    assert tables.name_score("CS+ > CS-", "CS- > CS+") < 0.5
-    assert tables.name_score("CS+ > CS-", "CS+ vs CS-") >= 0.5
-    assert tables.name_score("Left IFG activation", "Right IFG activation") < 0.5
-
-
-def test_a_reversal_survives_tokens_shared_by_both_right_hand_sides() -> None:
-    """Raw intersection counts miss the reversal these two names differ by.
-
-    "downward" and "t-test" sit on the right of both, giving straight=2 and crossed=2,
-    so the pair scored a perfect 1.00 and the two analyses swapped their rows. Scoring
-    each side by Jaccard lets the short distinguishing side count for as much as the
-    long shared one.
-    """
-
-    a = "Averted > Direct & Downward (T-test)"
-    b = "Direct > Averted & Downward (T-test)"
-    assert tables.name_score(a, b) < 0.5
-    assert tables.name_score(a, a) == 1.0
-
-
-def test_name_overlap_separates_a_subset_from_an_identity() -> None:
-    """`name_score` divides by the smaller token set, so a subset scores a perfect 1.0.
-
-    All three of this paper's contrasts then tie against "Proverbs > Literal sentences",
-    and breaking the tie by name ordering rotated the assignment by one -- giving every
-    analysis its neighbour's rows, with a 1.00 score to vouch for it.
-    """
-
-    whole = "Proverbs > Literal sentences"
-    for other in ("Opaque proverbs > Literal sentences", "Transparent proverbs > Literal sentences"):
-        assert tables.name_score(whole, other) == 1.0
-        assert tables.name_overlap(whole, other) < 1.0
-    assert tables.name_overlap(whole, whole) == 1.0
-
-
-@requires_tables
-@pytest.mark.parametrize("paper", TABLE_PAPERS)
-def test_every_encoded_analysis_links_to_the_parse_it_was_read_off(paper) -> None:
-    """These records were extracted with stage 1 in the prompt, so the names agree.
-
-    That makes the correct join the identity, and any deviation a defect in the
-    matcher rather than a judgement call.
-    """
-
-    root = REVIEW / "texts" / paper
-    record_path = REVIEW / "examples" / f"{paper}.extraction.json"
-    if not record_path.is_file():
-        pytest.skip(f"no extraction record for {paper}")
-
-    parsed = tables.load_stage1(root / "stage1" / "analyses.json")
-    table_map = json.loads((root / "stage1" / "table-map.json").read_text("utf-8"))
-    body = json.loads(record_path.read_text("utf-8"))
-    record = {}
-    for analysis in body.get("analyses") or []:
-        name = analysis.get("name")
-        name = name.get("value") if isinstance(name, dict) else name
-        record[analysis["local_id"]] = (name or "", analysis.get("tables") or [])
-
-    links = tables.link_analyses(record, parsed, table_map)
-    assert not links.unmatched_records
-    assert not links.unmatched_siblings
-    for local_id, (table_id, position, _score) in links.matched.items():
-        assert record[local_id][0].strip() == parsed[table_id][position]["name"].strip()
-
-
-def test_linking_never_gives_one_parse_to_two_records() -> None:
-    """Two encodings off one parse is the over-split finding, not a tie to be split."""
-
-    parsed = {"t1": [{"name": "A > B", "points": []}]}
-    record = {"ana_1": ("A > B", ["tbl1"]), "ana_2": ("A > B", ["tbl1"])}
-    links = tables.link_analyses(record, parsed, {"t1": "tbl1"})
-    assert len(links.matched) == 1
-    assert len(links.unmatched_records) == 1
-
-
-# -- the rendered markup ----------------------------------------------------
-
-
-@requires_tables
-def test_rendered_table_escapes_the_paper_own_contrast_names() -> None:
-    """Every analysis name in this paper contains a ">", which is markup if unescaped."""
-
-    table, analyses = _table_fixture("HU6mqxmtySg3", "brb3829-tbl-0003")
-    owner, contested = tables.attribute_rows(table, analyses)
-    markup = tables.render_table_html(table, owner=owner, contested=contested)
-    # The publisher sets these names with non-breaking spaces around the ">", so the
-    # assertion reads the paper's own bytes rather than a retyped guess -- a literal
-    # typed here would carry ordinary spaces and pass or fail for the wrong reason.
-    sections = [row["text"] for row in table["body"] if row["type"] == "section"]
-    assert sections, "the premise of this test changed"
-    for text in sections:
-        assert ">" in text
-        assert text.replace(">", "&gt;") in markup
-        assert text not in markup, "the raw name reached the markup unescaped"
-    assert "<script" not in markup.lower()
-
-
-@requires_tables
-def test_rendered_table_carries_a_gutter_and_one_class_per_analysis() -> None:
-    table, analyses = _table_fixture("HU6mqxmtySg3", "brb3829-tbl-0003")
-    owner, contested = tables.attribute_rows(table, analyses)
-    markup = tables.render_table_html(table, owner=owner, contested=contested, tints=4)
-    for position in range(len(analyses)):
-        assert f'class="ns-a{position}"' in markup
-    assert markup.count('class="ns-gut"') == _data_rows(table)
-    assert f'colspan="{table["width"] + 1}"' in markup, "section rows must span the gutter too"
-
-
-@requires_tables
-def test_contrast_mode_marks_only_its_own_rows() -> None:
-    table, analyses = _table_fixture("4cRnHYtfSwuK", "t2")
-    rows = tables.match_rows(table, analyses[1]["points"])
-    markup = tables.render_table_html(table, highlight=rows)
-    assert markup.count("ns-hit") == len(rows) == 2
-
-
-def test_a_table_that_cannot_be_read_still_renders_a_string() -> None:
-    """Label Studio types this key as HyperText and admits only str, on import and on
-    the PATCH the task sync issues -- so None or "" would fail the task, not the cell."""
-
-    markup = tables.render_table_html(None, missing="tbl9")
-    assert isinstance(markup, str) and markup
-    assert "tbl9" in markup
-
 
 
 # -- rebuilding the text with its tables inline -----------------------------
@@ -1061,7 +764,7 @@ def test_a_section_name_does_not_set_a_column_width() -> None:
     """A forty-character contrast name in the first column pushed every coordinate off
     the right of the pane, because the section row was measured with the data rows."""
 
-    table, _ = _table_fixture("HU6mqxmtySg3", "brb3829-tbl-0003")
+    table = _table_fixture("HU6mqxmtySg3", "brb3829-tbl-0003")
     markdown = tables.markdown_table(table)
     header = next(line for line in markdown.splitlines() if line.startswith("| kE"))
     assert len(header.split("|")[1]) <= 6, header
@@ -1078,7 +781,7 @@ def test_a_section_name_does_not_set_a_column_width() -> None:
 def test_the_markdown_table_columns_line_up() -> None:
     """Padding is the whole point: unpadded pipes are not a table anyone can scan."""
 
-    table, _ = _table_fixture("4cRnHYtfSwuK", "t2")
+    table = _table_fixture("4cRnHYtfSwuK", "t2")
     lines = [
         line for line in tables.markdown_table(table).splitlines()
         if line.startswith("|") and not line.startswith("|-")
@@ -1086,141 +789,5 @@ def test_the_markdown_table_columns_line_up() -> None:
     data = [line for line in lines if line.count("|") == lines[0].count("|")]
     assert len({len(line) for line in data}) == 1, "rows are not a common width"
 
-
-
-# -- one encoding per view --------------------------------------------------
-
-_GRID = {
-    "label": "Table 1", "caption": "Peaks.", "width": 2,
-    "header": [[{"text": "x", "span": 1}, {"text": "y", "span": 1}]],
-    "body": [
-        {"type": "data", "cells": ["1", "2"]},
-        {"type": "data", "cells": ["3", "4"]},
-        {"type": "data", "cells": ["5", "6"]},
-    ],
-    "coord_cols": [0, 1], "axis_cols": None,
-}
-
-
-def _gutters(markup: str) -> list[str]:
-    return re.findall(r'<td class="ns-gut">([^<]*)</td>', markup)
-
-
-def test_a_contrast_view_never_shows_another_analysis_ordinal() -> None:
-    """The complaint this fixes: green checkmarks beside red rows reading "1,4".
-
-    A contrast task asks one binary question about one analysis and shows no
-    numbered sibling list, so an ordinal names something the reviewer has no key
-    for. Marks are ✓ / ? / blank and nothing else.
-    """
-
-    markup = tables.render_table_html(_GRID, highlight=[0], contested={1: [0, 3]})
-
-    assert _gutters(markup) == ["✓", "?", ""]
-    assert "1,4" not in markup and "ns-a0" not in markup
-
-
-def test_a_table_view_numbers_its_rows_because_the_list_below_is_numbered() -> None:
-    """The ordinals are the join between the grid and the sibling list under it."""
-
-    markup = tables.render_table_html(_GRID, owner={0: 0, 2: 3}, contested={1: [0, 3]})
-
-    assert _gutters(markup) == ["1", "1,4", "4"]
-
-
-def test_a_row_that_is_both_this_analysis_and_contested_reads_as_this_analysis() -> None:
-    """It is a settled question for a task with no control for reopening it.
-
-    Marking it contested asked the contrast reviewer to adjudicate a split from a
-    form whose only question is whether the record matches the paper.
-    """
-
-    markup = tables.render_table_html(_GRID, highlight=[1], contested={1: [0, 2]})
-
-    assert _gutters(markup) == ["", "✓", ""]
-    assert "ns-maybe" not in markup
-
-
-def test_the_legend_names_only_the_marks_the_table_actually_uses() -> None:
-    """Raising the idea of contested rows on a table that has none is noise."""
-
-    clean = tables.render_table_html(_GRID, highlight=[0])
-    assert "this analysis" in clean
-    assert "may be this analysis" not in clean
-
-    mixed = tables.render_table_html(_GRID, highlight=[0], contested={1: [0, 2]})
-    assert "may be this analysis" in mixed
-
-
-def test_the_legend_precedes_the_grid_it_explains() -> None:
-    """Under a 77-row table is after the point at which the key was needed."""
-
-    markup = tables.render_table_html(_GRID, highlight=[0], note="n")
-
-    assert markup.index("ns-tbl-key") < markup.index("ns-table")
-    assert markup.index("ns-table") < markup.index("ns-tbl-note")
-
-
-
-# -- the sequential partition declines rather than guesses -------------------
-
-def _ordered_grid(rows: list[tuple[float, float, float]]) -> dict:
-    return {
-        "label": "Table 1", "caption": "", "width": 4,
-        "header": [[{"text": h, "span": 1} for h in ("region", "x", "y", "z")]],
-        "body": [
-            {"type": "data", "cells": ["r", str(x), str(y), str(z)]} for x, y, z in rows
-        ],
-        "coord_cols": [1, 2, 3], "axis_cols": [1, 2, 3],
-    }
-
-
-def _pts(*triples) -> dict:
-    return {"points": [{"coordinates": list(t)} for t in triples]}
-
-
-def test_the_ordering_is_confirmed_against_the_coordinates_not_assumed() -> None:
-    """A run of rows is only handed over when the rows say the same thing.
-
-    Without the check this would be an ordering imposed on the table rather than read
-    from it, and a parser that dropped or reordered a row would silently relabel every
-    row after it -- worse than the contested marks it replaces, because it looks certain.
-    """
-
-    table = _ordered_grid([(1, 1, 1), (2, 2, 2), (3, 3, 3), (4, 4, 4)])
-    agreeing = [_pts((1, 1, 1), (2, 2, 2)), _pts((3, 3, 3), (4, 4, 4))]
-    assert tables.sequential_partition(table, agreeing) == {0: 0, 1: 0, 2: 1, 3: 1}
-
-    # Same counts, but the third row disagrees with the point the sequence predicts.
-    disagreeing = [_pts((1, 1, 1), (2, 2, 2)), _pts((9, 9, 9), (4, 4, 4))]
-    assert tables.sequential_partition(table, disagreeing) is None
-
-
-def test_the_ordering_declines_when_the_points_do_not_account_for_every_row() -> None:
-    """A parser miss is a finding. Spreading the remaining points over the rows would
-    relabel real ones to hide it."""
-
-    table = _ordered_grid([(1, 1, 1), (2, 2, 2), (3, 3, 3)])
-    assert tables.sequential_partition(table, [_pts((1, 1, 1), (2, 2, 2))]) is None
-    assert tables.sequential_partition(
-        table, [_pts((1, 1, 1), (2, 2, 2), (3, 3, 3), (4, 4, 4))]
-    ) is None
-
-
-def test_the_ordering_declines_when_the_header_names_no_axes() -> None:
-    """With no x/y/z columns there is nothing to confirm the ordering against."""
-
-    table = _ordered_grid([(1, 1, 1), (2, 2, 2)])
-    table["axis_cols"] = None
-    assert tables.sequential_partition(table, [_pts((1, 1, 1), (2, 2, 2))]) is None
-
-
-def test_a_section_row_is_not_counted_as_a_data_row_by_the_ordering() -> None:
-    """Section headings interleave with data; counting them would shift every analysis."""
-
-    table = _ordered_grid([(1, 1, 1), (2, 2, 2)])
-    table["body"].insert(1, {"type": "section", "text": "A > B"})
-    owner = tables.sequential_partition(table, [_pts((1, 1, 1)), _pts((2, 2, 2))])
-    assert owner == {0: 0, 2: 1}
 
 

@@ -47,7 +47,7 @@ from typing import Any
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import tables  # noqa: E402
+import table_parse  # noqa: E402
 from sync_texts import read_pmids  # noqa: E402
 
 #: Left by `text_extraction.xsl` where each table sat. pubget's own `_insert_tables`
@@ -140,7 +140,7 @@ def _markdown_tables(article_dir: Path) -> dict[int, str]:
 
     out: dict[int, str] = {}
     for info_file in sorted(
-        Path(article_dir).glob(f"{tables.TABLES_SUBDIR}/table_*_info.json")
+        Path(article_dir).glob(f"{table_parse.TABLES_SUBDIR}/table_*_info.json")
     ):
         match = re.match(r"table_(\d+)_info\.json", info_file.name)
         if not match:
@@ -149,9 +149,9 @@ def _markdown_tables(article_dir: Path) -> dict[int, str]:
         data_file = info.get("table_data_file")
         if not data_file:
             continue
-        table = tables.read_table(article_dir, data_file)
+        table = table_parse.read_table(article_dir, data_file)
         if table:
-            out[int(match.group(1))] = tables.markdown_table(table)
+            out[int(match.group(1))] = table_parse.markdown_table(table)
     return out
 
 
