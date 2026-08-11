@@ -1,0 +1,170 @@
+# extraction-deviations.yaml
+#
+# Everything in the extraction schema that is not a mechanical projection of the storage
+# schema. gen_extraction_schema.py applies this file on top of the projection; nothing
+# else may differ, and check_extraction_mirrors_storage.py enforces that.
+#
+# The file has two parts, and the difference between them matters.
+#
+# `required_additions` is what extraction has because it is an extraction: which model
+# ran, what text it read, where the sections of that text begin and end. Storage has no
+# place for any of it, so no projection could produce it. These are not judgement calls.
+#
+# `deviations` is where the two schemas are allowed to disagree about the *domain* --
+# a class split, a slot flattened, a union unrolled -- because extracting the storage
+# shape directly was measurably worse. It starts empty on purpose. The baseline is that
+# the schemas are identical, and each entry is a claim that a paper-reading model does
+# better with a different shape. Every entry carries `why`: what was tried, on what, and
+# what it changed. The generator refuses an entry without one.
+#
+# Operations: add_slot, drop_slot, replace_slot, add_class, drop_class.
+# `class` is addressed as <module>.<ClassName>, matching the generated module tree.
+
+id: https://neurostuff.org/schemas/extraction-deviations
+name: extraction-deviations
+title: Departures of the Extraction Schema from the Storage Projection
+version: 0.1.0
+
+# Root-schema keys the projection should not inherit. The storage header describes a
+# record the mapper writes; this one describes what a model read.
+header:
+
+  version: 0.5.0
+
+  description: >-
+    Immutable, evidence-first structured output from extracting a neuroimaging
+    publication.
+
+    This schema is generated from neuroimaging-study-storage by gen_extraction_schema.py.
+    It has the same classes with the same slots in the same nesting; what differs is that
+    every source-derived value is wrapped. An ExtractedValue records whether a value was
+    found (extraction_status), the value itself when it was, how it relates to the source
+    (value_source), and the exact supporting spans (evidence). A slot needing a scalar
+    uses a typed subtype -- ExtractedString, ExtractedInteger, ExtractedNumber,
+    ExtractedBoolean. Storage's enums are text here: record the paper's wording and let
+    the map normalize it. Identifiers, type designators, and pipeline provenance use
+    native LinkML types, because nothing in the paper supplies them.
+
+    Evidence is present when one or more independently sufficient EvidenceSets were found,
+    or not_found when a value was extracted but no span supports it. For a not_reported
+    attribute, omit value and set evidence.status to not_applicable. Entities refer to
+    each other by document-local local_id; ingestion resolves them and mints the storage
+    identifiers. Do not manually correct an extraction record: create a new extraction
+    version or a separate correction record.
+
+    Rules this schema cannot state -- which papers are skipped before extraction, how a
+    multivalued extracted fact is shaped, which invariants the structural validator
+    enforces, and what a paper may report that no field holds -- are in
+    extraction-readme.md. Everything this schema does that is not a projection of storage
+    is in extraction-deviations.yaml.
+
+  see_also:
+    - https://github.com/neurostuff/study_schema/issues/3
+    - https://github.com/neurostuff/study_schema/issues/5
+    - https://github.com/neurostuff/study_schema/issues/6
+    - https://github.com/neurostuff/study_schema/issues/9
+
+required_additions:
+
+  module: study
+
+  classes:
+
+    ExtractionMetadata:
+      description: Pipeline provenance stamped onto the extraction record at generation time.
+      attributes:
+        extractor_model:
+          range: string
+          required: true
+          description: Model identifier used for extraction, e.g. claude-sonnet-4-6.
+        extractor_version:
+          range: string
+          required: true
+          description: Version string of the extraction prompt or pipeline.
+        source_text_hash:
+          range: string
+          description: SHA-256 of the paper text processed, for reproducibility checking.
+        extraction_date:
+          range: date
+          description: ISO-8601 date of extraction.
+        paper_sections:
+          range: PaperSection
+          multivalued: true
+          inlined_as_list: true
+          description: >-
+            Complete deterministic index of all paper sections and subsections,
+            including character spans.
+
+    PaperSection:
+      description: >-
+        Deterministic document index entry for every section and subsection in the
+        processed paper text. Character offsets use the same normalized source text
+        and half-open interval convention [start_char, end_char).
+      attributes:
+        ordinal:
+          range: integer
+          required: true
+          minimum_value: 0
+          description: Zero-based document order of the section heading.
+        title:
+          range: string
+          required: true
+          description: Section or subsection heading text after deterministic normalization.
+        level:
+          range: integer
+          required: true
+          minimum_value: 0
+          description: Heading depth; 0 is the document-level title, 1 is a top-level section.
+        parent_section:
+          range: string
+          description: title of the immediately containing section, when applicable.
+        start_char:
+          range: integer
+          required: true
+          minimum_value: 0
+          description: >-
+            Inclusive character offset of the section heading in normalized source text.
+        end_char:
+          range: integer
+          required: true
+          minimum_value: 0
+          description: >-
+            Exclusive character offset immediately before the next same-or-higher-level
+            heading or EOF.
+
+  slots:
+
+    study.Study:
+      extraction_metadata:
+        range: ExtractionMetadata
+        required: true
+        inlined: true
+        description: Provenance for this extraction record.
+
+# Nothing here yet. The projection is the baseline; add entries as data shows a different
+# shape extracts better. Candidates carried over from the hand-written schema that was
+# replaced by the projection, each of which needs re-testing before it comes back:
+#
+#   1. Acquisition modality payload. Storage subclasses -- MRI is_a Acquisition. The old
+#      extraction schema composed instead: Acquisition.mri, .eeg, .pet, .fnirs, .other.
+#   2. Analysis.details. Storage has one slot on the abstract AnalysisDetails with a
+#      details_type discriminator. The old schema had eight optional sibling slots
+#      (decoding, connectivity, conjunction, ...) so no discriminator had to be chosen.
+#   3. Effect / Cell / ModelTerm / AnalysisGroup. The old schema replaced these with
+#      Term + TermUse + {Condition,Group,Arm,Timepoint,Factor}Term and put statistic,
+#      baseline, and mediation_path directly on Analysis.
+#   4. StudyDesign.arms / .timepoints. The old schema hung both off Study instead.
+#   5. Measure.family / .type. The old schema dropped both and let the mapper derive
+#      them from source_label.
+#   6. Analysis.interpretations. Storage has multivalued string; the old schema had a
+#      single ExtractedValue.
+#
+# A seventh used to be here and is now settled. Extraction flattened every vocabulary to
+# ExtractedString and the map carried 16 synonym tables to get back to a permissible
+# value. The projection now emits an Extracted<Enum> wrapper per vocabulary, keeping each
+# field's range exactly as storage declares it -- closed for 13 fields, `any_of` with a
+# free-text escape hatch for 23 -- and the tables were deleted. The thing to watch is the
+# 13 closed ones: a closed vocabulary cannot report that it is short a value, so if
+# off-vocabulary answers matter for one of them, opening it is a storage change rather
+# than a deviation.
+deviations: []
