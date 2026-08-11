@@ -1,0 +1,23 @@
+__pycache__/
+*.py[cod]
+
+# API keys for the extractor and the review chat backend.
+.env
+
+# Paper full text, re-syncable from beast-proxy with review/sync_texts.py.
+# Kept out of version control because it is bulk source material, not schema.
+review/texts/
+
+# A local Label Studio instance used to run from here, before the review layer
+# moved to ns-validate. Root-owned by the container that made it, so it needs
+# `sudo rm -rf review/ls_data` to go.
+review/ls_data/
+
+# Label Studio source checkout (has its own git history).
+label-studio/
+
+# uv-managed virtualenv for the extractor.
+.venv/
+
+# Pinned upstream checkout used by review/parse_tables.py (has its own git history).
+.tmp_repos/

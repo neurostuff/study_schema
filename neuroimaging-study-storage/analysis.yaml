@@ -175,11 +175,6 @@ classes:
           the terms it does state and `unstated` elsewhere. Analyses sharing one design
           reference one record; an analysis specified or estimated differently takes its
           own.
-
-          For an analysis estimated in stages this is the **top** stage, the one that produced
-          the statistics reported here. The stages below it are reached through that record's
-          `inputs_from`, and their terms count as this contrast's just as the top stage's do,
-          so a first-level model is never referenced here and is never left dangling either.
       inference_settings:
         in_subset: [model_extracted]
         range: InferenceSettings
@@ -402,7 +397,7 @@ classes:
       One side of the tested comparison: a level of a model term, and which way that level
       entered. The unit a contrast is built from.
 
-      A cell points at a `ModelTerm`, not at a study entity. Which cohort, condition, occasion or
+      A cell points at a `ModelTerm`. Which cohort, condition, occasion or
       arm carries a level is a property of the design, held by the term's `FactorLevel`s, so the
       entity view of a contrast -- which conditions were compared, which cohorts -- is recovered
       by joining through the model. The `term` is therefore the axis of the comparison: cells
@@ -532,22 +527,15 @@ classes:
       - https://nidm.nidash.org/specs/nidm-results_120.html
     description: >-
       How a model was specified in software and estimated: its terms, the family, the
-      source's wording for it, the estimator, the stage, and the software. Accommodates
-      both BIDS Stats Models GLMs and other model families. One record may be referenced by
-      several Analyses, so every field must hold for all of them; an analysis specified or
-      estimated differently takes its own record. **The data a model was fitted to is part
-      of its specification**, so two stages fitted with the same design matrix to different
-      inputs -- a group model over a left-seed connectivity map and the same group model over
-      a right-seed one -- are two records differing in `inputs_from`.
+      source's wording for it, the estimator, the stage, and the software.
+      One record may be referenced by several Analyses, so every field must hold for all of them;
+      an analysis specified or estimated differently takes its own record. **The data a model was fitted to is part
+      of its specification**.
 
       One record is one estimation stage. Neuroimaging splits a model across stages for
       tractability, and `inputs_from` is what puts it back together: a stage's terms are its
       own plus those of the stages it consumed, so the split costs the record nothing while
       each stage keeps its own family, estimator, software and basis.
-
-      This is the model specification. The contrast specification -- which of these terms a
-      given comparison selects, on which side, and with what reported sign -- is the Effect
-      of each Analysis referencing this record. One model, many contrasts.
     attributes:
       id:
         in_subset: [mvp, deterministic]
@@ -620,22 +608,13 @@ classes:
           summarises. The stage graph, recorded only where the source states it.
 
           **A model's terms are its own plus, transitively, those of the models named here.**
-          That combined list is what `terms` would be had the analysis been fitted in one step,
-          and it is what every derivation reads: it is the adjustment set of each contrast minus
-          the terms the contrast's cells name, it is what a `Cell` may name, and it is what
-          `interaction_with` may cross. Motion regressed out at the first level adjusts the group
-          contrast, and a group contrast of a first-level condition is a cell on that condition's
-          term -- neither needs the column copied upward.
+          That combined list is what `terms` would be had the analysis been fitted in one step.
 
           Leave it empty when the source describes one design matrix, and when it describes the
           lower stage too thinly to constitute a model. Empty is not a claim that no lower stage
           existed; it is the absence of a statement about one, exactly as an unrecorded term is.
 
-          Points downward, from the consumer to what it consumed, and must be acyclic: no model
-          may reach itself. Names must not collide across the whole chain -- a column is one
-          column wherever it was fitted, so a term is declared at the stage that fitted it and
-          never re-declared above. A stage that genuinely refits a factor over different levels
-          is declaring a different column, which takes a name of its own.
+          Must be acyclic, no model may reach itself.
       terms:
         in_subset: [mvp, model_extracted]
         range: ModelTerm
