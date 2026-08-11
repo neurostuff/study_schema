@@ -168,6 +168,7 @@ def main() -> int:
             failures += bool(run([python, REVIEW / "build_record.py",
                                   "--paper", study, "--text", text,
                                   "--payloads", payload_dir, "--out", record,
+                                  "--stage1", stage1, "--tables", table_map,
                                   "--extractor-model", args.model,
                                   "--extraction-date", date.today().isoformat()]))
             raw = args.examples / f"{study}.extraction.raw.json"

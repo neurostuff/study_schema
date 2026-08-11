@@ -377,6 +377,54 @@ def apply_aliases(
     return rewrites
 
 
+def derive_coordinate_spaces(body: dict[str, Any], stage1: Path | None,
+                             table_map: Path | None) -> list[str]:
+    """Fill `Analysis.coordinate_space` from the space stage 1 read off the table.
+
+    Stage 1 parses a space for every coordinate it extracts and is right about it: across
+    ten papers it returned MNI for all 197 points and disagreed with itself on none. The
+    stage-3 prompt already injects that space, but as a hint "to confirm, not values to
+    copy" -- and the model declines to confirm, leaving the slot unreported on 50 of 57
+    analyses. A fact this deterministic should not be routed through a model that has been
+    told to distrust it, any more than `Table.caption` is.
+
+    Only fills what the model left empty, and only when every point behind the analysis
+    agrees, so a genuinely mixed-space paper still reaches a human.
+    """
+
+    if not (stage1 and stage1.is_file() and table_map and table_map.is_file()):
+        return []
+
+    parsed = json.loads(stage1.read_text(encoding="utf-8")).get("analyses") or []
+    mapping = json.loads(table_map.read_text(encoding="utf-8"))
+
+    spaces_by_table: dict[str, set[str]] = {}
+    for analysis in parsed:
+        local = mapping.get(analysis.get("table_id"))
+        if not local:
+            continue
+        seen = {p.get("space") for p in analysis.get("points") or [] if p.get("space")}
+        spaces_by_table.setdefault(local, set()).update(seen)
+
+    filled: list[str] = []
+    for index, analysis in enumerate(body.get("analyses") or []):
+        slot = analysis.get("coordinate_space")
+        if isinstance(slot, Mapping) and slot.get("extraction_status") == "extracted":
+            continue
+        spaces = set()
+        for table in analysis.get("tables") or []:
+            spaces |= spaces_by_table.get(table, set())
+        if len(spaces) != 1:
+            continue
+        space = spaces.pop()
+        analysis["coordinate_space"] = {
+            "extraction_status": "extracted", "value": space, "value_source": "reported",
+            "evidence": {"status": "not_applicable"},
+        }
+        filled.append(f"analyses[{index}] -> {space}")
+    return filled
+
+
 def listify_nested(body: dict[str, Any], classes: Mapping[str, Any]) -> list[str]:
     """Wrap a lone object in a list wherever the schema declares a multivalued slot.
 
@@ -450,6 +498,11 @@ def check_local_ids(body: dict[str, Any], classes: Mapping[str, Any]) -> list[st
     # top-level sweep declares neither and every `Cell.term` and
     # `FactorLevel.conditions` reference reads as dangling when it is in fact fine.
     declared: set[str] = set()
+    # Counted as well as collected: a reference resolves to a *set* membership, so two
+    # entities sharing a local_id both "resolve" and nothing downstream can tell which
+    # one a Cell.term meant. Sibling model estimations that share covariate names --
+    # term_age, term_sex -- produce this without anything looking wrong.
+    times: dict[str, int] = {}
 
     def collect(node: Any) -> None:
         if isinstance(node, dict):
@@ -457,6 +510,7 @@ def check_local_ids(body: dict[str, Any], classes: Mapping[str, Any]) -> list[st
                 return
             if isinstance(node.get("local_id"), str):
                 declared.add(node["local_id"])
+                times[node["local_id"]] = times.get(node["local_id"], 0) + 1
             for value in node.values():
                 collect(value)
         elif isinstance(node, list):
@@ -464,7 +518,10 @@ def check_local_ids(body: dict[str, Any], classes: Mapping[str, Any]) -> list[st
                 collect(value)
 
     collect(body)
-    problems: list[str] = []
+    problems: list[str] = [
+        f"local_id {name!r} is declared {count} times; every reference to it is ambiguous"
+        for name, count in sorted(times.items()) if count > 1
+    ]
 
     def visit(node: Any, class_name: str, path: str) -> None:
         if not isinstance(node, dict) or _is_field(node):
@@ -502,6 +559,8 @@ def build(
     extractor_model: str,
     extractor_version: str,
     extraction_date: str,
+    stage1: Path | None = None,
+    table_map: Path | None = None,
 ) -> tuple[dict[str, Any], BuildReport]:
     normalized, digest, sections = text_index.load(text_path)
     folded = span_tools.fold(normalized)
@@ -527,6 +586,11 @@ def build(
     derived = derive_acquisition_types(body)
     for line in derived:
         print(f"derived acquisition_type {line}")
+
+    spaces = derive_coordinate_spaces(body, stage1, table_map)
+    if spaces:
+        print(f"derived coordinate_space for {len(spaces)} analysis/analyses: "
+              + ", ".join(spaces[:6]) + (" ..." if len(spaces) > 6 else ""))
 
     listed = listify_nested(body, classes)
     if listed:
@@ -577,6 +641,10 @@ def main() -> int:
     parser.add_argument("--extractor-model", default="claude-opus-5")
     parser.add_argument("--extractor-version", default="review-bootstrap-0.1.0")
     parser.add_argument("--extraction-date", default="2026-08-02")
+    parser.add_argument("--stage1", type=Path,
+                        help="stage1/analyses.json, for the coordinate space")
+    parser.add_argument("--tables", type=Path,
+                        help="stage1/table-map.json, pairing pubget tables to Table ids")
     args = parser.parse_args()
 
     record, report = build(
@@ -586,6 +654,8 @@ def main() -> int:
         args.extractor_model,
         args.extractor_version,
         args.extraction_date,
+        args.stage1,
+        args.tables,
     )
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
