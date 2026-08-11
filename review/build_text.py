@@ -155,19 +155,48 @@ def _markdown_tables(article_dir: Path) -> dict[int, str]:
     return out
 
 
-def insert_tables(body: str, article_dir: Path) -> str:
-    """Replace each placeholder with its table as markdown.
+#: Where floated tables go. Named in the text because the reviewer needs to know that a
+#: table appearing after the discussion was not printed there -- the article never placed
+#: it in the prose at all.
+_FLOATED_HEADING = "## Tables (floated, no position in the body)"
+
+
+def insert_tables(body: str, article_dir: Path, report: dict | None = None) -> str:
+    """Replace each placeholder with its table as markdown, then append the floated ones.
 
     Deliberately not `pubget._text._insert_tables`: that emits tab-separated values, and
     a TSV grid in a plain-text pane is a wall of numbers with nothing marking the
     columns. Same placeholders, same file numbering, different rendering.
+
+    The append is not tidying. The stylesheet only walks `/article/body`, so a
+    `table-wrap` under `/article/floats-group` -- which is where JATS puts a table the
+    publisher floated, and where a large minority of this corpus keeps *all* of them --
+    is never visited and gets no placeholder. Nothing downstream notices: the text is
+    merely shorter, and the coordinate rows the whole review is about are silently not
+    there to be spanned. Position is the only thing lost by appending, and position is
+    not what a span needs.
     """
 
     grids = _markdown_tables(article_dir)
-    return _PLACEHOLDER.sub(
-        lambda m: ("\n\n" + grids[int(m.group(1))] + "\n\n") if int(m.group(1)) in grids else "",
-        body,
-    )
+    placed: set[int] = set()
+
+    def substitute(match: re.Match) -> str:
+        rank = int(match.group(1))
+        if rank not in grids:
+            return ""
+        placed.add(rank)
+        return "\n\n" + grids[rank] + "\n\n"
+
+    out = _PLACEHOLDER.sub(substitute, body)
+
+    floated_ranks = [rank for rank in sorted(grids) if rank not in placed]
+    if report is not None:
+        report["parsed"] = len(grids)
+        report["floated"] = floated_ranks
+    if floated_ranks:
+        out = (out.rstrip() + "\n\n" + _FLOATED_HEADING + "\n\n"
+               + "\n\n".join(grids[rank] for rank in floated_ranks) + "\n")
+    return out
 
 
 #: The pane is a `<Text>` tag and has to stay one: it is the only region-bearing tag
@@ -183,6 +212,7 @@ def build(
     text_module: Any,
     *,
     keep_tables: bool,
+    report: dict | None = None,
 ) -> str:
     """One article's text, assembled exactly as the corpus pipeline assembles it.
 
@@ -213,7 +243,7 @@ def build(
         element = transformed.find(name)
         value = element.text if element is not None else None
         if name == "body" and keep_tables and value:
-            value = insert_tables(value, article_dir)
+            value = insert_tables(value, article_dir, report)
         if value and value.strip():
             parts.append(value.strip())
     return "\n\n".join(parts)
@@ -277,7 +307,9 @@ def build_one(study_dir: Path, text_module: Any, commit: str, *, allow_drift: bo
             "the rebuilt plain text does not reproduce the corpus text.\n" + problem
         )
 
-    with_tables = build(article_xml, article_dir, text_module, keep_tables=True)
+    tables_report: dict = {"parsed": 0, "floated": []}
+    with_tables = build(article_xml, article_dir, text_module,
+                        keep_tables=True, report=tables_report)
     leftover = with_tables.count("[pubget-table-")
     if leftover:
         raise BuildError(
@@ -303,6 +335,8 @@ def build_one(study_dir: Path, text_module: Any, commit: str, *, allow_drift: bo
     provenance = {
         "pubget_commit": commit,
         "preserve_crossrefs": PRESERVE_CROSSREFS,
+        "tables_parsed": tables_report["parsed"],
+        "tables_floated": tables_report["floated"],
         "article_xml_sha256": digest(article_xml.read_text(encoding="utf-8")),
         "corpus_text_sha256": digest(corpus),
         "equivalent": problem is None,
@@ -365,10 +399,19 @@ def main() -> int:
             else:
                 info = build_one(study_dir, text_module, commit, allow_drift=args.allow_drift)
                 mark = "" if info["equivalent"] else "  DRIFT OVERRIDDEN"
+                floated = info["tables_floated"]
+                # Named per study, because "0 inlined" is the failure this whole
+                # variant exists to prevent and it is otherwise invisible: the text is
+                # simply shorter, and nothing downstream can tell that from a paper
+                # that genuinely has no tables.
+                where = (f", {info['tables_parsed']} tables "
+                         f"({info['tables_parsed'] - len(floated)} inline"
+                         + (f", {len(floated)} floated" if floated else "") + ")"
+                         if info["tables_parsed"] else ", no tables")
                 print(
                     f"  {study}  pmid {pmid}  "
                     f"plain {info['variants']['plain']['chars']:,} ch, "
-                    f"tables {info['variants']['tables']['chars']:,} ch{mark}"
+                    f"tables {info['variants']['tables']['chars']:,} ch{where}{mark}"
                 )
         except BuildError as error:
             print(f"  {study}  pmid {pmid}  FAILED\n    {error}", file=sys.stderr)
