@@ -148,7 +148,9 @@ maps — and in every case they sit in the same sentence or list as analyses tha
 verdict exist to catch, and it is the strongest argument for running that stage
 before the contrast tasks rather than after.
 
-**One thing the review UI gets wrong, not the extractor.** Both F-test main effects
+**One thing the review UI gets wrong, not the extractor.** *(Fixed: the grid now offers
+all five values, and the exporter maps a recorded `unstated` to `unstated`. Kept because
+it is the record of how the defect was found.)* Both F-test main effects
 in the gaze paper carry cells with `direction: unstated` — which the Direction enum
 defines as "a sign exists and the source does not report it … distinct from
 omitting the cell, which says the contrast weighted this level out". The contrast

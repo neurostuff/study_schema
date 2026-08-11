@@ -3,6 +3,18 @@
 Measured on the three records in `review/examples/` against the current generated extraction
 schema. Label Studio claims checked against the `label-studio/` checkout (OSS `1.24.0.dev0`).
 
+> **What shipped, where it differs from this.** The value family is **per field**, not
+> per entity: the 48-70 tasks a paper this argues for were not taken, and the live
+> projects hold 609 value tasks across the three papers. The reason is in
+> `tasks.Exporter.emit_value` -- an entity task bundles 13-25 judgements behind one
+> verdict, so a reviewer either accepts all of them at once or opens a long form, and
+> the answer needs an index path to address. The argument below for grouping is still
+> the argument; it was outweighed, not refuted, and the hybrid it recommends
+> (per-entity for many-field classes, per-field for the long tail) remains the open
+> option. Five projects shipped, not four: adjudication is one of them. The scripts
+> named throughout are now one CLI, `review/ls.py`, over the modules listed in
+> `README.md`.
+
 ## The schema-wide census
 
 Excluding the 43 `ExtractedValue` wrapper classes, the extraction schema has **45 entity

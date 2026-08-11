@@ -5,6 +5,12 @@ correction can invalidate tasks that were generated from the old version — the
 cascade. This works out the ordering that contains it, what propagates
 mechanically and what cannot, and how the corrected extraction JSON gets rebuilt.
 
+> **What shipped.** The kick-back verdict this calls for is `upstream_wrong`, and it is
+> on both stage-2 kinds now -- `model` and `contrast` -- rather than only the analysis
+> one. Table segmentation joined the entity inventory in stage 0, for the same reason:
+> `over_split` invalidates every task drawn from that table. The scripts named below
+> are now one CLI, `review/ls.py`; `build_record.apply_aliases` is unchanged.
+
 Companions: `task-organization.md` (why four projects),
 `analysis-review-design.md` and `relationship-review-design.md` (the UIs).
 

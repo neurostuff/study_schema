@@ -1,5 +1,14 @@
 # Reviewing an analysis as a structure
 
+> **What shipped.** Most of this, including the paraphrase as the primary judgement and
+> the cell grid over the model's term inventory. Two corrections. The grid's vocabulary
+> is five values, not three: `unstated` and `not_applicable` were added because an
+> omnibus F carries `direction: unstated` and folding it onto `absent` said the
+> opposite of what the paper reports. And `Taxonomy labeling="true"` -- ruled out below
+> on the OSS feature-flag chain -- does work with `legacy="true"`, which is what every
+> select-or-create span layer now uses; it is the one way to report an object the
+> record lacks.
+
 A brainstorm, not a decision. The attribute-level review in `README.md` puts one field in
 one task. That works for `Group.species` and it cannot work for `Effect.cells`. This
 proposes the task family that reviews an analysis's model and contrast as single objects,
