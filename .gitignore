@@ -8,14 +8,10 @@ __pycache__/
 # Kept out of version control because it is bulk source material, not schema.
 review/texts/
 
-# Label Studio's own database, and the text tree it serves. Both are regenerated:
-# the database by review/ls.py deploy, the texts by review/ls.py export.
+# A local Label Studio instance used to run from here, before the review layer
+# moved to ns-validate. Root-owned by the container that made it, so it needs
+# `sudo rm -rf review/ls_data` to go.
 review/ls_data/
-review/ls_files/
-
-# Annotation snapshots taken before a destructive operation. Recovery material,
-# not source.
-review/backup/
 
 # Label Studio source checkout (has its own git history).
 label-studio/
