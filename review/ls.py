@@ -635,51 +635,30 @@ def _prune_orphan_answers(
 ) -> int:
     """Drop result entries whose control the config no longer declares.
 
-    Removing a control from a config does not touch the answers already given to
-    it. Label Studio keeps the old entry in `Annotation.result` and simply stops
-    rendering it, so an annotation goes on asserting a verdict to a question that
-    has been deleted. Nothing surfaces it: the editor shows the current form, the
-    API returns the stale entry, and a decoder reading by `from_name` skips it
-    silently -- which means the record quietly disagrees with itself.
-
-    What counts as orphaned is derived from the config, never from a list of names:
-    the config is expanded against each task's own data, so the valid control set is
-    exactly what that task would render.
+    The rule is `answers.orphans`, against the control set `answers.declared_controls`
+    derives by expanding the config over each task's own data.
     """
 
     path = args.config_dir / project.config_file
     if not path.is_file():
         return 0
-    declared_for = ElementTree.fromstring(path.read_text(encoding="utf-8"))
+    label_config = ElementTree.fromstring(path.read_text(encoding="utf-8"))
     pending: list[tuple[int, list[dict[str, Any]], list[str]]] = []
     drafts = 0
 
     for stub in client.iter_tasks(project_id):
         task = client.task(stub["id"])
-        declared = {
-            node.get("name")
-            for node in lint.expand(declared_for, task.get("data") or {}).iter()
-            if node.get("name")
-        }
+        declared = answers_module.declared_controls(label_config, task.get("data") or {})
         for annotation in task.get("annotations") or []:
             result = annotation.get("result") or []
-            gone = sorted(
-                {
-                    entry.get("from_name")
-                    for entry in result
-                    if entry.get("from_name") and entry.get("from_name") not in declared
-                }
-            )
+            gone = answers_module.orphans(result, declared)
             if gone:
                 kept = [e for e in result if e.get("from_name") in declared]
                 pending.append((annotation["id"], kept, gone))
                 print(f"  annotation {annotation['id']} drops {', '.join(gone)} "
                       f"-- {len(result)} -> {len(kept)} entries")
         for draft in task.get("drafts") or []:
-            if any(
-                entry.get("from_name") and entry.get("from_name") not in declared
-                for entry in draft.get("result") or []
-            ):
+            if answers_module.orphans(draft.get("result") or [], declared):
                 drafts += 1
 
     if drafts:

@@ -233,6 +233,41 @@ def _spans_of(entry: Mapping[str, Any], index: Mapping[str, str]) -> list[dict[s
 # -- what the reviewer changed about the evidence ---------------------------
 
 
+def declared_controls(config: Any, data: Mapping[str, Any]) -> set[str]:
+    """Every `from_name` a task would render, after the Repeaters are expanded.
+
+    Derived from the config against the task's own data, never from a list of names:
+    that is what makes `entities_row_0_3` count as declared and a gated block the
+    task does not carry count as not. A hardcoded list would need editing every time
+    a config changes, which is the moment it would be forgotten.
+    """
+
+    import lint
+
+    return {
+        node.get("name") for node in lint.expand(config, dict(data)).iter() if node.get("name")
+    }
+
+
+def orphans(result: Iterable[Mapping[str, Any]], declared: set[str]) -> list[str]:
+    """The controls this answer names that its task no longer declares.
+
+    Removing a control from a config does not touch the answers already given to it.
+    Label Studio keeps the entry in `Annotation.result` and stops rendering it, so an
+    annotation goes on asserting a verdict to a question that has been deleted, and
+    nothing surfaces it: the editor shows the current form, the API returns the stale
+    entry, and a decoder reading by `from_name` skips it silently.
+    """
+
+    return sorted(
+        {
+            entry.get("from_name")
+            for entry in result
+            if entry.get("from_name") and entry.get("from_name") not in declared
+        }
+    )
+
+
 def spans_in(results: Iterable[Mapping[str, Any]]) -> list[dict[str, Any]]:
     return [
         {
