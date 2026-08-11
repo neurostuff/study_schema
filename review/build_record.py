@@ -117,6 +117,81 @@ def _is_field(node: Any) -> bool:
     return isinstance(node, dict) and "extraction_status" in node
 
 
+#: The only two things `extraction_status` may say.
+_STATUSES = ("extracted", "not_reported")
+
+
+def repair_wrappers(node: Any, path: str = "") -> list[str]:
+    """Put a collapsed ExtractedValue back together, and report every one.
+
+    The wrapper is `{"extraction_status": "extracted", "value": X}`, and the model
+    intermittently writes X into the status slot instead -- `"extraction_status":
+    "unstated"` for a direction, `"extraction_status": 0.05` for an alpha level. Every
+    such field is invalid against the schema, and the numeric ones additionally break
+    `ls.py export`, whose task contract requires `llm_status` to be a string.
+
+    The repair is unambiguous, which is why it is done rather than reported: the status
+    slot has exactly two legal strings, so anything else in it was never a status. A
+    value already sitting in `value` is kept and only the status is corrected; otherwise
+    the misplaced payload is moved into `value`.
+
+    Deliberately here and not in `extract_record.normalize`: it has to hold for payloads
+    already on disk, so a rebuild fixes them without paying for the extraction again.
+    """
+
+    repaired: list[str] = []
+    if isinstance(node, dict):
+        status = node.get("extraction_status") if "extraction_status" in node else None
+
+        if "extraction_status" in node and status not in _STATUSES:
+            if "value" not in node or node["value"] in (None, ""):
+                node["value"] = status
+            node["extraction_status"] = "extracted"
+            node.setdefault("value_source", "reported")
+            repaired.append(f"{path or '<root>'}: status held {status!r}")
+        for key, value in node.items():
+            repaired += repair_wrappers(value, f"{path}.{key}" if path else str(key))
+    elif isinstance(node, list):
+        for index, value in enumerate(node):
+            repaired += repair_wrappers(value, f"{path}[{index}]")
+    return repaired
+
+
+def derive_acquisition_types(body: dict[str, Any]) -> list[str]:
+    """Fill `Acquisition.acquisition_type` from each record's modality.
+
+    The schema says of this slot: "Derived by the mapper from the modality value's
+    `instantiates`, never extracted" (`acquisition.yaml`) -- so the builder owes it, and
+    an extraction that leaves it out is not wrong, it is being taken at its word. Without
+    it the record resolves only to the base `Acquisition`, where every modality-specific
+    parameter the model *did* extract is undeclared: one omission, seven errors.
+
+    The mapping is read out of the `Modality` enum rather than written down here, so a
+    new permissible value arrives with its own subclass already attached.
+    """
+
+    enums = schema_utils.load_imported_classes(EXTRACTION_SCHEMA, key="enums")
+    modality = (enums.get("Modality") or {}).get("permissible_values") or {}
+    instantiates = {
+        name: str(spec["instantiates"][0]).split(":")[-1]
+        for name, spec in modality.items()
+        if isinstance(spec, Mapping) and spec.get("instantiates")
+    }
+
+    filled: list[str] = []
+    for index, acquisition in enumerate(body.get("acquisitions") or []):
+        if not isinstance(acquisition, dict) or acquisition.get("acquisition_type"):
+            continue
+        value = acquisition.get("modality")
+        if isinstance(value, Mapping):
+            value = value.get("value")
+        target = instantiates.get(value)
+        if target:
+            acquisition["acquisition_type"] = target
+            filled.append(f"acquisitions[{index}]: {value} -> {target}")
+    return filled
+
+
 def _resolve_field(
     node: dict[str, Any], normalized: str, folded: str, path: str, report: BuildReport
 ) -> None:
@@ -135,6 +210,14 @@ def _resolve_field(
 
     raw_sets = evidence.get("sets")
     if not isinstance(raw_sets, list):
+        # An extracted field may not claim its evidence is not_applicable: the value is
+        # asserted, so support for it was either found or not. The branch below enforces
+        # this once a set has been tried; a field that arrived with no `sets` at all has
+        # never been through it, and used to keep the contradiction all the way into the
+        # record.
+        if status == "extracted" and evidence.get("status") == "not_applicable":
+            evidence["status"] = "not_found"
+            report.downgraded.append(path)
         if evidence.get("status") == "not_found":
             report.fields_evidence_not_found += 1
         return
@@ -294,6 +377,64 @@ def apply_aliases(
     return rewrites
 
 
+def listify_nested(body: dict[str, Any], classes: Mapping[str, Any]) -> list[str]:
+    """Wrap a lone object in a list wherever the schema declares a multivalued slot.
+
+    `model_estimations[].terms` is the one that recurs: an estimation with a single
+    ModelTerm comes back as the object rather than a list of one. Which of the three
+    shapes a slot takes is the most confusable thing in this schema -- the prompt states
+    it per line for that reason -- and this is the benign half of getting it wrong, so it
+    is repaired here instead of costing a re-extraction.
+
+    Schema-driven, and reference slots are included: a multivalued reference given one
+    bare id has the same shape problem.
+    """
+
+    fixed: list[str] = []
+
+    def visit(node: Any, class_name: str, path: str) -> None:
+        if not isinstance(node, dict) or _is_field(node):
+            return
+        attributes = schema_utils.attributes_for(classes, class_name)
+        for key, value in list(node.items()):
+            attribute = attributes.get(key)
+            if attribute is None or not attribute.get("multivalued"):
+                continue
+            kind = schema_utils.classify_slot(classes, key, attribute)
+            if kind not in ("nested", "reference"):
+                continue
+            if _is_field(value):
+                # A nested record list is not a multivalued scalar and has no
+                # `not_reported` form: "no terms" is the empty list, not a wrapper
+                # saying so. Where the model wrapped one anyway, take its `value` if it
+                # carried the list and drop to empty if it only carried the excuse.
+                inner = value.get("value")
+                node[key] = inner if isinstance(inner, list) else (
+                    [inner] if isinstance(inner, dict) else []
+                )
+                fixed.append(f"{path}.{key} (unwrapped {value.get('extraction_status')})")
+            elif isinstance(value, dict) or (
+                kind == "reference" and isinstance(value, str)
+            ):
+                node[key] = [value]
+                fixed.append(f"{path}.{key}")
+            if kind == "nested":
+                target = attribute.get("range")
+                if isinstance(target, str):
+                    for index, item in enumerate(node[key] if isinstance(node[key], list)
+                                                 else []):
+                        visit(item, target, f"{path}.{key}[{index}]")
+
+    study_attributes = schema_utils.attributes_for(classes, "Study")
+    for attr in _ENTITY_LISTS.values():
+        attribute = study_attributes.get(attr)
+        target = attribute.get("range") if isinstance(attribute, Mapping) else None
+        if isinstance(target, str):
+            for index, entity in enumerate(body.get(attr, []) or []):
+                visit(entity, target, f"{attr}[{index}]")
+    return fixed
+
+
 def check_local_ids(body: dict[str, Any], classes: Mapping[str, Any]) -> list[str]:
     """Verify that every cross-reference resolves to a declared local_id.
 
@@ -371,6 +512,26 @@ def build(
     rewrites = apply_aliases(body, classes, load_aliases(payload_dir))
     if rewrites:
         print(f"reconciled {rewrites} cross-reference(s) through aliases.json")
+
+    # Both are reported rather than done quietly: they are the model getting the
+    # wrapper shape wrong and the builder paying a debt the schema assigned it, and
+    # the counts are how a prompt regression becomes visible.
+    collapsed = repair_wrappers(body)
+    if collapsed:
+        print(f"repaired {len(collapsed)} collapsed ExtractedValue wrapper(s)")
+        for line in collapsed[:5]:
+            print(f"  - {line}")
+        if len(collapsed) > 5:
+            print(f"  ... and {len(collapsed) - 5} more")
+
+    derived = derive_acquisition_types(body)
+    for line in derived:
+        print(f"derived acquisition_type {line}")
+
+    listed = listify_nested(body, classes)
+    if listed:
+        print(f"wrapped {len(listed)} lone object(s) in a list: {', '.join(listed[:5])}")
+
     _walk(body, normalized, folded, "", report)
 
     record: dict[str, Any] = {
