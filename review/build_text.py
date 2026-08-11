@@ -17,8 +17,13 @@ and writes the result beside the synced text.
 equivalence check below can be checked against, and `sync_texts.py` states the contract it
 lives under -- "nothing here is generated: this is a copy". It also runs `rsync -a`
 without `--delete`, so an overwritten copy would come back on the next sync depending on
-size and mtime. Both variants go under `processed/local/` instead, and which one the
-pipeline consumes is a `--text` argument the downstream scripts already take.
+size and mtime. The rebuilt text goes to `processed/local/text.tables.txt` instead, which
+is what `review/ls.py export` stages and serves.
+
+The markdown is left as it is: headings keep their hashes and the inlined tables keep
+their pipes. The pane shows plain text, so it shows them literally -- which is the trade
+this takes, because the alternative was a transform that moved every offset in every
+record each time it changed.
 
 The equivalence check is the safety net and it is on by default: rebuilding with
 `keep_tables=False` must reproduce the corpus text byte for byte. It does today on all
@@ -42,7 +47,7 @@ from typing import Any
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import table_render  # noqa: E402
+import tables  # noqa: E402
 from sync_texts import read_pmids  # noqa: E402
 
 #: Left by `text_extraction.xsl` where each table sat. pubget's own `_insert_tables`
@@ -135,7 +140,7 @@ def _markdown_tables(article_dir: Path) -> dict[int, str]:
 
     out: dict[int, str] = {}
     for info_file in sorted(
-        Path(article_dir).glob(f"{table_render.TABLES_SUBDIR}/table_*_info.json")
+        Path(article_dir).glob(f"{tables.TABLES_SUBDIR}/table_*_info.json")
     ):
         match = re.match(r"table_(\d+)_info\.json", info_file.name)
         if not match:
@@ -144,9 +149,9 @@ def _markdown_tables(article_dir: Path) -> dict[int, str]:
         data_file = info.get("table_data_file")
         if not data_file:
             continue
-        table = table_render.read_table(article_dir, data_file)
+        table = tables.read_table(article_dir, data_file)
         if table:
-            out[int(match.group(1))] = table_render.markdown_table(table)
+            out[int(match.group(1))] = tables.markdown_table(table)
     return out
 
 
@@ -158,57 +163,35 @@ def insert_tables(body: str, article_dir: Path) -> str:
     columns. Same placeholders, same file numbering, different rendering.
     """
 
-    tables = _markdown_tables(article_dir)
+    grids = _markdown_tables(article_dir)
     return _PLACEHOLDER.sub(
-        lambda m: ("\n\n" + tables[int(m.group(1))] + "\n\n") if int(m.group(1)) in tables else "",
+        lambda m: ("\n\n" + grids[int(m.group(1))] + "\n\n") if int(m.group(1)) in grids else "",
         body,
     )
 
 
-#: `## Results` in a pane that renders plain text shows the hashes, not a heading. The
-#: pane is a `<Text>` tag and has to stay one: it is the only region-bearing tag whose
-#: offsets serialize as plain `{start, end}` integers, which is what `EvidenceSpan`
-#: round-trips on. `<HyperText>` renders markup but indexes its offsets into
-#: `String(selection)` over the rendered DOM -- browser- and CSS-dependent, and not
-#: reproducible outside a browser. So the formatting goes into the text itself.
-_HEADING = re.compile(r"^(#{1,6})[ \t]+(.*?)[ \t]*$", re.M)
-
-#: One rule character per level, so depth is legible without counting anything.
-_RULES = {1: "=", 2: "=", 3: "-", 4: "."}
-
-
-def style_headings(text: str) -> str:
-    """Turn markdown headings into headings a plain-text pane can show.
-
-    Levels 1 and 2 are set in capitals over a double rule, 3 over a light one, 4 and
-    below over a dotted one. Nothing is removed but the hashes and the space after them.
-    """
-
-    def one(match):
-        level = len(match.group(1))
-        title = match.group(2).strip()
-        if not title:
-            return ""
-        shown = title.upper() if level <= 2 else title
-        return shown + "\n" + _RULES.get(level, ".") * max(len(shown), 3)
-
-    return _HEADING.sub(one, text)
-
-
+#: The pane is a `<Text>` tag and has to stay one: it is the only region-bearing tag
+#: whose offsets serialize as plain `{start, end}` integers, which is what
+#: `EvidenceSpan` round-trips on. `<HyperText>` renders markup but indexes its offsets
+#: into `String(selection)` over the rendered DOM -- browser- and CSS-dependent, and not
+#: reproducible outside a browser. So the pane shows the markdown as markdown, hashes
+#: and pipes and all, and the only thing put into the text for the reviewer's sake is
+#: the tables themselves, which are otherwise not there to be spanned at all.
 def build(
     article_xml: Path,
     article_dir: Path,
     text_module: Any,
     *,
     keep_tables: bool,
-    style: bool = True,
 ) -> str:
     """One article's text, assembled exactly as the corpus pipeline assembles it.
 
-    `style` is what the equivalence check turns off. Heading styling is a presentation
-    choice made here, not something the corpus pipeline did, so checking a styled build
-    against the corpus text would only ever measure whether the styling is a no-op --
-    which it is not, and is not meant to be. The check has to see the transform alone.
+    The markdown is left as it is. Headings were once restyled here -- set in capitals
+    over a rule -- because the paper pane is a `<Text>` tag that renders plain text and
+    shows `## Results` with its hashes. That bought a nicer-looking pane and cost more
+    than it was worth: the transform was lossy on the title's case, it made the built
+    text differ from the corpus text by something other than the tables, and every
+    change to it moved every offset in every record downstream of the heading.
     """
 
     from lxml import etree
@@ -233,10 +216,7 @@ def build(
             value = insert_tables(value, article_dir)
         if value and value.strip():
             parts.append(value.strip())
-    text = "\n\n".join(parts)
-    # Applied to the assembled document rather than per part, so a heading that opens a
-    # part is treated the same as one in the middle of it.
-    return style_headings(text) if style else text
+    return "\n\n".join(parts)
 
 
 def first_difference(left: str, right: str) -> str:
@@ -290,16 +270,15 @@ def build_one(study_dir: Path, text_module: Any, commit: str, *, allow_drift: bo
         raise BuildError(f"no corpus text at {corpus_path} to check against")
 
     corpus = corpus_path.read_text(encoding="utf-8")
-    raw = build(article_xml, article_dir, text_module, keep_tables=False, style=False)
-    problem = check_equivalence(raw, corpus)
+    plain = build(article_xml, article_dir, text_module, keep_tables=False)
+    problem = check_equivalence(plain, corpus)
     if problem and not allow_drift:
         raise BuildError(
             "the rebuilt plain text does not reproduce the corpus text.\n" + problem
         )
 
-    plain = build(article_xml, article_dir, text_module, keep_tables=False)
-    tables = build(article_xml, article_dir, text_module, keep_tables=True)
-    leftover = tables.count("[pubget-table-")
+    with_tables = build(article_xml, article_dir, text_module, keep_tables=True)
+    leftover = with_tables.count("[pubget-table-")
     if leftover:
         raise BuildError(
             f"{leftover} table placeholder(s) survived. Their numbering comes from "
@@ -309,11 +288,14 @@ def build_one(study_dir: Path, text_module: Any, commit: str, *, allow_drift: bo
 
     out_dir = study_dir / "processed" / "local"
     out_dir.mkdir(parents=True, exist_ok=True)
-    for name, body in (("text.plain.txt", plain), ("text.tables.txt", tables)):
-        # newline="" so Python never translates line endings, matching how the staged
-        # text is written and read.
-        with (out_dir / name).open("w", encoding="utf-8", newline="") as handle:
-            handle.write(body)
+    # Only the tables variant is written. Without the heading transform the plain
+    # rebuild is byte-identical to the corpus copy -- which is what the equivalence
+    # check above just asserted -- so saving it would store the same file twice under
+    # two names and invite a downstream consumer to pick the wrong one.
+    # newline="" so Python never translates line endings, matching how the staged text
+    # is written and read.
+    with (out_dir / "text.tables.txt").open("w", encoding="utf-8", newline="") as handle:
+        handle.write(with_tables)
 
     def digest(value: str) -> str:
         return hashlib.sha256(value.encode("utf-8")).hexdigest()
@@ -327,7 +309,7 @@ def build_one(study_dir: Path, text_module: Any, commit: str, *, allow_drift: bo
         "equivalence_override": bool(problem and allow_drift),
         "variants": {
             "plain": {"sha256": digest(plain), "chars": len(plain)},
-            "tables": {"sha256": digest(tables), "chars": len(tables)},
+            "tables": {"sha256": digest(with_tables), "chars": len(with_tables)},
         },
     }
     (out_dir / "build.json").write_text(

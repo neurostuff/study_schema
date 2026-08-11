@@ -1,5 +1,52 @@
-<View>
-  <Style>
+#!/usr/bin/env python3
+"""The stylesheet every config carries.
+
+Four rules govern this file, and each one exists because breaking it fails
+silently rather than loudly.
+
+**Tokens, never hex.** `libs/ui/src/tokens/tokens.prefix.css:567` redefines every
+`--color-*` token under `[data-color-scheme="dark"]`, so a token-built panel
+inverts with the theme.
+
+**Background and foreground are set as a pair.** This is the specific trap: a
+hardcoded light background keeps the theme's light *text* colour in dark mode,
+leaving invisible light-on-light. Setting only one of the pair does the same. A
+test asserts every rule that sets one sets the other.
+
+**No `<`, `>` or `&` anywhere in the block.** Style content is passed through
+`sanitizeHtml` (`tags/visual/Style.jsx`), which escapes them -- and one mangled
+selector invalidates its whole comma-separated rule. A single
+`.ant-table-tbody > tr > td` silently voided the neighbouring `.ant-table`
+declarations and the panel went on rendering white with no error. Descendant
+selectors and pseudo-classes only. That constraint reaches into the comments too,
+which is why none of them uses those characters either.
+
+**Vendored components must be overridden explicitly.** Label Studio's Choices,
+Table and Collapse are antd, and `assets/styles/antd-no-reset.css` hardcodes
+colours on 87 of their rules -- `.ant-radio-wrapper { color: rgba(0,0,0,0.85) }`
+with no background of its own. Those inherit onto the label text and go invisible
+against a dark page. The legacy Taxonomy has the same problem from a CSS module.
+
+Two blocks are generated rather than written out, so their counts cannot drift
+from the code that depends on them: one rule per analysis tint, and one `order`
+pair per chat turn.
+"""
+
+from __future__ import annotations
+
+import spec
+
+#: Class names the coordinate-table renderer emits. Listed here because the
+#: renderer and the stylesheet are one artifact split across two files: a class
+#: emitted and not styled renders as unstyled markup with nothing to say why.
+#: A test asserts this list covers what `tables.py` actually writes.
+TABLE_CLASSES = (
+    "ns-table", "ns-tbl", "ns-tbl-cap", "ns-tbl-note", "ns-tbl-key",
+    "ns-key", "ns-key-mark", "ns-key-hit", "ns-key-maybe", "ns-key-own",
+    "ns-sec", "ns-hit", "ns-maybe", "ns-gut", "ns-coord", "ns-num", "ns-warn",
+)
+
+_LAYOUT = """
 .ns-row { display: flex; gap: 16px; align-items: flex-start; }
 
 /* A flex column, not a scroller: the text scrolls inside .ns-paper-body and the
@@ -25,7 +72,9 @@
            color: var(--color-neutral-content);
            border: 1px solid var(--color-neutral-border);
            padding: 8px 12px; border-radius: 4px; }
+"""
 
+_BLOCKS = """
 /* The extractor's own answer, the paraphrase, a warning, and the two neutral
    containers. Each pairs a background with a foreground meant for it. */
 .ns-llm { background: var(--color-warning-background);
@@ -49,7 +98,9 @@
            color: var(--color-neutral-content);
            border-bottom: 1px solid var(--color-neutral-border-subtle);
            padding: 4px 8px; }
+"""
 
+_CHAT = """
 /* The exchange reads question, answer, question, answer, with the box you type in
    at the bottom.
 
@@ -91,7 +142,9 @@
 /* 1.24 puts a character and submission counter under the box; it is noise here. */
 .ns-chat form [data-testid="textarea-counts"],
 .ns-chat form [data-testid="textarea-instruction"] { display: none !important; }
+"""
 
+_VENDOR = """
 /* antd, via assets/styles/antd-no-reset.css. Each of these hardcodes a colour with
    no background of its own, so the label text goes invisible on a dark page. */
 .ant-radio-wrapper, .ant-radio-group, .ant-radio, .ant-radio span,
@@ -145,7 +198,9 @@
 [class*="taxonomy__item"]:focus-within {
     background: var(--color-primary-background);
     color: var(--color-neutral-content); }
+"""
 
+_TABLE = """
 /* The rendered coordinate table. Every colour is a token pair because the
    reference implementation this was ported from used a fixed dark palette, and a
    hardcoded background here keeps the theme's own text colour and goes invisible
@@ -238,119 +293,52 @@
              color: var(--color-warning-content); }
 .ns-key-own { background: var(--color-primary-background);
              color: var(--color-primary-content); }
+"""
 
-/* generated: one rule per analysis tint */
-.ns-tbl tr.ns-a0 td { background: var(--color-primary-background); color: var(--color-neutral-content); }
-.ns-tbl tr.ns-a0 td:first-child { box-shadow: inset 3px 0 0 var(--color-primary-border); background: var(--color-primary-background); color: var(--color-neutral-content); }
-.ns-tbl tr.ns-a1 td { background: var(--color-positive-background); color: var(--color-neutral-content); }
-.ns-tbl tr.ns-a1 td:first-child { box-shadow: inset 3px 0 0 var(--color-positive-border); background: var(--color-positive-background); color: var(--color-neutral-content); }
-.ns-tbl tr.ns-a2 td { background: var(--color-warning-background); color: var(--color-neutral-content); }
-.ns-tbl tr.ns-a2 td:first-child { box-shadow: inset 3px 0 0 var(--color-warning-border); background: var(--color-warning-background); color: var(--color-neutral-content); }
 
-/* generated: question N above answer N */
-.ns-chat-q .lsf-row:nth-of-type(1) { order: 1; }
-.ns-chat-a .lsf-row:nth-of-type(1) { order: 2; }
-.ns-chat-q .lsf-row:nth-of-type(2) { order: 3; }
-.ns-chat-a .lsf-row:nth-of-type(2) { order: 4; }
-.ns-chat-q .lsf-row:nth-of-type(3) { order: 5; }
-.ns-chat-a .lsf-row:nth-of-type(3) { order: 6; }
-.ns-chat-q .lsf-row:nth-of-type(4) { order: 7; }
-.ns-chat-a .lsf-row:nth-of-type(4) { order: 8; }
-.ns-chat-q .lsf-row:nth-of-type(5) { order: 9; }
-.ns-chat-a .lsf-row:nth-of-type(5) { order: 10; }
-.ns-chat-q .lsf-row:nth-of-type(6) { order: 11; }
-.ns-chat-a .lsf-row:nth-of-type(6) { order: 12; }
-.ns-chat-q .lsf-row:nth-of-type(7) { order: 13; }
-.ns-chat-a .lsf-row:nth-of-type(7) { order: 14; }
-.ns-chat-q .lsf-row:nth-of-type(8) { order: 15; }
-.ns-chat-a .lsf-row:nth-of-type(8) { order: 16; }
-.ns-chat-q .lsf-row:nth-of-type(9) { order: 17; }
-.ns-chat-a .lsf-row:nth-of-type(9) { order: 18; }
-.ns-chat-q .lsf-row:nth-of-type(10) { order: 19; }
-.ns-chat-a .lsf-row:nth-of-type(10) { order: 20; }
-.ns-chat-q .lsf-row:nth-of-type(11) { order: 21; }
-.ns-chat-a .lsf-row:nth-of-type(11) { order: 22; }
-.ns-chat-q .lsf-row:nth-of-type(12) { order: 23; }
-.ns-chat-a .lsf-row:nth-of-type(12) { order: 24; }
-.ns-chat-q .lsf-row:nth-of-type(13) { order: 25; }
-.ns-chat-a .lsf-row:nth-of-type(13) { order: 26; }
-.ns-chat-q .lsf-row:nth-of-type(14) { order: 27; }
-.ns-chat-a .lsf-row:nth-of-type(14) { order: 28; }
-.ns-chat-q .lsf-row:nth-of-type(15) { order: 29; }
-.ns-chat-a .lsf-row:nth-of-type(15) { order: 30; }
-.ns-chat-q .lsf-row:nth-of-type(16) { order: 31; }
-.ns-chat-a .lsf-row:nth-of-type(16) { order: 32; }
-.ns-chat-q .lsf-row:nth-of-type(17) { order: 33; }
-.ns-chat-a .lsf-row:nth-of-type(17) { order: 34; }
-.ns-chat-q .lsf-row:nth-of-type(18) { order: 35; }
-.ns-chat-a .lsf-row:nth-of-type(18) { order: 36; }
-.ns-chat-q .lsf-row:nth-of-type(19) { order: 37; }
-.ns-chat-a .lsf-row:nth-of-type(19) { order: 38; }
-.ns-chat-q .lsf-row:nth-of-type(20) { order: 39; }
-.ns-chat-a .lsf-row:nth-of-type(20) { order: 40; }
-.ns-chat-q .lsf-row:nth-of-type(21) { order: 41; }
-.ns-chat-a .lsf-row:nth-of-type(21) { order: 42; }
-.ns-chat-q .lsf-row:nth-of-type(22) { order: 43; }
-.ns-chat-a .lsf-row:nth-of-type(22) { order: 44; }
-.ns-chat-q .lsf-row:nth-of-type(23) { order: 45; }
-.ns-chat-a .lsf-row:nth-of-type(23) { order: 46; }
-.ns-chat-q .lsf-row:nth-of-type(24) { order: 47; }
-.ns-chat-a .lsf-row:nth-of-type(24) { order: 48; }
-.ns-chat-q .lsf-row:nth-of-type(25) { order: 49; }
-.ns-chat-a .lsf-row:nth-of-type(25) { order: 50; }
-</Style>
-  <View className="ns-row">
-    <View className="ns-paper">
-      <Header value="$paper_title" size="5" />
-      <Header value="$paper_citation" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
-      <View className="ns-paper-body">
-        <Text name="paper" value="$paper_url" valueType="url" saveTextResult="yes" granularity="symbol" />
-      </View>
-      <View className="ns-chat">
-        <Collapse accordion="true">
-          <Panel value="Ask about this paper" open="true">
-            <View className="ns-chat-body">
-              <View className="ns-chat-q">
-                <TextArea name="chat_q" toName="paper" rows="2" editable="true" smart="true" showSubmitButton="false" placeholder="Ask a question, then Shift+Enter. Saved with your review." />
-              </View>
-              <View className="ns-chat-a">
-                <TextArea name="chat_a" toName="paper" rows="6" maxSubmissions="0" placeholder="Answers appear here, oldest first." smart="false" />
-              </View>
-            </View>
-          </Panel>
-        </Collapse>
-      </View>
-    </View>
-    <View className="ns-form">
-      <Repeater on="$gate_adjudication" indexFlag="{{i}}">
-        <Header value="$gate_adjudication[{{i}}].label" size="4" />
-        <Header value="$gate_adjudication[{{i}}].meta" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
-        <View className="ns-warn">
-          <Markdown value="$gate_adjudication[{{i}}].body" />
-        </View>
-        <View className="ns-side">
-          <View className="ns-half">
-            <Header value="Reviewer A" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
-            <Markdown value="$left_md" />
-          </View>
-          <View className="ns-half">
-            <Header value="Reviewer B" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
-            <Markdown value="$right_md" />
-          </View>
-        </View>
-        <Header value="Which reading is right?" size="5" />
-        <Choices name="adjudication_verdict_{{i}}" toName="paper" choice="single-radio" showInline="false" required="true" requiredMessage="Answer 'Which reading is right?'" smart="false">
-          <Choice value="take_left" hint="Reviewer A is right" />
-          <Choice value="take_right" hint="Reviewer B is right" />
-          <Choice value="synthesize" hint="Neither is wholly right -- the corrected form is below" />
-          <Choice value="escalate" hint="Needs a domain decision beyond this task" />
-        </Choices>
-        <View visibleWhen="choice-selected" whenTagName="adjudication_verdict_{{i}}" whenChoiceValue="synthesize,escalate">
-          <TextArea name="adjudication_fix_{{i}}" toName="paper" rows="4" editable="true" maxSubmissions="1" placeholder="Corrected form" smart="false" />
-        </View>
-      </Repeater>
-      <Header value="Notes" size="5" />
-      <TextArea name="comment" toName="paper" rows="2" editable="true" maxSubmissions="1" placeholder="" smart="false" />
-    </View>
-  </View>
-</View>
+def tint_rules(tints: tuple[tuple[str, str, str], ...] = spec.TINTS) -> str:
+    """One rule per analysis tint, and a rule down the gutter edge of each.
+
+    Generated because the count has to agree with what the table renderer cycles
+    through. Both read `spec.TINTS`; neither restates it.
+
+    The gutter rule is what makes a block of rows read as one analysis: at this
+    fill weight the tints are deliberately faint, and a run of twelve faintly
+    tinted rows does not group by itself.
+    """
+
+    lines = ["", "/* generated: one rule per analysis tint */"]
+    for index, (fill, text, rule) in enumerate(tints):
+        lines.append(
+            f".ns-tbl tr.ns-a{index} td {{ background: var({fill}); color: var({text}); }}"
+        )
+        lines.append(
+            f".ns-tbl tr.ns-a{index} td:first-child {{ "
+            f"box-shadow: inset 3px 0 0 var({rule}); "
+            f"background: var({fill}); color: var({text}); }}"
+        )
+    return "\n".join(lines) + "\n"
+
+
+def chat_order_rules(turns: int = spec.CHAT_TURNS) -> str:
+    """`order` for each entry, so question N sits directly above answer N.
+
+    The two lists are separate controls, and their entries only become orderable
+    siblings once the containers are flattened by the `display: contents` rules
+    above. Position is the only thing tying a question to its answer -- the payload
+    carries no ids linking them, which is the same positional pairing the chat
+    backend depends on, and it holds for the same reason: one answer per question,
+    appended in order.
+    """
+
+    lines = ["", "/* generated: question N above answer N */"]
+    for turn in range(1, turns + 1):
+        lines.append(f".ns-chat-q .lsf-row:nth-of-type({turn}) {{ order: {2 * turn - 1}; }}")
+        lines.append(f".ns-chat-a .lsf-row:nth-of-type({turn}) {{ order: {2 * turn}; }}")
+    return "\n".join(lines) + "\n"
+
+
+def stylesheet() -> str:
+    return "".join(
+        [_LAYOUT, _BLOCKS, _CHAT, _VENDOR, _TABLE, tint_rules(), chat_order_rules()]
+    )

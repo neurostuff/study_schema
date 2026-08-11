@@ -27,8 +27,11 @@ same peak repeated across contrasts -- so they are rendered as contested and cou
 never handed to the first claimant. Showing a wrong attribution confidently is worse than
 showing none.
 
-Standard library only, like `text_index` and `spans`, so the exporter and any future
-decoder can both use it.
+Standard library only, apart from reading the tint count out of `spec`, so the exporter
+and any future decoder can both use it. That one import is the point: the number of row
+tints this cycles through and the number of `.ns-aN` rules the stylesheet writes are one
+constant, and they were two before -- a hardcoded `tints=4` against three rules, so a
+fourth analysis was tinted with a class nothing styled.
 """
 
 from __future__ import annotations
@@ -40,6 +43,8 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
+
+import spec
 
 #: Where `sync_texts.py` puts the per-table CSVs, relative to `<study>/source/pubget`.
 TABLES_SUBDIR = "tables"
@@ -109,21 +114,6 @@ def read_manifest(study_dir: Path) -> dict[str, dict[str, Any]]:
             "data_file": Path(metadata.get("data_path") or "").name,
         }
     return out
-
-
-def find_data_file(pubget_dir: Path, table_id: str) -> str | None:
-    """Fallback for a caller holding only an id, matched case-insensitively.
-
-    Only reached when the manifest is missing; the manifest's `data_file` is the
-    authority everywhere else.
-    """
-
-    wanted = (table_id or "").strip().lower()
-    for info_file in sorted(Path(pubget_dir).glob(f"{TABLES_SUBDIR}/table_*_info.json")):
-        info = json.loads(info_file.read_text(encoding="utf-8"))
-        if str(info.get("table_id", "")).strip().lower() == wanted:
-            return info.get("table_data_file")
-    return None
 
 
 def _axis_columns(header_rows: Sequence[Sequence[str]], width: int) -> list[int] | None:
@@ -432,19 +422,6 @@ def attribute_rows(
     return owner, contested
 
 
-def unclaimed_rows(table: Mapping[str, Any] | None, owner: Mapping[int, int],
-                   contested: Mapping[int, Sequence[int]]) -> list[int]:
-    """Data rows no analysis claims -- a parser miss, and worth counting in the note."""
-
-    if not table:
-        return []
-    return [
-        index
-        for index, row in enumerate(table["body"])
-        if row["type"] == "data" and index not in owner and index not in contested
-    ]
-
-
 # -- linking a parsed analysis to an encoded one ---------------------------
 
 WORD = re.compile(r"[a-z0-9+<>-]+")
@@ -650,7 +627,7 @@ def render_table_html(
     owner: Mapping[int, int] | None = None,
     contested: Mapping[int, Sequence[int]] | None = None,
     highlight: Iterable[int] = (),
-    tints: int = 4,
+    tints: int = len(spec.TINTS),
     note: str = "",
     missing: str = "",
 ) -> str:

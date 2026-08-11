@@ -1,71 +1,37 @@
 <View>
   <Style>
 .ns-row { display: flex; gap: 16px; align-items: flex-start; }
+
 /* A flex column, not a scroller: the text scrolls inside .ns-paper-body and the
-   chat box stays pinned under it, where a question about what is on screen is
-   asked without scrolling back. */
+   chat box stays pinned under it, where a question about what is on screen can be
+   asked without scrolling back to find the box. */
 .ns-paper { flex: 1 1 55%; max-height: 82vh; display: flex; flex-direction: column;
             padding-right: 12px;
             border-right: 1px solid var(--color-neutral-border); }
-/* Monospace, because the paper text now carries its own formatting: headings over a
-   rule, and coordinate tables as markdown with the columns padded to a common width.
-   None of that lines up in a proportional face, and the pane cannot render markup --
-   it is a Text tag, which is the only region-bearing tag whose offsets serialize as
-   plain integers, and naming it in angle brackets here would trip the Style sanitizer. */
+
+/* Monospace, because the paper text carries its own formatting: markdown headings
+   and coordinate tables as pipe-delimited grids. Neither lines up in a
+   proportional face, and the pane cannot render markup -- it is a Text tag, the
+   only region-bearing tag whose offsets serialize as plain integers. */
 .ns-paper-body { flex: 1 1 auto; min-height: 0; overflow-y: auto;
                  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
                  font-size: 12.5px; line-height: 1.5;
                  background: transparent; color: var(--color-neutral-content); }
-.ns-chat { flex: 0 0 auto; margin-top: 8px; padding-top: 8px;
-           border-top: 1px solid var(--color-neutral-border); }
 
-/* The exchange reads question, answer, question, answer, with the box you type
-   in at the bottom -- see _chat_pane and _chat_order_css.
-
-   Each control renders its own entries as a block: every question, then every
-   answer. Interleaving them means the individual entries have to become siblings
-   in one column, which is what `display: contents` does here -- it drops the two
-   wrappers, each control's block, and each list container out of the layout, so
-   what is left as flex items of .ns-chat-body are the entries themselves
-   (`div.lsf-row`, regions/TextAreaRegion.jsx) and the form.
-
-   `div:has(...)` rather than a child combinator: sanitizeHtml escapes the
-   child-combinator character and voids the whole rule it appears in, which here
-   would leave the wrappers opaque and the order unchanged, silently. A row never
-   contains a row or a form, so nothing inside an entry is flattened by these. */
-.ns-chat-body { display: flex; flex-direction: column; }
-.ns-chat-q, .ns-chat-a,
-.ns-chat-q div:has(form),
-.ns-chat-q div:has(.lsf-row),
-.ns-chat-a div:has(.lsf-row) { display: contents; }
-/* Past CHAT_TURNS an entry keeps this and falls in after the paired ones, still
-   above the typing bar, rather than jumping to the top on order:0. */
-.ns-chat-q .lsf-row, .ns-chat-a .lsf-row { order: 998; }
-.ns-chat-q form { order: 999; margin-top: 4px; }
-
-/* The question box reads as a composer. There is no submit button to place: the
-   chat box sets showSubmitButton="false" and Shift+Enter submits, which any
-   multi-row TextArea binds anyway (TextArea.jsx:376-386, independent of the
-   button). An absolutely-positioned button was tried and it overlapped the
-   submitted question beneath it -- the region list renders after the form and
-   outside it, so there is nothing to anchor to that stays clear.
-   `textarea` rather than a Label Studio class on purpose: 1.22 renders
-   `lsf-text-area`, 1.24 renames the block, and both have a textarea. Inside
-   .ns-chat there is exactly one, because chat_a carries maxSubmissions="0". */
-.ns-chat form textarea { border-radius: 14px !important; resize: none !important;
-                         padding: 11px 14px !important; }
-/* 1.24 puts a character/submission counter under the box; it is noise here. */
-.ns-chat form [data-testid="textarea-counts"],
-.ns-chat form [data-testid="textarea-instruction"] { display: none !important; }
 .ns-form { flex: 1 1 45%; max-height: 82vh; overflow-y: auto; }
+.ns-side { display: flex; gap: 12px; align-items: flex-start; }
+.ns-half { flex: 1 1 50%;
+           background: var(--color-neutral-surface);
+           color: var(--color-neutral-content);
+           border: 1px solid var(--color-neutral-border);
+           padding: 8px 12px; border-radius: 4px; }
+
+/* The extractor's own answer, the paraphrase, a warning, and the two neutral
+   containers. Each pairs a background with a foreground meant for it. */
 .ns-llm { background: var(--color-warning-background);
           color: var(--color-neutral-content);
           border-left: 3px solid var(--color-warning-border);
           padding: 8px 12px; margin: 8px 0; border-radius: 3px; }
-.ns-quote { background: var(--color-positive-background);
-            color: var(--color-neutral-content);
-            border-left: 3px solid var(--color-positive-border);
-            padding: 8px 12px; margin: 8px 0; border-radius: 3px; }
 .ns-para { background: var(--color-primary-background);
            color: var(--color-neutral-content);
            border-left: 3px solid var(--color-primary-border);
@@ -83,15 +49,51 @@
            color: var(--color-neutral-content);
            border-bottom: 1px solid var(--color-neutral-border-subtle);
            padding: 4px 8px; }
-.ns-side { display: flex; gap: 12px; align-items: flex-start; }
 
-/* Label Studio's Choices, Table and Collapse are antd components, and
-   assets/styles/antd-no-reset.css hardcodes colours on 87 of their rules --
-   `.ant-radio-wrapper { color: rgba(0,0,0,0.85) }` with no background of its
-   own, `.ant-collapse-content` likewise. Those inherit onto the label text and
-   go invisible against a dark page. Theme tokens invert with the scheme, so
-   these overrides are what make the controls readable in both modes; each sets
-   background and foreground as a pair. */
+/* The exchange reads question, answer, question, answer, with the box you type in
+   at the bottom.
+
+   Each control renders its own entries as one block: its input, then every
+   submission made to it. Interleaving the two controls means the individual
+   entries have to become siblings in one column, which is what `display: contents`
+   does here -- it drops the two wrappers, each control's block and each list
+   container out of the layout, leaving the entries themselves (`div.lsf-row`,
+   `regions/TextAreaRegion.jsx`) and the form as flex items of .ns-chat-body.
+
+   `div:has(...)` rather than a child combinator, because the sanitizer voids any
+   rule containing one. A row never contains a row or a form, so nothing inside an
+   entry is flattened by these. */
+.ns-chat { flex: 0 0 auto; margin-top: 8px; padding-top: 8px;
+           border-top: 1px solid var(--color-neutral-border); }
+.ns-chat-body { display: flex; flex-direction: column; }
+.ns-chat-q, .ns-chat-a,
+.ns-chat-q div:has(form),
+.ns-chat-q div:has(.lsf-row),
+.ns-chat-a div:has(.lsf-row) { display: contents; }
+
+/* Past the paired turns an entry keeps this and falls in after them, still above
+   the typing bar, rather than jumping to the top on order 0. */
+.ns-chat-q .lsf-row, .ns-chat-a .lsf-row { order: 998; }
+.ns-chat-q form { order: 999; margin-top: 4px; }
+
+/* The question box reads as a composer. There is no submit button to place: the
+   box sets showSubmitButton="false" and Shift+Enter submits, which any multi-row
+   TextArea binds anyway (`TextArea.jsx:376-386`, independent of the button). An
+   absolutely-positioned button overlapped the submitted question beneath it --
+   the region list renders after the form and outside it, so there is nothing to
+   anchor to that stays clear.
+
+   `textarea` rather than a Label Studio class on purpose: 1.22 renders
+   `lsf-text-area`, 1.24 renames the block, and both have a textarea. Inside
+   .ns-chat there is exactly one, because the answer log carries maxSubmissions 0. */
+.ns-chat form textarea { border-radius: 14px !important; resize: none !important;
+                         padding: 11px 14px !important; }
+/* 1.24 puts a character and submission counter under the box; it is noise here. */
+.ns-chat form [data-testid="textarea-counts"],
+.ns-chat form [data-testid="textarea-instruction"] { display: none !important; }
+
+/* antd, via assets/styles/antd-no-reset.css. Each of these hardcodes a colour with
+   no background of its own, so the label text goes invisible on a dark page. */
 .ant-radio-wrapper, .ant-radio-group, .ant-radio, .ant-radio span,
 .ant-checkbox-wrapper, .ant-checkbox, .ant-checkbox + span {
     background: transparent;
@@ -100,33 +102,6 @@
     background: var(--color-neutral-surface);
     color: var(--color-neutral-content);
     border-color: var(--color-neutral-border-bold); }
-
-/* The legacy Taxonomy, which the table task uses so a reviewer can name an analysis
-   the parse missed. Not antd -- a CSS module -- but the same failure: its
-   `.taxonomy__search` rule sets neither a background nor a colour, so the input takes
-   the browser default white and the page's light text, and what you type is white on
-   white. The add-a-label input hardcodes `color: #09f` on a 3%-black background, and
-   the chips for what is already selected hardcode `hsl(0deg 0% 95%)`.
-
-   Matched on the class prefix, never on `name=`. The class names are CSS-module output
-   and carry a build hash (`taxonomy__search--qkTHD`), so only the readable prefix the
-   hash is appended to can be relied on. The `name` attribute would be the more stable
-   handle and is the obvious thing to reach for -- but Label Studio validates a config
-   by regex-scanning it for `name="..."`, stylesheet included, and rejects the whole
-   config with "contains non-unique names" when a CSS selector mentions one. The add
-   input carries no class of its own, so it is reached through its container. */
-[class*="taxonomy__search"], [class*="taxonomy__newitem"] input {
-    background: var(--color-neutral-background);
-    color: var(--color-neutral-content); }
-[class*="taxonomy__search"]::placeholder, [class*="taxonomy__newitem"] input::placeholder {
-    background: transparent;
-    color: var(--color-neutral-content-subtler); }
-[class*="taxonomy__selected"] div {
-    background: var(--color-neutral-surface);
-    color: var(--color-neutral-content); }
-[class*="taxonomy__item"]:focus-within {
-    background: var(--color-primary-background);
-    color: var(--color-neutral-content); }
 .ant-radio-checked .ant-radio-inner, .ant-checkbox-checked .ant-checkbox-inner {
     background: var(--color-primary-surface);
     color: var(--color-neutral-content);
@@ -144,25 +119,41 @@
     background: var(--color-neutral-surface) !important;
     color: var(--color-neutral-content) !important;
     border-color: var(--color-neutral-border) !important; }
-.ns-half { flex: 1 1 50%;
-           background: var(--color-neutral-surface);
-           color: var(--color-neutral-content);
-           border: 1px solid var(--color-neutral-border);
-           padding: 8px 12px; border-radius: 4px; }
+
+/* The legacy Taxonomy, which every naming span layer uses. Not antd -- a CSS
+   module -- but the same failure: its search rule sets neither a background nor a
+   colour, so the input takes the browser default white and the page's light text,
+   and what you type is white on white. The add-a-label input hardcodes a blue on a
+   3% black background, and the chips for what is already selected hardcode a near
+   white.
+
+   Matched on the class prefix, never on `name=`. The class names are CSS-module
+   output carrying a build hash (`taxonomy__search--qkTHD`), so only the readable
+   prefix can be relied on. The `name` attribute would be the more stable handle
+   and is the obvious thing to reach for -- but Label Studio validates a config by
+   regex-scanning it for `name="..."`, stylesheet included, and rejects the whole
+   config as carrying non-unique names when a CSS selector mentions one. */
+[class*="taxonomy__search"], [class*="taxonomy__newitem"] input {
+    background: var(--color-neutral-background);
+    color: var(--color-neutral-content); }
+[class*="taxonomy__search"]::placeholder, [class*="taxonomy__newitem"] input::placeholder {
+    background: transparent;
+    color: var(--color-neutral-content-subtler); }
+[class*="taxonomy__selected"] div {
+    background: var(--color-neutral-surface);
+    color: var(--color-neutral-content); }
+[class*="taxonomy__item"]:focus-within {
+    background: var(--color-primary-background);
+    color: var(--color-neutral-content); }
 
 /* The rendered coordinate table. Every colour is a token pair because the
-   reference implementation this is ported from was a fixed dark palette, and a
+   reference implementation this was ported from used a fixed dark palette, and a
    hardcoded background here keeps the theme's own text colour and goes invisible
-   in the other mode -- which the theming tests enforce.
+   in the other mode.
 
-   `td:first-child` below is a pseudo-class, not a child combinator, so it
-   survives the Style sanitizer -- which escapes the greater-than character, and
-   which is why that character cannot appear even in this comment.
-
-   The box-shadow reads a --color-* token for a border colour and is exempt from
-   the background/foreground pairing check only because that check cannot see
-   "color" inside a custom property name. It is decoration on a row whose pair is
-   already set two rules above; do not "fix" it by adding a bare color here. */
+   `td:first-child` is a pseudo-class, not a child combinator, so it survives the
+   sanitizer. The box-shadow reads a --color token for a rule down the gutter edge;
+   it is decoration on a row whose pair is already set above it. */
 .ns-tbl-host { margin: 8px 0;
                background: transparent; color: var(--color-neutral-content); }
 .ns-table  { max-height: 42vh; overflow: auto; border-radius: 4px;
@@ -188,6 +179,7 @@
 .ns-tbl td.ns-gut { width: 2.2em; text-align: right; font-size: 10.5px;
              background: transparent;
              color: var(--color-neutral-content-subtler); }
+
 /* A section row is structure, not a state: it says where the table divides, which
    is a different kind of fact from "this row is contested". Giving it the warning
    colour put it in the same vocabulary as the row states and left amber meaning
@@ -202,12 +194,12 @@
              box-shadow: inset 3px 0 0 var(--color-positive-border);
              background: var(--color-positive-background);
              color: var(--color-neutral-content); }
+
 /* Amber, not red. A contested row is an ambiguity the reviewer is being shown, not
    an error they made: two analyses report the same peak and the parser cannot say
-   whose it is. Red read as "this row is wrong".
-   Quieter than a marked row, too, and that ordering is the point. On this corpus a
-   contrast can have 3 rows of its own against 22 contested, and filling all 22 with
-   a saturated warning tint buried the answer under the caveat. The fill is neutral;
+   whose it is. Quieter than a marked row, too, and that ordering is the point --
+   a contrast can have 3 rows of its own against 22 contested, and filling all 22
+   with a saturated tint buried the answer under the caveat. The fill is neutral;
    the amber is carried by the rule and the mark. */
 .ns-tbl tr.ns-maybe td { background: var(--color-neutral-surface-hover);
              color: var(--color-neutral-content); }
@@ -215,13 +207,14 @@
              box-shadow: inset 3px 0 0 var(--color-warning-border);
              background: var(--color-neutral-surface-hover);
              color: var(--color-neutral-content); }
-/* The gutter mark ties to its legend chip, so the two are read as one thing. */
 .ns-tbl tr.ns-maybe td.ns-gut { font-weight: 700;
              background: var(--color-neutral-surface-hover);
              color: var(--color-warning-content); }
 .ns-tbl tr.ns-hit td.ns-gut { font-weight: 700;
              background: var(--color-positive-background);
              color: var(--color-positive-content); }
+
+/* The caption above, the note below, and the legend that names the marks in use. */
 .ns-tbl-cap { font-size: 12.5px; margin: 2px 0 6px;
              background: transparent;
              color: var(--color-neutral-content-subtler); }
@@ -245,9 +238,8 @@
              color: var(--color-warning-content); }
 .ns-key-own { background: var(--color-primary-background);
              color: var(--color-primary-content); }
-.ns-wide { flex: 1 1 58%;
-           background: transparent; color: var(--color-neutral-content); }
 
+/* generated: one rule per analysis tint */
 .ns-tbl tr.ns-a0 td { background: var(--color-primary-background); color: var(--color-neutral-content); }
 .ns-tbl tr.ns-a0 td:first-child { box-shadow: inset 3px 0 0 var(--color-primary-border); background: var(--color-primary-background); color: var(--color-neutral-content); }
 .ns-tbl tr.ns-a1 td { background: var(--color-positive-background); color: var(--color-neutral-content); }
@@ -255,7 +247,7 @@
 .ns-tbl tr.ns-a2 td { background: var(--color-warning-background); color: var(--color-neutral-content); }
 .ns-tbl tr.ns-a2 td:first-child { box-shadow: inset 3px 0 0 var(--color-warning-border); background: var(--color-warning-background); color: var(--color-neutral-content); }
 
-/* generated: question N above answer N, for CHAT_TURNS turns */
+/* generated: question N above answer N */
 .ns-chat-q .lsf-row:nth-of-type(1) { order: 1; }
 .ns-chat-a .lsf-row:nth-of-type(1) { order: 2; }
 .ns-chat-q .lsf-row:nth-of-type(2) { order: 3; }
@@ -333,14 +325,14 @@
       <View className="ns-tbl-host">
         <HyperText name="table_html" value="$table_html" inline="true" selectionEnabled="false" clickableLinks="false" />
       </View>
-      <Repeater on="$table" indexFlag="{{tdx}}">
-        <Header value="$table[{{tdx}}].label" size="4" />
-        <Header value="$table[{{tdx}}].meta" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
+      <Repeater on="$gate_table" indexFlag="{{i}}">
+        <Header value="$gate_table[{{i}}].label" size="4" />
+        <Header value="$gate_table[{{i}}].meta" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
         <View className="ns-card">
-          <Markdown value="$table[{{tdx}}].guidance" />
+          <Markdown value="Judge the **split**, not the encoding. Is each numbered block one real analysis, and does the table report one this list misses? How each is encoded is reviewed separately.&#10;&#10;To report a missed analysis, highlight where it is described and type its name." />
         </View>
         <Header value="Is this the right set of analyses?" size="5" />
-        <Choices name="table_verdict_{{tdx}}" toName="paper" choice="single-radio" showInline="false" required="true" requiredMessage="Answer 'Is this the right set of analyses?'" smart="false">
+        <Choices name="table_verdict_{{i}}" toName="paper" choice="single-radio" showInline="false" required="true" requiredMessage="Answer 'Is this the right set of analyses?'" smart="false">
           <Choice value="segmentation_correct" hint="Each analysis drawn from this table is one real analysis, and none is missing" />
           <Choice value="over_split" hint="One analysis was split into two or more" />
           <Choice value="merged" hint="Two analyses were recorded as one" />
@@ -349,35 +341,35 @@
           <Choice value="not_analyses" hint="This table reports no analysis -- demographics, an ROI definition, a stimulus list" />
           <Choice value="uncertain" hint="Cannot determine from the table and the paper" />
         </Choices>
-        <Header value="Where each analysis is described" size="5" />
-        <Taxonomy name="st_t_{{tdx}}" toName="paper" value="$structure_labels" labeling="true" legacy="true" leafsOnly="true" showFullPath="false" placeholder="Pick an analysis, or type a name to add one" smart="false" />
-        <View visibleWhen="choice-unselected" whenTagName="table_verdict_{{tdx}}" whenChoiceValue="segmentation_correct">
+        <Header value="Where each analysis is described, and any the parse missed" size="5" />
+        <Taxonomy name="table_spans_{{i}}" toName="paper" value="$labels" labeling="true" legacy="true" leafsOnly="true" showFullPath="false" placeholder="Pick one, or type a name to add one" smart="false" />
+        <View visibleWhen="choice-unselected" whenTagName="table_verdict_{{i}}" whenChoiceValue="segmentation_correct">
           <Header value="Disposition" size="5" />
-          <Repeater on="$sibling_rows" indexFlag="{{sdx}}">
+          <Repeater on="$rows" indexFlag="{{j}}">
             <View className="ns-cell">
-              <Header value="$sibling_rows[{{sdx}}].label" size="5" />
-              <Header value="$sibling_rows[{{sdx}}].meta" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
-              <Choices name="tbl_row_{{tdx}}_{{sdx}}" toName="paper" choice="single-radio" showInline="true" smart="false">
+              <Header value="$rows[{{j}}].label" size="5" />
+              <Header value="$rows[{{j}}].meta" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
+              <Choices name="table_row_{{i}}_{{j}}" toName="paper" choice="single-radio" showInline="true" smart="false">
                 <Choice value="keep" hint="A real, whole analysis" />
                 <Choice value="split" hint="Two analyses recorded as one -- every task drawn from it needs re-review" />
                 <Choice value="merge" hint="The same analysis as another row -- name it below" />
                 <Choice value="drop" hint="Not an analysis -- every task drawn from it needs re-review" />
                 <Choice value="rows_wrong" hint="Right analysis, wrong rows attributed to it" />
               </Choices>
-              <TextArea name="tbl_note_{{tdx}}_{{sdx}}" toName="paper" rows="1" editable="true" maxSubmissions="1" placeholder="note" smart="false" />
+              <TextArea name="table_note_{{i}}_{{j}}" toName="paper" rows="1" editable="true" maxSubmissions="1" placeholder="note" smart="false" />
             </View>
           </Repeater>
         </View>
       </Repeater>
-      <Repeater on="$contrast" indexFlag="{{cdx}}">
-        <Header value="$contrast[{{cdx}}].label" size="4" />
-        <Header value="$contrast[{{cdx}}].parsed" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
+      <Repeater on="$gate_contrast" indexFlag="{{i}}">
+        <Header value="$gate_contrast[{{i}}].label" size="4" />
+        <Header value="$gate_contrast[{{i}}].meta" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
         <Header value="The record says" size="5" style="color: var(--color-neutral-content-subtler); font-weight:400; margin:4px 0" />
         <View className="ns-para">
-          <Markdown value="$contrast[{{cdx}}].paraphrase" />
+          <Markdown value="$gate_contrast[{{i}}].body" />
         </View>
         <Header value="Does the record say what the paper says?" size="5" />
-        <Choices name="contrast_verdict_{{cdx}}" toName="paper" choice="single-radio" showInline="false" required="true" requiredMessage="Answer 'Does the record say what the paper says?'" smart="false">
+        <Choices name="contrast_verdict_{{i}}" toName="paper" choice="single-radio" showInline="false" required="true" requiredMessage="Answer 'Does the record say what the paper says?'" smart="false">
           <Choice value="accept" hint="The record says what the paper says" />
           <Choice value="direction_wrong" hint="Right terms, wrong sides" />
           <Choice value="wrong_axis" hint="The comparison is on the wrong term" />
@@ -387,27 +379,29 @@
           <Choice value="uncertain" hint="Cannot determine from the paper" />
         </Choices>
         <Header value="Where this contrast is reported" size="5" />
-        <Labels name="st_c_{{cdx}}" toName="paper" value="$structure_labels" showInline="false" smart="false" />
-        <View visibleWhen="choice-unselected" whenTagName="contrast_verdict_{{cdx}}" whenChoiceValue="accept">
+        <Labels name="contrast_spans_{{i}}" toName="paper" value="$labels" showInline="false" smart="false" />
+        <View visibleWhen="choice-unselected" whenTagName="contrast_verdict_{{i}}" whenChoiceValue="accept">
           <Header value="Direction per term" size="5" />
-          <Repeater on="$cell_rows" indexFlag="{{rdx}}">
+          <Repeater on="$rows" indexFlag="{{j}}">
             <View className="ns-cell">
-              <Header value="$cell_rows[{{rdx}}].label" size="5" />
-              <Choices name="cell_{{cdx}}_{{rdx}}" toName="paper" choice="single-radio" layout="inline" smart="false">
+              <Header value="$rows[{{j}}].label" size="5" />
+              <Choices name="contrast_row_{{i}}_{{j}}" toName="paper" choice="single-radio" showInline="false" layout="inline" smart="false">
                 <Choice value="positive" hint="Weighted positively, or a positive fitted coefficient" />
                 <Choice value="negative" hint="Weighted negatively, or the lesser side of the comparison" />
                 <Choice value="absent" hint="Not in this contrast -- adjusted for, or a zero weight" />
+                <Choice value="unstated" hint="Tested, but the record does not say which way -- an omnibus F, say" />
+                <Choice value="not_applicable" hint="The question does not arise for this term" />
               </Choices>
-              <TextArea name="cell_label_{{cdx}}_{{rdx}}" toName="paper" rows="1" editable="true" maxSubmissions="1" placeholder="source wording" smart="false" />
+              <TextArea name="contrast_label_{{i}}_{{j}}" toName="paper" rows="1" editable="true" maxSubmissions="1" placeholder="source wording" smart="false" />
             </View>
           </Repeater>
-          <Repeater on="$statistic" indexFlag="{{qdx}}">
+          <Repeater on="$statistic" indexFlag="{{j}}">
             <View className="ns-card">
-              <Markdown value="$statistic[{{qdx}}].summary" />
+              <Markdown value="$statistic[{{j}}].summary" />
             </View>
-            <Choices name="stat_verdict_{{cdx}}_{{qdx}}" toName="paper" choice="single-radio" showInline="true" value="$statistic_options" smart="false" />
-            <View visibleWhen="choice-selected" whenTagName="stat_verdict_{{cdx}}_{{qdx}}" whenChoiceValue="family_wrong,df_wrong,df_absent">
-              <TextArea name="stat_note_{{cdx}}_{{qdx}}" toName="paper" rows="1" editable="true" maxSubmissions="1" placeholder="what the paper reports, e.g. F(1,57) or t(33)" smart="false" />
+            <Choices name="contrast_stat_{{i}}_{{j}}" toName="paper" choice="single-radio" value="$options" showInline="true" smart="false" />
+            <View visibleWhen="choice-selected" whenTagName="contrast_stat_{{i}}_{{j}}" whenChoiceValue="family_wrong,df_wrong,df_absent">
+              <TextArea name="contrast_statnote_{{i}}_{{j}}" toName="paper" rows="1" editable="true" maxSubmissions="1" placeholder="what the paper reports, e.g. F(1,57) or t(33)" smart="false" />
             </View>
           </Repeater>
         </View>

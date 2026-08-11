@@ -2,47 +2,60 @@
  {
   "data": {
    "paper_id": "5Rw4BhGBShSR",
-   "review_key": "5Rw4BhGBShSR|rel|Task.acquisitions",
+   "review_key": "5Rw4BhGBShSR|relationship|Task.acquisitions",
    "content_hash": "503da9b9f3d46424",
    "stage": 1,
-   "paper_url": "/data/local-files/?d=texts/5Rw4BhGBShSR.txt",
+   "task_kind": "relationship",
+   "paper_text_hash": "e30f62d523c3b7bd41f54c9a91a6e00fb2c1b06e59e228d51a7b083ec37ffb74",
+   "priority": "n/a",
+   "coordinate_status": "yes",
+   "entity_class": "Task",
+   "local_id": "",
+   "field_path": "",
+   "table_id": "",
+   "row_count": 1,
+   "llm_status": "",
+   "evidence_status": "",
+   "rel_slot": "Task.acquisitions",
+   "dispute_kind": "",
    "paper_title": "5Rw4BhGBShSR",
    "paper_citation": "5Rw4BhGBShSR  ·  pmid 28400328  ·  10.1016/j.neuropsychologia.2017.04.013",
-   "paper_text_hash": "dc627d68d0203d8ff9e2f32ebc75163b4acb03c71780173cdce51e3a0620a170",
-   "rel_slot": "Task.acquisitions → Acquisition  ·  many per Task",
-   "target_class": "Acquisition",
-   "anomaly_count": 0,
-   "rel_label": "Which Acquisitions does each Task use?",
-   "rel_description": "",
-   "anomaly_gate": [],
-   "columns": [
+   "paper_url": "/data/local-files/?d=texts/5Rw4BhGBShSR.txt",
+   "gate_relationship": [
     {
-     "value": "acq_fmri . modality=fMRI",
-     "alias": "acq_fmri"
+     "label": "Which Acquisitions does each Task use?",
+     "meta": "Task.acquisitions -> Acquisition  ·  many per Task",
+     "body": "The acquisition protocols used to collect data for this task. Exclude structural scans unless they are part of the task itself."
     }
    ],
-   "rows_multi": [
+   "rows": [
     {
      "label": "audiovisual sentence comprehension",
      "meta": "task_audiovisual_sentence_comprehension",
      "local_id": "task_audiovisual_sentence_comprehension"
     }
    ],
-   "rows_single": [],
-   "link_labels": [
+   "columns": [
     {
      "value": "acq_fmri . modality=fMRI",
      "alias": "acq_fmri"
     }
    ],
-   "coordinate_status": "yes"
+   "rows_single": [],
+   "anomalies": [],
+   "labels": [
+    {
+     "value": "acq_fmri . modality=fMRI",
+     "alias": "acq_fmri"
+    }
+   ]
   },
   "predictions": [
    {
     "model_version": "claude-opus-5@review-bootstrap-0.1.0",
     "result": [
      {
-      "from_name": "lm_0",
+      "from_name": "relationship_row_0_0",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -58,26 +71,33 @@
  {
   "data": {
    "paper_id": "5Rw4BhGBShSR",
-   "review_key": "5Rw4BhGBShSR|rel|Analysis.acquisitions",
+   "review_key": "5Rw4BhGBShSR|relationship|Analysis.acquisitions",
    "content_hash": "b8e4c649f2754657",
    "stage": 1,
-   "paper_url": "/data/local-files/?d=texts/5Rw4BhGBShSR.txt",
+   "task_kind": "relationship",
+   "paper_text_hash": "e30f62d523c3b7bd41f54c9a91a6e00fb2c1b06e59e228d51a7b083ec37ffb74",
+   "priority": "n/a",
+   "coordinate_status": "yes",
+   "entity_class": "Analysis",
+   "local_id": "",
+   "field_path": "",
+   "table_id": "",
+   "row_count": 9,
+   "llm_status": "",
+   "evidence_status": "",
+   "rel_slot": "Analysis.acquisitions",
+   "dispute_kind": "",
    "paper_title": "5Rw4BhGBShSR",
    "paper_citation": "5Rw4BhGBShSR  ·  pmid 28400328  ·  10.1016/j.neuropsychologia.2017.04.013",
-   "paper_text_hash": "dc627d68d0203d8ff9e2f32ebc75163b4acb03c71780173cdce51e3a0620a170",
-   "rel_slot": "Analysis.acquisitions → Acquisition  ·  many per Analysis",
-   "target_class": "Acquisition",
-   "anomaly_count": 0,
-   "rel_label": "Which Acquisitions does each Analysis use?",
-   "rel_description": "",
-   "anomaly_gate": [],
-   "columns": [
+   "paper_url": "/data/local-files/?d=texts/5Rw4BhGBShSR.txt",
+   "gate_relationship": [
     {
-     "value": "acq_fmri . modality=fMRI",
-     "alias": "acq_fmri"
+     "label": "Which Acquisitions does each Analysis use?",
+     "meta": "Analysis.acquisitions -> Acquisition  ·  many per Analysis",
+     "body": "Acquisition protocols supplying data to this analysis. Structural, diffusion, and other non-paradigm analyses are linked directly through this field."
     }
    ],
-   "rows_multi": [
+   "rows": [
     {
      "label": "Main Effect of Gaze Direction (F-test) . spatial_scope=whole_brain . roi_definition=not_applicable",
      "meta": "analysis_main_gaze",
@@ -124,21 +144,27 @@
      "local_id": "analysis_direct_3_channels"
     }
    ],
-   "rows_single": [],
-   "link_labels": [
+   "columns": [
     {
      "value": "acq_fmri . modality=fMRI",
      "alias": "acq_fmri"
     }
    ],
-   "coordinate_status": "yes"
+   "rows_single": [],
+   "anomalies": [],
+   "labels": [
+    {
+     "value": "acq_fmri . modality=fMRI",
+     "alias": "acq_fmri"
+    }
+   ]
   },
   "predictions": [
    {
     "model_version": "claude-opus-5@review-bootstrap-0.1.0",
     "result": [
      {
-      "from_name": "lm_0",
+      "from_name": "relationship_row_0_0",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -148,7 +174,7 @@
       }
      },
      {
-      "from_name": "lm_1",
+      "from_name": "relationship_row_0_1",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -158,7 +184,7 @@
       }
      },
      {
-      "from_name": "lm_2",
+      "from_name": "relationship_row_0_2",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -168,7 +194,7 @@
       }
      },
      {
-      "from_name": "lm_3",
+      "from_name": "relationship_row_0_3",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -178,7 +204,7 @@
       }
      },
      {
-      "from_name": "lm_4",
+      "from_name": "relationship_row_0_4",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -188,7 +214,7 @@
       }
      },
      {
-      "from_name": "lm_5",
+      "from_name": "relationship_row_0_5",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -198,7 +224,7 @@
       }
      },
      {
-      "from_name": "lm_6",
+      "from_name": "relationship_row_0_6",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -208,7 +234,7 @@
       }
      },
      {
-      "from_name": "lm_7",
+      "from_name": "relationship_row_0_7",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -218,7 +244,7 @@
       }
      },
      {
-      "from_name": "lm_8",
+      "from_name": "relationship_row_0_8",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -234,87 +260,100 @@
  {
   "data": {
    "paper_id": "5Rw4BhGBShSR",
-   "review_key": "5Rw4BhGBShSR|rel|Analysis.tasks",
+   "review_key": "5Rw4BhGBShSR|relationship|Analysis.tasks",
    "content_hash": "79ac86e4b2ae44b7",
    "stage": 1,
-   "paper_url": "/data/local-files/?d=texts/5Rw4BhGBShSR.txt",
+   "task_kind": "relationship",
+   "paper_text_hash": "e30f62d523c3b7bd41f54c9a91a6e00fb2c1b06e59e228d51a7b083ec37ffb74",
+   "priority": "n/a",
+   "coordinate_status": "yes",
+   "entity_class": "Analysis",
+   "local_id": "",
+   "field_path": "",
+   "table_id": "",
+   "row_count": 9,
+   "llm_status": "",
+   "evidence_status": "",
+   "rel_slot": "Analysis.tasks",
+   "dispute_kind": "",
    "paper_title": "5Rw4BhGBShSR",
    "paper_citation": "5Rw4BhGBShSR  ·  pmid 28400328  ·  10.1016/j.neuropsychologia.2017.04.013",
-   "paper_text_hash": "dc627d68d0203d8ff9e2f32ebc75163b4acb03c71780173cdce51e3a0620a170",
-   "rel_slot": "Analysis.tasks → Task  ·  many per Analysis",
-   "target_class": "Task",
-   "anomaly_count": 0,
-   "rel_label": "Which Tasks does each Analysis use?",
-   "rel_description": "",
-   "anomaly_gate": [],
+   "paper_url": "/data/local-files/?d=texts/5Rw4BhGBShSR.txt",
+   "gate_relationship": [
+    {
+     "label": "Which Tasks does each Analysis use?",
+     "meta": "Analysis.tasks -> Task  ·  many per Analysis",
+     "body": "The participant paradigms that contextualize this analysis. An analysis can span paradigms, as a cross-task conjunction or a localizer-plus-main-task analysis does.\nA resting-state analysis names its Task here like any other: the resting-state protocol is a paradigm, and a Task record exists for it. What leaves this empty is an analysis with no paradigm at all -- morphometry, diffusion, a static PET scan -- which is linked through `acquisitions` instead."
+    }
+   ],
+   "rows": [
+    {
+     "label": "Main Effect of Gaze Direction (F-test) . spatial_scope=whole_brain . roi_definition=not_applicable",
+     "meta": "analysis_main_gaze",
+     "local_id": "analysis_main_gaze"
+    },
+    {
+     "label": "Main Effect of Auditory Clarity (F-test) . spatial_scope=whole_brain . roi_definition=not_applicable",
+     "meta": "analysis_main_clarity",
+     "local_id": "analysis_main_clarity"
+    },
+    {
+     "label": "3 channels > 2 channels (T-test) . definition=3 Channels > 2 Channels. . spatial_scope=whole_brain . roi_definition=not_applicable",
+     "meta": "analysis_clarity_increase",
+     "local_id": "analysis_clarity_increase"
+    },
+    {
+     "label": "Direct > Averted & Downward (T-test) . definition=Direct Gaze > Averted and Downward Gaze. . spatial_scope=whole_brain . roi_definition=not_applicable",
+     "meta": "analysis_direct_vs_other",
+     "local_id": "analysis_direct_vs_other"
+    },
+    {
+     "label": "Averted > Direct & Downward (T-test) . definition=Averted Gaze > Direct and Downward Gaze. . spatial_scope=whole_brain . roi_definition=not_applicable",
+     "meta": "analysis_averted_vs_other",
+     "local_id": "analysis_averted_vs_other"
+    },
+    {
+     "label": "Direct & Averted > Downward . spatial_scope=whole_brain . roi_definition=not_applicable",
+     "meta": "analysis_direct_averted_vs_downward",
+     "local_id": "analysis_direct_averted_vs_downward"
+    },
+    {
+     "label": "Conjunction null: (Direct < Averted & Downward) ∩ (3 channels > 2 channels) . spatial_scope=whole_brain . roi_definition=not_applicable",
+     "meta": "analysis_conjunction",
+     "local_id": "analysis_conjunction"
+    },
+    {
+     "label": "Direct > (Averted and Downward) — 2 Channels auditory clarity . spatial_scope=whole_brain . roi_definition=not_applicable",
+     "meta": "analysis_direct_2_channels",
+     "local_id": "analysis_direct_2_channels"
+    },
+    {
+     "label": "Direct > (Averted and Downward) — 3 Channels auditory clarity . spatial_scope=whole_brain . roi_definition=not_applicable",
+     "meta": "analysis_direct_3_channels",
+     "local_id": "analysis_direct_3_channels"
+    }
+   ],
    "columns": [
     {
      "value": "task_audiovisual_sentence_comprehension -- audiovisual sentence comprehension",
      "alias": "task_audiovisual_sentence_comprehension"
     }
    ],
-   "rows_multi": [
-    {
-     "label": "Main Effect of Gaze Direction (F-test) . spatial_scope=whole_brain . roi_definition=not_applicable",
-     "meta": "analysis_main_gaze",
-     "local_id": "analysis_main_gaze"
-    },
-    {
-     "label": "Main Effect of Auditory Clarity (F-test) . spatial_scope=whole_brain . roi_definition=not_applicable",
-     "meta": "analysis_main_clarity",
-     "local_id": "analysis_main_clarity"
-    },
-    {
-     "label": "3 channels > 2 channels (T-test) . definition=3 Channels > 2 Channels. . spatial_scope=whole_brain . roi_definition=not_applicable",
-     "meta": "analysis_clarity_increase",
-     "local_id": "analysis_clarity_increase"
-    },
-    {
-     "label": "Direct > Averted & Downward (T-test) . definition=Direct Gaze > Averted and Downward Gaze. . spatial_scope=whole_brain . roi_definition=not_applicable",
-     "meta": "analysis_direct_vs_other",
-     "local_id": "analysis_direct_vs_other"
-    },
-    {
-     "label": "Averted > Direct & Downward (T-test) . definition=Averted Gaze > Direct and Downward Gaze. . spatial_scope=whole_brain . roi_definition=not_applicable",
-     "meta": "analysis_averted_vs_other",
-     "local_id": "analysis_averted_vs_other"
-    },
-    {
-     "label": "Direct & Averted > Downward . spatial_scope=whole_brain . roi_definition=not_applicable",
-     "meta": "analysis_direct_averted_vs_downward",
-     "local_id": "analysis_direct_averted_vs_downward"
-    },
-    {
-     "label": "Conjunction null: (Direct < Averted & Downward) ∩ (3 channels > 2 channels) . spatial_scope=whole_brain . roi_definition=not_applicable",
-     "meta": "analysis_conjunction",
-     "local_id": "analysis_conjunction"
-    },
-    {
-     "label": "Direct > (Averted and Downward) — 2 Channels auditory clarity . spatial_scope=whole_brain . roi_definition=not_applicable",
-     "meta": "analysis_direct_2_channels",
-     "local_id": "analysis_direct_2_channels"
-    },
-    {
-     "label": "Direct > (Averted and Downward) — 3 Channels auditory clarity . spatial_scope=whole_brain . roi_definition=not_applicable",
-     "meta": "analysis_direct_3_channels",
-     "local_id": "analysis_direct_3_channels"
-    }
-   ],
    "rows_single": [],
-   "link_labels": [
+   "anomalies": [],
+   "labels": [
     {
      "value": "task_audiovisual_sentence_comprehension -- audiovisual sente",
      "alias": "task_audiovisual_sentence_comprehension"
     }
-   ],
-   "coordinate_status": "yes"
+   ]
   },
   "predictions": [
    {
     "model_version": "claude-opus-5@review-bootstrap-0.1.0",
     "result": [
      {
-      "from_name": "lm_0",
+      "from_name": "relationship_row_0_0",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -324,7 +363,7 @@
       }
      },
      {
-      "from_name": "lm_1",
+      "from_name": "relationship_row_0_1",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -334,7 +373,7 @@
       }
      },
      {
-      "from_name": "lm_2",
+      "from_name": "relationship_row_0_2",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -344,7 +383,7 @@
       }
      },
      {
-      "from_name": "lm_3",
+      "from_name": "relationship_row_0_3",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -354,7 +393,7 @@
       }
      },
      {
-      "from_name": "lm_4",
+      "from_name": "relationship_row_0_4",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -364,7 +403,7 @@
       }
      },
      {
-      "from_name": "lm_5",
+      "from_name": "relationship_row_0_5",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -374,7 +413,7 @@
       }
      },
      {
-      "from_name": "lm_6",
+      "from_name": "relationship_row_0_6",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -384,7 +423,7 @@
       }
      },
      {
-      "from_name": "lm_7",
+      "from_name": "relationship_row_0_7",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -394,7 +433,7 @@
       }
      },
      {
-      "from_name": "lm_8",
+      "from_name": "relationship_row_0_8",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -410,19 +449,33 @@
  {
   "data": {
    "paper_id": "5Rw4BhGBShSR",
-   "review_key": "5Rw4BhGBShSR|rel|Analysis.model_estimation",
+   "review_key": "5Rw4BhGBShSR|relationship|Analysis.model_estimation",
    "content_hash": "7deffe2cc731b307",
    "stage": 1,
-   "paper_url": "/data/local-files/?d=texts/5Rw4BhGBShSR.txt",
+   "task_kind": "relationship",
+   "paper_text_hash": "e30f62d523c3b7bd41f54c9a91a6e00fb2c1b06e59e228d51a7b083ec37ffb74",
+   "priority": "n/a",
+   "coordinate_status": "yes",
+   "entity_class": "Analysis",
+   "local_id": "",
+   "field_path": "",
+   "table_id": "",
+   "row_count": 9,
+   "llm_status": "",
+   "evidence_status": "",
+   "rel_slot": "Analysis.model_estimation",
+   "dispute_kind": "",
    "paper_title": "5Rw4BhGBShSR",
    "paper_citation": "5Rw4BhGBShSR  ·  pmid 28400328  ·  10.1016/j.neuropsychologia.2017.04.013",
-   "paper_text_hash": "dc627d68d0203d8ff9e2f32ebc75163b4acb03c71780173cdce51e3a0620a170",
-   "rel_slot": "Analysis.model_estimation → ModelEstimation  ·  one per Analysis",
-   "target_class": "ModelEstimation",
-   "anomaly_count": 0,
-   "rel_label": "Which ModelEstimation does each Analysis use?",
-   "rel_description": "",
-   "anomaly_gate": [],
+   "paper_url": "/data/local-files/?d=texts/5Rw4BhGBShSR.txt",
+   "gate_relationship": [
+    {
+     "label": "Which ModelEstimation does each Analysis use?",
+     "meta": "Analysis.model_estimation -> ModelEstimation  ·  one per Analysis",
+     "body": "The model this analysis's contrast was taken from: its family, estimator, stage, software, and the terms it was specified with. What was selected out of those terms is `effect`. Required, because every contrast comes from a model -- a paper that describes a contrast and never names an estimator still takes a record, with the terms it does state and `unstated` elsewhere. Analyses sharing one design reference one record; an analysis specified or estimated differently takes its own.\nFor an analysis estimated in stages this is the **top** stage, the one that produced the statistics reported here. The stages below it are reached through that record's `inputs_from`, and their terms count as this contrast's just as the top stage's do, so a first-level model is never referenced here and is never left dangling either."
+    }
+   ],
+   "rows": [],
    "columns": [
     {
      "value": "model_second_level_flexible_factorial . model_family=anova",
@@ -441,7 +494,6 @@
      "alias": "none"
     }
    ],
-   "rows_multi": [],
    "rows_single": [
     {
      "label": "Main Effect of Gaze Direction (F-test) . spatial_scope=whole_brain . roi_definition=not_applicable",
@@ -489,7 +541,8 @@
      "local_id": "analysis_direct_3_channels"
     }
    ],
-   "link_labels": [
+   "anomalies": [],
+   "labels": [
     {
      "value": "model_second_level_flexible_factorial . model_family=anova",
      "alias": "model_second_level_flexible_factorial"
@@ -502,15 +555,14 @@
      "value": "model_one_way_gaze_3ch . model_family=anova",
      "alias": "model_one_way_gaze_3ch"
     }
-   ],
-   "coordinate_status": "yes"
+   ]
   },
   "predictions": [
    {
     "model_version": "claude-opus-5@review-bootstrap-0.1.0",
     "result": [
      {
-      "from_name": "ls_0",
+      "from_name": "relationship_one_0_0",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -520,7 +572,7 @@
       }
      },
      {
-      "from_name": "ls_1",
+      "from_name": "relationship_one_0_1",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -530,7 +582,7 @@
       }
      },
      {
-      "from_name": "ls_2",
+      "from_name": "relationship_one_0_2",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -540,7 +592,7 @@
       }
      },
      {
-      "from_name": "ls_3",
+      "from_name": "relationship_one_0_3",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -550,7 +602,7 @@
       }
      },
      {
-      "from_name": "ls_4",
+      "from_name": "relationship_one_0_4",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -560,7 +612,7 @@
       }
      },
      {
-      "from_name": "ls_5",
+      "from_name": "relationship_one_0_5",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -570,7 +622,7 @@
       }
      },
      {
-      "from_name": "ls_6",
+      "from_name": "relationship_one_0_6",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -580,7 +632,7 @@
       }
      },
      {
-      "from_name": "ls_7",
+      "from_name": "relationship_one_0_7",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -590,7 +642,7 @@
       }
      },
      {
-      "from_name": "ls_8",
+      "from_name": "relationship_one_0_8",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -606,19 +658,33 @@
  {
   "data": {
    "paper_id": "5Rw4BhGBShSR",
-   "review_key": "5Rw4BhGBShSR|rel|Analysis.preprocessing",
+   "review_key": "5Rw4BhGBShSR|relationship|Analysis.preprocessing",
    "content_hash": "797d745243a5a117",
    "stage": 1,
-   "paper_url": "/data/local-files/?d=texts/5Rw4BhGBShSR.txt",
+   "task_kind": "relationship",
+   "paper_text_hash": "e30f62d523c3b7bd41f54c9a91a6e00fb2c1b06e59e228d51a7b083ec37ffb74",
+   "priority": "n/a",
+   "coordinate_status": "yes",
+   "entity_class": "Analysis",
+   "local_id": "",
+   "field_path": "",
+   "table_id": "",
+   "row_count": 9,
+   "llm_status": "",
+   "evidence_status": "",
+   "rel_slot": "Analysis.preprocessing",
+   "dispute_kind": "",
    "paper_title": "5Rw4BhGBShSR",
    "paper_citation": "5Rw4BhGBShSR  ·  pmid 28400328  ·  10.1016/j.neuropsychologia.2017.04.013",
-   "paper_text_hash": "dc627d68d0203d8ff9e2f32ebc75163b4acb03c71780173cdce51e3a0620a170",
-   "rel_slot": "Analysis.preprocessing → Preprocessing  ·  one per Analysis",
-   "target_class": "Preprocessing",
-   "anomaly_count": 0,
-   "rel_label": "Which Preprocessing does each Analysis use?",
-   "rel_description": "",
-   "anomaly_gate": [],
+   "paper_url": "/data/local-files/?d=texts/5Rw4BhGBShSR.txt",
+   "gate_relationship": [
+    {
+     "label": "Which Preprocessing does each Analysis use?",
+     "meta": "Analysis.preprocessing -> Preprocessing  ·  one per Analysis",
+     "body": "The preprocessing pipeline that produced the analyzed data."
+    }
+   ],
+   "rows": [],
    "columns": [
     {
      "value": "preproc_fmri",
@@ -629,7 +695,6 @@
      "alias": "none"
     }
    ],
-   "rows_multi": [],
    "rows_single": [
     {
      "label": "Main Effect of Gaze Direction (F-test) . spatial_scope=whole_brain . roi_definition=not_applicable",
@@ -677,20 +742,20 @@
      "local_id": "analysis_direct_3_channels"
     }
    ],
-   "link_labels": [
+   "anomalies": [],
+   "labels": [
     {
      "value": "preproc_fmri",
      "alias": "preproc_fmri"
     }
-   ],
-   "coordinate_status": "yes"
+   ]
   },
   "predictions": [
    {
     "model_version": "claude-opus-5@review-bootstrap-0.1.0",
     "result": [
      {
-      "from_name": "ls_0",
+      "from_name": "relationship_one_0_0",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -700,7 +765,7 @@
       }
      },
      {
-      "from_name": "ls_1",
+      "from_name": "relationship_one_0_1",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -710,7 +775,7 @@
       }
      },
      {
-      "from_name": "ls_2",
+      "from_name": "relationship_one_0_2",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -720,7 +785,7 @@
       }
      },
      {
-      "from_name": "ls_3",
+      "from_name": "relationship_one_0_3",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -730,7 +795,7 @@
       }
      },
      {
-      "from_name": "ls_4",
+      "from_name": "relationship_one_0_4",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -740,7 +805,7 @@
       }
      },
      {
-      "from_name": "ls_5",
+      "from_name": "relationship_one_0_5",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -750,7 +815,7 @@
       }
      },
      {
-      "from_name": "ls_6",
+      "from_name": "relationship_one_0_6",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -760,7 +825,7 @@
       }
      },
      {
-      "from_name": "ls_7",
+      "from_name": "relationship_one_0_7",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -770,7 +835,7 @@
       }
      },
      {
-      "from_name": "ls_8",
+      "from_name": "relationship_one_0_8",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -786,34 +851,33 @@
  {
   "data": {
    "paper_id": "5Rw4BhGBShSR",
-   "review_key": "5Rw4BhGBShSR|rel|Analysis.tables",
+   "review_key": "5Rw4BhGBShSR|relationship|Analysis.tables",
    "content_hash": "0f1893da32c04131",
    "stage": 1,
-   "paper_url": "/data/local-files/?d=texts/5Rw4BhGBShSR.txt",
+   "task_kind": "relationship",
+   "paper_text_hash": "e30f62d523c3b7bd41f54c9a91a6e00fb2c1b06e59e228d51a7b083ec37ffb74",
+   "priority": "n/a",
+   "coordinate_status": "yes",
+   "entity_class": "Analysis",
+   "local_id": "",
+   "field_path": "",
+   "table_id": "",
+   "row_count": 9,
+   "llm_status": "",
+   "evidence_status": "",
+   "rel_slot": "Analysis.tables",
+   "dispute_kind": "",
    "paper_title": "5Rw4BhGBShSR",
    "paper_citation": "5Rw4BhGBShSR  ·  pmid 28400328  ·  10.1016/j.neuropsychologia.2017.04.013",
-   "paper_text_hash": "dc627d68d0203d8ff9e2f32ebc75163b4acb03c71780173cdce51e3a0620a170",
-   "rel_slot": "Analysis.tables → Table  ·  many per Analysis",
-   "target_class": "Table",
-   "anomaly_count": 0,
-   "rel_label": "Which Tables does each Analysis use?",
-   "rel_description": "",
-   "anomaly_gate": [],
-   "columns": [
+   "paper_url": "/data/local-files/?d=texts/5Rw4BhGBShSR.txt",
+   "gate_relationship": [
     {
-     "value": "tbl1",
-     "alias": "tbl1"
-    },
-    {
-     "value": "tbl2",
-     "alias": "tbl2"
-    },
-    {
-     "value": "tbl3",
-     "alias": "tbl3"
+     "label": "Which Tables does each Analysis use?",
+     "meta": "Analysis.tables -> Table  ·  many per Analysis",
+     "body": "The source tables reporting results for this analysis."
     }
    ],
-   "rows_multi": [
+   "rows": [
     {
      "label": "Main Effect of Gaze Direction (F-test) . spatial_scope=whole_brain . roi_definition=not_applicable",
      "meta": "analysis_main_gaze",
@@ -860,8 +924,7 @@
      "local_id": "analysis_direct_3_channels"
     }
    ],
-   "rows_single": [],
-   "link_labels": [
+   "columns": [
     {
      "value": "tbl1",
      "alias": "tbl1"
@@ -875,14 +938,29 @@
      "alias": "tbl3"
     }
    ],
-   "coordinate_status": "yes"
+   "rows_single": [],
+   "anomalies": [],
+   "labels": [
+    {
+     "value": "tbl1",
+     "alias": "tbl1"
+    },
+    {
+     "value": "tbl2",
+     "alias": "tbl2"
+    },
+    {
+     "value": "tbl3",
+     "alias": "tbl3"
+    }
+   ]
   },
   "predictions": [
    {
     "model_version": "claude-opus-5@review-bootstrap-0.1.0",
     "result": [
      {
-      "from_name": "lm_0",
+      "from_name": "relationship_row_0_0",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -892,7 +970,7 @@
       }
      },
      {
-      "from_name": "lm_1",
+      "from_name": "relationship_row_0_1",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -902,7 +980,7 @@
       }
      },
      {
-      "from_name": "lm_2",
+      "from_name": "relationship_row_0_2",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -912,7 +990,7 @@
       }
      },
      {
-      "from_name": "lm_3",
+      "from_name": "relationship_row_0_3",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -922,7 +1000,7 @@
       }
      },
      {
-      "from_name": "lm_4",
+      "from_name": "relationship_row_0_4",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -932,7 +1010,7 @@
       }
      },
      {
-      "from_name": "lm_5",
+      "from_name": "relationship_row_0_5",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -942,7 +1020,7 @@
       }
      },
      {
-      "from_name": "lm_6",
+      "from_name": "relationship_row_0_6",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -952,7 +1030,7 @@
       }
      },
      {
-      "from_name": "lm_7",
+      "from_name": "relationship_row_0_7",
       "to_name": "paper",
       "type": "choices",
       "value": {
@@ -962,7 +1040,7 @@
       }
      },
      {
-      "from_name": "lm_8",
+      "from_name": "relationship_row_0_8",
       "to_name": "paper",
       "type": "choices",
       "value": {

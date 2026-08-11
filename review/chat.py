@@ -23,8 +23,9 @@ the provenance of the decision, and it exports with the annotation.
 ## The two invariants this depends on
 
 `chat_q` is the ONLY control in these configs with `smart="true"`. Every other
-TextArea is generated with `smart="false"` (`config_gen._textarea`), because `smart`
-defaults to true and an unmarked `comment` would fire the same round trip.
+control is swept to `smart="false"` (`xmlbuild.mute_smart`), because `smart`
+defaults to true and an unmarked `comment` -- or a drawn evidence span -- would
+fire the same round trip.
 
 A TextArea's serialized result holds ALL of its submissions in one list
 (`TextArea.jsx:144, selectedValues()`), and accepting a suggestion REPLACES the
@@ -43,9 +44,9 @@ Two kinds, both worth it because the paper is ~100k tokens and the question is ~
                traffic consistently; a gateway that rejects the parameter is
                detected once and it is dropped for the rest of the run.
 
-Run it on the host, next to the other scripts in this directory:
+Run it on the host, beside the rest of the layer:
 
-    python3 review/chat_backend.py --key-file .env
+    python3 review/ls.py chat
 
 then in each project: Settings > Model > Connect Model,
 `http://host.docker.internal:9090`, with **Interactive preannotations** on. The
@@ -70,7 +71,8 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from config_gen import CHAT_ANSWER, CHAT_QUESTION  # noqa: E402
+import spec  # noqa: E402
+from spec import CHAT_ANSWER, CHAT_QUESTION  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
 REVIEW = Path(__file__).resolve().parent
@@ -86,38 +88,6 @@ DEFAULT_EFFORT = "low"
 #: sits under LS's and the override raises LS's to leave room.
 DEFAULT_TIMEOUT = 150.0
 
-#: Subdirectory of the files root holding one text per paper. Kept in step with
-#: `to_labelstudio._TEXT_SUBDIR`; not imported from there because that module pulls
-#: in the schema stack and this one is standard library plus `openai`.
-_TEXT_SUBDIR = "texts"
-
-#: Task-data keys that say nothing about the object under review. Everything else
-#: is rendered, whatever shape it has -- the arrays ARE the object for two of the
-#: four task kinds, and a filter that kept only short scalars left a structure task
-#: telling the model nothing but the paper id and the word "contrast".
-#:
-#:   paper_url                 the text is sent whole; the URL is plumbing
-#:   content_hash, review_key  addresses, not content
-#:   *_labels                  the span layer's label chips; the objects they name
-#:                             are already rendered from the rows
-#:   columns                   the relationship grid's headers, whose descriptors
-#:                             the rendered rows already carry
-#:   entity_table              the legend; `entity_rows` is the same data with the
-#:                             local_id kept
-#:
-#: A key not named here is rendered even if it is unrecognised: an exporter that
-#: grows a field should reach the model by default and be excluded on purpose.
-#: `table_html` is the one entry here that is not plumbing: it is the object under
-#: review on a contrast task. It is skipped because `_inline` does not truncate, and a
-#: rendered coordinate table runs to ~20 KB of markup -- 255 KB across one paper's
-#: contrast tasks -- which would be pasted into the prompt of every chat turn in the
-#: project. The same table reaches the model in readable form through `sibling_rows`
-#: and `contrast[].parsed`, which is what a question about it would actually cite.
-_SKIP_CONTEXT_KEYS = frozenset({
-    "paper_url", "content_hash", "review_key", "paper_text_hash",
-    "span_labels", "structure_labels", "link_labels", "columns", "entity_table",
-    "table_html",
-})
 
 SYSTEM = """You are helping a curator review a structured extraction of one \
 neuroimaging paper. They have the paper open and a single extracted field, link or \
@@ -240,7 +210,7 @@ def _render(value: Any, indent: int = 0) -> list[str]:
 def task_context(data: dict[str, Any]) -> str:
     """What the reviewer is being asked to judge.
 
-    Everything the task carries except the plumbing in _SKIP_CONTEXT_KEYS, because
+    Everything the task carries except the plumbing in spec.CHAT_SKIP_KEYS, because
     for a relationship or structure task the object under review IS an array --
     the candidate targets, the model's terms, the contrast's cells. Judged by shape
     instead, those tasks reached the model as little more than a paper id, and it
@@ -253,7 +223,7 @@ def task_context(data: dict[str, Any]) -> str:
 
     lines: list[str] = []
     for key, value in data.items():
-        if key in _SKIP_CONTEXT_KEYS:
+        if key in spec.CHAT_SKIP_KEYS:
             continue
         rendered = _render(value)
         if not rendered:
@@ -322,7 +292,7 @@ class Chat:
             paper_id = str(data.get("paper_id") or "")
             if not paper_id:
                 raise ValueError("task carries neither paper_url nor paper_id")
-            relative = f"{_TEXT_SUBDIR}/{paper_id}.txt"
+            relative = f"{spec.TEXT_SUBDIR}/{paper_id}.txt"
 
         path = (self.files_root / relative).resolve()
         # LOCAL_FILES_SERVING_ENABLED serves anything under the document root and
@@ -449,7 +419,7 @@ class Chat:
             # The whole log: accepting a suggestion replaces the control's area.
             "result": [{
                 "from_name": CHAT_ANSWER,
-                "to_name": "paper",
+                "to_name": spec.PAPER,
                 "type": "textarea",
                 "value": {"text": answers + [reply]},
             }],
@@ -531,43 +501,82 @@ class Handler(BaseHTTPRequestHandler):
         """Quiet: every request is a health check until it is not, and predict logs itself."""
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--host", default="0.0.0.0")
-    parser.add_argument("--port", type=int, default=9090)
-    parser.add_argument("--files-root", type=Path, default=REVIEW / "ls_files",
-                        help="the LOCAL_FILES_DOCUMENT_ROOT the exporter staged texts into")
-    parser.add_argument("--key-file", type=Path, default=REPO / ".env")
-    parser.add_argument("--model", default=DEFAULT_MODEL)
-    parser.add_argument("--effort", default=DEFAULT_EFFORT)
-    parser.add_argument("--timeout", type=float, default=DEFAULT_TIMEOUT)
-    parser.add_argument("--max-chars", type=int, default=200_000,
-                        help="matches extract_record.py, so the reviewer and the "
-                             "extractor were shown the same paper")
-    args = parser.parse_args()
+def serve(
+    *,
+    port: int = 9090,
+    host: str = "0.0.0.0",
+    files_root: Path | None = None,
+    key_file: Path | None = None,
+    model: str | None = None,
+    effort: str | None = None,
+    timeout: float | None = None,
+    max_chars: int = 200_000,
+) -> int:
+    """Run the backend until interrupted. `review/ls.py chat` is the entry point.
 
-    if args.key_file and args.key_file.is_file():
-        load_key_file(args.key_file)
+    `max_chars` matches the extractor's own cap, so the reviewer and the extractor
+    were shown the same paper.
+    """
+
+    files_root = files_root or REVIEW / "ls_files"
+    key_file = key_file or REPO / ".env"
+
+    if key_file and Path(key_file).is_file():
+        load_key_file(key_file)
     if not os.environ.get("OPENAI_API_KEY"):
-        print(f"no OPENAI_API_KEY; expected it in {args.key_file}", file=sys.stderr)
+        print(f"no OPENAI_API_KEY; expected it in {key_file}", file=sys.stderr)
         return 2
-    if not args.files_root.is_dir():
-        print(f"no files root at {args.files_root}", file=sys.stderr)
+    if not Path(files_root).is_dir():
+        print(f"no files root at {files_root}", file=sys.stderr)
         return 2
 
-    chat = Chat(args.model, args.effort, args.files_root, args.timeout, args.max_chars)
+    chat = Chat(
+        model or DEFAULT_MODEL,
+        effort or DEFAULT_EFFORT,
+        Path(files_root),
+        timeout or DEFAULT_TIMEOUT,
+        max_chars,
+    )
     chat.client  # noqa: B018 -- fail here rather than on a reviewer's first question
-    server = ThreadingHTTPServer((args.host, args.port), Handler)
+    server = ThreadingHTTPServer((host, port), Handler)
     server.chat = chat  # type: ignore[attr-defined]
-    print(f"{chat.model_version} on http://{args.host}:{args.port} "
-          f"serving papers from {args.files_root}", flush=True)
-    print("connect it at Settings > Model with Interactive preannotations on, "
-          "then switch on Auto-Annotation in the labeling view", flush=True)
+    print(
+        f"{chat.model_version} on http://{host}:{port} serving papers from {files_root}",
+        flush=True,
+    )
+    print(
+        "connect it at Settings > Model with Interactive preannotations on, then "
+        "switch on Auto-Annotation in the labeling view",
+        flush=True,
+    )
     try:
         server.serve_forever()
     except KeyboardInterrupt:
         print("\nstopped", flush=True)
     return 0
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--host", default="0.0.0.0")
+    parser.add_argument("--port", type=int, default=9090)
+    parser.add_argument("--files-root", type=Path, default=REVIEW / "ls_files")
+    parser.add_argument("--key-file", type=Path, default=REPO / ".env")
+    parser.add_argument("--model", default=DEFAULT_MODEL)
+    parser.add_argument("--effort", default=DEFAULT_EFFORT)
+    parser.add_argument("--timeout", type=float, default=DEFAULT_TIMEOUT)
+    parser.add_argument("--max-chars", type=int, default=200_000)
+    args = parser.parse_args()
+    return serve(
+        port=args.port,
+        host=args.host,
+        files_root=args.files_root,
+        key_file=args.key_file,
+        model=args.model,
+        effort=args.effort,
+        timeout=args.timeout,
+        max_chars=args.max_chars,
+    )
 
 
 if __name__ == "__main__":

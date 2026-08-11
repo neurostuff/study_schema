@@ -20,42 +20,25 @@ from pathlib import Path
 _HEADING = re.compile(r"^(#+)[ \t]+(.*?)[ \t]*$", re.MULTILINE)
 _MARKDOWN_DEPTH_OFFSET = 1
 
-#: A heading set over a rule instead of behind hashes, which is what `build_text.py`
-#: writes: the paper pane is a `<Text>` tag and renders plain text, so `## Results` shows
-#: the hashes rather than a heading. The rule character carries the depth the hashes used
-#: to -- `=` for `##`, `-` for `###`, `.` for `####` -- so the section index survives the
-#: change rather than collapsing to a single unnamed span.
-#:
-#: The rule must be exactly as long as the title. Without that a row of dashes under a
-#: line of prose reads as a heading, and a table's delimiter row is only saved from it by
-#: starting with a pipe.
-_RULE_LEVELS = {"=": 1, "-": 2, ".": 3}
-_STYLED_HEADING = re.compile(
-    r"^(?P<title>[^\s#|][^\n]*?)[ \t]*\n(?P<rule>([=\-.])\3{2,})[ \t]*$", re.MULTILINE
-)
-
-
 def _headings(normalized: str) -> list[tuple[int, int, int, str]]:
     """`(start, end, level, title)` for every heading, in document order.
 
-    Both spellings are read, so a text built before the styling change and one built
-    after both index the same way.
+    One spelling, because the text is served as the markdown it already is. A second
+    spelling lived here while `build_text.py` restyled headings as a title over a
+    rule, for a pane that renders plain text; the transform is gone, and with it the
+    heuristic that had to decide whether a row of dashes under a line of prose was a
+    heading or a table.
     """
 
-    found: list[tuple[int, int, int, str]] = []
-    for match in _HEADING.finditer(normalized):
-        found.append(
-            (match.start(), match.end(), len(match.group(1)) - _MARKDOWN_DEPTH_OFFSET,
-             " ".join(match.group(2).split()))
+    return [
+        (
+            match.start(),
+            match.end(),
+            len(match.group(1)) - _MARKDOWN_DEPTH_OFFSET,
+            " ".join(match.group(2).split()),
         )
-    for match in _STYLED_HEADING.finditer(normalized):
-        title = " ".join(match.group("title").split())
-        rule = match.group("rule")
-        if len(rule) != len(match.group("title").strip()):
-            continue
-        found.append((match.start(), match.end(), _RULE_LEVELS[rule[0]], title))
-    found.sort(key=lambda item: item[0])
-    return found
+        for match in _HEADING.finditer(normalized)
+    ]
 
 
 @dataclass(frozen=True)
