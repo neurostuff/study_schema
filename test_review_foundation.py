@@ -33,18 +33,39 @@ import validate_record  # noqa: E402
 
 import schema_utils  # noqa: E402
 
-#: A paper whose text, record and payloads are all present. It was `2abntY3hQSyq`,
-#: whose text was never synced, so every test that reads a record skipped -- and
-#: went on skipping, twenty-five of them, for as long as it took to notice.
-PAPER = "HU6mqxmtySg3"
+#: A paper whose text and record are both present -- *discovered*, not named.
+#:
+#: It was `2abntY3hQSyq`, whose text was never synced, so every test that reads a
+#: record skipped and went on skipping, twenty-five of them, for as long as it took
+#: to notice. Naming `HU6mqxmtySg3` instead only moved the failure: `review/texts` is
+#: gitignored bulk material (see `review/sync_texts.py`), so which papers a checkout
+#: has is a property of that checkout, and any name pinned here is one sync away from
+#: being the wrong one again.
+#:
+#: So the paper is whichever one this checkout actually has both halves of. None of
+#: the tests below asserts a fact about a particular study -- they check that offsets
+#: address what they claim, that a record is well formed, that a table attributes --
+#: so any paper serves, and the skip now means "no corpus" rather than "not that one".
+def _example_paper() -> str:
+    for record in sorted((REVIEW / "examples").glob("*.extraction.json")):
+        paper = record.name.removesuffix(".extraction.json")
+        if (REVIEW / "texts" / paper / "processed" / "local" / "text.tables.txt").is_file():
+            return paper
+    return ""
+
+
+PAPER = _example_paper()
 TEXT = REVIEW / "texts" / PAPER / "processed" / "local" / "text.tables.txt"
 RECORD = REVIEW / "examples" / f"{PAPER}.extraction.json"
 PAYLOADS = REVIEW / "payloads" / PAPER
 IDENTIFIERS = REVIEW / "texts" / PAPER / "identifiers.json"
 
 requires_paper = pytest.mark.skipif(
-    not TEXT.is_file() or not RECORD.is_file(),
-    reason="example paper text or record is not present",
+    not PAPER,
+    reason=(
+        "no paper under review/examples has a synced text under review/texts; "
+        "run review/sync_texts.py to populate one"
+    ),
 )
 
 
@@ -74,6 +95,8 @@ requires_current_record = pytest.mark.skipif(
     reason=(
         f"review/examples/{PAPER}.extraction.json predates the projected extraction "
         "schema; re-extract the paper to re-enable"
+        if PAPER else
+        "no example paper to check against the projected extraction schema"
     ),
 )
 
@@ -274,6 +297,363 @@ def test_resolves_to_follows_is_a(classes: dict) -> None:
     assert schema_utils.resolves_to(classes, "ExtractedInteger", "ExtractedValue")
     assert schema_utils.resolves_to(classes, "ExtractedValue", "ExtractedValue")
     assert not schema_utils.resolves_to(classes, "Group", "ExtractedValue")
+
+
+# -- product columns and the crossings they record -------------------------
+
+#: Fixtures rather than a real record, because the defect being checked is one a
+#: real record wears invisibly: every reference resolves and every level agrees with
+#: its term, so the only way to test it is to build the shape by hand.
+def _text(value: str) -> dict:
+    return {"extraction_status": "extracted", "value": value}
+
+
+def _cell(term: str, direction: str, level: str | None = None) -> dict:
+    cell = {"term": term, "direction": _text(direction)}
+    if level is not None:
+        cell["level"] = _text(level)
+    return cell
+
+
+GROUP = {"local_id": "t_group", "type": _text("categorical")}
+STAGE = {"local_id": "t_stage", "type": _text("categorical")}
+PRODUCT = {"local_id": "t_gxs", "type": _text("categorical"),
+           "interaction_with": ["t_group", "t_stage"]}
+
+#: The two group cells of an interaction reported as an unsigned chi-square: compared,
+#: sign not stated, which crosses nothing.
+UNSIGNED_GROUP = [_cell("t_group", "unstated", "patients"),
+                  _cell("t_group", "unstated", "controls")]
+
+
+def _record(terms: list[dict], analyses: list[tuple[str, list[dict]]],
+            model: str = "m1") -> dict:
+    return {
+        "model_estimations": [{"local_id": model, "terms": terms}],
+        "analyses": [
+            {"local_id": f"a{index}", "name": _text(name), "definition": _text(name),
+             "model_estimation": model, "effect": {"cells": cells}}
+            for index, (name, cells) in enumerate(analyses)
+        ],
+    }
+
+
+def _flags(record: dict, classes: dict) -> list[str]:
+    validator = validate_record.Validator(classes, None)
+    validator.check_crossings(record)
+    validator.check_product_columns(record)
+    validator.check_occasion_factors(record)
+    assert validator.errors == []  # these checks route to review, never reject
+    return validator.warnings
+
+
+def test_reduplication_is_not_a_crossing() -> None:
+    assert validate_record.names_a_crossing(_text("Group-by-stage interaction"))
+    assert validate_record.names_a_crossing(_text("age × diagnosis"))
+    assert validate_record.names_a_crossing(_text("the moderated slope"))
+    assert not validate_record.names_a_crossing(_text("voxel-by-voxel comparison"))
+    assert not validate_record.names_a_crossing(_text("main effect of group"))
+    assert not validate_record.names_a_crossing(None, {"extraction_status": "not_reported"})
+
+
+def test_interaction_without_a_product_column_is_flagged(classes: dict) -> None:
+    """QQCjAAT6SwwQ's defect: an unsigned interaction test with nowhere to sit."""
+
+    flags = _flags(_record([GROUP, STAGE],
+                           [("Group-by-stage interaction", UNSIGNED_GROUP)]), classes)
+
+    assert len(flags) == 1
+    assert "interaction_with" in flags[0]
+    assert "Study.analyses[0].effect.cells" in flags[0]
+
+
+def test_an_unsigned_cell_on_the_product_column_satisfies_it(classes: dict) -> None:
+    flags = _flags(_record([GROUP, STAGE, PRODUCT],
+                           [("Group-by-stage interaction",
+                             [_cell("t_gxs", "not_applicable")])]), classes)
+
+    assert flags == []
+
+
+def test_crossed_levels_need_no_product_column(classes: dict) -> None:
+    """extraction-readme.md's converse: two crossed categorical factors say it themselves."""
+
+    cells = [_cell("t_group", "positive", "patients"), _cell("t_group", "negative", "controls"),
+             _cell("t_stage", "positive", "wake"), _cell("t_stage", "negative", "n3")]
+
+    assert _flags(_record([GROUP, STAGE], [("Group-by-stage interaction", cells)]),
+                  classes) == []
+
+
+def test_a_simple_effect_within_one_level_is_not_flagged(classes: dict) -> None:
+    """representing-models.md §5.5's last row, named after the interaction it came from."""
+
+    cells = UNSIGNED_GROUP + [_cell("t_stage", "not_applicable", "wake")]
+
+    assert _flags(_record([GROUP, STAGE],
+                          [("Group-by-stage interaction at wake", cells)]), classes) == []
+
+
+def test_identical_cells_disagreeing_about_a_crossing_is_flagged(classes: dict) -> None:
+    """The visible cost: an interaction and a main effect became the same record."""
+
+    flags = _flags(
+        _record([GROUP, STAGE, PRODUCT],
+                [("Group-by-stage interaction", UNSIGNED_GROUP),
+                 ("Group effect", list(UNSIGNED_GROUP))]),
+        classes,
+    )
+
+    # All three fire, which is the raw QQCjAAT6SwwQ record in miniature: the cells
+    # record no crossing, the two analyses are therefore indistinguishable, and the
+    # column that would have separated them carries nothing.
+    assert [flag for flag in flags if "identical to Study.analyses[1]" in flag]
+    assert [flag for flag in flags if "interaction_with" in flag]
+    assert [flag for flag in flags if "carries no cell" in flag]
+
+
+def test_a_product_column_may_name_a_lower_stage_term(classes: dict) -> None:
+    """A group stage crossing a cohort factor with a first-level condition."""
+
+    record = {
+        "model_estimations": [
+            {"local_id": "first", "terms": [{"local_id": "t_cond", "type": _text("categorical")}]},
+            {"local_id": "group", "inputs_from": ["first"],
+             "terms": [GROUP, {"local_id": "t_x", "type": _text("categorical"),
+                               "interaction_with": ["t_group", "t_cond"]}]},
+        ],
+        "analyses": [{"local_id": "a0", "name": _text("Group × condition"),
+                      "definition": _text("Group × condition"), "model_estimation": "group",
+                      "effect": {"cells": [_cell("t_x", "positive")]}}],
+    }
+
+    assert _flags(record, classes) == []
+
+
+def test_a_component_in_a_sibling_model_is_flagged(classes: dict) -> None:
+    """What check_local_ids cannot see: the reference resolves, to the wrong model."""
+
+    record = {
+        "model_estimations": [
+            {"local_id": "other", "terms": [GROUP]},
+            {"local_id": "mine", "terms": [
+                {"local_id": "t_mi", "type": _text("continuous")},
+                {"local_id": "t_x", "type": _text("continuous"),
+                 "interaction_with": ["t_group", "t_mi"]},
+            ]},
+        ],
+        "analyses": [{"local_id": "a0", "name": _text("Group × MI"),
+                      "definition": _text("Group × MI"), "model_estimation": "mine",
+                      "effect": {"cells": [_cell("t_x", "positive")]}}],
+    }
+
+    flags = _flags(record, classes)
+
+    assert len(flags) == 1
+    assert "'t_group' is not a term of 'mine'" in flags[0]
+
+
+def test_a_product_column_no_cell_names_is_flagged(classes: dict) -> None:
+    """A declared crossing whose analysis was never extracted."""
+
+    flags = _flags(_record([GROUP, STAGE, PRODUCT],
+                           [("Group effect", UNSIGNED_GROUP)]), classes)
+
+    assert len(flags) == 1
+    assert "carries no cell" in flags[0]
+
+
+def test_the_checks_survive_a_cyclic_stage_chain(classes: dict) -> None:
+    """Invariant 6's violation is an error elsewhere; here it must not hang."""
+
+    record = {
+        "model_estimations": [
+            {"local_id": "a", "inputs_from": ["b"], "terms": [GROUP]},
+            {"local_id": "b", "inputs_from": ["a"], "terms": [STAGE]},
+        ],
+        "analyses": [],
+    }
+
+    assert _flags(record, classes) == []
+
+
+# -- occasions, and the factors that should carry them ---------------------
+
+#: representing-models.md §5.6: one categorical term whose levels name the occasions.
+#: Only the slots these checks read are populated, per the fixture note above.
+TIME = {"local_id": "t_time", "type": _text("categorical"),
+        "variation_level": _text("within_subject"),
+        "levels": [{"level": _text("pre"), "timepoints": ["tp_base"]},
+                   {"level": _text("post"), "timepoints": ["tp_post"]}]}
+
+#: TgcHKMRfrVog's defect: the same axis collapsed into one column named for the
+#: contrast it was the subject of, so nothing says which occasions were compared.
+COLLAPSED = {"local_id": "t_prepost", "type": _text("continuous"),
+             "name": _text("pre > post rsFC change"),
+             "variation_level": _text("within_subject")}
+
+#: The exception the term half must not flag: one number per participant, named for
+#: the subtraction it came from, varying across the sample rather than within anyone.
+DIFFERENCE_SCORE = {"local_id": "t_dbdi", "type": _text("continuous"),
+                    "name": _text("percent change in BDI"),
+                    "variation_level": _text("between_subject")}
+
+TWO_OCCASIONS = {"timepoints": [{"local_id": "tp_base"}, {"local_id": "tp_post"}]}
+
+
+def test_names_a_comparison_reads_contrast_syntax() -> None:
+    assert validate_record.names_a_comparison(_text("pre > post rsFC change"))
+    assert validate_record.names_a_comparison(_text("patients versus controls"))
+    assert validate_record.names_a_comparison(_text("faces vs houses"))
+    assert validate_record.names_a_comparison(_text("difference between sessions"))
+    # A threshold is not an axis: the operator wants a word character on both sides.
+    assert not validate_record.names_a_comparison(_text("p < .001 uncorrected"))
+    assert not validate_record.names_a_comparison(_text("aSCC seed connectivity"))
+    assert not validate_record.names_a_comparison(_text("age"))
+    assert not validate_record.names_a_comparison(None, {"extraction_status": "not_reported"})
+
+
+def test_a_contrast_shaped_continuous_term_is_flagged(classes: dict) -> None:
+    """TgcHKMRfrVog's defect: the occasion axis recorded as one continuous column."""
+
+    record = _record([COLLAPSED],
+                     [("CBT change: rsFC with aSCC, pre > post",
+                       [_cell("t_prepost", "positive")])])
+
+    flags = _flags(record, classes)
+
+    assert len(flags) == 1
+    assert "Study.model_estimations[0].terms[0].name" in flags[0]
+    assert "states a comparison" in flags[0]
+
+
+def test_an_occasion_factor_satisfies_it(classes: dict) -> None:
+    """§5.6's encoding of the same result raises nothing."""
+
+    record = _record([TIME], [("CBT change: rsFC with aSCC, pre > post",
+                              [_cell("t_time", "positive", "pre"),
+                               _cell("t_time", "negative", "post")])])
+    record["design"] = TWO_OCCASIONS
+
+    assert _flags(record, classes) == []
+
+
+def test_a_per_participant_difference_score_is_not_flagged(classes: dict) -> None:
+    """ModelTerm.type's stated exception. Its name says `change in` and it is right:
+    one number per participant, entered across the sample, is a slope."""
+
+    record = _record([DIFFERENCE_SCORE],
+                     [("CBT change: rsFC with aSCC, percent reduction in BDI",
+                       [_cell("t_dbdi", "positive")])])
+
+    assert _flags(record, classes) == []
+
+
+def test_a_product_column_named_for_its_crossing_is_not_flagged(classes: dict) -> None:
+    """A product column has no levels either, and is named for what it multiplies."""
+
+    term = {"local_id": "t_x", "type": _text("continuous"),
+            "name": _text("age × diagnosis"), "interaction_with": ["t_group"]}
+    record = _record([GROUP, term], [("Age × diagnosis", [_cell("t_x", "positive")])])
+
+    assert [flag for flag in _flags(record, classes) if "states a comparison" in flag] == []
+
+
+def test_declared_occasions_that_no_level_names_are_flagged(classes: dict) -> None:
+    """The defect from the design end: the scans are recorded, the comparison is not."""
+
+    record = _record([GROUP], [("CBT change in rsFC, pre > post", UNSIGNED_GROUP)])
+    record["design"] = TWO_OCCASIONS
+
+    flags = _flags(record, classes)
+
+    assert len(flags) == 1
+    assert "Study.design.timepoints" in flags[0]
+    assert "scanned twice and compared nothing" in flags[0]
+
+
+def test_a_baseline_only_record_is_not_flagged(classes: dict) -> None:
+    """A study that scanned twice and reported once is the legitimate reading, which
+    is why the trigger needs prose claiming a change and `baseline` is not it."""
+
+    record = _record([GROUP], [("Baseline rsFC with aSCC", UNSIGNED_GROUP)])
+    record["design"] = TWO_OCCASIONS
+
+    assert _flags(record, classes) == []
+
+
+def test_one_declared_occasion_cannot_be_compared(classes: dict) -> None:
+    """Nothing to flag: a single occasion has no second side to have lost."""
+
+    record = _record([GROUP], [("Change in rsFC after treatment", UNSIGNED_GROUP)])
+    record["design"] = {"timepoints": [{"local_id": "tp_base"}]}
+
+    assert _flags(record, classes) == []
+
+
+# -- the storage schema's class rules --------------------------------------
+
+#: `rules` is dropped by the projection to extraction, so a rule is only ever
+#: evaluated against an extraction record. These check that it is evaluated at all:
+#: the failure mode is a rule that reads correctly and never fires.
+
+
+def _rule_errors(node: dict, classes: dict) -> list[str]:
+    validator = validate_record.Validator(classes, None)
+    validator.check_rules(node, "Analysis", "Study.analyses[0]")
+    return validator.errors
+
+
+def test_the_storage_rules_are_found(classes: dict) -> None:
+    assert [name for name in validate_record.storage_rules()] == ["Analysis"]
+    assert len(validate_record.storage_rules()["Analysis"]) == 2
+
+
+@pytest.mark.parametrize(
+    "scope,regions,fails",
+    [
+        ("roi", ["r1"], False),
+        ("roi", [], True),
+        ("roi", None, True),
+        ("whole_brain", None, False),
+        ("whole_brain", ["r1"], True),
+        ("searchlight", ["r1"], True),
+        # No rule has `unstated` as a precondition, so neither shape is constrained.
+        ("unstated", ["r1"], False),
+        ("unstated", None, False),
+    ],
+)
+def test_spatial_scope_and_regions_agree(
+    classes: dict, scope: str, regions: list | None, fails: bool
+) -> None:
+    node = {"spatial_scope": {"extraction_status": "extracted", "value": scope}}
+    if regions is not None:
+        node["regions"] = regions
+
+    assert bool(_rule_errors(node, classes)) is fails
+
+
+def test_a_rule_construct_the_evaluator_cannot_read_is_reported(
+    classes: dict, monkeypatch
+) -> None:
+    """Silently skipping one turns the rule into a check that always passes."""
+
+    monkeypatch.setattr(
+        validate_record, "_RULES",
+        {"Analysis": [{
+            "description": "invented",
+            "preconditions": {"slot_conditions": {"spatial_scope": {"equals_string": "roi"}}},
+            "postconditions": {"slot_conditions": {"regions": {"maximum_cardinality": 3}}},
+        }]},
+    )
+    errors = _rule_errors(
+        {"spatial_scope": {"extraction_status": "extracted", "value": "roi"},
+         "regions": ["r1"]},
+        classes,
+    )
+
+    assert any("maximum_cardinality" in error and "not implemented" in error
+               for error in errors)
 
 
 # -- the real record -------------------------------------------------------

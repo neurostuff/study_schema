@@ -542,6 +542,14 @@ stops reading as a contrast. What the map is *of* is `Measure` and `Connectivity
 contrast *compared* is the cells. The seed belongs in the adjustment set, which is exactly what the
 connectivity beta is conditional on.
 
+**Name the seed once, as a `Region`.** The place and the column carrying its signal are two
+things: `t-lamyg` is the column, and the region is a `Region` that `t-lamyg` points at through
+`ModelTerm.region` and every analysis built on that map names in `seed_regions`. As bare
+strings one seed becomes three spellings — `left amygdala`, `left amygdala time series`,
+`Left amygdala connectivity` — that nothing joins. Its provenance is
+`Region.definition_method`, so a seed taken from this study's own earlier contrast is
+`same_study_analysis`, and that contrast names it in `defines_regions`.
+
 The rule is unchanged by stages: cell what the comparison compared, and nothing else. Where a
 first-level column genuinely *is* what was compared — a group contrast of a task condition fitted
 per subject — cell it, and the derivation reads it as it reads any other factor.

@@ -184,6 +184,7 @@ a submodule and reads the schema, the priority inventory and
 | `Preprocessing` | `local_id`, `name` |
 | `StatisticalModel` | `local_id`, `name` |
 | `Assessment` | `local_id`, `name` |
+| `Region` | `local_id`, `name` |
 | `Predictor` | `local_id`, `name` |
 | `Condition` | `local_id`, `name` |
 

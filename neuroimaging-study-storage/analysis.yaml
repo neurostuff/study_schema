@@ -14,6 +14,7 @@ imports:
   - task
   - group
   - assessment
+  - region
   - analysis_enums
   - analysis_details
 default_prefix: neurostudy
@@ -91,21 +92,30 @@ classes:
           gives the extent: a whole-brain analysis can be voxelwise or vertexwise, and an ROI
           analysis can average a region or test its parcels. Record it rather than inferring
           it from coordinate_space.
-      roi_definition:
-        in_subset: [mvp, model_extracted]
-        range: RoiDefinition
-        required: true
-        description: >-
-          How the region of interest was defined, which is primarily a statement about
-          independence. Must be not_applicable for whole-brain and searchlight analyses,
-          and must not be not_applicable when spatial_scope is roi.
-      roi_labels:
+      regions:
         in_subset: [model_extracted]
-        range: string
+        range: Region
         multivalued: true
+        inlined: false
         description: >-
-          The atlas, parcellation, or region names the analysis ran over, in the source's words,
-          one entry per region.
+          The regions the analysis ran over -- its search space, what `spatial_scope: roi`
+          restricts it to. Empty for whole-brain and searchlight, where the emptiness asserts
+          that inference was not restricted.
+
+          Not the analysis's seeds: a whole-brain seed-based analysis has a seed and no
+          search-space region, so putting one here says the opposite of what it did. Seeds are
+          `ConnectivityDetails.seed_regions`.
+      defines_regions:
+        in_subset: [model_extracted]
+        range: Region
+        multivalued: true
+        inlined: false
+        description: >-
+          Regions this analysis produced: a localizer's clusters, or peaks of a contrast later
+          used as seeds or ROIs. Populated on the analysis a region came *from*, not on those
+          that use it, so a region whose `definition_method` is `same_study_analysis` and
+          which another analysis lists in `regions` or `seed_regions` is a circularity the
+          record states rather than asserts.
       measure:
         in_subset: [mvp, model_extracted]
         range: Measure
@@ -223,8 +233,14 @@ classes:
           include random slopes, latent variables, dynamic connectivity, and dependencies
           between terms. An analysis whose method has no stable structured decomposition
           at all takes NotStructurableDetails instead.
+    # Both directions on purpose: a reference slot has no `not_reported` form, so without the
+    # negative rule "whole-brain, no ROI" and "the extractor missed the ROIs" are the same
+    # JSON -- the distinction the old `roi_definition: not_applicable` carried.
+    #
+    # The projection drops `rules`, so these are stated here and evaluated against extraction
+    # records by `review/validate_record.py::check_rules`.
     rules:
-      - description: Whole-brain and searchlight analyses have no region of interest to define.
+      - description: Whole-brain and searchlight analyses restrict inference to no region.
         preconditions:
           slot_conditions:
             spatial_scope:
@@ -233,18 +249,17 @@ classes:
                 - equals_string: searchlight
         postconditions:
           slot_conditions:
-            roi_definition:
-              equals_string: not_applicable
-      - description: An ROI analysis must say how the region was defined.
+            regions:
+              value_presence: ABSENT
+      - description: An ROI analysis must name the regions it ran over.
         preconditions:
           slot_conditions:
             spatial_scope:
               equals_string: roi
         postconditions:
-          none_of:
-            - slot_conditions:
-                roi_definition:
-                  equals_string: not_applicable
+          slot_conditions:
+            regions:
+              value_presence: PRESENT
 
   Effect:
     description: >-
@@ -679,7 +694,11 @@ classes:
         in_subset: [mvp, model_extracted]
         range: TermType
         required: true
-        description: Whether the term is categorical or continuous.
+        description: |-
+          Whether the term is categorical or continuous. Categorical when the column distinguishes named cells of the design -- occasions, cohorts, conditions, arms, regions -- whether or not the paper gives the axis a name; `levels` is then required, and each level names the entities carrying it. Continuous when the column carries a measured value and what the model fits is a slope.
+          Small as this field is, it settles four others: whether `levels` exists, whether a `Cell` on this term takes a `level`, whether the term can be crossed, and which branch of the derived kind fires. A term recorded continuous is one no contrast can be built across.
+          **A term whose name states a comparison -- `pre > post`, `A versus B`, `change in X` -- is almost always a categorical factor written down from its contrast's side.** What the design matrix distinguished was two occasions, two cohorts or two conditions; the paper labelled the difference because that is what it reported, and the axis went unnamed. Record the factor with a level for each side and let the contrast's cells carry the direction, per `representing-models.md` §5.6. Collapsing the two sides into one continuous column loses the comparison: nothing then says which occasions or cohorts were compared, and the effect reads as a slope.
+          The exception is a column that is genuinely one number per participant -- a difference score, a percent change, a symptom-change regressor entered as a covariate. That is continuous, and `source_definition` is where the subtraction it came from is written down.
       levels:
         in_subset: [mvp, model_extracted]
         range: FactorLevel
@@ -700,6 +719,17 @@ classes:
           Unset when the values come from somewhere the study does not record as an
           Assessment -- age, dose, a motion parameter, cardiac phase, scanner drift -- in
           which case source_definition names the origin.
+      region:
+        in_subset: [mvp, model_extracted]
+        range: Region
+        inlined: false
+        description: >-
+          The region whose signal supplies this term: a seed timecourse, an ROI mean covariate,
+          a PPI physiological regressor. The counterpart of `assessment` for a column drawn
+          from a place in the brain rather than an instrument.
+
+          Singular, so it does not serve a factor that *compares* regions: that is one term
+          with several levels, and the regions hang off `FactorLevel.regions`.
       variation_level:
         in_subset: [mvp, model_extracted]
         any_of:
@@ -787,15 +817,17 @@ classes:
       design a cohort or condition occupies is a property of the design rather than of any contrast
       drawn from it, so it is held here on the ModelTerm.
 
-      The four entity slots are what make the entity view of a contrast recoverable: an Effect's
-      cells name levels, and joining those levels here says which cohorts, conditions, occasions or
-      arms were compared. A factor normally ranges over one of the four -- conditions for a task
-      factor, cohorts for a participant factor -- so the others stay empty; a level realized by a
-      crossing, such as a drug given at follow-up, fills more than one.
+      The five entity slots are what make the entity view of a contrast recoverable: an Effect's
+      cells name levels, and joining those levels here says which cohorts, conditions, occasions,
+      arms or regions were compared. A factor normally ranges over one of the five -- conditions
+      for a task factor, cohorts for a participant factor, regions for one comparing places in
+      the brain -- so the others stay empty; a level realized by a crossing, such as a drug given
+      at follow-up, fills more than one.
 
-      A factor whose levels are not entities of the study at all -- regions, hemispheres, tasks,
-      frequency bands, acquisition sessions -- leaves all four empty and is carried by `level`
-      alone. Such a factor is complete, and takes `Cell`s like any other.
+      A factor whose levels are not entities of the study at all -- hemispheres, tasks, frequency
+      bands, acquisition sessions -- leaves all five empty and is carried by `level` alone. Such a
+      factor is complete, and takes `Cell`s like any other. Regions left that list when `Region`
+      became an entity: a study comparing regions delimited them, and a `Region` records how.
     unique_keys:
       level_per_factor:
         unique_key_slots:
@@ -847,6 +879,15 @@ classes:
         multivalued: true
         inlined: false
         description: The arms carrying this level, by identifier.
+      regions:
+        in_subset: [model_extracted]
+        range: Region
+        multivalued: true
+        inlined: false
+        description: >-
+          The brain regions carrying this level, by identifier, for a factor comparing places.
+          A three-region factor is one `ModelTerm` with three levels, one region on each,
+          which is why this is here and not on the term.
 
   InferenceSettings:
     description: >-

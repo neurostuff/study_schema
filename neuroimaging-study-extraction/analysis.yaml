@@ -23,6 +23,7 @@ imports:
   - task
   - group
   - assessment
+  - region
   - analysis_enums
   - analysis_details
 classes:
@@ -54,11 +55,12 @@ classes:
           at afterwards.
       interpretations:
         range: ExtractedStringList
-        description: |-
-          The source's own statement of what this analysis found and what it means, taken from Results and Discussion, verbatim or minimally cleaned. Always source-grounded, and the counterpart of `definition`: that field is the Methods-side statement of what was tested, this one is the Results-side statement of what came of it.
-          One entry per sentence, so a downstream normalization step can derive cognitive concepts from these sentences and keep each derived term attached to the sentence it came from. No concept, construct, or domain label is stored anywhere in this schema; this slot is the raw material they are derived from.
-          The sentence is the value here, not evidence for some other value. Every other field is a claim the source's text supports, and the evidence artifact is where that supporting text lives; nothing else in the schema is a claim that a Discussion sentence supports, which is why the sentence needs a slot of its own.
-          Never an inferred reading. A process the extractor believes the contrast measures but the source does not assert has no home here, or anywhere.
+        description: >-
+          The source's own statement of what this analysis found and what it means, typically
+          in Results and Discussion, verbatim or minimally cleaned. Always source-grounded,
+          and the counterpart of `definition`: that field is the Methods-side statement of
+          what was tested, this one is the Results/Discussion-side statement of what came
+          of it.
       spatial_scope:
         range: ExtractedSpatialScope
         required: true
@@ -70,18 +72,23 @@ classes:
           gives the extent: a whole-brain analysis can be voxelwise or vertexwise, and an
           ROI analysis can average a region or test its parcels. Record it rather than inferring
           it from coordinate_space.
-      roi_definition:
-        range: ExtractedRoiDefinition
-        required: true
-        description: >-
-          How the region of interest was defined, which is primarily a statement about independence.
-          Must be not_applicable for whole-brain and searchlight analyses, and must not be
-          not_applicable when spatial_scope is roi.
-      roi_labels:
-        range: ExtractedStringList
+      regions:
+        range: Region
+        multivalued: true
+        inlined: false
         description: |-
-          The atlas, parcellation, or region names the analysis ran over, in the source's words, one entry per region. An analysis running over several named regions lists them all, which is what makes the list mappable to an anatomical vocabulary downstream: one region per entry, never several joined into one string.
-          A list of places the analysis ran, not a comparison between them. When the regions are a factor of the analysis instead, they are the levels of a categorical ModelTerm and the comparison between them is carried by `Cell`s.
+          The regions the analysis ran over -- its search space, what `spatial_scope: roi` restricts it to. Empty for whole-brain and searchlight, where the emptiness asserts that inference was not restricted.
+          Not the analysis's seeds: a whole-brain seed-based analysis has a seed and no search-space region, so putting one here says the opposite of what it did. Seeds are `ConnectivityDetails.seed_regions`.
+      defines_regions:
+        range: Region
+        multivalued: true
+        inlined: false
+        description: >-
+          Regions this analysis produced: a localizer's clusters, or peaks of a contrast later
+          used as seeds or ROIs. Populated on the analysis a region came *from*, not on those
+          that use it, so a region whose `definition_method` is `same_study_analysis` and
+          which another analysis lists in `regions` or `seed_regions` is a circularity the
+          record states rather than asserts.
       measure:
         range: Measure
         required: true
@@ -132,9 +139,13 @@ classes:
         range: ModelEstimation
         required: true
         inlined: false
-        description: |-
-          The model this analysis's contrast was taken from: its family, estimator, stage, software, and the terms it was specified with. What was selected out of those terms is `effect`. Required, because every contrast comes from a model -- a paper that describes a contrast and never names an estimator still takes a record, with the terms it does state and `unstated` elsewhere. Analyses sharing one design reference one record; an analysis specified or estimated differently takes its own.
-          For an analysis estimated in stages this is the **top** stage, the one that produced the statistics reported here. The stages below it are reached through that record's `inputs_from`, and their terms count as this contrast's just as the top stage's do, so a first-level model is never referenced here and is never left dangling either.
+        description: >-
+          The model this analysis's contrast was taken from: its family, estimator, stage,
+          software, and the terms it was specified with. What was selected out of those terms
+          is `effect`. Required, because every contrast comes from a model -- a paper that
+          describes a contrast and never names an estimator still takes a record, with the
+          terms it does state and `unstated` elsewhere. Analyses sharing one design reference
+          one record; an analysis specified or estimated differently takes its own.
       inference_settings:
         range: InferenceSettings
         inlined: true
@@ -280,7 +291,7 @@ classes:
   Cell:
     description: |-
       One side of the tested comparison: a level of a model term, and which way that level entered. The unit a contrast is built from.
-      A cell points at a `ModelTerm`, not at a study entity. Which cohort, condition, occasion or arm carries a level is a property of the design, held by the term's `FactorLevel`s, so the entity view of a contrast -- which conditions were compared, which cohorts -- is recovered by joining through the model. The `term` is therefore the axis of the comparison: cells sharing a term compare within a factor, cells on different terms compare across them.
+      A cell points at a `ModelTerm`. Which cohort, condition, occasion or arm carries a level is a property of the design, held by the term's `FactorLevel`s, so the entity view of a contrast -- which conditions were compared, which cohorts -- is recovered by joining through the model. The `term` is therefore the axis of the comparison: cells sharing a term compare within a factor, cells on different terms compare across them.
       A cell over a term that declares no levels -- a slope, or a product column -- leaves `level` unset and carries its `direction` alone.
     attributes:
       term:
@@ -366,9 +377,8 @@ classes:
       - https://bids-standard.github.io/stats-models/spec.html
       - https://nidm.nidash.org/specs/nidm-results_120.html
     description: |-
-      How a model was specified in software and estimated: its terms, the family, the source's wording for it, the estimator, the stage, and the software. Accommodates both BIDS Stats Models GLMs and other model families. One record may be referenced by several Analyses, so every field must hold for all of them; an analysis specified or estimated differently takes its own record. **The data a model was fitted to is part of its specification**, so two stages fitted with the same design matrix to different inputs -- a group model over a left-seed connectivity map and the same group model over a right-seed one -- are two records differing in `inputs_from`.
+      How a model was specified in software and estimated: its terms, the family, the source's wording for it, the estimator, the stage, and the software. One record may be referenced by several Analyses, so every field must hold for all of them; an analysis specified or estimated differently takes its own record. **The data a model was fitted to is part of its specification**.
       One record is one estimation stage. Neuroimaging splits a model across stages for tractability, and `inputs_from` is what puts it back together: a stage's terms are its own plus those of the stages it consumed, so the split costs the record nothing while each stage keeps its own family, estimator, software and basis.
-      This is the model specification. The contrast specification -- which of these terms a given comparison selects, on which side, and with what reported sign -- is the Effect of each Analysis referencing this record. One model, many contrasts.
     attributes:
       local_id:
         range: string
@@ -420,9 +430,9 @@ classes:
         inlined: false
         description: |-
           The models whose fitted output this model was estimated on: the first-level GLM whose contrast images a group model takes as its data, the subject-level fit an ROI ANOVA summarises. The stage graph, recorded only where the source states it.
-          **A model's terms are its own plus, transitively, those of the models named here.** That combined list is what `terms` would be had the analysis been fitted in one step, and it is what every derivation reads: it is the adjustment set of each contrast minus the terms the contrast's cells name, it is what a `Cell` may name, and it is what `interaction_with` may cross. Motion regressed out at the first level adjusts the group contrast, and a group contrast of a first-level condition is a cell on that condition's term -- neither needs the column copied upward.
+          **A model's terms are its own plus, transitively, those of the models named here.** That combined list is what `terms` would be had the analysis been fitted in one step.
           Leave it empty when the source describes one design matrix, and when it describes the lower stage too thinly to constitute a model. Empty is not a claim that no lower stage existed; it is the absence of a statement about one, exactly as an unrecorded term is.
-          Points downward, from the consumer to what it consumed, and must be acyclic: no model may reach itself. Names must not collide across the whole chain -- a column is one column wherever it was fitted, so a term is declared at the stage that fitted it and never re-declared above. A stage that genuinely refits a factor over different levels is declaring a different column, which takes a name of its own.
+          Must be acyclic, no model may reach itself.
       terms:
         range: ModelTerm
         multivalued: true
@@ -456,7 +466,11 @@ classes:
       type:
         range: ExtractedTermType
         required: true
-        description: Whether the term is categorical or continuous.
+        description: |-
+          Whether the term is categorical or continuous. Categorical when the column distinguishes named cells of the design -- occasions, cohorts, conditions, arms, regions -- whether or not the paper gives the axis a name; `levels` is then required, and each level names the entities carrying it. Continuous when the column carries a measured value and what the model fits is a slope.
+          Small as this field is, it settles four others: whether `levels` exists, whether a `Cell` on this term takes a `level`, whether the term can be crossed, and which branch of the derived kind fires. A term recorded continuous is one no contrast can be built across.
+          **A term whose name states a comparison -- `pre > post`, `A versus B`, `change in X` -- is almost always a categorical factor written down from its contrast's side.** What the design matrix distinguished was two occasions, two cohorts or two conditions; the paper labelled the difference because that is what it reported, and the axis went unnamed. Record the factor with a level for each side and let the contrast's cells carry the direction, per `representing-models.md` §5.6. Collapsing the two sides into one continuous column loses the comparison: nothing then says which occasions or cohorts were compared, and the effect reads as a slope.
+          The exception is a column that is genuinely one number per participant -- a difference score, a percent change, a symptom-change regressor entered as a covariate. That is continuous, and `source_definition` is where the subtraction it came from is written down.
       levels:
         range: FactorLevel
         multivalued: true
@@ -475,6 +489,12 @@ classes:
           when the values come from somewhere the study does not record as an Assessment --
           age, dose, a motion parameter, cardiac phase, scanner drift -- in which case source_definition
           names the origin.
+      region:
+        range: Region
+        inlined: false
+        description: |-
+          The region whose signal supplies this term: a seed timecourse, an ROI mean covariate, a PPI physiological regressor. The counterpart of `assessment` for a column drawn from a place in the brain rather than an instrument.
+          Singular, so it does not serve a factor that *compares* regions: that is one term with several levels, and the regions hang off `FactorLevel.regions`.
       variation_level:
         range: ExtractedVariationLevel
         description: |-
@@ -512,8 +532,8 @@ classes:
   FactorLevel:
     description: |-
       One level of a categorical model term, and the entities that carry it. Which cell of the design a cohort or condition occupies is a property of the design rather than of any contrast drawn from it, so it is held here on the ModelTerm.
-      The four entity slots are what make the entity view of a contrast recoverable: an Effect's cells name levels, and joining those levels here says which cohorts, conditions, occasions or arms were compared. A factor normally ranges over one of the four -- conditions for a task factor, cohorts for a participant factor -- so the others stay empty; a level realized by a crossing, such as a drug given at follow-up, fills more than one.
-      A factor whose levels are not entities of the study at all -- regions, hemispheres, tasks, frequency bands, acquisition sessions -- leaves all four empty and is carried by `level` alone. Such a factor is complete, and takes `Cell`s like any other.
+      The five entity slots are what make the entity view of a contrast recoverable: an Effect's cells name levels, and joining those levels here says which cohorts, conditions, occasions, arms or regions were compared. A factor normally ranges over one of the five -- conditions for a task factor, cohorts for a participant factor, regions for one comparing places in the brain -- so the others stay empty; a level realized by a crossing, such as a drug given at follow-up, fills more than one.
+      A factor whose levels are not entities of the study at all -- hemispheres, tasks, frequency bands, acquisition sessions -- leaves all five empty and is carried by `level` alone. Such a factor is complete, and takes `Cell`s like any other. Regions left that list when `Region` became an entity: a study comparing regions delimited them, and a `Region` records how.
     attributes:
       level:
         range: ExtractedString
@@ -546,6 +566,14 @@ classes:
         multivalued: true
         inlined: false
         description: The arms carrying this level, by identifier.
+      regions:
+        range: Region
+        multivalued: true
+        inlined: false
+        description: >-
+          The brain regions carrying this level, by identifier, for a factor comparing places.
+          A three-region factor is one `ModelTerm` with three levels, one region on each,
+          which is why this is here and not on the term.
   InferenceSettings:
     description: >-
       Structured inferential procedure for one reported analysis. This is the canonical storage

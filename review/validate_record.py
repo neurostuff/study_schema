@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """Validate an extraction record against the extraction schema.
 
-Written in the same pure-YAML style as the repo's other check scripts, so it adds
-no linkml runtime dependency. Enforces both LinkML structure (declared
-attributes, required slots, ranges, multivalued shape) and the invariants stated
-in the extraction schema header:
+Enforces LinkML structure (declared attributes, required slots, ranges,
+multivalued shape), the class `rules` the storage schema states, and the
+invariants in the extraction schema header:
 
   * extraction_status: not_reported  =>  value omitted, evidence.status not_applicable
   * evidence.status: present         =>  at least one set, each with at least one span
   * every span satisfies text == source[start_char:end_char]
+
+Structure is read from the YAML directly; only the rules need linkml, imported
+where they are loaded so the rest runs without it.
 
 Usage:
     python review/validate_record.py \
@@ -20,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from collections.abc import Mapping
 from pathlib import Path
@@ -33,6 +36,32 @@ import schema_utils  # noqa: E402  (repo root is added above)
 
 ROOT = Path(__file__).resolve().parent.parent
 EXTRACTION_SCHEMA = ROOT / "neuroimaging-study-extraction.yaml"
+#: Rules are read from storage: `gen_extraction_schema.py` drops `rules` on the way
+#: to extraction, so this is the only statement of them.
+STORAGE_SCHEMA = ROOT / "neuroimaging-study-storage.yaml"
+
+_RULES: dict[str, list[Mapping[str, Any]]] | None = None
+
+
+def storage_rules() -> Mapping[str, list[Mapping[str, Any]]]:
+    """Class name -> its rules, resolved through linkml so imports are followed.
+
+    Cached: SchemaView takes about a second to walk the eleven modules, and a record
+    has hundreds of instances to check.
+    """
+
+    global _RULES
+    if _RULES is None:
+        from linkml_runtime.dumpers import json_dumper
+        from linkml_runtime.utils.schemaview import SchemaView
+
+        view = SchemaView(str(STORAGE_SCHEMA))
+        _RULES = {
+            name: [json_dumper.to_dict(rule) for rule in definition.rules]
+            for name, definition in view.all_classes().items()
+            if definition.rules
+        }
+    return _RULES
 
 _EXTRACTION_STATUS = {"extracted", "not_reported"}
 _VALUE_SOURCE = {"reported", "generated"}
@@ -48,6 +77,71 @@ _SCALAR_TYPES: dict[str, tuple[type, ...]] = {
     "date": (str,),
     "boolean": (bool,),
 }
+
+#: What makes an analysis's own text a claim about a crossing. Short on purpose:
+#: `interaction` and `moderation` are the words papers use for one, and `×` is how a
+#: term name spells it. `-by-` is a crossing in "group-by-stage" and a reduplication
+#: in "voxel-by-voxel", so it counts only when the words it joins differ.
+_CROSSING_WORDS = ("interaction", "moderat", "×")
+_BY_CROSSING = re.compile(r"([a-z]+)-by-([a-z]+)")
+
+
+#: Comparison syntax in a `ModelTerm.name`. A term is the *axis* of a comparison, never
+#: the comparison, so a name stating one is a factor written down from its contrast's
+#: side -- the shape `check_occasion_factors` looks for. The operator pattern requires a
+#: word character on both sides so that a threshold such as "p < .001" is not an axis.
+_COMPARISON_WORDS = ("versus", " vs ", " vs. ", "greater than", "less than",
+                     "difference between", "change in", "change from",
+                     "pre-post", "pre/post", "prepost")
+_COMPARISON_OPERATOR = re.compile(r"[a-z0-9)\]]\s*[<>]\s*[a-z0-9(\[]")
+
+#: Prose claiming a result is a change across occasions, read off an analysis's `name`
+#: and `definition`. Deliberately not "baseline": a record whose analyses are all
+#: baseline-only is the legitimate reading of a design that scanned twice and reported
+#: once, and it is not what this looks for.
+_CHANGE_WORDS = ("change", "longitudinal", "over time", "follow-up", "followup",
+                 "pre > post", "post > pre", "pre-post", "following treatment",
+                 "after treatment")
+
+
+def _unwrap(node: Any) -> Any:
+    """The value inside an ExtractedValue wrapper, or None for a not_reported one."""
+
+    return node.get("value") if isinstance(node, Mapping) else None
+
+
+def _prose(*fields: Any) -> str:
+    values = [_unwrap(node) for node in fields]
+    return " ".join(str(value) for value in values if value is not None).lower()
+
+
+def names_a_comparison(*fields: Any) -> bool:
+    """Does this term's own name state the comparison it was the subject of?"""
+
+    text = _prose(*fields)
+    return (any(word in text for word in _COMPARISON_WORDS)
+            or _COMPARISON_OPERATOR.search(text) is not None)
+
+
+def names_a_change_over_time(*fields: Any) -> bool:
+    """Does this prose claim a result is a change from one occasion to another?"""
+
+    text = _prose(*fields)
+    return any(word in text for word in _CHANGE_WORDS)
+
+
+def names_a_crossing(*fields: Any) -> bool:
+    """Does this prose claim a crossing was tested?
+
+    Read off the analysis's own `name` and `definition` rather than off its cells,
+    because the whole point is to compare the two: the cells are what the record
+    says, and this is what the paper said.
+    """
+
+    text = _prose(*fields)
+    if any(word in text for word in _CROSSING_WORDS):
+        return True
+    return any(left != right for left, right in _BY_CROSSING.findall(text))
 
 
 class Validator:
@@ -116,6 +210,89 @@ class Validator:
             if attribute is None:
                 continue
             self.check_slot(value, key, attribute, f"{path}.{key}")
+
+        self.check_rules(node, class_name, path)
+
+    # -- class rules -------------------------------------------------------
+
+    def check_rules(self, node: Mapping[str, Any], class_name: str, path: str) -> None:
+        """Apply the storage schema's `rules` for this class.
+
+        They are read from storage because the projection drops them: an extraction
+        record is the only thing there is to check them against, so a rule stated on
+        storage and never evaluated is prose. Reading them rather than restating them
+        is what keeps a rule added later enforced without code.
+        """
+
+        for rule in storage_rules().get(class_name, []):
+            if not self.conditions_hold(node, rule.get("preconditions"), path):
+                continue
+            if self.conditions_hold(node, rule.get("postconditions"), path):
+                continue
+            self.error(path, rule.get("description") or f"violates a rule on {class_name}")
+
+    def conditions_hold(
+        self, node: Mapping[str, Any], conditions: Any, path: str
+    ) -> bool:
+        """Whether a pre- or postcondition block holds of this instance."""
+
+        if not isinstance(conditions, Mapping):
+            return True
+        for keyword, body in conditions.items():
+            if keyword == "slot_conditions":
+                if not all(
+                    self.slot_condition_holds(node.get(slot), condition, f"{path}.{slot}")
+                    for slot, condition in body.items()
+                ):
+                    return False
+            elif keyword == "any_of":
+                if not any(self.conditions_hold(node, one, path) for one in body):
+                    return False
+            elif keyword == "none_of":
+                if any(self.conditions_hold(node, one, path) for one in body):
+                    return False
+            elif keyword == "all_of":
+                if not all(self.conditions_hold(node, one, path) for one in body):
+                    return False
+            else:
+                self.unsupported(path, keyword)
+                return True
+        return True
+
+    def slot_condition_holds(self, value: Any, condition: Any, path: str) -> bool:
+        if not isinstance(condition, Mapping):
+            return True
+        for keyword, body in condition.items():
+            if keyword == "name":
+                continue
+            if keyword == "equals_string":
+                if _unwrap(value) != body:
+                    return False
+            elif keyword == "value_presence":
+                present = value not in (None, "", [], {})
+                if present != (str(body).upper() == "PRESENT"):
+                    return False
+            elif keyword == "any_of":
+                if not any(self.slot_condition_holds(value, one, path) for one in body):
+                    return False
+            elif keyword == "none_of":
+                if any(self.slot_condition_holds(value, one, path) for one in body):
+                    return False
+            elif keyword == "all_of":
+                if not all(self.slot_condition_holds(value, one, path) for one in body):
+                    return False
+            else:
+                self.unsupported(path, keyword)
+        return True
+
+    def unsupported(self, path: str, keyword: str) -> None:
+        """A construct this evaluator cannot read is reported, never skipped.
+
+        Silently ignoring one turns the rule into a check that always passes, which
+        is worse than the prose it replaced.
+        """
+
+        self.error(path, f"rule construct {keyword!r} is not implemented; the rule was not checked")
 
     def check_slot(
         self, value: Any, name: str, attribute: Mapping[str, Any], path: str
@@ -332,10 +509,306 @@ class Validator:
             except span_tools.SpanResolutionError as error:
                 self.error(path, str(error))
 
+    # -- crossings and the columns that carry them -------------------------
+
+    def _model_index(self, record: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
+        models: dict[str, Mapping[str, Any]] = {}
+        for model in record.get("model_estimations") or []:
+            if isinstance(model, Mapping) and isinstance(model.get("local_id"), str):
+                models[model["local_id"]] = model
+        return models
+
+    def _terms_in_scope(
+        self,
+        model_id: Any,
+        models: Mapping[str, Mapping[str, Any]],
+        seen: set[str] | None = None,
+    ) -> dict[str, Mapping[str, Any]]:
+        """local_id -> ModelTerm for a model and every stage below it.
+
+        The chain rather than the one record, per §3 invariant 2: a group stage
+        reaches a first-level column through `inputs_from`, and a cell or a product
+        column may name it. Own terms are collected last so a column refitted at this
+        stage shadows the lower stage's, which is the reading §3 invariant 7 assumes.
+
+        Guarded against the cycle invariant 6 forbids: this walk would otherwise hang
+        on a record that violates it, and a validator has to survive bad input in
+        order to report it.
+        """
+
+        seen = set() if seen is None else seen
+        if not isinstance(model_id, str) or model_id in seen:
+            return {}
+        seen.add(model_id)
+        model = models.get(model_id)
+        if not isinstance(model, Mapping):
+            return {}
+
+        terms: dict[str, Mapping[str, Any]] = {}
+        for lower in model.get("inputs_from") or []:
+            terms.update(self._terms_in_scope(lower, models, seen))
+        for term in model.get("terms") or []:
+            if isinstance(term, Mapping) and isinstance(term.get("local_id"), str):
+                terms[term["local_id"]] = term
+        return terms
+
+    @staticmethod
+    def _cell_signature(model_id: Any, cells: Any) -> tuple:
+        """What an effect compared: its model, and its cells as a set.
+
+        Stringified because a malformed record can put a list where a level belongs,
+        and an unhashable signature would raise inside a check whose job is to report.
+        """
+
+        parts = sorted(
+            (str(cell.get("term")), str(_unwrap(cell.get("level"))),
+             str(_unwrap(cell.get("direction"))))
+            for cell in (cells or []) if isinstance(cell, Mapping)
+        )
+        return (str(model_id), tuple(parts))
+
+    def check_crossings(self, record: Mapping[str, Any]) -> None:
+        """Flag interactions the cells do not actually record.
+
+        The defect this catches is a product column that was never declared, so the
+        cell that should sit on it had nowhere to go. It is invisible to every check
+        above: each cell resolves, each level agrees with its term, and the record is
+        structurally perfect while an interaction and a main effect have become the
+        same record. `representing-models.md` §5.5 is where the shape is written down
+        -- an interaction reported as an unsigned F or chi-square has nowhere to sit
+        but a `ModelTerm` with `interaction_with`, because a factor that was crossed
+        rather than averaged over carries no sign to cross it with.
+
+        Warnings, not errors. The trigger reads prose, so it routes a record to review
+        rather than rejecting it; a paper whose interaction really was reported as a
+        directional per-level comparison needs no product column
+        (`extraction-readme.md`, "the converse is a reporting habit worth naming")
+        and is expected to answer for itself under review.
+        """
+
+        models = self._model_index(record)
+        # signature -> the analyses sharing it. Two analyses of one model with the
+        # same cells are the same estimand, so if their prose disagrees about what was
+        # tested, at most one of them can be right.
+        signatures: dict[tuple, list[tuple[str, bool]]] = {}
+
+        for index, analysis in enumerate(record.get("analyses") or []):
+            if not isinstance(analysis, Mapping):
+                continue
+            path = f"Study.analyses[{index}]"
+            model_id = analysis.get("model_estimation")
+            terms = self._terms_in_scope(model_id, models)
+            effect = analysis.get("effect")
+            cells = (effect.get("cells") if isinstance(effect, Mapping) else None) or []
+            claimed = names_a_crossing(analysis.get("name"), analysis.get("definition"))
+
+            signed: dict[str, set[str]] = {}
+            products: list[str] = []
+            held = False
+            for cell in cells:
+                if not isinstance(cell, Mapping):
+                    continue
+                term_id = cell.get("term")
+                if not isinstance(term_id, str):
+                    continue
+                term = terms.get(term_id)
+                if isinstance(term, Mapping) and (term.get("interaction_with") or []):
+                    products.append(term_id)
+                direction = _unwrap(cell.get("direction"))
+                if direction in {"positive", "negative"}:
+                    signed.setdefault(term_id, set()).add(direction)
+                # A named level with no sign is a factor held constant, per §4's table.
+                # An analysis reported within one level of the crossing is §5.5's last
+                # row -- a legitimate simple effect, whose prose names the interaction it
+                # came from and whose cells are not supposed to record it.
+                if _unwrap(cell.get("level")) is not None and direction == "not_applicable":
+                    held = True
+            # A term signed once has not been compared against itself.
+            crossed = [term_id for term_id, sides in signed.items() if len(sides) == 2]
+
+            if claimed and not products and not held and len(crossed) < 2:
+                self.warn(
+                    f"{path}.effect.cells",
+                    "names a crossing the cells do not record: no cell sits on a product "
+                    f"column and {len(crossed)} term(s) are crossed, so the derived kind is "
+                    "the one a main effect of the same terms would get. Either the crossing "
+                    "needs its sides on both factors' levels, or the model is missing the "
+                    "ModelTerm with interaction_with that carries an unsigned interaction test",
+                )
+
+            signatures.setdefault(self._cell_signature(model_id, cells), []).append(
+                (path, claimed)
+            )
+
+        for (model_id, _), members in signatures.items():
+            if len(members) < 2:
+                continue
+            crossing = [path for path, claimed in members if claimed]
+            plain = [path for path, claimed in members if not claimed]
+            if crossing and plain:
+                self.warn(
+                    f"{crossing[0]}.effect.cells",
+                    f"identical to {', '.join(plain)} on {model_id}, which names no crossing: "
+                    "the same cells over the same model are the same estimand, so an "
+                    "interaction and a main effect cannot both be what these record",
+                )
+
+    def check_product_columns(self, record: Mapping[str, Any]) -> None:
+        """Flag product columns that nothing can reach.
+
+        Two ways a declared column fails to do its job. Its components may name a term
+        outside its own stage chain -- which `check_local_ids` cannot see, because the
+        reference resolves, just to a sibling model's column of the same name. And no
+        cell anywhere may name it, which is legal (a design-matrix column that only
+        ever adjusted something, per §5.5's main-effect rows) but is also what a paper
+        looks like when its interaction table was never extracted at all.
+        """
+
+        models = self._model_index(record)
+        celled = {
+            cell.get("term")
+            for analysis in record.get("analyses") or []
+            if isinstance(analysis, Mapping)
+            for cell in ((analysis.get("effect") or {}).get("cells")
+                         if isinstance(analysis.get("effect"), Mapping) else None) or []
+            if isinstance(cell, Mapping)
+        }
+
+        for m_index, model in enumerate(record.get("model_estimations") or []):
+            if not isinstance(model, Mapping):
+                continue
+            model_id = model.get("local_id")
+            terms = self._terms_in_scope(model_id, models)
+            for t_index, term in enumerate(model.get("terms") or []):
+                if not isinstance(term, Mapping):
+                    continue
+                components = term.get("interaction_with") or []
+                if not components:
+                    continue
+                path = f"Study.model_estimations[{m_index}].terms[{t_index}]"
+                for c_index, component in enumerate(components):
+                    if isinstance(component, str) and component not in terms:
+                        self.warn(
+                            f"{path}.interaction_with[{c_index}]",
+                            f"{component!r} is not a term of {model_id!r} or of a stage it "
+                            "reaches through inputs_from, so this column names a component "
+                            "it cannot be a product of",
+                        )
+                if term.get("local_id") not in celled:
+                    self.warn(
+                        path,
+                        f"product column {term.get('local_id')!r} carries no cell in any "
+                        "analysis. Legal if it only adjusted the effects that were reported, "
+                        "but it is also what a missing interaction analysis looks like",
+                    )
+
+    # -- occasions, and the factors that should carry them ------------------
+
+    def check_occasion_factors(self, record: Mapping[str, Any]) -> None:
+        """Flag a comparison the record collapsed into a single column.
+
+        The defect is invisible to every check above, in the way `check_crossings`'
+        is: each cell resolves, each level agrees with its term, the record is
+        structurally perfect, and the comparison the paper reported is gone. Two
+        halves, seen from the two ends.
+
+        The term half is a column named after the comparison it was the *subject*
+        of -- `pre > post change`, typed continuous, no levels. What the design
+        matrix distinguished was two occasions; the paper labelled the difference,
+        because the difference is what it reported, and the axis went unnamed. One
+        cell on one continuous term then derives a regression where a contrast
+        belongs, and nothing in the record says what was on either side.
+
+        The design half is the same defect from the other end: several occasions
+        declared, analyses whose prose reports change over time, and no
+        `FactorLevel.timepoints` anywhere naming any of them. That slot is the only
+        one that reaches a `Timepoint`, so when it is empty the scans are recorded
+        and the comparison between them is not.
+
+        `ModelTerm.type` states the shape and `representing-models.md` §5.6 works it
+        through. Warnings, not errors, for `check_crossings`' reason -- the trigger
+        reads prose, so it routes a record to review rather than rejecting it. The
+        one shape deliberately left alone is a genuine one-number-per-participant
+        covariate: a difference score or a percent change entered across the sample
+        is continuous, correctly named for the subtraction it came from, and
+        `between_subject`, which is what distinguishes it from a collapsed occasion
+        factor -- an occasion factor varies within a participant by definition.
+        """
+
+        for m_index, model in enumerate(record.get("model_estimations") or []):
+            if not isinstance(model, Mapping):
+                continue
+            for t_index, term in enumerate(model.get("terms") or []):
+                if not isinstance(term, Mapping):
+                    continue
+                if _unwrap(term.get("type")) != "continuous" or term.get("levels"):
+                    continue
+                # A product column has no levels either, and is legitimately named
+                # for the crossing it is a product of.
+                if term.get("interaction_with"):
+                    continue
+                # A column an instrument or a place in the brain supplies is a real
+                # measurement whatever the source called it.
+                if term.get("assessment") or term.get("region"):
+                    continue
+                if _unwrap(term.get("variation_level")) == "between_subject":
+                    continue
+                if not names_a_comparison(term.get("name")):
+                    continue
+                self.warn(
+                    f"Study.model_estimations[{m_index}].terms[{t_index}].name",
+                    f"{_unwrap(term.get('name'))!r} states a comparison while the term is "
+                    "continuous with no levels, so the axis compared is not in the record: "
+                    "a cell on it derives a regression, and nothing says which occasions, "
+                    "cohorts or conditions were on each side. A comparison is a categorical "
+                    "term with a level per side and the sign on the cells "
+                    "(representing-models.md 5.6); a genuine per-participant difference "
+                    "score is continuous and between_subject",
+                )
+
+        design = record.get("design")
+        timepoints = (design.get("timepoints") if isinstance(design, Mapping) else None) or []
+        declared = [timepoint for timepoint in timepoints if isinstance(timepoint, Mapping)]
+        if len(declared) < 2:
+            return
+
+        referenced = {
+            local_id
+            for model in record.get("model_estimations") or [] if isinstance(model, Mapping)
+            for term in model.get("terms") or [] if isinstance(term, Mapping)
+            for level in term.get("levels") or [] if isinstance(level, Mapping)
+            for local_id in level.get("timepoints") or []
+        }
+        if referenced:
+            return
+
+        reporting = [
+            f"analyses[{index}]"
+            for index, analysis in enumerate(record.get("analyses") or [])
+            if isinstance(analysis, Mapping)
+            and names_a_change_over_time(analysis.get("name"), analysis.get("definition"))
+        ]
+        if not reporting:
+            return
+
+        shown = ", ".join(reporting[:3]) + (" and others" if len(reporting) > 3 else "")
+        self.warn(
+            "Study.design.timepoints",
+            f"{len(declared)} occasions are declared and no FactorLevel.timepoints names "
+            f"any of them, while {len(reporting)} analysis(es) report change over time "
+            f"({shown}). FactorLevel.timepoints is the only slot that reaches a Timepoint, "
+            "so as recorded this study scanned twice and compared nothing",
+        )
+
     # -- entry point -------------------------------------------------------
 
     def check_record(self, record: Any) -> None:
         self.check_instance(record, "Study", "Study")
+
+        if isinstance(record, dict):
+            self.check_crossings(record)
+            self.check_product_columns(record)
+            self.check_occasion_factors(record)
 
         metadata = record.get("extraction_metadata") if isinstance(record, dict) else None
         if isinstance(metadata, dict) and self.normalized is not None:

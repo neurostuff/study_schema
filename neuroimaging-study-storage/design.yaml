@@ -102,9 +102,10 @@ classes:
           The name only; dose, unit, route, and schedule are not recorded.
 
   Timepoint:
-    description: >-
-      One occasion on which data were collected, and where it sits relative to the
-      intervention.
+    description: |-
+      One occasion on which data were collected, and where it sits relative to the intervention. Declared once on `StudyDesign.timepoints` and referenced by identifier, as a `Region` is. `FactorLevel.timepoints` is the only slot that references one, which makes it the whole of how an occasion reaches a model.
+      A study that *compared* occasions did so with a `ModelTerm` whose `FactorLevel`s name them -- an occasion is one of the five things a level can range over, and a design with no paradigm still has a factor if it measured the same people twice. An occasion no level references is one the record collected but never modelled: legitimate for a design that merely describes when follow-up happened, and a structural error for one whose analyses report change over time. Where the second is suspected, `validate_record.py` says so.
+      This class holds nothing about how an occasion was named. `name` is the source's own wording, whatever that wording is, and so is the `FactorLevel.level` label of the level naming this occasion; what is normalized is where the occasion sits, on `relation_to_intervention`, and in what order, on `order`. There is no controlled vocabulary of occasion names and none is wanted: papers name occasions in as many ways as they run them, and forcing those onto a list would lose the distinctions the ordering already keeps.
     attributes:
       id:
         in_subset: [mvp, deterministic]

@@ -74,7 +74,7 @@ The schema says so rather than leaving it to convention: a multivalued scalar pr
 `Extracted<T>List` wrapper whose `value` is the list, so `multivalued` sits inside the
 wrapper and a list of wrappers is not expressible. `Group.inclusion_criteria`,
 `Preprocessing.steps`, `Preprocessing.smoothing_fwhm_mm`, `MRI.echo_time_seconds`, and
-`ConnectivityDetails.seed_regions` all work this way, as does an enum list such as
+`Group.exclusion_criteria` all work this way, as does an enum list such as
 `Task.response_mode` (`ExtractedResponseModeList`).
 `ModelTerm.levels` no longer does: its entries carry their own entity references, so it is a
 nested `FactorLevel` list rather than one wrapper over a list of labels. Cross-reference lists
@@ -132,6 +132,36 @@ The extraction schema used to carry eight sibling slots here and five on `Acquis
 eight and cannot be silently ambiguous, but it does ask the extractor to make a choice it
 previously made by omission. If that turns out to extract worse, it is candidate 2 in
 [extraction-deviations.yaml](extraction-deviations.yaml).
+
+### An entity is declared once and referenced everywhere
+
+A brain region the study delimited is one `Region` on `Study.regions`, however many analyses
+use it, and each use names its `local_id`: `ConnectivityDetails.seed_regions` and
+`target_regions`, `Analysis.regions` for a restricted search space,
+`Analysis.defines_regions` for the analysis a functional ROI came *from*, `ModelTerm.region`
+for a column carrying one region's signal, `FactorLevel.regions` for a factor comparing
+places. The same move `Assessment` made, and `ModelTerm.assessment` with it.
+
+The region's own facts go on the `Region`: `name` in the source's wording,
+`definition_method` for how it was delimited — `same_study_analysis` where it came from this
+study's own earlier result — `atlas` for the parcellation, and `description` for the defining
+sentence, which is where a sphere's centre and radius are kept.
+
+**Occasions, cohorts, conditions and arms work the same way, and one of them is easy to
+forget.** A `Timepoint` on `StudyDesign.timepoints` is declared once and reached by exactly
+one slot: `FactorLevel.timepoints`. That single pointer is the whole of how an occasion
+enters a model, so a record whose analyses report change over time and whose levels name no
+occasion has recorded the scans and lost the comparison between them. The failing shape is a
+term like `pre > post change`, typed continuous with no levels: the axis the design matrix
+actually distinguished, written down from its contrast's side and collapsed into one column.
+[representing-models.md](representing-models.md) §5.6 is the encoding to use instead, and
+the reason a study with no paradigm still has a factor.
+
+Nothing here constrains how an occasion is *named*. `Timepoint.name` is the source's wording
+and so is the `FactorLevel.level` label pointing at it — `baseline`, `T0`, `week 12`,
+`6-month follow-up`, whatever the paper writes. What is normalized is placement, on
+`relation_to_intervention`, and sequence, on `order`. Those two carry every query an occasion
+vocabulary would have served, which is why there is no such vocabulary.
 
 ### Cells carry direction; weights do not
 
@@ -598,12 +628,10 @@ list so an extractor is not left hunting for a slot.
 - **Random effects, latent variables, growth-curve parameters** — name them in
   `Analysis.model_representation_notes`.
 - **Ordered contrasts** lose the middle rank of `A > B > C`.
-- **Regions as a comparison** — `roi_labels` lists the regions an analysis ran over, one per
-  entry, but carries no direction. A dissociation *between* regions needs them as levels of a
-  categorical term instead, compared by `Cell`s.
-- **Seed provenance** — `ConnectivityDetails.seed_regions` names the seeds but not how they
-  were defined, so the independence question `RoiDefinition` answers for an ROI analysis is
-  unrecorded for a seed. Rare in practice: ~0.5% of the corpus seeds from its own prior result.
+- **Regions as a comparison** — `Analysis.regions` lists the regions an analysis ran over but
+  carries no direction. A dissociation *between* regions still needs them as levels of a
+  categorical term, compared by `Cell`s — the levels now naming `Region`s through
+  `FactorLevel.regions`, the way a cohort factor's levels name `Group`s.
 - **Longitudinal within-subject level** — `VariationLevel` has no session or timepoint value
   between trial-wise and between-subject, and no `EffectKind` names a within-person change over
   time. The occasion itself does have a home: a `Timepoint` record, referenced from the

@@ -24,6 +24,7 @@ imports:
   - ../extraction-evidence
   - analysis_enums
   - task
+  - region
 classes:
   AnalysisDetails:
     abstract: true
@@ -163,12 +164,17 @@ classes:
         required: true
         description: Method used to estimate connectivity.
       seed_regions:
-        range: ExtractedStringList
-        description: Seed or source regions, as named in the source.
+        range: Region
+        multivalued: true
+        inlined: false
+        description: >-
+          Seed or source regions, by identifier. What each one is and how it was delimited
+          is on the `Region`; naming it here says only that this analysis seeded from it.
       target_regions:
-        range: ExtractedStringList
-        description: Target regions, as named in the source. Empty for a seed-to-whole-brain
-          analysis.
+        range: Region
+        multivalued: true
+        inlined: false
+        description: Target regions, by identifier. Empty for a seed-to-whole-brain analysis.
       parameter_sign:
         range: ExtractedDirection
         description: >-
@@ -197,13 +203,13 @@ classes:
     description: One reported connection between two named regions.
     attributes:
       source_region:
-        range: ExtractedString
-        required: true
-        description: Source region, as named in the source.
+        range: Region
+        inlined: false
+        description: Source region of the edge, by identifier.
       target_region:
-        range: ExtractedString
-        required: true
-        description: Target region, as named in the source.
+        range: Region
+        inlined: false
+        description: Target region of the edge, by identifier.
       directionality:
         range: ExtractedEdgeDirectionality
         description: >-

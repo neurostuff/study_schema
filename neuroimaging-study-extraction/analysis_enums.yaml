@@ -93,30 +93,6 @@ enums:
           of named regions of interest.
       unstated:
         description: The source does not report which element the analysis ran over.
-  RoiDefinition:
-    description: >-
-      How a region of interest was defined, which records independence: an ROI drawn from
-      the study's own prior contrast is not independent of the effect being tested.
-    permissible_values:
-      atlas:
-        description: An atlas or parcellation.
-      prior_literature:
-        description: Coordinates or regions taken from previously published work.
-      anatomical_a_priori:
-        description: Anatomically defined regions specified in advance.
-      functional_localizer:
-        description: A separate localizer scan or run.
-      same_study_analysis:
-        description: >-
-          Defined from another analysis in the same study, so the region is not independent
-          of the reported effect.
-      unstated:
-        description: The source restricts inference to a region but does not say how it was
-          defined.
-      not_applicable:
-        description: >-
-          Required for whole-brain and searchlight analyses, and forbidden when spatial_scope
-          is roi.
   EffectPath:
     description: |-
       Which path through a mediation model an effect's map is. Without it, an indirect-effect map is structurally identical to a plain regression on the same predictor, and a synthesis would pool the two.
@@ -643,12 +619,6 @@ classes:
         any_of:
           - range: SpatialUnit
           - range: string
-  ExtractedRoiDefinition:
-    is_a: ExtractedValue
-    description: An ExtractedValue whose value is RoiDefinition.
-    slot_usage:
-      value:
-        range: RoiDefinition
   ExtractedEffectPath:
     is_a: ExtractedValue
     description: An ExtractedValue whose value is EffectPath.
