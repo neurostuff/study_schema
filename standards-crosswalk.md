@@ -93,7 +93,7 @@ than a crosswalk; [onvoc-mapping-audit.md](onvoc-mapping-audit.md) is that audit
 | `Contrast.Weights` | `Cell.direction` (`positive`/`negative`/`unstated`/`not_applicable`) | **deliberate divergence.** Signs, not magnitudes. See finding 6. |
 | `Contrast.Test` ∈ `t`, `F` (plus a pass-through that runs no test) | `Statistic.family` (open: `t`, `z`, `f`, `chi_square`, `likelihood_ratio`, `beta`, `correlation`, `unstated`) | this schema is broader, as it must be: papers report statistics BSM has no reason to prescribe. |
 | `DummyContrasts{Contrasts, Test}` | — | not applicable. A convenience for generation; there is nothing to generate from a document. |
-| — | `Effect.mediation`, `Analysis.prespecification`, `Measure`, `InferenceSettings`, `roi_definition`, `spatial_scope`, `spatial_unit` | no counterpart in BSM. |
+| — | `Effect.mediation`, `Analysis.prespecification`, `Measure`, `InferenceSettings`, `Region`, `spatial_scope`, `spatial_unit` | no counterpart in BSM. |
 
 ### 2.2 NIDM-Results
 
@@ -146,7 +146,7 @@ than a crosswalk; [onvoc-mapping-audit.md](onvoc-mapping-audit.md) is that audit
 | `Transformations` — a variable-manipulation DSL | `FactorLevel.{conditions, groups, timepoints, arms}` — typed level referents |
 | `Model.Formula` — a composable design algebra | `ModelTerm.variation_level`, and the `EffectKind` derivation |
 | `ErrorModel`, `hasDriftModel` | `Measure{family, type, source_label, specific_metric, unit}` |
-| `Peak`, `SupraThresholdCluster`, `Coordinate` values | `roi_definition` — independence as a claim |
+| `Peak`, `SupraThresholdCluster`, `Coordinate` values | `Region.definition_method` — independence as a claim |
 | `sha512` and file-level integrity | `Analysis.prespecification` |
 | `hasAlternativeHypothesis` | `Effect.mediation{path, mediator}` |
 | `SearchSpaceMaskMap` RFT quantities | `DecodingDetails`, `SimilarityDetails`, `ConnectivityDetails`, `LatentDecompositionDetails` |
@@ -371,9 +371,10 @@ Ranked by how much of the schema's purpose depends on it rather than by size.
 6. **`Measure`.** The scientific quantity of the map. For BSM and NIDM it is implicit in the input
    files; ARS has no imaging measure. A schema deciding poolability cannot leave it implicit —
    grey-matter volume and grey-matter density are deliberately not collapsed here.
-7. **`roi_definition` as an independence claim.** `same_study_analysis` marks a circular ROI. No
-   peer represents non-independence in any form, and it is a first-order threat to the validity of
-   a pooled estimate.
+7. **`Region.definition_method` as an independence claim.** `same_study_analysis` marks a circular
+   ROI, and `Analysis.defines_regions` names the analysis it was drawn from, so the circularity is
+   checkable rather than asserted. No peer represents non-independence in any form, and it is a
+   first-order threat to the validity of a pooled estimate.
 8. **The epistemic layer.** `prespecification`; `interpretations`, marked as inferred by which slot
    it sits in; `unstated` versus `not_applicable` as different facts; `NotStructurableDetails`;
    `model_representation_notes`; `reason_first_class_type_not_used`. None of this can exist in a

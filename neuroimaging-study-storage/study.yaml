@@ -11,6 +11,7 @@ imports:
   - group
   - task
   - assessment
+  - region
   - acquisition
   - analysis
 default_prefix: neurostudy
@@ -101,6 +102,16 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Measures of participants that were taken independently of an acquisition.
+      regions:
+        in_subset: [mvp, model_extracted]
+        range: Region
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Brain regions the study delimited and then used -- as connectivity seeds or targets,
+          as the search space an analysis was restricted to, as the levels of a factor
+          comparing regions, or as the signal a model term carries. Declared here once and
+          referenced by identifier wherever used.
       acquisitions:
         in_subset: [mvp, model_extracted]
         range: Acquisition

@@ -102,9 +102,9 @@ classes:
           The name only; dose, unit, route, and schedule are not recorded.
 
   Timepoint:
-    description: >-
-      One occasion on which data were collected, and where it sits relative to the
-      intervention.
+    description: |-
+      One occasion on which data were collected, and where it sits relative to the intervention. Declared once on `StudyDesign.timepoints` and referenced by identifier; `FactorLevel.timepoints` is the only slot that references one, so it is the whole of how an occasion reaches a model.
+      A study that *compared* occasions did so with a `ModelTerm` whose levels name them, paradigm or no paradigm. An occasion no level references was collected but never modelled: legitimate where the record only describes when follow-up happened, a defect where the analyses report change over time, which `validate_record.py` flags. Names stay in the source's wording; what is normalized is where an occasion sits and in what order.
     attributes:
       id:
         in_subset: [mvp, deterministic]

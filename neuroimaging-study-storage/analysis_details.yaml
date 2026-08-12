@@ -25,6 +25,7 @@ imports:
   - subsets
   - analysis_enums
   - task
+  - region
 default_prefix: neurostudy
 default_range: string
 
@@ -194,14 +195,19 @@ classes:
         description: Method used to estimate connectivity.
       seed_regions:
         in_subset: [model_extracted]
-        range: string
+        range: Region
         multivalued: true
-        description: Seed or source regions, as named in the source.
+        inlined: false
+        description: >-
+          Seed or source regions, by identifier. What each one is and how it was delimited is
+          on the `Region`; naming it here says only that this analysis seeded from it.
       target_regions:
         in_subset: [model_extracted]
-        range: string
+        range: Region
         multivalued: true
-        description: Target regions, as named in the source. Empty for a seed-to-whole-brain analysis.
+        inlined: false
+        description: >-
+          Target regions, by identifier. Empty for a seed-to-whole-brain analysis.
       parameter_sign:
         in_subset: [model_extracted]
         range: Direction
@@ -236,16 +242,19 @@ classes:
   ConnectivityEdge:
     description: One reported connection between two named regions.
     attributes:
+      # Neither is required any more. As strings an unknown endpoint took `not_reported`; a
+      # reference has no such form, so a required one would make an edge whose endpoints the
+      # entities pass did not enumerate invalidate the whole record.
       source_region:
         in_subset: [model_extracted]
-        range: string
-        required: true
-        description: Source region, as named in the source.
+        range: Region
+        inlined: false
+        description: Source region of the edge, by identifier.
       target_region:
         in_subset: [model_extracted]
-        range: string
-        required: true
-        description: Target region, as named in the source.
+        range: Region
+        inlined: false
+        description: Target region of the edge, by identifier.
       directionality:
         in_subset: [model_extracted]
         range: EdgeDirectionality

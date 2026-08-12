@@ -1,0 +1,123 @@
+# GENERATED FILE -- DO NOT EDIT.
+#
+# Produced by gen_extraction_schema.py from neuroimaging-study-storage.yaml and
+# extraction-deviations.yaml. Change the storage schema or the deviations and
+# regenerate:
+#
+#     python3 gen_extraction_schema.py
+#
+id: https://neurostuff.org/schemas/neuroimaging-study-extraction/region
+name: neuroimaging-study-extraction-region
+title: Neuroimaging Study Extraction Region Module
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy_ex: https://neurostuff.org/schemas/neuroimaging-study-extraction/
+default_prefix: neurostudy_ex
+default_range: string
+imports:
+  - linkml:types
+  - ../extraction-evidence
+enums:
+  RegionDefinition:
+    description: >-
+      How a region was delimited, which records independence: a region drawn from the study's
+      own prior contrast is not independent of an effect tested inside it.
+    permissible_values:
+      atlas:
+        description: An atlas or parcellation.
+      prior_literature:
+        description: Coordinates or regions taken from previously published work.
+      anatomical_a_priori:
+        description: Anatomically defined regions specified in advance.
+      functional_localizer:
+        description: A separate localizer scan or run.
+      same_study_analysis:
+        description: >-
+          Defined from another analysis in the same study, so not independent of an effect
+          reported inside it. That analysis names the region in `defines_regions`, which is
+          what makes the circularity checkable rather than asserted.
+      unstated:
+        description: The source uses the region but does not say how it was defined.
+  RegionType:
+    description: >-
+      What kind of thing a region is. Open vocabulary: write the source's own wording in the
+      field when nothing here fits.
+    permissible_values:
+      anatomical:
+        description: A named anatomical structure, such as the left amygdala.
+      atlas_parcel:
+        description: One parcel of a parcellation, a unit of an atlas rather than a structure.
+      network:
+        description: >-
+          A distributed network treated as one region, such as the salience network. Not a
+          structure, and not poolable with one.
+      coordinate_sphere:
+        description: A sphere or box around a coordinate, whose geometry `description` records.
+      functional_cluster:
+        description: >-
+          A cluster taken from a statistical map. Whether it was this study's is `definition_method`,
+          which is where the independence claim lives.
+      unstated:
+        description: The source uses the region but does not say what kind of thing it is.
+classes:
+  Region:
+    description: >-
+      A brain region the study delimited and used: a connectivity seed or target, the search
+      space an analysis was restricted to, a level of a factor comparing regions, or the signal
+      a model term carries. Declared once and referenced from each, because the same seed
+      written separately in each place is three spellings nothing can join.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: Stable identifier.
+      name:
+        range: ExtractedString
+        required: true
+        description: >-
+          The region as the source names it -- aSCC, left dlPFC parcel, salience network.
+          Its own words: normalization to an anatomical vocabulary happens downstream and
+          needs the original to map from.
+      definition_method:
+        range: ExtractedRegionDefinition
+        required: true
+        description: >-
+          How the region was delimited, which is a statement about independence: one drawn
+          from the study's own prior contrast is not independent of an effect tested inside
+          it. Per region, since one analysis may use an atlas mask and a functional ROI at
+          once. Required, with `unstated` for a source that does not say.
+      region_type:
+        range: ExtractedRegionType
+        description: >-
+          What kind of thing the region is, which `definition_method` does not settle: an
+          atlas parcel and an anatomical structure can both come from an atlas, and a network
+          is neither.
+      atlas:
+        range: ExtractedString
+        description: >-
+          The atlas, parcellation or template it came from, as named -- AAL, WFU_Pickatlas,
+          Schaefer 400 -- with version or parcel index when given. `definition_method: atlas`
+          records that one was used, not which, which is not enough to pool two studies.
+      description:
+        range: ExtractedString
+        description: >-
+          How the source defines the region, including any geometry it states: "8 mm spheres
+          centered at [0 36 -6]". Definitional coordinates have no structured slot -- result
+          coordinates reach the record through the table parser -- so they are kept here,
+          where the evidence span makes them checkable.
+  ExtractedRegionDefinition:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is RegionDefinition.
+    slot_usage:
+      value:
+        range: RegionDefinition
+  ExtractedRegionType:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is RegionType, or the source's own wording when the vocabulary
+      does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: RegionType
+          - range: string

@@ -21,6 +21,7 @@ imports:
   - group
   - task
   - assessment
+  - region
   - acquisition
   - analysis
 classes:
@@ -70,6 +71,15 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Measures of participants that were taken independently of an acquisition.
+      regions:
+        range: Region
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Brain regions the study delimited and then used -- as connectivity seeds or targets,
+          as the search space an analysis was restricted to, as the levels of a factor comparing
+          regions, or as the signal a model term carries. Declared here once and referenced
+          by identifier wherever used.
       acquisitions:
         range: Acquisition
         multivalued: true

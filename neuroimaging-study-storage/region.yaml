@@ -1,0 +1,127 @@
+id: https://neurostuff.org/schemas/neuroimaging-study-storage/region
+name: neuroimaging-study-storage-region
+title: Neuroimaging Study Storage Region Module
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
+imports:
+  - linkml:types
+  - subsets
+default_prefix: neurostudy
+default_range: string
+
+classes:
+
+  Region:
+    description: >-
+      A brain region the study delimited and used: a connectivity seed or target, the search
+      space an analysis was restricted to, a level of a factor comparing regions, or the
+      signal a model term carries. Declared once and referenced from each, because the same
+      seed written separately in each place is three spellings nothing can join.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        range: string
+        identifier: true
+        required: true
+        description: Stable identifier.
+      name:
+        in_subset: [mvp, model_extracted]
+        range: string
+        required: true
+        description: >-
+          The region as the source names it -- aSCC, left dlPFC parcel, salience network.
+          Its own words: normalization to an anatomical vocabulary happens downstream and
+          needs the original to map from.
+      definition_method:
+        in_subset: [mvp, model_extracted]
+        range: RegionDefinition
+        required: true
+        description: >-
+          How the region was delimited, which is a statement about independence: one drawn
+          from the study's own prior contrast is not independent of an effect tested inside
+          it. Per region, since one analysis may use an atlas mask and a functional ROI at
+          once. Required, with `unstated` for a source that does not say.
+      region_type:
+        in_subset: [model_extracted]
+        any_of:
+          - range: RegionType
+          - range: string
+        description: >-
+          What kind of thing the region is, which `definition_method` does not settle: an
+          atlas parcel and an anatomical structure can both come from an atlas, and a network
+          is neither.
+      atlas:
+        in_subset: [model_extracted]
+        range: string
+        description: >-
+          The atlas, parcellation or template it came from, as named -- AAL, WFU_Pickatlas,
+          Schaefer 400 -- with version or parcel index when given. `definition_method: atlas`
+          records that one was used, not which, which is not enough to pool two studies.
+      description:
+        in_subset: [model_extracted]
+        range: string
+        description: >-
+          How the source defines the region, including any geometry it states: "8 mm spheres
+          centered at [0 36 -6]". Definitional coordinates have no structured slot -- result
+          coordinates reach the record through the table parser -- so they are kept here,
+          where the evidence span makes them checkable.
+
+enums:
+
+  RegionDefinition:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      How a region was delimited, which records independence: a region drawn from the study's
+      own prior contrast is not independent of an effect tested inside it.
+    permissible_values:
+      atlas:
+        in_subset: [mvp, model_extracted]
+        description: An atlas or parcellation.
+      prior_literature:
+        in_subset: [mvp, model_extracted]
+        description: Coordinates or regions taken from previously published work.
+      anatomical_a_priori:
+        in_subset: [mvp, model_extracted]
+        description: Anatomically defined regions specified in advance.
+      functional_localizer:
+        in_subset: [mvp, model_extracted]
+        description: A separate localizer scan or run.
+      same_study_analysis:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Defined from another analysis in the same study, so not independent of an effect
+          reported inside it. That analysis names the region in `defines_regions`, which is
+          what makes the circularity checkable rather than asserted.
+      unstated:
+        in_subset: [mvp, model_extracted]
+        description: The source uses the region but does not say how it was defined.
+
+  RegionType:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      What kind of thing a region is. Open vocabulary: write the source's own wording in the
+      field when nothing here fits.
+    permissible_values:
+      anatomical:
+        in_subset: [mvp, model_extracted]
+        description: A named anatomical structure, such as the left amygdala.
+      atlas_parcel:
+        in_subset: [mvp, model_extracted]
+        description: One parcel of a parcellation, a unit of an atlas rather than a structure.
+      network:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A distributed network treated as one region, such as the salience network. Not a
+          structure, and not poolable with one.
+      coordinate_sphere:
+        in_subset: [mvp, model_extracted]
+        description: A sphere or box around a coordinate, whose geometry `description` records.
+      functional_cluster:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A cluster taken from a statistical map. Whether it was this study's is
+          `definition_method`, which is where the independence claim lives.
+      unstated:
+        in_subset: [mvp, model_extracted]
+        description: The source uses the region but does not say what kind of thing it is.

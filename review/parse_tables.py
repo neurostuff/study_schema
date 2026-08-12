@@ -5,9 +5,22 @@ captions but not cell values -- so this is the only place the reported effects a
 enumerated. Everything downstream annotates the list this produces, which makes a
 stage-1 regression a stage-2 outage rather than a degradation.
 
-The parse itself is Autonima's `parse_single_table`: one LLM call per table, output
-constrained by function calling. Nothing about the splitting rules lives here, so the
-prompt version travels with autonima and is recorded in the output.
+The parse itself is Autonima's `parse_single_table`: one LLM call per table. Nothing
+about the splitting rules lives here, so the prompt version travels with autonima and is
+recorded in the output.
+
+What does live here is the transport. Autonima constrains the output with legacy function
+calling, and the gateway refuses that for a reasoning model:
+
+    Function tools with reasoning_effort are not supported for gpt-5.6-luna in
+    /v1/chat/completions. To use function tools, use /v1/responses or set
+    reasoning_effort to 'none'.
+
+So `_StructuredCoordinateClient` below asks for the same Pydantic schema as a strict
+`response_format` instead, which the same endpoint does accept alongside
+`reasoning_effort`. Autonima is not modified: its other callers are on models where
+function calling works, and the schema and the sanitizer are imported rather than copied
+so this cannot drift from what `parse_single_table` expects back.
 
 The pond corpus already holds a parse of these same tables under
 `processed/pubget/analyses.jsonl`. It is not used as input -- it is diffed against, so
@@ -29,7 +42,106 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from sync_texts import read_pmids  # noqa: E402
 
-DEFAULT_MODEL = "@psyc-aid338-ope-333f18/gpt-5-mini-2025-08-07"
+DEFAULT_MODEL = "@psyc-aid338-ope-333f18/gpt-5.6-luna"
+
+#: Matches the extraction passes. The baseline run measured 220-410 reasoning tokens per
+#: call at this setting and found nothing in the error profile that looked like a
+#: reasoning shortfall, so the tables get the same budget the prose does.
+DEFAULT_EFFORT = "low"
+
+
+def strict_schema(model_class) -> dict:
+    """A Pydantic model's JSON schema, tightened until the API will accept it as strict.
+
+    Structured outputs are stricter than function parameters were: every property has to
+    be listed in `required` and every object has to forbid extra keys. Pydantic omits a
+    field from `required` as soon as it has a default, which is most of this schema, so
+    the fields are made *nullable and required* rather than optional -- the same shape
+    `Optional[X] = None` already meant, said in the way the API demands.
+    """
+
+    def tighten(node: object) -> None:
+        if isinstance(node, list):
+            for item in node:
+                tighten(item)
+            return
+        if not isinstance(node, dict):
+            return
+
+        # A default is advisory and strict mode rejects it outright.
+        node.pop("default", None)
+
+        if node.get("type") == "object" and "properties" in node:
+            node["additionalProperties"] = False
+            properties = node["properties"]
+            for name, sub in properties.items():
+                # Required-but-nullable, so omitting the key stops being an option while
+                # "there is no value here" stays one.
+                if "$ref" not in sub and "anyOf" not in sub and "type" in sub:
+                    if sub["type"] != "null" and name not in node.get("required", []):
+                        sub["type"] = [sub["type"], "null"]
+            node["required"] = list(properties)
+
+        for value in node.values():
+            tighten(value)
+
+    schema = model_class.model_json_schema()
+    tighten(schema)
+    return schema
+
+
+def build_client(effort: str):
+    """An autonima coordinate client that speaks structured outputs instead of functions.
+
+    Subclasses autonima's own client rather than reimplementing it: the api-key and
+    `OPENAI_API_GATEWAY` base-url handling is already there and is not worth a second
+    copy. Only the one call is replaced.
+    """
+
+    from autonima.coordinates.openai_client import (  # noqa: PLC0415
+        CoordinateParsingClient, _sanitize_parse_result,
+    )
+    from autonima.coordinates.schema import ParseAnalysesOutput  # noqa: PLC0415
+
+    class _StructuredCoordinateClient(CoordinateParsingClient):
+        def parse_analyses(self, prompt: str, model: str = DEFAULT_MODEL):
+            kwargs = {
+                "model": model,
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are a helpful assistant that parses neuroimaging results "
+                            "tables into structured JSON for downstream analysis."
+                        ),
+                    },
+                    {"role": "user", "content": prompt},
+                ],
+                "response_format": {
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": "parse_analyses",
+                        "strict": True,
+                        "schema": strict_schema(ParseAnalysesOutput),
+                    },
+                },
+            }
+            if effort:
+                kwargs["reasoning_effort"] = effort
+
+            response = self.client.chat.completions.create(**kwargs)
+            content = response.choices[0].message.content
+            if not content:
+                # A refusal or a length stop arrives as an empty body; the caller counts
+                # it as a failed table rather than an empty one, which is the difference
+                # between "this table reports nothing" and "this table was not read".
+                raise ValueError(
+                    f"empty response from {model} "
+                    f"(finish_reason={response.choices[0].finish_reason})"
+                )
+            return ParseAnalysesOutput(**_sanitize_parse_result(json.loads(content)))
+
+    return _StructuredCoordinateClient()
 
 
 def load_key_file(path: Path) -> list[str]:
@@ -134,6 +246,8 @@ def main() -> int:
     parser.add_argument("--texts", type=Path, default=REPO / "review" / "texts")
     parser.add_argument("--autonima", type=Path, default=REPO / ".tmp_repos" / "autonima")
     parser.add_argument("--model", default=DEFAULT_MODEL)
+    parser.add_argument("--effort", default=DEFAULT_EFFORT,
+                        help="reasoning effort; empty string to send none at all")
     parser.add_argument("--key-file", type=Path, default=REPO / ".env")
     parser.add_argument("--dry-run", action="store_true", help="list tables, make no calls")
     args = parser.parse_args()
@@ -149,10 +263,10 @@ def main() -> int:
         if not os.environ.get("OPENAI_API_KEY"):
             print("no OPENAI_API_KEY; pass --key-file", file=sys.stderr)
             return 2
-        from autonima.coordinates.openai_client import CoordinateParsingClient
-        client = CoordinateParsingClient()
+        client = build_client(args.effort)
 
-    print(f"autonima prompt version {COORDINATE_PARSING_PROMPT_VERSION}, model {args.model}\n")
+    print(f"autonima prompt version {COORDINATE_PARSING_PROMPT_VERSION}, "
+          f"model {args.model}, effort {args.effort or 'unset'}\n")
 
     failures = 0
     for pmid, study, _axis in read_pmids(args.pmids):
@@ -195,6 +309,7 @@ def main() -> int:
         out_dir.mkdir(parents=True, exist_ok=True)
         (out_dir / "analyses.json").write_text(json.dumps({
             "study": study, "pmid": pmid, "model": args.model,
+            "effort": args.effort,
             "prompt_version": COORDINATE_PARSING_PROMPT_VERSION,
             "analyses": analyses,
         }, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")

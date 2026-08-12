@@ -127,37 +127,11 @@ enums:
         in_subset: [mvp, model_extracted]
         description: The source does not report which element the analysis ran over.
 
-  RoiDefinition:
-    in_subset: [mvp, model_extracted]
-    description: >-
-      How a region of interest was defined, which records independence: an ROI drawn from
-      the study's own prior contrast is not independent of the effect being tested.
-    permissible_values:
-      atlas:
-        in_subset: [mvp, model_extracted]
-        description: An atlas or parcellation.
-      prior_literature:
-        in_subset: [mvp, model_extracted]
-        description: Coordinates or regions taken from previously published work.
-      anatomical_a_priori:
-        in_subset: [mvp, model_extracted]
-        description: Anatomically defined regions specified in advance.
-      functional_localizer:
-        in_subset: [mvp, model_extracted]
-        description: A separate localizer scan or run.
-      same_study_analysis:
-        in_subset: [mvp, model_extracted]
-        description: >-
-          Defined from another analysis in the same study, so the region is not
-          independent of the reported effect.
-      unstated:
-        in_subset: [mvp, model_extracted]
-        description: The source restricts inference to a region but does not say how it was defined.
-      not_applicable:
-        in_subset: [mvp, model_extracted]
-        description: >-
-          Required for whole-brain and searchlight analyses, and forbidden when
-          spatial_scope is roi.
+  # RoiDefinition moved to region.yaml as `RegionDefinition`, where it is a property of the
+  # Region rather than of the Analysis: independence is a fact about how a region was
+  # delimited, and one analysis may use an atlas mask and a functional ROI at once. Its
+  # `not_applicable` value went with the move -- a whole-brain analysis now has no Region to
+  # mark, rather than a Region claiming to have no definition.
 
   EffectKind:
     in_subset: [mvp, model_extracted]
