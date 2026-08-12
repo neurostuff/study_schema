@@ -288,7 +288,7 @@ The price is worth writing down next to it, in one place:
 
 - **A multi-row contrast matrix collapses.** An F-contrast in BSM or NIDM is a matrix, and its rank
   says how many comparisons it spans. Here an omnibus F is a set of cells with
-  `direction: not_applicable`, which records *that* the factor was tested undirectionally but not
+  `direction: unstated`, which records *that* the factor was tested undirectionally but not
   which comparisons the test spanned. A 3-level factor's omnibus F and a specific 2-row subset of
   it are the same record.
 - **Unequal weights collapse.** A linear trend across four dose levels and a comparison of the

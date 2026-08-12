@@ -37,8 +37,13 @@ rather than my own judgement:
 ## 3. Omnibus F cells: `not_applicable` → `unstated` (5 cells)
 
 `analysis_main_gaze` (3 cells) and `analysis_main_clarity` (2 cells) marked every level
-`not_applicable`. `extraction-readme.md` §2 separates three cases that all look like "a level
-with no side", and this is the third, not the second:
+`not_applicable`. `extraction-readme.md` §2 separates the cases that all look like "a level
+with no side", and this is the undirected one, not the held-constant one:
+
+*(This reading is now the schema's own: `Direction` was re-cut so that `not_applicable` means
+only a level on both sides of the comparison, and `check_unsigned_cells` flags the shape below
+automatically. At the time of this pass the enum's text said the opposite, which is why the
+correction had to argue for it.)*
 
 | the source says | record | this case |
 |---|---|---|

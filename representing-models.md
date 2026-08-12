@@ -178,9 +178,9 @@ without having a side, and they are different facts:
 | put the level on the plus side | `positive` | no |
 | put it on the minus side | `negative` | no |
 | gave the level no weight | **no cell at all** | the *term* is, if no level of it has a cell |
-| held one level constant | `not_applicable` on that level | no — it took part, at one level |
-| tested with no sign to report | `not_applicable` | no |
 | compared it, sign not stated | `unstated` | no |
+| tested it undirectionally — an F or χ² | `unstated`, on every level | no |
+| held one level constant | `not_applicable` on that level | no — it took part, at one level |
 
 Two of these are the ones most often conflated.
 
@@ -192,9 +192,29 @@ cell. There is no `zero` value: a zero weight *is* a missing cell.
 `positive` there would claim a condition comparison the contrast never makes. Because the level does
 have a cell, its term stays out of the adjustment set — the contrast did not average over it.
 
-**Telling an unsigned held-constant level from an unsigned F-test** needs no extra field: an F-tested
-factor has *all* its levels unsigned; a held-constant factor has *one* unsigned level and the rest
-absent.
+### Which unsigned value: ask whether a sign exists
+
+Both unsigned values say the record has no sign to give. They disagree about *why*, and the question
+that settles it is: **could a fuller report have signed this cell?**
+
+- **Yes → `unstated`.** An F-test over a three-level factor does compare its levels against each
+  other; what it withholds is which way each went. The paper could have reported the means or the
+  follow-up contrasts and signed every one of those cells. The sign exists in the data and is
+  missing from the page, which is precisely what `unstated` records. The same holds for the cell
+  carrying an interaction F on a product column: the interaction coefficient has a sign, the
+  omnibus test just does not report it.
+- **No → `not_applicable`.** A level the contrast was taken *within* sits on the plus side and the
+  minus side simultaneously. No report, however complete, could give it one sign, because the sign
+  is not missing — it is not defined. This is the only shape a `Cell` has for `not_applicable`.
+
+A corollary worth stating, because it is checkable: a cell that names **no level** — on a slope or a
+product column — can never sit on both sides of anything, so it can never be `not_applicable`. An
+undirected test of such a column is `unstated`.
+
+**Telling the two apart in a finished record** needs no extra field either: an F-tested factor has
+*all* its levels celled and unsigned; a held-constant factor has *one* unsigned level and the rest
+absent. That is a consequence of the rule above rather than a second rule — an undirected test spans
+the whole factor, and holding a level constant is a statement about that one level.
 
 ---
 
@@ -341,12 +361,15 @@ terms:
 | main effect of diagnosis | `t-dx` crossed | `contrast` | `t-load`, `t-dx-x-load`, `t-motion` |
 | main effect of load | `t-load` crossed | `contrast` | `t-dx`, `t-dx-x-load`, `t-motion` |
 | the interaction, directional | both crossed | `interaction` | `t-motion` |
-| the interaction, F-test | unsigned cell on `t-dx-x-load` | `omnibus` | `t-dx`, `t-load`, `t-motion` |
-| diagnosis within high load | `t-dx` crossed + unsigned `high` cell | `contrast` | `t-motion` |
+| the interaction, F-test | `unstated` cell on `t-dx-x-load` | `omnibus` | `t-dx`, `t-load`, `t-motion` |
+| diagnosis within high load | `t-dx` crossed + `not_applicable` on `high` | `contrast` | `t-motion` |
 
 Two things to read off that table. **Averaging over a factor is the absence of its cells** — the main
 effect of diagnosis simply has no load cells, which is also how it comes to be adjusted for the
-interaction column. And **the two factors differ only in `variation_level`**; the cells are the same
+interaction column. The last two rows are §4's pair in one model: the F-test's cell is `unstated`
+because the interaction has a sign the paper withheld, and the simple effect's `high` cell is
+`not_applicable` because the comparison was taken within that level, which puts it on both sides.
+And **the two factors differ only in `variation_level`**; the cells are the same
 shape for a between-subject and a within-subject factor, because what differs is a property of the
 design, recorded once on the model.
 
@@ -398,12 +421,17 @@ monotonic structure is not in the cells at all — it is `FactorLevel.order`, pl
 ```yaml
 effect:
   cells:
-    - {term: t-load, level: 3-back, direction: not_applicable}
-    - {term: t-load, level: 2-back, direction: not_applicable}
-    - {term: t-load, level: 1-back, direction: not_applicable}
+    - {term: t-load, level: 3-back, direction: unstated}
+    - {term: t-load, level: 2-back, direction: unstated}
+    - {term: t-load, level: 1-back, direction: unstated}
 ```
 → **`omnibus`**. All three levels take part and none is signed. Giving them cells rather than
 omitting them is what keeps the factor out of the adjustment set: it was tested, not controlled for.
+
+`unstated` and not `not_applicable`: the F *did* compare the three levels, and each of them had a
+side in the data that the paper did not report — §4's question answers "yes, a fuller report could
+have signed this". `not_applicable` on all three would say each level sat on both sides of the
+comparison at once, which would make the factor its own control.
 
 ### 5.9 Multivariate — decoding above chance
 
@@ -535,7 +563,7 @@ Two of those three covariates are columns of a record this analysis does not nam
 point: motion regressed out at the first level adjusts the group betas, and without the link the
 record asserted the opposite by omission.
 
-**Do not cell the seed.** The link makes `{term: t-lamyg, direction: not_applicable}` constructible,
+**Do not cell the seed.** The link makes an unsigned `{term: t-lamyg}` cell constructible,
 and it is the trap: a cell says the contrast *tested* that column, and a tested continuous
 within-subject term derives `parametric_modulation` by step 2 of §3 — so the diagnosis contrast
 stops reading as a contrast. What the map is *of* is `Measure` and `ConnectivityDetails`; what the

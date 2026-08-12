@@ -335,6 +335,7 @@ def _flags(record: dict, classes: dict) -> list[str]:
     validator = validate_record.Validator(classes, None)
     validator.check_crossings(record)
     validator.check_product_columns(record)
+    validator.check_unsigned_cells(record)
     validator.check_occasion_factors(record)
     validator.check_derived_columns(record)
     assert validator.errors == []  # these checks route to review, never reject
@@ -386,6 +387,74 @@ def test_a_simple_effect_within_one_level_is_not_flagged(classes: dict) -> None:
 
     assert _flags(_record([GROUP, STAGE],
                           [("Group-by-stage interaction at wake", cells)]), classes) == []
+
+
+#: A factor whose levels are declared, which is what the held-constant reading is read
+#: against: `not_applicable` says one of these sat on both sides and the rest were
+#: weighted out, so a record celling all of them that way is claiming something else.
+LOAD = {"local_id": "t_load", "type": _text("categorical"),
+        "levels": [{"level": _text("high")}, {"level": _text("low")}]}
+
+
+def test_a_levelless_cell_may_not_be_not_applicable(classes: dict) -> None:
+    """The re-cut's first corollary: a product column or a slope has no level, so it
+    has nothing to put on both sides of the comparison. An undirected test of one is
+    `unstated`, and this is the shape QQCjAAT6SwwQ's correction was written in."""
+
+    flags = _flags(_record([GROUP, STAGE, PRODUCT],
+                           [("Group-by-stage interaction",
+                             [_cell("t_gxs", "not_applicable")])]), classes)
+
+    assert len(flags) == 1
+    assert "names no level" in flags[0]
+    assert "unstated" in flags[0]
+
+
+def test_a_factor_unsigned_at_every_level_is_flagged(classes: dict) -> None:
+    """An omnibus F under the old reading. Celling every level `not_applicable` says
+    the factor was held on both sides of its own test."""
+
+    cells = [_cell("t_load", "not_applicable", "high"), _cell("t_load", "not_applicable", "low")]
+
+    flags = _flags(_record([LOAD], [("Main effect of load", cells)]), classes)
+
+    assert len(flags) == 1
+    assert "every declared level" in flags[0]
+
+
+def test_the_same_factor_unstated_at_every_level_is_not(classes: dict) -> None:
+    """Which is the shape that replaced it, and the one §5.8 now writes down."""
+
+    cells = [_cell("t_load", "unstated", "high"), _cell("t_load", "unstated", "low")]
+
+    assert _flags(_record([LOAD], [("Main effect of load", cells)]), classes) == []
+
+
+def test_a_held_level_leaves_the_others_absent_and_is_not_flagged(classes: dict) -> None:
+    """The one shape `not_applicable` keeps: one level celled, the rest weighted out."""
+
+    cells = [_cell("t_group", "positive", "patients"), _cell("t_group", "negative", "controls"),
+             _cell("t_load", "not_applicable", "high")]
+
+    assert _flags(_record([GROUP, LOAD], [("Group effect at high load", cells)]), classes) == []
+
+
+def test_identical_cells_disagreeing_about_a_crossing_is_flagged(classes: dict) -> None:
+    """The visible cost: an interaction and a main effect became the same record."""
+
+    flags = _flags(
+        _record([GROUP, STAGE, PRODUCT],
+                [("Group-by-stage interaction", UNSIGNED_GROUP),
+                 ("Group effect", list(UNSIGNED_GROUP))]),
+        classes,
+    )
+
+    # All three fire, which is the raw QQCjAAT6SwwQ record in miniature: the cells
+    # record no crossing, the two analyses are therefore indistinguishable, and the
+    # column that would have separated them carries nothing.
+    assert [flag for flag in flags if "identical to Study.analyses[1]" in flag]
+    assert [flag for flag in flags if "interaction_with" in flag]
+    assert [flag for flag in flags if "carries no cell" in flag]
 
 
 def test_a_product_column_may_name_a_lower_stage_term(classes: dict) -> None:

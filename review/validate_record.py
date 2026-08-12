@@ -721,6 +721,91 @@ class Validator:
                         "but it is also what a missing interaction analysis looks like",
                     )
 
+    # -- the two unsigned values --------------------------------------------
+
+    def check_unsigned_cells(self, record: Mapping[str, Any]) -> None:
+        """Flag the two shapes `not_applicable` cannot have.
+
+        `representing-models.md` §4 cuts the unsigned pair by one question: could a
+        fuller report have signed this cell? For a level an F-test spanned it could,
+        so an undirected test is `unstated`; for a level the contrast was taken
+        *within* it could not, because that level sits on both sides at once, which
+        is the whole of what `not_applicable` says on a `Cell`.
+
+        Both halves of that are checkable, and neither was before the re-cut, when
+        `not_applicable` covered the F-test as well:
+
+        * a cell naming **no level** -- on a slope or a product column -- has no level
+          to put on both sides, so it can only be an undirected test miscoded;
+        * a factor **all** of whose declared levels are celled `not_applicable` is an
+          undirected test of that factor, since holding a level constant is a claim
+          about one level and leaves the others absent.
+
+        The partial case is deliberately not flagged. A contrast taken within two of a
+        factor's three levels holds both of them, and reads as two `not_applicable`
+        cells with the third absent -- so the trigger is *every declared level celled*,
+        not *more than one*.
+
+        Warnings, for `check_crossings`' reason: this is what a record extracted under
+        the old reading looks like, and it routes to review rather than rejecting.
+        """
+
+        models = self._model_index(record)
+
+        for index, analysis in enumerate(record.get("analyses") or []):
+            if not isinstance(analysis, Mapping):
+                continue
+            path = f"Study.analyses[{index}].effect.cells"
+            terms = self._terms_in_scope(analysis.get("model_estimation"), models)
+            effect = analysis.get("effect")
+            cells = (effect.get("cells") if isinstance(effect, Mapping) else None) or []
+
+            # term -> the levels it celled, and which of those were unsigned this way.
+            celled: dict[str, list[Any]] = {}
+            unsigned: dict[str, list[Any]] = {}
+            for cell in cells:
+                if not isinstance(cell, Mapping):
+                    continue
+                term_id = cell.get("term")
+                if not isinstance(term_id, str):
+                    continue
+                level = _unwrap(cell.get("level"))
+                celled.setdefault(term_id, []).append(level)
+                if _unwrap(cell.get("direction")) != "not_applicable":
+                    continue
+                if level is None:
+                    self.warn(
+                        path,
+                        f"cell on {term_id!r} is not_applicable and names no level. A slope "
+                        "or a product column has no level to sit on both sides of the "
+                        "comparison, which is the only thing not_applicable says on a cell; "
+                        "an undirected test of such a column is unstated "
+                        "(representing-models.md 4)",
+                    )
+                    continue
+                unsigned.setdefault(term_id, []).append(level)
+
+            for term_id, levels in unsigned.items():
+                term = terms.get(term_id)
+                declared = [
+                    _unwrap(level.get("level"))
+                    for level in (term.get("levels") if isinstance(term, Mapping) else None) or []
+                    if isinstance(level, Mapping)
+                ]
+                if len(declared) < 2 or set(declared) - set(celled.get(term_id, [])):
+                    continue
+                if len(levels) < len(declared):
+                    continue
+                self.warn(
+                    path,
+                    f"every declared level of {term_id!r} is celled not_applicable, which "
+                    "says the factor was held on both sides of its own test. An undirected "
+                    "test over a factor is unstated on each level; not_applicable holds one "
+                    "level and leaves the rest absent (representing-models.md 4)",
+                )
+
+    # -- occasions, and the factors that should carry them ------------------
+
     def check_occasion_factors(self, record: Mapping[str, Any]) -> None:
         """Flag a comparison the record collapsed into a single column.
 
@@ -871,6 +956,7 @@ class Validator:
         if isinstance(record, dict):
             self.check_crossings(record)
             self.check_product_columns(record)
+            self.check_unsigned_cells(record)
             self.check_occasion_factors(record)
             self.check_derived_columns(record)
 

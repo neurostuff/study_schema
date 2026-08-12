@@ -198,12 +198,20 @@ something the mapper resolves from wording:
 |---|---|---|
 | a three-level factor compared at two of its levels | no cell at all | absence *is* the zero weight |
 | compared, but no direction given | a cell with `unstated` | a comparison was made; its sign was not reported |
+| tested undirectionally — an F or χ² over the factor | `unstated` on **every** level | the same fact: compared, sign not reported |
 | the contrast was taken *within* this level | a cell with `not_applicable` | it is on both sides at once |
 
 A held-constant level is unsigned because it appears on **both sides** of the comparison: "patients
 versus controls, in the task condition" puts task on the plus side and the minus side at once, so it
 has no net sign on its own axis. Marking it `positive` would assert a condition comparison the
 contrast never makes.
+
+**The two unsigned values are told apart by one question: could a fuller report have signed this
+cell?** For a level an F-test spanned it could — the levels were compared and the paper printed no
+direction, so the sign exists and is missing, which is `unstated`. For a held-constant level it could
+not, because the contrast put that level on both sides and there is no sign to be missing, which is
+`not_applicable`. A corollary: a cell naming no level — on a slope or a product column — cannot sit
+on both sides of anything, so an undirected test of such a column is `unstated` too.
 
 None of these is directional, so the derived kind is the same either way. What differs is what
 the record claims — and each wrong guess fails differently. Omitting the cell for an unreported

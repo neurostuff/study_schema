@@ -306,7 +306,7 @@ enums:
       There is no value for a zero weight: a zero weight is a level with no `Cell`. A level of a tested term that a contrast did not weight is absent from `cells`, as a term the contrast did not test is absent entirely, and both are read by subtraction -- from the term's `FactorLevel`s and from `ModelEstimation.terms` respectively.
       One vocabulary serves both kinds of term. A categorical level put on the plus side of a comparison and a continuous term whose coefficient came out positive are both `positive`, and "A greater than B" is a positive cell and a negative cell on one term. Which of the two a given cell carries follows from the referenced term's `type`.
       On a cell over a **product** term it is the sign of the interaction coefficient -- a fact about the crossing, such as "the age-related decline was steeper in patients", rather than about either component's own slope. When simple slopes differ by moderator level and no single sign is reported, use `unstated` and state the pattern in Analysis.definition.
-      Only `positive` and `negative` count as directional, so a cell recording no sign never silently changes the derived kind.
+      Only `positive` and `negative` count as directional, so a cell recording no sign never silently changes the derived kind. Two values record no sign, and what separates them is whether a sign exists at all: `unstated` is one the source withheld, `not_applicable` is a level the contrast put on both sides at once, which no report could have signed.
     permissible_values:
       positive:
         description: >-
@@ -318,15 +318,15 @@ enums:
           falls as the term rises.
       unstated:
         description: |-
-          A sign exists and the source does not report it. When simple slopes differ by moderator level and no single sign is given, use this and state the pattern in Analysis.definition.
-          Distinct from omitting the cell, which says the contrast weighted this level out, and from `not_applicable`, which says there is no sign to have.
+          A sign exists and the source does not report it. This is what an **undirected test** looks like on a cell: an F or chi-square over a factor compares that factor's levels against each other and reports no sign, so each of its levels takes a cell with this value, and an interaction F takes it on the cell over the product column. Giving them cells rather than omitting them keeps the term out of the derived adjustment set -- it was tested, not controlled for -- while contributing nothing to the directional count, which is what makes such an effect an `omnibus`.
+          Also the value when simple slopes differ by moderator level and no single sign is given: state the pattern in Analysis.definition.
+          Distinct from omitting the cell, which says the contrast weighted this level out, and from `not_applicable`, which says no sign could apply here at all.
       not_applicable:
         description: |-
-          There is no sign to have. On a `Cell` this is what an undirected test of a term looks like: a multi-degree-of-freedom F-test over a factor involves its levels and signs none of them, so those levels take cells with this value. That keeps the term out of the derived adjustment set -- it was tested, not controlled for -- while contributing nothing to the directional count, which is what makes such an effect an `omnibus`. It is not `unstated`, which is a sign the source withheld.
-          Two shapes use it. An F-test of an **interaction** puts it on a cell over the product column: signed there is a moderation and derives `interaction`, unsigned is an F-test and derives `omnibus`.
-          A contrast taken *within* one level of a factor puts it on that level, which appears on **both sides** of the comparison and so has no net sign -- "patients versus controls, in the task condition" has task on the plus side and the minus side at once. The effect stays a `contrast` on whatever else is crossed, and the factor stays out of the adjustment set.
-          The two are distinguishable in a record: a factor F-tested without direction has **all** its levels unsigned, a factor held constant has **one** unsigned level and the rest absent.
-          Also the value for a parameter-sign slot on a method payload that has no sign to give.
+          No sign could apply. On a `Cell` exactly one shape means this: a level the contrast was taken *within*, which appears on **both sides** of the comparison and so has no net sign -- "patients versus controls, in the task condition" has task on the plus side and the minus side at once. The effect stays a `contrast` on whatever else is crossed, and the factor stays out of the adjustment set: it took part, at one level.
+          It is not `unstated`, which is a sign that exists and was withheld. The question that separates them is whether a fuller report could have signed this cell. For a level an F-test spanned, it could -- the level entered the comparison and the paper gave no direction, which is `unstated`. For a level held constant, it could not, because the contrast put that level on both sides.
+          A held level leaves its factor's other levels **absent**, which is also how the two read apart in a record: an undirected test cells every level of the factor, a held factor cells one and omits the rest. A cell that names no level -- on a slope or a product column -- can never sit on both sides, so it can never take this value.
+          Off a `Cell`, on a parameter-sign slot of a method payload, it is the same claim about a different quantity: the method yields no signed parameter to report.
   FunctionalForm:
     description: >-
       Shape of a term's relationship to the measure. A squared term with a negative coefficient
