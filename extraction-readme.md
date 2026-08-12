@@ -142,26 +142,32 @@ use it, and each use names its `local_id`: `ConnectivityDetails.seed_regions` an
 for a column carrying one region's signal, `FactorLevel.regions` for a factor comparing
 places. The same move `Assessment` made, and `ModelTerm.assessment` with it.
 
+**Deriving a column does not break the link to what supplied it.** `ModelTerm.region` says so
+by example — an ROI mean and a PPI regressor are both computed from a region's signal and both
+still name their region — and `ModelTerm.assessment` means it the same way: a change score or a
+composite of subscales still names the instrument the numbers came from. What the derivation
+*was* goes in `source_definition`, and there it is not optional: `FactorLevel.timepoints` names
+the occasions a factor *compares*, a derived column has no levels to hang them on, so this is
+the only place saying which occasions it spanned. A derived column with neither slot filled is
+an unattributed number, and `validate_record.py` says so.
+
 The region's own facts go on the `Region`: `name` in the source's wording,
 `definition_method` for how it was delimited — `same_study_analysis` where it came from this
 study's own earlier result — `atlas` for the parcellation, and `description` for the defining
 sentence, which is where a sphere's centre and radius are kept.
 
-**Occasions, cohorts, conditions and arms work the same way, and one of them is easy to
-forget.** A `Timepoint` on `StudyDesign.timepoints` is declared once and reached by exactly
-one slot: `FactorLevel.timepoints`. That single pointer is the whole of how an occasion
-enters a model, so a record whose analyses report change over time and whose levels name no
-occasion has recorded the scans and lost the comparison between them. The failing shape is a
-term like `pre > post change`, typed continuous with no levels: the axis the design matrix
-actually distinguished, written down from its contrast's side and collapsed into one column.
-[representing-models.md](representing-models.md) §5.6 is the encoding to use instead, and
-the reason a study with no paradigm still has a factor.
+**Occasions work the same way, and are the easiest to forget.** A `Timepoint` on
+`StudyDesign.timepoints` is reached by exactly one slot, `FactorLevel.timepoints`, so a record
+whose analyses report change over time and whose levels name no occasion has recorded the scans
+and lost the comparison between them. The failing shape is a term like `pre > post change`,
+continuous with no levels: the axis the design matrix distinguished, written down from its
+contrast's side. [representing-models.md](representing-models.md) §5.6 is the encoding to use,
+and the reason a study with no paradigm still has a factor.
 
-Nothing here constrains how an occasion is *named*. `Timepoint.name` is the source's wording
-and so is the `FactorLevel.level` label pointing at it — `baseline`, `T0`, `week 12`,
-`6-month follow-up`, whatever the paper writes. What is normalized is placement, on
-`relation_to_intervention`, and sequence, on `order`. Those two carry every query an occasion
-vocabulary would have served, which is why there is no such vocabulary.
+Nothing constrains how an occasion is *named*. `Timepoint.name` is the source's wording and so
+is the `FactorLevel.level` label pointing at it — `baseline`, `T0`, `week 12`, whatever the
+paper writes. What is normalized is placement (`relation_to_intervention`) and sequence
+(`order`), which carry every query an occasion vocabulary would have served.
 
 ### Cells carry direction; weights do not
 
@@ -191,20 +197,21 @@ something the mapper resolves from wording:
 | the source says | record | why |
 |---|---|---|
 | a three-level factor compared at two of its levels | no cell at all | absence *is* the zero weight |
-| the contrast was taken *within* this level | a cell with `not_applicable` | it is on both sides at once |
 | compared, but no direction given | a cell with `unstated` | a comparison was made; its sign was not reported |
+| the contrast was taken *within* this level | a cell with `not_applicable` | it is on both sides at once |
 
 A held-constant level is unsigned because it appears on **both sides** of the comparison: "patients
 versus controls, in the task condition" puts task on the plus side and the minus side at once, so it
 has no net sign on its own axis. Marking it `positive` would assert a condition comparison the
 contrast never makes.
 
-None of the three is directional, so the derived kind is the same either way. What differs is what
+None of these is directional, so the derived kind is the same either way. What differs is what
 the record claims — and each wrong guess fails differently. Omitting the cell for an unreported
 direction denies a weight the contrast gave. Marking a held-constant level `unstated` asserts a
-comparison the contrast did not make. And treating a held-constant level as averaged-over puts a
-term in the derived adjustment set that the contrast never averaged, which is the failure that went
-unnoticed longest.
+comparison the contrast did not make. Marking an F-tested factor's levels `not_applicable` says the
+opposite — that the factor was held on both sides of its own test, which makes the effect its own
+control. And treating a held-constant level as averaged-over puts a term in the derived adjustment
+set that the contrast never averaged, which is the failure that went unnoticed longest.
 
 ---
 
@@ -451,7 +458,7 @@ weight: absence is the zero weight, read against the term's `FactorLevel`s. A fa
 averages over is the other subtraction — no cell at all, so it falls into the adjustment set.
 
 The one case that needs care: an undirected test of a term, such as an F-test over a factor, must
-give its levels cells with `not_applicable` rather than omitting them. Omitting them would put the
+give its levels cells with `unstated` rather than omitting them. Omitting them would put the
 term in the adjustment set and say the analysis controlled for the factor it tested.
 
 Because a term either has a cell or is in the difference, "tested and controlled for at once" is
@@ -548,7 +555,8 @@ Three routing rules survive the change, because an extractor's wording still dec
   report it, do not invent the term.
 - **A weighted-out level and an undirected level are different facts.** A level the contrast
   weighted out gets no cell, because storage records a zero weight by having none; a level
-  compared with no direction reported gets a cell with `unstated`.
+  compared with no direction reported gets a cell with `unstated`, whether the direction went
+  unreported for a signed contrast or because the test was an F.
 - **"Moderator" is not a direction.** It has no destination. A moderated effect is the moderator
   and the moderated effect both as terms of interest, plus a product `ModelTerm` naming them in
   `interaction_with`. A cell whose direction says "moderator" is flagged for review, since it

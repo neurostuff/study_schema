@@ -399,10 +399,9 @@ Rules that decide whether a record is usable:
    read them before you start: the self-naming method payload
    (`AnalysisDetails.details_type`, `Acquisition.acquisition_type`) and what
    `Cell.direction` means, including when a level takes no cell at all.
-10. A result whose shape is not settled by the schema alone is settled by the worked
-    models: find the one of the twelve this paper's result is closest to and follow its
-    encoding. A comparison is a term with levels and a sign on each side -- never one
-    column named after the comparison it was the subject of.
+10. A shape the schema alone does not settle is settled by the worked models. A
+    comparison is a term with levels and a sign on each side -- never one column named
+    after the comparison it was the subject of.
 """
 
 VALUE_RULE_EVIDENCE = """Every source-derived value is an ExtractedValue wrapper:
@@ -424,11 +423,10 @@ entity needs one. Describe the model the authors estimated -- its terms, their l
 which conditions, cohorts, occasions, arms or regions those levels name -- even though the
 contrasts themselves come later.
 
-Occasions and cohorts are factors in exactly the sense conditions are. A study with no
-paradigm at all still has a categorical term if it measured the same people twice: the
-levels are the occasions, and `FactorLevel.timepoints` names them. Do not let the absence
-of a task decide that there is no factor. Each level's label is the source's own wording
-for that level, whatever that wording is.
+Occasions and cohorts are factors in exactly the sense conditions are: a study with no
+paradigm still has a categorical term if it measured the same people twice, its levels
+being the occasions, which `FactorLevel.timepoints` names. Do not let the absence of a
+task decide that there is no factor. Each level's label is the source's own wording.
 """,
     "analyses": """
 This pass emits `analyses` and nothing else. The supporting entities were extracted
@@ -443,22 +441,18 @@ def worked_models() -> str:
     """`representing-models.md` §5 -- the worked encodings -- for the prompt.
 
     The conventions document states the rules a term and a cell obey; §5 is the only
-    place a whole encoding is shown end to end, term list and cells together, and it
-    is the only place several shapes appear that no rule reaches on its own: a factor
-    over occasions in a study with no paradigm (§5.6), an ordered factor contrasted
-    at its extremes (§5.7), a model split across stages (§5.12). It was reachable
-    only by the test suite until now, which is how a pre-post contrast came to be
-    recorded as one continuous column named after itself.
+    place a whole encoding is shown end to end, and the only place shapes no rule
+    reaches on its own appear: a factor over occasions in a study with no paradigm
+    (§5.6), an ordered factor contrasted at its extremes (§5.7), a model split across
+    stages (§5.12).
 
-    Sliced rather than sent whole. §1-§4 restate what `extraction-readme.md` and the
-    rendered `description:` fields already say, so sending them again spends input on
-    repetition, and §6 addresses a human deciding whether a paper fits the schema at
-    all -- a judgement this pass does not make.
+    Sliced rather than sent whole. §1-§4 restate what the conventions and the rendered
+    `description:` fields already say, and §6 asks whether a paper fits the schema at
+    all, which this pass does not decide.
 
-    Raises rather than returning "" when the heading moves: a prompt announcing a
-    section it does not carry is worse than one that fails loudly, and the slice is
-    over a file committed in this repo, so an empty result is a repo error and never
-    a condition of the run.
+    Raises rather than returning "" when the heading moves. The file is committed here,
+    so an empty slice is a repo error, and announcing a section the prompt does not
+    carry is worse than failing loudly.
     """
 
     text = MODELS.read_text(encoding="utf-8")
@@ -497,9 +491,9 @@ def build_prompt(text: str, mode: str, evidence: bool, context: str) -> tuple[st
     user = (
         "# Conventions (extraction-readme.md)\n\n" + README.read_text(encoding="utf-8")
         + "\n\n# Worked models (representing-models.md)\n\n"
-        + "Twelve reported results and the encoding each one takes. Find the example this\n"
-        + "paper's result is closest to and follow its shape; do not invent a third shape\n"
-        + "when the paper's wording sits between two of them.\n\n"
+        + "Twelve reported results and the encoding each takes. Follow the shape of the\n"
+        + "one this paper's result is closest to; do not invent a third when its wording\n"
+        + "sits between two of them.\n\n"
         + worked_models()
         + "\n\n# Schema\n" + render_schema(classes, enums, names, study_keep)
         + context

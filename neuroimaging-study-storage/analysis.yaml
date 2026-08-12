@@ -695,10 +695,10 @@ classes:
         range: TermType
         required: true
         description: |-
-          Whether the term is categorical or continuous. Categorical when the column distinguishes named cells of the design -- occasions, cohorts, conditions, arms, regions -- whether or not the paper gives the axis a name; `levels` is then required, and each level names the entities carrying it. Continuous when the column carries a measured value and what the model fits is a slope.
-          Small as this field is, it settles four others: whether `levels` exists, whether a `Cell` on this term takes a `level`, whether the term can be crossed, and which branch of the derived kind fires. A term recorded continuous is one no contrast can be built across.
-          **A term whose name states a comparison -- `pre > post`, `A versus B`, `change in X` -- is almost always a categorical factor written down from its contrast's side.** What the design matrix distinguished was two occasions, two cohorts or two conditions; the paper labelled the difference because that is what it reported, and the axis went unnamed. Record the factor with a level for each side and let the contrast's cells carry the direction, per `representing-models.md` §5.6. Collapsing the two sides into one continuous column loses the comparison: nothing then says which occasions or cohorts were compared, and the effect reads as a slope.
-          The exception is a column that is genuinely one number per participant -- a difference score, a percent change, a symptom-change regressor entered as a covariate. That is continuous, and `source_definition` is where the subtraction it came from is written down.
+          Whether the term is categorical or continuous. Categorical when the column distinguishes named cells of the design -- occasions, cohorts, conditions, arms, regions -- whether or not the paper names the axis; `levels` is then required. Continuous when the column carries a measured value and the model fits a slope.
+          Small as it is, this field settles four others: whether `levels` exists, whether a `Cell` here takes a `level`, whether the term can be crossed, and which branch of the derived kind fires. A term recorded continuous is one no contrast can be built across.
+          **A term whose name states a comparison -- `pre > post`, `A versus B` -- is almost always a categorical factor written down from its contrast's side.** The design matrix distinguished two occasions, cohorts or conditions; the paper labelled the difference and left the axis unnamed. Record the factor with a level per side and let the cells carry the direction (`representing-models.md` §5.6). Collapsed into one continuous column, nothing says what was compared and the effect reads as a slope.
+          The exception is a column genuinely holding one number per participant -- a difference score, a percent change entered as a covariate. That is continuous, and `source_definition` records the subtraction it came from.
       levels:
         in_subset: [mvp, model_extracted]
         range: FactorLevel
@@ -714,11 +714,10 @@ classes:
         in_subset: [mvp, model_extracted]
         range: Assessment
         inlined: false
-        description: >-
-          The assessment whose participant-level measurement supplies a continuous term.
-          Unset when the values come from somewhere the study does not record as an
-          Assessment -- age, dose, a motion parameter, cardiac phase, scanner drift -- in
-          which case source_definition names the origin.
+        description: |-
+          The assessment whose measurements supply a continuous term, **including when the column is derived from them rather than being one of them**: a change score, a percent change, a composite of subscales, a residualized score. The instrument is still where the values came from, and one administration or several makes no difference to that -- `region` says the same by example, an ROI mean and a PPI regressor both naming their region.
+          One instrument, one record, however many columns it supplies: two subscale scores of one questionnaire each name it, and which subscale a column carries is the term's `name`.
+          Unset only when the values come from somewhere the study does not record as an Assessment -- age, dose, a motion parameter, cardiac phase, scanner drift -- in which case `source_definition` names the origin. A term with neither is a column whose origin the record does not state.
       region:
         in_subset: [mvp, model_extracted]
         range: Region
@@ -805,11 +804,10 @@ classes:
       source_definition:
         in_subset: [mvp, model_extracted]
         range: string
-        description: >-
-          The source's own definition of the term, and the origin of a continuous term
-          that no Assessment supplies, such as age, dose, a motion parameter, cardiac
-          phase, or scanner drift. A transform the FunctionalForm vocabulary cannot name
-          goes in functional_form itself.
+        description: |-
+          The source's own definition of the term, and the origin of a continuous term that no Assessment supplies, such as age, dose, a motion parameter, cardiac phase, or scanner drift.
+          **Required for a derived column, whatever its `assessment` says.** A change score names its instrument in `assessment` and its derivation here, in the source's own words and including the occasions it spans -- "percent reduction in BDI, (post-pre)/pre, from baseline to post-treatment". Nothing else can carry those occasions: `FactorLevel.timepoints` names the occasions a factor *compares*, and a derived column has no levels to hang them on, so where a study has several post-intervention occasions this is the only thing separating a change to the endpoint from a change to a later follow-up.
+          Not the shape of the fitted relationship, which is `functional_form`: a percent change entered linearly is a linear term computed from a difference, so recording the construction as the form would lose whether the fit was linear or quadratic. A transform *of the measure* the vocabulary cannot name still goes in functional_form.
 
   FactorLevel:
     description: >-

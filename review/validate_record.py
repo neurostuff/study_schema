@@ -95,6 +95,16 @@ _COMPARISON_WORDS = ("versus", " vs ", " vs. ", "greater than", "less than",
                      "pre-post", "pre/post", "prepost")
 _COMPARISON_OPERATOR = re.compile(r"[a-z0-9)\]]\s*[<>]\s*[a-z0-9(\[]")
 
+#: Derivation language in a `ModelTerm.name` -- a column computed from several of an
+#: instrument's measurements rather than being one of them. Multi-word on purpose. A
+#: bare "percent" catches "percentage methylation at CpG sites 11-12", which is a
+#: measurement and not a difference; a bare "change" catches "pre > post rsFC change",
+#: which is a collapsed occasion factor and `check_occasion_factors`' finding rather
+#: than this one.
+_DERIVED_WORDS = ("change in", "change from", "change over", "percent change",
+                  "percentage change", "percent reduction", "difference between",
+                  "difference in", "improvement in", "delta ")
+
 #: Prose claiming a result is a change across occasions, read off an analysis's `name`
 #: and `definition`. Deliberately not "baseline": a record whose analyses are all
 #: baseline-only is the legitimate reading of a design that scanned twice and reported
@@ -128,6 +138,13 @@ def names_a_change_over_time(*fields: Any) -> bool:
 
     text = _prose(*fields)
     return any(word in text for word in _CHANGE_WORDS)
+
+
+def names_a_derivation(*fields: Any) -> bool:
+    """Does this term's name say its values were computed from several measurements?"""
+
+    text = _prose(*fields)
+    return any(word in text for word in _DERIVED_WORDS)
 
 
 def names_a_crossing(*fields: Any) -> bool:
@@ -617,10 +634,12 @@ class Validator:
                 direction = _unwrap(cell.get("direction"))
                 if direction in {"positive", "negative"}:
                     signed.setdefault(term_id, set()).add(direction)
-                # A named level with no sign is a factor held constant, per §4's table.
-                # An analysis reported within one level of the crossing is §5.5's last
-                # row -- a legitimate simple effect, whose prose names the interaction it
-                # came from and whose cells are not supposed to record it.
+                # `not_applicable` on a named level is a factor held constant, per §4's
+                # table, and since the re-cut it is nothing else: an undirected test is
+                # `unstated`, so this no longer catches an omnibus F by accident. An
+                # analysis reported within one level of the crossing is §5.5's last row --
+                # a legitimate simple effect, whose prose names the interaction it came
+                # from and whose cells are not supposed to record it.
                 if _unwrap(cell.get("level")) is not None and direction == "not_applicable":
                     held = True
             # A term signed once has not been compared against itself.
@@ -702,37 +721,27 @@ class Validator:
                         "but it is also what a missing interaction analysis looks like",
                     )
 
-    # -- occasions, and the factors that should carry them ------------------
-
     def check_occasion_factors(self, record: Mapping[str, Any]) -> None:
         """Flag a comparison the record collapsed into a single column.
 
-        The defect is invisible to every check above, in the way `check_crossings`'
-        is: each cell resolves, each level agrees with its term, the record is
-        structurally perfect, and the comparison the paper reported is gone. Two
-        halves, seen from the two ends.
+        Invisible to every check above, in the way `check_crossings`' defect is: each
+        cell resolves, each level agrees with its term, and the comparison the paper
+        reported is gone. Two halves, from the two ends.
 
-        The term half is a column named after the comparison it was the *subject*
-        of -- `pre > post change`, typed continuous, no levels. What the design
-        matrix distinguished was two occasions; the paper labelled the difference,
-        because the difference is what it reported, and the axis went unnamed. One
-        cell on one continuous term then derives a regression where a contrast
-        belongs, and nothing in the record says what was on either side.
+        The term half is a column named after the comparison it was the *subject* of --
+        `pre > post change`, continuous, no levels. The design matrix distinguished two
+        occasions; the paper labelled the difference and the axis went unnamed. One cell
+        on a continuous term then derives a regression where a contrast belongs.
 
         The design half is the same defect from the other end: several occasions
-        declared, analyses whose prose reports change over time, and no
-        `FactorLevel.timepoints` anywhere naming any of them. That slot is the only
-        one that reaches a `Timepoint`, so when it is empty the scans are recorded
-        and the comparison between them is not.
+        declared, analyses reporting change over time, and no `FactorLevel.timepoints`
+        naming any of them. That slot is the only route to a `Timepoint`, so when it is
+        empty the scans are recorded and the comparison between them is not.
 
-        `ModelTerm.type` states the shape and `representing-models.md` §5.6 works it
-        through. Warnings, not errors, for `check_crossings`' reason -- the trigger
-        reads prose, so it routes a record to review rather than rejecting it. The
-        one shape deliberately left alone is a genuine one-number-per-participant
-        covariate: a difference score or a percent change entered across the sample
-        is continuous, correctly named for the subtraction it came from, and
-        `between_subject`, which is what distinguishes it from a collapsed occasion
-        factor -- an occasion factor varies within a participant by definition.
+        `ModelTerm.type` and `representing-models.md` §5.6 state the shape. Warnings,
+        for `check_crossings`' reason -- the trigger reads prose. Left alone: a genuine
+        per-participant covariate, which is continuous, named for its subtraction, and
+        `between_subject`, an occasion factor varying within a participant by definition.
         """
 
         for m_index, model in enumerate(record.get("model_estimations") or []):
@@ -758,12 +767,10 @@ class Validator:
                 self.warn(
                     f"Study.model_estimations[{m_index}].terms[{t_index}].name",
                     f"{_unwrap(term.get('name'))!r} states a comparison while the term is "
-                    "continuous with no levels, so the axis compared is not in the record: "
-                    "a cell on it derives a regression, and nothing says which occasions, "
-                    "cohorts or conditions were on each side. A comparison is a categorical "
-                    "term with a level per side and the sign on the cells "
-                    "(representing-models.md 5.6); a genuine per-participant difference "
-                    "score is continuous and between_subject",
+                    "continuous with no levels, so nothing records which occasions, "
+                    "cohorts or conditions were on each side. A comparison is a "
+                    "categorical term with a level per side and the sign on the cells "
+                    "(representing-models.md 5.6)",
                 )
 
         design = record.get("design")
@@ -794,11 +801,67 @@ class Validator:
         shown = ", ".join(reporting[:3]) + (" and others" if len(reporting) > 3 else "")
         self.warn(
             "Study.design.timepoints",
-            f"{len(declared)} occasions are declared and no FactorLevel.timepoints names "
-            f"any of them, while {len(reporting)} analysis(es) report change over time "
-            f"({shown}). FactorLevel.timepoints is the only slot that reaches a Timepoint, "
-            "so as recorded this study scanned twice and compared nothing",
+            f"{len(declared)} occasions are declared and no FactorLevel.timepoints "
+            f"names any of them, while {len(reporting)} analysis(es) report change over "
+            f"time ({shown}). That slot is the only route to a Timepoint, so as "
+            "recorded the scans are here and the comparison between them is not",
         )
+
+    # -- derived columns and where they came from ---------------------------
+
+    def check_derived_columns(self, record: Mapping[str, Any]) -> None:
+        """Flag a derived column whose origin the record does not state.
+
+        A change score or percent change is one number per participant computed from
+        several of an instrument's administrations, and two slots make it interpretable:
+        `assessment` names the instrument, `source_definition` says what the derivation
+        was and over which occasions.
+
+        Neither is optional here. Deriving a column does not break the link to its
+        instrument -- `region` says as much by example, an ROI mean and a PPI regressor
+        both naming their region. And `source_definition` is the *only* place the
+        occasions can go, since a column with no levels has no `FactorLevel.timepoints`:
+        in a study with several post-intervention occasions it is what separates a change
+        to the endpoint from a change to a later follow-up.
+
+        Warnings, for the reason above: the trigger reads a name. The vocabulary is
+        narrow deliberately, so a column named for what it measures rather than for how
+        it was built is left alone.
+        """
+
+        assessments = len(record.get("assessments") or [])
+
+        for m_index, model in enumerate(record.get("model_estimations") or []):
+            if not isinstance(model, Mapping):
+                continue
+            for t_index, term in enumerate(model.get("terms") or []):
+                if not isinstance(term, Mapping):
+                    continue
+                if _unwrap(term.get("type")) != "continuous" or term.get("levels"):
+                    continue
+                if not names_a_derivation(term.get("name")):
+                    continue
+
+                path = f"Study.model_estimations[{m_index}].terms[{t_index}]"
+                name = _unwrap(term.get("name"))
+
+                if not _unwrap(term.get("source_definition")):
+                    self.warn(
+                        f"{path}.source_definition",
+                        f"{name!r} is a derived column and its derivation is not "
+                        "recorded. Nothing else can say what was subtracted from what, "
+                        "or over which occasions: a column with no levels has no "
+                        "FactorLevel.timepoints to name them",
+                    )
+
+                if term.get("assessment") is None and assessments:
+                    self.warn(
+                        f"{path}.assessment",
+                        f"{name!r} reads as derived from an instrument's measurements "
+                        f"but names no assessment, while the record declares "
+                        f"{assessments}. Deriving a column does not break the link to "
+                        "the instrument it came from",
+                    )
 
     # -- entry point -------------------------------------------------------
 
@@ -809,6 +872,7 @@ class Validator:
             self.check_crossings(record)
             self.check_product_columns(record)
             self.check_occasion_factors(record)
+            self.check_derived_columns(record)
 
         metadata = record.get("extraction_metadata") if isinstance(record, dict) else None
         if isinstance(metadata, dict) and self.normalized is not None:

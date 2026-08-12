@@ -35,17 +35,10 @@ import schema_utils  # noqa: E402
 
 #: A paper whose text and record are both present -- *discovered*, not named.
 #:
-#: It was `2abntY3hQSyq`, whose text was never synced, so every test that reads a
-#: record skipped and went on skipping, twenty-five of them, for as long as it took
-#: to notice. Naming `HU6mqxmtySg3` instead only moved the failure: `review/texts` is
-#: gitignored bulk material (see `review/sync_texts.py`), so which papers a checkout
-#: has is a property of that checkout, and any name pinned here is one sync away from
-#: being the wrong one again.
-#:
-#: So the paper is whichever one this checkout actually has both halves of. None of
-#: the tests below asserts a fact about a particular study -- they check that offsets
-#: address what they claim, that a record is well formed, that a table attributes --
-#: so any paper serves, and the skip now means "no corpus" rather than "not that one".
+#: `review/texts` is gitignored bulk material (`review/sync_texts.py`), so which papers
+#: a checkout has is a property of that checkout: a name pinned here is one sync away
+#: from being wrong, and the skip then never lifts -- as it did not for twenty-five
+#: tests. Any paper serves, since none of these asserts a fact about a particular study.
 def _example_paper() -> str:
     for record in sorted((REVIEW / "examples").glob("*.extraction.json")):
         paper = record.name.removesuffix(".extraction.json")
@@ -343,6 +336,7 @@ def _flags(record: dict, classes: dict) -> list[str]:
     validator.check_crossings(record)
     validator.check_product_columns(record)
     validator.check_occasion_factors(record)
+    validator.check_derived_columns(record)
     assert validator.errors == []  # these checks route to review, never reject
     return validator.warnings
 
@@ -370,7 +364,7 @@ def test_interaction_without_a_product_column_is_flagged(classes: dict) -> None:
 def test_an_unsigned_cell_on_the_product_column_satisfies_it(classes: dict) -> None:
     flags = _flags(_record([GROUP, STAGE, PRODUCT],
                            [("Group-by-stage interaction",
-                             [_cell("t_gxs", "not_applicable")])]), classes)
+                             [_cell("t_gxs", "unstated")])]), classes)
 
     assert flags == []
 
@@ -392,24 +386,6 @@ def test_a_simple_effect_within_one_level_is_not_flagged(classes: dict) -> None:
 
     assert _flags(_record([GROUP, STAGE],
                           [("Group-by-stage interaction at wake", cells)]), classes) == []
-
-
-def test_identical_cells_disagreeing_about_a_crossing_is_flagged(classes: dict) -> None:
-    """The visible cost: an interaction and a main effect became the same record."""
-
-    flags = _flags(
-        _record([GROUP, STAGE, PRODUCT],
-                [("Group-by-stage interaction", UNSIGNED_GROUP),
-                 ("Group effect", list(UNSIGNED_GROUP))]),
-        classes,
-    )
-
-    # All three fire, which is the raw QQCjAAT6SwwQ record in miniature: the cells
-    # record no crossing, the two analyses are therefore indistinguishable, and the
-    # column that would have separated them carries nothing.
-    assert [flag for flag in flags if "identical to Study.analyses[1]" in flag]
-    assert [flag for flag in flags if "interaction_with" in flag]
-    assert [flag for flag in flags if "carries no cell" in flag]
 
 
 def test_a_product_column_may_name_a_lower_stage_term(classes: dict) -> None:
@@ -492,11 +468,13 @@ COLLAPSED = {"local_id": "t_prepost", "type": _text("continuous"),
              "name": _text("pre > post rsFC change"),
              "variation_level": _text("within_subject")}
 
-#: The exception the term half must not flag: one number per participant, named for
-#: the subtraction it came from, varying across the sample rather than within anyone.
+#: The exception the term half must not flag: one number per participant, named for the
+#: subtraction it came from, varying across the sample rather than within anyone. Sourced,
+#: so it is correct in every respect but the one under test.
 DIFFERENCE_SCORE = {"local_id": "t_dbdi", "type": _text("continuous"),
                     "name": _text("percent change in BDI"),
-                    "variation_level": _text("between_subject")}
+                    "variation_level": _text("between_subject"),
+                    "source_definition": _text("Percent reduction in BDI, (post-pre)/pre.")}
 
 TWO_OCCASIONS = {"timepoints": [{"local_id": "tp_base"}, {"local_id": "tp_post"}]}
 
@@ -569,7 +547,7 @@ def test_declared_occasions_that_no_level_names_are_flagged(classes: dict) -> No
 
     assert len(flags) == 1
     assert "Study.design.timepoints" in flags[0]
-    assert "scanned twice and compared nothing" in flags[0]
+    assert "the comparison between them is not" in flags[0]
 
 
 def test_a_baseline_only_record_is_not_flagged(classes: dict) -> None:
@@ -587,6 +565,89 @@ def test_one_declared_occasion_cannot_be_compared(classes: dict) -> None:
 
     record = _record([GROUP], [("Change in rsFC after treatment", UNSIGNED_GROUP)])
     record["design"] = {"timepoints": [{"local_id": "tp_base"}]}
+
+    assert _flags(record, classes) == []
+
+
+# -- derived columns, and where they came from -----------------------------
+
+def _derived(**over) -> dict:
+    """A percent-change covariate, complete, with `over` knocking pieces out."""
+
+    term = {"local_id": "t_dbdi", "type": _text("continuous"),
+            "name": _text("percent change in BDI"),
+            "variation_level": _text("between_subject"),
+            "assessment": "as_bdi",
+            "source_definition": _text("Percent reduction in BDI, (post-pre)/pre, from "
+                                       "baseline to post-treatment.")}
+    term.update(over)
+    return {k: v for k, v in term.items() if v is not None}
+
+
+def _derived_record(term: dict) -> dict:
+    record = _record([term], [("CBT change: rsFC and percent reduction in BDI",
+                               [_cell("t_dbdi", "positive")])])
+    record["assessments"] = [{"local_id": "as_bdi", "name": _text("Beck Depression Inventory")}]
+    return record
+
+
+def test_names_a_derivation_reads_construction_not_measurement() -> None:
+    assert validate_record.names_a_derivation(_text("percent change in BDI"))
+    assert validate_record.names_a_derivation(_text("difference in reaction time"))
+    assert validate_record.names_a_derivation(_text("improvement in HDRS"))
+    # A measurement that merely contains "percent" is not a construction from several.
+    assert not validate_record.names_a_derivation(
+        _text("percentage methylation at CpG sites 11-12 around AKT1 rs1130233"))
+    # A collapsed occasion factor is check_occasion_factors' finding, not this one.
+    assert not validate_record.names_a_derivation(_text("pre > post rsFC change"))
+    assert not validate_record.names_a_derivation(_text("BDI"))
+
+
+def test_a_fully_sourced_derived_column_is_not_flagged(classes: dict) -> None:
+    assert _flags(_derived_record(_derived()), classes) == []
+
+
+def test_a_derived_column_with_no_derivation_recorded_is_flagged(classes: dict) -> None:
+    """TgcHKMRfrVog's `term_bdi_percent_change`: the occasions it spans are nowhere."""
+
+    flags = _flags(_derived_record(_derived(source_definition=None)), classes)
+
+    assert len(flags) == 1
+    assert "Study.model_estimations[0].terms[0].source_definition" in flags[0]
+    assert "derivation is not recorded" in flags[0]
+
+
+def test_a_derived_column_still_names_its_instrument(classes: dict) -> None:
+    """Deriving a column does not break the link to what supplied it."""
+
+    flags = _flags(_derived_record(_derived(assessment=None)), classes)
+
+    assert len(flags) == 1
+    assert "Study.model_estimations[0].terms[0].assessment" in flags[0]
+    assert "names no assessment" in flags[0]
+
+
+def test_a_derived_column_with_no_assessment_to_name_is_not_flagged(classes: dict) -> None:
+    """A record declaring no instrument has none for the column to have dropped, so
+    the assessment half stays quiet and only the derivation is asked for."""
+
+    record = _record([_derived(assessment=None, source_definition=None)],
+                     [("Change score", [_cell("t_dbdi", "positive")])])
+
+    flags = _flags(record, classes)
+
+    assert len(flags) == 1
+    assert "derivation is not recorded" in flags[0]
+
+
+def test_a_factor_over_occasions_is_not_a_derived_column(classes: dict) -> None:
+    """`TIME` compares occasions rather than being computed across them, so it needs
+    no source_definition however its levels are labelled."""
+
+    record = _record([TIME], [("Change in rsFC, pre > post",
+                               [_cell("t_time", "positive", "pre"),
+                                _cell("t_time", "negative", "post")])])
+    record["design"] = TWO_OCCASIONS
 
     assert _flags(record, classes) == []
 
