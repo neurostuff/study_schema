@@ -26,6 +26,7 @@ REVIEW = ROOT / "review"
 sys.path.insert(0, str(REVIEW))
 
 import build_record  # noqa: E402
+import known_gaps  # noqa: E402
 import spans as span_tools  # noqa: E402
 import table_parse as tables  # noqa: E402
 import text_index  # noqa: E402
@@ -107,6 +108,19 @@ def record() -> dict:
 @pytest.fixture(scope="module")
 def classes() -> dict:
     return schema_utils.load_imported_classes(ROOT / "neuroimaging-study-extraction.yaml")
+
+
+@pytest.fixture(scope="module")
+def enums() -> dict:
+    """The vocabularies, which `Validator` takes separately and defaults to empty.
+
+    A validator built without them silently checks no vocabulary at all -- neither the
+    closed ones it should reject on nor the open ones it should warn on -- so a test of
+    either has to pass this.
+    """
+
+    return schema_utils.load_imported_classes(
+        ROOT / "neuroimaging-study-extraction.yaml", key="enums")
 
 
 # -- text_index ------------------------------------------------------------
@@ -313,10 +327,10 @@ STAGE = {"local_id": "t_stage", "type": _text("categorical")}
 PRODUCT = {"local_id": "t_gxs", "type": _text("categorical"),
            "interaction_with": ["t_group", "t_stage"]}
 
-#: The two group cells of an interaction reported as an unsigned chi-square: compared,
-#: sign not stated, which crosses nothing.
-UNSIGNED_GROUP = [_cell("t_group", "unstated", "patients"),
-                  _cell("t_group", "unstated", "controls")]
+#: The two group cells of an interaction reported as an unsigned chi-square: the test
+#: yields no per-level sign, which crosses nothing.
+UNSIGNED_GROUP = [_cell("t_group", "undirected", "patients"),
+                  _cell("t_group", "undirected", "controls")]
 
 
 def _record(terms: list[dict], analyses: list[tuple[str, list[dict]]],
@@ -383,38 +397,37 @@ def test_crossed_levels_need_no_product_column(classes: dict) -> None:
 def test_a_simple_effect_within_one_level_is_not_flagged(classes: dict) -> None:
     """representing-models.md §5.5's last row, named after the interaction it came from."""
 
-    cells = UNSIGNED_GROUP + [_cell("t_stage", "not_applicable", "wake")]
+    cells = UNSIGNED_GROUP + [_cell("t_stage", "held", "wake")]
 
     assert _flags(_record([GROUP, STAGE],
                           [("Group-by-stage interaction at wake", cells)]), classes) == []
 
 
 #: A factor whose levels are declared, which is what the held-constant reading is read
-#: against: `not_applicable` says one of these sat on both sides and the rest were
-#: weighted out, so a record celling all of them that way is claiming something else.
+#: against: `held` says one of these sat on both sides and the rest were weighted out,
+#: so a record celling all of them that way is claiming something else.
 LOAD = {"local_id": "t_load", "type": _text("categorical"),
         "levels": [{"level": _text("high")}, {"level": _text("low")}]}
 
 
-def test_a_levelless_cell_may_not_be_not_applicable(classes: dict) -> None:
-    """The re-cut's first corollary: a product column or a slope has no level, so it
-    has nothing to put on both sides of the comparison. An undirected test of one is
-    `unstated`, and this is the shape QQCjAAT6SwwQ's correction was written in."""
+def test_a_levelless_cell_may_not_be_held(classes: dict) -> None:
+    """§4's first corollary: a product column or a slope has no level, so it has nothing
+    to put on both sides of the comparison. An undirected test of one is `undirected`."""
 
     flags = _flags(_record([GROUP, STAGE, PRODUCT],
                            [("Group-by-stage interaction",
-                             [_cell("t_gxs", "not_applicable")])]), classes)
+                             [_cell("t_gxs", "held")])]), classes)
 
     assert len(flags) == 1
     assert "names no level" in flags[0]
-    assert "unstated" in flags[0]
+    assert "undirected" in flags[0]
 
 
-def test_a_factor_unsigned_at_every_level_is_flagged(classes: dict) -> None:
-    """An omnibus F under the old reading. Celling every level `not_applicable` says
-    the factor was held on both sides of its own test."""
+def test_a_factor_held_at_every_level_is_flagged(classes: dict) -> None:
+    """An omnibus F miscoded. Celling every level `held` says the factor was held on
+    both sides of its own test."""
 
-    cells = [_cell("t_load", "not_applicable", "high"), _cell("t_load", "not_applicable", "low")]
+    cells = [_cell("t_load", "held", "high"), _cell("t_load", "held", "low")]
 
     flags = _flags(_record([LOAD], [("Main effect of load", cells)]), classes)
 
@@ -422,19 +435,19 @@ def test_a_factor_unsigned_at_every_level_is_flagged(classes: dict) -> None:
     assert "every declared level" in flags[0]
 
 
-def test_the_same_factor_unstated_at_every_level_is_not(classes: dict) -> None:
+def test_the_same_factor_undirected_at_every_level_is_not(classes: dict) -> None:
     """Which is the shape that replaced it, and the one §5.8 now writes down."""
 
-    cells = [_cell("t_load", "unstated", "high"), _cell("t_load", "unstated", "low")]
+    cells = [_cell("t_load", "undirected", "high"), _cell("t_load", "undirected", "low")]
 
     assert _flags(_record([LOAD], [("Main effect of load", cells)]), classes) == []
 
 
 def test_a_held_level_leaves_the_others_absent_and_is_not_flagged(classes: dict) -> None:
-    """The one shape `not_applicable` keeps: one level celled, the rest weighted out."""
+    """The one shape `held` has: one level celled, the rest weighted out."""
 
     cells = [_cell("t_group", "positive", "patients"), _cell("t_group", "negative", "controls"),
-             _cell("t_load", "not_applicable", "high")]
+             _cell("t_load", "held", "high")]
 
     assert _flags(_record([GROUP, LOAD], [("Group effect at high load", cells)]), classes) == []
 
@@ -735,8 +748,27 @@ def _rule_errors(node: dict, classes: dict) -> list[str]:
 
 
 def test_the_storage_rules_are_found(classes: dict) -> None:
-    assert [name for name in validate_record.storage_rules()] == ["Analysis"]
-    assert len(validate_record.storage_rules()["Analysis"]) == 2
+    """The inventory is pinned because `rules` is the one thing the projection drops: a rule
+    added to storage and not reaching `check_rules` is a constraint that reads correctly and
+    never fires, which is the failure this whole section exists to catch."""
+
+    found = validate_record.storage_rules()
+    assert sorted(found) == ["Analysis", "Effect"]
+    assert len(found["Analysis"]) == 2, "the two spatial_scope/regions rules"
+    assert len(found["Effect"]) == 1, "cells cannot be empty"
+
+
+def test_an_effect_with_no_cells_is_rejected(classes: dict) -> None:
+    """`required: true` on `cells` catches an absent key and nothing else -- LinkML has no
+    minimum cardinality here, so an effect that compared nothing used to validate."""
+
+    validator = validate_record.Validator(classes, None)
+    validator.check_rules({"cells": []}, "Effect", "Study.analyses[0].effect")
+    assert len(validator.errors) == 1 and "cells cannot be empty" in validator.errors[0]
+
+    ok = validate_record.Validator(classes, None)
+    ok.check_rules({"cells": [{"term": "t1"}]}, "Effect", "Study.analyses[0].effect")
+    assert ok.errors == []
 
 
 @pytest.mark.parametrize(
@@ -1301,3 +1333,420 @@ def test_the_markdown_table_columns_line_up() -> None:
 
 
 
+
+
+# -- the type designator, and the four walkers that need it -----------------
+#
+# `Analysis.details` ranges on the abstract AnalysisDetails, whose only attribute is
+# `details_type`; `seed_regions` is declared on ConnectivityDetails. A walker recursing on
+# the declared range therefore never sees it, which on the corpus hid 40 shape errors.
+
+
+def test_designated_type_follows_the_declaration(classes: dict) -> None:
+    payload = {"details_type": "ConnectivityDetails"}
+    assert schema_utils.designated_type(classes, payload, "AnalysisDetails") == \
+        "ConnectivityDetails"
+    assert schema_utils.type_designator(classes, "AnalysisDetails") == "details_type"
+    assert schema_utils.type_designator(classes, "Group") is None
+
+
+@pytest.mark.parametrize("named", [None, "", "NotAClass", "Group", 7])
+def test_designated_type_falls_back_rather_than_raising(classes: dict, named) -> None:
+    """Silent by contract: a repair pass wants the best available answer, and `Group` is
+    not an AnalysisDetails so naming it must not smuggle Group's slots in."""
+
+    assert schema_utils.designated_type(
+        classes, {"details_type": named}, "AnalysisDetails") == "AnalysisDetails"
+
+
+def test_listify_reaches_a_slot_declared_on_a_payload_subclass(classes: dict) -> None:
+    """The 40-error regression guard. `seed_regions` is multivalued and lives on
+    ConnectivityDetails, two hops down through a single-valued nested slot."""
+
+    body = {"analyses": [{
+        "local_id": "a1",
+        "details": {"details_type": "ConnectivityDetails", "seed_regions": "reg_1"},
+    }]}
+    fixed = build_record.listify_nested(body, classes)
+    assert body["analyses"][0]["details"]["seed_regions"] == ["reg_1"]
+    assert any("seed_regions" in line for line in fixed)
+
+
+def test_a_scalar_in_a_multivalued_wrapper_is_listified(classes: dict) -> None:
+    """`interpretations` is an ExtractedStringList: one wrapper holding a list."""
+
+    body = {"analyses": [{"local_id": "a1", "interpretations": {
+        "extraction_status": "extracted", "value": "one finding", "value_source": "reported",
+        "evidence": {"status": "not_found"}}}]}
+    fixed = build_record.listify_scalars(body, classes)
+    assert body["analyses"][0]["interpretations"]["value"] == ["one finding"]
+    assert fixed == ["Study.analyses[0].interpretations"]
+
+
+def test_a_missing_value_is_left_for_the_validator(classes: dict) -> None:
+    """`extracted` with no value is a different fault and stays visible as one."""
+
+    body = {"analyses": [{"local_id": "a1", "interpretations": {
+        "extraction_status": "extracted", "value": None,
+        "evidence": {"status": "not_found"}}}]}
+    assert build_record.listify_scalars(body, classes) == []
+
+
+def test_a_scalar_where_an_enum_list_belongs_is_an_error(classes: dict) -> None:
+    """`ExtractedResponseModeList` declares its `value` with `any_of` and no `range`, so
+    the shape check used to be unreachable and a bare string passed silently."""
+
+    validator = validate_record.Validator(classes, None)
+    validator.check_field(
+        {"extraction_status": "extracted", "value": "button_press",
+         "value_source": "reported", "evidence": {"status": "not_found"}},
+        "ExtractedResponseModeList", "Study.tasks[0].response_mode")
+    assert [e for e in validator.errors if "must be a list of ResponseMode" in e]
+
+
+# -- §3 invariants 2, 3 and 4: a cell's term and level ----------------------
+#
+# The join is on the string, and nothing checked it. On the 16-record corpus 55 of 140
+# levelled cells named a level their term does not declare, across 8 papers -- and 45 of
+# those survived a careful hand review, so this is the class a reader cannot see.
+
+
+def _cell_errors(record: dict, classes: dict) -> list[str]:
+    validator = validate_record.Validator(classes, None)
+    validator.check_cell_terms(record)
+    return validator.errors
+
+
+def _levelled(*names: str) -> dict:
+    return {"local_id": "t_group", "type": _text("categorical"),
+            "levels": [{"level": _text(name)} for name in names]}
+
+
+def test_a_cell_level_naming_a_declared_level_is_accepted(classes: dict) -> None:
+    record = _record([_levelled("patients", "controls")],
+                     [("dx", [_cell("t_group", "positive", "patients")])])
+    assert _cell_errors(record, classes) == []
+
+
+def test_a_cell_level_naming_no_declared_level_is_an_error(classes: dict) -> None:
+    """`AD` against a declared `AD group`: the mapper's join finds nothing, and the record
+    looks like it recorded which cohort was compared."""
+
+    record = _record([_levelled("AD group", "HC group")],
+                     [("dx", [_cell("t_group", "positive", "AD")])])
+    errors = _cell_errors(record, classes)
+    assert len(errors) == 1 and "matches none of term" in errors[0]
+    assert "'AD group'" in errors[0], "the declared levels are offered, not just refused"
+
+
+def test_a_cell_naming_a_term_of_another_model_is_an_error(classes: dict) -> None:
+    """Invariant 2. The term exists, so `check_local_ids` is satisfied and the record is
+    structurally fine -- it is the *scope* that is wrong, and the message says whose."""
+
+    record = _record([_levelled("patients", "controls")],
+                     [("dx", [_cell("t_elsewhere", "positive", "patients")])])
+    record["model_estimations"].append(
+        {"local_id": "m2", "terms": [{"local_id": "t_elsewhere", "type": _text("categorical")}]})
+    errors = _cell_errors(record, classes)
+    assert len(errors) == 1 and "'m2'" in errors[0] and "inputs_from" in errors[0]
+
+
+def test_a_cell_naming_a_term_of_a_lower_stage_is_accepted(classes: dict) -> None:
+    """The converse, and the reason the walk follows `inputs_from`: a group contrast of a
+    first-level column is a cell on that stage's term, not a copy hoisted upward."""
+
+    record = _record([], [("dx", [_cell("t_first", "positive", "task")])])
+    record["model_estimations"][0]["inputs_from"] = ["m_first"]
+    record["model_estimations"].append({"local_id": "m_first", "terms": [
+        {"local_id": "t_first", "type": _text("categorical"),
+         "levels": [{"level": _text("task")}]}]})
+    assert _cell_errors(record, classes) == []
+
+
+def test_a_term_naming_nothing_at_all_is_an_error(classes: dict) -> None:
+    record = _record([], [("dx", [_cell("t_missing", "positive", "patients")])])
+    errors = _cell_errors(record, classes)
+    assert len(errors) == 1 and "names no ModelTerm anywhere" in errors[0]
+
+
+def test_a_level_differing_only_in_case_is_repaired_not_reported(classes: dict) -> None:
+    """A transcription slip, not a claim about the paper, so the builder settles it and
+    says so -- and `check_cell_terms` then has nothing to report."""
+
+    record = _record([_levelled("healthy controls")],
+                     [("dx", [_cell("t_group", "positive", "Healthy controls")])])
+    fixed = build_record.align_cell_levels(record)
+    assert len(fixed) == 1 and "'Healthy controls' -> 'healthy controls'" in fixed[0]
+    assert record["analyses"][0]["effect"]["cells"][0]["level"]["value"] == "healthy controls"
+    assert _cell_errors(record, classes) == []
+
+
+def test_a_level_that_merely_shortens_a_declared_one_is_not_repaired(classes: dict) -> None:
+    """`AD` is not a folding of `AD group`. Shortening a level is a claim, and guessing
+    which cohort was meant is the one thing this field must not contain."""
+
+    record = _record([_levelled("AD group", "HC group")],
+                     [("dx", [_cell("t_group", "positive", "AD")])])
+    assert build_record.align_cell_levels(record) == []
+
+
+def test_an_ambiguous_fold_is_left_alone(classes: dict) -> None:
+    """Two declared levels folding to the same string makes the rewrite a coin toss."""
+
+    record = _record([_levelled("Controls", "controls")],
+                     [("dx", [_cell("t_group", "positive", "CONTROLS")])])
+    assert build_record.align_cell_levels(record) == []
+
+
+# -- resolving the coordinate columns --------------------------------------
+#
+# Eight of the corpus's 37 coordinate tables named their axes in a shape `AXIS` could not
+# read, and one named them in columns that do not hold them. Where the columns go
+# unresolved, row matching falls back to comparing any number in the row, which the review
+# layer's own docstring calls the behaviour that over-attributes.
+
+
+def _body(*rows: list[str]) -> list[dict]:
+    return [{"type": "data", "cells": row} for row in rows]
+
+
+def test_a_pandas_suffixed_colspan_is_three_axis_columns() -> None:
+    """`84rGLhCbUJTh` Table 2: one merged header over three columns, which pandas
+    de-duplicates into `.1` and `.2`."""
+
+    header = [["Diffusion parameter", "Region", "Peak coordinates (x,y,z)",
+               "Peak coordinates (x,y,z).1", "Peak coordinates (x,y,z).2", "t value"]]
+    body = _body(["FA", "L SFG", "-10", "52", "16", "3.79"])
+    assert tables._axis_columns(header, 6, body) == [2, 3, 4]
+
+
+def test_a_colspan_naming_no_axis_letter_still_resolves() -> None:
+    """`kzMj26hGWacQ` t0015 heads the run `Peak coordinates` and puts `X Y Z` on the row
+    below, where pandas left-aligns them to columns 0-2. The label plus the numbers is
+    enough; the misplaced letters are no help."""
+
+    header = [["Brain regions", "Voxels", "Hem.", "Voxels in region",
+               "Peak coordinates", "Peak coordinates", "Peak coordinates", "Peak t"],
+              ["X", "Y", "Z", "", "", "", "", ""]]
+    body = _body(["Cluster 1", "2971.0", "", "", "24", "-54", "51.0", "3.891"])
+    assert tables._axis_columns(header, 8, body) == [4, 5, 6]
+
+
+def test_an_axis_triple_no_row_supports_is_rejected() -> None:
+    """The same table's misplaced `X Y Z`, on its own. Returning [0,1,2] is worse than
+    returning nothing: row matching took the strict path and attributed zero of 34 rows."""
+
+    header = [["Brain regions", "Voxels", "Hem."], ["X", "Y", "Z"]]
+    body = _body(["Superior parietal gyrus", "468.0", "B"])
+    assert tables._axis_columns(header, 3, body) is None
+
+
+def test_a_parenthesised_axis_letter_resolves() -> None:
+    header = [["Tal(x)", "Tal(y)", "Tal(z)", "Cerebral Region"]]
+    body = _body(["-42", "34", "38", "L IFG"])
+    assert tables._axis_columns(header, 4, body) == [0, 1, 2]
+
+
+def test_a_statistic_column_named_z_is_not_an_axis() -> None:
+    """The guard `AXIS` was written for, still holding once PAREN_AXIS is in the chain."""
+
+    header = [["Region", "x", "y", "z", "Peak (Z)"]]
+    body = _body(["L IFG", "-42", "34", "38", "6.85"])
+    assert tables._axis_columns(header, 5, body) == [1, 2, 3]
+
+
+def test_one_column_holding_the_whole_triple_is_reported_separately() -> None:
+    """Reported as `axis_cell`, never as `axis_cols`: that key is three indices at four
+    call sites and widening its type there is how `cells[column]` becomes an IndexError."""
+
+    header = [["Region", "Z score", "MNI coordinates (x, y, z)"]]
+    body = _body(["L IPL", "4.4", "-52,-42,56"], ["L MCC", "3.71", "-4,-26,36"])
+    assert tables._axis_columns(header, 3, body) is None
+    assert tables._axis_cell(header, 3, body) == 2
+
+
+def test_a_triple_column_is_confirmed_by_majority_not_by_one_row() -> None:
+    """One triple-looking cell in a column of region names must not carry it."""
+
+    header = [["MNI coordinates (x, y, z)", "Region"]]
+    body = _body(["-52,-42,56", "L IPL"], ["not a coordinate", "L MCC"],
+                 ["also not one", "R STG"])
+    assert tables._axis_cell(header, 2, body) is None
+
+
+@pytest.mark.parametrize("cell,expected", [
+    ("-52,-42,56", (-52.0, -42.0, 56.0)),
+    ("(-30, -84, 22)", (-30.0, -84.0, 22.0)),
+    ("46 -8 -38", (46.0, -8.0, -38.0)),
+    ("− 52,− 42,56", (-52.0, -42.0, 56.0)),
+])
+def test_a_triple_cell_keeps_every_sign(cell: str, expected: tuple) -> None:
+    """The sign is the whole risk. A pattern that skips a leading bracket by consuming any
+    non-digit eats the minus with it and relocates the peak to the other hemisphere."""
+
+    found = tables.TRIPLE_CELL.match(tables.normalize_number(cell))
+    assert found is not None, cell
+    assert tuple(float(value) for value in found.groups()) == expected
+
+
+def test_normalize_number_closes_the_sign_digit_gap() -> None:
+    assert tables.normalize_number("− 54") == "-54"
+    assert tables.normalize_number("- 54") == "-54"
+
+
+# -- a coordinate table that is not an analysis -----------------------------
+#
+# `Table.non_analysis_content` is the only field that can say a table's rows are locations
+# rather than findings. Without it, a table deliberately not encoded and a table the
+# extraction missed are the same silence -- and `6oTrCJA43Jcd`'s ICA component peaks were
+# encoded as an analysis with a fabricated cell rather than left unowned.
+
+
+def _purpose_flags(record: dict, classes: dict) -> tuple[list[str], list[str]]:
+    validator = validate_record.Validator(classes, None)
+    validator.check_table_purpose(record)
+    return validator.errors, validator.warnings
+
+
+def test_a_table_an_analysis_names_needs_no_purpose(classes: dict) -> None:
+    record = {"tables": [{"local_id": "tbl1"}],
+              "analyses": [{"local_id": "a1", "tables": ["tbl1"]}]}
+    assert _purpose_flags(record, classes) == ([], [])
+
+
+def test_a_table_nobody_names_and_nothing_explains_is_flagged(classes: dict) -> None:
+    """The missed-analysis case, and the one this field exists to separate."""
+
+    record = {"tables": [{"local_id": "tbl4"}], "analyses": []}
+    errors, warnings = _purpose_flags(record, classes)
+    assert errors == []
+    assert len(warnings) == 1 and "deliberately not encoded or missed" in warnings[0]
+
+
+def test_a_table_that_says_what_it_reports_is_accepted(classes: dict) -> None:
+    record = {"tables": [{"local_id": "tbl4",
+                          "non_analysis_content": _text("component_peaks")}],
+              "analyses": []}
+    assert _purpose_flags(record, classes) == ([], [])
+
+
+def test_a_table_cannot_both_be_an_analysis_and_not_one(classes: dict) -> None:
+    record = {"tables": [{"local_id": "tbl4",
+                          "non_analysis_content": _text("component_peaks")}],
+              "analyses": [{"local_id": "a1", "tables": ["tbl4"]}]}
+    errors, warnings = _purpose_flags(record, classes)
+    assert warnings == []
+    assert len(errors) == 1 and "an analysis names it" in errors[0]
+
+
+def test_the_purpose_vocabulary_is_open(classes: dict, enums: dict) -> None:
+    """An unanticipated purpose is written down rather than forced into the nearest value,
+    which is what `any_of: [TableContent, string]` buys."""
+
+    validator = validate_record.Validator(classes, None, enums)
+    validator.check_field(
+        {"extraction_status": "extracted", "value": "a genotyping panel",
+         "value_source": "reported", "evidence": {"status": "not_found"}},
+        "ExtractedTableContent", "Study.tables[0].non_analysis_content")
+    assert validator.errors == [], "an open vocabulary must not reject a free-text answer"
+    assert any("open vocabulary" in w for w in validator.warnings), (
+        "and it must still be reported, because off-vocabulary answers accumulating are "
+        "the evidence for whether the vocabulary is short a value"
+    )
+
+
+# -- the allowlist, and the stage-chain invariants --------------------------
+
+
+def test_an_allowlist_entry_covers_every_index_of_one_path() -> None:
+    """One entry has to cover `analyses[0..3].details.seed_regions`. Naming four is how an
+    allowlist becomes stale the moment a paper gains a fifth analysis."""
+
+    gaps = [("Study.analyses.details.seed_regions", "-> unknown local_id")]
+    findings = [f"Study.analyses[{i}].details.seed_regions -> unknown local_id 'x'"
+                for i in range(4)]
+    reported, suppressed = known_gaps.partition(findings, gaps)
+    assert reported == [] and len(suppressed) == 4
+
+
+def test_an_allowlist_entry_matches_a_finding_with_no_path() -> None:
+    """`local_id 'term_age' is declared 2 times` carries no path, and an entry keyed only
+    on the message has to reach it."""
+
+    gaps = [("", "local_id 'term_")]
+    reported, suppressed = known_gaps.partition(
+        ["local_id 'term_age' is declared 2 times; every reference to it is ambiguous"], gaps)
+    assert reported == [] and len(suppressed) == 1
+
+
+def test_an_empty_allowlist_entry_suppresses_nothing() -> None:
+    """The one failure mode worth being paranoid about: an entry with neither a path nor a
+    message would otherwise swallow the whole report."""
+
+    reported, suppressed = known_gaps.partition(["anything at all"], [("", "")])
+    assert reported == ["anything at all"] and suppressed == []
+
+
+def test_an_absent_allowlist_is_not_an_error() -> None:
+    """An empty allowlist is the goal state, not a misconfiguration."""
+
+    assert known_gaps.load(Path("/nonexistent/known-gaps.yaml"), "anyPaper") == []
+    assert known_gaps.load(None, "anyPaper") == []
+
+
+def test_the_shipped_allowlist_parses_and_every_entry_says_why() -> None:
+    """Same discipline `corrections/*.json` imposes: an allowlist without reasons is a place
+    findings go to be forgotten."""
+
+    import yaml
+
+    document = yaml.safe_load(known_gaps.DEFAULT.read_text(encoding="utf-8")) or {}
+    entries = document.get("gaps") or []
+    assert entries, "the shipped allowlist is empty; delete it rather than ship an empty one"
+    for entry in entries:
+        assert entry.get("paper"), entry
+        assert (entry.get("why") or "").strip(), entry
+        assert entry.get("path") or entry.get("message"), (
+            f"{entry.get('paper')}: an entry with neither path nor message matches nothing"
+        )
+
+
+def test_a_cyclic_inputs_from_is_reported_and_not_merely_survived(classes: dict) -> None:
+    """`_terms_in_scope` already guards against the hang. Surviving bad input is not
+    reporting it, and a model fitted on its own output is not a stage order."""
+
+    record = {"model_estimations": [
+        {"local_id": "m1", "inputs_from": ["m2"], "terms": []},
+        {"local_id": "m2", "inputs_from": ["m1"], "terms": []},
+    ], "analyses": []}
+    validator = validate_record.Validator(classes, None)
+    validator.check_model_stages(record)
+    assert any("cyclic" in error for error in validator.errors)
+
+
+def test_one_term_name_twice_in_a_stage_chain_is_reported(classes: dict) -> None:
+    """A first-level `motion` and a group-level `motion` are two columns with one name in
+    one term list, and a reader cannot tell a refit from a mistake."""
+
+    record = {"model_estimations": [
+        {"local_id": "m_group", "inputs_from": ["m_first"],
+         "terms": [{"local_id": "t_a", "name": _text("motion")}]},
+        {"local_id": "m_first",
+         "terms": [{"local_id": "t_b", "name": _text("Motion")}]},
+    ], "analyses": []}
+    validator = validate_record.Validator(classes, None)
+    validator.check_model_stages(record)
+    assert any("appears on both" in error for error in validator.errors)
+
+
+def test_the_same_name_on_one_model_is_not_a_chain_collision(classes: dict) -> None:
+    """The invariant is about a *chain*. Two same-named terms on one record are a different
+    fault, and `unique_keys` is what would catch it."""
+
+    record = {"model_estimations": [
+        {"local_id": "m1", "terms": [{"local_id": "t_a", "name": _text("motion")},
+                                     {"local_id": "t_b", "name": _text("motion")}]},
+    ], "analyses": []}
+    validator = validate_record.Validator(classes, None)
+    validator.check_model_stages(record)
+    assert validator.errors == []

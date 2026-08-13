@@ -306,7 +306,8 @@ enums:
       There is no value for a zero weight: a zero weight is a level with no `Cell`. A level of a tested term that a contrast did not weight is absent from `cells`, as a term the contrast did not test is absent entirely, and both are read by subtraction -- from the term's `FactorLevel`s and from `ModelEstimation.terms` respectively.
       One vocabulary serves both kinds of term. A categorical level put on the plus side of a comparison and a continuous term whose coefficient came out positive are both `positive`, and "A greater than B" is a positive cell and a negative cell on one term. Which of the two a given cell carries follows from the referenced term's `type`.
       On a cell over a **product** term it is the sign of the interaction coefficient -- a fact about the crossing, such as "the age-related decline was steeper in patients", rather than about either component's own slope. When simple slopes differ by moderator level and no single sign is reported, use `unstated` and state the pattern in Analysis.definition.
-      Only `positive` and `negative` count as directional, so a cell recording no sign never silently changes the derived kind. Two values record no sign, and what separates them is whether a sign exists at all: `unstated` is one the source withheld, `not_applicable` is a level the contrast put on both sides at once, which no report could have signed.
+      Only `positive` and `negative` count as directional, so a cell recording no sign never silently changes the derived kind. Three values record no sign, and two questions tell them apart. Was the level on both sides of the comparison at once? That is `held`, and no report could have signed it. Otherwise, does the test yield a per-level sign at all? An F or chi-square does not, and that is `undirected`; a directional test whose sign the source did not print is `unstated`.
+      The second question is what separates a genuinely undirected test from a contrast reported without its direction. Both leave every cell unsigned, but only the first is an `omnibus`: a comparison that happened is a comparison whichever way it went.
     permissible_values:
       positive:
         description: >-
@@ -316,17 +317,21 @@ enums:
         description: >-
           A level on the minus side of the comparison, or a coefficient under which the measure
           falls as the term rises.
+      undirected:
+        description: |-
+          The test yields no per-level sign, so there is none to report. An F or chi-square over a factor compares that factor's levels against each other and returns one statistic for the set: each of its levels takes a cell with this value, and an interaction F takes it on the cell over the product column. Giving them cells rather than omitting them keeps the term out of the derived adjustment set -- it was tested, not controlled for -- and cells that are all `undirected` are what make an effect an `omnibus`.
+          Also the value when simple slopes differ by moderator level and no single sign applies: state the pattern in Analysis.definition.
+          Not `unstated`: the sign is not missing from the page, it is absent from the test. The post-hoc contrast that would supply one is a different Analysis.
       unstated:
         description: |-
-          A sign exists and the source does not report it. This is what an **undirected test** looks like on a cell: an F or chi-square over a factor compares that factor's levels against each other and reports no sign, so each of its levels takes a cell with this value, and an interaction F takes it on the cell over the product column. Giving them cells rather than omitting them keeps the term out of the derived adjustment set -- it was tested, not controlled for -- while contributing nothing to the directional count, which is what makes such an effect an `omnibus`.
-          Also the value when simple slopes differ by moderator level and no single sign is given: state the pattern in Analysis.definition.
-          Distinct from omitting the cell, which says the contrast weighted this level out, and from `not_applicable`, which says no sign could apply here at all.
-      not_applicable:
+          A directional test whose sign the source does not print. The comparison had a side and the report withholds it -- "activation differed between patients and controls" with a t or z and no direction. The cells are unsigned, but the comparison still happened, so the derived kind is the one the same cells would give if signed; only the direction is lost.
+          Distinct from `undirected`, where no sign exists to withhold, and from omitting the cell, which says the contrast weighted this level out.
+      held:
         description: |-
-          No sign could apply. On a `Cell` exactly one shape means this: a level the contrast was taken *within*, which appears on **both sides** of the comparison and so has no net sign -- "patients versus controls, in the task condition" has task on the plus side and the minus side at once. The effect stays a `contrast` on whatever else is crossed, and the factor stays out of the adjustment set: it took part, at one level.
-          It is not `unstated`, which is a sign that exists and was withheld. The question that separates them is whether a fuller report could have signed this cell. For a level an F-test spanned, it could -- the level entered the comparison and the paper gave no direction, which is `unstated`. For a level held constant, it could not, because the contrast put that level on both sides.
-          A held level leaves its factor's other levels **absent**, which is also how the two read apart in a record: an undirected test cells every level of the factor, a held factor cells one and omits the rest. A cell that names no level -- on a slope or a product column -- can never sit on both sides, so it can never take this value.
-          Off a `Cell`, on a parameter-sign slot of a method payload, it is the same claim about a different quantity: the method yields no signed parameter to report.
+          A level the contrast was taken *within*, which appears on **both sides** of the comparison and so has no net sign -- "patients versus controls, in the task condition" has task on the plus side and the minus side at once. The effect stays a `contrast` on whatever else is crossed, and the factor stays out of the adjustment set: it took part, at one level.
+          No report, however complete, could sign this cell, which is what separates it from both unsigned neighbours: `undirected` is a test that produces no sign, `unstated` is a sign the page withheld, and this is a sign that is not defined.
+          A held level leaves its factor's other levels **absent**, which is how it reads apart from an undirected test in a finished record: an undirected test cells every level of the factor, a held factor cells one and omits the rest. A cell that names no level -- on a slope or a product column -- can never sit on both sides, so it can never take this value.
+          Off a `Cell`, on a parameter-sign slot of a method payload, use `undirected`: a method that yields no signed parameter is the same claim as a test that yields no sign.
   FunctionalForm:
     description: >-
       Shape of a term's relationship to the measure. A squared term with a negative coefficient
@@ -588,6 +593,40 @@ enums:
           terms -- to decompose.
       source_too_vague:
         description: The paper reports an effect without saying enough about it to structure.
+  TableContent:
+    description: >-
+      What a table's rows are, for a table that reports no tested effect. A coordinate table
+      is not an analysis merely by having coordinates in it: a study's ROI definitions, its
+      atlas parcels, its connectivity seeds and the peaks of its independent components are
+      all locations rather than findings. Open vocabulary: write the source's own wording
+      when nothing here fits.
+    permissible_values:
+      region_definitions:
+        description: >-
+          Regions of interest the study delimited, with the coordinates that locate them --
+          a sphere's centre, a mask's peak.
+      atlas_or_parcellation:
+        description: Entries of a published atlas or parcellation the study used.
+      connectivity_seeds:
+        description: The seed or node locations a connectivity analysis was run from.
+      component_peaks:
+        description: >-
+          Peak locations of the components of a latent decomposition -- an ICA component's
+          spatial map. The decomposition is not itself a tested effect.
+      prior_literature_coordinates:
+        description: Coordinates cited from other papers, for comparison or to place an ROI.
+      stimulus_or_task_list:
+        description: The stimuli, conditions or trial structure of the paradigm.
+      demographics:
+        description: Participant characteristics, whether or not group differences in them
+          were tested.
+      descriptive_statistics:
+        description: Summary values with no inferential test -- means, percentages, dwell
+          times.
+      unstated:
+        description: >-
+          The table reports no tested effect and the source does not make clear what it does
+          report.
 classes:
   ExtractedAnalysisType:
     is_a: ExtractedValue
@@ -803,4 +842,14 @@ classes:
       value:
         any_of:
           - range: NotStructurableReason
+          - range: string
+  ExtractedTableContent:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is TableContent, or the source's own wording when the
+      vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: TableContent
           - range: string

@@ -81,11 +81,10 @@ classes:
       definition_method:
         range: ExtractedRegionDefinition
         required: true
-        description: >-
-          How the region was delimited, which is a statement about independence: one drawn
-          from the study's own prior contrast is not independent of an effect tested inside
-          it. Per region, since one analysis may use an atlas mask and a functional ROI at
-          once. Required, with `unstated` for a source that does not say.
+        description: |-
+          How the region was delimited, which is a statement about independence: one drawn from the study's own prior contrast is not independent of an effect tested inside it. Per region, since one analysis may use an atlas mask and a functional ROI at once. Required, with `unstated` for a source that does not say.
+
+          Two values are routinely confused and the difference is the entire point of the field. `functional_localizer` means a *separate* acquisition or run whose only purpose was to locate the region, independent of the effect later tested in it. A region that is a peak, a cluster, or a component of one of *this paper's own* analyses is `same_study_analysis` however functionally it was defined -- and that value is what makes the circularity visible, which is why `Analysis.defines_regions` exists to name the analysis it came from. Reaching for `functional_localizer` because the region is functional, rather than because a localizer was run, is the mistake to avoid.
       region_type:
         range: ExtractedRegionType
         description: >-

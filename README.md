@@ -132,11 +132,11 @@ vocabulary to `ExtractedString`, and 16 tables holding 316 synonyms were the onl
 a paper's wording back to a permissible value. Now the extractor emits a value storage
 already accepts, so the tables had nothing left to do and were deleted; `git log` has them.
 
-The five fields storage keeps as `range: string` — `Group.age_unit`, `ModelEstimation.level`
+The five fields storage keeps as `range: string` — `Group.age_unit`, `ModelEstimation.stage`
 and friends — still have a table under `free_text_normalizations`. There is no vocabulary to
 project and nothing makes their wording consistent, so it earns its place. It normalizes for
 queryability rather than for validity: an unmatched value is already storable, which is also
-why nothing checks it. `ModelEstimation.level` is the clearest case — it labels an estimation
+why nothing checks it. `ModelEstimation.stage` is the clearest case — it labels an estimation
 stage in the source's words, and which stage fed which is `inputs_from`, so a value the table
 misses costs a facet and nothing structural.
 
@@ -168,6 +168,7 @@ a submodule and reads the schema, the priority inventory and
 | [extraction-readme.md](extraction-readme.md) | Rules the schema cannot state: the gates that skip a paper, extraction conventions, validator invariants, mapper responsibilities, and known limits |
 | [extraction-deviations.yaml](extraction-deviations.yaml) | Every way the extraction schema is not a projection of storage. Currently: pipeline provenance, and nothing else. Its trailing comment lists the six shapes the hand-written schema used to have, as candidates to re-test |
 | [storage-schema-design-notes.md](storage-schema-design-notes.md) | Why the storage schema is shaped the way it is |
+| [analysis-entities.md](analysis-entities.md) | What each entity around an analysis is called, what owns it, and what points at what: the three layers, a crosswalk from the words papers use, and the joins a synthesis reads a record back out through. Start here before representing-models.md |
 | [representing-models.md](representing-models.md) | How to put a reported analysis into the schema: which facts belong to the model and which to the contrast, where each class's job ends, and what to do when a paper does not divide things the way the schema does. Its YAML fragments and the two worked records under [examples/](examples/) are checked on every test run |
 | [ars-crosswalk.md](ars-crosswalk.md) | Field-level comparison against CDISC's Analysis Results Standard — the closest peer this schema has, and so the main check on the model/contrast split. For design comparison, not an executable map |
 | [standards-crosswalk.md](standards-crosswalk.md) | The same reading against BIDS Stats Models and NIDM-Results — what each represents, where they are more expressive, and where this schema keeps something they cannot say. Companion to the ARS crosswalk and does not repeat it |

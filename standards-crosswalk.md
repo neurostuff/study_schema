@@ -68,7 +68,7 @@ than a crosswalk; [onvoc-mapping-audit.md](onvoc-mapping-audit.md) is that audit
 | `BIDSStatsModel{Name, BIDSModelVersion, Description, Input, Nodes, Edges}` | `Study` + its `ModelEstimation` records | weak. A BSM document is one model spanning every stage; a `Study` is a publication containing many models. |
 | `Input` (entity filter selecting the data) | `Analysis.acquisitions`, `.tasks` | partial. Both say what the model ran on — an entity query there, a reference to a described protocol here. |
 | `Node{Name, Level, GroupBy, Transformations, Model, Contrasts, DummyContrasts}` | `ModelEstimation` | **the central row, and now largely parity.** A Node is one stage and so is a `ModelEstimation`; what a Node holds and this does not is `GroupBy` and `Transformations`. See finding 5. |
-| `Node.Level` ∈ `Run`, `Session`, `Subject`, `Dataset` | `ModelEstimation.level` (free text) | weak, and deliberately. Same concept, closed vocabulary there and open string here — the stage *order* is `inputs_from`, so nothing reads the label. |
+| `Node.Level` ∈ `Run`, `Session`, `Subject`, `Dataset` | `ModelEstimation.stage` (free text) | weak, and deliberately. Same concept, closed vocabulary there and open string here — the stage *order* is `inputs_from`, so nothing reads the label. |
 | `Node.GroupBy` | — | no equivalent. How inputs partition into estimation units is not represented. |
 | `Edges[{Source, Destination, Filter}]` | `ModelEstimation.inputs_from` | partial. Carries "this stage consumed that stage," pointing from consumer to consumed; `Filter`, which of the source's contrasts feed on, has no counterpart. See finding 5. |
 
@@ -90,7 +90,7 @@ than a crosswalk; [onvoc-mapping-audit.md](onvoc-mapping-audit.md) is that audit
 |---|---|---|
 | `Contrast{Name, ConditionList, Weights, Test}` | `Effect{cells, statistic}` + `Analysis.name` | **parity of shape, divergence of content.** Both select over the model's columns. `ConditionList` + `Weights` is a name-keyed numeric vector; `cells` is a list of `{term, level, direction}`. |
 | `Contrast.ConditionList` (matched to `X` by **name string**) | `Cell.term` (matched by **identifier**) | this schema is more robust. Carried over from the ARS crosswalk's finding 1. |
-| `Contrast.Weights` | `Cell.direction` (`positive`/`negative`/`unstated`/`not_applicable`) | **deliberate divergence.** Signs, not magnitudes. See finding 6. |
+| `Contrast.Weights` | `Cell.direction` (`positive`/`negative`/`undirected`/`unstated`/`held`) | **deliberate divergence.** Signs, not magnitudes. See finding 6. |
 | `Contrast.Test` ∈ `t`, `F` (plus a pass-through that runs no test) | `Statistic.family` (open: `t`, `z`, `f`, `chi_square`, `likelihood_ratio`, `beta`, `correlation`, `unstated`) | this schema is broader, as it must be: papers report statistics BSM has no reason to prescribe. |
 | `DummyContrasts{Contrasts, Test}` | — | not applicable. A convenience for generation; there is nothing to generate from a document. |
 | — | `Effect.mediation`, `Analysis.prespecification`, `Measure`, `InferenceSettings`, `Region`, `spatial_scope`, `spatial_unit` | no counterpart in BSM. |
@@ -150,7 +150,7 @@ than a crosswalk; [onvoc-mapping-audit.md](onvoc-mapping-audit.md) is that audit
 | `sha512` and file-level integrity | `Analysis.prespecification` |
 | `hasAlternativeHypothesis` | `Effect.mediation{path, mediator}` |
 | `SearchSpaceMaskMap` RFT quantities | `DecodingDetails`, `SimilarityDetails`, `ConnectivityDetails`, `LatentDecompositionDetails` |
-| `CoordinateSpace` geometry | `NotStructurableDetails`, `model_representation_notes`, `unstated` vs `not_applicable` |
+| `CoordinateSpace` geometry | `NotStructurableDetails`, `model_representation_notes`, `undirected` vs `unstated` vs `held` |
 
 ---
 
@@ -288,7 +288,7 @@ The price is worth writing down next to it, in one place:
 
 - **A multi-row contrast matrix collapses.** An F-contrast in BSM or NIDM is a matrix, and its rank
   says how many comparisons it spans. Here an omnibus F is a set of cells with
-  `direction: unstated`, which records *that* the factor was tested undirectionally but not
+  `direction: undirected`, which records *that* the factor was tested undirectionally but not
   which comparisons the test spanned. A 3-level factor's omnibus F and a specific 2-row subset of
   it are the same record.
 - **Unequal weights collapse.** A linear trend across four dose levels and a comparison of the
@@ -376,7 +376,7 @@ Ranked by how much of the schema's purpose depends on it rather than by size.
    checkable rather than asserted. No peer represents non-independence in any form, and it is a
    first-order threat to the validity of a pooled estimate.
 8. **The epistemic layer.** `prespecification`; `interpretations`, marked as inferred by which slot
-   it sits in; `unstated` versus `not_applicable` as different facts; `NotStructurableDetails`;
+   it sits in; `undirected`, `unstated` and `held` as three different facts; `NotStructurableDetails`;
    `model_representation_notes`; `reason_first_class_type_not_used`. None of this can exist in a
    prescriptive or tool-exported standard, because neither has an author who might not have said.
    ARS's `reason` and `purpose` are the only partial peers, and the ARS crosswalk already settled

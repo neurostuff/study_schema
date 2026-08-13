@@ -168,3 +168,63 @@ def test_payload_keys_split_cleanly(classes: dict) -> None:
     assert offered["entities"] & offered["analyses"] == set()
     assert offered["entities"] | offered["analyses"] | {"tables"} == direct
     assert "regions" in offered["entities"]
+
+
+# -- what the passes are told beyond the schema descriptions ----------------
+#
+# Three instruction gaps, each measured on the 16-record corpus rather than imagined.
+
+
+def test_the_entities_pass_is_told_to_emit_regions() -> None:
+    """Eleven of sixteen papers emitted zero `regions`, and those eleven are exactly the
+    ones throwing `roi_definition` (61 errors), `roi_labels` (9) and the LinkML rule "an ROI
+    analysis must name the regions it ran over" (17) -- 87 of 143. This pass is the only
+    place a Region can be created and it never mentioned one.
+    """
+
+    note = extract_record.MODE_NOTE["entities"]
+    assert "Region" in note
+    assert "ONLY PLACE" in note.upper()
+    assert "definition_method" in note
+
+
+def _unwrapped(text: str) -> str:
+    """The block as one line. Its prose is hard-wrapped, so a phrase spanning a line break
+    is present in the prompt and absent from a naive substring test."""
+
+    return " ".join(text.split())
+
+
+def test_the_analyses_pass_may_split_and_decline_a_stage_one_entry() -> None:
+    """Stage 1 is frozen, so the only place its two failure modes can be compensated is
+    here: a table splitting one parsed entry by a column the parse never saw, and a
+    coordinate table that reports no tested effect at all."""
+
+    block = extract_record.stage1_block(
+        {"analyses": [{"table_id": "t1", "name": "Encoding", "table_label": "Table 1",
+                       "table_caption": "Age correlation clusters",
+                       "points": [{"space": "TAL", "values": [{"kind": "correlation"}]}]}]},
+        {"t1": "tbl1"},
+    )
+    assert "SPLIT" in block and "OMIT" in block
+    assert "do not drop any" not in block, "the instruction that forbade both must be gone"
+    assert "non_analysis_content" in block, "a declined table has somewhere to say what it is"
+
+
+def test_the_stage_one_block_requires_the_table_local_id() -> None:
+    """`Analysis.tables` is emitted by the model alone, and nothing used to tell it to copy
+    the bracket. It was right on 88/88 raw analyses only because one-entry-per-listing made
+    the bracket unambiguous -- permitting a split or a decline removes that guarantee, so
+    the requirement has to be stated in the same change."""
+
+    block = extract_record.stage1_block(
+        {"analyses": [{"table_id": "t1", "name": "A > B", "table_label": "Table 1",
+                       "table_caption": "", "points": []}]},
+        {"t1": "tbl1"},
+    )
+    assert "[table local_id: tbl1]" in block
+    assert "`tables` is REQUIRED" in _unwrapped(block)
+    assert "Rule 4c does not apply" in _unwrapped(block), (
+        "rule 4c tells the model to omit a reference key when there is nothing to point at, "
+        "which is exactly wrong here and has to be excepted explicitly"
+    )

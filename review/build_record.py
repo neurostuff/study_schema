@@ -26,11 +26,12 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+import known_gaps
 import spans as span_tools
 import text_index
 
@@ -101,6 +102,24 @@ class BuildReport:
     fields_evidence_not_found: int = 0
     downgraded: list[str] = field(default_factory=list)
 
+    #: The repairs, one list each, and the two hard faults. Counted rather than printed and
+    #: forgotten: the counts are how a prompt regression becomes visible, and nothing
+    #: downstream could read them while `build()` wrote them straight to stdout.
+    repaired_wrappers: list[str] = field(default_factory=list)
+    derived_acquisition_types: list[str] = field(default_factory=list)
+    derived_spaces: list[str] = field(default_factory=list)
+    listified: list[str] = field(default_factory=list)
+    listified_scalars: list[str] = field(default_factory=list)
+    aligned_levels: list[str] = field(default_factory=list)
+    dangling: list[str] = field(default_factory=list)
+    payload_notes: list[str] = field(default_factory=list)
+
+    #: Every repair the builder performed, for the one-line report and the threshold.
+    @property
+    def repairs(self) -> int:
+        return (len(self.repaired_wrappers) + len(self.derived_acquisition_types)
+                + len(self.listified) + len(self.listified_scalars) + len(self.aligned_levels))
+
     def summary(self) -> str:
         return (
             f"fields={self.fields_total} "
@@ -109,7 +128,11 @@ class BuildReport:
             f"not_found={self.fields_evidence_not_found}\n"
             f"spans: exact={self.resolved_exact}, whitespace-tolerant={self.resolved_tolerant}, "
             f"unresolved={len(self.failures)}\n"
-            f"downgraded fields={len(self.downgraded)}"
+            f"downgraded fields={len(self.downgraded)}\n"
+            f"repairs={self.repairs} (wrappers={len(self.repaired_wrappers)}, "
+            f"acquisition_type={len(self.derived_acquisition_types)}, "
+            f"listified={len(self.listified)}, scalars={len(self.listified_scalars)}, "
+            f"levels={len(self.aligned_levels)})"
         )
 
 
@@ -346,6 +369,10 @@ def apply_aliases(
         nonlocal rewrites
         if not isinstance(node, dict) or _is_field(node):
             return
+        # A reference inside a self-naming payload -- ConnectivityDetails.seed_regions --
+        # is declared on the subclass, so recursing on the declared range leaves it
+        # unrewritten and a merge silently keeps pointing at the absorbed local_id.
+        class_name = schema_utils.designated_type(classes, node, class_name)
         attributes = schema_utils.attributes_for(classes, class_name)
         for key, value in list(node.items()):
             attribute = attributes.get(key)
@@ -417,9 +444,15 @@ def derive_coordinate_spaces(body: dict[str, Any], stage1: Path | None,
         if len(spaces) != 1:
             continue
         space = spaces.pop()
+        # `not_found` and not `not_applicable`, which is the state this used to synthesise.
+        # An extracted field claiming `not_applicable` is one of the shape errors
+        # `_resolve_field` repairs, so the walk rewrote every one of these to `not_found`
+        # anyway -- and counted it in `report.downgraded`, which meant that number was
+        # dominated by the builder's own output and could not be thresholded on. There is no
+        # quote to find for a value read off the table parse, so `not_found` is simply true.
         analysis["coordinate_space"] = {
             "extraction_status": "extracted", "value": space, "value_source": "reported",
-            "evidence": {"status": "not_applicable"},
+            "evidence": {"status": "not_found"},
         }
         filled.append(f"analyses[{index}] -> {space}")
     return filled
@@ -436,6 +469,14 @@ def listify_nested(body: dict[str, Any], classes: Mapping[str, Any]) -> list[str
 
     Schema-driven, and reference slots are included: a multivalued reference given one
     bare id has the same shape problem.
+
+    Two things the walk has to get right to reach `ConnectivityDetails.seed_regions`, which
+    is where 40 of the corpus's shape errors sat. A single-valued nested slot is descended
+    into even though it needs no repair itself, because the slots that do are inside it --
+    `Analysis.details`, `.effect` and `.inference_settings` are all single-valued. And the
+    recursion resolves the type designator, because `details` ranges on the abstract
+    AnalysisDetails, whose only attribute is `details_type`; recursing on the declared range
+    finds no `seed_regions` to repair and reports nothing.
     """
 
     fixed: list[str] = []
@@ -443,13 +484,19 @@ def listify_nested(body: dict[str, Any], classes: Mapping[str, Any]) -> list[str
     def visit(node: Any, class_name: str, path: str) -> None:
         if not isinstance(node, dict) or _is_field(node):
             return
+        class_name = schema_utils.designated_type(classes, node, class_name)
         attributes = schema_utils.attributes_for(classes, class_name)
         for key, value in list(node.items()):
             attribute = attributes.get(key)
-            if attribute is None or not attribute.get("multivalued"):
+            if attribute is None:
                 continue
             kind = schema_utils.classify_slot(classes, key, attribute)
             if kind not in ("nested", "reference"):
+                continue
+            if not attribute.get("multivalued"):
+                # Nothing to repair on the slot itself, but its contents may need it.
+                if kind == "nested" and isinstance(attribute.get("range"), str):
+                    visit(value, attribute["range"], f"{path}.{key}")
                 continue
             if _is_field(value):
                 # A nested record list is not a multivalued scalar and has no
@@ -480,6 +527,119 @@ def listify_nested(body: dict[str, Any], classes: Mapping[str, Any]) -> list[str
         if isinstance(target, str):
             for index, entity in enumerate(body.get(attr, []) or []):
                 visit(entity, target, f"{attr}[{index}]")
+    return fixed
+
+
+def align_cell_levels(body: dict[str, Any]) -> list[str]:
+    """Rewrite a `Cell.level` to the declared `FactorLevel.level` it folds to.
+
+    The join is on the string (extraction-readme.md §3 invariant 3), so `Healthy controls`
+    against a declared `healthy controls` is a broken join that no reader would call a
+    disagreement. Repaired only where exactly one declared level folds to it: two would make
+    the choice a guess, and a guess about which condition was compared is the one thing this
+    field must not contain.
+
+    Deliberately narrow. `AD` against a declared `AD group` does *not* fold, and is left for
+    `Validator.check_cell_terms` to report -- shortening a level is a claim about the paper,
+    not a transcription slip.
+    """
+
+    fixed: list[str] = []
+    models = {model.get("local_id"): model for model in body.get("model_estimations") or []
+              if isinstance(model, Mapping)}
+
+    def terms_in_scope(model_id: Any, seen: set[str] | None = None) -> dict[str, Any]:
+        seen = set() if seen is None else seen
+        if not isinstance(model_id, str) or model_id in seen:
+            return {}
+        seen.add(model_id)
+        model = models.get(model_id)
+        if not isinstance(model, Mapping):
+            return {}
+        found: dict[str, Any] = {}
+        for lower in model.get("inputs_from") or []:
+            found.update(terms_in_scope(lower, seen))
+        for term in model.get("terms") or []:
+            if isinstance(term, Mapping) and isinstance(term.get("local_id"), str):
+                found[term["local_id"]] = term
+        return found
+
+    for index, analysis in enumerate(body.get("analyses") or []):
+        if not isinstance(analysis, Mapping):
+            continue
+        scope = terms_in_scope(analysis.get("model_estimation"))
+        effect = analysis.get("effect")
+        cells = effect.get("cells") if isinstance(effect, Mapping) else None
+        for position, cell in enumerate(cells or []):
+            if not isinstance(cell, Mapping) or not _is_field(cell.get("level")):
+                continue
+            level = cell["level"].get("value")
+            term = scope.get(cell.get("term"))
+            if not isinstance(level, str) or not isinstance(term, Mapping):
+                continue
+            declared = [_field_value(entry.get("level")) for entry in (term.get("levels") or [])
+                        if isinstance(entry, Mapping)]
+            declared = [name for name in declared if isinstance(name, str)]
+            if level in declared:
+                continue
+            folded = span_tools.fold_label(level)
+            matches = [name for name in declared if span_tools.fold_label(name) == folded]
+            if len(matches) == 1:
+                cell["level"]["value"] = matches[0]
+                fixed.append(f"analyses[{index}].effect.cells[{position}].level: "
+                             f"{level!r} -> {matches[0]!r}")
+    return fixed
+
+
+def _field_value(node: Any) -> Any:
+    return node.get("value") if _is_field(node) else node
+
+
+def listify_scalars(body: dict[str, Any], classes: Mapping[str, Any]) -> list[str]:
+    """Wrap a lone scalar in a list inside an `Extracted<T>List` wrapper.
+
+    The other half of the shape confusion `listify_nested` repairs, one level down. A
+    multivalued *source-derived* field is one wrapper whose `value` is a list -- the
+    convention extraction-readme.md §2 leads with -- and a model that has just been told
+    a wrapper holds "the value" writes the string. `interpretations` is where it recurs.
+
+    Distinct from `listify_nested`, which repairs the slot: here the slot is right and its
+    `value` is not, so the wrapper class's own `value` declaration is what decides. Walks
+    from Study rather than the entity lists so a wrapper under `design.arms[]` is reached.
+    """
+
+    fixed: list[str] = []
+
+    def visit(node: Any, class_name: str, path: str) -> None:
+        if not isinstance(node, dict) or _is_field(node):
+            return
+        class_name = schema_utils.designated_type(classes, node, class_name)
+        attributes = schema_utils.attributes_for(classes, class_name)
+        for key, value in node.items():
+            attribute = attributes.get(key)
+            if attribute is None:
+                continue
+            kind = schema_utils.classify_slot(classes, key, attribute)
+            if kind == "evidence" and _is_field(value):
+                wrapper = attribute.get("range")
+                declared = (schema_utils.attributes_for(classes, wrapper) or {}).get("value", {}) \
+                    if isinstance(wrapper, str) else {}
+                if not declared.get("multivalued") or "value" not in value:
+                    continue
+                inner = value["value"]
+                # A missing value is a different fault and stays visible as one; only a
+                # present scalar is the shape this repairs.
+                if inner is not None and not isinstance(inner, list):
+                    value["value"] = [inner]
+                    fixed.append(f"{path}.{key}")
+            elif kind == "nested":
+                target = attribute.get("range")
+                if isinstance(target, str):
+                    for index, item in enumerate(value if isinstance(value, list) else [value]):
+                        suffix = f"[{index}]" if isinstance(value, list) else ""
+                        visit(item, target, f"{path}.{key}{suffix}")
+
+    visit(body, "Study", "Study")
     return fixed
 
 
@@ -526,6 +686,10 @@ def check_local_ids(body: dict[str, Any], classes: Mapping[str, Any]) -> list[st
     def visit(node: Any, class_name: str, path: str) -> None:
         if not isinstance(node, dict) or _is_field(node):
             return
+        # Without resolving the designator, every reference declared on a payload subclass
+        # -- the seed and target regions of a ConnectivityDetails -- is never visited, so a
+        # dangling one reads as fine.
+        class_name = schema_utils.designated_type(classes, node, class_name)
         attributes = schema_utils.attributes_for(classes, class_name)
         for key, value in node.items():
             attribute = attributes.get(key)
@@ -568,33 +732,27 @@ def build(
 
     classes = schema_utils.load_imported_classes(EXTRACTION_SCHEMA)
     body = merge_payloads(payload_dir)
+    # Nothing here prints. Every repair is the model getting the wrapper shape wrong or the
+    # builder paying a debt the schema assigned it, and the counts are how a prompt
+    # regression becomes visible -- which they cannot be while they go straight to stdout
+    # for a reader to notice or not. `main()` is the only formatter, and `--strict`
+    # thresholds on these same numbers.
     rewrites = apply_aliases(body, classes, load_aliases(payload_dir))
     if rewrites:
-        print(f"reconciled {rewrites} cross-reference(s) through aliases.json")
+        report.payload_notes.append(
+            f"reconciled {rewrites} cross-reference(s) through aliases.json")
 
-    # Both are reported rather than done quietly: they are the model getting the
-    # wrapper shape wrong and the builder paying a debt the schema assigned it, and
-    # the counts are how a prompt regression becomes visible.
-    collapsed = repair_wrappers(body)
-    if collapsed:
-        print(f"repaired {len(collapsed)} collapsed ExtractedValue wrapper(s)")
-        for line in collapsed[:5]:
-            print(f"  - {line}")
-        if len(collapsed) > 5:
-            print(f"  ... and {len(collapsed) - 5} more")
+    report.repaired_wrappers += repair_wrappers(body)
+    report.derived_acquisition_types += derive_acquisition_types(body)
+    report.derived_spaces += derive_coordinate_spaces(body, stage1, table_map)
+    report.listified += listify_nested(body, classes)
 
-    derived = derive_acquisition_types(body)
-    for line in derived:
-        print(f"derived acquisition_type {line}")
+    # After listify_nested, so a wrapper that had to be unwrapped out of a nested slot is
+    # already gone and cannot be mistaken for a multivalued scalar.
+    report.listified_scalars += listify_scalars(body, classes)
 
-    spaces = derive_coordinate_spaces(body, stage1, table_map)
-    if spaces:
-        print(f"derived coordinate_space for {len(spaces)} analysis/analyses: "
-              + ", ".join(spaces[:6]) + (" ..." if len(spaces) > 6 else ""))
-
-    listed = listify_nested(body, classes)
-    if listed:
-        print(f"wrapped {len(listed)} lone object(s) in a list: {', '.join(listed[:5])}")
+    # After listify_nested, which is what makes `terms` a list to walk.
+    report.aligned_levels += align_cell_levels(body)
 
     _walk(body, normalized, folded, "", report)
 
@@ -632,6 +790,23 @@ def _iter_sets(node: Any):
             yield from _iter_sets(value)
 
 
+def _report_lines(label: str, lines: Sequence[str], show: int = 5) -> None:
+    """One block per repair or fault, headed by its count.
+
+    Truncated because a paper can carry forty of one kind and the count is the part that
+    matters; the rest are in the record.
+    """
+
+    if not lines:
+        return
+    plural = "" if len(lines) == 1 else "s"
+    print(f"\n{len(lines)} {label}{plural}:")
+    for line in lines[:show]:
+        print(f"  - {line}")
+    if len(lines) > show:
+        print(f"  ... and {len(lines) - show} more")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--paper", required=True, help="neurostore id")
@@ -645,6 +820,16 @@ def main() -> int:
                         help="stage1/analyses.json, for the coordinate space")
     parser.add_argument("--tables", type=Path,
                         help="stage1/table-map.json, pairing pubget tables to Table ids")
+    parser.add_argument("--known-gaps", type=Path, default=known_gaps.DEFAULT,
+                        help="allowlist of findings a reviewer has accepted; see "
+                             "review/known-gaps.yaml")
+    parser.add_argument("--strict", action="store_true",
+                        help="also fail on the soft class: unresolved quotes, evidence "
+                             "downgrades and repairs above --max-unresolved/--max-repaired")
+    parser.add_argument("--max-unresolved", type=float, default=0.10,
+                        help="fraction of extracted fields whose quote may go unresolved")
+    parser.add_argument("--max-repaired", type=float, default=0.10,
+                        help="fraction of extracted fields the builder may repair")
     args = parser.parse_args()
 
     record, report = build(
@@ -661,19 +846,51 @@ def main() -> int:
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
-    print(f"\n{args.paper}: wrote {args.out}")
-    print(report.summary())
-
     classes = schema_utils.load_imported_classes(EXTRACTION_SCHEMA)
-    dangling = check_local_ids(record, classes)
-    if dangling:
-        print(f"\ndangling cross-references ({len(dangling)}):")
-        for problem in dangling:
-            print(f"  - {problem}")
-    if report.failures:
-        print(f"\nunresolved quotes ({len(report.failures)}):")
-        for failure in report.failures:
-            print(f"  - {failure}")
+    gaps = known_gaps.load(args.known_gaps, args.paper)
+    report.dangling, suppressed = known_gaps.partition(
+        check_local_ids(record, classes), gaps)
+
+    print(f"\n{args.paper}: wrote {args.out}")
+    for note in report.payload_notes:
+        print(note)
+    print(report.summary())
+    _report_lines("repaired collapsed ExtractedValue wrapper", report.repaired_wrappers)
+    _report_lines("derived acquisition_type", report.derived_acquisition_types)
+    _report_lines("derived coordinate_space", report.derived_spaces)
+    _report_lines("wrapped a lone object in a list", report.listified)
+    _report_lines("wrapped a lone scalar in a list", report.listified_scalars)
+    _report_lines("aligned a cell level to its declared FactorLevel", report.aligned_levels)
+    _report_lines("dangling cross-reference", report.dangling)
+    _report_lines("unresolved quote", report.failures)
+    if suppressed:
+        print(f"\n{len(suppressed)} finding(s) suppressed by {args.known_gaps.name}:")
+        for finding in suppressed[:5]:
+            print(f"  - {finding}")
+        if len(suppressed) > 5:
+            print(f"  ... and {len(suppressed) - 5} more")
+
+    # Two severity classes. A dangling or duplicated local_id means the record is
+    # internally broken -- a reference resolves to nothing, or to two things, and nothing
+    # downstream can use it -- so it fails whatever the flags say. Unresolved quotes,
+    # downgraded evidence and repairs are quality signals on a usable record, so they fail
+    # only under --strict and only past a threshold: two unresolved quotes is normal and
+    # forty is a regression. Expressed as a fraction of the fields actually extracted, so
+    # the bound scales with the paper rather than with its length.
+    if report.dangling:
+        print(f"\nFAILED: {len(report.dangling)} broken cross-reference(s)", file=sys.stderr)
+        return 1
+    if args.strict:
+        denominator = max(report.fields_extracted, 1)
+        for label, count, bound in (
+            ("unresolved quotes", len(report.failures), args.max_unresolved),
+            ("builder repairs", report.repairs, args.max_repaired),
+        ):
+            if count / denominator > bound:
+                print(f"\nFAILED --strict: {count} {label} is "
+                      f"{count / denominator:.0%} of {denominator} extracted fields, "
+                      f"over the {bound:.0%} bound", file=sys.stderr)
+                return 1
     return 0
 
 

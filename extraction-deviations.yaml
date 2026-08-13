@@ -17,7 +17,7 @@
 # better with a different shape. Every entry carries `why`: what was tried, on what, and
 # what it changed. The generator refuses an entry without one.
 #
-# Operations: add_slot, drop_slot, replace_slot, add_class, drop_class.
+# Operations: add_slot, drop_slot, replace_slot, describe_slot, add_class, drop_class.
 # `class` is addressed as <module>.<ClassName>, matching the generated module tree.
 
 id: https://neurostuff.org/schemas/extraction-deviations
@@ -167,4 +167,87 @@ required_additions:
 # 13 closed ones: a closed vocabulary cannot report that it is short a value, so if
 # off-vocabulary answers matter for one of them, opening it is a storage change rather
 # than a deviation.
-deviations: []
+deviations:
+
+  # Each entry is the wrong answer a paper-reading model actually gave, and why it is wrong.
+  # `append` rather than `description`: storage keeps the definition and this adds the
+  # instruction, so neither can drift from the other.
+
+  - id: region-definition-method-is-about-independence
+    operation: describe_slot
+    class: region.Region
+    slot: definition_method
+    why: >-
+      Flattened to one value on 29 regions across 3 papers. `SULKxviGFurw` and
+      `6oTrCJA43Jcd` marked every region `functional_localizer` while running no localizer
+      at all -- their regions are clusters and ICA components of the studies' own analyses
+      -- and `YwwKWoEFwY3G` marked all ten `unstated`. The storage description already says
+      the field is a statement about independence; what it does not say is which value a
+      model reaches for when a region is functionally defined, which is the whole error.
+      45 of the 271 reviewed corrections are on `regions[]`.
+    append: >-
+      Two values are routinely confused and the difference is the entire point of the field.
+      `functional_localizer` means a *separate* acquisition or run whose only purpose was to
+      locate the region, independent of the effect later tested in it. A region that is a
+      peak, a cluster, or a component of one of *this paper's own* analyses is
+      `same_study_analysis` however functionally it was defined -- and that value is what
+      makes the circularity visible, which is why `Analysis.defines_regions` exists to name
+      the analysis it came from. Reaching for `functional_localizer` because the region is
+      functional, rather than because a localizer was run, is the mistake to avoid.
+
+  - id: one-model-estimation-per-design-matrix
+    operation: describe_slot
+    class: analysis.ModelEstimation
+    why: >-
+      One record stood behind several different design matrices in 3 of 6 newly extracted
+      papers. It is the worst class found, because the record stays *valid*: the adjustment
+      set is derived by subtracting celled terms from the term list, so a bare two-sample
+      t-test came out claiming to have controlled for covariates that are in no model it
+      was fitted with. The storage description says an analysis estimated differently takes
+      its own record; it does not give the operational test for "differently".
+    append: >-
+      The test for whether two analyses share a record is mechanical: list the columns each
+      was fitted with. A different dependent variable, a different covariate set, or a
+      different subset of participants means a different design matrix and therefore a
+      separate record, even when family, estimator and software are identical. Two BPM
+      regressions of the same measure on the same regressor, one over the patients and one
+      over patients and controls pooled, are two records.
+
+      Sharing one record across matrices is not a tidy simplification. Because a contrast's
+      adjustment set is *derived* -- the model's terms minus the terms its cells name -- one
+      record behind several matrices makes every one of them claim adjustments that were
+      never in the model that produced it, and nothing in the record contradicts it.
+
+  - id: a-term-is-not-the-thing-being-measured
+    operation: describe_slot
+    class: analysis.ModelTerm
+    why: >-
+      Two papers entered the dependent variable as a term: grey-matter volume on
+      `DTpwdoGbjqsq`, and FA/AD/RD/MD as a single four-level factor on `84rGLhCbUJTh`,
+      whose Table 2 is literally headed `Diffusion parameter | Region | x | y | z`. As a
+      term, the measured quantity lands in its own analysis's derived adjustment set -- the
+      record says the analysis controlled for the thing it was measuring.
+    append: >-
+      A term is something the measure was regressed *on*. The quantity being modelled is
+      `Analysis.measure` and never a term of the model that models it. A table laid out with
+      one row-block per measured parameter -- four diffusion parameters, three frequency
+      bands -- is reporting one analysis per parameter over one measure each, not one
+      analysis over a factor whose levels are the parameters.
+
+  - id: a-classifier-signs-one-cell-not-two
+    operation: describe_slot
+    class: analysis_details.DecodingDetails
+    why: >-
+      All three decoding analyses in `ngDTY5BgJUuX` signed both classes -- one `positive`
+      and one `negative` -- and all three left `classes` empty. The storage description's
+      "one signed cell" was read as licence to sign both sides, which asserts a directional
+      contrast between the classes that no accuracy-against-chance test makes.
+    append: >-
+      "One signed cell" means exactly one. The class the reported accuracy is *for* takes
+      the positive cell and the other class takes no cell at all, because absence is the
+      zero weight. Signing both would say the paper reported which way the classifier
+      erred, which a single accuracy does not. Where the test is undirected -- accuracy
+      against chance, with no class named as the target -- every cell is `unstated` instead.
+
+      `classes` is then the only field saying what was told apart, so leaving it empty
+      asserts that the paper never named the classes it decoded, which is rare.

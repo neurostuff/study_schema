@@ -55,6 +55,23 @@ def fold(value: str) -> str:
     return value.translate(str.maketrans(_EQUIVALENT))
 
 
+def fold_label(value: str) -> str:
+    """Fold a label for joining, where length does not have to be preserved.
+
+    `Cell.level` joins to `FactorLevel.level` on the string, and extraction-readme.md §3
+    invariant 3 asks that the comparison use the same normalization the mapper applies. That
+    is this: `fold`, then collapse whitespace runs, then casefold. Deliberately narrow --
+    only differences that cannot be semantic. `Healthy controls` and `healthy controls` are
+    the same level; `AD` and `AD group` are not, and calling them equal here would hide the
+    join failure rather than report it.
+
+    Not `fold`, and it must not be used where an offset survives the call: collapsing
+    whitespace changes the length, which is the one thing `fold` promises never to do.
+    """
+
+    return re.sub(r"\s+", " ", fold(value)).strip().casefold()
+
+
 def _tolerant_pattern(quote: str) -> re.Pattern[str]:
     """Build a regex matching the quote with any whitespace run between tokens."""
 

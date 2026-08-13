@@ -173,9 +173,9 @@ paper writes. What is normalized is placement (`relation_to_intervention`) and s
 
 Direction is recorded on the cell, never as a numeric contrast weight. One `Cell` is one level
 of one `ModelTerm` and the side it entered on, and `Cell.direction` is the `Direction`
-vocabulary: `positive`, `negative`, `unstated`, `not_applicable`. It is a **closed** field, so
+vocabulary: `positive`, `negative`, `undirected`, `unstated`, `held`. It is a **closed** field, so
 translate the paper's comparative wording — "greater in", "reduced relative to", "increased" —
-into one of the four rather than writing it down. There is no fifth answer; see §3.
+into one of the five rather than writing it down. There is no sixth answer; see §3.
 
 This reverses what this section said while extraction had no enums, when the wording was
 recorded verbatim and a 23-entry synonym table in the map did the translating.
@@ -197,28 +197,29 @@ something the mapper resolves from wording:
 | the source says | record | why |
 |---|---|---|
 | a three-level factor compared at two of its levels | no cell at all | absence *is* the zero weight |
-| compared, but no direction given | a cell with `unstated` | a comparison was made; its sign was not reported |
-| tested undirectionally — an F or χ² over the factor | `unstated` on **every** level | the same fact: compared, sign not reported |
-| the contrast was taken *within* this level | a cell with `not_applicable` | it is on both sides at once |
+| compared directionally, but no direction given | a cell with `unstated` | a comparison was made; its sign was not printed |
+| tested undirectionally — an F or χ² over the factor | `undirected` on **every** level | the test yields no per-level sign to print |
+| the contrast was taken *within* this level | a cell with `held` | it is on both sides at once |
 
 A held-constant level is unsigned because it appears on **both sides** of the comparison: "patients
 versus controls, in the task condition" puts task on the plus side and the minus side at once, so it
 has no net sign on its own axis. Marking it `positive` would assert a condition comparison the
 contrast never makes.
 
-**The two unsigned values are told apart by one question: could a fuller report have signed this
-cell?** For a level an F-test spanned it could — the levels were compared and the paper printed no
-direction, so the sign exists and is missing, which is `unstated`. For a held-constant level it could
-not, because the contrast put that level on both sides and there is no sign to be missing, which is
-`not_applicable`. A corollary: a cell naming no level — on a slope or a product column — cannot sit
-on both sides of anything, so an undirected test of such a column is `unstated` too.
+**The three unsigned values are told apart by two questions.** First: was the level on both sides
+at once? A held-constant level was, and no report could sign it, which is `held`. Otherwise: does the
+test yield a per-level sign at all? An F or χ² does not — it returns one statistic for the whole
+factor — which is `undirected`; a t or z whose direction the paper simply did not print does, and
+that is `unstated`. A corollary: a cell naming no level — on a slope or a product column — cannot sit
+on both sides of anything, so an undirected test of such a column is `undirected`, never `held`.
 
 None of these is directional, so the derived kind is the same either way. What differs is what
 the record claims — and each wrong guess fails differently. Omitting the cell for an unreported
 direction denies a weight the contrast gave. Marking a held-constant level `unstated` asserts a
-comparison the contrast did not make. Marking an F-tested factor's levels `not_applicable` says the
-opposite — that the factor was held on both sides of its own test, which makes the effect its own
-control. And treating a held-constant level as averaged-over puts a term in the derived adjustment
+comparison the contrast did not make. Marking an F-tested factor's levels `held` says the opposite —
+that the factor was held on both sides of its own test, which is a claim about every level at once
+and so about none. And marking an F's levels `unstated` says a direction was withheld when the test
+never produced one, which turns an omnibus into a contrast. And treating a held-constant level as averaged-over puts a term in the derived adjustment
 set that the contrast never averaged, which is the failure that went unnoticed longest.
 
 ---
@@ -285,8 +286,8 @@ categorical term, one of its levels — the **axis of a comparison is the term**
 > - **no cells** → unconstructable; `cells` is required, because an effect that compared nothing
 >   tested nothing
 
-`unstated` and `not_applicable` are not signs — one is a sign the source withheld, the other a
-test with no sign to have. Neither can cross a term.
+`undirected`, `unstated` and `held` are not signs — a test with no sign to give, a sign the source
+withheld, and a level with no sign to have. None of the three can cross a term.
 
 Crossing, rather than mere signedness, is what an axis of a comparison is. Two levels of `region`
 are one axis because they name one term. A cohort comparison, a condition contrast, a pre-post

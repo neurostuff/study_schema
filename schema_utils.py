@@ -196,6 +196,46 @@ def subclasses_of(classes: Mapping[str, object], class_name: str) -> set[str]:
     }
 
 
+def type_designator(classes: Mapping[str, object], class_name: str) -> str | None:
+    """The slot naming the concrete subclass, for a class carrying a self-naming payload.
+
+    Read off `designates_type: true` rather than listed, so a third such family costs
+    nothing. `attributes_for` resolves inheritance, so a subclass answers with the same
+    slot its base declares.
+    """
+
+    for name, attribute in (attributes_for(classes, class_name) or {}).items():
+        if isinstance(attribute, Mapping) and attribute.get("designates_type") is True:
+            return name
+    return None
+
+
+def designated_type(
+    classes: Mapping[str, object], node: object, declared: str
+) -> str:
+    """The class a record says it is, or `declared` when it does not say.
+
+    A walker that recurses on the declared range alone never reaches the fields that make
+    a self-naming payload useful: `Analysis.details` ranges on the abstract
+    AnalysisDetails, whose only attribute is the designator, while `seed_regions` is
+    declared on ConnectivityDetails. Resolving here is what stops those slots being
+    invisible to every schema-driven pass.
+
+    Silent by design -- it answers with the declared class when the designator is absent,
+    unparseable, unknown, or names something that is not a subclass. A caller that must
+    report those cases checks them itself; a repair pass only needs the best available
+    answer.
+    """
+
+    designator = type_designator(classes, declared)
+    if designator is None or not isinstance(node, Mapping):
+        return declared
+    named = node.get(designator)
+    if not isinstance(named, str) or named not in classes:
+        return declared
+    return named if resolves_to(classes, named, declared) else declared
+
+
 def classify_slot(classes: Mapping[str, object], name: str, attribute: Mapping[str, object]) -> str:
     """Classify one attribute by how a reviewer must treat it.
 

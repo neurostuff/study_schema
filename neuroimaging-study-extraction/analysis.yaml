@@ -379,6 +379,9 @@ classes:
     description: |-
       How a model was specified in software and estimated: its terms, the family, the source's wording for it, the estimator, the stage, and the software. One record may be referenced by several Analyses, so every field must hold for all of them; an analysis specified or estimated differently takes its own record. **The data a model was fitted to is part of its specification**.
       One record is one estimation stage. Neuroimaging splits a model across stages for tractability, and `inputs_from` is what puts it back together: a stage's terms are its own plus those of the stages it consumed, so the split costs the record nothing while each stage keeps its own family, estimator, software and basis.
+
+      The test for whether two analyses share a record is mechanical: list the columns each was fitted with. A different dependent variable, a different covariate set, or a different subset of participants means a different design matrix and therefore a separate record, even when family, estimator and software are identical. Two BPM regressions of the same measure on the same regressor, one over the patients and one over patients and controls pooled, are two records.
+      Sharing one record across matrices is not a tidy simplification. Because a contrast's adjustment set is *derived* -- the model's terms minus the terms its cells name -- one record behind several matrices makes every one of them claim adjustments that were never in the model that produced it, and nothing in the record contradicts it.
     attributes:
       local_id:
         range: string
@@ -411,10 +414,11 @@ classes:
         description: >-
           Essential estimator, variance, autocorrelation, covariance, regularization, and
           software-specific settings.
-      level:
+      stage:
         range: ExtractedString
+        required: true
         description: |-
-          Unit or stage of analysis, in the source's terms: run, session, subject and group are the usual words, and any other the source uses is storable as written. Deliberately left open -- no vocabulary fits every design, and nothing derives anything from it.
+          Stage of analysis, in the source's terms: run, session, subject and group are the usual words, and any other the source uses is storable as written. Deliberately left open -- no vocabulary fits every design, and nothing derives anything from it.
           A label, not an ordering. Which stage fed which is `inputs_from`, and only `inputs_from`: two records both saying `group` say nothing about their relation, and a chain is never inferred from these strings.
       estimator:
         range: ExtractedString
@@ -443,13 +447,10 @@ classes:
           May be empty, and legitimately is for a stage that fits only an intercept: a one-sample group test over first-level contrast images has no column of its own. Do not invent an intercept term to fill it.
           Analyses whose design matrices differ take their own records rather than sharing one.
   ModelTerm:
-    description: >-
-      One term of the model: a column of the design matrix, or the equivalent predictor in
-      a family with no design matrix. A categorical term names its levels and the entities
-      carrying them; a continuous term carries the facts that make a slope interpretable.
-      Nothing here is a fact about any one contrast -- what a contrast did with this term
-      is a `Cell` on that contrast's Effect. A term with no cell on some contrast is a term
-      that contrast was adjusted for rather than tested.
+    description: |-
+      One term of the model: a column of the design matrix, or the equivalent predictor in a family with no design matrix. A categorical term names its levels and the entities carrying them; a continuous term carries the facts that make a slope interpretable. Nothing here is a fact about any one contrast -- what a contrast did with this term is a `Cell` on that contrast's Effect. A term with no cell on some contrast is a term that contrast was adjusted for rather than tested.
+
+      A term is something the measure was regressed *on*. The quantity being modelled is `Analysis.measure` and never a term of the model that models it. A table laid out with one row-block per measured parameter -- four diffusion parameters, three frequency bands -- is reporting one analysis per parameter over one measure each, not one analysis over a factor whose levels are the parameters.
     attributes:
       local_id:
         range: string
@@ -660,3 +661,8 @@ classes:
       description:
         range: ExtractedString
         description: Summary of the table contents and its role in the reported analyses.
+      non_analysis_content:
+        range: ExtractedTableContent
+        description: |-
+          What this table's rows are, filled only when they are not the foci of a reported effect: region or ROI definitions, atlas parcels, connectivity seeds, the peaks of a decomposition's components, coordinates cited from other papers, a stimulus list, demographics, descriptive statistics with no test. Leave it absent when the table reports results, which is the common case.
+          A coordinate table is not an analysis merely by having coordinates in it, and this is the only field that can say so. Filling it is what distinguishes a table deliberately not encoded as an analysis from one the extraction missed -- without it those two are the same absence, and the coordinates belong on the entity they locate (a Region's description) rather than on a contrast that never produced them.

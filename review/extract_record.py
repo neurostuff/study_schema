@@ -266,6 +266,10 @@ def entity_digest(classes: Mapping[str, Any], payload: Mapping[str, Any]) -> str
         if isinstance(node.get("local_id"), str):
             found.setdefault(class_name, []).append(
                 f"{node['local_id']}: {name_of(node)}".rstrip(": "))
+        # Resolve the payload's own class before reading its slots, or an entity nested
+        # under a self-naming payload is missing from the digest and pass 2 is told to
+        # emit `not_reported` for a reference that could have resolved.
+        class_name = schema_utils.designated_type(classes, node, class_name)
         attributes = schema_utils.attributes_for(classes, class_name)
         for key, value in node.items():
             spec = attributes.get(key)
@@ -326,9 +330,34 @@ def stage1_block(stage1: Mapping[str, Any], table_ids: Mapping[str, str]) -> str
 
     lines = [
         "\n## Analyses already parsed from the result tables (stage 1)",
-        f"These {len(analyses)} analyses are the coordinate-bearing effects this paper reports.",
-        "Emit exactly one `analyses` entry for each, in this order, keeping the given name",
-        "verbatim in `name.value`. Do not add analyses that are not listed and do not drop any.",
+        f"These {len(analyses)} entries are a first pass over the coordinate tables, made",
+        "without seeing the tables' rows. Work through them in order and emit one `analyses`",
+        "entry for each, keeping the given name verbatim in `name.value` -- unless one of the",
+        "two departures below applies. Never invent an entry for an effect no listing names.",
+        "",
+        "SPLIT one entry into several when the table distinguishes the rows it covers by a",
+        "column the entry's name does not mention -- a frequency band, a diffusion parameter,",
+        "a session, an occasion. The parse had the contrast name and not the rows, so a column",
+        "can carry a factor it never saw. Each part is its own entry, named",
+        "`<given name> (<level>)`, and every part keeps the same `tables`. The signal that this",
+        "is needed: one entry would otherwise hold effects of opposite sign, forcing a single",
+        "`unstated` cell where the paper reports a direction for each.",
+        "",
+        "OMIT an entry when its table reports no tested effect at all: an ROI or component",
+        "definition, an atlas listing, coordinates cited from other papers, a stimulus list,",
+        "demographics, descriptive means with no test. Such a table has no comparison, so",
+        "`Effect.cells` cannot be filled honestly, and inventing a cell to satisfy it is worse",
+        "than emitting no analysis. Say what the table is in that Table's",
+        "`non_analysis_content` instead, and put the coordinates on the entity they locate --",
+        "a Region's `description` -- rather than on a contrast that never produced them.",
+        "Omitting is not for an effect that is merely awkward to encode: an effect the paper",
+        "tested belongs in `analyses` however hard its shape.",
+        "",
+        "`tables` is REQUIRED on every entry you emit here. It is the bracketed",
+        "`[table local_id: ...]` of the heading the entry sits under, copied verbatim, and it",
+        "is the only link between the record and the rows the result was read off. Rule 4c",
+        "does not apply: under one of these headings there is always something to point at.",
+        "",
         "The `space` and `statistic` notes are what the results table showed -- confirm them",
         "against the paper's own wording rather than copying the code.\n",
     ]
@@ -427,12 +456,29 @@ Occasions and cohorts are factors in exactly the sense conditions are: a study w
 paradigm still has a categorical term if it measured the same people twice, its levels
 being the occasions, which `FactorLevel.timepoints` names. Do not let the absence of a
 task decide that there is no factor. Each level's label is the source's own wording.
+
+A Region is an entity in the sense a Group or a Task is, and THIS PASS IS THE ONLY PLACE
+ONE CAN BE CREATED. Emit a Region for each place the study delimited: every ROI or mask an
+analysis was restricted to, every connectivity seed and target, every atlas parcel used by
+name, every component or cluster reused as a node, and every sphere whose centre the paper
+gives. Each carries its own `definition_method` -- how *that* region was delimited -- and
+its coordinates, radius or atlas belong in its `description`.
+
+A paper that ran any ROI, seed, mask or parcel analysis and emits no `regions` leaves the
+analyses pass with nothing to point `Analysis.regions` at. The ROI information is then not
+misplaced but lost: there is no slot on Analysis for how a region was defined, so an
+analysis restricted to a region it cannot name has no way to say it was restricted at all.
 """,
     "analyses": """
 This pass emits `analyses` and nothing else. The supporting entities were extracted
 separately and are listed below with their local_ids; refer to them, do not re-emit them.
-Your job is to annotate each already-identified analysis: its scope, measure, statistic,
-effect cells, inference settings and method payload, and its links by local_id.
+
+Two jobs, in this order. First settle the SET of analyses. The stage-1 listing below is a
+first pass over the coordinate tables made without seeing their rows, so it is the starting
+point and not the answer; the rules there say when one of its entries is really two and
+when it is none. Then annotate each analysis you kept: its scope, measure, statistic,
+effect cells, inference settings, method payload, and its links by local_id -- `tables`
+among them, and `regions` where the analysis was restricted to any.
 """,
 }
 

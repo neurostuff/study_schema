@@ -43,6 +43,54 @@ COORDISH = re.compile(r"^[xyz]$|coordinate|mni|talairach", re.I)
 #: "MNI coordinates" spanning three is not itself an axis.
 AXIS = {axis: re.compile(rf"^\(?\s*{axis}\s*\)?$", re.I) for axis in "xyz"}
 
+#: `Tal(x)`, `Peak(y)`. Tried only after AXIS fails, and the parenthesis must enclose the
+#: axis letter and nothing else -- so "Peak coordinates (x,y,z)" is not a match here and
+#: falls through to AXIS_TRIPLE, and a "Peak (Z)" statistic column cannot win an axis on
+#: its own because all three still have to match in one header row.
+PAREN_AXIS = {axis: re.compile(rf"\(\s*{axis}\s*\)\s*$", re.I) for axis in "xyz"}
+
+#: A header cell naming all three axes at once. Two unrelated tables produce it and the run
+#: length tells them apart: pandas de-duplicates a repeated header with a ".N" suffix, so
+#: three consecutive matches sharing one base are three axis columns wearing one label,
+#: while a single match is one column whose cells hold the whole triple.
+AXIS_TRIPLE = re.compile(r"[(\[]?\s*x\s*[,;/]\s*y\s*[,;/]\s*z\s*[)\]]?", re.I)
+
+#: pandas' de-duplication suffix on a repeated header cell.
+DEDUP = re.compile(r"^(?P<base>.*?)(?:\.(?P<n>\d+))?$")
+
+#: The three numbers of a coordinate, as a cell that holds all of them. Applied to
+#: `normalize_number` output, so the dash is ASCII and no space follows a sign.
+#:
+#: The leading class excludes a sign as well as a digit, and that is the whole trick: it
+#: exists to skip an opening bracket, and written as `\D{0,3}` it greedily ate the minus of
+#: `-34, 10, 22` instead, capturing 34 and quietly relocating the peak to the other
+#: hemisphere.
+#: The separator between two of the three: a comma, semicolon or slash, or plain space.
+#: `xevP8UDRAVh9` Table 2 uses commas for thirteen rows and spaces for the last four.
+_TRIPLE_GAP = r"(?:\s*[,;/]\s*|\s+)"
+TRIPLE_CELL = re.compile(
+    rf"^[^\d+\-]{{0,3}}(-?\d+\.?\d*){_TRIPLE_GAP}(-?\d+\.?\d*){_TRIPLE_GAP}(-?\d+\.?\d*)\D{{0,3}}$"
+)
+
+#: Dash and space variants a publisher sets inside a coordinate.
+_COORD_EQUIVALENT = str.maketrans({
+    "‐": "-", "‑": "-", "‒": "-", "–": "-", "—": "-", "―": "-", "−": "-",
+    " ": " ", " ": " ", " ": " ", " ": " ", "​": " ",
+})
+
+
+def normalize_number(cell: str | None) -> str:
+    """A cell's text with dash variants folded to ASCII and a sign-digit gap closed.
+
+    Both halves matter and the second is easy to miss. Publishers set a thin or
+    non-breaking space between a minus sign and its digits -- `SULKxviGFurw` Table 1 reads
+    `- 52,- 42,56` -- and a number pattern applied to that finds the magnitude
+    and leaves the sign behind, so a peak at -52 matches one at +52. A wrong attribution
+    with nothing on the face of it to say so is worse than an unattributed row.
+    """
+
+    return re.sub(r"([-+])\s+", r"\1", (cell or "").translate(_COORD_EQUIVALENT)).strip()
+
 # -- reading ---------------------------------------------------------------
 
 
@@ -91,7 +139,35 @@ def read_manifest(study_dir: Path) -> dict[str, dict[str, Any]]:
         }
     return out
 
-def _axis_columns(header_rows: Sequence[Sequence[str]], width: int) -> list[int] | None:
+def _numeric_triple_somewhere(body: Sequence[Mapping[str, Any]], cols: Sequence[int]) -> bool:
+    """Whether at least one data row parses as three numbers in these columns.
+
+    A header can name an axis in a column that does not hold one. `kzMj26hGWacQ` t0015 has
+    "X,Y,Z" as the second level of a colspan covering columns 4-6, and pandas left-aligns
+    it to 0-2 -- so the header says the axes are the columns headed `Brain regions`,
+    `Voxels in cluster` and `Hem.`. That answer is worse than none: row matching took the
+    strict path, parsed region names as floats, and attributed zero of 34 rows. Confirming
+    a candidate against the data is what makes the header's claim checkable.
+    """
+
+    for row in body:
+        if row.get("type") != "data":
+            continue
+        cells = row.get("cells") or []
+        if max(cols) >= len(cells):
+            continue
+        if all(_NUMBER.match(normalize_number(cells[col])) for col in cols):
+            return True
+    return False
+
+
+#: One number, after the dash variants COORDISH-adjacent headers bring with them.
+_NUMBER = re.compile(r"^[-+−‐-―]?\s?\d+\.?\d*$")
+
+
+def _axis_columns(
+    header_rows: Sequence[Sequence[str]], width: int, body: Sequence[Mapping[str, Any]] = ()
+) -> list[int] | None:
     """Column indices of the x, y and z axes, or None if all three are not found.
 
     Resolved one header row at a time, bottom-up, and only from a row that names all
@@ -105,20 +181,78 @@ def _axis_columns(header_rows: Sequence[Sequence[str]], width: int) -> list[int]
 
     Within a row, a consecutive triple wins over the leftmost match, so a header reading
     "Region, Z, x, y, z" binds z to the axis rather than to the statistic.
+
+    Every candidate is then confirmed against the body, and two looser header shapes are
+    tried only once the strict one has failed -- so a table that resolved before resolves
+    the same way, and the corpus's eight unresolved coordinate tables get an answer that
+    the data agrees with rather than one the header merely asserts.
+    """
+
+    def confirmed(cols: list[int]) -> bool:
+        return not body or _numeric_triple_somewhere(body, cols)
+
+    for patterns in (AXIS, PAREN_AXIS):
+        for row in reversed(list(header_rows)):
+            candidates: dict[str, list[int]] = {axis: [] for axis in "xyz"}
+            for index in range(min(width, len(row))):
+                for axis, pattern in patterns.items():
+                    if pattern.search(row[index] or "") if patterns is PAREN_AXIS \
+                            else pattern.match(row[index] or ""):
+                        candidates[axis].append(index)
+            if not all(candidates.values()):
+                continue
+            for ix in candidates["x"]:
+                if ix + 1 in candidates["y"] and ix + 2 in candidates["z"] \
+                        and confirmed([ix, ix + 1, ix + 2]):
+                    return [ix, ix + 1, ix + 2]
+            leftmost = [candidates["x"][0], candidates["y"][0], candidates["z"][0]]
+            if confirmed(leftmost):
+                return leftmost
+
+    # A colspan of three columns sharing one coordinate label. Two forms, and the label is
+    # the only thing that differs: pandas hands a repeated header over as `... (x,y,z)`,
+    # `... (x,y,z).1`, `... (x,y,z).2`, while a colspan whose axis letters live on the row
+    # below reads `Peak coordinates`, `Peak coordinates`, `Peak coordinates` -- and on
+    # `kzMj26hGWacQ` t0015 pandas left-aligns that lower row to columns 0-2, so the letters
+    # are no use where they sit. Either label plus the numeric confirmation is enough: the
+    # colspan says these three columns are a coordinate and the data says which they are.
+    for row in reversed(list(header_rows)):
+        bases = [DEDUP.match(row[index] or "").group("base")
+                 for index in range(min(width, len(row)))]
+        for index in range(len(bases) - 2):
+            base = bases[index]
+            if not base or not (AXIS_TRIPLE.search(base) or COORDISH.search(base)):
+                continue
+            if bases[index + 1] == base and bases[index + 2] == base \
+                    and confirmed([index, index + 1, index + 2]):
+                return [index, index + 1, index + 2]
+    return None
+
+
+def _axis_cell(
+    header_rows: Sequence[Sequence[str]], width: int, body: Sequence[Mapping[str, Any]]
+) -> int | None:
+    """Index of a single column whose cells hold the whole (x, y, z) triple.
+
+    Six of the corpus's coordinate tables are this shape -- `MNI coordinates (x, y, z)`
+    over cells reading `- 52,- 42,56`. Reported separately from `axis_cols` rather than
+    folded into it, because that key is a list of three indices at four call sites and
+    widening its type there is how a `cells[column]` becomes a silent IndexError.
+
+    Confirmed against the data like any other candidate, and by majority rather than by one
+    row: a single triple-looking cell in a column of region names would otherwise carry it.
     """
 
     for row in reversed(list(header_rows)):
-        candidates: dict[str, list[int]] = {axis: [] for axis in "xyz"}
         for index in range(min(width, len(row))):
-            for axis, pattern in AXIS.items():
-                if pattern.match(row[index] or ""):
-                    candidates[axis].append(index)
-        if not all(candidates.values()):
-            continue
-        for ix in candidates["x"]:
-            if ix + 1 in candidates["y"] and ix + 2 in candidates["z"]:
-                return [ix, ix + 1, ix + 2]
-        return [candidates["x"][0], candidates["y"][0], candidates["z"][0]]
+            if not AXIS_TRIPLE.search(row[index] or ""):
+                continue
+            cells = [(r.get("cells") or [None] * (index + 1))[index]
+                     for r in body if r.get("type") == "data"]
+            present = [cell for cell in cells if cell]
+            if present and sum(bool(TRIPLE_CELL.match(normalize_number(cell))) for cell in present) \
+                    >= len(present) / 2:
+                return index
     return None
 
 
@@ -187,7 +321,10 @@ def read_table(
             for index in range(width)
             if any(COORDISH.search(row[index]) for row in header_rows)
         ],
-        "axis_cols": _axis_columns(header_rows, width),
+        "axis_cols": _axis_columns(header_rows, width, body),
+        # Set only when the three axes share one column, and then `axis_cols` is None.
+        # A consumer wanting a row's triple has to consult both.
+        "axis_cell": _axis_cell(header_rows, width, body),
     }
 
 

@@ -276,6 +276,17 @@ classes:
       - **what the map was tested against** -- a modelled reference is that condition's level
         with a `negative` cell; the unmodelled implicit baseline, or zero, is the absence of a
         second cell; a decoding metric's reference is `PerformanceMetric.reference_value`.
+    # `required: true` on `cells` catches an absent key and nothing else: LinkML has no
+    # minimum cardinality here, so `cells: []` -- an effect that compared nothing -- passes
+    # it. The projection drops `rules`, so this is stated here and evaluated against
+    # extraction records by `review/validate_record.py::check_rules`, the same route the two
+    # rules on Analysis take. A postcondition with no preconditions holds of every Effect.
+    rules:
+      - description: An effect that compared nothing tested nothing; cells cannot be empty.
+        postconditions:
+          slot_conditions:
+            cells:
+              value_presence: PRESENT
     attributes:
       cells:
         in_subset: [mvp, model_extracted]
@@ -591,12 +602,13 @@ classes:
         description: >-
           Essential estimator, variance, autocorrelation, covariance, regularization, and
           software-specific settings.
-      level:
+      stage:
         in_subset: [mvp, model_extracted]
+        required: true
         range: string
         description: >-
-          Unit or stage of analysis, in the source's terms: run, session, subject and group are
-          the usual words, and any other the source uses is storable as written. Deliberately
+          Stage of analysis, in the source's terms: run, session, subject and group are the
+          usual words, and any other the source uses is storable as written. Deliberately
           left open -- no vocabulary fits every design, and nothing derives anything from it.
 
           A label, not an ordering. Which stage fed which is `inputs_from`, and only
@@ -1062,3 +1074,21 @@ classes:
         range: integer
         minimum_value: 0
         description: Number of reported coordinate rows or points in the normalized table representation.
+      non_analysis_content:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: TableContent
+          - range: string
+        description: >-
+          What this table's rows are, filled only when they are not the foci of a reported
+          effect: region or ROI definitions, atlas parcels, connectivity seeds, the peaks
+          of a decomposition's components, coordinates cited from other papers, a stimulus
+          list, demographics, descriptive statistics with no test. Leave it absent when the
+          table reports results, which is the common case.
+
+          A coordinate table is not an analysis merely by having coordinates in it, and
+          this is the only field that can say so. Filling it is what distinguishes a table
+          deliberately not encoded as an analysis from one the extraction missed -- without
+          it those two are the same absence, and the coordinates belong on the entity they
+          locate (a Region's description) rather than on a contrast that never produced
+          them.

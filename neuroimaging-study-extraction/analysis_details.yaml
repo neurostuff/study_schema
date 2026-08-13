@@ -48,13 +48,11 @@ classes:
     attributes: {}
   DecodingDetails:
     is_a: AnalysisDetails
-    description: >-
-      Payload for a classification or pattern-discriminability analysis. Above-chance decoding
-      is one signed cell with nothing crossed, and the reference it beat is `PerformanceMetric.reference_value`,
-      which is per metric because accuracy against chance and AUC against 0.5 are two references.
-      A between-cohort accuracy comparison is a crossed cohort term; accuracy regressed on
-      a behavioural score is a cell on a continuous term. Spatial scope is recorded on the
-      Analysis, including for searchlight analyses.
+    description: |-
+      Payload for a classification or pattern-discriminability analysis. Above-chance decoding is one signed cell with nothing crossed, and the reference it beat is `PerformanceMetric.reference_value`, which is per metric because accuracy against chance and AUC against 0.5 are two references. A between-cohort accuracy comparison is a crossed cohort term; accuracy regressed on a behavioural score is a cell on a continuous term. Spatial scope is recorded on the Analysis, including for searchlight analyses.
+
+      "One signed cell" means exactly one. The class the reported accuracy is *for* takes the positive cell and the other class takes no cell at all, because absence is the zero weight. Signing both would say the paper reported which way the classifier erred, which a single accuracy does not. Where the test is undirected -- accuracy against chance, with no class named as the target -- every cell is `unstated` instead.
+      `classes` is then the only field saying what was told apart, so leaving it empty asserts that the paper never named the classes it decoded, which is rare.
     attributes:
       decoded_variable:
         range: ExtractedString

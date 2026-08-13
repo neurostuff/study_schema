@@ -556,6 +556,35 @@ def apply_deviations(
                 )
             target["attributes"][deviation["slot"]] = deviation["definition"]
 
+        elif operation == "describe_slot":
+            # The narrow case `replace_slot` handles badly. A description *is* the
+            # instruction -- `extract_record.render_schema` sends the `description:` fields
+            # and nothing else -- so wording that only makes sense while reading a paper is
+            # an extraction concern and belongs here rather than in storage. But
+            # `replace_slot` assigns the whole definition, so using it for wording means
+            # restating range, required and in_subset, which then pin whatever storage said
+            # on the day the deviation was written.
+            #
+            # `append` is the form to reach for, and the only one that cannot go stale: it
+            # adds a paragraph to whatever storage currently says. `description` replaces
+            # outright, for the rare case where storage's wording is actively misleading to
+            # a model rather than merely incomplete.
+            module, _, class_name = str(deviation["class"]).partition(".")
+            target = documents_classes.get(module, {}).get(class_name)
+            if target is None:
+                raise ValueError(f"{label} names an unknown class: {deviation['class']}")
+            slot = deviation.get("slot")
+            if slot is not None and slot not in target["attributes"]:
+                raise ValueError(f"{label} describes a slot that is not there: {slot}")
+            node = target if slot is None else target["attributes"][slot]
+            if "description" in deviation:
+                node["description"] = deviation["description"]
+            elif "append" in deviation:
+                existing = str(node.get("description") or "").strip()
+                node["description"] = f"{existing}\n\n{deviation['append'].strip()}".strip()
+            else:
+                raise ValueError(f"{label} has neither `description` nor `append`")
+
         elif operation == "add_class":
             module = str(deviation["module"])
             documents_classes.setdefault(module, {})[deviation["class"]] = deviation[

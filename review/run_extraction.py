@@ -111,13 +111,20 @@ def main() -> int:
     parser.add_argument("--model", default=DEFAULT_MODEL)
     parser.add_argument("--effort", default="low")
     parser.add_argument("--redo", action="store_true", help="rerun stages already written")
+    parser.add_argument("--strict", action="store_true",
+                        help="pass --strict to build_record, so unresolved quotes and "
+                             "builder repairs above their thresholds fail the paper")
     args = parser.parse_args()
 
     python = sys.executable
     failures = 0
+    # Per paper, per stage, so a run over sixteen papers ends with a table rather than one
+    # number. `FAILURES: 5` says nothing about which five or where.
+    verdicts: dict[str, dict[str, str]] = {}
 
     for pmid, study, axis in read_pmids(args.pmids):
         print(f"\n=== {study} (pmid {pmid}) — {axis}")
+        verdicts[study] = {}
         study_dir = args.texts / study
         text = paper_text(study_dir)
         print(f"  text: {text.relative_to(study_dir)} ({text.stat().st_size:,} bytes)")
@@ -165,18 +172,45 @@ def main() -> int:
         if "build" in args.stages:
             args.examples.mkdir(parents=True, exist_ok=True)
             record = args.examples / f"{study}.extraction.json"
-            failures += bool(run([python, REVIEW / "build_record.py",
-                                  "--paper", study, "--text", text,
-                                  "--payloads", payload_dir, "--out", record,
-                                  "--stage1", stage1, "--tables", table_map,
-                                  "--extractor-model", args.model,
-                                  "--extraction-date", date.today().isoformat()]))
+            built = run([python, REVIEW / "build_record.py",
+                         "--paper", study, "--text", text,
+                         "--payloads", payload_dir, "--out", record,
+                         "--stage1", stage1, "--tables", table_map,
+                         "--extractor-model", args.model,
+                         "--extraction-date", date.today().isoformat(),
+                         *(["--strict"] if args.strict else [])])
+            verdicts[study]["build"] = "ok" if built == 0 else "FAILED"
+            failures += bool(built)
+
+            # Written even when the build failed: this is the regression corpus, and the
+            # payload that produced a bad record is the one worth keeping.
             raw = args.examples / f"{study}.extraction.raw.json"
             if record.is_file() and (args.redo or not raw.is_file()):
                 raw.write_text(record.read_text(encoding="utf-8"), encoding="utf-8")
                 print(f"  kept untouched model output at {raw.name}")
-            failures += bool(run([python, REVIEW / "validate_record.py",
-                                  "--record", record, "--text", text]))
+
+            # Not run after a failed build. It would validate whatever `--out` last held --
+            # a stale record from a previous run -- and report it as this run's result.
+            if built != 0:
+                verdicts[study]["validate"] = "skipped"
+                print("  validate: skipped, the build failed")
+            else:
+                validated = run([python, REVIEW / "validate_record.py",
+                                 "--record", record, "--text", text, "--paper", study])
+                verdicts[study]["validate"] = "ok" if validated == 0 else "FAILED"
+                failures += bool(validated)
+
+    if verdicts:
+        # `validate` is not one of `STAGES` -- it is not selectable and always follows a
+        # build -- but it is a column here, because "the record built and then failed
+        # validation" is the outcome a reader most needs to see.
+        columns = [stage for stage in [*STAGES, "validate"]
+                   if any(stage in verdict for verdict in verdicts.values())]
+        print("\nper paper:")
+        print("  " + "study".ljust(16) + "".join(column.ljust(10) for column in columns))
+        for study, verdict in verdicts.items():
+            print("  " + study.ljust(16)
+                  + "".join(verdict.get(column, "-").ljust(10) for column in columns))
 
     print(f"\n{'FAILURES: ' + str(failures) if failures else 'all stages clean'}")
     return 1 if failures else 0

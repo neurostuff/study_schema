@@ -28,6 +28,7 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
+import known_gaps
 import spans as span_tools
 import text_index
 
@@ -180,16 +181,20 @@ class Validator:
 
     # -- class instances ---------------------------------------------------
 
-    #: Slot naming the concrete subclass, per class that carries a self-naming payload.
-    #: `Analysis.details` declares range AnalysisDetails and `details_type` says which of
-    #: the eight it really is; the fields that make the payload useful live on the
-    #: subclass, so validating against the declared range rejects every one of them.
-    _TYPE_DESIGNATOR = {"AnalysisDetails": "details_type", "Acquisition": "acquisition_type"}
-
     def resolve_type(self, node: Mapping[str, Any], class_name: str, path: str) -> str:
-        """Follow a type designator to the subclass the record says it is."""
+        """Follow a type designator to the subclass the record says it is.
 
-        designator = self._TYPE_DESIGNATOR.get(class_name)
+        `Analysis.details` declares range AnalysisDetails and `details_type` says which of
+        the eight it really is; the fields that make the payload useful live on the
+        subclass, so validating against the declared range rejects every one of them.
+
+        Which slot designates the type comes from `schema_utils.type_designator`, read off
+        `designates_type: true`, rather than from a list here -- the same resolution four
+        walkers in `build_record` and `extract_record` need, and a list in five places is
+        how they came to disagree.
+        """
+
+        designator = schema_utils.type_designator(self.classes, class_name)
         if designator is None:
             return class_name
         named = node.get(designator)
@@ -435,6 +440,21 @@ class Validator:
                         self.warn(path, message + "; open vocabulary, kept as free text")
 
         declared = value_slot.get("range", "Any")
+
+        # The shape assertion comes before the scalar branch, for the same reason the
+        # vocabulary check does. An Extracted<Enum>List declares its `value` with `any_of`
+        # and no `range`, so `declared` is "Any" and the early return below skips it --
+        # which let a `Task.response_mode` of "button_press" pass where the schema wants
+        # ["button_press"]. Only the per-item recursion needs a native range.
+        if value_slot.get("multivalued") and not isinstance(value, list):
+            # `declared` is "Any" for an any_of slot, which reads as nonsense in the
+            # message, so name what the slot actually accepts.
+            accepts = declared if declared in _SCALAR_TYPES else " or ".join(
+                r for r in schema_utils.attribute_ranges(value_slot) if r != "Any") or "value"
+            self.error(path, f"{class_name}.value must be a list of {accepts}, "
+                             f"got {type(value).__name__}")
+            return
+
         if declared in {"Any", None} or declared not in _SCALAR_TYPES:
             return  # ExtractedValue holds lists and free-form structures by design.
         expected = _SCALAR_TYPES[declared]
@@ -444,10 +464,6 @@ class Validator:
         # list" the headline convention, so rejecting it rejected every correctly shaped
         # inclusion_criteria, preprocessing step and echo time in the record.
         if value_slot.get("multivalued"):
-            if not isinstance(value, list):
-                self.error(path, f"{class_name}.value must be a list of {declared}, "
-                                 f"got {type(value).__name__}")
-                return
             for index, item in enumerate(value):
                 self.check_value_type(item, class_name,
                                       {"value": {k: v for k, v in value_slot.items()
@@ -634,13 +650,13 @@ class Validator:
                 direction = _unwrap(cell.get("direction"))
                 if direction in {"positive", "negative"}:
                     signed.setdefault(term_id, set()).add(direction)
-                # `not_applicable` on a named level is a factor held constant, per §4's
-                # table, and since the re-cut it is nothing else: an undirected test is
-                # `unstated`, so this no longer catches an omnibus F by accident. An
-                # analysis reported within one level of the crossing is §5.5's last row --
-                # a legitimate simple effect, whose prose names the interaction it came
-                # from and whose cells are not supposed to record it.
-                if _unwrap(cell.get("level")) is not None and direction == "not_applicable":
+                # `held` on a named level is a factor held constant and nothing else: an
+                # undirected test is `undirected` and a withheld sign is `unstated`, so this
+                # cannot catch an omnibus F by accident. An analysis reported within one level
+                # of the crossing is §5.5's last row -- a legitimate simple effect, whose prose
+                # names the interaction it came from and whose cells are not supposed to
+                # record it.
+                if _unwrap(cell.get("level")) is not None and direction == "held":
                     held = True
             # A term signed once has not been compared against itself.
             crossed = [term_id for term_id, sides in signed.items() if len(sides) == 2]
@@ -724,27 +740,26 @@ class Validator:
     # -- the two unsigned values --------------------------------------------
 
     def check_unsigned_cells(self, record: Mapping[str, Any]) -> None:
-        """Flag the two shapes `not_applicable` cannot have.
+        """Flag the two shapes `held` cannot have.
 
-        `representing-models.md` §4 cuts the unsigned pair by one question: could a
-        fuller report have signed this cell? For a level an F-test spanned it could,
-        so an undirected test is `unstated`; for a level the contrast was taken
-        *within* it could not, because that level sits on both sides at once, which
-        is the whole of what `not_applicable` says on a `Cell`.
+        `representing-models.md` §4 cuts the three unsigned values by two questions.
+        Was the level on both sides of the comparison at once? That is `held`, and it
+        is the whole of what `held` says on a `Cell`. Otherwise, does the test yield a
+        per-level sign at all -- no for an F or chi-square, which is `undirected`; yes
+        but unprinted, which is `unstated`.
 
-        Both halves of that are checkable, and neither was before the re-cut, when
-        `not_applicable` covered the F-test as well:
+        Both halves of the first question are checkable:
 
         * a cell naming **no level** -- on a slope or a product column -- has no level
           to put on both sides, so it can only be an undirected test miscoded;
-        * a factor **all** of whose declared levels are celled `not_applicable` is an
-          undirected test of that factor, since holding a level constant is a claim
-          about one level and leaves the others absent.
+        * a factor **all** of whose declared levels are celled `held` is an undirected
+          test of that factor, since holding a level constant is a claim about one
+          level and leaves the others absent.
 
         The partial case is deliberately not flagged. A contrast taken within two of a
-        factor's three levels holds both of them, and reads as two `not_applicable`
-        cells with the third absent -- so the trigger is *every declared level celled*,
-        not *more than one*.
+        factor's three levels holds both of them, and reads as two `held` cells with
+        the third absent -- so the trigger is *every declared level celled*, not *more
+        than one*.
 
         Warnings, for `check_crossings`' reason: this is what a record extracted under
         the old reading looks like, and it routes to review rather than rejecting.
@@ -771,16 +786,15 @@ class Validator:
                     continue
                 level = _unwrap(cell.get("level"))
                 celled.setdefault(term_id, []).append(level)
-                if _unwrap(cell.get("direction")) != "not_applicable":
+                if _unwrap(cell.get("direction")) != "held":
                     continue
                 if level is None:
                     self.warn(
                         path,
-                        f"cell on {term_id!r} is not_applicable and names no level. A slope "
-                        "or a product column has no level to sit on both sides of the "
-                        "comparison, which is the only thing not_applicable says on a cell; "
-                        "an undirected test of such a column is unstated "
-                        "(representing-models.md 4)",
+                        f"cell on {term_id!r} is held and names no level. A slope or a product "
+                        "column has no level to sit on both sides of the comparison, which is "
+                        "the only thing held says on a cell; an undirected test of such a "
+                        "column is undirected (representing-models.md 4)",
                     )
                     continue
                 unsigned.setdefault(term_id, []).append(level)
@@ -798,10 +812,10 @@ class Validator:
                     continue
                 self.warn(
                     path,
-                    f"every declared level of {term_id!r} is celled not_applicable, which "
-                    "says the factor was held on both sides of its own test. An undirected "
-                    "test over a factor is unstated on each level; not_applicable holds one "
-                    "level and leaves the rest absent (representing-models.md 4)",
+                    f"every declared level of {term_id!r} is celled held, which says the "
+                    "factor was held on both sides of its own test. An undirected test over a "
+                    "factor is undirected on each level; held marks one level and leaves the "
+                    "rest absent (representing-models.md 4)",
                 )
 
     # -- occasions, and the factors that should carry them ------------------
@@ -950,10 +964,204 @@ class Validator:
 
     # -- entry point -------------------------------------------------------
 
+    def check_cell_terms(self, record: Mapping[str, Any]) -> None:
+        """§3 invariants 2, 3 and 4: a cell names a term of its own stage chain, and a
+        level it names is one that term declares.
+
+        The three travel together because they are one join failed at different depths. A
+        `Cell.term` that resolves nowhere, or to a term of a model this analysis does not
+        reach through `inputs_from`, makes the cell a sign of nothing. A `Cell.level` that
+        matches no declared `FactorLevel.level` is worse than absent: the record looks like
+        it recorded which condition was compared, and the mapper's string join will not find
+        it, so the comparison is unrecoverable from the entity side.
+
+        `check_crossings` deliberately stays silent on an unresolvable term -- it is asking
+        a different question and cannot answer it for a broken cell -- which is why this
+        reports instead.
+        """
+
+        models = self._model_index(record)
+        for index, analysis in enumerate(record.get("analyses") or []):
+            if not isinstance(analysis, Mapping):
+                continue
+            model_id = analysis.get("model_estimation")
+            terms = self._terms_in_scope(model_id, models)
+            effect = analysis.get("effect")
+            if not isinstance(effect, Mapping):
+                continue
+            local = analysis.get("local_id") or f"analyses[{index}]"
+
+            pointers = [(f"analyses[{index}].effect.cells[{n}]", cell.get("term"), cell)
+                        for n, cell in enumerate(effect.get("cells") or [])
+                        if isinstance(cell, Mapping)]
+            mediation = effect.get("mediation")
+            if isinstance(mediation, Mapping):
+                pointers.append(
+                    (f"analyses[{index}].effect.mediation", mediation.get("mediator"), None))
+
+            for path, term_id, cell in pointers:
+                if not isinstance(term_id, str):
+                    continue
+                term = terms.get(term_id)
+                if term is None:
+                    owner = next((m.get("local_id") for m in models.values()
+                                  for t in (m.get("terms") or [])
+                                  if isinstance(t, Mapping) and t.get("local_id") == term_id),
+                                 None)
+                    if owner is None:
+                        self.error(path, f"term {term_id!r} names no ModelTerm anywhere")
+                    else:
+                        self.error(path, f"term {term_id!r} belongs to {owner!r}, which "
+                                         f"{local!r}'s model ({model_id!r}) does not reach "
+                                         "through inputs_from")
+                    continue
+                if cell is None:
+                    continue
+
+                level = _unwrap(cell.get("level"))
+                if not isinstance(level, str):
+                    continue
+                declared = [_unwrap(entry.get("level")) for entry in (term.get("levels") or [])
+                            if isinstance(entry, Mapping)]
+                declared = [name for name in declared if isinstance(name, str)]
+                if not declared:
+                    self.error(f"{path}.level", f"is {level!r} but term {term_id!r} declares "
+                                                "no levels to match it against")
+                elif level not in declared:
+                    self.error(
+                        f"{path}.level",
+                        f"{level!r} matches none of term {term_id!r}'s declared levels "
+                        f"({', '.join(repr(name) for name in declared)}); the mapper joins "
+                        "these on the string",
+                    )
+
+    def check_model_stages(self, record: Mapping[str, Any]) -> None:
+        """§3 invariants 6 and 7: `inputs_from` is acyclic, and a term name is unique across
+        a whole stage chain.
+
+        Both are already *survived* rather than reported. `_terms_in_scope` carries a `seen`
+        set so the walk terminates on a cycle, and collects own terms last so a same-named
+        lower-stage term is shadowed -- which is the right reading when the name is a
+        deliberate refit and silently absorbs the violation when it is not. A validator that
+        merely does not hang on bad input has not reported it.
+
+        Neither has ever fired on the corpus. They are in because a cycle is a hang as well
+        as a falsehood, and because a first-level `motion` shadowing a group-level `motion`
+        makes two columns indistinguishable in one term list -- a reader cannot tell a column
+        refitted at the stage above from one restated there by mistake.
+        """
+
+        models = self._model_index(record)
+
+        for model_id, model in models.items():
+            path = f"model_estimations[{model_id}]"
+
+            def walk(current: Any, trail: tuple[str, ...]) -> None:
+                if not isinstance(current, str):
+                    return
+                if current in trail:
+                    cycle = " -> ".join(trail[trail.index(current):] + (current,))
+                    self.error(f"{path}.inputs_from",
+                               f"inputs_from is cyclic: {cycle}. A model fitted on its own "
+                               "output is not a stage order")
+                    return
+                lower = models.get(current)
+                if isinstance(lower, Mapping):
+                    for below in lower.get("inputs_from") or []:
+                        walk(below, trail + (current,))
+
+            for start in model.get("inputs_from") or []:
+                walk(start, (model_id,))
+
+            # Names across the chain, which is where the collision matters -- `unique_keys`
+            # scopes per record and the projection drops it anyway.
+            seen: dict[str, str] = {}
+            for owner_id, term in self._chain_terms(model_id, models):
+                name = _unwrap(term.get("name"))
+                if not isinstance(name, str) or not name.strip():
+                    continue
+                folded = span_tools.fold_label(name)
+                if folded in seen and seen[folded] != owner_id:
+                    self.error(
+                        f"{path}.terms",
+                        f"term name {name!r} appears on both {seen[folded]!r} and "
+                        f"{owner_id!r} in one stage chain, so a reader cannot tell a column "
+                        "refitted at the stage above from one restated there by mistake",
+                    )
+                seen[folded] = owner_id
+
+    def _chain_terms(
+        self, model_id: Any, models: Mapping[str, Mapping[str, Any]],
+        seen: set[str] | None = None,
+    ) -> list[tuple[str, Mapping[str, Any]]]:
+        """`(owning model local_id, term)` for a model and every stage below it.
+
+        Unlike `_terms_in_scope`, which keys by term local_id and so *loses* the duplicate
+        this reports, this keeps every term with the stage that declared it.
+        """
+
+        seen = set() if seen is None else seen
+        if not isinstance(model_id, str) or model_id in seen:
+            return []
+        seen.add(model_id)
+        model = models.get(model_id)
+        if not isinstance(model, Mapping):
+            return []
+        found: list[tuple[str, Mapping[str, Any]]] = []
+        for lower in model.get("inputs_from") or []:
+            found += self._chain_terms(lower, models, seen)
+        found += [(model_id, term) for term in model.get("terms") or []
+                  if isinstance(term, Mapping)]
+        return found
+
+    def check_table_purpose(self, record: Mapping[str, Any]) -> None:
+        """A coordinate table either reports an analysis or says what it does instead.
+
+        `Table.non_analysis_content` is the only field that can say a table's rows are
+        locations rather than findings -- ROI definitions, atlas parcels, the peaks of an
+        ICA's components. Two things follow, and the second is the one worth having:
+
+        - a table marked as non-analysis that an `Analysis.tables` nonetheless names is a
+          contradiction, and one of the two is wrong;
+        - a table **no** analysis names and that carries no marking is the missed-analysis
+          case. Before this field existed that was indistinguishable from a table
+          deliberately left unencoded, and both read as the same silence. `spec.py`'s
+          `not_analyses` and `missed_analysis` verdicts have always been separate; this is
+          what lets the record tell them apart before a reviewer does.
+
+        A warning rather than an error on the second, because an unencoded table is a
+        judgement to review and not a malformed record.
+        """
+
+        referenced = {name for analysis in record.get("analyses") or []
+                      if isinstance(analysis, Mapping)
+                      for name in (analysis.get("tables") or []) if isinstance(name, str)}
+        for index, table in enumerate(record.get("tables") or []):
+            if not isinstance(table, Mapping):
+                continue
+            local_id = table.get("local_id")
+            path = f"tables[{index}]"
+            marked = _unwrap(table.get("non_analysis_content"))
+            if marked and local_id in referenced:
+                self.error(
+                    f"{path}.non_analysis_content",
+                    f"says this table reports {marked!r} rather than an effect, but an "
+                    "analysis names it in `tables`",
+                )
+            elif not marked and local_id not in referenced:
+                self.warn(
+                    path,
+                    "no analysis names this table and non_analysis_content is empty, so "
+                    "nothing says whether it was deliberately not encoded or missed",
+                )
+
     def check_record(self, record: Any) -> None:
         self.check_instance(record, "Study", "Study")
 
         if isinstance(record, dict):
+            self.check_cell_terms(record)
+            self.check_model_stages(record)
+            self.check_table_purpose(record)
             self.check_crossings(record)
             self.check_product_columns(record)
             self.check_unsigned_cells(record)
@@ -975,6 +1183,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--record", required=True, type=Path)
     parser.add_argument("--text", type=Path, help="normalized source text; enables offset checks")
+    parser.add_argument("--paper", help="neurostore id, for matching --known-gaps entries")
+    parser.add_argument("--known-gaps", type=Path, default=known_gaps.DEFAULT,
+                        help="allowlist of findings a reviewer has accepted; see "
+                             "review/known-gaps.yaml")
     args = parser.parse_args()
 
     normalized = None
@@ -986,14 +1198,24 @@ def main() -> int:
     validator = Validator(classes, normalized, enums)
     validator.check_record(json.loads(args.record.read_text(encoding="utf-8")))
 
+    # The paper defaults to the record's stem, so `--record <id>.extraction.json` matches
+    # its allowlist entries without the caller repeating the id.
+    paper = args.paper or args.record.name.split(".")[0]
+    gaps = known_gaps.load(args.known_gaps, paper)
+    errors, suppressed = known_gaps.partition(validator.errors, gaps)
+
     print(f"{args.record.name}: {validator.fields} fields, {validator.spans} spans checked")
     if validator.warnings:
         print(f"\nwarnings ({len(validator.warnings)}):")
         for warning in validator.warnings:
             print(f"  - {warning}")
-    if validator.errors:
-        print(f"\nerrors ({len(validator.errors)}):")
-        for error in validator.errors:
+    if suppressed:
+        print(f"\n{len(suppressed)} error(s) suppressed by {args.known_gaps.name}:")
+        for finding in suppressed:
+            print(f"  - {finding}")
+    if errors:
+        print(f"\nerrors ({len(errors)}):")
+        for error in errors:
             print(f"  - {error}")
         return 1
     print("valid")

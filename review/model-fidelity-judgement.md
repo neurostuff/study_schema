@@ -151,9 +151,9 @@ before the contrast tasks rather than after.
 **One thing the review UI gets wrong, not the extractor.** *(Fixed: the grid now offers
 all five values, and the exporter maps a recorded `unstated` to `unstated`. Kept because
 it is the record of how the defect was found. The last sentence below has since been
-settled the other way — `unstated` is the correct value for an omnibus F, and
-`not_applicable` now means only a level held on both sides of the comparison. See
-`representing-models.md` §4.)* Both F-test main effects
+settled, and then re-cut again: an omnibus F is now `undirected`, `unstated` is a
+directional test whose sign the paper withheld, and `held` is a level on both sides of
+the comparison. See `representing-models.md` §4.)* Both F-test main effects
 in the gaze paper carry cells with `direction: unstated` — which the Direction enum
 defines as "a sign exists and the source does not report it … distinct from
 omitting the cell, which says the contrast weighted this level out". The contrast
