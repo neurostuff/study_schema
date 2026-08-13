@@ -233,8 +233,8 @@ def test_classify_slot_separates_references_from_pipeline_scalars(classes: dict)
         return schema_utils.classify_slot(classes, name, attrs[name])
 
     # Both range on a class; only the inlined one is owned rather than pointed at.
-    assert kind(analysis, "preprocessing") == "reference"
-    assert kind(analysis, "inference_settings") == "nested"
+    assert kind(analysis, "model_estimation") == "reference"
+    assert kind(analysis, "effect") == "nested"
 
     assert kind(metadata, "extractor_model") == "native"
     assert kind(analysis, "local_id") == "identifier"
@@ -351,6 +351,7 @@ def _flags(record: dict, classes: dict) -> list[str]:
     validator.check_product_columns(record)
     validator.check_unsigned_cells(record)
     validator.check_occasion_factors(record)
+    validator.check_arm_reachability(record)
     validator.check_derived_columns(record)
     assert validator.errors == []  # these checks route to review, never reject
     return validator.warnings
@@ -734,6 +735,87 @@ def test_a_factor_over_occasions_is_not_a_derived_column(classes: dict) -> None:
     assert _flags(record, classes) == []
 
 
+# -- arms, and the analyses that cannot say which one they are -------------
+
+#: xevP8UDRAVh9's design: a crossover whose two arms are the whole of what its
+#: analyses differ by, so an analysis that cannot reach one states its subject in
+#: prose alone.
+TWO_ARMS = {
+    "arms": [
+        {"local_id": "arm_heroin", "name": _text("heroin"), "agent": _text("heroin")},
+        {"local_id": "arm_placebo", "name": _text("placebo"), "agent": _text("saline")},
+    ]
+}
+
+#: The factor a crossover compares its arms with. Its levels are worded as the
+#: analysis section words them, which is what a cell has to match.
+ARM_FACTOR = {
+    "local_id": "t_arm",
+    "type": _text("categorical"),
+    "levels": [
+        {"level": _text("heroin-associated perfusion"), "arms": ["arm_heroin"]},
+        {"level": _text("placebo-associated perfusion"), "arms": ["arm_placebo"]},
+    ],
+}
+
+
+def _arm_record(analyses: list[tuple[str, list[dict]]], **extra) -> dict:
+    record = _record([ARM_FACTOR], analyses)
+    record["design"] = TWO_ARMS
+    record.update(extra)
+    return record
+
+
+def test_an_analysis_naming_an_arm_it_cannot_reach_is_flagged(classes: dict) -> None:
+    """xevP8UDRAVh9's defect: the cell says `heroin`, the level says
+    `heroin-associated perfusion`, and the join to the arm breaks on the string."""
+
+    flags = _flags(_arm_record([("Positive correlation with heroin-associated perfusion",
+                                 [_cell("t_arm", "positive", "heroin")])]), classes)
+
+    assert len(flags) == 1
+    assert "arm_heroin" in flags[0]
+
+
+def test_a_cell_reaching_the_level_that_names_the_arm_satisfies_it(classes: dict) -> None:
+    flags = _flags(_arm_record([("Positive correlation with heroin-associated perfusion",
+                                 [_cell("t_arm", "positive", "heroin-associated perfusion")])]),
+                   classes)
+
+    assert flags == []
+
+
+def test_an_analysed_cohort_assigned_to_the_arm_satisfies_it(classes: dict) -> None:
+    """The parallel-group route: no cell names the arm, but the cohort was assigned
+    to it, so `Group.arm` carries what the contrast does not."""
+
+    record = _arm_record([("Perfusion under heroin", [_cell("t_arm", "positive", "heroin")])],
+                         groups=[{"local_id": "g1", "arm": "arm_heroin"}])
+    record["analyses"][0]["groups"] = [{"group": "g1"}]
+
+    assert _flags(record, classes) == []
+
+
+def test_an_analysis_naming_no_arm_is_left_alone(classes: dict) -> None:
+    """A baseline contrast in a study that has arms is not about either of them,
+    which is what keeps 84rGLhCbUJTh's four pre-medication analyses silent."""
+
+    flags = _flags(_arm_record([("Areas of abnormal FA before medication",
+                                 [_cell("t_arm", "positive", "heroin")])]), classes)
+
+    assert flags == []
+
+
+def test_a_short_arm_name_does_not_match_everything(classes: dict) -> None:
+    """A two-character arm name would appear inside unrelated prose, so it is not
+    vocabulary. The arm is then unreachable in the same way and silently so."""
+
+    record = _arm_record([("Positive correlation in the striatum",
+                           [_cell("t_arm", "positive", "heroin")])])
+    record["design"] = {"arms": [{"local_id": "arm_iv", "name": _text("IV")}]}
+
+    assert _flags(record, classes) == []
+
 # -- the storage schema's class rules --------------------------------------
 
 #: `rules` is dropped by the projection to extraction, so a rule is only ever
@@ -996,7 +1078,7 @@ def test_aliases_only_rewrite_reference_slots(classes: dict) -> None:
         "analyses": [
             {
                 "local_id": "a1",
-                "preprocessing": "old_id",
+                "model_estimation": "old_id",
                 "name": {
                     "extraction_status": "extracted",
                     "value": "old_id",
@@ -1008,7 +1090,7 @@ def test_aliases_only_rewrite_reference_slots(classes: dict) -> None:
     rewrites = build_record.apply_aliases(body, classes, {"old_id": "new_id"})
 
     assert rewrites == 1
-    assert body["analyses"][0]["preprocessing"] == "new_id"
+    assert body["analyses"][0]["model_estimation"] == "new_id"
     assert body["analyses"][0]["name"]["value"] == "old_id"
 
 

@@ -34,10 +34,16 @@ classes:
         description: Name of the assessment, such as Digit Span, MMSE, or BDI.
       description:
         range: ExtractedString
-        description: Description of the assessment and the measurements it produced.
+        description: >-
+          Description of the assessment and the measurements it produced, including the purpose
+          the source gives for administering it -- establishing a group's diagnosis, screening
+          a comorbidity, grading severity, characterizing everyone. That purpose is what decides
+          whether a group may name this assessment as its `diagnostic_instrument`, and it
+          is often the only sentence distinguishing the two.
       assessment_type:
         range: ExtractedString
         description: >-
-          Broad type, such as cognitive test, clinical scale, questionnaire, behavioral task,
-          physiological measure, or a biospecimen assay such as salivary cortisol or a plasma
-          marker. Free text rather than a vocabulary: create a category if none of these fit.
+          Broad type, such as cognitive test, clinical scale, diagnostic interview, questionnaire,
+          behavioral task, physiological measure, or a biospecimen assay such as salivary
+          cortisol or a plasma marker. Free text rather than a vocabulary: create a category
+          if none of these fit.

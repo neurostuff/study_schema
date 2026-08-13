@@ -18,7 +18,7 @@ analysis took a contrast from it.
 
 | Layer | Question it answers | Classes |
 |---|---|---|
-| **Entities** | What existed in the study? | `Group`, `Task`, `Condition`, `Arm`, `Timepoint`, `Region`, `Assessment`, `Acquisition` |
+| **Entities** | What existed in the study? | `Group`, `Task`, `Condition`, `Arm`, `Timepoint`, `Region`, `Assessment`, `Acquisition`, `Device` |
 | **Model** | What was fitted? | `ModelEstimation`, `ModelTerm`, `FactorLevel` |
 | **Result** | What was tested, and what came of it? | `Analysis`, `Effect`, `Cell`, plus `Statistic`, `Measure`, `AnalysisGroup`, `AnalysisDetails`, `InferenceSettings` |
 
@@ -37,8 +37,11 @@ Study
 │                         └── timepoints[]  Timepoint ◄───────┤
 ├── regions[]             Region ◄──────────────────────────┐  │
 ├── assessments[]         Assessment ◄───────────────┐      │  │
+├── devices[]             Device                     │      │  │
 ├── acquisitions[]        Acquisition                │      │  │
-│                                                    │      │  │
+│                         └── device ──► Device      │      │  │
+├── measures[]            Measure                    │      │  │
+├── inference_settings[]  InferenceSettings          │      │  │
 ├── model_estimations[]                              │      │  │
 │   └── ModelEstimation                              │      │  │
 │       ├── inputs_from[] ──────► ModelEstimation (the stage below)
@@ -58,11 +61,11 @@ Study
         │                     ├── mediation    Mediation ──► ModelTerm
         │                     └── statistic    Statistic
         ├── groups[]          AnalysisGroup ──► Group
-        ├── measure           Measure
+        ├── measure ─────────► Measure
+        ├── inference_settings ──► InferenceSettings
         ├── details           one AnalysisDetails subclass
-        ├── inference_settings  InferenceSettings
         └── regions[], tasks[], acquisitions[], assessments[],
-            preprocessing, tables[] ──► entities
+            tables[] ──► entities
 ```
 
 Tree branches are ownership: the record lives there, inline. `──►` is a reference by identifier, to
@@ -135,7 +138,7 @@ join is `cell.term` → that `ModelTerm` → the `FactorLevel` whose `level` equ
 | `Region` | `Study.regions` | five slots — [§5.4](#54-one-region-five-roles) | one per region the study delimited |
 | `Assessment` | `Study.assessments` | `ModelTerm.assessment`, `Analysis.assessments` | one per instrument, however many columns it supplies |
 | `Acquisition` | `Study.acquisitions` | `Task.acquisitions`, `Analysis.acquisitions` | one per protocol |
-| `Preprocessing` | `Study.preprocessings` | `Analysis.preprocessing` | one per pipeline |
+| `Preprocessing` | `Study.preprocessings` | `ModelEstimation.preprocessing` | one per pipeline |
 | `ModelEstimation` | `Study.model_estimations` | `Analysis.model_estimation`, `inputs_from` | one per design matrix per stage |
 | `ModelTerm` | `ModelEstimation.terms` | `Cell.term`, `interaction_with`, `mediation.mediator` | one per column of that stage |
 | `FactorLevel` | `ModelTerm.levels` | by matching string from `Cell.level` | one per level of a categorical term |

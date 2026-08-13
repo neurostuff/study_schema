@@ -18,6 +18,7 @@ imports:
   - linkml:types
   - ../extraction-evidence
   - design
+  - assessment
 enums:
   Species:
     description: >-
@@ -155,10 +156,26 @@ classes:
           defining or characterizing the group. List the primary diagnosis and all comorbidities.
       diagnostic_system:
         range: ExtractedString
-        description: Diagnostic classification system and edition, such as DSM-5 or ICD-10.
+        description: >-
+          Classification system and edition under which this group's `medical_condition` was
+          diagnosed, such as DSM-5 or ICD-10. An edition that appears only inside an instrument's
+          title does not establish it: "SCID for DSM-IV Axis II Disorders", administered to
+          screen comorbidities, says nothing about the system used to diagnose the condition
+          that defines the group.
       diagnostic_instrument:
-        range: ExtractedStringList
-        description: Interview, inventory, test, or other instrument used to establish diagnosis.
+        range: Assessment
+        multivalued: true
+        inlined: false
+        description: >-
+          Which of the study's assessments established this group's defining condition --
+          the `medical_condition` entries, or for a healthy group its confirmed absence. Naming
+          one here claims it classified this cohort, which is narrower than having been administered
+          to it: an interview screening a comorbidity the group is not defined by, or grading
+          the severity of a diagnosis made elsewhere, is recorded in `assessments` and pointed
+          at from nowhere. Groups defined by enrollment or history rather than by an assessment
+          -- a treatment programme's patients, self-reported users -- name nothing, as do
+          sources reporting a diagnostic system but never the instrument applying it. Every
+          entry must also appear in the study's `assessments`.
       clinical_characteristics:
         range: ExtractedString
         description: Disease duration, severity, treatment status, or other clinically relevant

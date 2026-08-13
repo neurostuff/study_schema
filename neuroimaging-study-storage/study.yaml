@@ -43,6 +43,27 @@ classes:
         in_subset: [mvp, model_extracted]
         range: string
         description: Brief free-text summary of the study aims and scope.
+      hypothesis:
+        in_subset: [mvp, model_extracted]
+        range: string
+        multivalued: true
+        description: >-
+          The study's own statement of what it expected to find, quoted from the paper --
+          usually the closing paragraph of the Introduction, in the form "we hypothesized
+          that" or "we predicted that". Verbatim but for citation markers, one entry per
+          prediction, so a study stating several gets several.
+
+          A prediction, not a purpose. "The aim of this study was to examine whether
+          connectivity differs between patients and controls" says what was tested and takes no
+          value here; "we expected connectivity to be lower in patients" says what was expected
+          and does. Recording an aim as a hypothesis asserts a direction the study never
+          committed to, which is precisely what a reader consults this field to check.
+
+          Absent when the paper states no prediction, which is common: never paraphrase an aim,
+          an abstract sentence, or a finding into one. Where the only statement is in the
+          Discussion -- "consistent with our hypothesis that connectivity would be lower" --
+          quote that clause, which is still the study's account of what it predicted rather
+          than `Analysis.interpretations`, the source's account of what it found.
       design:
         in_subset: [mvp, model_extracted]
         range: StudyDesign
@@ -112,6 +133,14 @@ classes:
           as the search space an analysis was restricted to, as the levels of a factor
           comparing regions, or as the signal a model term carries. Declared here once and
           referenced by identifier wherever used.
+      devices:
+        in_subset: [model_extracted]
+        range: Device
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The scanners, amplifiers, or recording systems the study collected data on.
+          Declared here once and referenced by identifier.
       acquisitions:
         in_subset: [mvp, model_extracted]
         range: Acquisition
@@ -130,6 +159,22 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Model estimation records used by one or more analyses.
+      inference_settings:
+        in_subset: [model_extracted]
+        range: InferenceSettings
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Thresholding and correction schemes used by one or more analyses. Declared here
+          once and referenced by identifier.
+      measures:
+        in_subset: [mvp, model_extracted]
+        range: Measure
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The scientific quantities the study measured, used by one or more analyses.
+          Declared here once and referenced by identifier.
       analyses:
         in_subset: [mvp, model_extracted]
         range: Analysis

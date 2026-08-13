@@ -906,6 +906,99 @@ class Validator:
             "recorded the scans are here and the comparison between them is not",
         )
 
+    # -- arms, and the analyses that cannot say which one they are ----------
+
+    def check_arm_reachability(self, record: Mapping[str, Any]) -> None:
+        """Flag an analysis whose prose names an arm the structure cannot reach.
+
+        An `Arm` reaches an analysis two ways and only two: `FactorLevel.arms` on a term
+        some cell names, when the arm was *compared*, and `Group.arm` on a cohort the
+        analysis ran on, when the cohort was *assigned* to it. An analysis whose name or
+        definition says "heroin" while neither route lands anywhere is one whose arm the
+        record states in prose and nowhere a query can reach.
+
+        Two things produce that, and the message names both because a reviewer has to
+        tell them apart. Either a `Cell.level` matches no `FactorLevel` and the join to
+        the arm broke on the string -- `check_cell_terms` reports that from its own end
+        -- or the arm was held constant rather than compared, which is the crossover
+        case: one arm's data, no column naming it, and no cohort to hang it on because
+        every participant is in both. The schema has no slot for the second, deliberately
+        (storage-schema-design-notes.md, "An arm held constant"), so this warning is the
+        only place it surfaces.
+
+        Warning, not error, for `check_crossings`' reason: the trigger reads prose. An
+        analysis that never names an arm is left alone, which is what keeps a baseline
+        contrast in a treatment study, or a substudy pooled across arms, silent.
+        """
+
+        design = record.get("design")
+        arms = (design.get("arms") if isinstance(design, Mapping) else None) or []
+        vocabulary: list[tuple[str, re.Pattern]] = []
+        for arm in arms:
+            if not isinstance(arm, Mapping) or not isinstance(arm.get("local_id"), str):
+                continue
+            # `name` and `agent` both, because a paper writes either: "THC" is the arm's
+            # name in one record and its agent in another. Short strings are dropped --
+            # a two-character arm name matches prose that has nothing to do with it.
+            words = {str(_unwrap(arm.get(slot))) for slot in ("name", "agent")}
+            for word in words:
+                if len(word.strip()) < 3 or word == "None":
+                    continue
+                vocabulary.append(
+                    (arm["local_id"], re.compile(rf"\b{re.escape(word.lower())}\b"))
+                )
+        if not vocabulary:
+            return
+
+        models = {
+            model["local_id"]: model
+            for model in record.get("model_estimations") or []
+            if isinstance(model, Mapping) and isinstance(model.get("local_id"), str)
+        }
+        group_arms = {
+            group["local_id"]: group.get("arm")
+            for group in record.get("groups") or []
+            if isinstance(group, Mapping) and isinstance(group.get("local_id"), str)
+        }
+
+        for index, analysis in enumerate(record.get("analyses") or []):
+            if not isinstance(analysis, Mapping):
+                continue
+            prose = _prose(analysis.get("name"), analysis.get("definition"))
+            named = sorted({arm_id for arm_id, pattern in vocabulary if pattern.search(prose)})
+            if not named:
+                continue
+
+            terms = self._terms_in_scope(analysis.get("model_estimation"), models)
+            effect = analysis.get("effect")
+            cells = (effect.get("cells") if isinstance(effect, Mapping) else None) or []
+            reached = set()
+            for cell in cells:
+                if not isinstance(cell, Mapping):
+                    continue
+                term = terms.get(cell.get("term"))
+                if not isinstance(term, Mapping):
+                    continue
+                wanted = _unwrap(cell.get("level"))
+                for level in term.get("levels") or []:
+                    if not isinstance(level, Mapping):
+                        continue
+                    if wanted is None or _unwrap(level.get("level")) == wanted:
+                        reached.update(level.get("arms") or [])
+            for entry in analysis.get("groups") or []:
+                if isinstance(entry, Mapping):
+                    reached.add(group_arms.get(entry.get("group")))
+            if reached - {None}:
+                continue
+
+            self.warn(
+                f"Study.analyses[{index}]",
+                f"prose names arm(s) {', '.join(named)} while no cell's level and no "
+                "analysed cohort reaches an Arm, so nothing queryable says which arm "
+                "this map is. Either a Cell.level matches no FactorLevel that names the "
+                "arm, or the arm was held constant for this analysis, which has no slot",
+            )
+
     # -- derived columns and where they came from ---------------------------
 
     def check_derived_columns(self, record: Mapping[str, Any]) -> None:
@@ -1155,6 +1248,122 @@ class Validator:
                     "nothing says whether it was deliberately not encoded or missed",
                 )
 
+    def check_references_resolve(
+        self,
+        record: Mapping[str, Any],
+        *,
+        owner: str,
+        slot: str,
+        container: str,
+        tail: str,
+        multivalued: bool = False,
+    ) -> None:
+        """Every id in `owner[].slot` must name an entry of `container`.
+
+        `tail` completes "names {id}, which is not ...", so each caller keeps its own account
+        of what the dangling id costs. That wording is the whole value of the check to a
+        reviewer, which is why this shares the traversal and not the message.
+
+        A non-string is not a dangling id but a record still carrying the target inline;
+        `check_slot` reports that shape from the schema, and reporting it twice helps nobody.
+        """
+
+        known = {entry.get("local_id")
+                 for entry in record.get(container) or []
+                 if isinstance(entry, Mapping)}
+        for index, item in enumerate(record.get(owner) or []):
+            if not isinstance(item, Mapping):
+                continue
+            found = item.get(slot)
+            ids = found if multivalued and isinstance(found, list) else [found]
+            for position, local_id in enumerate(ids):
+                if not isinstance(local_id, str) or local_id in known:
+                    continue
+                path = (f"{owner}[{index}].{slot}[{position}]" if multivalued
+                        else f"{owner}[{index}].{slot}")
+                self.error(path, f"names {local_id!r}, which is not {tail}")
+
+    def check_group_instruments(self, record: Mapping[str, Any]) -> None:
+        """A group's diagnostic instrument must be one of the study's assessments.
+
+        `Group.diagnostic_instrument` is a reference, so the projection wraps no evidence
+        around it: the supporting quote and the purpose the source gave for administering the
+        instrument both live on the `Assessment` it points at. A dangling id loses both, and
+        leaves a diagnosis whose instrument the record names but nothing describes -- which is
+        exactly the distinction between an instrument that classified a cohort and one the
+        cohort merely underwent (storage-schema-design-notes.md, "An instrument administered
+        is not an instrument that classified").
+        """
+
+        self.check_references_resolve(
+            record,
+            owner="groups",
+            slot="diagnostic_instrument",
+            container="assessments",
+            multivalued=True,
+            tail="an assessment of this study. Add it to "
+                 "`assessments` with the purpose the source states for administering it, or "
+                 "drop the reference if nothing established this group's diagnosis",
+        )
+
+    def check_analysis_inference_settings(self, record: Mapping[str, Any]) -> None:
+        """An analysis's thresholding scheme must be one the study declares.
+
+        `Analysis.inference_settings` is a reference, so a dangling id leaves the analysis
+        with no threshold, no correction and no alpha at all -- the record then reads as a
+        result reported without inference, which is a different claim from one whose
+        thresholding the paper never stated (that is a declared scheme with `unstated`
+        fields). Sharing is the point of the reference, so the id will usually be one
+        several analyses name.
+        """
+
+        self.check_references_resolve(
+            record,
+            owner="analyses",
+            slot="inference_settings",
+            container="inference_settings",
+            tail="an inference settings record of this "
+                 "study. Add it to `inference_settings` with the thresholding the source "
+                 "states, or point at the existing scheme this analysis shares",
+        )
+
+    def check_analysis_measures(self, record: Mapping[str, Any]) -> None:
+        """An analysis's measured quantity must be one the study declares.
+
+        `Analysis.measure` is a required reference, so a dangling id leaves a result whose
+        measured quantity nothing in the record states -- which is not the same as a paper
+        vague about what it measured. That case is a declared `Measure` carrying the
+        source's own wording in `source_label` and `unstated` elsewhere, and it stays
+        queryable; a dangling id is not.
+        """
+
+        self.check_references_resolve(
+            record,
+            owner="analyses",
+            slot="measure",
+            container="measures",
+            tail="a measure of this study. Add it to `measures` with the quantity the "
+                 "source names, or point at the existing measure this analysis shares",
+        )
+
+    def check_acquisition_devices(self, record: Mapping[str, Any]) -> None:
+        """An acquisition's device must be one the study declares.
+
+        `Acquisition.device` is a reference, and one record is one physical machine. A
+        dangling id loses the manufacturer and model a reader filters studies by, and the
+        emptiness reads as a paper that never named its scanner rather than a record that
+        lost the reference.
+        """
+
+        self.check_references_resolve(
+            record,
+            owner="acquisitions",
+            slot="device",
+            container="devices",
+            tail="a device of this study. Add it to `devices` with the scanner the source "
+                 "names, or point at the existing device this acquisition shares",
+        )
+
     def check_record(self, record: Any) -> None:
         self.check_instance(record, "Study", "Study")
 
@@ -1162,10 +1371,15 @@ class Validator:
             self.check_cell_terms(record)
             self.check_model_stages(record)
             self.check_table_purpose(record)
+            self.check_group_instruments(record)
+            self.check_analysis_inference_settings(record)
+            self.check_analysis_measures(record)
+            self.check_acquisition_devices(record)
             self.check_crossings(record)
             self.check_product_columns(record)
             self.check_unsigned_cells(record)
             self.check_occasion_factors(record)
+            self.check_arm_reachability(record)
             self.check_derived_columns(record)
 
         metadata = record.get("extraction_metadata") if isinstance(record, dict) else None

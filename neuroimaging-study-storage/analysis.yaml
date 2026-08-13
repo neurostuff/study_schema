@@ -82,16 +82,6 @@ classes:
           - range: string
         required: true
         description: Spatial domain of the analysis.
-      spatial_unit:
-        in_subset: [mvp, model_extracted]
-        any_of:
-          - range: SpatialUnit
-          - range: string
-        description: >-
-          The element the analysis was carried out over. Distinct from spatial_scope, which
-          gives the extent: a whole-brain analysis can be voxelwise or vertexwise, and an ROI
-          analysis can average a region or test its parcels. Record it rather than inferring
-          it from coordinate_space.
       regions:
         in_subset: [model_extracted]
         range: Region
@@ -119,9 +109,14 @@ classes:
       measure:
         in_subset: [mvp, model_extracted]
         range: Measure
-        inlined: true
+        inlined: false
         required: true
-        description: The scientific quantity of the map, independent of the statistic used to test it.
+        description: >-
+          The scientific quantity of the map, by identifier, independent of the statistic
+          used to test it. Analyses of one quantity reference one record; an analysis of a
+          different quantity takes its own. Required, because a result of an unnamed
+          quantity says nothing -- a paper vague about what it measured still takes a
+          record, with `source_label` as given and `unstated` elsewhere.
       groups:
         in_subset: [mvp, model_extracted]
         range: AnalysisGroup
@@ -188,13 +183,12 @@ classes:
       inference_settings:
         in_subset: [model_extracted]
         range: InferenceSettings
-        inlined: true
-        description: Structured thresholding and correction metadata for this reported analysis.
-      preprocessing:
-        in_subset: [model_extracted]
-        range: Preprocessing
         inlined: false
-        description: The preprocessing pipeline that produced the analyzed data.
+        description: >-
+          The thresholding and correction this analysis was reported under, by identifier.
+          Analyses sharing one scheme reference one record; an analysis thresholded or
+          corrected differently takes its own. Not the model's -- one fit thresholded two
+          ways is two records here and one `model_estimation`.
       tables:
         in_subset: [mvp, model_extracted]
         range: Table
@@ -217,7 +211,7 @@ classes:
           one or the analysis is reported without a coordinate table. Exactly one of the two is
           filled, never both, so a value here means the tables were silent. An analysis on a
           surface reports a surface template, which is why the space does not follow from
-          spatial_unit.
+          the model's `spatial_unit`.
       assessments:
         in_subset: [mvp, model_extracted]
         range: Assessment
@@ -362,7 +356,26 @@ classes:
       When a paper alternates terms for the same map -- grey matter concentration in
       Methods and volume in Results -- take the Methods term for type and keep both
       wordings in source_label.
+
+      One record may be referenced by several Analyses, so every field must hold for all of
+      them; an analysis of a different quantity takes its own record. The test is
+      mechanical: two analyses share a record when `family`, `type`, `specific_metric` and
+      `unit` all match. A study measures one or two quantities and tests them many ways, so
+      sharing is the common case -- eight analyses of one connectivity measure are one
+      record, not eight.
+
+      Not a property of the thresholding scheme. One correction scheme routinely covers
+      several measures, and one measure is often tested under several schemes, so
+      `inference_settings` is a sibling reference on the Analysis rather than this record's
+      parent or its child. See storage-schema-design-notes.md for the reasoning behind this
+      shape.
     attributes:
+      id:
+        in_subset: [deterministic]
+        range: string
+        identifier: true
+        required: true
+        description: Stable identifier used by Analysis foreign-key references.
       family:
         in_subset: [mvp, model_extracted]
         any_of:
@@ -553,7 +566,8 @@ classes:
       - https://nidm.nidash.org/specs/nidm-results_120.html
     description: >-
       How a model was specified in software and estimated: its terms, the family, the
-      source's wording for it, the estimator, the stage, and the software.
+      source's wording for it, the estimator, the stage, the software, the pipeline that
+      produced the data it was fitted to, and the spatial element it was fitted over.
       One record may be referenced by several Analyses, so every field must hold for all of them;
       an analysis specified or estimated differently takes its own record. **The data a model was fitted to is part
       of its specification**.
@@ -624,6 +638,30 @@ classes:
         in_subset: [mvp, model_extracted]
         range: string
         description: Statistical software name, version, and relevant implementation details.
+      spatial_unit:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: SpatialUnit
+          - range: string
+        description: >-
+          The element this model was fitted over. Distinct from the Analysis's
+          `spatial_scope`, which gives the extent rather than the element: a whole-brain
+          model can be voxelwise or vertexwise, and a model over an ROI can average the
+          region or test its parcels. Record it rather than inferring it from
+          `coordinate_space`.
+
+          A model fitted over a different element is a different model, so a voxelwise GLM
+          and an ROI-mean ANOVA of the same design take two records: no contrast of one can
+          be read off the other's fit.
+      preprocessing:
+        in_subset: [model_extracted]
+        range: Preprocessing
+        inlined: false
+        description: >-
+          The pipeline that produced the data this model was fitted to. Every Analysis
+          referencing this record came through it, so a model fitted to differently prepared
+          data -- unsmoothed images for a classifier, smoothed ones for a mass-univariate
+          fit -- takes its own record rather than sharing one.
       inputs_from:
         in_subset: [mvp, model_extracted]
         range: ModelEstimation
@@ -901,10 +939,28 @@ classes:
 
   InferenceSettings:
     description: >-
-      Structured inferential procedure for one reported analysis. This is the canonical
-      storage home for thresholding, correction, and cluster-inference metadata. The test
-      statistic itself belongs to the tested effect and lives in Effect.statistic.
+      One thresholding and correction procedure. This is the canonical storage home for
+      thresholding, correction, and cluster-inference metadata. The test statistic itself
+      belongs to the tested effect and lives in Effect.statistic.
+
+      One record may be referenced by several Analyses, so every field must hold for all of
+      them; an analysis thresholded or corrected differently takes its own record. The test
+      is mechanical: two analyses share a record when the threshold, its type, the
+      correction method, the scope corrected over and the alpha are all the same. A paper
+      that states one correction scheme in Methods and applies it throughout has one record.
+
+      Inference attaches to the analysis, not to the fit. One model estimated once is often
+      thresholded several ways -- an ROI test Bonferroni-corrected over four regions and a
+      searchlight over the same fit corrected by FDR -- so this is not a property of
+      ModelEstimation and sharing it by model would assert a difference in fitting that did
+      not happen. See storage-schema-design-notes.md for the reasoning behind this shape.
     attributes:
+      id:
+        in_subset: [deterministic]
+        range: string
+        identifier: true
+        required: true
+        description: Stable identifier used by Analysis foreign-key references.
       inference_level:
         in_subset: [model_extracted]
         range: string

@@ -111,10 +111,13 @@ classes:
           Total usable acquisition or recording duration in seconds. Useful for filtering
           studies by the amount of data contributing to an analysis, especially resting-state
           and continuous recordings.
-      instrument:
-        range: Instrument
-        inlined: true
-        description: Scanner, amplifier, or recording system used for this acquisition.
+      device:
+        range: Device
+        inlined: false
+        description: >-
+          The scanner, amplifier, or recording system this acquisition was made on, by identifier.
+          Acquisitions made on one machine reference one record; a second record asserts the
+          study used a second machine.
   MRI:
     is_a: Acquisition
     description: >-
@@ -259,21 +262,24 @@ classes:
       reason_no_modality_class_used:
         range: ExtractedString
         description: Why this is not an MRI, EEG, FNIRS, or PET record.
-  Instrument:
-    description: >-
-      The scanner, amplifier, or recording system an acquisition was made on, split into the
-      two parts a source reliably reports. Either part can be missing: papers name a model
-      with no manufacturer as often as the reverse.
+  Device:
+    description: |-
+      The scanner, amplifier, or recording system an acquisition was made on, split into the two parts a source reliably reports. Either part can be missing: papers name a model with no manufacturer as often as the reverse.
+      One record is one physical machine, referenced by every acquisition made on it: a study that collected functional, structural and diffusion scans in one session has three Acquisitions and one Device. Two records mean the study says it used two machines -- a second site, or a rescan on different hardware -- which is a claim about the data and not a way of recording that two sequences differed.
     attributes:
+      local_id:
+        range: string
+        required: true
+        description: Stable identifier used by Acquisition foreign-key references.
       manufacturer:
         range: ExtractedString
         description: >-
-          Company that made the instrument, as reported, such as Siemens, GE, Philips, Brain
-          Products, or NIRx.
+          Company that made the device, as reported, such as Siemens, GE, Philips, Brain Products,
+          or NIRx.
       model:
         range: ExtractedString
         description: >-
-          Model or product name of the instrument, as reported, such as Prisma, Signa, Achieva,
+          Model or product name of the device, as reported, such as Prisma, Signa, Achieva,
           or actiCHamp.
   ExtractedModality:
     is_a: ExtractedValue

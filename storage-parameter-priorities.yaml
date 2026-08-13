@@ -24,6 +24,7 @@ Study:
   id: n/a
   title: n/a
   description: n/a
+  hypothesis: 1
   design: n/a
   authors: n/a
   journal: n/a
@@ -35,9 +36,12 @@ Study:
   tasks: n/a
   assessments: n/a
   regions: n/a
+  devices: n/a
   acquisitions: n/a
   preprocessings: n/a
   model_estimations: n/a
+  inference_settings: n/a
+  measures: n/a
   analyses: n/a
   tables: n/a
 
@@ -120,7 +124,7 @@ Acquisition:
   acquisition_type: n/a
   modality: 0
   acquisition_duration_seconds: 1
-  instrument: 2
+  device: 2
 
 MRI:
   magnetic_field_strength_tesla: 1
@@ -162,7 +166,8 @@ OtherModality:
   modality_label: 1
   reason_no_modality_class_used: 3
 
-Instrument:
+Device:
+  id: n/a
   manufacturer: 2
   model: 2
 
@@ -184,8 +189,11 @@ ModelEstimation:
   stage: 1
   estimator: 2
   software: 2
+  spatial_unit: 0
+  preprocessing: 2
 
 InferenceSettings:
+  id: n/a
   inference_level: 1
   voxelwise_threshold_value: 0
   voxelwise_threshold_type: 0
@@ -209,7 +217,6 @@ Analysis:
   prespecification: 0
   interpretations: 0
   spatial_scope: 0
-  spatial_unit: 0
   regions: 1
   defines_regions: 1
   measure: 0
@@ -220,7 +227,6 @@ Analysis:
   tasks: 0
   model_estimation: 0
   inference_settings: 0
-  preprocessing: 2
   tables: 0
   statistical_maps: 1
   coordinate_space: 0
@@ -242,6 +248,7 @@ Statistic:
   degrees_of_freedom_denominator: 1
 
 Measure:
+  id: n/a
   family: 0
   type: 0
   source_label: 0
@@ -349,7 +356,6 @@ ConnectivityEdge:
   source_region: 2
   target_region: 2
   directionality: 2
-  parameter_sign: 2
 
 ConjunctionDetails:
   components: 1
