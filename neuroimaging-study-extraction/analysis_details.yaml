@@ -10,7 +10,7 @@ id: https://neurostuff.org/schemas/neuroimaging-study-extraction/analysis_detail
 name: neuroimaging-study-extraction-analysis-details
 title: Neuroimaging Study Extraction Analysis Details Module
 description: |-
-  Method-specific payloads for an Analysis: the fields that only make sense for one family of method, kept out of Analysis so that the method and the effect never compete for a field. Exactly one subclass of AnalysisDetails applies to an Analysis, and which one is filled states the method. A mass-univariate analysis takes MassUnivariateDetails, which adds no fields of its own.
+  Method-specific payloads for an Analysis: the fields that only make sense for one family of method. Exactly one subclass of AnalysisDetails applies to an Analysis, and which one is filled states the method.
   These classes carry method specifics only. What was tested about the map always lives in Effect, whatever the method, so a connectivity, decoding, RSA, or component analysis states its tested effect in exactly the same fields a voxelwise GLM does.
   This module must not import the analysis module: Analysis.details ranges on AnalysisDetails, so the dependency runs the other way. Shared vocabularies therefore live in analysis_enums, and ConjunctionComponent references a sibling analysis by plain id.
   See storage-schema-design-notes.md for the reasoning behind this shape.
@@ -51,7 +51,7 @@ classes:
     description: |-
       Payload for a classification or pattern-discriminability analysis. Above-chance decoding is one signed cell with nothing crossed, and the reference it beat is `PerformanceMetric.reference_value`, which is per metric because accuracy against chance and AUC against 0.5 are two references. A between-cohort accuracy comparison is a crossed cohort term; accuracy regressed on a behavioural score is a cell on a continuous term. Spatial scope is recorded on the Analysis, including for searchlight analyses.
 
-      "One signed cell" means exactly one. The class the reported accuracy is *for* takes the positive cell and the other class takes no cell at all, because absence is the zero weight. Signing both would say the paper reported which way the classifier erred, which a single accuracy does not. Where the test is undirected -- accuracy against chance, with no class named as the target -- every cell is `unstated` instead.
+      "One signed cell" means exactly one. The class the reported accuracy is *for* takes the positive cell and the other class takes no cell at all, because absence is the zero weight. Signing both would say the paper reported which way the classifier erred, which a single accuracy does not. Where the test is undirected -- accuracy against chance, with no class named as the target -- every cell is `undirected` instead.
       `classes` is then the only field saying what was told apart, so leaving it empty asserts that the paper never named the classes it decoded, which is rare.
     attributes:
       decoded_variable:
@@ -73,8 +73,8 @@ classes:
         description: >-
           The performance measures reported for this map, one entry each. Papers routinely
           give several of the same analysis -- accuracy with sensitivity and specificity,
-          or accuracy with AUC -- and each carries its own value, so a single field would
-          keep whichever the extractor happened to read first.
+          or accuracy with AUC -- and each carries its own value and its own reference. Record
+          every one the source reports.
       validation_scheme:
         range: ExtractedString
         description: Cross-validation or resampling scheme, such as leave-one-run-out.
@@ -102,8 +102,8 @@ classes:
         description: >-
           Numeric reference this measure was compared against, when reported -- chance for
           an accuracy, zero for a correlation. Each measure carries its own: accuracy against
-          chance and AUC against 0.5 are two references, not one, which is why this is here
-          and not once on the Effect. `relation` says which side of it the measure fell on.
+          chance and AUC against 0.5 are two references, not one. `relation` says which side
+          of it the measure fell on.
       relation:
         range: ExtractedPerformanceRelation
         description: Direction of this measure relative to its own reference_value.
@@ -131,8 +131,8 @@ classes:
         range: ExtractedString
         description: >-
           The model RDM tested. Unset for a genuinely model-free test, such as within- versus
-          between-category pattern similarity or dissimilarity against zero, which is tested
-          against zero, which is a single signed cell rather than a comparison.
+          between-category pattern similarity, or dissimilarity against zero -- a single signed
+          cell rather than a comparison.
       neural_representation:
         range: ExtractedString
         description: How the neural pattern was defined, such as the voxel set or time window
@@ -258,8 +258,6 @@ classes:
     description: |-
       Payload for an analysis whose map is one component or latent variable of a decomposition -- ICA, PCA, NMF, PLS, CCA, and the multimodal fusion methods. Covers a component whose map or loading was *tested*: compared between cohorts, correlated with behaviour, or otherwise given an inferential result. A component map presented descriptively with no test is not an Analysis, so it takes no record here. Being representable here does not imply eligibility for coordinate-based meta-analysis.
       One analysis reports one component: a second latent variable or component from the same decomposition is a second Analysis.
-      **The class boundary is the block structure, not the algorithm.** `second_block` says how many blocks were decomposed and what the others held, and that -- not which algorithm ran -- is what decides whether two decompositions answer the same question. A brain-behaviour covariance decomposed by PLS and one decomposed by CCA pool with each other more readily than a task PLS pools with a behavioural PLS, so the filter has to be the blocks and the algorithm has to be a separate field.
-      This class replaces the former `ComponentDecompositionDetails` and `PartialLeastSquaresDetails`, which held one fact in three homes: the block structure was the boundary between them, *and* an enum inside PLS (`pls_type`), *and* absent altogether for parallel ICA and mCCA+jICA, whose second block is another imaging modality or a SNP array. Four of PLS's nine fields were the component fields under other names, and the split had already begun to drift -- `map_quantity` existed on one side and not the other, though PLS maps are the ones most in need of it. See storage-schema-design-notes.md.
       One invariant LinkML does not express, so the structural validator carries it: `crossblock_covariance_percent` is meaningless when `second_block` is `[none]`, there being no second block for the covariance to cross. `variance_explained_percent` is permitted either way, since a two-block decomposition may still report how much of the brain block its component captures.
     attributes:
       method:
@@ -267,15 +265,13 @@ classes:
         required: true
         description: >-
           The algorithm that produced the components, which decides what their values and
-          signs mean. Required, so `unstated` is the value for a paper that names no algorithm;
-          the method is this payload's identity and an absent value would be indistinguishable
-          from an extractor that never reached the question.
+          signs mean.
       second_block:
         range: ExtractedSecondBlockList
         required: true
         description: |-
-          What the brain block was decomposed against, one value per additional block, and the primary filter on this payload. `[none]` for a decomposition of the brain data alone, which is a positive assertion rather than an empty slot -- exactly as `MassUnivariateDetails` asserts the commonest method rather than leaving it to be inferred.
-          Multivalued because papers cross more than two blocks: a three-modality mCCA+jICA carries `other_imaging_modality` twice, and a design-plus-behaviour PLS carries `[design, behavioral]` rather than a `multiblock` token that would discard which blocks they were.
+          What the brain block was decomposed against, one value per additional block, and the primary filter on this payload. `[none]` for a decomposition of the brain data alone, which is a positive assertion rather than an empty slot.
+          Multivalued because papers cross more than two blocks: a three-modality mCCA+jICA carries `other_imaging_modality` twice, and a design-plus-behaviour PLS carries `[design, behavioral]`. Name the blocks, never their number.
       second_block_assessments:
         range: Assessment
         multivalued: true
@@ -313,10 +309,7 @@ classes:
         description: >-
           How the number of components was chosen, as reported -- minimum description length,
           a variance-retained cutoff, a scree criterion, permutation on the singular values,
-          or a fixed a priori number. Distinct from `selection_criterion`, which is about
-          which single component the paper went on to report: this is a property of the decomposition
-          and governs how finely the signal was carved, so two ICAs at 20 and at 100 components
-          are not reporting comparable networks.
+          or a fixed a priori number.
       selection_criterion:
         range: ExtractedString
         description: How this component was selected for reporting.
@@ -344,9 +337,9 @@ classes:
         description: >-
           The criterion deciding which elements count as reliable contributors, as reported
           -- conventionally a bootstrap ratio cutoff such as "|BSR| > 3.0", or a standardized
-          cutoff such as "|Z| > 3.5". Recorded here rather than in `InferenceSettings` because
-          a bootstrap ratio is a stability measure and not a test statistic, so reading it
-          as a voxelwise threshold would misstate the inference.
+          cutoff such as "|Z| > 3.5". Not `InferenceSettings`: a bootstrap ratio is a stability
+          measure and not a test statistic, so reading it as a voxelwise threshold would misstate
+          the inference.
       polarity_semantics:
         range: ExtractedPolaritySemantics
         description: >-

@@ -35,7 +35,7 @@ expressive than both this schema and NIDM-Results across the whole inference sur
 comparison there is one-sided.
 
 **A tool-exported standard has no silence.** Neither BSM nor NIDM has any counterpart to
-`unstated`, because a pipeline that ran knows what it did. Every field in NIDM-Results is either
+`not_reported`, because a pipeline that ran knows what it did. Every field in NIDM-Results is either
 present or the exporter chose not to emit it, and there is no way to say "the source did not
 report this." That single fact accounts for a whole class of fields this schema has and they
 cannot.
@@ -90,8 +90,8 @@ than a crosswalk; [onvoc-mapping-audit.md](onvoc-mapping-audit.md) is that audit
 |---|---|---|
 | `Contrast{Name, ConditionList, Weights, Test}` | `Effect{cells, statistic}` + `Analysis.name` | **parity of shape, divergence of content.** Both select over the model's columns. `ConditionList` + `Weights` is a name-keyed numeric vector; `cells` is a list of `{term, level, direction}`. |
 | `Contrast.ConditionList` (matched to `X` by **name string**) | `Cell.term` (matched by **identifier**) | this schema is more robust. Carried over from the ARS crosswalk's finding 1. |
-| `Contrast.Weights` | `Cell.direction` (`positive`/`negative`/`undirected`/`unstated`/`held`) | **deliberate divergence.** Signs, not magnitudes. See finding 6. |
-| `Contrast.Test` ∈ `t`, `F` (plus a pass-through that runs no test) | `Statistic.family` (open: `t`, `z`, `f`, `chi_square`, `likelihood_ratio`, `beta`, `correlation`, `unstated`) | this schema is broader, as it must be: papers report statistics BSM has no reason to prescribe. |
+| `Contrast.Weights` | `Cell.direction` (`positive`/`negative`/`undirected`/`held`) | **deliberate divergence.** Signs, not magnitudes. See finding 6. |
+| `Contrast.Test` ∈ `t`, `F` (plus a pass-through that runs no test) | `Statistic.family` (open: `t`, `z`, `f`, `chi_square`, `likelihood_ratio`, `beta`, `correlation`) | this schema is broader, as it must be: papers report statistics BSM has no reason to prescribe. |
 | `DummyContrasts{Contrasts, Test}` | — | not applicable. A convenience for generation; there is nothing to generate from a document. |
 | — | `Effect.mediation`, `Analysis.prespecification`, `Measure`, `InferenceSettings`, `Region`, `spatial_scope`, `spatial_unit` | no counterpart in BSM. |
 
@@ -150,7 +150,7 @@ than a crosswalk; [onvoc-mapping-audit.md](onvoc-mapping-audit.md) is that audit
 | `sha512` and file-level integrity | `Analysis.prespecification` |
 | `hasAlternativeHypothesis` | `Effect.mediation{path, mediator}` |
 | `SearchSpaceMaskMap` RFT quantities | `DecodingDetails`, `SimilarityDetails`, `ConnectivityDetails`, `LatentDecompositionDetails` |
-| `CoordinateSpace` geometry | `NotStructurableDetails`, `model_representation_notes`, `undirected` vs `unstated` vs `held` |
+| `CoordinateSpace` geometry | `NotStructurableDetails`, `model_representation_notes`, `undirected` vs `held` vs a `not_reported` direction |
 
 ---
 
@@ -200,7 +200,7 @@ This is not a reporting nicety: converting a reported *p* to a signed *z* requir
 tail, and that conversion is a routine step in coordinate-based meta-analysis. `Cell.direction`
 implies a one-tailed test in the ordinary case and an `omnibus` implies two, but neither is a
 statement, and papers do report two-tailed directional tests. A closed
-`one_tailed`/`two_tailed`/`unstated` enum on `Effect` would cost one slot.
+`one_tailed`/`two_tailed` enum on `Effect` would cost one slot.
 
 **Voxel size.** NIDM's `CoordinateSpace` carries `dimensionsInVoxels`, `voxelSize`, `voxelUnits`,
 `voxelToWorldMapping` and `numberOfDimensions` alongside the world coordinate system. Here,
@@ -248,7 +248,7 @@ the stages it names, so the mixed term list is unmixed and every derivation read
 
 **What forced it.** The old defence was that a paper states its group-level design matrix and
 rarely its first-level one in enough detail to constitute a separate model, so two linked records
-would come out one populated and one full of `unstated`. Extraction found the opposite often
+would come out one populated and one full of `not_reported`. Extraction found the opposite often
 enough to matter. In pmid 24600410 the model produced exactly two records — a FEAT first level
 holding the amygdala seed regressors and the WM/CSF/motion nuisance covariates, and a FLAME group
 model holding diagnosis, age, sex and scanner — and with no link between them the first was
@@ -376,7 +376,7 @@ Ranked by how much of the schema's purpose depends on it rather than by size.
    checkable rather than asserted. No peer represents non-independence in any form, and it is a
    first-order threat to the validity of a pooled estimate.
 8. **The epistemic layer.** `prespecification`; `interpretations`, marked as inferred by which slot
-   it sits in; `undirected`, `unstated` and `held` as three different facts; `NotStructurableDetails`;
+   it sits in; `undirected`, `held` and a `not_reported` direction as three different facts; `NotStructurableDetails`;
    `model_representation_notes`; `reason_first_class_type_not_used`. None of this can exist in a
    prescriptive or tool-exported standard, because neither has an author who might not have said.
    ARS's `reason` and `purpose` are the only partial peers, and the ARS crosswalk already settled
@@ -399,7 +399,7 @@ runs strongest to weakest:
 | gap | finding | candidate shape | cost |
 |---|---|---|---|
 | correction method per threshold | 2 | a `Threshold{level, value, type, correction_method}` class, multivalued | one class; subsumes four slots; the largest map change |
-| tailedness | 3 | `Effect.alternative_hypothesis`: `one_tailed`/`two_tailed`/`unstated`, closed | one slot, one enum |
+| tailedness | 3 | `Effect.alternative_hypothesis`: `one_tailed`/`two_tailed`, closed | one slot, one enum |
 | *n* inferences per contrast | 4 | make `inference_settings` multivalued | loosens a cardinality; breaks nothing |
 | voxel size of the analysed space | 3 | `voxel_size_mm` on `Table`, or a `CoordinateSpace` class | one slot, or one class done properly |
 | error dependence | 7 | `error_dependence` + `error_variance_homogeneous` on `ModelEstimation` | two slots, one enum |

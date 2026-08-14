@@ -149,7 +149,7 @@ def repair_wrappers(node: Any, path: str = "") -> list[str]:
 
     The wrapper is `{"extraction_status": "extracted", "value": X}`, and the model
     intermittently writes X into the status slot instead -- `"extraction_status":
-    "unstated"` for a direction, `"extraction_status": 0.05` for an alpha level. Every
+    "undirected"` for a direction, `"extraction_status": 0.05` for an alpha level. Every
     such field is invalid against the schema, and the numeric ones additionally break
     `ls.py export`, whose task contract requires `llm_status` to be a string.
 

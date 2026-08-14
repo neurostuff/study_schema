@@ -2,10 +2,8 @@ id: https://neurostuff.org/schemas/neuroimaging-study-storage/design
 name: neuroimaging-study-storage-design
 title: Neuroimaging Study Storage Design Module
 description: >-
-  What happened to participants outside the task: which occasion the data were collected on,
-  and what the participant received.
-
-  The module records the class of the manipulation and the position of the occasion.
+  What happened to participants outside the task: the class of the manipulation they
+  received, and where the occasion they were measured on sits relative to it.
 prefixes:
   linkml: https://w3id.org/linkml/
   neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
@@ -92,8 +90,8 @@ classes:
           - range: string
         required: true
         description: >-
-          What class of thing this arm received. Required, with `unstated` for an arm whose
-          kind the source leaves unclear.
+          What class of thing this arm received. Required, so an arm whose kind the source
+          leaves unclear still carries the slot, as `extraction_status: not_reported`.
       agent:
         in_subset: [model_extracted]
         range: string
@@ -125,8 +123,8 @@ classes:
           - range: string
         required: true
         description: >-
-          Where this occasion sits relative to the intervention. Required, with `unstated`
-          for an occasion the source does not place.
+          Where this occasion sits relative to the intervention. Required, so an occasion
+          the source does not place still carries the slot, as `extraction_status: not_reported`.
       order:
         in_subset: [mvp, model_extracted]
         range: integer
@@ -169,9 +167,6 @@ enums:
         description: >-
           Nothing was administered, so allocation does not apply. An observational
           cross-sectional study takes this value.
-      unstated:
-        in_subset: [mvp, model_extracted]
-        description: The source does not make the allocation procedure clear.
 
   AssignmentStructure:
     in_subset: [mvp, model_extracted]
@@ -200,9 +195,6 @@ enums:
         in_subset: [mvp, model_extracted]
         description: >-
           One cohort measured once, with no arms and no repeated occasions to structure.
-      unstated:
-        in_subset: [mvp, model_extracted]
-        description: The source does not make the assignment structure clear.
 
   Blinding:
     in_subset: [model_extracted]
@@ -225,24 +217,20 @@ enums:
       not_applicable:
         in_subset: [model_extracted]
         description: Nothing was administered, so there was no assignment to be blind to.
-      unstated:
-        in_subset: [model_extracted]
-        description: The source does not make the blinding clear.
 
   ArmKind:
     in_subset: [mvp, model_extracted]
     description: >-
       What class of thing an arm received. Spans both the manipulation and the thing it was
-      compared against, because both are arms here: a drug against an active comparator is a
-      different comparison from a drug against a placebo, which is why the two have separate
-      values. Open vocabulary: write the source's own wording in the field when nothing here
-      fits.
+      compared against, both being arms here: a drug against an active comparator is a
+      different comparison from a drug against a placebo, so the two take different values.
+      Open vocabulary: write the source's own wording in the field when nothing here fits.
     permissible_values:
       pharmacological:
         in_subset: [mvp, model_extracted]
         description: >-
           An administered drug or other agent. The agent's name belongs in `agent`; dose,
-          route and schedule are not recorded, being replication detail rather than a filter.
+          route and schedule are not recorded.
       stimulation:
         in_subset: [mvp, model_extracted]
         description: Applied brain stimulation -- TMS, tDCS, tACS, deep brain stimulation.
@@ -268,17 +256,14 @@ enums:
         description: >-
           A waitlist or untreated comparator arm receiving nothing. Distinct from a rest or
           fixation Condition, which is a scanner state rather than an arm.
-      unstated:
-        in_subset: [mvp, model_extracted]
-        description: The source does not make the kind of thing this arm received clear.
 
   TimepointRelation:
     in_subset: [mvp, model_extracted]
     description: >-
       Where an occasion sits relative to the intervention. Directional terms over these
-      values are what mark an analysis as a within-person change rather than a
-      cross-sectional comparison. Open vocabulary: write the source's own wording in the
-      field when nothing here fits.
+      values mark an analysis as a within-person change rather than a cross-sectional
+      comparison. Open vocabulary: write the source's own wording in the field when nothing
+      here fits.
     permissible_values:
       pre_intervention:
         in_subset: [mvp, model_extracted]
@@ -305,6 +290,3 @@ enums:
           Data were collected on several occasions but nothing was administered, so there is
           no intervention to be relative to. A longitudinal observational study takes this
           value.
-      unstated:
-        in_subset: [mvp, model_extracted]
-        description: The source does not place this occasion relative to the intervention.

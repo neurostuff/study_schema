@@ -1,22 +1,35 @@
-"""Drive the full extraction workflow over a pmids file.
+"""Drive an extraction workflow over a pmids file.
 
-The shape is the one `bench/RESULTS.md` recommends, adapted to the current schema:
+Two orderings, chosen with `--workflow`. Both start from the coordinate-table parse and
+end in a built, validated record; what differs is which pass decides the entities exist.
 
-    1  tables -> analyses          review/parse_tables.py (run separately; costs money)
-    2  entities                    one call, no evidence
-    3  analyses                    one call, annotating stage 1's list, no evidence
-    4  evidence                    review/add_evidence.py, quotes only
-    5  build + validate            review/build_record.py, review/validate_record.py
+    demand-driven (default recommendation)      entity-first (the older shape)
+      tables    copy the pubget manifest          tables
+      demands   analyses first; each declares     entities  guess the inventory
+                the entities it needs
+      satisfy   build exactly those entities      analyses  link to whatever pass 1 made
+      evidence  quotes for the filled values      evidence
+      build     merge, then validate              build
 
-Stage 1 is not re-run here: it is the load-bearing input, so it is versioned on disk
-and a rerun is an explicit act.
+`demand-driven` exists because the entity pass cannot know what the contrasts will need.
+Asked to guess, it modelled a crossover's condition as a continuous covariate, and a cell
+cannot be righter than the term it points at. Letting the analyses declare their terms
+first fixed that; the measurements are in docs/extraction-workflow-experiments.md.
 
-`tables` is not extracted by a model at all. `table_number`, `caption` and `footer`
-are literal strings in the pubget manifest, so retyping them through an LLM can only
-introduce error; they are copied, and the analyses pass is told the local_ids.
+Stage 1 -- `review/parse_tables.py` -- is not re-run here. It is the load-bearing input:
+without it analysis recall goes to zero. It is versioned on disk and a rerun is explicit.
 
-    python review/run_extraction.py --pmids bench-baseline.pmids --key-file .env
-    python review/run_extraction.py --pmids bench-baseline.pmids --stages build
+`tables` is not extracted by a model at all. `table_number`, `caption` and `footer` are
+literal strings in the pubget manifest, so retyping them through an LLM can only introduce
+error; they are copied, and the analyses pass is told the local_ids.
+
+Every model pass carries a post-condition and retries when it fails -- an empty payload, a
+declared entity it did not emit, a design no model term can express. Raise it with
+`--max-attempts`; 1 disables it.
+
+    python review/run_extraction.py --pmids papers.pmids --workflow demand-driven \\
+        --zero-foci-rule --max-attempts 3 --key-file .env
+    python review/run_extraction.py --pmids papers.pmids --stages build
 """
 
 from __future__ import annotations
@@ -33,7 +46,22 @@ REVIEW = Path(__file__).resolve().parent
 sys.path.insert(0, str(REVIEW))
 from sync_texts import read_pmids  # noqa: E402
 
-STAGES = ["tables", "entities", "analyses", "evidence", "build"]
+STAGES = ["tables", "entities", "analyses", "demands", "satisfy", "recheck",
+          "evidence", "build"]
+
+#: Named stage orderings, so a workflow is a name rather than a remembered set of flags.
+#:
+#: `entity-first` is the shape `baseline-run.md` settled on: guess the entity inventory,
+#: then link analyses to it. `demand-driven` reverses it -- the analyses decide what
+#: entities exist and the entity pass is held to that list -- which is what stopped the
+#: model being built before anything had said what it must express. See
+#: docs/extraction-workflow-experiments.md for the measurements behind the default.
+WORKFLOWS = {
+    "entity-first": ["tables", "entities", "analyses", "evidence", "build"],
+    "demand-driven": ["tables", "demands", "satisfy", "evidence", "build"],
+    "demand-driven+recheck": ["tables", "demands", "satisfy", "recheck", "evidence",
+                              "build"],
+}
 DEFAULT_MODEL = "@psyc-aid338-ope-333f18/gpt-5.6-luna"
 
 #: In the order `ls.py:_paper_text` in ns-validate tries them, and that agreement is the
@@ -106,15 +134,39 @@ def main() -> int:
     parser.add_argument("--texts", type=Path, default=REVIEW / "texts")
     parser.add_argument("--payloads", type=Path, default=REVIEW / "payloads")
     parser.add_argument("--examples", type=Path, default=REVIEW / "examples")
-    parser.add_argument("--stages", nargs="*", default=STAGES, choices=STAGES)
+    parser.add_argument("--workflow", choices=sorted(WORKFLOWS),
+                        help="a named stage ordering; --stages overrides it")
+    parser.add_argument("--stages", nargs="*", choices=STAGES,
+                        help="explicit stages, overriding --workflow")
     parser.add_argument("--key-file", type=Path, default=REPO / ".env")
     parser.add_argument("--model", default=DEFAULT_MODEL)
     parser.add_argument("--effort", default="low")
+    # Effort is per stage because the two passes are not the same kind of work: one fills
+    # descriptive slots, the other decides which analyses exist and which term carries a
+    # sign. Buying reasoning for both when only one needs it is what --effort alone does.
+    parser.add_argument("--entities-effort", help="overrides --effort for the entities pass")
+    parser.add_argument("--analyses-effort", help="overrides --effort for the analyses pass")
+    # Reasoning tokens come out of the same budget as the answer, so a high-effort call at
+    # the default ceiling can spend it all thinking and return an empty payload.
+    parser.add_argument("--max-out", type=int, default=48_000)
+    parser.add_argument("--max-attempts", type=int, default=1,
+                        help="retries per pass when its post-condition fails")
+    parser.add_argument("--no-stage1", action="store_true",
+                        help="withhold the stage-1 analysis listing from the analyses pass")
+    parser.add_argument("--table-rows", action="store_true",
+                        help="give the analyses pass stage 1's per-analysis detail in full")
+    parser.add_argument("--zero-foci-rule", action="store_true",
+                        help="tell the analyses pass that a stage-1 entry with no "
+                             "coordinates is a tested effect that found nothing")
     parser.add_argument("--redo", action="store_true", help="rerun stages already written")
     parser.add_argument("--strict", action="store_true",
                         help="pass --strict to build_record, so unresolved quotes and "
                              "builder repairs above their thresholds fail the paper")
     args = parser.parse_args()
+    if args.stages is None:
+        args.stages = WORKFLOWS[args.workflow] if args.workflow else STAGES
+        if args.workflow:
+            print(f"workflow {args.workflow}: {' -> '.join(args.stages)}")
 
     python = sys.executable
     failures = 0
@@ -143,23 +195,65 @@ def main() -> int:
 
         common = ["--paper", study, "--text", text, "--out-dir", args.payloads,
                   "--key-file", args.key_file, "--model", args.model,
-                  "--effort", args.effort, "--no-evidence"]
+                  "--max-out", str(args.max_out),
+                  "--max-attempts", str(args.max_attempts), "--no-evidence"]
 
         if "entities" in args.stages:
             if (payload_dir / "entities.json").is_file() and not args.redo:
                 print("  entities: already done")
             else:
                 failures += bool(run([python, REVIEW / "extract_record.py",
-                                      "--mode", "entities", *common]))
+                                      "--mode", "entities", *common,
+                                      "--effort", args.entities_effort or args.effort]))
 
         if "analyses" in args.stages:
             if (payload_dir / "analyses.json").is_file() and not args.redo:
                 print("  analyses: already done")
             else:
+                stage1_args = [] if args.no_stage1 else ["--stage1", stage1]
+                if args.table_rows:
+                    stage1_args.append("--stage1-detail")
+                if args.zero_foci_rule:
+                    stage1_args.append("--zero-foci-rule")
                 failures += bool(run([python, REVIEW / "extract_record.py",
                                       "--mode", "analyses", *common,
+                                      "--effort", args.analyses_effort or args.effort,
                                       "--entities", payload_dir / "entities.json",
-                                      "--stage1", stage1, "--tables", table_map]))
+                                      *stage1_args, "--tables", table_map]))
+
+        # Demand-driven ordering: the analyses decide what entities exist, then the entity
+        # pass is held to that list. Writes the same two payload files as the entity-first
+        # pair, so build_record is unchanged and the two orderings are directly comparable.
+        if "demands" in args.stages:
+            if (payload_dir / "analyses.json").is_file() and not args.redo:
+                print("  demands: already done")
+            else:
+                stage1_args = [] if args.no_stage1 else ["--stage1", stage1]
+                if args.table_rows:
+                    stage1_args.append("--stage1-detail")
+                if args.zero_foci_rule:
+                    stage1_args.append("--zero-foci-rule")
+                failures += bool(run([python, REVIEW / "extract_record.py",
+                                      "--mode", "demands", *common,
+                                      "--effort", args.analyses_effort or args.effort,
+                                      *stage1_args, "--tables", table_map]))
+
+        if "satisfy" in args.stages:
+            if (payload_dir / "entities.json").is_file() and not args.redo:
+                print("  satisfy: already done")
+            else:
+                failures += bool(run([python, REVIEW / "extract_record.py",
+                                      "--mode", "satisfy", *common,
+                                      "--effort", args.entities_effort or args.effort,
+                                      "--requirements",
+                                      payload_dir / "demands" / "requirements.json"]))
+
+        if "recheck" in args.stages:
+            failures += bool(run([python, REVIEW / "recheck_cells.py",
+                                  "--paper", study, "--text", text,
+                                  "--payloads", payload_dir,
+                                  "--key-file", args.key_file, "--model", args.model,
+                                  "--effort", args.analyses_effort or args.effort]))
 
         if "evidence" in args.stages:
             failures += bool(run([python, REVIEW / "add_evidence.py",

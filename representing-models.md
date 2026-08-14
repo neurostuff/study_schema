@@ -169,13 +169,14 @@ an interaction: the cohort term is crossed, the condition term merely signed.
 **Steps 5 and 6 are the two ways to have no signs, and they are not the same result.** An F over a
 factor never had a per-level direction, so the effect is an `omnibus`. A two-level comparison whose
 direction the paper simply did not print did have one, and it is still a `contrast` — the comparison
-happened whichever way it went. The cell values carry the difference: `undirected` for the first,
-`unstated` for the second. Before they were split, both read as "cells present, none signed" and a
-contrast with an unreported direction was labelled an omnibus test.
+happened whichever way it went. The cells carry the difference: `undirected` for the first, and for
+the second a cell whose `direction` is `extraction_status: not_reported`. Before they were split,
+both read as "cells present, none signed" and a contrast with an unreported direction was labelled
+an omnibus test.
 
 ---
 
-## 4. The five values of `direction`, and the three ways to be non-directional
+## 4. The four values of `direction`, and the three ways to be non-directional
 
 `positive` and `negative` are the two sides of a comparison. Everything else is a way of taking part
 without having a side, and they are different facts:
@@ -186,7 +187,7 @@ without having a side, and they are different facts:
 | put it on the minus side | `negative` | no |
 | gave the level no weight | **no cell at all** | the *term* is, if no level of it has a cell |
 | tested it with an F or χ², which yields no sign | `undirected`, on every level | no |
-| compared it directionally, and the paper does not print which way | `unstated` | no |
+| compared it directionally, and the paper does not print which way | a cell whose `direction` is `not_reported` | no |
 | held one level constant | `held` on that level | no — it took part, at one level |
 
 Two of these are the ones most often conflated.
@@ -201,7 +202,7 @@ have a cell, its term stays out of the adjustment set — the contrast did not a
 
 ### Which unsigned value: two questions
 
-All three unsigned values say the record has no sign to give. They disagree about *why*, and two
+All three unsigned cells say the record has no sign to give. They disagree about *why*, and two
 questions settle it.
 
 **First: was the level on both sides at once?** If the contrast was taken *within* that level, yes —
@@ -214,10 +215,11 @@ undefined. This is the only shape a `Cell` has for `held`.
   no direction in the result to report. The post-hoc contrast that would supply one is a *different
   Analysis* (§2), so a fuller report of *this* analysis still could not sign these cells. Cells that
   are all `undirected` are what make an effect an `omnibus`.
-- **Yes, and the paper withheld it → `unstated`.** "Activation differed between patients and
-  controls", a t or a z, and no direction. The sign exists in the data and is missing from the page.
-  The comparison still happened, so the derived kind is the one the same cells would give if signed;
-  only the direction is lost.
+- **Yes, and the paper withheld it → `extraction_status: not_reported` on `direction`.**
+  "Activation differed between patients and controls", a t or a z, and no direction. The sign exists
+  in the data and is missing from the page, which is missingness like any other. The comparison
+  still happened, so the derived kind is the one the same cells would give if signed; only the
+  direction is lost.
 
 A corollary worth stating, because it is checkable: a cell that names **no level** — on a slope or a
 product column — can never sit on both sides of anything, so it can never be `held`. An undirected
@@ -228,9 +230,10 @@ factor has *all* its levels celled and unsigned; a held-constant factor has *one
 the rest absent. That is a consequence of the rule above rather than a second rule — an undirected
 test spans the whole factor, and holding a level constant is a statement about that one level.
 
-**Why `unstated` is not just a flavour of `undirected`.** They differ in what a better source would
-fix. An `unstated` cell is *completable*: a corrigendum, a supplementary table or the authors could
-supply the sign. An `undirected` cell is not, because nothing was withheld. A curation pass that
+**Why a `not_reported` direction is not just a flavour of `undirected`.** They differ in what a
+better source would fix. A `not_reported` direction is *completable*: a corrigendum, a supplementary
+table or the authors could supply the sign. An `undirected` cell is not, because nothing was
+withheld. A curation pass that
 wants to know which gaps are worth chasing reads exactly this distinction, and §3 reads it too — see
 steps 5 and 6.
 
@@ -467,9 +470,9 @@ terms:
 
 | result | cells | derives | adjusted for |
 |---|---|---|---|
-| main effect of group | both group levels `unstated` | `omnibus` | task, disease activity, DAS28 |
-| main effect of task | both task levels `unstated` | `omnibus` | group, disease activity, DAS28 |
-| group × task, F-test | all four levels `unstated` | `omnibus` | disease activity, DAS28 |
+| main effect of group | both group levels `undirected` | `omnibus` | task, disease activity, DAS28 |
+| main effect of task | both task levels `undirected` | `omnibus` | group, disease activity, DAS28 |
+| group × task, F-test | all four levels `undirected` | `omnibus` | disease activity, DAS28 |
 | rotation > comparison, within RA | task crossed + `held` on `RA patients` | `contrast` | disease activity, DAS28 |
 | RA > HC, within rotation | group crossed + `held` on `rotation` | `contrast` | disease activity, DAS28 |
 
@@ -478,9 +481,9 @@ effect of task within the control group, and a comparison of active against remi
 
 Three things to read off that table. **Averaging over a factor is the absence of its cells** — the
 main effect of group simply has no task cells, which is also how it comes to be adjusted for them.
-Rows three and four are §4's pair in one model: the F-test cells every level `unstated` because the
-interaction has a sign the paper withheld, and the simple effect's `RA patients` cell is
-`held` because the comparison was taken within that level, which puts it on both sides.
+Rows three and four are §4's pair in one model: the F-test cells every level `undirected` because
+the test yields no per-level sign, and the simple effect's `RA patients` cell is `held` because the
+comparison was taken within that level, which puts it on both sides.
 And **the two factors differ only in `variation_level`**; the cells are the same shape for a
 between-subject and a within-subject factor, because what differs is a property of the design,
 recorded once on the model.
@@ -614,13 +617,13 @@ omitting them is what keeps the factor out of the adjustment set: it was tested,
 not held: the F compares them against each other rather than taking a contrast within any of them,
 so `held` on all three would claim the factor was held at three levels at once — the shape
 `check_unsigned_cells` flags as a miscoded F. And nothing was withheld: an F over three levels
-returns one statistic for the set and has no per-level direction to print, so this is not `unstated`
-either. Reporting the follow-up contrasts would supply signs, but those are separate Analyses (§2)
-and would not sign *these* cells.
+returns one statistic for the set and has no per-level direction to print, so this is not a withheld
+sign either. Reporting the follow-up contrasts would supply signs, but those are separate Analyses
+(§2) and would not sign *these* cells.
 
 That distinction is what makes this an `omnibus` at all. Had the paper run a two-level comparison
-and merely omitted which way it went, the cells would be `unstated` and step 6 would derive a
-`contrast`.
+and merely omitted which way it went, the cells' `direction` would be `not_reported` and step 6
+would derive a `contrast`.
 
 **In the paper.**
 
@@ -685,7 +688,7 @@ single signed cell, which is the schema's own `a-classifier-signs-one-cell-not-t
 without prompting.
 
 Five decoding papers were extracted before this one. Two produced no `DecodingDetails` at all,
-one produced no analyses, and one cell-ed **both** classes `unstated` — which derives `omnibus`
+one produced no analyses, and one cell-ed **both** classes `undirected` — which derives `omnibus`
 and asserts the classes were compared with each other. That last failure is the one this example
 is written against, and it is why the rule is worth stating.
 

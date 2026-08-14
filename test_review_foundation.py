@@ -1737,6 +1737,69 @@ def test_the_purpose_vocabulary_is_open(classes: dict, enums: dict) -> None:
     )
 
 
+# -- missingness has one encoding -------------------------------------------
+
+
+def _vocabulary_flags(wrapper: str, value: str, classes: dict, enums: dict) -> tuple[list, list]:
+    validator = validate_record.Validator(classes, None, enums)
+    validator.check_field(
+        {"extraction_status": "extracted", "value": value,
+         "value_source": "generated", "evidence": {"status": "not_found"}},
+        wrapper, "Study.somewhere")
+    return validator.errors, validator.warnings
+
+
+def test_unstated_is_rejected_on_a_closed_vocabulary(classes: dict, enums: dict) -> None:
+    """`Prespecification` is closed, so an off-vocabulary value is already an error. The
+    check still has to fire, because the membership error would name the wrong defect."""
+
+    errors, _ = _vocabulary_flags("ExtractedPrespecification", "unstated", classes, enums)
+    assert len(errors) == 1 and "not_reported" in errors[0]
+
+
+def test_unstated_is_rejected_on_an_open_vocabulary(classes: dict, enums: dict) -> None:
+    """The case a membership check cannot catch: an open field keeps a free-text escape
+    hatch, so `unstated` would pass with a warning rather than be rejected."""
+
+    errors, warnings = _vocabulary_flags("ExtractedSpatialScope", "unstated", classes, enums)
+    assert len(errors) == 1 and "not_reported" in errors[0]
+    assert warnings == [], "it is rejected as missingness, not reported as off-vocabulary"
+
+
+def test_not_reported_is_how_a_silent_source_is_recorded(classes: dict, enums: dict) -> None:
+    """The other half: the encoding the check sends people to has to pass."""
+
+    validator = validate_record.Validator(classes, None, enums)
+    validator.check_field(
+        {"extraction_status": "not_reported", "evidence": {"status": "not_applicable"}},
+        "ExtractedPrespecification", "Study.somewhere")
+    assert validator.errors == []
+
+
+def test_a_reported_value_that_is_not_a_sign_still_passes(classes: dict, enums: dict) -> None:
+    """`undirected` is a test that yields no sign, which the source does report, and
+    `not_applicable` is a concept that does not apply. Neither is missingness, and folding
+    them in would undo the Direction re-cut."""
+
+    for value in ("undirected", "held", "positive"):
+        errors, _ = _vocabulary_flags("ExtractedDirection", value, classes, enums)
+        assert errors == [], f"{value} is a reported fact, not a silence"
+
+
+def test_no_vocabulary_offers_unstated(enums: dict) -> None:
+    """The schema half of the rule, mirroring `check_schema.check_no_unstated_member`.
+
+    These descriptions are the extraction prompt, so a vocabulary declaring `unstated`
+    is an instruction to produce exactly what the record check rejects.
+    """
+
+    live = [
+        name for name, body in enums.items()
+        if "unstated" in (body.get("permissible_values") or {})
+    ]
+    assert live == [], f"these vocabularies still offer `unstated` as an answer: {live}"
+
+
 # -- the allowlist, and the stage-chain invariants --------------------------
 
 

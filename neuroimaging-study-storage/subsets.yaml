@@ -57,8 +57,7 @@ subsets:
       publication, so it carries evidence in the extraction record and the only way to
       change it is to re-run the extractor.
 
-      Every field is in exactly one of `deterministic` and `model_extracted`, which is
-      what check_field_provenance.py enforces. The split routes work rather than slicing
-      the schema, so unlike `mvp` neither one generates a standalone schema: the two are
-      interleaved down every path from the tree root, and pruning to either alone strands
-      the other's fields.
+      Every field is in exactly one of `deterministic` and `model_extracted`, which is what
+      check_field_provenance.py enforces. Neither generates a standalone schema: the two are
+      interleaved down every path from the tree root, so pruning to either alone strands the
+      other's fields.

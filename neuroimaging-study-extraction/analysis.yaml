@@ -30,7 +30,7 @@ classes:
   Analysis:
     description: |-
       A distinct reported inferential map or tested effect, linking its source acquisitions, sample, paradigm context, tested effect, preprocessing, model estimation, inference settings, and source result tables.
-      Create one Analysis for each distinct tested effect. Separate Analyses are required when normalized direction, participant-group comparison, method, the pattern of `effect.cells`, seed or connectivity model, decoded variable, component identity, or spatial_scope differ, and when an omnibus effect and its directional post-hoc contrast are both reported. ROI definitions, acquisition summaries, descriptive sample tables, and masks without inferential effects are not Analyses. Nor is a map reported with no inferential test at all -- an ICA or PCA component map presented descriptively, a connectivity matrix given without a test. Extraction is driven by the existence of a result, so there is nothing for such a map to be the effect of, and `Effect.cells` is required rather than admitting one with an empty effect.
+      Create one Analysis for each distinct tested effect. Separate Analyses are required when normalized direction, participant-group comparison, method, the pattern of `effect.cells`, seed or connectivity model, decoded variable, component identity, or spatial_scope differ, and when an omnibus effect and its directional post-hoc contrast are both reported. ROI definitions, acquisition summaries, descriptive sample tables, and masks without inferential effects are not Analyses. Nor is a map reported with no inferential test at all -- an ICA or PCA component map presented descriptively, a connectivity matrix given without a test -- there being nothing for such a map to be the effect of.
     attributes:
       local_id:
         range: string
@@ -89,9 +89,9 @@ classes:
         description: >-
           The scientific quantity of the map, by identifier, independent of the statistic
           used to test it. Analyses of one quantity reference one record; an analysis of a
-          different quantity takes its own. Required, because a result of an unnamed quantity
-          says nothing -- a paper vague about what it measured still takes a record, with
-          `source_label` as given and `unstated` elsewhere.
+          different quantity takes its own. Required: a paper vague about what it measured
+          still takes a record, with `source_label` as given and `extraction_status: not_reported`
+          elsewhere.
       groups:
         range: AnalysisGroup
         multivalued: true
@@ -101,8 +101,7 @@ classes:
           The participant cohorts the analysis ran on, and how many participants each contributed.
           Membership only: this slot says which people were analysed, never what was compared.
           A cohort comparison is a pair of directional `Cell`s on the model term whose levels
-          name the cohorts, exactly as a condition or occasion comparison is, so direction
-          has one home rather than five.
+          name the cohorts, exactly as a condition or occasion comparison is.
       effect:
         range: Effect
         required: true
@@ -139,10 +138,10 @@ classes:
         description: >-
           The model this analysis's contrast was taken from: its family, estimator, stage,
           software, and the terms it was specified with. What was selected out of those terms
-          is `effect`. Required, because every contrast comes from a model -- a paper that
-          describes a contrast and never names an estimator still takes a record, with the
-          terms it does state and `unstated` elsewhere. Analyses sharing one design reference
-          one record; an analysis specified or estimated differently takes its own.
+          is `effect`. Required: a paper that describes a contrast and never names an estimator
+          still takes a record, with the terms it does state and `extraction_status: not_reported`
+          elsewhere. Analyses sharing one design reference one record; an analysis specified
+          or estimated differently takes its own.
       inference_settings:
         range: InferenceSettings
         inlined: false
@@ -161,11 +160,9 @@ classes:
         description: >-
           Coordinate reference space or template the spatial results are reported in, such
           as MNI152 or Talairach. The fallback of two places this can live: populated only
-          when no table of this analysis gives the space, which happens when the parse does
-          not recover one or the analysis is reported without a coordinate table. Exactly
-          one of the two is filled, never both, so a value here means the tables were silent.
-          An analysis on a surface reports a surface template, which is why the space does
-          not follow from the model's `spatial_unit`.
+          when no table of this analysis gives the space. Exactly one of the two is filled,
+          never both, so a value here means the tables were silent. Never inferred from the
+          model's `spatial_unit` -- an analysis on a surface reports a surface template.
       assessments:
         range: Assessment
         multivalued: true
@@ -239,7 +236,7 @@ classes:
     description: |-
       The scientific quantity of the map, independent of the statistic used to test it. When a paper alternates terms for the same map -- grey matter concentration in Methods and volume in Results -- take the Methods term for type and keep both wordings in source_label.
       One record may be referenced by several Analyses, so every field must hold for all of them; an analysis of a different quantity takes its own record. The test is mechanical: two analyses share a record when `family`, `type`, `specific_metric` and `unit` all match. A study measures one or two quantities and tests them many ways, so sharing is the common case -- eight analyses of one connectivity measure are one record, not eight.
-      Not a property of the thresholding scheme. One correction scheme routinely covers several measures, and one measure is often tested under several schemes, so `inference_settings` is a sibling reference on the Analysis rather than this record's parent or its child. See storage-schema-design-notes.md for the reasoning behind this shape.
+      Not a property of the thresholding scheme: one correction scheme routinely covers several measures, and one measure is often tested under several schemes. See storage-schema-design-notes.md for the reasoning behind this shape.
     attributes:
       local_id:
         range: string
@@ -392,10 +389,11 @@ classes:
         range: ExtractedModelFamily
         required: true
         description: >-
-          Normalized statistical model family, which is the queryable form. Required, so `unstated`
-          is the value for a paper that never says. A method the vocabulary cannot name --
-          ICA, representational similarity, a decoder -- is written here as free text; the
-          Analysis.details subclass also identifies the method.
+          Normalized statistical model family, which is the queryable form. Required, so a
+          paper that never says still carries the slot, as `extraction_status: not_reported`.
+          A method the vocabulary cannot name -- ICA, representational similarity, a decoder
+          -- is written here as free text; the Analysis.details subclass also identifies the
+          method.
       model_type:
         range: ExtractedString
         required: true
@@ -436,12 +434,11 @@ classes:
           A model fitted over a different element is a different model, so a voxelwise GLM and an ROI-mean ANOVA of the same design take two records: no contrast of one can be read off the other's fit.
       preprocessing:
         range: Preprocessing
+        multivalued: true
         inlined: false
-        description: >-
-          The pipeline that produced the data this model was fitted to. Every Analysis referencing
-          this record came through it, so a model fitted to differently prepared data -- unsmoothed
-          images for a classifier, smoothed ones for a mass-univariate fit -- takes its own
-          record rather than sharing one.
+        description: |-
+          The pipelines that produced the data this model was fitted to. Every Analysis referencing this record came through them, so a model fitted to differently prepared data -- unsmoothed images for a classifier, smoothed ones for a mass-univariate fit -- takes its own record rather than sharing one.
+          More than one entry when the fit consumed more than one kind of image: a multimodal regression of perfusion on grey-matter volume was fitted to the output of both pipelines, and naming either alone says the other's smoothing and normalisation did not touch the map.
       inputs_from:
         range: ModelEstimation
         multivalued: true
@@ -477,7 +474,7 @@ classes:
         required: true
         description: |-
           Term label, unique within the model: a name appearing twice is one term recorded twice. For a categorical term this is the factor's identity.
-          Often a label the source never writes. A paper reporting 1-back, 2-back and 3-back conditions states the levels and states that they vary together, but frequently names no axis; `load` is then a name supplied for a grouping the source does make. That is permitted, and is not the kind of invention the schema forbids elsewhere -- the levels must be source-stated, and the name must not assert a comparison or a construct the paper does not.
+          Often a label the source never writes. A paper reporting 1-back, 2-back and 3-back conditions states the levels and states that they vary together, but frequently names no axis; `load` is then a name supplied for a grouping the source does make. That is permitted, within two limits: the levels must be source-stated, and the name must not assert a comparison or a construct the paper does not.
       type:
         range: ExtractedTermType
         required: true
@@ -546,7 +543,7 @@ classes:
     description: |-
       One level of a categorical model term, and the entities that carry it. Which cell of the design a cohort or condition occupies is a property of the design rather than of any contrast drawn from it, so it is held here on the ModelTerm.
       The five entity slots are what make the entity view of a contrast recoverable: an Effect's cells name levels, and joining those levels here says which cohorts, conditions, occasions, arms or regions were compared. A factor normally ranges over one of the five -- conditions for a task factor, cohorts for a participant factor, regions for one comparing places in the brain -- so the others stay empty; a level realized by a crossing, such as a drug given at follow-up, fills more than one.
-      A factor whose levels are not entities of the study at all -- hemispheres, tasks, frequency bands, acquisition sessions -- leaves all five empty and is carried by `level` alone. Such a factor is complete, and takes `Cell`s like any other. Regions left that list when `Region` became an entity: a study comparing regions delimited them, and a `Region` records how.
+      A factor whose levels are not entities of the study at all -- hemispheres, tasks, frequency bands, acquisition sessions -- leaves all five empty and is carried by `level` alone. Such a factor is complete, and takes `Cell`s like any other.
     attributes:
       level:
         range: ExtractedString
@@ -585,13 +582,12 @@ classes:
         inlined: false
         description: >-
           The brain regions carrying this level, by identifier, for a factor comparing places.
-          A three-region factor is one `ModelTerm` with three levels, one region on each,
-          which is why this is here and not on the term.
+          A three-region factor is one `ModelTerm` with three levels, one region on each.
   InferenceSettings:
     description: |-
       One thresholding and correction procedure. This is the canonical storage home for thresholding, correction, and cluster-inference metadata. The test statistic itself belongs to the tested effect and lives in Effect.statistic.
       One record may be referenced by several Analyses, so every field must hold for all of them; an analysis thresholded or corrected differently takes its own record. The test is mechanical: two analyses share a record when the threshold, its type, the correction method, the scope corrected over and the alpha are all the same. A paper that states one correction scheme in Methods and applies it throughout has one record.
-      Inference attaches to the analysis, not to the fit. One model estimated once is often thresholded several ways -- an ROI test Bonferroni-corrected over four regions and a searchlight over the same fit corrected by FDR -- so this is not a property of ModelEstimation and sharing it by model would assert a difference in fitting that did not happen. See storage-schema-design-notes.md for the reasoning behind this shape.
+      Inference attaches to the analysis, not to the fit: one model estimated once is often thresholded several ways -- an ROI test Bonferroni-corrected over four regions and a searchlight over the same fit corrected by FDR. See storage-schema-design-notes.md for the reasoning behind this shape.
     attributes:
       local_id:
         range: string

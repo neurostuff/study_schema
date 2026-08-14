@@ -431,7 +431,18 @@ class Validator:
         if vocabulary is not None:
             for item in (value if value_slot.get("multivalued")
                          and isinstance(value, list) else [value]):
-                if isinstance(item, str) and item not in vocabulary:
+                if not isinstance(item, str):
+                    continue
+                # Missingness has one encoding, and no vocabulary offers `unstated` any
+                # more. Named here anyway: on an open field it would otherwise pass as free
+                # text with only a warning, and on a closed one the membership error would
+                # name the wrong defect.
+                if item == "unstated":
+                    self.error(path, "'unstated' is not a value: a fact the source does "
+                                     "not report is `extraction_status: not_reported`, "
+                                     "which is the one encoding of missingness. Drop "
+                                     "`value` and set `evidence.status` to not_applicable")
+                elif item not in vocabulary:
                     message = (f"{item!r} is not a permissible value "
                                f"({', '.join(sorted(vocabulary))})")
                     if closed:
@@ -651,7 +662,7 @@ class Validator:
                 if direction in {"positive", "negative"}:
                     signed.setdefault(term_id, set()).add(direction)
                 # `held` on a named level is a factor held constant and nothing else: an
-                # undirected test is `undirected` and a withheld sign is `unstated`, so this
+                # undirected test is `undirected` and a withheld sign is `not_reported`, so this
                 # cannot catch an omnibus F by accident. An analysis reported within one level
                 # of the crossing is §5.5's last row -- a legitimate simple effect, whose prose
                 # names the interaction it came from and whose cells are not supposed to
@@ -746,7 +757,7 @@ class Validator:
         Was the level on both sides of the comparison at once? That is `held`, and it
         is the whole of what `held` says on a `Cell`. Otherwise, does the test yield a
         per-level sign at all -- no for an F or chi-square, which is `undirected`; yes
-        but unprinted, which is `unstated`.
+        but unprinted, which is `extraction_status: not_reported`.
 
         Both halves of the first question are checkable:
 
@@ -1312,8 +1323,8 @@ class Validator:
         `Analysis.inference_settings` is a reference, so a dangling id leaves the analysis
         with no threshold, no correction and no alpha at all -- the record then reads as a
         result reported without inference, which is a different claim from one whose
-        thresholding the paper never stated (that is a declared scheme with `unstated`
-        fields). Sharing is the point of the reference, so the id will usually be one
+        thresholding the paper never stated (that is a declared scheme whose fields are
+        `not_reported`). Sharing is the point of the reference, so the id will usually be one
         several analyses name.
         """
 
@@ -1333,7 +1344,7 @@ class Validator:
         `Analysis.measure` is a required reference, so a dangling id leaves a result whose
         measured quantity nothing in the record states -- which is not the same as a paper
         vague about what it measured. That case is a declared `Measure` carrying the
-        source's own wording in `source_label` and `unstated` elsewhere, and it stays
+        source's own wording in `source_label` and `not_reported` elsewhere, and it stays
         queryable; a dangling id is not.
         """
 

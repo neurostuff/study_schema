@@ -9,9 +9,9 @@
 id: https://neurostuff.org/schemas/neuroimaging-study-extraction/design
 name: neuroimaging-study-extraction-design
 title: Neuroimaging Study Extraction Design Module
-description: |-
-  What happened to participants outside the task: which occasion the data were collected on, and what the participant received.
-  The module records the class of the manipulation and the position of the occasion.
+description: >-
+  What happened to participants outside the task: the class of the manipulation they received,
+  and where the occasion they were measured on sits relative to it.
 prefixes:
   linkml: https://w3id.org/linkml/
   neurostudy_ex: https://neurostuff.org/schemas/neuroimaging-study-extraction/
@@ -40,8 +40,6 @@ enums:
         description: >-
           Nothing was administered, so allocation does not apply. An observational cross-sectional
           study takes this value.
-      unstated:
-        description: The source does not make the allocation procedure clear.
   AssignmentStructure:
     description: >-
       Whether the arms of the study are separate cohorts or the same participants at different
@@ -63,8 +61,6 @@ enums:
           rather than a crossover.
       single_group:
         description: One cohort measured once, with no arms and no repeated occasions to structure.
-      unstated:
-        description: The source does not make the assignment structure clear.
   Blinding:
     description: >-
       Who was kept unaware of the assignment. Open vocabulary: write the source's own wording
@@ -83,20 +79,17 @@ enums:
           assignment.
       not_applicable:
         description: Nothing was administered, so there was no assignment to be blind to.
-      unstated:
-        description: The source does not make the blinding clear.
   ArmKind:
     description: >-
       What class of thing an arm received. Spans both the manipulation and the thing it was
-      compared against, because both are arms here: a drug against an active comparator is
-      a different comparison from a drug against a placebo, which is why the two have separate
-      values. Open vocabulary: write the source's own wording in the field when nothing here
-      fits.
+      compared against, both being arms here: a drug against an active comparator is a different
+      comparison from a drug against a placebo, so the two take different values. Open vocabulary:
+      write the source's own wording in the field when nothing here fits.
     permissible_values:
       pharmacological:
         description: >-
           An administered drug or other agent. The agent's name belongs in `agent`; dose,
-          route and schedule are not recorded, being replication detail rather than a filter.
+          route and schedule are not recorded.
       stimulation:
         description: Applied brain stimulation -- TMS, tDCS, tACS, deep brain stimulation.
       behavioural_intervention:
@@ -117,12 +110,10 @@ enums:
         description: >-
           A waitlist or untreated comparator arm receiving nothing. Distinct from a rest or
           fixation Condition, which is a scanner state rather than an arm.
-      unstated:
-        description: The source does not make the kind of thing this arm received clear.
   TimepointRelation:
     description: >-
       Where an occasion sits relative to the intervention. Directional terms over these values
-      are what mark an analysis as a within-person change rather than a cross-sectional comparison.
+      mark an analysis as a within-person change rather than a cross-sectional comparison.
       Open vocabulary: write the source's own wording in the field when nothing here fits.
     permissible_values:
       pre_intervention:
@@ -145,8 +136,6 @@ enums:
           Data were collected on several occasions but nothing was administered, so there
           is no intervention to be relative to. A longitudinal observational study takes this
           value.
-      unstated:
-        description: The source does not place this occasion relative to the intervention.
 classes:
   StudyDesign:
     description: >-
@@ -203,8 +192,8 @@ classes:
         range: ExtractedArmKind
         required: true
         description: >-
-          What class of thing this arm received. Required, with `unstated` for an arm whose
-          kind the source leaves unclear.
+          What class of thing this arm received. Required, so an arm whose kind the source
+          leaves unclear still carries the slot, as `extraction_status: not_reported`.
       agent:
         range: ExtractedString
         description: >-
@@ -228,8 +217,8 @@ classes:
         range: ExtractedTimepointRelation
         required: true
         description: >-
-          Where this occasion sits relative to the intervention. Required, with `unstated`
-          for an occasion the source does not place.
+          Where this occasion sits relative to the intervention. Required, so an occasion
+          the source does not place still carries the slot, as `extraction_status: not_reported`.
       order:
         range: ExtractedInteger
         description: >-

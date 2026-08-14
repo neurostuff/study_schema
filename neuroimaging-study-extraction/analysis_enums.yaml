@@ -10,9 +10,9 @@ id: https://neurostuff.org/schemas/neuroimaging-study-extraction/analysis_enums
 name: neuroimaging-study-extraction-analysis-enums
 title: Neuroimaging Study Extraction Analysis Vocabularies
 description: |-
-  Controlled vocabularies for the tested effect represented by an Analysis. This module holds enumerations only, so that both the analysis module and the analysis-details module can bind to them without either importing the other.
-  Three conventions run through every enumeration. `unstated` means the fact could exist but the source does not clearly report it. `not_applicable` means the concept does not apply to this analysis. They are not interchangeable, and there is no record-level confidence tier alongside them.
-  Third, most of these vocabularies are open rather than carrying a catch-all value. An attribute binding an open enumeration declares `any_of: [{range: <Enum>}, {range: string}]` instead of a range, so the same field holds either a controlled value or the source's own words: when nothing fits, write the wording. Modality is the exception and keeps `other`, where the value selects the OtherModality payload class. A value outside a vocabulary is a signal for review rather than a validation failure; canonicalization is the mapper's job, in the `normalize_enum` derivations of extraction-to-storage.map.yaml.
+  Controlled vocabularies for the tested effect represented by an Analysis. Enumerations only, so that the analysis and analysis-details modules can both bind to them without either importing the other.
+  Two conventions run through every enumeration. `not_applicable` means the concept does not apply to this analysis, and is a value like any other; a fact that could exist and which the source does not report is not a value at all, but `extraction_status: not_reported` on the wrapper, the one encoding of missingness.
+  Second, most of these vocabularies are open rather than carrying a catch-all value. An attribute binding an open enumeration declares `any_of: [{range: <Enum>}, {range: string}]` instead of a range, so the field holds either a controlled value or the source's own words: when nothing fits, write the wording. Modality is the exception and keeps `other`, whose value selects the OtherModality payload class. A value outside a vocabulary is a signal for review, not a validation failure; canonicalization is the mapper's job, in the `normalize_enum` derivations of extraction-to-storage.map.yaml.
 prefixes:
   linkml: https://w3id.org/linkml/
   neurostudy_ex: https://neurostuff.org/schemas/neuroimaging-study-extraction/
@@ -50,11 +50,9 @@ enums:
       latent_decomposition:
         description: >-
           One component or latent variable of a decomposition -- ICA, PCA, NMF, PLS, CCA,
-          or a multimodal fusion. Covers what `component_decomposition` and `partial_least_squares`
-          named separately: the two were merged because the fact that separates them is how
-          many blocks were decomposed, which is `LatentDecompositionDetails.second_block`
-          and not a method family. A conjunction component that needs the distinction states
-          it in this field's free-text escape hatch.
+          or a multimodal fusion. How many blocks were decomposed is not a method family:
+          it is `LatentDecompositionDetails.second_block`. A conjunction component needing
+          the distinction states it in this field's free-text escape hatch.
       not_structurable:
         description: The effect is grounded in the source but has no stable structured decomposition.
   SpatialScope:
@@ -68,8 +66,6 @@ enums:
         description: Inference restricted to one or more regions of interest.
       searchlight:
         description: Moving-window multivariate analysis across the whole search space.
-      unstated:
-        description: The source does not report the spatial domain.
   SpatialUnit:
     description: >-
       The element an analysis was carried out over: the surface-versus-volume distinction
@@ -91,12 +87,10 @@ enums:
         description: >-
           Parcels of a parcellation covering the search space, as distinct from a small set
           of named regions of interest.
-      unstated:
-        description: The source does not report which element the analysis ran over.
   EffectPath:
     description: |-
       Which path through a mediation model an effect's map is. Without it, an indirect-effect map is structurally identical to a plain regression on the same predictor, and a synthesis would pool the two.
-      There is no `not_applicable`: an effect that is not a mediated path has no `Mediation` object, so there is no slot to fill. That is what moving the pair into a class bought.
+      There is no `not_applicable`: an effect that is not a mediated path has no `Mediation` object, so there is no slot to fill.
     permissible_values:
       direct:
         description: The effect of the primary term with the mediator controlled.
@@ -127,7 +121,6 @@ enums:
         description: >-
           A regression fitted to resist outliers, such as an iteratively reweighted or M-estimator
           fit.
-      unstated: {}
   StatisticFamily:
     description: >-
       Test statistic family for the tested effect, independent of the thresholding procedure
@@ -153,10 +146,6 @@ enums:
           do instead of giving a t or z.
       correlation:
         description: A correlation coefficient reported as the statistic, r or rho.
-      unstated:
-        description: >-
-          A test was run and the source does not name its statistic. There is no value for
-          "no test was run", a map reported without an inferential test not being an Analysis.
   MeasureFamily:
     description: >-
       Broad imaging or signal family, for coarse filtering. A BOLD-derived connectivity or
@@ -180,14 +169,13 @@ enums:
         description: PET and SPECT measures of a tracer's distribution or binding.
       electrophysiology:
         description: EEG, MEG, and intracranial electrical measures.
-      unstated: {}
   MeasureType:
     description: >-
       Normalized scientific quantity of the map, for cross-study queries. Activation and deactivation
       are directions rather than measure types; both are bold_response and the directional
-      roles carry the direction. Gray-matter density is not collapsed into volume. Use `unstated`
-      only when the paper does not identify the measure. Open vocabulary: write the source's
-      own wording in the field when nothing here fits.
+      roles carry the direction. Gray-matter density is not collapsed into volume. A paper
+      that does not identify the measure leaves the slot `extraction_status: not_reported`.
+      Open vocabulary: write the source's own wording in the field when nothing here fits.
     permissible_values:
       bold_response:
         description: BOLD activation, task activation, or task-evoked response.
@@ -240,11 +228,11 @@ enums:
         description: Model-brain similarity from an RDM-level association.
       component_loading:
         description: ICA or PCA spatial loading.
-      unstated: {}
   Prespecification:
-    description: |-
-      Whether a contrast was planned before the data were seen. The distinction has a query behind it: a preregistered primary contrast and a post-hoc sweep from the same paper are not equivalent evidence, and a synthesis that cannot tell them apart cannot address selective reporting.
-      Closed, and exhaustive by construction rather than by survey. The question admits three answers -- the source says it was planned, the source says it was not, the source does not say -- and every paper falls in one. That is why this enum takes no free-text binding while most others do: an open vocabulary earns its place by collecting the wording that reveals a missing category, and there is no category here left to find.
+    description: >-
+      Whether a contrast was planned before the data were seen. A preregistered primary contrast
+      and a post-hoc sweep from the same paper are not equivalent evidence, and a synthesis
+      that cannot tell them apart cannot address selective reporting.
     permissible_values:
       preregistered:
         description: >-
@@ -259,11 +247,6 @@ enums:
           The source presents the analysis as exploratory, post hoc, data-driven, or follow-up
           to something else it found. A positive statement by the authors, not an inference
           from an absent registration.
-      unstated:
-        description: >-
-          The source says nothing either way. The expected value for most of the literature,
-          and distinct from `exploratory`: an unregistered analysis the authors never characterize
-          is not thereby an admitted post-hoc one.
   TermType:
     description: Whether a model term is categorical or continuous.
     permissible_values:
@@ -280,7 +263,7 @@ enums:
   VariationLevel:
     description: |-
       The level at which a term varies -- whether it moves within a participant or only across the sample. A property of **any** term, categorical or continuous: a repeated-measures factor and a trial-wise modulator are both within-subject, and a diagnosis factor and an age covariate are both between-subject.
-      For a continuous term it is what separates a parametric modulation from a cross-subject regression, and the derived kind of an effect testing it reads this. For a categorical factor it is what the literature calls the factor's scope, and it feeds no derivation -- it is recorded because it is a fact about the design that decides whether two studies estimated the same thing. Open vocabulary: write the source's own wording in the field when nothing here fits.
+      For a continuous term it is what separates a parametric modulation from a cross-subject regression, and the derived kind of an effect testing it reads this. For a categorical factor it feeds no derivation; it is the factor's scope, and two studies that crossed a factor within participants and between them did not estimate the same thing. Open vocabulary: write the source's own wording in the field when nothing here fits.
     permissible_values:
       within_subject:
         description: >-
@@ -298,16 +281,11 @@ enums:
           The term varies both within and between participants: age in a longitudinal study,
           where each person ages and people also differ in age at entry, or a partially crossed
           factor some participants met every level of and others did not.
-      unstated:
-        description: The source does not report the level at which the term varies.
   Direction:
     description: |-
-      Which way a term entered or came out of an analysis, in one vocabulary for every kind of term. It is a sign, not a magnitude: the schema records signs and never numeric contrast weights, so `[1, -1/2, -1/2]` and `[1, -1, 0]` over the same three levels are both one positive level against two others, and a contrast whose magnitudes matter keeps them in Analysis.definition.
-      There is no value for a zero weight: a zero weight is a level with no `Cell`. A level of a tested term that a contrast did not weight is absent from `cells`, as a term the contrast did not test is absent entirely, and both are read by subtraction -- from the term's `FactorLevel`s and from `ModelEstimation.terms` respectively.
-      One vocabulary serves both kinds of term. A categorical level put on the plus side of a comparison and a continuous term whose coefficient came out positive are both `positive`, and "A greater than B" is a positive cell and a negative cell on one term. Which of the two a given cell carries follows from the referenced term's `type`.
-      On a cell over a **product** term it is the sign of the interaction coefficient -- a fact about the crossing, such as "the age-related decline was steeper in patients", rather than about either component's own slope. When simple slopes differ by moderator level and no single sign is reported, use `unstated` and state the pattern in Analysis.definition.
-      Only `positive` and `negative` count as directional, so a cell recording no sign never silently changes the derived kind. Three values record no sign, and two questions tell them apart. Was the level on both sides of the comparison at once? That is `held`, and no report could have signed it. Otherwise, does the test yield a per-level sign at all? An F or chi-square does not, and that is `undirected`; a directional test whose sign the source did not print is `unstated`.
-      The second question is what separates a genuinely undirected test from a contrast reported without its direction. Both leave every cell unsigned, but only the first is an `omnibus`: a comparison that happened is a comparison whichever way it went.
+      Which way a term entered or came out of an analysis, in one vocabulary for every kind of term. A categorical level put on the plus side of a comparison and a continuous term whose coefficient came out positive are both `positive`; which of the two a given cell carries follows from the referenced term's `type`, and on a cell over a **product** term it is the sign of the interaction coefficient rather than of either component's own slope.
+      It is a sign, not a magnitude: numeric contrast weights are never recorded, and a contrast whose magnitudes matter keeps them in `Analysis.definition`. There is no value for a zero weight either -- a level the contrast did not weight has no `Cell` at all.
+      Only `positive` and `negative` are directional. A cell can record no sign three ways -- `undirected`, `held`, or `extraction_status: not_reported` -- and choosing between them is the decision rule in extraction-readme.md §2.
     permissible_values:
       positive:
         description: >-
@@ -319,19 +297,13 @@ enums:
           falls as the term rises.
       undirected:
         description: |-
-          The test yields no per-level sign, so there is none to report. An F or chi-square over a factor compares that factor's levels against each other and returns one statistic for the set: each of its levels takes a cell with this value, and an interaction F takes it on the cell over the product column. Giving them cells rather than omitting them keeps the term out of the derived adjustment set -- it was tested, not controlled for -- and cells that are all `undirected` are what make an effect an `omnibus`.
-          Also the value when simple slopes differ by moderator level and no single sign applies: state the pattern in Analysis.definition.
-          Not `unstated`: the sign is not missing from the page, it is absent from the test. The post-hoc contrast that would supply one is a different Analysis.
-      unstated:
-        description: |-
-          A directional test whose sign the source does not print. The comparison had a side and the report withholds it -- "activation differed between patients and controls" with a t or z and no direction. The cells are unsigned, but the comparison still happened, so the derived kind is the one the same cells would give if signed; only the direction is lost.
-          Distinct from `undirected`, where no sign exists to withhold, and from omitting the cell, which says the contrast weighted this level out.
+          The test yields no per-level sign, so there is none to report. An F or chi-square over a factor compares that factor's levels against each other and returns one statistic for the set: every one of its levels takes a cell with this value, and a multi-degree-of-freedom interaction F takes it on the cell over the product column.
+          Not `extraction_status: not_reported`: the sign is not missing from the page, it is absent from the test, so there is something to record rather than nothing. The post-hoc contrast that would supply one is a different Analysis.
       held:
         description: |-
-          A level the contrast was taken *within*, which appears on **both sides** of the comparison and so has no net sign -- "patients versus controls, in the task condition" has task on the plus side and the minus side at once. The effect stays a `contrast` on whatever else is crossed, and the factor stays out of the adjustment set: it took part, at one level.
-          No report, however complete, could sign this cell, which is what separates it from both unsigned neighbours: `undirected` is a test that produces no sign, `unstated` is a sign the page withheld, and this is a sign that is not defined.
-          A held level leaves its factor's other levels **absent**, which is how it reads apart from an undirected test in a finished record: an undirected test cells every level of the factor, a held factor cells one and omits the rest. A cell that names no level -- on a slope or a product column -- can never sit on both sides, so it can never take this value.
-          Off a `Cell`, on a parameter-sign slot of a method payload, use `undirected`: a method that yields no signed parameter is the same claim as a test that yields no sign.
+          A level the contrast was taken *within*, which appears on **both sides** of the comparison and so has no net sign -- "patients versus controls, in the task condition" has task on the plus side and the minus side at once. Cell that one level and leave its factor's other levels **absent**, where an undirected test cells every level.
+          No report, however complete, could sign this cell, which is what separates it from both unsigned neighbours: `undirected` is a test that produces no sign, a sign the page withheld is `extraction_status: not_reported`, and this is a sign that is not defined. A cell that names no level -- on a slope or a product column -- can never sit on both sides, so it can never take this value.
+          Off a `Cell`, on a parameter-sign slot of a method payload, use `undirected` instead.
   FunctionalForm:
     description: >-
       Shape of a term's relationship to the measure. A squared term with a negative coefficient
@@ -351,7 +323,6 @@ enums:
           log-evidence.
       log:
         description: The term was log-transformed before entering the model.
-      unstated: {}
   ConnectivityMethod:
     description: >-
       Method used to estimate connectivity. Open vocabulary: write the source's own wording
@@ -383,7 +354,6 @@ enums:
         description: >-
           Pattern-based connectivity: multivoxel or informational connectivity between ensembles
           of voxels rather than between averaged time series.
-      unstated: {}
   ParameterChange:
     description: Whether the experimental effect raised or lowered a connectivity parameter.
     permissible_values:
@@ -391,7 +361,6 @@ enums:
         description: The experimental effect raised the parameter.
       decreased:
         description: The experimental effect lowered the parameter.
-      unstated: {}
       not_applicable:
         description: Direction is carried by condition or group roles instead.
   InferenceTarget:
@@ -406,7 +375,6 @@ enums:
       network:
         description: The test was on a set of connections treated as a unit, rather than on
           individual edges.
-      unstated: {}
   EdgeDirectionality:
     description: >-
       Whether a connectivity edge is genuinely directed. Only directed models such as DCM
@@ -418,7 +386,6 @@ enums:
       undirected:
         description: The method gives a symmetric relationship only, whatever the wording
           of the paper.
-      unstated: {}
   PerformanceRelation:
     description: Direction of a decoding performance metric relative to its reference value.
     permissible_values:
@@ -426,7 +393,6 @@ enums:
         description: Performance exceeded its reference value.
       below_reference:
         description: Performance fell below its reference value.
-      unstated: {}
       not_applicable:
         description: The measure has no reference to compare against.
   NullHypothesis:
@@ -439,7 +405,6 @@ enums:
         description: At least one component effect is present at a voxel (Friston et al.).
       conjunction_null:
         description: Every component effect is present at a voxel (Nichols et al.).
-      unstated: {}
   ConjunctionImplementation:
     description: >-
       Procedure used to compute the conjunction, which is not the same statement as the null
@@ -457,11 +422,10 @@ enums:
         description: >-
           Elements surviving either effect were combined, which tests the global null rather
           than the conjunction null.
-      unstated: {}
   SecondBlock:
     description: |-
       What a decomposition crossed the brain block with, one value per block. This decides whether two decompositions answer the same question, so it is the payload's one required vocabulary -- a task PLS and a behavioural PLS are not poolable, and neither is a one-block ICA with either of them.
-      Multivalued, and `none` is a value rather than an absent field: a one-block decomposition is a positive assertion, not a gap. The old `PlsType: multiblock` is gone, because it named the *number* of blocks where its siblings named their *contents*, so a design-plus-behaviour PLS had to select it and thereby discard both facts. Two blocks is now `[design, behavioral]`, and the count is derived from the list's length.
+      Multivalued, and `none` is a value rather than an absent field: a one-block decomposition is a positive assertion, not a gap. Name the blocks and not their number -- a design-plus-behaviour PLS is `[design, behavioral]`, and the count follows from the list's length.
       Open vocabulary: write the source's own wording in the field when nothing here fits.
     permissible_values:
       none:
@@ -489,13 +453,11 @@ enums:
         description: >-
           Genotype data such as a SNP array. Not an `Assessment`, so its contents belong in
           `second_block_detail`.
-      unstated:
-        description: >-
-          The source says the decomposition crossed two blocks but does not say what the second
-          held. Distinct from `none`, which asserts there was only one.
   DecompositionMethod:
-    description: |-
-      The algorithm that produced the components or latent variables, which decides what their values and signs mean. Independent of `second_block`: the block structure is what a synthesis filters on, and the same block structure is reachable by several algorithms -- a brain-behaviour covariance can be decomposed by PLS or by CCA, and those results pool with each other more readily than a task PLS pools with a behavioural one.
+    description: >-
+      The algorithm that produced the components or latent variables, which decides what their
+      values and signs mean. Independent of `second_block`, since one block structure is reachable
+      by several algorithms: a brain-behaviour covariance can be decomposed by PLS or by CCA.
       Open vocabulary: write the source's own wording in the field when nothing here fits.
     permissible_values:
       ica:
@@ -541,7 +503,6 @@ enums:
           Multi-set CCA, over three or more blocks. Frequently chained into joint ICA as mCCA+jICA,
           which takes this value with `joint_ica` noted in `Analysis.model_representation_notes`
           when the chaining matters.
-      unstated: {}
   MapQuantity:
     description: >-
       What the values of a component or latent-variable map represent. Open vocabulary: write
@@ -554,16 +515,15 @@ enums:
           own scale.
       salience:
         description: >-
-          A PLS salience: the element's contribution to a latent variable. Kept distinct from
-          `weight` because saliences are conventionally reported as bootstrap ratios, which
-          are stability measures rather than test statistics -- the threshold applied to them
-          is `salience_threshold`, not a voxelwise statistic threshold.
+          A PLS salience: the element's contribution to a latent variable. Distinct from `weight`,
+          saliences being conventionally reported as bootstrap ratios -- stability measures,
+          not test statistics, so the threshold applied to them is `salience_threshold` and
+          not a voxelwise statistic threshold.
       z_score:
         description: The component map after standardizing its values.
       spatial_map:
         description: The component's spatial pattern, where the source does not say what the
           values are.
-      unstated: {}
   PolaritySemantics:
     description: >-
       Whether the sign of a component map carries meaning. Decomposition methods can return
@@ -577,7 +537,6 @@ enums:
           value does not mean a decrease.
       unsigned:
         description: The values carry no sign at all.
-      unstated: {}
   NotStructurableReason:
     description: >-
       Why a grounded effect has no stable structured decomposition. Open vocabulary: write
@@ -623,10 +582,6 @@ enums:
       descriptive_statistics:
         description: Summary values with no inferential test -- means, percentages, dwell
           times.
-      unstated:
-        description: >-
-          The table reports no tested effect and the source does not make clear what it does
-          report.
 classes:
   ExtractedAnalysisType:
     is_a: ExtractedValue

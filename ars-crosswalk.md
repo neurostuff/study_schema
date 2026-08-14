@@ -183,7 +183,7 @@ The counterargument is the one that removed `certainty`: a field that papers rar
 becomes an extractor's guess. But this is different in kind. Preregistration status is often
 stated plainly — a trial registration number, "preregistered at OSF", "exploratory analyses" as a
 Results subheading — and unlike `certainty` it is a fact about the study rather than about the
-extractor's confidence. `Analysis.reason` also degrades honestly to `unstated`, which most
+extractor's confidence. `Analysis.reason` also degrades honestly to `not_reported`, which most
 older papers would take.
 
 Worth a decision. It is out of scope for the model/contrast work and is recorded here rather
@@ -220,10 +220,10 @@ Both gaps were closed:
   assert an ordinal structure the design does not have. The mapper copies it and never
   synthesizes it.
 
-- **`Analysis.prespecification`** (finding 6): `preregistered` / `exploratory` / `unstated`,
-  required so that silence is recorded rather than left ambiguous, and **closed** — one of the
-  few enumerations here with no free-text binding, because the three partition the question
-  rather than catalogue what sources report.
+- **`Analysis.prespecification`** (finding 6): `preregistered` / `exploratory`, required so that
+  silence is recorded as `not_reported` rather than left ambiguous, and **closed** — one of the
+  few enumerations here with no free-text binding, because the two values and the silence
+  partition the question rather than catalogue what sources report.
 
   It is deliberately *not* ARS's four-value `AnalysisReasonEnum`. `SPECIFIED IN SAP` and
   `REQUESTED BY REGULATORY AGENCY` are artifacts of a regulatory pipeline with no analogue in
@@ -233,7 +233,7 @@ Both gaps were closed:
   what matters for pooling is that it was fixed in advance, not where the plan was deposited.
 
   Two asymmetries are enforced in the map rather than left to an extractor: an absent value
-  becomes `unstated` and never `exploratory`, since a paper that does not mention registration
+  becomes `not_reported` and never `exploratory`, since a paper that does not mention registration
   has not called its own analysis post hoc; and `preregistered` requires the source to point at
   something that fixes the plan, since a registration covering a study does not by itself cover
   every contrast reported from it.

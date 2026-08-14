@@ -102,12 +102,32 @@ whether the vocabulary is short a value. Twenty-three fields are open, including
 Which a field is, is storage's decision and not one extraction may revisit;
 `check_extraction_to_storage_map.py` fails if the projection opens or closes a vocabulary.
 
+### Missingness has one encoding, and it is `not_reported`
+
+**A value the article does not report takes `extraction_status: not_reported`.** No
+vocabulary offers an `unstated` member, and writing one is an error: silence recorded two
+ways is silence a query finds half of.
+
+Nothing is lost by that. A `not_reported` wrapper is still *present*, so everything the
+slot's presence asserts survives: that a test was run comes from the Analysis existing at
+all, and that a table holds no tested effect comes from `non_analysis_content` being filled.
+`Modality` is no exception either — `acquisition_type` is a designator the extractor writes,
+not a value computed from the modality.
+
+What this rule does **not** touch is a value naming something the source did report:
+
+- `not_applicable` — the concept does not apply. An observational study allocated nobody.
+- `undirected` — the test yields no per-level sign. An F or chi-square reports that, and it is
+  a different claim from a sign the page withheld, which is now `not_reported`.
+- `none`, `other` — an asserted absence and an asserted unlisted value, neither of them silence.
+
 ### Evidence invariants
 
 Enforced by [review/validate_record.py](review/validate_record.py):
 
 - `extraction_status: not_reported` ⇒ omit `value`, and `evidence.status` must be
-  `not_applicable`.
+  `not_applicable`. A field recorded this way therefore carries **no span**: there is no
+  way to cite the sentence that shows the answer was looked for and is not on the page.
 - `evidence.status: present` ⇒ at least one `EvidenceSet`, each with at least one span.
 - Every span satisfies `text == source[start_char:end_char]` against the normalized source
   text, half-open interval.
@@ -173,9 +193,16 @@ paper writes. What is normalized is placement (`relation_to_intervention`) and s
 
 Direction is recorded on the cell, never as a numeric contrast weight. One `Cell` is one level
 of one `ModelTerm` and the side it entered on, and `Cell.direction` is the `Direction`
-vocabulary: `positive`, `negative`, `undirected`, `unstated`, `held`. It is a **closed** field, so
+vocabulary: `positive`, `negative`, `undirected`, `held`. It is a **closed** field, so
 translate the paper's comparative wording — "greater in", "reduced relative to", "increased" —
-into one of the five rather than writing it down. There is no sixth answer; see §3.
+into one of the four rather than writing it down. There is no fifth answer; a direction the
+paper never printed is `extraction_status: not_reported` on the slot, as in §3.
+
+A sign is not a magnitude. `[1, -1/2, -1/2]` and `[1, -1, 0]` over the same three levels are both
+one positive level against two others, and the record cannot tell them apart — a contrast whose
+magnitudes matter keeps them in `Analysis.definition`. What a zero weight becomes is the first row
+of the table below: no cell at all, read back by subtraction from the term's `FactorLevel`s, as a
+term the contrast did not test is read back from `ModelEstimation.terms`.
 
 This reverses what this section said while extraction had no enums, when the wording was
 recorded verbatim and a 23-entry synonym table in the map did the translating.
@@ -197,7 +224,7 @@ something the mapper resolves from wording:
 | the source says | record | why |
 |---|---|---|
 | a three-level factor compared at two of its levels | no cell at all | absence *is* the zero weight |
-| compared directionally, but no direction given | a cell with `unstated` | a comparison was made; its sign was not printed |
+| compared directionally, but no direction given | a cell whose `direction` is `not_reported` | a comparison was made; its sign was not printed |
 | tested undirectionally — an F or χ² over the factor | `undirected` on **every** level | the test yields no per-level sign to print |
 | the contrast was taken *within* this level | a cell with `held` | it is on both sides at once |
 
@@ -206,21 +233,38 @@ versus controls, in the task condition" puts task on the plus side and the minus
 has no net sign on its own axis. Marking it `positive` would assert a condition comparison the
 contrast never makes.
 
-**The three unsigned values are told apart by two questions.** First: was the level on both sides
+**The three unsigned cells are told apart by two questions.** First: was the level on both sides
 at once? A held-constant level was, and no report could sign it, which is `held`. Otherwise: does the
 test yield a per-level sign at all? An F or χ² does not — it returns one statistic for the whole
 factor — which is `undirected`; a t or z whose direction the paper simply did not print does, and
-that is `unstated`. A corollary: a cell naming no level — on a slope or a product column — cannot sit
-on both sides of anything, so an undirected test of such a column is `undirected`, never `held`.
+that sign is missing from the page, so the slot takes `not_reported`. A corollary: a cell naming no
+level — on a slope or a product column — cannot sit on both sides of anything, so an undirected test
+of such a column is `undirected`, never `held`.
+
+The two questions also settle the **moderation** whose simple slopes differ by moderator level. A
+single-degree-of-freedom interaction coefficient has a sign — that the decline was steeper in
+patients *is* the sign — so a paper that reports the diverging slopes without printing it has
+withheld one: `not_reported` on the product column's cell, with the pattern in
+`Analysis.definition`. Only a multi-degree-of-freedom interaction F, which never produced a sign to
+withhold, is `undirected` there.
+
+The two unsigned values also differ in **how many cells** they leave. An undirected test cells
+every level of its factor; a held factor cells the one level and omits the rest. Celling all of
+them, rather than omitting a factor no cell would sign, is what keeps an F-tested term out of the
+derived adjustment set of §3 — it was tested, not controlled for — and cells that are all
+`undirected` are what make an effect an `omnibus`. A held level keeps its factor out of that set
+the same way: it took part, at one level, and the effect stays a `contrast` on whatever else is
+crossed.
 
 None of these is directional, so the derived kind is the same either way. What differs is what
 the record claims — and each wrong guess fails differently. Omitting the cell for an unreported
-direction denies a weight the contrast gave. Marking a held-constant level `unstated` asserts a
+direction denies a weight the contrast gave. Marking a held-constant level `not_reported` asserts a
 comparison the contrast did not make. Marking an F-tested factor's levels `held` says the opposite —
 that the factor was held on both sides of its own test, which is a claim about every level at once
-and so about none. And marking an F's levels `unstated` says a direction was withheld when the test
-never produced one, which turns an omnibus into a contrast. And treating a held-constant level as averaged-over puts a term in the derived adjustment
-set that the contrast never averaged, which is the failure that went unnoticed longest.
+and so about none. And marking an F's levels `not_reported` says a direction was withheld when the
+test never produced one, which turns an omnibus into a contrast. And treating a held-constant level
+as averaged-over puts a term in the derived adjustment set that the contrast never averaged, which
+is the failure that went unnoticed longest.
 
 ---
 
@@ -271,8 +315,9 @@ The kind of an effect is not a field. It is what reading the effect's `cells` pr
 where it is needed rather than stored anywhere. Cells each name a `ModelTerm` and, for a
 categorical term, one of its levels — the **axis of a comparison is the term** — so:
 
-> A term with **both a positive and a negative cell** is *crossed*: compared against itself.
-> Count the crossed terms.
+> A term with **both a positive and a negative cell** is *crossed*: compared against itself. A
+> term with cells on **two or more of its levels** is *compared*, signed or not. Count the
+> crossed terms.
 >
 > - a **signed** cell on a term with non-empty **`interaction_with`** → `interaction`, before
 >   anything below. An *unsigned* cell there is a multi-degree-of-freedom interaction F-test, which
@@ -282,15 +327,28 @@ categorical term, one of its levels — the **axis of a comparison is the term**
 > - **2 or more** crossed terms → `interaction`
 > - **1** crossed term → `contrast`
 > - **0** crossed, but some cell signed → `simple_effect`
-> - cells present, **none** signed → `omnibus`
+> - **0** crossed, some term compared, its cells `not_reported` → the kind that comparison
+>   describes, most often `contrast`
+> - cells present and every one of them **`undirected`** → `omnibus`
 > - **no cells** → unconstructable; `cells` is required, because an effect that compared nothing
 >   tested nothing
 
-`undirected`, `unstated` and `held` are not signs — a test with no sign to give, a sign the source
-withheld, and a level with no sign to have. None of the three can cross a term.
+There is no free-text branch: a cell pattern yields one of these labels or none, and a pattern
+yielding none is a record whose cells do not describe a test.
+
+`undirected`, `held` and a `not_reported` direction are not signs — a test with no sign to give,
+a level with no sign to have, and a sign the source withheld. None of the three can cross a term.
+
+**A withheld direction is not an omnibus.** `not_reported` cells are the one place crossing and
+comparison come apart: the term is compared without being crossed, and the kind is still the one
+its cells describe — a two-level comparison is a `contrast` whichever way it went. Only
+`undirected` cells make an `omnibus`, because only there is the absence of a sign a fact about the
+test rather than about the reporting. An omnibus's levels take cells all the same, which is what
+keeps the term tested rather than falling into the derived adjustment set.
 
 Crossing, rather than mere signedness, is what an axis of a comparison is. Two levels of `region`
-are one axis because they name one term. A cohort comparison, a condition contrast, a pre-post
+are one axis because they name one term. A difference of differences therefore needs two terms
+compared against *themselves*, not two terms merely present with a direction. A cohort comparison, a condition contrast, a pre-post
 change and a crossover comparison of arms are all one crossed term each, by the same rule and the
 same code — what distinguishes them is what the crossed term's levels range over, which
 `FactorLevel` states once on the model. A cell cannot carry a sign without naming the term it is a
@@ -426,7 +484,10 @@ Analyses whose design matrices differ must not share a `ModelEstimation` record.
 behind two design matrices makes the derived adjustment set wrong for both. **The input is part
 of the design**: a group model fitted over a left-seed connectivity map and the same group model
 fitted over a right-seed one are two records differing in `inputs_from`, not one record used
-twice.
+twice. Nothing names that input directly, and
+[storage-schema-design-notes.md](storage-schema-design-notes.md#the-input-a-model-was-fitted-to)
+is why: every input the corpus presents is already reachable from the `Analysis` by another
+route, so a slot for it would be provenance rather than a query.
 
 ### Stages
 
@@ -467,7 +528,7 @@ weight: absence is the zero weight, read against the term's `FactorLevel`s. A fa
 averages over is the other subtraction — no cell at all, so it falls into the adjustment set.
 
 The one case that needs care: an undirected test of a term, such as an F-test over a factor, must
-give its levels cells with `unstated` rather than omitting them. Omitting them would put the
+give its levels cells with `undirected` rather than omitting them. Omitting them would put the
 term in the adjustment set and say the analysis controlled for the factor it tested.
 
 Because a term either has a cell or is in the difference, "tested and controlled for at once" is
@@ -562,10 +623,10 @@ Three routing rules survive the change, because an extractor's wording still dec
   already tests its coefficient against zero; chance is `PerformanceMetric.reference_value`. If
   the condition is named in prose but no model term carries it, there is no cell to make —
   report it, do not invent the term.
-- **A weighted-out level and an undirected level are different facts.** A level the contrast
-  weighted out gets no cell, because storage records a zero weight by having none; a level
-  compared with no direction reported gets a cell with `unstated`, whether the direction went
-  unreported for a signed contrast or because the test was an F.
+- **A weighted-out level and an unsigned level are different facts.** A level the contrast
+  weighted out gets no cell, because storage records a zero weight by having none; a level that
+  was compared still gets a cell — `undirected` where the test was an F, and a `not_reported`
+  direction where a signed contrast's direction went unprinted.
 - **"Moderator" is not a direction.** It has no destination. A moderated effect is the moderator
   and the moderated effect both as terms of interest, plus a product `ModelTerm` naming them in
   `interaction_with`. A cell whose direction says "moderator" is flagged for review, since it
@@ -603,7 +664,7 @@ extraction schema still asks for them.
 There is no record-level confidence field. An extraction record is flagged for human review
 from the record itself:
 
-- `unstated` values, counted per record;
+- `not_reported` fields, counted per record;
 - a required field left empty;
 - a structural check failing (§3);
 - a value outside a vocabulary — a signal for review, not a validation failure.

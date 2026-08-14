@@ -3,10 +3,8 @@ name: neuroimaging-study-storage-analysis-details
 title: Neuroimaging Study Storage Analysis Details Module
 description: >-
   Method-specific payloads for an Analysis: the fields that only make sense for one family of
-  method, kept out of Analysis so that the method and the effect never compete for a field.
-  Exactly one subclass of AnalysisDetails applies to an Analysis, and which one is filled
-  states the method. A mass-univariate analysis takes MassUnivariateDetails, which adds no
-  fields of its own.
+  method. Exactly one subclass of AnalysisDetails applies to an Analysis, and which one is
+  filled states the method.
 
   These classes carry method specifics only. What was tested about the map always lives in
   Effect, whatever the method, so a connectivity, decoding, RSA, or component analysis states
@@ -85,8 +83,8 @@ classes:
         description: >-
           The performance measures reported for this map, one entry each. Papers routinely give
           several of the same analysis -- accuracy with sensitivity and specificity, or accuracy
-          with AUC -- and each carries its own value, so a single field would keep whichever the
-          extractor happened to read first.
+          with AUC -- and each carries its own value and its own reference. Record every one
+          the source reports.
       validation_scheme:
         in_subset: [model_extracted]
         range: string
@@ -120,8 +118,8 @@ classes:
         description: >-
           Numeric reference this measure was compared against, when reported -- chance for an
           accuracy, zero for a correlation. Each measure carries its own: accuracy against
-          chance and AUC against 0.5 are two references, not one, which is why this is here and
-          not once on the Effect. `relation` says which side of it the measure fell on.
+          chance and AUC against 0.5 are two references, not one. `relation` says which side
+          of it the measure fell on.
       relation:
         in_subset: [model_extracted]
         range: PerformanceRelation
@@ -155,9 +153,9 @@ classes:
         in_subset: [mvp, model_extracted]
         range: string
         description: >-
-          The model RDM tested. Unset for a genuinely model-free test, such as within-
-          versus between-category pattern similarity or dissimilarity against zero, which
-          is tested against zero, which is a single signed cell rather than a comparison.
+          The model RDM tested. Unset for a genuinely model-free test, such as within- versus
+          between-category pattern similarity, or dissimilarity against zero -- a single
+          signed cell rather than a comparison.
       neural_representation:
         in_subset: [model_extracted]
         range: string
@@ -242,9 +240,9 @@ classes:
   ConnectivityEdge:
     description: One reported connection between two named regions.
     attributes:
-      # Neither is required any more. As strings an unknown endpoint took `not_reported`; a
-      # reference has no such form, so a required one would make an edge whose endpoints the
-      # entities pass did not enumerate invalidate the whole record.
+      # Neither endpoint is required: a reference has no `not_reported` form, so requiring one
+      # would invalidate the whole record for an edge whose endpoints the entities pass did
+      # not enumerate.
       source_region:
         in_subset: [model_extracted]
         range: Region
@@ -325,22 +323,6 @@ classes:
       One analysis reports one component: a second latent variable or component from the
       same decomposition is a second Analysis.
 
-      **The class boundary is the block structure, not the algorithm.** `second_block` says
-      how many blocks were decomposed and what the others held, and that -- not which
-      algorithm ran -- is what decides whether two decompositions answer the same question.
-      A brain-behaviour covariance decomposed by PLS and one decomposed by CCA pool with each
-      other more readily than a task PLS pools with a behavioural PLS, so the filter has to
-      be the blocks and the algorithm has to be a separate field.
-
-      This class replaces the former `ComponentDecompositionDetails` and
-      `PartialLeastSquaresDetails`, which held one fact in three homes: the block structure
-      was the boundary between them, *and* an enum inside PLS (`pls_type`), *and* absent
-      altogether for parallel ICA and mCCA+jICA, whose second block is another imaging
-      modality or a SNP array. Four of PLS's nine fields were the component fields under
-      other names, and the split had already begun to drift -- `map_quantity` existed on one
-      side and not the other, though PLS maps are the ones most in need of it. See
-      storage-schema-design-notes.md.
-
       One invariant LinkML does not express, so the structural validator carries it:
       `crossblock_covariance_percent` is meaningless when `second_block` is `[none]`, there
       being no second block for the covariance to cross. `variance_explained_percent` is
@@ -355,9 +337,7 @@ classes:
         required: true
         description: >-
           The algorithm that produced the components, which decides what their values and
-          signs mean. Required, so `unstated` is the value for a paper that names no
-          algorithm; the method is this payload's identity and an absent value would be
-          indistinguishable from an extractor that never reached the question.
+          signs mean.
       second_block:
         in_subset: [mvp, model_extracted]
         any_of:
@@ -368,14 +348,11 @@ classes:
         description: >-
           What the brain block was decomposed against, one value per additional block, and
           the primary filter on this payload. `[none]` for a decomposition of the brain data
-          alone, which is a positive assertion rather than an empty slot -- exactly as
-          `MassUnivariateDetails` asserts the commonest method rather than leaving it to be
-          inferred.
+          alone, which is a positive assertion rather than an empty slot.
 
-          Multivalued because papers cross more than two blocks: a three-modality
-          mCCA+jICA carries `other_imaging_modality` twice, and a design-plus-behaviour PLS
-          carries `[design, behavioral]` rather than a `multiblock` token that would discard
-          which blocks they were.
+          Multivalued because papers cross more than two blocks: a three-modality mCCA+jICA
+          carries `other_imaging_modality` twice, and a design-plus-behaviour PLS carries
+          `[design, behavioral]`. Name the blocks, never their number.
       second_block_assessments:
         in_subset: [model_extracted]
         range: Assessment
@@ -421,10 +398,7 @@ classes:
         description: >-
           How the number of components was chosen, as reported -- minimum description
           length, a variance-retained cutoff, a scree criterion, permutation on the singular
-          values, or a fixed a priori number. Distinct from `selection_criterion`, which is
-          about which single component the paper went on to report: this is a property of the
-          decomposition and governs how finely the signal was carved, so two ICAs at 20 and
-          at 100 components are not reporting comparable networks.
+          values, or a fixed a priori number.
       selection_criterion:
         in_subset: [model_extracted]
         range: string
@@ -462,11 +436,10 @@ classes:
         range: string
         description: >-
           The criterion deciding which elements count as reliable contributors, as reported
-          -- conventionally a bootstrap ratio cutoff such as "|BSR| > 3.0", or a
-          standardized cutoff such as "|Z| > 3.5". Recorded here rather than in
-          `InferenceSettings` because a bootstrap ratio is a stability measure and not a
-          test statistic, so reading it as a voxelwise threshold would misstate the
-          inference.
+          -- conventionally a bootstrap ratio cutoff such as "|BSR| > 3.0", or a standardized
+          cutoff such as "|Z| > 3.5". Not `InferenceSettings`: a bootstrap ratio is a
+          stability measure and not a test statistic, so reading it as a voxelwise threshold
+          would misstate the inference.
       polarity_semantics:
         in_subset: [model_extracted]
         range: PolaritySemantics

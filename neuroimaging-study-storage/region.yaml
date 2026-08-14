@@ -41,7 +41,8 @@ classes:
           How the region was delimited, which is a statement about independence: one drawn
           from the study's own prior contrast is not independent of an effect tested inside
           it. Per region, since one analysis may use an atlas mask and a functional ROI at
-          once. Required, with `unstated` for a source that does not say.
+          once. Required, so a source that does not say still carries the slot, as
+          `extraction_status: not_reported`.
       region_type:
         in_subset: [model_extracted]
         any_of:
@@ -63,9 +64,9 @@ classes:
         range: string
         description: >-
           How the source defines the region, including any geometry it states: "8 mm spheres
-          centered at [0 36 -6]". Definitional coordinates have no structured slot -- result
-          coordinates reach the record through the table parser -- so they are kept here,
-          where the evidence span makes them checkable.
+          centered at [0 36 -6]". Definitional coordinates have no structured slot and belong
+          here, where the evidence span makes them checkable; result coordinates reach the
+          record through the table parser instead.
 
 enums:
 
@@ -93,9 +94,6 @@ enums:
           Defined from another analysis in the same study, so not independent of an effect
           reported inside it. That analysis names the region in `defines_regions`, which is
           what makes the circularity checkable rather than asserted.
-      unstated:
-        in_subset: [mvp, model_extracted]
-        description: The source uses the region but does not say how it was defined.
 
   RegionType:
     in_subset: [mvp, model_extracted]
@@ -122,6 +120,3 @@ enums:
         description: >-
           A cluster taken from a statistical map. Whether it was this study's is
           `definition_method`, which is where the independence claim lives.
-      unstated:
-        in_subset: [mvp, model_extracted]
-        description: The source uses the region but does not say what kind of thing it is.

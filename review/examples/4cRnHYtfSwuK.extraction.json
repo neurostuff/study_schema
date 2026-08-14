@@ -259,11 +259,9 @@
         }
       },
       "prespecification": {
-        "extraction_status": "extracted",
-        "value": "unstated",
-        "value_source": "generated",
+        "extraction_status": "not_reported",
         "evidence": {
-          "status": "not_found"
+          "status": "not_applicable"
         }
       },
       "spatial_scope": {
@@ -285,111 +283,7 @@
           ]
         }
       },
-      "spatial_unit": {
-        "extraction_status": "extracted",
-        "value": "voxel",
-        "value_source": "generated",
-        "evidence": {
-          "status": "present",
-          "sets": [
-            {
-              "spans": [
-                {
-                  "text": "The result is an estimate of how well the temporal response of the left amygdala correlates with the temporal signal of each voxel in the brain.",
-                  "start_char": 18133,
-                  "end_char": 18277
-                }
-              ]
-            }
-          ]
-        }
-      },
-      "roi_definition": {
-        "extraction_status": "extracted",
-        "value": "not_applicable",
-        "value_source": "generated",
-        "evidence": {
-          "status": "not_found"
-        }
-      },
-      "measure": {
-        "family": {
-          "extraction_status": "extracted",
-          "value": "functional_bold",
-          "value_source": "generated",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "Seventy-four subjects, 55 adults meeting the DSM-IV criteria for MDD and 19 HCs, underwent a resting-state 3-T functional magnetic resonance imaging scan.",
-                    "start_char": 651,
-                    "end_char": 805
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "type": {
-          "extraction_status": "extracted",
-          "value": "connectivity_strength",
-          "value_source": "generated",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "The RSFC analysis demonstrated significantly decreased functional connectivity of both the right and left amygdala with regions including the caudate, insula, occipital regions, and cerebellum",
-                    "start_char": 21296,
-                    "end_char": 21488
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "source_label": {
-          "extraction_status": "extracted",
-          "value": "resting-state functional connectivity",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "resting-state functional connectivity",
-                    "start_char": 18551,
-                    "end_char": 18588
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "specific_metric": {
-          "extraction_status": "extracted",
-          "value": "Pearson correlation-based low frequency resting-state functional connectivity",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "“Functional connectivity” refers to the temporal correlation between the neural activity patterns of anatomically separated brain regions",
-                    "start_char": 5633,
-                    "end_char": 5770
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      },
+      "measure": "measure_connectivity_strength",
       "groups": [
         {
           "group": "group_mdd",
@@ -565,41 +459,14 @@
             ]
           }
         },
-        "seed_regions": {
-          "extraction_status": "extracted",
-          "value": [
-            "left amygdala"
-          ],
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "The left and right amygdala were first located on the standard MNI brain template",
-                    "start_char": 16953,
-                    "end_char": 17034
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "target_regions": {
-          "extraction_status": "extracted",
-          "value": [],
-          "value_source": "generated",
-          "evidence": {
-            "status": "not_found"
-          }
-        },
+        "seed_regions": [
+          "region_left_amygdala"
+        ],
+        "target_regions": [],
         "parameter_sign": {
-          "extraction_status": "extracted",
-          "value": "unstated",
-          "value_source": "generated",
+          "extraction_status": "not_reported",
           "evidence": {
-            "status": "not_found"
+            "status": "not_applicable"
           }
         },
         "parameter_change": {
@@ -656,159 +523,7 @@
         "task_resting_state"
       ],
       "model_estimation": "model_group_flame",
-      "inference_settings": {
-        "inference_level": {
-          "extraction_status": "extracted",
-          "value": "cluster",
-          "value_source": "generated",
-          "evidence": {
-            "status": "not_found"
-          }
-        },
-        "voxelwise_threshold_value": {
-          "extraction_status": "extracted",
-          "value": 2.3,
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a statistical threshold of   Z   = 2.3 (  p   = 0.01)",
-                    "start_char": 19163,
-                    "end_char": 19216
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "voxelwise_threshold_type": {
-          "extraction_status": "extracted",
-          "value": "z",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a statistical threshold of   Z   = 2.3",
-                    "start_char": 19163,
-                    "end_char": 19201
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "cluster_forming_threshold_value": {
-          "extraction_status": "not_reported",
-          "evidence": {
-            "status": "not_applicable"
-          }
-        },
-        "cluster_extent_threshold": {
-          "extraction_status": "extracted",
-          "value": 77,
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a cluster size threshold of at least 77 contiguous voxels",
-                    "start_char": 19222,
-                    "end_char": 19279
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "clusterwise_threshold_value": {
-          "extraction_status": "extracted",
-          "value": 0.05,
-          "value_source": "reported",
-          "evidence": {
-            "status": "not_found"
-          }
-        },
-        "multiple_comparison_method": {
-          "extraction_status": "extracted",
-          "value": "Monte Carlo simulations using AlphaSim",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "as determined by Monte Carlo simulations using AlphaSim",
-                    "start_char": 19329,
-                    "end_char": 19384
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "correction_scope": {
-          "extraction_status": "extracted",
-          "value": "whole brain",
-          "value_source": "generated",
-          "evidence": {
-            "status": "not_found"
-          }
-        },
-        "search_volume": {
-          "extraction_status": "not_reported",
-          "evidence": {
-            "status": "not_applicable"
-          }
-        },
-        "neighborhood_definition": {
-          "extraction_status": "not_reported",
-          "evidence": {
-            "status": "not_applicable"
-          }
-        },
-        "tfce_used": {
-          "extraction_status": "not_reported",
-          "evidence": {
-            "status": "not_applicable"
-          }
-        },
-        "tfce_parameters": {
-          "extraction_status": "not_reported",
-          "evidence": {
-            "status": "not_applicable"
-          }
-        },
-        "permutation_count": {
-          "extraction_status": "not_reported",
-          "evidence": {
-            "status": "not_applicable"
-          }
-        },
-        "alpha_level": {
-          "extraction_status": "extracted",
-          "value": 0.05,
-          "value_source": "reported",
-          "evidence": {
-            "status": "not_found"
-          }
-        },
-        "number_of_tests": {
-          "extraction_status": "not_reported",
-          "evidence": {
-            "status": "not_applicable"
-          }
-        }
-      },
-      "preprocessing": "preproc_fsl",
+      "inference_settings": "inference_monte_carlo_simulations_using_alphasim",
       "tables": [
         "tbl2"
       ],
@@ -862,11 +577,9 @@
         }
       },
       "prespecification": {
-        "extraction_status": "extracted",
-        "value": "unstated",
-        "value_source": "generated",
+        "extraction_status": "not_reported",
         "evidence": {
-          "status": "not_found"
+          "status": "not_applicable"
         }
       },
       "spatial_scope": {
@@ -888,111 +601,7 @@
           ]
         }
       },
-      "spatial_unit": {
-        "extraction_status": "extracted",
-        "value": "voxel",
-        "value_source": "generated",
-        "evidence": {
-          "status": "present",
-          "sets": [
-            {
-              "spans": [
-                {
-                  "text": "The result is an estimate of how well the temporal response of the left amygdala correlates with the temporal signal of each voxel in the brain.",
-                  "start_char": 18133,
-                  "end_char": 18277
-                }
-              ]
-            }
-          ]
-        }
-      },
-      "roi_definition": {
-        "extraction_status": "extracted",
-        "value": "not_applicable",
-        "value_source": "generated",
-        "evidence": {
-          "status": "not_found"
-        }
-      },
-      "measure": {
-        "family": {
-          "extraction_status": "extracted",
-          "value": "functional_bold",
-          "value_source": "generated",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "Seventy-four subjects, 55 adults meeting the DSM-IV criteria for MDD and 19 HCs, underwent a resting-state 3-T functional magnetic resonance imaging scan.",
-                    "start_char": 651,
-                    "end_char": 805
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "type": {
-          "extraction_status": "extracted",
-          "value": "connectivity_strength",
-          "value_source": "generated",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "Besides reduced RSFC, both the left and right amygdala exhibited increased connectivity with the contralateral temporal poles in MDD patients, compared to HC.",
-                    "start_char": 21791,
-                    "end_char": 21949
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "source_label": {
-          "extraction_status": "extracted",
-          "value": "resting-state functional connectivity",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "resting-state functional connectivity",
-                    "start_char": 18551,
-                    "end_char": 18588
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "specific_metric": {
-          "extraction_status": "extracted",
-          "value": "Pearson correlation-based low frequency resting-state functional connectivity",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "“Functional connectivity” refers to the temporal correlation between the neural activity patterns of anatomically separated brain regions",
-                    "start_char": 5633,
-                    "end_char": 5770
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      },
+      "measure": "measure_connectivity_strength",
       "groups": [
         {
           "group": "group_mdd",
@@ -1168,41 +777,14 @@
             ]
           }
         },
-        "seed_regions": {
-          "extraction_status": "extracted",
-          "value": [
-            "left amygdala"
-          ],
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "The left and right amygdala were first located on the standard MNI brain template",
-                    "start_char": 16953,
-                    "end_char": 17034
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "target_regions": {
-          "extraction_status": "extracted",
-          "value": [],
-          "value_source": "generated",
-          "evidence": {
-            "status": "not_found"
-          }
-        },
+        "seed_regions": [
+          "region_left_amygdala"
+        ],
+        "target_regions": [],
         "parameter_sign": {
-          "extraction_status": "extracted",
-          "value": "unstated",
-          "value_source": "generated",
+          "extraction_status": "not_reported",
           "evidence": {
-            "status": "not_found"
+            "status": "not_applicable"
           }
         },
         "parameter_change": {
@@ -1259,150 +841,7 @@
         "task_resting_state"
       ],
       "model_estimation": "model_group_flame",
-      "inference_settings": {
-        "inference_level": {
-          "extraction_status": "extracted",
-          "value": "cluster",
-          "value_source": "generated",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a cluster size threshold of at least 77 contiguous voxels",
-                    "start_char": 19222,
-                    "end_char": 19279
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "voxelwise_threshold_value": {
-          "extraction_status": "extracted",
-          "value": 2.3,
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a statistical threshold of   Z   = 2.3",
-                    "start_char": 19163,
-                    "end_char": 19201
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "voxelwise_threshold_type": {
-          "extraction_status": "extracted",
-          "value": "z",
-          "value_source": "reported",
-          "evidence": {
-            "status": "not_found"
-          }
-        },
-        "cluster_extent_threshold": {
-          "extraction_status": "extracted",
-          "value": 77,
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a cluster size threshold of at least 77 contiguous voxels",
-                    "start_char": 19222,
-                    "end_char": 19279
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "clusterwise_threshold_value": {
-          "extraction_status": "extracted",
-          "value": 0.05,
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a corrected   p  -value of 0.05",
-                    "start_char": 19297,
-                    "end_char": 19328
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "multiple_comparison_method": {
-          "extraction_status": "extracted",
-          "value": "Monte Carlo simulations using AlphaSim",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "Monte Carlo simulations using AlphaSim",
-                    "start_char": 19346,
-                    "end_char": 19384
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "correction_scope": {
-          "extraction_status": "extracted",
-          "value": "whole brain",
-          "value_source": "generated",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "An amygdala seed-based low frequency RSFC map for the whole brain was generated for each group.",
-                    "start_char": 806,
-                    "end_char": 901
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "alpha_level": {
-          "extraction_status": "extracted",
-          "value": 0.05,
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a corrected   p  -value of 0.05",
-                    "start_char": 19297,
-                    "end_char": 19328
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      },
-      "preprocessing": "preproc_fsl",
+      "inference_settings": "inference_monte_carlo_simulations_using_alphasim_2",
       "tables": [
         "tbl2"
       ],
@@ -1456,11 +895,9 @@
         }
       },
       "prespecification": {
-        "extraction_status": "extracted",
-        "value": "unstated",
-        "value_source": "generated",
+        "extraction_status": "not_reported",
         "evidence": {
-          "status": "not_found"
+          "status": "not_applicable"
         }
       },
       "spatial_scope": {
@@ -1482,100 +919,7 @@
           ]
         }
       },
-      "spatial_unit": {
-        "extraction_status": "extracted",
-        "value": "voxel",
-        "value_source": "generated",
-        "evidence": {
-          "status": "present",
-          "sets": [
-            {
-              "spans": [
-                {
-                  "text": "The result is an estimate of how well the temporal response of the left amygdala correlates with the temporal signal of each voxel in the brain.",
-                  "start_char": 18133,
-                  "end_char": 18277
-                }
-              ]
-            }
-          ]
-        }
-      },
-      "roi_definition": {
-        "extraction_status": "extracted",
-        "value": "not_applicable",
-        "value_source": "generated",
-        "evidence": {
-          "status": "not_found"
-        }
-      },
-      "measure": {
-        "family": {
-          "extraction_status": "extracted",
-          "value": "functional_bold",
-          "value_source": "generated",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "underwent a resting-state 3-T functional magnetic resonance imaging scan",
-                    "start_char": 732,
-                    "end_char": 804
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "type": {
-          "extraction_status": "extracted",
-          "value": "connectivity_strength",
-          "value_source": "generated",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "The RSFC analysis demonstrated significantly decreased functional connectivity",
-                    "start_char": 21296,
-                    "end_char": 21374
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "source_label": {
-          "extraction_status": "extracted",
-          "value": "resting-state functional connectivity",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "The RSFC analysis demonstrated significantly decreased functional connectivity",
-                    "start_char": 21296,
-                    "end_char": 21374
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "specific_metric": {
-          "extraction_status": "extracted",
-          "value": "Pearson correlation-based low frequency resting-state functional connectivity",
-          "value_source": "reported",
-          "evidence": {
-            "status": "not_found"
-          }
-        }
-      },
+      "measure": "measure_connectivity_strength",
       "groups": [
         {
           "group": "group_mdd",
@@ -1751,41 +1095,14 @@
             ]
           }
         },
-        "seed_regions": {
-          "extraction_status": "extracted",
-          "value": [
-            "right amygdala"
-          ],
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "the right amygdala",
-                    "start_char": 18314,
-                    "end_char": 18332
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "target_regions": {
-          "extraction_status": "extracted",
-          "value": [],
-          "value_source": "generated",
-          "evidence": {
-            "status": "not_found"
-          }
-        },
+        "seed_regions": [
+          "region_right_amygdala"
+        ],
+        "target_regions": [],
         "parameter_sign": {
-          "extraction_status": "extracted",
-          "value": "unstated",
-          "value_source": "generated",
+          "extraction_status": "not_reported",
           "evidence": {
-            "status": "not_found"
+            "status": "not_applicable"
           }
         },
         "parameter_change": {
@@ -1842,150 +1159,7 @@
         "task_resting_state"
       ],
       "model_estimation": "model_group_flame",
-      "inference_settings": {
-        "inference_level": {
-          "extraction_status": "extracted",
-          "value": "cluster",
-          "value_source": "generated",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a cluster size threshold of at least 77 contiguous voxels",
-                    "start_char": 19222,
-                    "end_char": 19279
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "voxelwise_threshold_value": {
-          "extraction_status": "extracted",
-          "value": 2.3,
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a statistical threshold of   Z   = 2.3",
-                    "start_char": 19163,
-                    "end_char": 19201
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "voxelwise_threshold_type": {
-          "extraction_status": "extracted",
-          "value": "z",
-          "value_source": "reported",
-          "evidence": {
-            "status": "not_found"
-          }
-        },
-        "cluster_extent_threshold": {
-          "extraction_status": "extracted",
-          "value": 77,
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a cluster size threshold of at least 77 contiguous voxels",
-                    "start_char": 19222,
-                    "end_char": 19279
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "clusterwise_threshold_value": {
-          "extraction_status": "extracted",
-          "value": 0.05,
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a corrected   p  -value of 0.05",
-                    "start_char": 19297,
-                    "end_char": 19328
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "multiple_comparison_method": {
-          "extraction_status": "extracted",
-          "value": "Monte Carlo simulations using AlphaSim",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "Monte Carlo simulations using AlphaSim",
-                    "start_char": 19346,
-                    "end_char": 19384
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "correction_scope": {
-          "extraction_status": "extracted",
-          "value": "whole brain",
-          "value_source": "generated",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "An amygdala seed-based low frequency RSFC map for the whole brain was generated for each group.",
-                    "start_char": 806,
-                    "end_char": 901
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "alpha_level": {
-          "extraction_status": "extracted",
-          "value": 0.05,
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a corrected   p  -value of 0.05",
-                    "start_char": 19297,
-                    "end_char": 19328
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      },
-      "preprocessing": "preproc_fsl",
+      "inference_settings": "inference_monte_carlo_simulations_using_alphasim_2",
       "tables": [
         "tbl3"
       ],
@@ -2039,11 +1213,9 @@
         }
       },
       "prespecification": {
-        "extraction_status": "extracted",
-        "value": "unstated",
-        "value_source": "generated",
+        "extraction_status": "not_reported",
         "evidence": {
-          "status": "not_found"
+          "status": "not_applicable"
         }
       },
       "spatial_scope": {
@@ -2054,89 +1226,7 @@
           "status": "not_found"
         }
       },
-      "spatial_unit": {
-        "extraction_status": "extracted",
-        "value": "voxel",
-        "value_source": "generated",
-        "evidence": {
-          "status": "not_found"
-        }
-      },
-      "roi_definition": {
-        "extraction_status": "extracted",
-        "value": "not_applicable",
-        "value_source": "generated",
-        "evidence": {
-          "status": "not_found"
-        }
-      },
-      "measure": {
-        "family": {
-          "extraction_status": "extracted",
-          "value": "functional_bold",
-          "value_source": "generated",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "underwent a resting-state 3-T functional magnetic resonance imaging scan",
-                    "start_char": 732,
-                    "end_char": 804
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "type": {
-          "extraction_status": "extracted",
-          "value": "connectivity_strength",
-          "value_source": "generated",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "functional connectivity",
-                    "start_char": 110,
-                    "end_char": 133
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "source_label": {
-          "extraction_status": "extracted",
-          "value": "resting-state functional connectivity",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "resting-state functional connectivity",
-                    "start_char": 18551,
-                    "end_char": 18588
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "specific_metric": {
-          "extraction_status": "extracted",
-          "value": "Pearson correlation-based low frequency resting-state functional connectivity",
-          "value_source": "reported",
-          "evidence": {
-            "status": "not_found"
-          }
-        }
-      },
+      "measure": "measure_connectivity_strength",
       "groups": [
         {
           "group": "group_mdd",
@@ -2312,41 +1402,14 @@
             ]
           }
         },
-        "seed_regions": {
-          "extraction_status": "extracted",
-          "value": [
-            "right amygdala"
-          ],
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "This process was repeated again for the right amygdala.",
-                    "start_char": 18278,
-                    "end_char": 18333
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "target_regions": {
-          "extraction_status": "extracted",
-          "value": [],
-          "value_source": "generated",
-          "evidence": {
-            "status": "not_found"
-          }
-        },
+        "seed_regions": [
+          "region_right_amygdala"
+        ],
+        "target_regions": [],
         "parameter_sign": {
-          "extraction_status": "extracted",
-          "value": "unstated",
-          "value_source": "generated",
+          "extraction_status": "not_reported",
           "evidence": {
-            "status": "not_found"
+            "status": "not_applicable"
           }
         },
         "parameter_change": {
@@ -2392,117 +1455,7 @@
         "task_resting_state"
       ],
       "model_estimation": "model_group_flame",
-      "inference_settings": {
-        "inference_level": {
-          "extraction_status": "extracted",
-          "value": "cluster",
-          "value_source": "generated",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a cluster size threshold of at least 77 contiguous voxels",
-                    "start_char": 19222,
-                    "end_char": 19279
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "voxelwise_threshold_value": {
-          "extraction_status": "extracted",
-          "value": 2.3,
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "Z   = 2.3",
-                    "start_char": 19192,
-                    "end_char": 19201
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "voxelwise_threshold_type": {
-          "extraction_status": "extracted",
-          "value": "z",
-          "value_source": "reported",
-          "evidence": {
-            "status": "not_found"
-          }
-        },
-        "cluster_extent_threshold": {
-          "extraction_status": "extracted",
-          "value": 77,
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "a cluster size threshold of at least 77 contiguous voxels",
-                    "start_char": 19222,
-                    "end_char": 19279
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "clusterwise_threshold_value": {
-          "extraction_status": "extracted",
-          "value": 0.05,
-          "value_source": "reported",
-          "evidence": {
-            "status": "not_found"
-          }
-        },
-        "multiple_comparison_method": {
-          "extraction_status": "extracted",
-          "value": "Monte Carlo simulations using AlphaSim",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "Monte Carlo simulations using AlphaSim",
-                    "start_char": 19346,
-                    "end_char": 19384
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "correction_scope": {
-          "extraction_status": "extracted",
-          "value": "whole brain",
-          "value_source": "generated",
-          "evidence": {
-            "status": "not_found"
-          }
-        },
-        "alpha_level": {
-          "extraction_status": "extracted",
-          "value": 0.05,
-          "value_source": "reported",
-          "evidence": {
-            "status": "not_found"
-          }
-        }
-      },
-      "preprocessing": "preproc_fsl",
+      "inference_settings": "inference_monte_carlo_simulations_using_alphasim_2",
       "tables": [
         "tbl3"
       ],
@@ -2569,46 +1522,6 @@
           ]
         }
       },
-      "instrument": {
-        "manufacturer": {
-          "extraction_status": "extracted",
-          "value": "General Electric Healthcare",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "3-T General Electric MR scanner (Signa VHi; General Electric Healthcare, Waukesha, WI, USA)",
-                    "start_char": 14028,
-                    "end_char": 14119
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "model": {
-          "extraction_status": "extracted",
-          "value": "Signa VHi",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "3-T General Electric MR scanner (Signa VHi; General Electric Healthcare, Waukesha, WI, USA)",
-                    "start_char": 14028,
-                    "end_char": 14119
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      },
       "magnetic_field_strength_tesla": {
         "extraction_status": "extracted",
         "value": 3,
@@ -2706,7 +1619,8 @@
         "evidence": {
           "status": "not_found"
         }
-      }
+      },
+      "device": "dev_signa_vhi"
     },
     {
       "local_id": "acq_mri_structural",
@@ -2734,46 +1648,6 @@
         "extraction_status": "not_reported",
         "evidence": {
           "status": "not_applicable"
-        }
-      },
-      "instrument": {
-        "manufacturer": {
-          "extraction_status": "extracted",
-          "value": "General Electric Healthcare",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "3-T General Electric MR scanner (Signa VHi; General Electric Healthcare, Waukesha, WI, USA)",
-                    "start_char": 14028,
-                    "end_char": 14119
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "model": {
-          "extraction_status": "extracted",
-          "value": "Signa VHi",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "3-T General Electric MR scanner (Signa VHi; General Electric Healthcare, Waukesha, WI, USA)",
-                    "start_char": 14028,
-                    "end_char": 14119
-                  }
-                ]
-              }
-            ]
-          }
         }
       },
       "magnetic_field_strength_tesla": {
@@ -2856,7 +1730,8 @@
         "evidence": {
           "status": "not_applicable"
         }
-      }
+      },
+      "device": "dev_signa_vhi"
     },
     {
       "local_id": "acq_fmri_rest_scanner2",
@@ -2899,46 +1774,6 @@
           ]
         }
       },
-      "instrument": {
-        "manufacturer": {
-          "extraction_status": "extracted",
-          "value": "General Electric Healthcare",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "3-T General Electric MR scanner (Signa VHi; General Electric Healthcare, Waukesha, WI, USA)",
-                    "start_char": 14028,
-                    "end_char": 14119
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "model": {
-          "extraction_status": "extracted",
-          "value": "Discovery MR 750",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "Images of 11 MDD patients were collected using 3 T General Electric MR scanner (Discovery MR 750) using the same parameters",
-                    "start_char": 14636,
-                    "end_char": 14759
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      },
       "magnetic_field_strength_tesla": {
         "extraction_status": "extracted",
         "value": 3,
@@ -3036,7 +1871,8 @@
         "evidence": {
           "status": "not_found"
         }
-      }
+      },
+      "device": "dev_discovery_mr_750"
     },
     {
       "local_id": "acq_mri_structural_scanner2",
@@ -3065,46 +1901,6 @@
         "value_source": "reported",
         "evidence": {
           "status": "not_applicable"
-        }
-      },
-      "instrument": {
-        "manufacturer": {
-          "extraction_status": "extracted",
-          "value": "General Electric Healthcare",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "3-T General Electric MR scanner (Signa VHi; General Electric Healthcare, Waukesha, WI, USA)",
-                    "start_char": 14028,
-                    "end_char": 14119
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        "model": {
-          "extraction_status": "extracted",
-          "value": "Discovery MR 750",
-          "value_source": "reported",
-          "evidence": {
-            "status": "present",
-            "sets": [
-              {
-                "spans": [
-                  {
-                    "text": "Images of 11 MDD patients were collected using 3 T General Electric MR scanner (Discovery MR 750) using the same parameters",
-                    "start_char": 14636,
-                    "end_char": 14759
-                  }
-                ]
-              }
-            ]
-          }
         }
       },
       "magnetic_field_strength_tesla": {
@@ -3187,7 +1983,8 @@
         "evidence": {
           "status": "not_applicable"
         }
-      }
+      },
+      "device": "dev_discovery_mr_750"
     }
   ],
   "assessments": [
@@ -4623,7 +3420,29 @@
             }
           }
         }
-      ]
+      ],
+      "preprocessing": [
+        "preproc_fsl"
+      ],
+      "spatial_unit": {
+        "extraction_status": "extracted",
+        "value": "voxel",
+        "value_source": "generated",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "The result is an estimate of how well the temporal response of the left amygdala correlates with the temporal signal of each voxel in the brain.",
+                  "start_char": 18133,
+                  "end_char": 18277
+                }
+              ]
+            }
+          ]
+        }
+      }
     },
     {
       "local_id": "model_subject_filM",
@@ -5513,6 +4332,591 @@
               ]
             }
           ]
+        }
+      }
+    }
+  ],
+  "measures": [
+    {
+      "local_id": "measure_connectivity_strength",
+      "family": {
+        "extraction_status": "extracted",
+        "value": "functional_bold",
+        "value_source": "generated",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "Seventy-four subjects, 55 adults meeting the DSM-IV criteria for MDD and 19 HCs, underwent a resting-state 3-T functional magnetic resonance imaging scan.",
+                  "start_char": 651,
+                  "end_char": 805
+                }
+              ]
+            },
+            {
+              "spans": [
+                {
+                  "text": "underwent a resting-state 3-T functional magnetic resonance imaging scan",
+                  "start_char": 732,
+                  "end_char": 804
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "type": {
+        "extraction_status": "extracted",
+        "value": "connectivity_strength",
+        "value_source": "generated",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "The RSFC analysis demonstrated significantly decreased functional connectivity of both the right and left amygdala with regions including the caudate, insula, occipital regions, and cerebellum",
+                  "start_char": 21296,
+                  "end_char": 21488
+                }
+              ]
+            },
+            {
+              "spans": [
+                {
+                  "text": "Besides reduced RSFC, both the left and right amygdala exhibited increased connectivity with the contralateral temporal poles in MDD patients, compared to HC.",
+                  "start_char": 21791,
+                  "end_char": 21949
+                }
+              ]
+            },
+            {
+              "spans": [
+                {
+                  "text": "The RSFC analysis demonstrated significantly decreased functional connectivity",
+                  "start_char": 21296,
+                  "end_char": 21374
+                }
+              ]
+            },
+            {
+              "spans": [
+                {
+                  "text": "functional connectivity",
+                  "start_char": 110,
+                  "end_char": 133
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "source_label": {
+        "extraction_status": "extracted",
+        "value": "resting-state functional connectivity",
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "resting-state functional connectivity",
+                  "start_char": 18551,
+                  "end_char": 18588
+                }
+              ]
+            },
+            {
+              "spans": [
+                {
+                  "text": "The RSFC analysis demonstrated significantly decreased functional connectivity",
+                  "start_char": 21296,
+                  "end_char": 21374
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "specific_metric": {
+        "extraction_status": "extracted",
+        "value": "Pearson correlation-based low frequency resting-state functional connectivity",
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "“Functional connectivity” refers to the temporal correlation between the neural activity patterns of anatomically separated brain regions",
+                  "start_char": 5633,
+                  "end_char": 5770
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "inference_settings": [
+    {
+      "local_id": "inference_monte_carlo_simulations_using_alphasim",
+      "inference_level": {
+        "extraction_status": "extracted",
+        "value": "cluster",
+        "value_source": "generated",
+        "evidence": {
+          "status": "not_found"
+        }
+      },
+      "voxelwise_threshold_value": {
+        "extraction_status": "extracted",
+        "value": 2.3,
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "a statistical threshold of   Z   = 2.3 (  p   = 0.01)",
+                  "start_char": 19163,
+                  "end_char": 19216
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "voxelwise_threshold_type": {
+        "extraction_status": "extracted",
+        "value": "z",
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "a statistical threshold of   Z   = 2.3",
+                  "start_char": 19163,
+                  "end_char": 19201
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "cluster_forming_threshold_value": {
+        "extraction_status": "not_reported",
+        "evidence": {
+          "status": "not_applicable"
+        }
+      },
+      "cluster_extent_threshold": {
+        "extraction_status": "extracted",
+        "value": 77,
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "a cluster size threshold of at least 77 contiguous voxels",
+                  "start_char": 19222,
+                  "end_char": 19279
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "clusterwise_threshold_value": {
+        "extraction_status": "extracted",
+        "value": 0.05,
+        "value_source": "reported",
+        "evidence": {
+          "status": "not_found"
+        }
+      },
+      "multiple_comparison_method": {
+        "extraction_status": "extracted",
+        "value": "Monte Carlo simulations using AlphaSim",
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "as determined by Monte Carlo simulations using AlphaSim",
+                  "start_char": 19329,
+                  "end_char": 19384
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "correction_scope": {
+        "extraction_status": "extracted",
+        "value": "whole brain",
+        "value_source": "generated",
+        "evidence": {
+          "status": "not_found"
+        }
+      },
+      "search_volume": {
+        "extraction_status": "not_reported",
+        "evidence": {
+          "status": "not_applicable"
+        }
+      },
+      "neighborhood_definition": {
+        "extraction_status": "not_reported",
+        "evidence": {
+          "status": "not_applicable"
+        }
+      },
+      "tfce_used": {
+        "extraction_status": "not_reported",
+        "evidence": {
+          "status": "not_applicable"
+        }
+      },
+      "tfce_parameters": {
+        "extraction_status": "not_reported",
+        "evidence": {
+          "status": "not_applicable"
+        }
+      },
+      "permutation_count": {
+        "extraction_status": "not_reported",
+        "evidence": {
+          "status": "not_applicable"
+        }
+      },
+      "alpha_level": {
+        "extraction_status": "extracted",
+        "value": 0.05,
+        "value_source": "reported",
+        "evidence": {
+          "status": "not_found"
+        }
+      },
+      "number_of_tests": {
+        "extraction_status": "not_reported",
+        "evidence": {
+          "status": "not_applicable"
+        }
+      }
+    },
+    {
+      "local_id": "inference_monte_carlo_simulations_using_alphasim_2",
+      "inference_level": {
+        "extraction_status": "extracted",
+        "value": "cluster",
+        "value_source": "generated",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "a cluster size threshold of at least 77 contiguous voxels",
+                  "start_char": 19222,
+                  "end_char": 19279
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "voxelwise_threshold_value": {
+        "extraction_status": "extracted",
+        "value": 2.3,
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "a statistical threshold of   Z   = 2.3",
+                  "start_char": 19163,
+                  "end_char": 19201
+                }
+              ]
+            },
+            {
+              "spans": [
+                {
+                  "text": "Z   = 2.3",
+                  "start_char": 19192,
+                  "end_char": 19201
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "voxelwise_threshold_type": {
+        "extraction_status": "extracted",
+        "value": "z",
+        "value_source": "reported",
+        "evidence": {
+          "status": "not_found"
+        }
+      },
+      "cluster_extent_threshold": {
+        "extraction_status": "extracted",
+        "value": 77,
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "a cluster size threshold of at least 77 contiguous voxels",
+                  "start_char": 19222,
+                  "end_char": 19279
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "clusterwise_threshold_value": {
+        "extraction_status": "extracted",
+        "value": 0.05,
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "a corrected   p  -value of 0.05",
+                  "start_char": 19297,
+                  "end_char": 19328
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "multiple_comparison_method": {
+        "extraction_status": "extracted",
+        "value": "Monte Carlo simulations using AlphaSim",
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "Monte Carlo simulations using AlphaSim",
+                  "start_char": 19346,
+                  "end_char": 19384
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "correction_scope": {
+        "extraction_status": "extracted",
+        "value": "whole brain",
+        "value_source": "generated",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "An amygdala seed-based low frequency RSFC map for the whole brain was generated for each group.",
+                  "start_char": 806,
+                  "end_char": 901
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "alpha_level": {
+        "extraction_status": "extracted",
+        "value": 0.05,
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "a corrected   p  -value of 0.05",
+                  "start_char": 19297,
+                  "end_char": 19328
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "devices": [
+    {
+      "local_id": "dev_signa_vhi",
+      "manufacturer": {
+        "extraction_status": "extracted",
+        "value": "General Electric Healthcare",
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "3-T General Electric MR scanner (Signa VHi; General Electric Healthcare, Waukesha, WI, USA)",
+                  "start_char": 14028,
+                  "end_char": 14119
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "model": {
+        "extraction_status": "extracted",
+        "value": "Signa VHi",
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "3-T General Electric MR scanner (Signa VHi; General Electric Healthcare, Waukesha, WI, USA)",
+                  "start_char": 14028,
+                  "end_char": 14119
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "local_id": "dev_discovery_mr_750",
+      "manufacturer": {
+        "extraction_status": "extracted",
+        "value": "General Electric Healthcare",
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "3-T General Electric MR scanner (Signa VHi; General Electric Healthcare, Waukesha, WI, USA)",
+                  "start_char": 14028,
+                  "end_char": 14119
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "model": {
+        "extraction_status": "extracted",
+        "value": "Discovery MR 750",
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "Images of 11 MDD patients were collected using 3 T General Electric MR scanner (Discovery MR 750) using the same parameters",
+                  "start_char": 14636,
+                  "end_char": 14759
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "regions": [
+    {
+      "local_id": "region_left_amygdala",
+      "name": {
+        "extraction_status": "extracted",
+        "value": "left amygdala",
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "The left and right amygdala were first located on the standard MNI brain template",
+                  "start_char": 16953,
+                  "end_char": 17034
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "definition_method": {
+        "extraction_status": "not_reported",
+        "evidence": {
+          "status": "not_applicable"
+        }
+      }
+    },
+    {
+      "local_id": "region_right_amygdala",
+      "name": {
+        "extraction_status": "extracted",
+        "value": "right amygdala",
+        "value_source": "reported",
+        "evidence": {
+          "status": "present",
+          "sets": [
+            {
+              "spans": [
+                {
+                  "text": "the right amygdala",
+                  "start_char": 18314,
+                  "end_char": 18332
+                }
+              ]
+            },
+            {
+              "spans": [
+                {
+                  "text": "This process was repeated again for the right amygdala.",
+                  "start_char": 18278,
+                  "end_char": 18333
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "definition_method": {
+        "extraction_status": "not_reported",
+        "evidence": {
+          "status": "not_applicable"
         }
       }
     }

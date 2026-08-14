@@ -45,10 +45,8 @@ classes:
         range: Arm
         inlined: false
         description: >-
-          The arm this cohort was allocated to. Groups remain participant
-          cohorts only: this records which allocation the cohort received.
-          Set it whenever a cohort was allocated to an arm;
-          a within-subject comparison of arms is carried by `Effect.arms` instead, and a
+          The arm this cohort was allocated to. Set it whenever a cohort was allocated to
+          one; a within-subject comparison of arms is carried by `Effect.arms` instead, and a
           parallel-group comparison by the directional Group terms. Distinct from
           `medication_status`, which is the on/off state during acquisition rather than the
           allocation.
@@ -233,10 +231,9 @@ classes:
 
   CategoryDistribution:
     description: >-
-      One category in an aggregate participant distribution. Category labels are
-      free text so the schema can preserve study-specific terminology without
-      imposing a closed vocabulary. At least one of count or percentage should be
-      supplied when the source reports a quantitative distribution.
+      One category in an aggregate participant distribution. Labels are free text, kept in
+      the study's own terminology. At least one of count or percentage should be supplied
+      when the source reports a quantitative distribution.
     attributes:
       category:
         in_subset: [mvp, model_extracted]
@@ -290,6 +287,3 @@ enums:
         in_subset: [mvp, model_extracted]
       mouse:
         in_subset: [mvp, model_extracted]
-      unstated:
-        in_subset: [mvp, model_extracted]
-        description: The source does not identify the species.

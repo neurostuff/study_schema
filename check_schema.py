@@ -54,6 +54,27 @@ def report(path: Path) -> list[str]:
                 )
             print(f"  rule {class_name}: {rule.description}")
 
+    problems.extend(check_no_unstated_member(view, path))
+    return problems
+
+
+def check_no_unstated_member(view: SchemaView, path: Path) -> list[str]:
+    """No vocabulary may offer `unstated`.
+
+    Missingness has one encoding -- `extraction_status: not_reported` on the wrapper --
+    and `review/validate_record.py` rejects an `unstated` value in a record. This is the
+    other half: these descriptions *are* the extraction prompt, so a vocabulary declaring
+    `unstated` would ask extractors for exactly what the record check rejects.
+    """
+
+    problems = [
+        f"{enum_name} offers `unstated`. A fact the source does not report is "
+        "`extraction_status: not_reported`, which is the one encoding of missingness"
+        for enum_name, definition in view.all_enums().items()
+        if "unstated" in (definition.permissible_values or {})
+    ]
+    if not problems:
+        print("  no vocabulary offers `unstated`")
     return problems
 
 

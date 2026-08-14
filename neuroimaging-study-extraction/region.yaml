@@ -36,8 +36,6 @@ enums:
           Defined from another analysis in the same study, so not independent of an effect
           reported inside it. That analysis names the region in `defines_regions`, which is
           what makes the circularity checkable rather than asserted.
-      unstated:
-        description: The source uses the region but does not say how it was defined.
   RegionType:
     description: >-
       What kind of thing a region is. Open vocabulary: write the source's own wording in the
@@ -57,8 +55,6 @@ enums:
         description: >-
           A cluster taken from a statistical map. Whether it was this study's is `definition_method`,
           which is where the independence claim lives.
-      unstated:
-        description: The source uses the region but does not say what kind of thing it is.
 classes:
   Region:
     description: >-
@@ -82,7 +78,7 @@ classes:
         range: ExtractedRegionDefinition
         required: true
         description: |-
-          How the region was delimited, which is a statement about independence: one drawn from the study's own prior contrast is not independent of an effect tested inside it. Per region, since one analysis may use an atlas mask and a functional ROI at once. Required, with `unstated` for a source that does not say.
+          How the region was delimited, which is a statement about independence: one drawn from the study's own prior contrast is not independent of an effect tested inside it. Per region, since one analysis may use an atlas mask and a functional ROI at once. Required, so a source that does not say still carries the slot, as `extraction_status: not_reported`.
 
           Two values are routinely confused and the difference is the entire point of the field. `functional_localizer` means a *separate* acquisition or run whose only purpose was to locate the region, independent of the effect later tested in it. A region that is a peak, a cluster, or a component of one of *this paper's own* analyses is `same_study_analysis` however functionally it was defined -- and that value is what makes the circularity visible, which is why `Analysis.defines_regions` exists to name the analysis it came from. Reaching for `functional_localizer` because the region is functional, rather than because a localizer was run, is the mistake to avoid.
       region_type:
@@ -101,9 +97,9 @@ classes:
         range: ExtractedString
         description: >-
           How the source defines the region, including any geometry it states: "8 mm spheres
-          centered at [0 36 -6]". Definitional coordinates have no structured slot -- result
-          coordinates reach the record through the table parser -- so they are kept here,
-          where the evidence span makes them checkable.
+          centered at [0 36 -6]". Definitional coordinates have no structured slot and belong
+          here, where the evidence span makes them checkable; result coordinates reach the
+          record through the table parser instead.
   ExtractedRegionDefinition:
     is_a: ExtractedValue
     description: An ExtractedValue whose value is RegionDefinition.
