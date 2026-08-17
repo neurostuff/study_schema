@@ -41,9 +41,11 @@ header:
     found (extraction_status), the value itself when it was, how it relates to the source
     (value_source), and the exact supporting spans (evidence). A slot needing a scalar
     uses a typed subtype -- ExtractedString, ExtractedInteger, ExtractedNumber,
-    ExtractedBoolean. Storage's enums are text here: record the paper's wording and let
-    the map normalize it. Identifiers, type designators, and pipeline provenance use
-    native LinkML types, because nothing in the paper supplies them.
+    ExtractedBoolean. Storage's vocabularies come across whole, each field keeping the range
+    storage gives it: a closed enum takes a permissible value and nothing else, and an open
+    one takes a permissible value or, when none fits, the source's own wording.
+    Identifiers, type designators, and pipeline provenance use native LinkML types, because
+    nothing in the paper supplies them.
 
     Evidence is present when one or more independently sufficient EvidenceSets were found,
     or not_found when a value was extracted but no span supports it. For a not_reported
@@ -162,9 +164,9 @@ required_additions:
 # A seventh used to be here and is now settled. Extraction flattened every vocabulary to
 # ExtractedString and the map carried 16 synonym tables to get back to a permissible
 # value. The projection now emits an Extracted<Enum> wrapper per vocabulary, keeping each
-# field's range exactly as storage declares it -- closed for 13 fields, `any_of` with a
-# free-text escape hatch for 23 -- and the tables were deleted. The thing to watch is the
-# 13 closed ones: a closed vocabulary cannot report that it is short a value, so if
+# field's range exactly as storage declares it -- closed for 12 fields, `any_of` with a
+# free-text escape hatch for 26 -- and the tables were deleted. The thing to watch is the
+# closed ones: a closed vocabulary cannot report that it is short a value, so if
 # off-vocabulary answers matter for one of them, opening it is a storage change rather
 # than a deviation.
 deviations:
@@ -233,6 +235,34 @@ deviations:
       one row-block per measured parameter -- four diffusion parameters, three frequency
       bands -- is reporting one analysis per parameter over one measure each, not one
       analysis over a factor whose levels are the parameters.
+
+  - id: model-term-region-is-a-columns-origin-not-a-search-space
+    operation: describe_slot
+    class: analysis.ModelTerm
+    slot: region
+    why: >-
+      Filled in 4 of 115 extraction runs over 16 papers, all four on `xevP8UDRAVh9`, and in
+      every one it points at that study's fronto-temporal explicit mask -- which the same
+      runs also put on `Analysis.regions`, correctly. Two further runs of that paper reached
+      the other region slot with it and made the mask a *one-level* factor, the region on
+      `FactorLevel.regions`. Nothing comes out invalid: the record just asserts that every
+      column's signal came out of the mask, so a voxelwise regression of grey matter on
+      perfusion reads as an analysis of ROI means. The storage description says what the
+      slot holds and why it is singular; what it does not say is which region is *not* a
+      column's origin, and a mask is the region a methods section states most plainly. Four
+      categorical terms across two papers answered `not_reported` here, which is the same
+      gap from the other side -- a factor has no signal to source.
+    append: >-
+      The test is whether the column's numbers came out of that place. A region that only
+      bounds where inference ran -- an explicit mask, a search volume, an atlas the analysis
+      was restricted to -- is `Analysis.regions`, and no term draws anything from it. Naming
+      it here says the column *was* that region's signal, which for a voxelwise fit inside a
+      mask is false, and it says so while `Analysis.regions` goes on saying the true thing,
+      so the two never visibly disagree.
+
+      Leave it empty on a categorical term. Regions are carried by a factor's levels, on
+      `FactorLevel.regions`, and a factor comparing places has at least two: one level named
+      for a mask is a search space written as a comparison the study never made.
 
   - id: a-classifier-signs-one-cell-not-two
     operation: describe_slot

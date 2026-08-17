@@ -500,8 +500,6 @@ enums:
           withheld is `extraction_status: not_reported`, and this is a sign that is not defined.
           A cell that names no level -- on a slope or a product column -- can never sit on both
           sides, so it can never take this value.
-
-          Off a `Cell`, on a parameter-sign slot of a method payload, use `undirected` instead.
   # No `product` value: a column is a product iff `ModelTerm.interaction_with` is non-empty.
   FunctionalForm:
     in_subset: [mvp, model_extracted]
@@ -575,22 +573,6 @@ enums:
           Pattern-based connectivity: multivoxel or informational connectivity between
           ensembles of voxels rather than between averaged time series.
 
-  ParameterChange:
-    in_subset: [mvp, model_extracted]
-    description: Whether the experimental effect raised or lowered a connectivity parameter.
-    permissible_values:
-      increased:
-        in_subset: [mvp, model_extracted]
-        description: >-
-          The experimental effect raised the parameter.
-      decreased:
-        in_subset: [mvp, model_extracted]
-        description: >-
-          The experimental effect lowered the parameter.
-      not_applicable:
-        in_subset: [mvp, model_extracted]
-        description: Direction is carried by condition or group roles instead.
-
   InferenceTarget:
     in_subset: [mvp, model_extracted]
     description: >-
@@ -612,18 +594,22 @@ enums:
           edges.
 
   EdgeDirectionality:
-    in_subset: [mvp, model_extracted]
+    in_subset: [mvp]
     description: >-
       Whether a connectivity edge is genuinely directed. Only directed models such as DCM
       and Granger causality qualify; a seed-to-voxel PPI or correlation is undirected, and
       its sign travels with the edge rather than implying a direction.
+
+      The one vocabulary nothing reads off the page: `ConnectivityEdge.directionality` is derived
+      from `ConnectivityDetails.connectivity_method`, since the method decides it and no wording
+      can override it.
     permissible_values:
       directed:
-        in_subset: [mvp, model_extracted]
+        in_subset: [mvp]
         description: >-
           The method supports a claim about which region influences which.
       undirected:
-        in_subset: [mvp, model_extracted]
+        in_subset: [mvp]
         description: >-
           The method gives a symmetric relationship only, whatever the wording of the paper.
 

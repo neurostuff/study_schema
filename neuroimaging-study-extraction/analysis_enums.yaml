@@ -303,7 +303,6 @@ enums:
         description: |-
           A level the contrast was taken *within*, which appears on **both sides** of the comparison and so has no net sign -- "patients versus controls, in the task condition" has task on the plus side and the minus side at once. Cell that one level and leave its factor's other levels **absent**, where an undirected test cells every level.
           No report, however complete, could sign this cell, which is what separates it from both unsigned neighbours: `undirected` is a test that produces no sign, a sign the page withheld is `extraction_status: not_reported`, and this is a sign that is not defined. A cell that names no level -- on a slope or a product column -- can never sit on both sides, so it can never take this value.
-          Off a `Cell`, on a parameter-sign slot of a method payload, use `undirected` instead.
   FunctionalForm:
     description: >-
       Shape of a term's relationship to the measure. A squared term with a negative coefficient
@@ -354,15 +353,6 @@ enums:
         description: >-
           Pattern-based connectivity: multivoxel or informational connectivity between ensembles
           of voxels rather than between averaged time series.
-  ParameterChange:
-    description: Whether the experimental effect raised or lowered a connectivity parameter.
-    permissible_values:
-      increased:
-        description: The experimental effect raised the parameter.
-      decreased:
-        description: The experimental effect lowered the parameter.
-      not_applicable:
-        description: Direction is carried by condition or group roles instead.
   InferenceTarget:
     description: >-
       What the connectivity analysis drew inference about. Open vocabulary: write the source's
@@ -375,17 +365,6 @@ enums:
       network:
         description: The test was on a set of connections treated as a unit, rather than on
           individual edges.
-  EdgeDirectionality:
-    description: >-
-      Whether a connectivity edge is genuinely directed. Only directed models such as DCM
-      and Granger causality qualify; a seed-to-voxel PPI or correlation is undirected, and
-      its sign travels with the edge rather than implying a direction.
-    permissible_values:
-      directed:
-        description: The method supports a claim about which region influences which.
-      undirected:
-        description: The method gives a symmetric relationship only, whatever the wording
-          of the paper.
   PerformanceRelation:
     description: Direction of a decoding performance metric relative to its reference value.
     permissible_values:
@@ -707,12 +686,6 @@ classes:
         any_of:
           - range: ConnectivityMethod
           - range: string
-  ExtractedParameterChange:
-    is_a: ExtractedValue
-    description: An ExtractedValue whose value is ParameterChange.
-    slot_usage:
-      value:
-        range: ParameterChange
   ExtractedInferenceTarget:
     is_a: ExtractedValue
     description: >-
@@ -723,12 +696,6 @@ classes:
         any_of:
           - range: InferenceTarget
           - range: string
-  ExtractedEdgeDirectionality:
-    is_a: ExtractedValue
-    description: An ExtractedValue whose value is EdgeDirectionality.
-    slot_usage:
-      value:
-        range: EdgeDirectionality
   ExtractedPerformanceRelation:
     is_a: ExtractedValue
     description: An ExtractedValue whose value is PerformanceRelation.

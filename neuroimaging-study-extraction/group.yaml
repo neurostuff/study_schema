@@ -56,9 +56,11 @@ classes:
         inlined: false
         description: >-
           The arm this cohort was allocated to. Set it whenever a cohort was allocated to
-          one; a within-subject comparison of arms is carried by `Effect.arms` instead, and
-          a parallel-group comparison by the directional Group terms. Distinct from `medication_status`,
-          which is the on/off state during acquisition rather than the allocation.
+          one, which is the parallel-group case: every participant of this cohort received
+          this arm and no other. A crossover study allocates nobody to one arm, so its cohorts
+          leave this empty and an arm reaches an analysis only as a level of a model term,
+          through `FactorLevel.arms`. Distinct from `medication_status`, which is the on/off
+          state during acquisition rather than the allocation.
       approached_count:
         range: ExtractedInteger
         description: Number of prospective participants approached for this group.

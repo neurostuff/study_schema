@@ -202,10 +202,14 @@ classes:
         range: string
         description: >-
           Coordinate reference space or template the spatial results are reported in, such as
-          MNI152 or Talairach. The fallback of two places this can live: populated only when no
-          table of this analysis gives the space. Exactly one of the two is filled, never both,
-          so a value here means the tables were silent. Never inferred from the model's
-          `spatial_unit` -- an analysis on a surface reports a surface template.
+          MNI152 or Talairach. **The authoritative of the two places this can live**: where this
+          and a `Table.coordinate_space` disagree, this one is the analysis's space, since a
+          table can be parsed as one space while the analysis it reports states another.
+
+          Both may be filled, and usually are: the table parser fills the tables and the same
+          parse supplies this when every table behind the analysis agrees, leaving the model to
+          answer only where they do not. Never inferred from the model's `spatial_unit` -- an
+          analysis on a surface reports a surface template.
       assessments:
         in_subset: [mvp, model_extracted]
         range: Assessment
@@ -959,20 +963,26 @@ classes:
         in_subset: [model_extracted]
         range: string
         description: Level at which inference is made, such as voxel, vertex, cluster, region, network or other.
-      voxelwise_threshold_value:
+      height_threshold_value:
         in_subset: [model_extracted]
         range: float
         minimum_value: 0
-        description: Numeric voxelwise or vertexwise threshold before correction or cluster formation.
-      voxelwise_threshold_type:
+        description: >-
+          The threshold applied to each element's statistic, before correction and before any
+          cluster-level test. Papers name it for whichever of its two jobs they are describing --
+          the *voxelwise* (or vertexwise) threshold when elements are tested individually, the
+          *cluster-forming* threshold when surviving elements are grouped into clusters -- and it
+          is one number either way, applied once to the map. Record it once here, whichever word
+          the source uses.
+
+          Not the cluster-level threshold: `clusterwise_threshold_value` is the p or q a whole
+          cluster had to beat, and `cluster_extent_threshold` the size it had to reach. A paper
+          reporting "p < 0.001 uncorrected, cluster-level p < 0.05 FWE" states this field and
+          `clusterwise_threshold_value`, not this field twice.
+      height_threshold_type:
         in_subset: [model_extracted]
         range: string
-        description: Meaning of voxelwise_threshold_value, such as p, q, t, z, or F.
-      cluster_forming_threshold_value:
-        in_subset: [model_extracted]
-        range: float
-        minimum_value: 0
-        description: Numeric threshold used to form candidate clusters.
+        description: Meaning of height_threshold_value, such as p, q, t, z, or F.
       cluster_extent_threshold:
         in_subset: [model_extracted]
         range: integer
@@ -1107,9 +1117,11 @@ classes:
         in_subset: [mvp, deterministic]
         range: string
         description: >-
-          Coordinate reference space applying to points in the table, from the table parser. The
-          preferred of the two places the space can live: when this is populated,
-          Analysis.coordinate_space is left blank.
+          Coordinate reference space applying to points in **this table**, from the table parser.
+          Per table, because one analysis's tables can be parsed in different spaces, and that
+          disagreement is a fact about the tables worth keeping rather than one to resolve here.
+          `Analysis.coordinate_space` is the space of the analysis and takes priority where the
+          two differ.
       column_headings:
         in_subset: [mvp, model_extracted]
         range: string

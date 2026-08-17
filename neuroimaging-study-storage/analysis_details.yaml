@@ -49,7 +49,13 @@ classes:
       Payload for a voxelwise, vertexwise, or ROI-wise GLM, mixed-effects model, ANOVA,
       ANCOVA, or robust regression -- the default family. It adds no fields: what was
       tested is in Effect and how it was estimated is in ModelEstimation.
-    attributes: {}
+
+      A voxelwise **mediation** analysis is one of these. Each path it reports is estimated by
+      regression, so the fit is mass-univariate and what makes the map a mediation is
+      `Effect.mediation` -- the path tested, and the term it runs through. Reaching for
+      OtherAnalysisDetails because the word "mediation" has no first-class payload leaves
+      `Effect.mediation` empty, and an indirect-effect map with no path recorded is
+      indistinguishable from a plain regression on the same predictor.
 
   DecodingDetails:
     is_a: AnalysisDetails
@@ -180,9 +186,15 @@ classes:
       estimated from a signal or across subjects. Signal-based connectivity is the common case;
       structural covariance -- correlating cortical thickness or volume between a seed region
       and every other, across participants rather than within one -- shares the same shape of
-      answer, so it takes this payload with `structural_covariance` as its method. The
-      psychological term of a PPI is a directional condition list in Effect. Brain regions stay
-      source-grounded strings.
+      answer, so it takes this payload with `structural_covariance` as its method.
+
+      Nothing here carries direction. The sign of the connectivity parameter, and whether the
+      experimental effect raised or lowered it, are what the analysis tested, so they are
+      `Effect.cells` like the direction of any other result: a negative PPI is a `negative` cell
+      on the term the coupling was estimated for, and coupling higher in one condition than
+      another is that condition term crossed. A sign recorded here as well would be a second
+      route to one fact, and the two can disagree -- a whole-map `increased` beside a pair of
+      crossed cells says the map has one direction and two at once.
     attributes:
       connectivity_method:
         in_subset: [mvp, model_extracted]
@@ -206,18 +218,6 @@ classes:
         inlined: false
         description: >-
           Target regions, by identifier. Empty for a seed-to-whole-brain analysis.
-      parameter_sign:
-        in_subset: [model_extracted]
-        range: Direction
-        description: >-
-          Sign of the connectivity parameter itself, such as a negative PPI. Applies to
-          the whole map.
-      parameter_change:
-        in_subset: [model_extracted]
-        range: ParameterChange
-        description: >-
-          Whether the experimental effect raised or lowered the connectivity parameter.
-          Applies to the whole map.
       edges:
         in_subset: [model_extracted]
         range: ConnectivityEdge
@@ -254,11 +254,15 @@ classes:
         inlined: false
         description: Target region of the edge, by identifier.
       directionality:
-        in_subset: [model_extracted]
+        in_subset: [deterministic]
         range: EdgeDirectionality
         description: >-
-          Whether this edge is genuinely directed. Never infer a direction the method
-          cannot support.
+          Whether this edge is genuinely directed. Derived from the containing analysis's
+          `connectivity_method`, which is what decides it: only a directed model supports a claim
+          about which region influences which, and the wording of the paper cannot change that.
+          The mapper's `edge_directionality_from_method` table in extraction-to-storage.map.yaml
+          holds the value per method, and leaves this unset for a method written as free text,
+          there being nothing to derive from.
   ConjunctionDetails:
     is_a: AnalysisDetails
     description: >-
@@ -451,7 +455,7 @@ classes:
   OtherAnalysisDetails:
     is_a: AnalysisDetails
     description: >-
-      Payload for a method outside the first-class families, such as a mediation analysis.
+      Payload for a method outside the first-class families.
       Available for any analysis, so an unusual design never has to delete true terms in
       order to validate.
     attributes:

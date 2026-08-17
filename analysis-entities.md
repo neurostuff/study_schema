@@ -85,7 +85,7 @@ factor's level vocabulary is on the `ModelTerm`, not on the `Cell` that selects 
 | level, condition of a factor | `FactorLevel` | Declared on the term, not on the contrast |
 | "controlling for age and sex" | two `ModelTerm`s with no `Cell` on this contrast | Nothing marks a term as nuisance; having no cell *is* the mark |
 | contrast, comparison, weight vector | `Effect`, via its `cells` | One per `Analysis`, always |
-| the +1 and −1 of a contrast | `Cell.direction` | Signs, never weights — see [§4](representing-models.md#4-the-five-values-of-direction-and-the-three-ways-to-be-non-directional) |
+| the +1 and −1 of a contrast | `Cell.direction` | Signs, never weights — see [§4](representing-models.md#4-the-four-values-of-direction-and-the-three-ways-to-be-non-directional) |
 | condition, cohort, occasion, arm, region | entities, reached from `FactorLevel` | An `Effect` never names one directly |
 | main effect, interaction, simple effect, omnibus | derived, from the cell pattern | No slot holds it; the vocabulary is `EffectKind` and its ranges are none |
 | baseline | a `negative` cell if modelled; no second cell if implicit | `Condition` does not record what things were tested against |
@@ -262,8 +262,9 @@ acquired count when the analysis dropped participants.
 |---|---|
 | Which facts belong to the model and which to the contrast | [representing-models.md §1](representing-models.md#1-the-one-decision-everything-else-follows-from) |
 | Which shape a reported result is | [§3](representing-models.md#3-working-out-which-shape-a-result-is) |
-| The five values of `direction`, and the three ways to be non-directional | [§4](representing-models.md#4-the-five-values-of-direction-and-the-three-ways-to-be-non-directional) |
+| The four values of `direction`, and the three ways to be non-directional | [§4](representing-models.md#4-the-four-values-of-direction-and-the-three-ways-to-be-non-directional) |
 | Twelve worked records, from a simple contrast to a two-stage model | [§5](representing-models.md#5-worked-models) |
 | A paper that does not divide the world the way the schema does | [§6](representing-models.md#6-when-the-paper-does-not-fit) |
 | What each field is, and how to fill it | [neuroimaging-study-storage/](neuroimaging-study-storage/) |
+| The rest of the record — cohorts, paradigm, acquisitions — taught rather than mapped | [schema-tutorial.md](schema-tutorial.md) |
 | Why the schema is shaped this way | [storage-schema-design-notes.md](storage-schema-design-notes.md) |

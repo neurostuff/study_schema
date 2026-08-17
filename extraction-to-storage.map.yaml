@@ -70,6 +70,26 @@ derivations:
     transform: generate
   Condition.id:
     transform: generate
+  ConnectivityEdge.directionality:
+    transform: derive
+    source_representation: sibling_field
+    source_field: ConnectivityDetails.connectivity_method
+    notes: >-
+      The method decides whether an edge is directed, and no wording of the paper can override
+      it: only a generative or precedence-based model supports a claim about which region
+      influences which. So this is a lookup on the containing analysis's `connectivity_method`
+      rather than something a reader is asked for. A method written as free text -- one the
+      vocabulary has no value for -- leaves the field unset, since there is nothing to look up;
+      that is the one case where an edge's directionality is genuinely unknown to the record.
+    value_map:
+      dcm: directed
+      granger: directed
+      ppi: undirected
+      gppi: undirected
+      seed_based: undirected
+      coherence: undirected
+      structural_covariance: undirected
+      multivariate: undirected
   Device.id:
     transform: generate
   Region.id:
@@ -124,9 +144,10 @@ derivations:
       table has no coordinates.
   Table.coordinate_space:
     transform: derive
-    notes: 'Normalized from the coordinate space the table parser recovered, not extracted. This is
-      the first of the two places the space can live, and the preferred one: fill it when the parse
-      yields a space, and leave Analysis.coordinate_space blank in that case.'
+    notes: 'Normalized from the coordinate space the table parser recovered, not extracted. Per
+      table, and independent of Analysis.coordinate_space: fill it wherever the parse yields a
+      space. Where every table behind an analysis agrees, the same parse also supplies that
+      analysis''s space; the analysis field is authoritative if the two ever differ.'
   Table.id:
     transform: generate
   Table.source_path:

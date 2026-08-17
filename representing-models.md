@@ -7,7 +7,10 @@ definitions are in [neuroimaging-study-storage/](neuroimaging-study-storage/) an
 field *is*; this says how the classes fit together and what to do when a paper does not divide the
 world the way the schema does. If the class names are not yet familiar,
 [analysis-entities.md](analysis-entities.md) is the map: what each entity is called, what owns it,
-and which of these words the schema has borrowed for something narrower than its usual sense.
+and which of these words the schema has borrowed for something narrower than its usual sense. For
+the whole record rather than its analyses — the cohorts, the paradigm, the acquisitions, and the
+rules for filling any of it — [schema-tutorial.md](schema-tutorial.md) teaches it chapter by
+chapter, and its chapters 8 and 9 are this document taught rather than stated.
 
 ---
 
@@ -19,7 +22,7 @@ A paper reports one model and several results from it. The schema splits them:
 
 | | `ModelEstimation` | `Effect` (one per `Analysis`) |
 |---|---|---|
-| holds | the design matrix: its terms, their levels, what those levels range over, the family, estimator, stage, software | which of those levels this comparison used, and which way |
+| holds | the design matrix: its terms, their levels, what those levels range over, the family, estimator, stage, software, the element it was fitted over, and the pipelines and lower stages that produced its data | which of those levels this comparison used, and which way |
 | how many | one per design matrix | one per reported result |
 
 The test is whether the fact would change if the paper reported a different contrast off the same
@@ -34,6 +37,15 @@ where something goes, ask whether a second contrast from the same model would re
 `ModelEstimation` records. Sharing one is not a convenience: a contrast's adjustment set is derived
 as the model's term list minus what the contrast used, so two design matrices behind one term list
 makes that derivation wrong for both.
+
+The test for "differ" is mechanical — list the columns each analysis was fitted with, and the data
+they were fitted to. A different dependent variable, a different covariate set, a different
+participant subset, a different element (`spatial_unit`), or a different input (`inputs_from`) is a
+different design matrix, and takes its own record even where family, estimator and software are
+identical. Two regressions of one measure on one regressor, one over the patients and one over
+patients and controls pooled, are two records. This is the defect that stays *valid*: nothing in the
+record contradicts a shared term list, so a bare two-sample t-test ends up claiming it controlled
+for covariates that were in no model it was fitted with.
 
 **And one qualification.** "One per design matrix" counts *estimation stages*: a first-level GLM
 and the group model fitted on its output are two records, linked by `inputs_from` on the group one.
@@ -55,9 +67,37 @@ acquisition summaries, descriptive sample tables, masks, and maps reported with 
 are not. `Effect.cells` is required and non-empty, so a map that compared nothing has nowhere to go
 — which is the intended answer, since extraction follows the existence of a result.
 
+A coordinate table of one of those is not thereby lost: it is a `Table` whose
+`non_analysis_content` says what its rows are — region definitions, atlas parcels, connectivity
+seeds, component peaks, coordinates cited from elsewhere. Filling that field is what separates a
+table deliberately not encoded as an analysis from one the extraction missed, since otherwise both
+are the same silence.
+
 Separate Analyses are required when the direction, the cohorts compared, the method, the cell
 pattern, the seed, the decoded variable, the component identity, or the spatial scope differ. An
 omnibus effect and its directional post-hoc contrast are two Analyses.
+
+**The search space is not the seed.** `regions` is what `spatial_scope: roi` restricted inference
+to, and the schema states both halves as rules: an `roi` analysis must name regions, and a
+`whole_brain` or `searchlight` one must name none. A whole-brain seed-based analysis therefore has a
+seed and no `regions` entry — putting the seed there says inference was restricted to it, which is
+the opposite of what happened. Seeds are `ConnectivityDetails.seed_regions`, and regions this
+analysis *produced* are `defines_regions`.
+
+**Four of an Analysis's slots point at records the Study declares once**, and each is shared by
+every analysis it holds for: `model_estimation`, `measure`, `inference_settings`, and the entities.
+The sharing test is the same shape in each case — two analyses share a `Measure` when `family`,
+`type`, `specific_metric` and `unit` all match, and an `InferenceSettings` when the threshold, its
+type, the correction method, the scope corrected over and the alpha do. A study measures one or two
+quantities and tests them many ways, so eight analyses of one connectivity measure are one
+`Measure`; and because inference attaches to the test rather than to the fit, one model thresholded
+two ways is two `InferenceSettings` and one `ModelEstimation`.
+
+**`definition` and `interpretations` are the two ends of the same result.** `definition` is the
+Methods-side statement of what was tested, in the source's words, and is where an ordering or a set
+of contrast magnitudes lives that the cells cannot carry. `interpretations` is the
+Results-and-Discussion-side statement of what came of it. Neither is a paraphrase, and a prediction
+belongs to neither: `Study.hypothesis` is what the paper said it expected.
 
 ### `ModelEstimation` — one design matrix, at one stage
 
@@ -74,6 +114,14 @@ relation. An `Analysis` names the **top** stage — the one that produced the re
 and the stages below are reached from there, which is why a first-level model is referenced by no
 Analysis and is not thereby orphaned.
 
+Two of its slots are about the data rather than the design, and they are part of the specification
+all the same. `spatial_unit` is the element the fit ran over — voxel, vertex, region mean, parcel —
+where the Analysis's `spatial_scope` gives the extent; a voxelwise GLM and an ROI-mean ANOVA of one
+design are two records, because no contrast of one is readable off the other's fit. `preprocessing`
+names the pipelines that produced the images, more than one where the fit consumed more than one
+kind, so a classifier fitted to unsmoothed data does not share a record with the mass-univariate
+fit on smoothed data.
+
 ### `ModelTerm` — one column
 
 A column of the design matrix, in the general sense that covers a GLM regressor and the predictor of
@@ -85,20 +133,30 @@ participant or only *across* the sample. It applies to every term, not only cont
 a continuous term it decides whether the effect is a parametric modulation or a cross-subject
 regression.
 
-**Where it ends.** Nothing about a contrast. A term does not know whether it was tested.
+**Where it ends.** Nothing about a contrast: a term does not know whether it was tested. And nothing
+about the quantity being modelled — what the model *models* is `Analysis.measure`, never a term of
+it. A table laid out with one row-block per measured parameter (four diffusion metrics, three
+frequency bands) is one analysis per parameter over one `Measure` each, not one analysis over a
+factor whose levels are the parameters. Entered as a term, the dependent variable lands in its own
+analysis's derived adjustment set, and the record says the analysis controlled for the thing it
+measured.
 
 ### `FactorLevel` — one level, and what realizes it
 
 A level of a categorical term, plus the study entities carrying it: `conditions`, `groups`,
-`timepoints`, `arms`.
+`timepoints`, `arms`, `regions`.
 
 This is the join that makes a comparison legible. An `Effect` names levels; following those levels
-here says whether the comparison was between cohorts, between conditions, between occasions, or
-between arms. **Nothing on the Effect says which kind of comparison it is** — that is read off here.
+here says whether the comparison was between cohorts, between conditions, between occasions, between
+arms, or between places in the brain. **Nothing on the Effect says which kind of comparison it is** —
+that is read off here. A level realized by a crossing, such as a drug given at follow-up, fills more
+than one slot.
 
-A factor whose levels are not study entities at all — regions, hemispheres, tasks, frequency bands,
-acquisition sessions — leaves all four slots empty and is carried by `level` alone. That factor is
-complete, not deficient.
+A factor whose levels are not study entities at all — hemispheres, tasks, frequency bands,
+acquisition sessions — leaves all five slots empty and is carried by `level` alone. That factor is
+complete, not deficient. A factor over **regions** is not one of those: a `Region` is an entity the
+study declares, so a factor comparing places names them in `regions`, exactly as a cohort factor
+names `groups` (§5.10).
 
 `order` carries a sequence the cells cannot: a contrast signs only its extremes, so without `order`,
 1-back / 2-back / 3-back arrive as an unordered set.
@@ -134,9 +192,10 @@ one.
 
 ### `AnalysisDetails` subclasses — the method's own fields
 
-Which subclass is filled *is* the method. No `analysis_type` field to keep in step with it. All eight
-payload slots empty means `MassUnivariateDetails`, which carries no fields — that is how a
-mass-univariate analysis is asserted rather than inferred from silence.
+Which subclass is filled *is* the method. No `analysis_type` field to keep in step with it: `details`
+is one slot holding one payload, and that payload's `details_type` names which of the eight it is.
+`MassUnivariateDetails` carries no fields at all, so naming it is the whole payload — which is how a
+mass-univariate analysis comes to be asserted rather than inferred from silence.
 
 ---
 
@@ -224,6 +283,12 @@ undefined. This is the only shape a `Cell` has for `held`.
 A corollary worth stating, because it is checkable: a cell that names **no level** — on a slope or a
 product column — can never sit on both sides of anything, so it can never be `held`. An undirected
 test of such a column is `undirected`.
+
+This vocabulary has no home outside a cell. `Cell.direction` is the only slot in the schema that
+binds `Direction`, which is what makes "the cells are the only place direction lives" a property of
+the schema rather than only of this guidance. A connectivity analysis whose parameter is negative
+says so with a `negative` cell on the term the coupling was estimated for, and one whose coupling
+rose in a condition says so by crossing that condition's term.
 
 **Telling `held` from `undirected` in a finished record** needs no extra field either: an F-tested
 factor has *all* its levels celled and unsigned; a held-constant factor has *one* unsigned level and
@@ -928,9 +993,17 @@ source's words.
 `Analysis.model_representation_notes` is for a first-class method whose model has a component the
 schema represents only approximately — random slopes, latent variables, dynamic connectivity.
 
-**A value the vocabulary cannot name.** Most enums bind `any_of: [<Enum>, string]`, so the source's
-own wording passes through. Accumulating free-text values is the evidence for whether a further value
-earns a place. `Direction`, `TermType`, `Prespecification` and `EffectPath` are closed, because they
-carve a space rather than catalogue observations.
+**A value the vocabulary cannot name.** Most enums bind `any_of: [<Enum>, string]` — 26 fields do —
+so the source's own wording passes through, and accumulating free-text values is the evidence for
+whether a further value earns a place. Ten fields bind a closed vocabulary instead, one per enum:
+`Direction`, `TermType`, `Prespecification`, `EffectPath`, `RegionDefinition`, `Modality`,
+`NullHypothesis`, `PolaritySemantics`, `PerformanceRelation` and `EdgeDirectionality`. Each carves a
+space rather than cataloguing observations, so there is no wording a source could use that these do
+not already partition — and a closed vocabulary cannot report that it is short a value, which is why
+opening one is a schema decision rather than an extraction judgement.
+
+The last of the ten is closed and also **derived**: `ConnectivityEdge.directionality` is a lookup on
+`connectivity_method`, since only a directed model supports a claim about which region influences
+which and no wording can override that. It is the one vocabulary nothing reads off the page.
 
 **Nothing was tested.** Then it is not an Analysis. See §2.

@@ -125,7 +125,7 @@ than a crosswalk; [onvoc-mapping-audit.md](onvoc-mapping-audit.md) is that audit
 |---|---|---|
 | `StatisticMap{statisticType, contrastName, effectDegreesOfFreedom, errorDegreesOfFreedom, ...}` | `Statistic{family, degrees_of_freedom_numerator, degrees_of_freedom_denominator}` | **parity**, and closer than it looks: NIDM's effect/error split is exactly the numerator/denominator split, for the same reason. |
 | `hasAlternativeHypothesis` ∈ one-tailed, two-tailed | — | **gap.** See finding 3. |
-| `HeightThreshold{value, correctionMethod, equivalentZ, pValue}` | `InferenceSettings.voxelwise_threshold_value`, `.voxelwise_threshold_type`, `.multiple_comparison_method` | partial, and the attachment differs. NIDM binds the correction to the threshold; here it floats beside several thresholds. See finding 2. |
+| `HeightThreshold{value, correctionMethod, equivalentZ, pValue}` | `InferenceSettings.height_threshold_value`, `.height_threshold_type`, `.multiple_comparison_method` | partial, and the attachment differs. NIDM binds the correction to the threshold; here it floats beside several thresholds. See finding 2. |
 | `ExtentThreshold{value, equivalentZ, pValue}` | `.cluster_extent_threshold`, `.clusterwise_threshold_value` | partial, same attachment problem. |
 | `ClusterDefinitionCriteria{clusterConnectivityCriterion}` | `.neighborhood_definition` | **parity.** |
 | `PeakDefinitionCriteria{peakStrategy, minDistanceBetweenPeaks, maxNumberOfPeaks}` | — | no equivalent, and appropriately: a table's peaks are what the authors chose to print. |
@@ -179,9 +179,9 @@ statistic values cannot be answered from this module alone.
 ### 2. The correction method floats free of the threshold it corrected
 
 NIDM attaches `correctionMethod` to a `HeightThreshold` or `ExtentThreshold`, so each threshold
-carries its own. `InferenceSettings` has four threshold slots —
-`voxelwise_threshold_value`, `cluster_forming_threshold_value`, `clusterwise_threshold_value`,
-`cluster_extent_threshold` — and **one** `multiple_comparison_method` beside them.
+carries its own. `InferenceSettings` has three threshold slots — `height_threshold_value`,
+`clusterwise_threshold_value`, `cluster_extent_threshold` — and **one**
+`multiple_comparison_method` beside them.
 
 The commonest sentence in the fMRI literature has two corrections in it: *voxelwise p < 0.001
 uncorrected, clusterwise FWE-corrected p < 0.05*. That is `none` at the voxel level and `FWE` at
@@ -190,8 +190,14 @@ picks, the record asserts something false about the other threshold.
 
 This was found while writing the crosswalk rather than being in the plan, and it is the cheapest
 of the gaps to close: a small `Threshold` class with `{level, value, type, correction_method}`,
-multivalued on `InferenceSettings`, subsumes all four current slots and the correction. It is also
+multivalued on `InferenceSettings`, subsumes all three current slots and the correction. It is also
 the most invasive to `extraction-to-storage.map.yaml` for the same reason.
+
+Half of it has since been done, for a different reason. `voxelwise_threshold_value` and
+`cluster_forming_threshold_value` were one fact under two names — the height threshold, called after
+whichever of its two jobs a paper was describing — and no record in the corpus ever filled both, so
+they are now one `height_threshold_value`. That leaves the level count at three and the correction
+still floating; the `Threshold` class remains the fix for the attachment.
 
 ### 3. Two facts a meta-analysis needs are not recorded: tailedness and voxel size
 
@@ -349,11 +355,11 @@ Ranked by how much of the schema's purpose depends on it rather than by size.
 
 1. **Direction of a fitted coefficient.** All three peers record the contrast *specification*. On
    a continuous term, `Cell.direction` is the sign the coefficient came out with — an outcome, not
-   a specification. With `PerformanceMetric.relation` and
-   `ConnectivityDetails.parameter_sign`/`parameter_change`, this schema is the only one of the four
-   that answers "which way did it go." It has to be, because that is the finding a paper reports
-   and a synthesis pools.
-2. **Typed level referents.** `FactorLevel.{conditions, groups, timepoints, arms}` says what a
+   a specification. With `PerformanceMetric.relation` beside it, this schema is the only one of the
+   four that answers "which way did it go." It has to be, because that is the finding a paper
+   reports and a synthesis pools. `Cell.direction` is the whole of it: the connectivity payload used
+   to carry a whole-map sign of its own, and two routes to one direction is one too many.
+2. **Typed level referents.** `FactorLevel.{conditions, groups, timepoints, arms, regions}` says what a
    level *is*. No peer can distinguish a cohort comparison from a pre-post change from a crossover
    comparison structurally: BSM has column-name strings, NIDM has declared-abstract identifiers,
    ARS has an untyped `WhereClause`.

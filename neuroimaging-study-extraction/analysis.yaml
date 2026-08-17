@@ -157,12 +157,9 @@ classes:
         description: The source tables reporting results for this analysis.
       coordinate_space:
         range: ExtractedString
-        description: >-
-          Coordinate reference space or template the spatial results are reported in, such
-          as MNI152 or Talairach. The fallback of two places this can live: populated only
-          when no table of this analysis gives the space. Exactly one of the two is filled,
-          never both, so a value here means the tables were silent. Never inferred from the
-          model's `spatial_unit` -- an analysis on a surface reports a surface template.
+        description: |-
+          Coordinate reference space or template the spatial results are reported in, such as MNI152 or Talairach. **The authoritative of the two places this can live**: where this and a `Table.coordinate_space` disagree, this one is the analysis's space, since a table can be parsed as one space while the analysis it reports states another.
+          Both may be filled, and usually are: the table parser fills the tables and the same parse supplies this when every table behind the analysis agrees, leaving the model to answer only where they do not. Never inferred from the model's `spatial_unit` -- an analysis on a surface reports a surface template.
       assessments:
         range: Assessment
         multivalued: true
@@ -506,6 +503,9 @@ classes:
         description: |-
           The region whose signal supplies this term: a seed timecourse, an ROI mean covariate, a PPI physiological regressor. The counterpart of `assessment` for a column drawn from a place in the brain rather than an instrument.
           Singular, so it does not serve a factor that *compares* regions: that is one term with several levels, and the regions hang off `FactorLevel.regions`.
+
+          The test is whether the column's numbers came out of that place. A region that only bounds where inference ran -- an explicit mask, a search volume, an atlas the analysis was restricted to -- is `Analysis.regions`, and no term draws anything from it. Naming it here says the column *was* that region's signal, which for a voxelwise fit inside a mask is false, and it says so while `Analysis.regions` goes on saying the true thing, so the two never visibly disagree.
+          Leave it empty on a categorical term. Regions are carried by a factor's levels, on `FactorLevel.regions`, and a factor comparing places has at least two: one level named for a mask is a search space written as a comparison the study never made.
       variation_level:
         range: ExtractedVariationLevel
         description: |-
@@ -598,16 +598,14 @@ classes:
         description: >-
           Level at which inference is made, such as voxel, vertex, cluster, region, network
           or other.
-      voxelwise_threshold_value:
+      height_threshold_value:
         range: ExtractedNumber
-        description: Numeric voxelwise or vertexwise threshold before correction or cluster
-          formation.
-      voxelwise_threshold_type:
+        description: |-
+          The threshold applied to each element's statistic, before correction and before any cluster-level test. Papers name it for whichever of its two jobs they are describing -- the *voxelwise* (or vertexwise) threshold when elements are tested individually, the *cluster-forming* threshold when surviving elements are grouped into clusters -- and it is one number either way, applied once to the map. Record it once here, whichever word the source uses.
+          Not the cluster-level threshold: `clusterwise_threshold_value` is the p or q a whole cluster had to beat, and `cluster_extent_threshold` the size it had to reach. A paper reporting "p < 0.001 uncorrected, cluster-level p < 0.05 FWE" states this field and `clusterwise_threshold_value`, not this field twice.
+      height_threshold_type:
         range: ExtractedString
-        description: Meaning of voxelwise_threshold_value, such as p, q, t, z, or F.
-      cluster_forming_threshold_value:
-        range: ExtractedNumber
-        description: Numeric threshold used to form candidate clusters.
+        description: Meaning of height_threshold_value, such as p, q, t, z, or F.
       cluster_extent_threshold:
         range: ExtractedInteger
         description: Minimum surviving cluster extent in voxels, vertices, or the unit stated

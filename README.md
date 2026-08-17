@@ -97,10 +97,13 @@ The projection is mechanical, and the whole of it is:
 | `range: <Class>`, not inlined | unchanged; LinkML resolves it through the target's `local_id` |
 | `minimum_value`, `rules`, `unique_keys` | dropped — they constrain a scalar, and the wrapper is in the way. The run report lists each one |
 
-The vocabularies come across whole: 34 enums, 208 permissible values, 188 of them with
+The vocabularies come across whole: 34 enums, 186 permissible values, 180 of them with
 descriptions, and each field's range copied exactly — closed where storage is closed, open
 where storage left an escape hatch. A closed one compiles to a real `enum` in the generated
-JSON Schema, so structured output can be constrained to it.
+JSON Schema, so structured output can be constrained to it. Storage has 37; the three that do
+not project are the ones no extracted field reaches — `EffectKind`, which no slot has as a
+range at all, `StudyType`, which the API supplies, and `EdgeDirectionality`, which the mapper
+derives.
 
 Anything that is not mechanical lives in `extraction-deviations.yaml`, in two parts.
 `required_additions` is what extraction has because it is an extraction — which model ran,
@@ -165,11 +168,12 @@ a submodule and reads the schema, the priority inventory and
 
 | File | What it holds |
 |---|---|
+| [schema-tutorial.md](schema-tutorial.md) | The course: twelve chapters teaching the whole schema — what every entity is for, what each field holds and what it must not be confused with, the rules for filling a record, and the reasoning steps to take when a paper is ambiguous. Start here if you are new to the schema; the documents below are the references it teaches from |
 | [extraction-readme.md](extraction-readme.md) | Rules the schema cannot state: the gates that skip a paper, extraction conventions, validator invariants, mapper responsibilities, and known limits |
 | [extraction-deviations.yaml](extraction-deviations.yaml) | Every way the extraction schema is not a projection of storage. Currently: pipeline provenance, and nothing else. Its trailing comment lists the six shapes the hand-written schema used to have, as candidates to re-test |
 | [storage-schema-design-notes.md](storage-schema-design-notes.md) | Why the storage schema is shaped the way it is |
 | [analysis-entities.md](analysis-entities.md) | What each entity around an analysis is called, what owns it, and what points at what: the three layers, a crosswalk from the words papers use, and the joins a synthesis reads a record back out through. Start here before representing-models.md |
-| [representing-models.md](representing-models.md) | How to put a reported analysis into the schema: which facts belong to the model and which to the contrast, where each class's job ends, and what to do when a paper does not divide things the way the schema does. Its YAML fragments and the two worked records under [examples/](examples/) are checked on every test run |
+| [representing-models.md](representing-models.md) | How to put a reported analysis into the schema: which facts belong to the model and which to the contrast, where each class's job ends, and what to do when a paper does not divide things the way the schema does. Its YAML fragments and the worked records under [review/examples/](review/examples/) are checked on every test run |
 | [ars-crosswalk.md](ars-crosswalk.md) | Field-level comparison against CDISC's Analysis Results Standard — the closest peer this schema has, and so the main check on the model/contrast split. For design comparison, not an executable map |
 | [standards-crosswalk.md](standards-crosswalk.md) | The same reading against BIDS Stats Models and NIDM-Results — what each represents, where they are more expressive, and where this schema keeps something they cannot say. Companion to the ARS crosswalk and does not repeat it |
 | [storage-schema-expressivity-probe.md](storage-schema-expressivity-probe.md) | Measured expressivity gaps against 25 corpus papers, with options |

@@ -178,13 +178,14 @@ enums:
       parallel:
         in_subset: [mvp, model_extracted]
         description: >-
-          Each arm is a separate cohort, and no participant is in more than one. The arm is a
-          property of a Group here, not of a Condition.
+          Each arm is a separate cohort, and no participant is in more than one, so the
+          allocation is a property of a Group: set `Group.arm`.
       crossover:
         in_subset: [mvp, model_extracted]
         description: >-
           Every participant passes through several arms, in an order that was randomized or
-          counterbalanced. The arm is a property of a Condition here, not of a Group.
+          counterbalanced. No cohort was allocated to one arm, so `Group.arm` stays empty and
+          the arms reach an analysis as levels of a model term, named in `FactorLevel.arms`.
       within_subject:
         in_subset: [mvp, model_extracted]
         description: >-

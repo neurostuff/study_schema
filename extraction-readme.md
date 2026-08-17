@@ -89,14 +89,14 @@ tables were the only route to a permissible value. The projection now carries th
 themselves, and each field keeps storage's own range.
 
 **A closed field takes a permissible value and nothing else.** `Acquisition.modality`,
-`Cell.direction`, `ModelTerm.type` and ten others are bare enums in storage, so they are
+`Cell.direction`, `ModelTerm.type` and six others are bare enums in storage, so they are
 bare here. Storage would reject any other answer, so there is nothing to gain by writing
 one down.
 
 **An open field is `any_of: [<Enum>, string]`, and the escape hatch is not a formality.**
 Use the permissible value when one fits. When none does, write what the paper says rather
 than forcing the nearest match — those free-text answers accumulating are the evidence for
-whether the vocabulary is short a value. Twenty-three fields are open, including
+whether the vocabulary is short a value. Twenty-six fields are open, including
 `Analysis.spatial_scope`, `Measure.family`, and `Task.response_mode`.
 
 Which a field is, is storage's decision and not one extraction may revisit;
@@ -271,7 +271,7 @@ is the failure that went unnoticed longest.
 ## 3. Invariants the structural validator must enforce
 
 LinkML rules cannot express a constraint that spans a multivalued nested slot or a sibling of
-the entity carrying it. Seven such constraints are documented on the fields they constrain and
+the entity carrying it. Six such constraints are documented on the fields they constrain and
 have to be checked in code:
 
 1. **`Effect.cells` must be non-empty.** An effect that compared nothing tested nothing, and a
@@ -295,11 +295,10 @@ have to be checked in code:
    makes it a `parametric_modulation` or a `cross_subject_regression` by step 1 of the derivation
    rather than an axis to count.
 4. **`Effect.mediation.mediator` must reference a `ModelTerm` of this analysis's model** — invariant 2 again, for the one other term pointer, and over the same chain.
-5. **`Table.coordinate_space` and `Analysis.coordinate_space` are mutually exclusive** — see §4. Both populated is an error.
-6. **`ModelEstimation.inputs_from` must be acyclic.** A model fitted on its own output is not a
+5. **`ModelEstimation.inputs_from` must be acyclic.** A model fitted on its own output is not a
    stage order. Every consumer of the term list walks this chain, so a cycle is a hang as well
    as a falsehood.
-7. **A `ModelTerm.name` must be unique across a whole stage chain**, not merely within one
+6. **A `ModelTerm.name` must be unique across a whole stage chain**, not merely within one
    record. `unique_keys` scopes per model, so without this a first-level `motion` and a
    group-level `motion` are two columns with one name in one term list, and a reader cannot tell
    a column refitted at the stage above from one restated there by mistake.
@@ -580,7 +579,8 @@ asserts that correspondence in both directions, so this table cannot quietly fal
 | `Analysis.id`, and every other `id` | `generate` — must be a deterministic function of the source location, so re-extraction reproduces it and externally stored evidence still joins. Recipe: study, table or figure identifier, analysis label slug or index. The extraction record's `local_id` goes in the audit log and every reference to it resolves through the same table |
 | `Analysis.statistical_maps` | `api_lookup` — the maps NeuroVault holds for the study. A paper that shares maps says so in a data-availability sentence, and the sentence is not the map |
 | `Table.source_path` | `generate` — the repository path of the raw table file |
-| `Table.coordinate_space` | `derive` from the table parse; leaves `Analysis.coordinate_space` blank when it succeeds |
+| `Table.coordinate_space` | `derive` from the table parse, per table. The same parse also fills `Analysis.coordinate_space` where every table behind an analysis agrees; the Analysis wins if the two ever differ |
+| `ConnectivityEdge.directionality` | `derive` from the containing analysis's `connectivity_method`, through the `value_map` in the map file. Unset for a method written as free text |
 | `Table.coordinate_count` | `derive` — count the coordinate rows in the normalized table; zero when there are none |
 
 Three things worth stating that are *not* mapper work any more:
@@ -632,32 +632,47 @@ Three routing rules survive the change, because an extractor's wording still dec
   `interaction_with`. A cell whose direction says "moderator" is flagged for review, since it
   usually means the product term was not extracted.
 
-### Try the parser first, fall back to the model, fill exactly one field
+### Try the parser first, fall back to the model, and say which one wins
 
 Some facts have two possible sources: an ingestion artifact that usually carries them and the
 paper text that always does. The coordinate space is the case that recurs — the table parser
 recovers it much of the time, but not always, and an analysis reported without a coordinate
 table has no table to recover it from.
 
-The rule is a precedence with an exclusivity, and it cannot be a schema constraint because it
-spans two classes:
+The rule is a precedence, and both fields may hold a value:
 
-1. Fill `Table.coordinate_space` from the parse. It is a `derive`, and the extractor is not
-   asked for it.
-2. If no table of an analysis yields a space, ask the model for `Analysis.coordinate_space`.
-3. **Populate exactly one of the two, never both.** A value on the Analysis means the tables
-   were silent; a value on a Table means the Analysis is blank.
+1. Fill `Table.coordinate_space` from the parse, per table. It is a `derive`, and the extractor is
+   not asked for it.
+2. Fill `Analysis.coordinate_space` from the same parse where every table behind the analysis
+   agrees, and ask the model only where they do not — an analysis with no table, or one whose
+   tables were parsed inconsistently.
+3. **Where the two differ, the Analysis wins.** A table can be parsed as one space while the
+   analysis reporting it states another; the space of a result is a property of the analysis.
 
-Both being populated is an error rather than a disagreement to reconcile, and a structural
-validator should reject it. The pay-off is that each field then has exactly one filler, which
-is what lets `Table.coordinate_space` be honestly `deterministic` and
-`Analysis.coordinate_space` honestly `model_extracted` — a field filled sometimes by code and
-sometimes by a model fits neither mark, and the provenance subsets are exclusive by design.
+Populating both is normal rather than an error, which is why nothing checks it. The cost is that
+`Analysis.coordinate_space` is a field with two fillers while the provenance subsets are exclusive
+by design: it stays `model_extracted`, because the model is the only filler that can read a page,
+and a value the builder derived carries `evidence.status: not_found` — there being no quote for a
+value read off a table parse.
 
 Expect the same shape wherever an artifact is a best-effort source rather than a guaranteed
 one. `StatisticalMap` is the open case: its fields are marked `deterministic` because they come
 from a repository, but "no repository link exists" is its own kind of unavailable, and the
 extraction schema still asks for them.
+
+### A derivation can read the record rather than the world
+
+`ConnectivityEdge.directionality` is `deterministic` without any outside source: the mapper looks
+it up from the containing analysis's `connectivity_method` through `value_map` in
+[extraction-to-storage.map.yaml](extraction-to-storage.map.yaml). Only DCM and Granger causality
+support a claim about which region influences which, and no wording of the paper changes that, so
+the field is not one to ask a reader for. It is left unset where the method is written as free text,
+since there is nothing to look up — the one case where an edge's directionality is genuinely unknown
+to the record.
+
+The test for moving a field this way is not "could a model answer it" but "does something the record
+already holds settle it". Measured before the move: of 23 edges in the corpus, 16 sat on `dcm`, and
+five of those were marked `undirected`, which DCM cannot be.
 
 ### Review is routed deterministically
 
@@ -687,7 +702,6 @@ list so an extractor is not left hunting for a slot.
 - **A meta-analysis embedded in a primary paper.** The gates in §1 skip meta-analysis *papers*,
   not a meta-analysis run as a step inside a primary study — that analysis still has no sample.
 - **Test tail** (one- vs two-tailed), reported by ~17.5% of the corpus.
-- **Exploratory vs confirmatory intent**, ~8.4%.
 - **Nested corrections** — FDR across clusters then Bonferroni across an ROI set;
   `multiple_comparison_method` is one field.
 - **Cluster extent in physical units** — `cluster_extent_threshold` is an integer count, so a
@@ -712,8 +726,8 @@ list so an extractor is not left hunting for a slot.
   `FactorLevel.regions`, the way a cohort factor's levels name `Group`s.
 - **Longitudinal within-subject level** — `VariationLevel` has no session or timepoint value
   between trial-wise and between-subject, and no `EffectKind` names a within-person change over
-  time. The occasion itself does have a home: a `Timepoint` record, referenced from the
-  condition.
+  time. The occasion itself does have a home: a `Timepoint` record, which a factor's levels
+  reach through `FactorLevel.timepoints`.
 - **Condition-level stimulus, response and instruction** — a condition records a name, a
   description, and whether it carried a demand or was a rest baseline. CogPO's three parts are
   described once for the paradigm, on `Task.stimuli`, `Task.instructions` and
