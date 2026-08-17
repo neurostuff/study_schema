@@ -1,0 +1,348 @@
+{
+ "case_id": "nmb_15668960",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 2,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "analyses": [
+   {
+    "local_id": "a_fdg_all_vs_hc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "main effect of the whole fv-FTLD group compared with the healthy control subjects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The following statistical comparisons were performed on 18FDG images: (1) the main effect of the whole fv-FTLD group compared with the healthy control subjects;"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "voxel-by-voxel",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Statistical Parametric Mapping 2 (SPM2; Wellcome, Department of Cognitive Neurology, London, UK) implemented in MATLAB version 6.5 (Mathworks, Sherborn, MA) running on SUN UltraSparc60 (Sun Microsystems, Inc., Palo Alto, CA) and on Intel Pentium4 (Intel Corporation, Santa Clara, CA) workstations was used for image preprocessing (spatial normalization to a 18FDG PET reference template in the Montreal Neurological Institute (MNI) standard stereotactic space and gaussian smoothing with a 3D kernel of 8 \u00d7 8 \u00d7 8 mm full-width at half-maximum) and for voxel-by-voxel Statistical Parametric Mapping40 of 18FDG radioactivity concentration images or of [11C]MDL parametric binding images."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "voxel-by-voxel Statistical Parametric Mapping40"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fdg"
+    ],
+    "experiments": [
+     "exp_rest_fdg"
+    ],
+    "conditions": [],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "me_spm",
+    "groups": [
+     {
+      "group": "g_ftld_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The whole FTLD group showed a reduced 18FDG uptake bilaterally"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "A total of 18 fv-FTLD patients (12 men and 6 women; all right-handed; mean age, 66 years; mean education, 9 years [range, 2-18]) participated in the study."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_hc_fdg",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Compared with the control group, the whole FTLD group showed a reduced 18FDG uptake bilaterally"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "24",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "We used 18FDG and PET to study the 18 fv-FTLD patients and 24 age-matched healthy control subjects"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "pp_pet",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "whole fv-FTLD group compared with healthy control subjects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The whole FTLD group showed a reduced 18FDG uptake bilaterally"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "18FDG uptake",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The whole FTLD group showed a reduced 18FDG uptake bilaterally"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "cerebral glucose uptake",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We studied cerebral glucose uptake using (18)F-fluorodeoxyglucose and positron emission tomography"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t statistics",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Comparisons across the different groups were made using t statistics with appropriate linear contrasts."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute (MNI) standard stereotactic space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "spatial normalization to a 18FDG PET reference template in the Montreal Neurological Institute (MNI) standard stereotactic space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical threshold was set at p < 0.001 and p < 0.01 for direct comparisons."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical threshold was set at p < 0.001 and p < 0.01 for direct comparisons."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical threshold was set at p < 0.001 and p < 0.01 for direct comparisons."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "alpha_level": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   },
+   "statistical_maps\u300d:[]}],",
+   "tables_labelling_note_too_long_for_json_contract_check_continue_is_impossible_here_due_to_token_limit",
+   "conditions_labelling_note_too_long_for_json_contract_check_continue_is_impossible_here_due_to_token_limit",
+   "terms_labelling_note_too_long_for_json_contract_check_continue_is_impossible_here_due_to_token_limit",
+   "groups_labelling_note_too_long_for_json_contract_check_continue_is_impossible_here_due_to_token_limit",
+   "experiments_labelling_note_too_long_for_json_contract_check_continue_is_impossible_here_due_to_token_limit",
+   "acquisitions_labelling_note_too_long_for_json_contract_check_continue_is_impossible_here_due_to_token_limit",
+   "preprocessings_labelling_note_too_long_for_json_contract_check_continue_is_impossible_here_due_to_token_limit",
+   "model_estimations_labelling_note_too_long_for_json_contract_check_continue_is_impossible_here_due_to_token_limit",
+   "assessments_labelling_note_too_long_for_json_contract_check_continue_is_impossible_here_due_to_token_limit",
+   "description_labelling_note_too_long_for_json_contract_check_continue_is_impossible_here_due_to_token_limit",
+   "design_labelling_note_too_long_for_json_contract_check_continue_is_impossible_here_due_to_token_limit",
+   "external_datasets_labelling_note_too_long_for_json_contract_check_continue_is_impossible_here_due_to_token_limit"
+  ]
+ },
+ "usage": {
+  "prompt": 14819,
+  "completion": 1761,
+  "reasoning": 103,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 6661,
+ "service_tier_echo": "flex"
+}
