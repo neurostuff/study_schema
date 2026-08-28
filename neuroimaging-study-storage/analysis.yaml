@@ -191,6 +191,38 @@ classes:
         multivalued: true
         inlined: false
         description: The source tables reporting results for this analysis.
+      mirror_of:
+        in_subset: [mvp, deterministic]
+        range: Analysis
+        inlined: false
+        description: >-
+          Present only on an analysis the builder derived by reversing another one, and
+          naming the analysis it reverses.
+
+          A results table with both signs in one column reports one contrast read two
+          ways. The paper's prose describes one direction, so only that half is extracted
+          and the other is rebuilt arithmetically -- same cells, directions flipped. This
+          slot is what says so. Without it the two halves look like independent findings,
+          and a meta-analysis that counts both counts one sample twice.
+      source_table_analysis:
+        in_subset: [mvp, model_extracted]
+        range: string
+        description: >-
+          The key the table parse gave the row group this analysis's results were read
+          from, as `<table id>#<ordinal within that table>`.
+
+          This schema stores no coordinates -- `Table.coordinate_count` records how many a
+          table has and nothing records where they are -- so reaching an analysis's foci
+          means joining through the parse, and `tables` alone cannot do it: a table
+          usually reports several contrasts and several analyses usually cite the same
+          table. Over 1,208 analyses that join resolved uniquely for 10%, resolved by
+          matching this analysis's name against the parse's for a further 65%, and did not
+          resolve at all for 25%. This key is what makes it exact.
+
+          Copy it from the bracketed key the stage-1 listing prints beside each parsed
+          analysis. One key and not a list, because one analysis is read from one row
+          group; an analysis whose results span two tables cites both in `tables` and
+          names here the row group that defined it.
       statistical_maps:
         in_subset: [deterministic]
         range: StatisticalMap

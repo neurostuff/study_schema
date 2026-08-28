@@ -175,6 +175,32 @@ deviations:
   # `append` rather than `description`: storage keeps the definition and this adds the
   # instruction, so neither can drift from the other.
 
+  - id: mirror-of-is-derived-on-the-extraction-side
+    operation: add_slot
+    class: analysis.Analysis
+    slot: mirror_of
+    why: >-
+      Storage marks this `deterministic`, so the projection drops it: a deterministic slot
+      is filled by code on the storage side and has nothing for a model to read. Here the
+      code that fills it runs on the extraction side -- `build_record.mirror_withheld`
+      rebuilds the reversed half of a sign-split contrast after the model has settled the
+      described half -- so the slot has to exist in the extraction record even though no
+      pass extracts it. Without the declaration the builder writes an attribute the
+      validator does not know: 36 findings across 21 of the 299 schizophrenia records,
+      every one of them the builder's own output being reported as undeclared.
+    definition:
+      range: Analysis
+      inlined: false
+      description: >-
+        Present only on an analysis the builder derived by reversing another one, and
+        naming the analysis it reverses.
+
+        A results table with both signs in one column reports one contrast read two ways.
+        The paper's prose describes one direction, so only that half is extracted and the
+        other is rebuilt arithmetically -- same cells, directions flipped. This slot is
+        what says so. Without it the two halves look like independent findings, and a
+        meta-analysis that counts both counts one sample twice.
+
   - id: region-definition-method-is-about-independence
     operation: describe_slot
     class: region.Region
