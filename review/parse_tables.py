@@ -49,6 +49,18 @@ DEFAULT_MODEL = "@psyc-aid338-ope-333f18/gpt-5.6-luna"
 #: reasoning shortfall, so the tables get the same budget the prose does.
 DEFAULT_EFFORT = "low"
 
+#: The only parsed value kind that cannot carry a sign. Everything else -- `t-statistic`,
+#: `z-statistic`, `correlation`, `beta`, and the `other` catch-all -- is a quantity whose
+#: sign means something when the table prints one.
+#:
+#: `other` is included deliberately. It holds statistic-like values the parser could not
+#: label (one study contributes 124 of them in the 0.61-3.75 range, which is a t or z that
+#: lost its heading), so excluding it would discard real directions. And no kind is judged
+#: non-directional because this corpus happens to show no negatives for it: most tables
+#: print |t|, so an all-positive column is evidence about the table's conventions and not
+#: about the quantity.
+NON_DIRECTIONAL_KINDS = frozenset({"p-value"})
+
 
 def strict_schema(model_class) -> dict:
     """A Pydantic model's JSON schema, tightened until the API will accept it as strict.
@@ -142,6 +154,169 @@ def build_client(effort: str):
             return ParseAnalysesOutput(**_sanitize_parse_result(json.loads(content)))
 
     return _StructuredCoordinateClient()
+
+
+def _point_sign(point: dict) -> int | None:
+    """A row's direction from its statistics: +1, -1, or None when it has no sign to give.
+
+    None covers two different silences that must not be split on. A row carrying only a
+    p-value or a cluster extent has no direction printed, and a row whose statistics
+    disagree in sign -- a positive t beside a negative correlation -- is a parse to look at
+    rather than a row to file.
+    """
+
+    signs = {
+        1 if value > 0 else -1
+        for entry in (point.get("values") or [])
+        if entry.get("kind") not in NON_DIRECTIONAL_KINDS
+        and isinstance(value := entry.get("value"), (int, float))
+        and value != 0
+    }
+    return signs.pop() if len(signs) == 1 else None
+
+
+def split_opposite_signs(analyses: list[dict]) -> tuple[list[dict], list[str]]:
+    """Split any analysis whose rows report both directions into one analysis per direction.
+
+    The schema requires a separate Analysis per normalized direction, and this is the only
+    stage that can see the row values: the extraction passes are shown captions, never
+    cells. So the pass downstream is asked to split on "effects of opposite sign" using a
+    signal it cannot observe. Doing it here makes the partition arithmetic instead.
+
+    Splitting only, never merging, and only on a total partition -- if any row has no sign
+    the analysis is reported and left whole, because a partial split files some rows and
+    silently strands the rest. Group sizes are not weighed: one surviving cluster in the
+    minority direction is an ordinary result of thresholding, and 11% of parsed analyses
+    have a single point already, so a lone row is no evidence of a bad parse.
+
+    Only the positive-sign part is offered to the extraction pass, and it keeps the
+    parsed name unchanged. A paper that reports "FESZ > NC" prints positive statistics
+    for the effects it describes and negative ones for the same contrast read the other
+    way; the reversed half is almost never written down, so asking a model to name and
+    define it invites invention. The negative part is emitted withheld, carrying
+    `mirror_of`, and `derive_direction.mirror_analysis` rebuilds it after extraction by
+    reversing the directions the model assigned to the half that was described.
+    """
+
+    out: list[dict] = []
+    notes: list[str] = []
+
+    for analysis in analyses:
+        points = analysis.get("points") or []
+        signs = [_point_sign(point) for point in points]
+        present = {s for s in signs if s is not None}
+
+        if len(present) < 2:
+            out.append(analysis)
+            continue
+
+        name = analysis.get("name") or "(unnamed)"
+        if None in signs:
+            unsigned = sum(1 for s in signs if s is None)
+            notes.append(f"FLAG {name}: both directions present but {unsigned} of "
+                         f"{len(points)} rows carry no sign -- left whole")
+            out.append(analysis)
+            continue
+
+        for sign, label in ((1, "positive"), (-1, "negative")):
+            part = dict(analysis)
+            part["points"] = [p for p, s in zip(points, signs) if s == sign]
+            #: The parent's identity, kept so the split is auditable and so a reviewer can
+            #: see that two entries came from one parse rather than from two table rows.
+            part["split_from"] = name
+            part["split_direction"] = label
+            part["split_rule"] = "sign-of-directional-statistic"
+            if sign > 0:
+                # The half the paper describes. Its name is the paper's.
+                part["name"] = name
+            else:
+                part["name"] = f"{name} (reversed)"
+                part["mirror_of"] = name
+                #: Never shown to the extraction pass. The reversed contrast has no prose
+                #: in the paper to quote, so a model asked to define it can only guess.
+                part["withhold"] = True
+            out.append(part)
+
+        counts = f"{signs.count(1)}+/{signs.count(-1)}-"
+        notes.append(f"SPLIT {name} -> ({counts}) on statistic sign; "
+                     f"the negative half is withheld and mirrored after extraction")
+
+    return out, notes
+
+
+def adopt_withholding(analyses: list[dict]) -> tuple[list[dict], list[str]]:
+    """Convert a pair split by the earlier rule into a described half and a withheld one.
+
+    A corpus partitioned before the mirror existed holds both halves as ordinary entries,
+    `<name> (positive)` and `<name> (negative)`, and both were sent to the extraction
+    pass. The negative half has no prose in the paper to quote, so what came back for it
+    was invention -- and it cost a full analysis's worth of tokens to obtain.
+
+    Re-splitting cannot reach these: each part already holds one sign, so
+    `split_opposite_signs` correctly finds nothing to do. The conversion is done from the
+    parts themselves, which carry `split_from` and `split_direction` and so record
+    everything needed. Nothing is re-parsed and no statistic is re-read.
+
+    Only a clean pair converts. Three parts sharing a parent means the entry was also
+    split on something else -- a band, a session -- and which of them the paper describes
+    is not answerable from the sign alone.
+    """
+
+    from collections import defaultdict
+
+    families: dict[str, list[dict]] = defaultdict(list)
+    for analysis in analyses:
+        if analysis.get("split_rule") == "sign-of-directional-statistic":
+            parent = analysis.get("split_from")
+            if parent:
+                families[parent].append(analysis)
+
+    converted: list[str] = []
+    for parent, parts in families.items():
+        directions = [p.get("split_direction") for p in parts]
+        if sorted(directions) != ["negative", "positive"]:
+            continue
+        # Already in the described/withheld shape. Reporting a conversion here would
+        # make the stage that calls this look permanently unfinished, so a resumed run
+        # would re-enter it forever.
+        if any(part.get("withhold") for part in parts):
+            continue
+        for part in parts:
+            if part["split_direction"] == "positive":
+                part["name"] = parent
+                part.pop("withhold", None)
+                part.pop("mirror_of", None)
+            else:
+                part["name"] = f"{parent} (reversed)"
+                part["mirror_of"] = parent
+                part["withhold"] = True
+        converted.append(f"WITHHOLD {parent}: the reversed half is no longer extracted")
+    return analyses, converted
+
+
+def parse_keys(analyses: list[dict]) -> list[str]:
+    """A stable address per parsed entry, positionally aligned with `analyses`.
+
+    `Analysis.source_table_analysis` holds one of these, and it is the only exact route
+    from an analysis to the coordinate rows it was read off. Both sides of that contract
+    must number identically: `extract_record.stage1_block` prints the key to the model and
+    `build_record.resolve_source_table_analysis` resolves what comes back.
+
+    Numbered over EVERY entry, including the withheld half of a sign-split. The prompt
+    hides withheld entries -- the paper has no prose for them -- and numbering only what
+    is shown makes hiding one renumber its siblings, so the model is told `t1#2` and the
+    builder resolves `t1#2` to a different row group. A wrong key that exists is worse
+    than a missing one: it passes the join and attaches the analysis to another
+    contrast's coordinates.
+    """
+
+    ordinals: dict[str, int] = {}
+    keys: list[str] = []
+    for entry in analyses:
+        table_id = str((entry or {}).get("table_id") or "")
+        ordinals[table_id] = ordinals.get(table_id, 0) + 1
+        keys.append(f"{table_id}#{ordinals[table_id]}")
+    return keys
 
 
 def load_key_file(path: Path) -> list[str]:
@@ -240,6 +415,43 @@ def diff_report(study: str, fresh: list[dict], pond: list[dict]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def resplit(pmids: Path, texts: Path) -> int:
+    """Re-partition stage-1 output already on disk, without re-parsing the tables.
+
+    The split reads only the parsed statistics, so a corpus parsed before this rule existed
+    does not have to be re-parsed to get it -- which matters because re-parsing is a model
+    call per table and would resample every other decision the parse makes at the same time.
+    Already-split entries are left alone: `split_rule` marks them, and the second pass over
+    a part that holds one direction finds one sign and does nothing.
+    """
+
+    changed = 0
+    for pmid, study, _axis in read_pmids(pmids):
+        path = texts / study / "stage1" / "analyses.json"
+        if not path.is_file():
+            print(f"{study}: no stage1/analyses.json", file=sys.stderr)
+            continue
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        before = doc.get("analyses") or []
+        after, notes = split_opposite_signs(before)
+        if not notes:
+            print(f"{study}: unchanged ({len(before)} analyses)")
+            continue
+        for note in notes:
+            print(f"{study}: {note}")
+        if len(after) != len(before):
+            doc["analyses"] = after
+            #: Recorded on the document rather than inferred from the parts, so a reader can
+            #: tell a file the rule has been applied to from one parsed before it existed.
+            doc["sign_split_applied"] = True
+            path.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n",
+                            encoding="utf-8")
+            print(f"{study}: {len(before)} -> {len(after)} analyses, rewrote {path}")
+            changed += 1
+    print(f"\n{changed} study file(s) rewritten")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pmids", type=Path, default=REPO / "bench-baseline.pmids")
@@ -250,7 +462,14 @@ def main() -> int:
                         help="reasoning effort; empty string to send none at all")
     parser.add_argument("--key-file", type=Path, default=REPO / ".env")
     parser.add_argument("--dry-run", action="store_true", help="list tables, make no calls")
+    parser.add_argument("--resplit", action="store_true",
+                        help="apply the sign split to the stage1/analyses.json already on "
+                             "disk and rewrite it; the partition is arithmetic, so this "
+                             "needs no model call and no autonima checkout")
     args = parser.parse_args()
+
+    if args.resplit:
+        return resplit(args.pmids, args.texts)
 
     sys.path.insert(0, str(args.autonima.resolve()))
     from autonima.coordinates.parser import parse_single_table
@@ -298,6 +517,9 @@ def main() -> int:
                 analysis["table_label"] = table["table_label"]
                 analysis["table_caption"] = table["caption"]
                 analysis["table_footer"] = table["footer"]
+            parsed, notes = split_opposite_signs(parsed)
+            for note in notes:
+                print(f"    {note}")
             analyses.extend(parsed)
             print(f"  {table['table_id']}: {len(parsed)} analyses, "
                   f"{sum(len(a.get('points') or []) for a in parsed)} points")

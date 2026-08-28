@@ -41,7 +41,14 @@ COORDISH = re.compile(r"^[xyz]$|coordinate|mni|talairach", re.I)
 #: Header text that means "this column holds ONE axis of a coordinate". Narrower than
 #: COORDISH on purpose: this is what row matching compares, and a column headed
 #: "MNI coordinates" spanning three is not itself an axis.
-AXIS = {axis: re.compile(rf"^\(?\s*{axis}\s*\)?$", re.I) for axis in "xyz"}
+#:
+#: The optional trailing unit is what `X (mm)  Y (mm)  Z (mm)` needs -- a spelling that
+#: matches neither the bare form nor PAREN_AXIS, because there the parenthesis holds the
+#: unit rather than the axis letter. Restricted to length units so a statistic column can
+#: never win an axis this way: `Peak (Z)` is still PAREN_AXIS's problem and `Z (p<.001)`
+#: matches nothing.
+_AXIS_UNIT = r"(?:\s*[(\[]\s*(?:mm|cm)\s*[)\]])?"
+AXIS = {axis: re.compile(rf"^\(?\s*{axis}\s*\)?{_AXIS_UNIT}$", re.I) for axis in "xyz"}
 
 #: `Tal(x)`, `Peak(y)`. Tried only after AXIS fails, and the parenthesis must enclose the
 #: axis letter and nothing else -- so "Peak coordinates (x,y,z)" is not a match here and

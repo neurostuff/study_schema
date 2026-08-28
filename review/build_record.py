@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
@@ -35,7 +36,11 @@ import known_gaps
 import spans as span_tools
 import text_index
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+import derive_direction  # noqa: E402  (repo root, two levels up)
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+import parse_tables  # noqa: E402  (one parse-key numbering)
 import schema_utils  # noqa: E402  (repo root is added above)
 
 EXTRACTION_SCHEMA = Path(__file__).resolve().parent.parent / "neuroimaging-study-extraction.yaml"
@@ -111,14 +116,33 @@ class BuildReport:
     listified: list[str] = field(default_factory=list)
     listified_scalars: list[str] = field(default_factory=list)
     aligned_levels: list[str] = field(default_factory=list)
+    scoped_terms: list[str] = field(default_factory=list)
+    repointed_references: list[str] = field(default_factory=list)
+    unwrapped: list[str] = field(default_factory=list)
+    coerced_numbers: list[str] = field(default_factory=list)
+    stray_tables: list[str] = field(default_factory=list)
+    repointed_cell_terms: list[str] = field(default_factory=list)
+    source_links: list[str] = field(default_factory=list)
+    derived_ids: list[str] = field(default_factory=list)
+    filled_directions: list[str] = field(default_factory=list)
+    mirrored: list[str] = field(default_factory=list)
     dangling: list[str] = field(default_factory=list)
     payload_notes: list[str] = field(default_factory=list)
+
+    #: The repair sequence's own record of what fired, kept whole so a caller can ask
+    #: what happened without re-deriving it from the counted lists above.
+    repair_log: Any = None
 
     #: Every repair the builder performed, for the one-line report and the threshold.
     @property
     def repairs(self) -> int:
         return (len(self.repaired_wrappers) + len(self.derived_acquisition_types)
-                + len(self.listified) + len(self.listified_scalars) + len(self.aligned_levels))
+                + len(self.listified) + len(self.listified_scalars) + len(self.aligned_levels)
+                + len(self.repointed_references) + len(self.scoped_terms)
+                + len(self.filled_directions) + len(self.unwrapped)
+                + len(self.coerced_numbers) + len(self.stray_tables)
+                + len(self.repointed_cell_terms) + len(self.source_links)
+                + len(self.derived_ids))
 
     def summary(self) -> str:
         return (
@@ -130,6 +154,15 @@ class BuildReport:
             f"unresolved={len(self.failures)}\n"
             f"downgraded fields={len(self.downgraded)}\n"
             f"repairs={self.repairs} (wrappers={len(self.repaired_wrappers)}, "
+            f"references={len(self.repointed_references)}, "
+            f"unwrapped={len(self.unwrapped)}, numbers={len(self.coerced_numbers)}, "
+            f"stray_tables={len(self.stray_tables)}, "
+            f"cell_terms={len(self.repointed_cell_terms)}, "
+            f"source_links={len(self.source_links)}, "
+            f"derived_ids={len(self.derived_ids)}, "
+            f"scoped_terms={len(self.scoped_terms)}, "
+            f"directions={len(self.filled_directions)}, "
+            f"mirrored={len(self.mirrored)}, "
             f"acquisition_type={len(self.derived_acquisition_types)}, "
             f"listified={len(self.listified)}, scalars={len(self.listified_scalars)}, "
             f"levels={len(self.aligned_levels)})"
@@ -591,6 +624,90 @@ def align_cell_levels(body: dict[str, Any]) -> list[str]:
     return fixed
 
 
+def fill_directions(body: dict[str, Any]) -> list[str]:
+    """Give a cell its direction from the contrast's own name, where the model gave none.
+
+    Only fills `absent` and only where the name states a comparison the level appears on
+    one side of. Measured over 328 reviewed cells: it answers 17% of them at 98%, and in
+    every case where it disagreed with the extraction pass the pass had said `absent` --
+    it recovered five and lost none. See docs/deterministic-direction.md.
+
+    It never overrides a direction the model committed to. A rule that answers a sixth of
+    the cells has no standing to overturn the pass on the rest, and a silent overwrite
+    would hide a disagreement worth reading.
+    """
+
+    filled: list[str] = []
+    for analysis in body.get("analyses") or []:
+        if not isinstance(analysis, Mapping):
+            continue
+        contrast = " . ".join(filter(None, [
+            str(_field_value(analysis.get("name")) or ""),
+            str(_field_value(analysis.get("definition")) or "")]))
+        if not contrast:
+            continue
+        for cell in (analysis.get("effect") or {}).get("cells") or []:
+            if not isinstance(cell, Mapping):
+                continue
+            node = cell.get("direction")
+            current = _field_value(node)
+            if current not in (None, "", "absent"):
+                continue
+            level = str(_field_value(cell.get("level")) or "")
+            derived = derive_direction.direction_of(level, contrast)
+            if derived is None:
+                continue
+            if isinstance(node, dict):
+                node["value"] = derived
+                node["extraction_status"] = "extracted"
+                node["value_source"] = "generated"
+            else:
+                cell["direction"] = {"extraction_status": "extracted", "value": derived,
+                                     "value_source": "generated",
+                                     "evidence": {"status": "not_found"}}
+            filled.append(f"{_field_value(analysis.get('local_id'))}: "
+                          f"{level or '(unnamed level)'} -> {derived}")
+    return filled
+
+
+def mirror_withheld(body: dict[str, Any], stage1: Path | None) -> list[str]:
+    """Rebuild the reversed half of every sign-split contrast, from the corrected record.
+
+    `parse_tables.split_opposite_signs` hands the extraction pass only the half the paper
+    describes and marks the other `withhold`. This runs last, on the assembled record, so
+    the mirror is taken from the contrast the model actually settled on -- including
+    whatever the wrapper repairs, level alignment and direction fill changed about it.
+    Mirroring the raw payload would copy mistakes the builder had already fixed.
+    """
+
+    if not (stage1 and stage1.is_file()):
+        return []
+    parsed = json.loads(stage1.read_text(encoding="utf-8")).get("analyses") or []
+    # Keyed alongside the parse so each withheld entry carries the address of its own row
+    # group -- the mirrored analysis's only route to the rows it is about.
+    keyed = list(zip(parse_tables.parse_keys(parsed), parsed))
+    withheld = [(key, a) for key, a in keyed if a.get("withhold") and a.get("mirror_of")]
+    if not withheld:
+        return []
+
+    analyses = body.setdefault("analyses", [])
+    by_name = {str(_field_value(a.get("name")) or ""): a for a in analyses
+               if isinstance(a, Mapping)}
+
+    made: list[str] = []
+    for parse_key, entry in withheld:
+        described = by_name.get(entry["mirror_of"])
+        if described is None:
+            made.append(f"MISSING {entry['mirror_of']}: the described half is not in the "
+                        f"record, so its reversal cannot be built")
+            continue
+        mirrored = derive_direction.mirror_analysis(described, entry, parse_key)
+        analyses.append(mirrored)
+        made.append(f"{entry['mirror_of']} -> {mirrored.get('local_id')} "
+                    f"(rows at {parse_key}, signs negated)")
+    return made
+
+
 def _field_value(node: Any) -> Any:
     return node.get("value") if _is_field(node) else node
 
@@ -638,6 +755,531 @@ def listify_scalars(body: dict[str, Any], classes: Mapping[str, Any]) -> list[st
                     for index, item in enumerate(value if isinstance(value, list) else [value]):
                         suffix = f"[{index}]" if isinstance(value, list) else ""
                         visit(item, target, f"{path}.{key}{suffix}")
+
+    visit(body, "Study", "Study")
+    return fixed
+
+
+def scope_duplicate_terms(body: dict[str, Any]) -> list[str]:
+    """Make two models' identically-named terms distinguishable, by their model.
+
+    A term's id is only meaningful inside the model that declares it, but the record's id
+    namespace is flat, so two estimations that both control for `term_age` collide and
+    every reference naming it becomes ambiguous. `check_local_ids` reports that and is
+    right to -- nothing downstream can tell which one a cell meant.
+
+    Nothing is being picked. A cell sits in an analysis, the analysis names its model
+    estimation, and a reference from that analysis can only have meant that model's term.
+    The scope is information the record already carries; this writes it into the id as
+    `<model>.<term>`.
+
+    All or nothing per id. A rename that leaves one reference pointing at the old name
+    turns an ambiguous reference into a dangling one, which is worse: ambiguity is
+    reported against a term that exists, and a dangling reference is a slot that resolves
+    to nothing. So every reference is repointed first, and an id with a reference that
+    cannot be scoped -- one reached from no analysis, or from an analysis whose model does
+    not declare it -- is reverted and left for the report.
+    """
+
+    models = [m for m in body.get("model_estimations") or [] if isinstance(m, Mapping)]
+    declared_by: dict[str, set[str]] = {}
+    for model in models:
+        model_id = model.get("local_id")
+        if not isinstance(model_id, str):
+            continue
+        for term in model.get("terms") or []:
+            if isinstance(term, Mapping) and isinstance(term.get("local_id"), str):
+                declared_by.setdefault(term["local_id"], set()).add(model_id)
+
+    counts: dict[str, int] = {}
+
+    def count(node: Any) -> None:
+        if isinstance(node, Mapping):
+            if _is_field(node):
+                return
+            name = node.get("local_id")
+            if isinstance(name, str):
+                counts[name] = counts.get(name, 0) + 1
+            for value in node.values():
+                count(value)
+        elif isinstance(node, list):
+            for value in node:
+                count(value)
+
+    count(body)
+    # Only ids whose every declaration is a term under a model. An id shared between a
+    # term and a group is a conflict rather than a scope, and renaming it would hide that.
+    collisions = {name for name, total in counts.items()
+                  if total > 1 and len(declared_by.get(name, ())) == total}
+    if not collisions:
+        return []
+
+    def rewrite(node: Any, mapping: Mapping[str, str]) -> None:
+        """Repoint every reference-shaped string, whatever slot it sits in."""
+        if isinstance(node, Mapping):
+            for key, value in list(node.items()):
+                if key == "local_id":
+                    continue
+                if isinstance(value, str) and value in mapping:
+                    node[key] = mapping[value]
+                elif isinstance(value, list):
+                    node[key] = [mapping.get(v, v) if isinstance(v, str) else v
+                                 for v in value]
+                    for item in node[key]:
+                        rewrite(item, mapping)
+                else:
+                    rewrite(value, mapping)
+        elif isinstance(node, list):
+            for value in node:
+                rewrite(value, mapping)
+
+    scoped: list[str] = []
+    for name in sorted(collisions):
+        owners = declared_by[name]
+        # Which analyses could have meant which copy, from the model each one names.
+        reachable = {analysis_index: _field_value(analysis.get("model_estimation"))
+                     for analysis_index, analysis in enumerate(body.get("analyses") or [])
+                     if isinstance(analysis, Mapping)}
+        snapshot = json.loads(json.dumps(body))
+
+        for model in models:
+            model_id = model.get("local_id")
+            if model_id not in owners:
+                continue
+            mapping = {name: f"{model_id}.{name}"}
+            for term in model.get("terms") or []:
+                if isinstance(term, Mapping) and term.get("local_id") == name:
+                    term["local_id"] = mapping[name]
+            rewrite(model.get("terms"), mapping)
+            for index, analysis in enumerate(body.get("analyses") or []):
+                if reachable.get(index) == model_id:
+                    rewrite(analysis, mapping)
+
+        # Any surviving mention of the bare name in a non-declaration position is a
+        # reference this could not scope. Put the record back rather than leave it
+        # dangling.
+        if json.dumps(body).count(f'"{name}"') > 0:
+            body.clear()
+            body.update(snapshot)
+            continue
+        scoped.append(f"{name!r} declared by {len(owners)} models -> scoped per model")
+    return scoped
+
+
+def unwrap_plain_slots(body: dict[str, Any], classes: Mapping[str, Any]) -> list[str]:
+    """Unwrap an ExtractedValue the model put in a slot that holds a bare scalar.
+
+    The record has two kinds of slot and they look alike from inside a model: a
+    source-derived value carries `{"value": ..., "evidence": ...}`, and a cross-reference
+    or native scalar carries the bare thing. Having just written twenty wrappers, the
+    model writes a twenty-first, and the validator reports `must be a string, got dict`.
+
+    Repaired rather than reported because there is nothing to decide: the wrapper's own
+    `value` is the answer, and the evidence it carried was never a slot the schema has a
+    place for. Only `reference` and `native` slots are touched -- an `evidence` slot is
+    supposed to hold a wrapper and unwrapping it would destroy the value.
+    """
+
+    fixed: list[str] = []
+
+    def visit(node: Any, class_name: str, path: str) -> None:
+        if not isinstance(node, dict) or _is_field(node):
+            return
+        class_name = schema_utils.designated_type(classes, node, class_name)
+        attributes = schema_utils.attributes_for(classes, class_name)
+        for key, value in list(node.items()):
+            attribute = attributes.get(key)
+            if attribute is None:
+                continue
+            here = f"{path}.{key}"
+            kind = schema_utils.classify_slot(classes, key, attribute)
+            if kind in ("reference", "native"):
+                if _is_field(value) and "value" in value:
+                    node[key] = value["value"]
+                    fixed.append(f"{here}: unwrapped a wrapper into a {kind} slot")
+                elif _is_field(value):
+                    # A wrapper with no `value` says `not_reported`, which is the right
+                    # encoding for an evidence slot and meaningless here: a reference has
+                    # no wrapper form, so "not reported" is simply absence. Dropped
+                    # rather than left, because the validator reads it as a malformed
+                    # cross-reference and the paper said nothing either way.
+                    del node[key]
+                    fixed.append(f"{here}: dropped an empty "
+                                 f"{value.get('extraction_status', 'valueless')!r} wrapper "
+                                 f"from a {kind} slot")
+                elif isinstance(value, list):
+                    for index, item in enumerate(value):
+                        if _is_field(item) and "value" in item:
+                            value[index] = item["value"]
+                            fixed.append(f"{here}[{index}]: unwrapped a wrapper into a "
+                                         f"{kind} slot")
+                continue
+            if kind == "evidence" and value is not None and not isinstance(value, (dict, list)):
+                # The inverse slip: a bare scalar in a slot that holds an ExtractedValue.
+                # The value is the model's answer and it offered no span for it, so the
+                # evidence is honestly `not_found` rather than invented.
+                node[key] = {"extraction_status": "extracted", "value": value,
+                             "evidence": {"status": "not_found"}}
+                fixed.append(f"{here}: wrapped a bare {type(value).__name__} into an "
+                             f"ExtractedValue")
+                continue
+            if kind == "nested":
+                target = attribute.get("range") or class_name
+                if isinstance(value, list):
+                    for index, item in enumerate(value):
+                        visit(item, target, f"{here}[{index}]")
+                else:
+                    visit(value, target, here)
+
+    visit(body, "Study", "Study")
+    return fixed
+
+
+#: Slot suffixes whose ExtractedValue must hold a number. Read from the wrapper's own
+#: declared range rather than guessed, but the suffix is what makes the intent legible
+#: at the call site.
+def coerce_numeric_values(body: dict[str, Any], classes: Mapping[str, Any]) -> list[str]:
+    """Turn `"4.5"` into `4.5` where the wrapper declares a number.
+
+    A number read off a table arrives as text and the model passes it through. The
+    schema says what the slot holds, so the conversion is arithmetic; a value that is
+    not a number after stripping units is left alone and stays a validator finding,
+    because inventing a number is worse than reporting a string.
+    """
+
+    fixed: list[str] = []
+
+    def visit(node: Any, class_name: str, path: str) -> None:
+        if not isinstance(node, dict):
+            return
+        class_name = schema_utils.designated_type(classes, node, class_name)
+        attributes = schema_utils.attributes_for(classes, class_name)
+        for key, value in node.items():
+            attribute = attributes.get(key)
+            if attribute is None:
+                continue
+            here = f"{path}.{key}"
+            wrapper = attribute.get("range")
+            if _is_field(value) and isinstance(wrapper, str):
+                declared = (schema_utils.attributes_for(classes, wrapper) or {}).get("value", {})
+                wants = declared.get("range")
+                inner = value.get("value")
+                if wants in ("float", "double", "decimal", "integer") and isinstance(inner, str):
+                    cleaned = re.sub(r"[^0-9eE.+-]", "", inner.strip())
+                    try:
+                        number = float(cleaned)
+                    except ValueError:
+                        continue
+                    value["value"] = int(number) if wants == "integer" else number
+                    fixed.append(f"{here}: {inner!r} -> {value['value']}")
+                continue
+            if isinstance(value, list):
+                for index, item in enumerate(value):
+                    visit(item, attribute.get("range") or class_name, f"{here}[{index}]")
+            elif isinstance(value, dict):
+                visit(value, attribute.get("range") or class_name, here)
+
+    visit(body, "Study", "Study")
+    return fixed
+
+
+def rehome_stray_tables(body: dict[str, Any], classes: Mapping[str, Any]) -> list[str]:
+    """Move a Table the model wrote as a Study attribute into `tables`.
+
+    Seen as `Study: attribute 'tab4' is not declared on Study` while every analysis
+    referenced `tab4`. The cost is not cosmetic: the stray key is dropped on load, so
+    every analysis pointing at it loses the table its coordinates are joined through,
+    and the paper contributes nothing to a coordinate query.
+
+    Only keys that some analysis actually references are moved, and only when they carry
+    no `local_id` of their own -- anything else is a slot the schema does not know
+    about, which is a different fault and stays reported.
+    """
+
+    declared = set(schema_utils.attributes_for(classes, "Study") or {})
+    referenced: set[str] = set()
+    for analysis in body.get("analyses") or []:
+        if isinstance(analysis, Mapping):
+            tables = _field_value(analysis.get("tables")) or []
+            referenced |= {t for t in (tables if isinstance(tables, list) else [tables])
+                           if isinstance(t, str)}
+
+    moved: list[str] = []
+    for key in [k for k in body if k not in declared and k in referenced]:
+        stray = body.pop(key)
+        entry = dict(stray) if isinstance(stray, Mapping) else {}
+        entry.setdefault("local_id", key)
+        body.setdefault("tables", []).append(entry)
+        moved.append(f"Study.{key}: moved into tables[] as {key!r}")
+    return moved
+
+
+def resolve_source_table_analysis(body: dict[str, Any], stage1: Path | None) -> list[str]:
+    """Verify, or deterministically fill, each analysis's link to its parsed row group.
+
+    `Analysis.source_table_analysis` is the only exact route from an analysis to its
+    coordinates: the schema stores none, `Table.coordinate_count` says only how many
+    exist, and `tables` cannot disambiguate because a table usually reports several
+    contrasts and several analyses usually cite the same table.
+
+    Not left to the model. A key it invents resolves to nothing, and a key it omits
+    leaves the join to a later string match -- which is what this slot exists to replace.
+    So a present key is checked against the parse and dropped if it names no row group,
+    and an absent one is filled when exactly one parsed entry under the cited tables
+    carries the same name. Where neither holds, the slot stays empty and the analysis is
+    honestly unjoinable rather than joined to a guess.
+    """
+
+    if not (stage1 and stage1.is_file()):
+        return []
+    parsed = json.loads(stage1.read_text(encoding="utf-8")).get("analyses") or []
+    if not parsed:
+        return []
+
+    # The same keying the prompt prints, from the same function, so the two cannot drift.
+    keys = dict(zip(parse_tables.parse_keys(parsed), parsed))
+
+    def fold(text: Any) -> str:
+        return re.sub(r"[^a-z0-9]+", "", str(text or "").lower())
+
+    notes: list[str] = []
+    for index, analysis in enumerate(body.get("analyses") or []):
+        if not isinstance(analysis, Mapping):
+            continue
+        node = analysis.get("source_table_analysis")
+        claimed = _field_value(node)
+        path = f"analyses[{index}].source_table_analysis"
+
+        if isinstance(claimed, str) and claimed in keys:
+            continue
+        if isinstance(claimed, str) and claimed:
+            analysis.pop("source_table_analysis", None)
+            notes.append(f"{path}: {claimed!r} names no parsed row group -- dropped")
+
+        cited = [t for t in (_field_value(analysis.get("tables")) or [])
+                 if isinstance(t, str)]
+        wanted = fold(_field_value(analysis.get("name")))
+        same = [key for key, entry in keys.items()
+                if fold(entry.get("name")) == wanted
+                and (not cited or str(entry.get("table_id")) in cited)]
+        if len(same) == 1 and wanted:
+            analysis["source_table_analysis"] = {
+                "extraction_status": "extracted", "value": same[0],
+                "value_source": "generated",
+                "evidence": {"status": "not_applicable"}}
+            notes.append(f"{path}: filled {same[0]!r} from the parsed analysis of the "
+                         f"same name")
+    return notes
+
+
+def derive_analysis_ids(body: dict[str, Any]) -> list[str]:
+    """Rename each analysis to an id the parse determines, not one the model chose.
+
+    A model-chosen `local_id` is unstable. Over the same sixteen papers extracted twice,
+    only four produced identical analysis ids: `a_ic25/a_ic30/a_ic35` one run against
+    `a_independent_component_spatial_maps` the next, `a_fa_group` against `a_fa`. That
+    matters outside the record -- the review layer addresses an analysis as
+    `paper|value|Analysis|<local_id>|<path>`, so a re-extraction orphans every answer a
+    reviewer gave.
+
+    `source_table_analysis` is already a deterministic paper-scoped key, so the id is
+    derived from it: `a_<table id>_<ordinal>`. Safe to do here because nothing in the
+    schema references an Analysis by id -- `Study.analyses` is the only slot with that
+    range and it inlines them -- so the sole pointer to follow is `mirror_of`.
+
+    An analysis with no key keeps the model's id. That is 25% of them and it is the
+    honest outcome: the parse does not determine an id for a row group it cannot identify,
+    and inventing a stable-looking one would claim otherwise.
+
+    Idempotent, and collision-safe: a SPLIT emits several analyses against one listing
+    entry, so they share a key and are numbered apart in the order they appear.
+    """
+
+    renamed: dict[str, str] = {}
+    used: set[str] = set()
+    notes: list[str] = []
+
+    for analysis in body.get("analyses") or []:
+        if isinstance(analysis, Mapping) and isinstance(analysis.get("local_id"), str):
+            used.add(analysis["local_id"])
+
+    seen: dict[str, int] = {}
+    for analysis in body.get("analyses") or []:
+        if not isinstance(analysis, Mapping):
+            continue
+        key = _field_value(analysis.get("source_table_analysis"))
+        if not isinstance(key, str) or "#" not in key:
+            continue
+        table_id, _, ordinal = key.partition("#")
+        stem = f"a_{re.sub(r'[^A-Za-z0-9]+', '_', table_id).strip('_')}_{ordinal}"
+        seen[stem] = seen.get(stem, 0) + 1
+        derived = stem if seen[stem] == 1 else f"{stem}_{seen[stem]}"
+        old = analysis.get("local_id")
+        if old == derived:
+            continue
+        if derived in used and derived != old:
+            # Another analysis already answers to this. Leave both alone rather than
+            # collapse two analyses into one id.
+            notes.append(f"{old!r}: derived id {derived!r} is already taken -- left as is")
+            continue
+        analysis["local_id"] = derived
+        used.discard(old)
+        used.add(derived)
+        if isinstance(old, str):
+            renamed[old] = derived
+        notes.append(f"{old!r} -> {derived!r} (from {key!r})")
+
+    # `mirror_of` is the only pointer at an analysis anywhere in the record.
+    for analysis in body.get("analyses") or []:
+        if isinstance(analysis, Mapping) and analysis.get("mirror_of") in renamed:
+            analysis["mirror_of"] = renamed[analysis["mirror_of"]]
+    return notes
+
+
+def repoint_out_of_scope_terms(body: dict[str, Any]) -> list[str]:
+    """Repoint a cell at the same-named term its analysis's model can actually reach.
+
+    A cell must name a term in its analysis's model scope -- that model's own terms plus
+    those of the models it reaches through `inputs_from`. When it names a term from
+    somewhere else the cell is a sign of nothing, and the validator says so.
+
+    Repaired only where the choice is forced: exactly one term in scope carries the same
+    name as the one the cell named. That is the same rule `align_cell_levels` follows for
+    levels, and it covers 24 of the 105 out-of-scope references measured over 30 records.
+    The other 81 are left reported -- 73 have no same-named term in scope at all, which
+    means something larger is wrong than a mistyped identifier.
+    """
+
+    models = {str(_field_value(m.get("local_id"))): m
+              for m in body.get("model_estimations") or [] if isinstance(m, Mapping)}
+
+    def scope(model_id: str, seen: set[str] | None = None) -> dict[str, Any]:
+        seen = seen or set()
+        if model_id in seen or model_id not in models:
+            return {}
+        seen.add(model_id)
+        found: dict[str, Any] = {}
+        for lower in models[model_id].get("inputs_from") or []:
+            found.update(scope(lower if isinstance(lower, str) else str(_field_value(lower)),
+                               seen))
+        for term in models[model_id].get("terms") or []:
+            if isinstance(term, Mapping) and _field_value(term.get("local_id")):
+                found[str(_field_value(term["local_id"]))] = term
+        return found
+
+    everywhere = {str(_field_value(t.get("local_id"))): t
+                  for m in models.values() for t in (m.get("terms") or [])
+                  if isinstance(t, Mapping) and _field_value(t.get("local_id"))}
+
+    def name_of(term: Any) -> str:
+        return str(_field_value((term or {}).get("name")) or "").strip().lower()
+
+    fixed: list[str] = []
+    for index, analysis in enumerate(body.get("analyses") or []):
+        if not isinstance(analysis, Mapping):
+            continue
+        in_scope = scope(str(_field_value(analysis.get("model_estimation")) or ""))
+        for position, cell in enumerate((analysis.get("effect") or {}).get("cells") or []):
+            if not isinstance(cell, Mapping):
+                continue
+            named = _field_value(cell.get("term"))
+            if not isinstance(named, str) or named in in_scope:
+                continue
+            wanted = name_of(everywhere.get(named))
+            if not wanted:
+                continue
+            same = [k for k, term in in_scope.items() if name_of(term) == wanted]
+            if len(same) == 1:
+                cell["term"] = same[0]
+                fixed.append(f"analyses[{index}].effect.cells[{position}].term: "
+                             f"{named!r} -> {same[0]!r} (same name, in scope)")
+    return fixed
+
+
+def repair_references(body: dict[str, Any], classes: Mapping[str, Any]) -> list[str]:
+    """Repoint a cross-reference that names a local_id nothing declares, where forced.
+
+    A dangling reference is the commonest reason a build reports a defect, and it is
+    always the same shape: the model wrote `inf_baseline` for an entity it declared as
+    `inference_wholebrain_dti`. The record is written either way -- the exit code says the
+    record has a fault, not that the paper was skipped -- but a reference that resolves
+    nowhere costs an analysis its inference settings, and downstream that reads as a
+    missing field rather than a naming slip.
+
+    Repaired only where the choice is not a choice, which is the rule
+    `align_cell_levels` already follows for levels:
+
+      fold      the dangling id folds to exactly one declared id -- case, underscores and
+                hyphens removed. A transcription slip, and nothing is being decided.
+      sole      the slot's own Study-level list holds exactly one entity. There is only
+                one thing the reference could have meant.
+
+    Anything else is left dangling and reported. Two candidates and a guess about which
+    inference settings an analysis used is a claim about the paper, and the point of the
+    report is that a human sees it.
+    """
+
+    def fold(name: str) -> str:
+        return re.sub(r"[^a-z0-9]+", "", name.lower())
+
+    declared: dict[str, str] = {}
+    for key, value in body.items():
+        if not isinstance(value, list):
+            continue
+        for entity in value:
+            if isinstance(entity, Mapping) and isinstance(entity.get("local_id"), str):
+                declared[entity["local_id"]] = key
+
+    by_fold: dict[str, list[str]] = {}
+    for name in declared:
+        by_fold.setdefault(fold(name), []).append(name)
+
+    def pool_for(slot: str) -> list[str]:
+        # `model_estimation` is a reference to something in `model_estimations`; the
+        # slot is singular and the Study list is not.
+        for candidate in (slot, f"{slot}s", slot.rstrip("s")):
+            if candidate in body and isinstance(body[candidate], list):
+                return [n for n, owner in declared.items() if owner == candidate]
+        return []
+
+    fixed: list[str] = []
+
+    def repoint(dangling: str, slot: str) -> str | None:
+        same = [n for n in by_fold.get(fold(dangling), []) if n != dangling]
+        if len(same) == 1:
+            return same[0]
+        pool = pool_for(slot)
+        return pool[0] if len(pool) == 1 else None
+
+    def visit(node: Any, class_name: str, path: str) -> None:
+        if not isinstance(node, dict) or _is_field(node):
+            return
+        class_name = schema_utils.designated_type(classes, node, class_name)
+        attributes = schema_utils.attributes_for(classes, class_name)
+        for key, value in list(node.items()):
+            attribute = attributes.get(key)
+            if attribute is None:
+                continue
+            here = f"{path}.{key}"
+            if schema_utils.classify_slot(classes, key, attribute) == "reference":
+                if isinstance(value, str) and value not in declared:
+                    target = repoint(value, key)
+                    if target:
+                        node[key] = target
+                        fixed.append(f"{here}: {value!r} -> {target!r}")
+                elif isinstance(value, list):
+                    for index, item in enumerate(value):
+                        if isinstance(item, str) and item not in declared:
+                            target = repoint(item, key)
+                            if target:
+                                value[index] = target
+                                fixed.append(f"{here}[{index}]: {item!r} -> {target!r}")
+                continue
+            if isinstance(value, Mapping):
+                visit(value, attribute.get("range") or class_name, here)
+            elif isinstance(value, list):
+                for index, item in enumerate(value):
+                    visit(item, attribute.get("range") or class_name, f"{here}[{index}]")
 
     visit(body, "Study", "Study")
     return fixed
@@ -742,17 +1384,30 @@ def build(
         report.payload_notes.append(
             f"reconciled {rewrites} cross-reference(s) through aliases.json")
 
-    report.repaired_wrappers += repair_wrappers(body)
-    report.derived_acquisition_types += derive_acquisition_types(body)
-    report.derived_spaces += derive_coordinate_spaces(body, stage1, table_map)
-    report.listified += listify_nested(body, classes)
+    # The order and its constraints live in `pipeline/repairs.py` as data, and are
+    # checked before anything runs. They were nine consecutive statements with the
+    # constraints in comments beside them, which states an ordering without enforcing it.
+    from pipeline import repairs as repair_sequence  # noqa: PLC0415
 
-    # After listify_nested, so a wrapper that had to be unwrapped out of a nested slot is
-    # already gone and cannot be mistaken for a multivalued scalar.
-    report.listified_scalars += listify_scalars(body, classes)
-
-    # After listify_nested, which is what makes `terms` a list to walk.
-    report.aligned_levels += align_cell_levels(body)
+    log = repair_sequence.apply_all(
+        body, repair_sequence.Context(classes=classes, stage1=stage1, table_map=table_map))
+    report.repair_log = log
+    report.repaired_wrappers += log.changes("wrappers")
+    report.unwrapped += log.changes("unwrapped")
+    report.coerced_numbers += log.changes("numbers")
+    report.stray_tables += log.changes("stray_tables")
+    report.repointed_cell_terms += log.changes("cell_terms")
+    report.source_links += log.changes("source_links")
+    report.derived_ids += log.changes("derived_ids")
+    report.derived_acquisition_types += log.changes("acquisition_type")
+    report.derived_spaces += log.changes("coordinate_space")
+    report.listified += log.changes("listified")
+    report.listified_scalars += log.changes("listified_scalars")
+    report.aligned_levels += log.changes("cell_levels")
+    report.scoped_terms += log.changes("scoped_terms")
+    report.repointed_references += log.changes("references")
+    report.filled_directions += log.changes("directions")
+    report.mirrored += log.changes("mirrored")
 
     _walk(body, normalized, folded, "", report)
 

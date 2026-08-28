@@ -44,6 +44,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import build_record  # noqa: E402  (shares the payload contract; see ENTITY_LISTS)
+import preprocess  # noqa: E402  (deterministic text transforms; see --preprocess)
+import parse_tables  # noqa: E402  (one parse-key numbering)
 import schema_utils  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
@@ -335,13 +337,25 @@ def stage1_block(stage1: Mapping[str, Any], table_ids: Mapping[str, str],
     wants the paper's own wording.
     """
 
-    analyses = stage1.get("analyses") or []
-    if not analyses:
+    # A withheld entry is the reversed half of a sign-split contrast. The paper does not
+    # describe it, so showing it to the model produces an invented name and definition;
+    # `derive_direction.mirror_analysis` rebuilds it from the described half instead.
+    #
+    # Keys are computed over the FULL parse and the withheld entries dropped afterwards,
+    # so hiding one does not renumber its siblings. `parse_tables.parse_keys` explains why
+    # a shifted key is worse than a missing one.
+    every = stage1.get("analyses") or []
+    keyed = list(zip(parse_tables.parse_keys(every), every))
+    shown = [(key, a) for key, a in keyed if not a.get("withhold")]
+    if not shown:
         return ""
+    analyses = [a for _key, a in shown]
 
     grouped: dict[str, list[tuple[int, dict]]] = {}
-    for index, analysis in enumerate(analyses, start=1):
+    parse_keys: dict[int, str] = {}
+    for index, (key, analysis) in enumerate(shown, start=1):
         grouped.setdefault(analysis.get("table_id") or "", []).append((index, analysis))
+        parse_keys[index] = key
 
     lines = [
         "\n## Analyses already parsed from the result tables (stage 1)",
@@ -367,6 +381,13 @@ def stage1_block(stage1: Mapping[str, Any], table_ids: Mapping[str, str],
         "a Region's `description` -- rather than on a contrast that never produced them.",
         "Omitting is not for an effect that is merely awkward to encode: an effect the paper",
         "tested belongs in `analyses` however hard its shape.",
+        "",
+        "`source_table_analysis` is REQUIRED on every entry you emit here: copy the",
+        "bracketed `[parse key: ...]` of the listing entry you emitted it for, verbatim. It",
+        "is the only exact link between an analysis and the coordinate rows it was read",
+        "off -- `tables` cannot do it, because a table usually reports several contrasts",
+        "and several analyses usually cite the same table. If you SPLIT one listing entry",
+        "into several, every part carries the same key.",
         "",
         "`tables` is REQUIRED on every entry you emit here. It is the bracketed",
         "`[table local_id: ...]` of the heading the entry sits under, copied verbatim, and it",
@@ -395,7 +416,8 @@ def stage1_block(stage1: Mapping[str, Any], table_ids: Mapping[str, str],
                 notes.append("/".join(spaces))
             if kinds:
                 notes.append("/".join(kinds))
-            lines.append(f"  {number}. {analysis.get('name')}   · {' · '.join(notes)}")
+            lines.append(f"  {number}. {analysis.get('name')}   · {' · '.join(notes)}"
+                         f"   [parse key: {parse_keys[number]}]")
             if analysis.get("description"):
                 lines.append(f"       ({_wrap(analysis['description'])[:150]})")
             if detail:
@@ -450,6 +472,24 @@ Rules that decide whether a record is usable:
    Use it rather than omitting a REQUIRED field, and never invent a value to fill one.
 6. `local_id` is a bare string you assign, unique within its class, referenced by other
    records. Every local_id referenced must exist.
+
+   It is an ADDRESS, not a description. The review layer addresses a field as
+   `paper|value|<Class>|<local_id>|<path>`, so an id that changes between extractions of
+   the same paper orphans every answer a reviewer gave against it. Use the prefix for the
+   class and then the shortest thing the PAPER fixes -- an enum value it states, an
+   abbreviation it defines -- never a phrase you compose:
+
+     grp_   Group              acq_   Acquisition        mod_   ModelEstimation
+     tsk_   Task               prp_   Preprocessing      trm_   ModelTerm
+     asm_   Assessment         mea_   Measure            inf_   InferenceSettings
+     reg_   Region             arm_   Arm                tp_    Timepoint
+     dev_   Device             ext_   ExternalDataset
+
+   So `acq_fmri` and not `acquisition_resting_state_bold`; `asm_madrs` and not
+   `assessment_montgomery_asberg_depression_rating_scale`; `grp_schizophrenia` and not
+   `group_patients_with_first_episode_schizophrenia`. Where a paper has two of a kind, add
+   the shortest thing that separates them -- `acq_fmri_ge`, `grp_sib_past`. Analyses and
+   Tables are exceptions: do not choose their ids, they are derived from the table parse.
 7. Set `value_source` to "reported" when the value is the paper's own wording or number,
    and "generated" when you had to phrase it (a summary, a label the paper implies but
    never writes). A field whose schema line gives a closed vocabulary is almost always
@@ -539,6 +579,14 @@ two levels is emitted with `type: categorical` and those two `FactorLevel`s, eac
 the arm, condition, timepoint or group carrying it. Do not silently re-model it as a
 continuous covariate -- the cells that reference it hold one of its levels, and a continuous
 term has no level to hold.
+
+`FactorLevel.arms` is not optional when the level IS an arm. A level naming a treatment or
+comparator arm fills `arms` exactly as a level naming a cohort fills `groups`: the level
+string is the paper's own wording and carries no identity, so the reference is the only
+thing that says which arm a cell is about. Measured over 462 factor levels, `groups` was
+filled 178 times and `arms` 33 -- in a corpus of randomised trials, where nearly every
+contrast is over an arm. A cell whose level is an arm and whose `FactorLevel` has no `arms`
+cannot be resolved to a treatment or a comparator by anything downstream.
 
 Emit any further entity the paper describes that no analysis referenced -- the participant
 group's demographics, an assessment, the scanner -- as usual. The list is a floor, not a
@@ -667,6 +715,13 @@ def build_prompt(text: str, mode: str, evidence: bool, context: str) -> tuple[st
     if mode == "demands":
         payload_keys.append("required_entities")
 
+    # Ordering here is not a cache optimisation, and an attempt to make it one failed.
+    # Every pass sends the same conventions, worked models and paper -- 29,152 of the
+    # 36-42k tokens a call carries -- so leading with them and trailing the mode-specific
+    # schema gives two passes a 29k shared prefix. Measured on the gateway: a byte-identical
+    # prompt caches 100%, and a prompt sharing a 3.6k prefix with a different suffix caches
+    # **zero**. The caching is whole-prompt, not incremental over the prefix, so no reordering
+    # can help and the schema is kept ahead of the paper, where instructions belong.
     system = SYSTEM_HEAD.format(
         lists=", ".join(sorted(payload_keys)),
         value_rule=VALUE_RULE_EVIDENCE if evidence else VALUE_RULE_NO_EVIDENCE,
@@ -807,17 +862,10 @@ def extract(client, model: str, system: str, user: str, effort: str, max_out: in
         kwargs["reasoning_effort"] = effort
     if max_out:
         kwargs["max_completion_tokens"] = max_out
-    response = client.chat.completions.create(**kwargs)
-    choice = response.choices[0]
-    raw = choice.message.content or ""
-    usage = response.usage
-    detail = getattr(usage, "completion_tokens_details", None)
-    return json.loads(strip_fence(raw) or "{}"), {
-        "prompt_tokens": usage.prompt_tokens,
-        "completion_tokens": usage.completion_tokens,
-        "reasoning_tokens": getattr(detail, "reasoning_tokens", None) if detail else None,
-        "finish_reason": choice.finish_reason,
-    }
+    import usage_log
+    response, row = usage_log.call(client, **kwargs)
+    raw = response.choices[0].message.content or ""
+    return json.loads(strip_fence(raw) or "{}"), row
 
 
 def normalize(payload: dict[str, Any], mode: str) -> tuple[dict[str, Any], list[str]]:
@@ -929,6 +977,11 @@ def main() -> int:
                         help="retries when a pass fails its post-condition -- an empty "
                              "payload, or a declared entity it did not emit. 1 disables it.")
     parser.add_argument("--max-chars", type=int, default=200_000)
+    # A preprocessing strategy changes what the model reads and nothing else. The record
+    # is built from the untransformed file, so no offset a reviewer is shown moves.
+    parser.add_argument("--preprocess", default="none",
+                        choices=["none", *sorted(preprocess.STRATEGIES)],
+                        help="deterministic transform of the paper text (review/preprocess.py)")
     parser.add_argument("--print-prompt", action="store_true", help="no API call")
     args = parser.parse_args()
 
@@ -953,6 +1006,14 @@ def main() -> int:
                 detail=args.stage1_detail, zero_foci_rule=args.zero_foci_rule)
 
     text = args.text.read_text(encoding="utf-8")[: args.max_chars]
+    prepared = preprocess.apply_strategy(args.preprocess, text, args.mode)
+    if args.preprocess != "none":
+        print(f"  preprocess {args.preprocess}: paper {len(text):,} -> "
+              f"{len(prepared.text):,} chars, digest {len(prepared.digest):,}")
+    # The digest sits last in the context, so it is the block nearest the paper it is a
+    # candidate list for. Everything before it -- the shopping list, the stage-1 listing --
+    # is a contract the pass must satisfy, and a candidate list is not that.
+    text, context = prepared.text, context + prepared.digest
     system, user = build_prompt(text, args.mode, not args.no_evidence, context)
 
     if args.print_prompt:
@@ -969,9 +1030,8 @@ def main() -> int:
         print("no OPENAI_API_KEY; pass --key-file", file=sys.stderr)
         return 2
 
-    from openai import OpenAI
-    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"],
-                    base_url=os.environ.get("OPENAI_API_GATEWAY"))
+    import usage_log
+    client = usage_log.build_client(args.paper, args.mode)
 
     started = time.time()
     declared = []
@@ -1024,6 +1084,8 @@ def main() -> int:
         json.dumps(payload, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
 
     counts = {k: len(payload.get(k) or []) for k in ENTITY_LISTS if payload.get(k)}
+    usage_log.record(args.out_dir / "usage.jsonl", args.paper, args.mode, usage,
+                     {"attempt": attempt, "effort": args.effort})
     print(f"{args.paper}/{args.mode}: {usage['prompt_tokens']}->{usage['completion_tokens']} tok "
           f"(reasoning {usage['reasoning_tokens']}) in {time.time() - started:.0f}s "
           f"[{usage['finish_reason']}]  {counts}")

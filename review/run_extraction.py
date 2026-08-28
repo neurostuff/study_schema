@@ -45,6 +45,7 @@ REPO = Path(__file__).resolve().parent.parent
 REVIEW = Path(__file__).resolve().parent
 sys.path.insert(0, str(REVIEW))
 from sync_texts import read_pmids  # noqa: E402
+from pipeline import kinds as pipeline_kinds  # noqa: E402  (one text-flavour list)
 
 STAGES = ["tables", "entities", "analyses", "demands", "satisfy", "recheck",
           "evidence", "build"]
@@ -70,7 +71,13 @@ DEFAULT_MODEL = "@psyc-aid338-ope-333f18/gpt-5.6-luna"
 #: match it. Extracting from the corpus text while the reviewer is shown the built one is
 #: not a degradation, it is a hard export failure -- and the built one is the only variant
 #: with the coordinate tables in it, so it is also the one worth extracting from.
-TEXT_VARIANTS = ("processed/local/text.tables.txt", "processed/pubget/text.txt")
+#:
+#: Derived from `pipeline.kinds.TEXT_FLAVOURS` rather than restated. The two lists were
+#: written separately and drifted: this one stopped at `local` and `pubget`, so a paper
+#: whose only text is `ace` built fine under the pipeline driver and failed here with "no
+#: text" -- a corpus-wide rebuild losing papers the extraction had already processed.
+TEXT_VARIANTS = tuple(f"processed/{flavour}/{name}"
+                      for flavour, name in pipeline_kinds.TEXT_FLAVOURS)
 
 
 def paper_text(study_dir: Path) -> Path:
@@ -103,8 +110,17 @@ def build_tables_payload(study_dir: Path) -> tuple[dict, dict[str, str]]:
     tables numbered 1, and keying on that would collapse them into one record.
     """
 
-    manifest = study_dir / "processed" / "pubget" / "tables.jsonl"
+    # Searched over the same flavours as the text, and absent is a legal answer: a paper
+    # with no coordinate tables has no manifest, and reading one unconditionally made a
+    # single such paper abort the whole shard it was in -- 293 of 300 papers went
+    # unrebuilt because one had no `tables.jsonl`.
+    manifest = next((study_dir / "processed" / flavour / "tables.jsonl"
+                     for flavour, _name in pipeline_kinds.TEXT_FLAVOURS
+                     if (study_dir / "processed" / flavour / "tables.jsonl").is_file()),
+                    None)
     tables, id_map = [], {}
+    if manifest is None:
+        return {"tables": tables}, id_map
     for index, line in enumerate(manifest.read_text(encoding="utf-8").splitlines(), start=1):
         if not line.strip():
             continue
@@ -133,7 +149,12 @@ def main() -> int:
     parser.add_argument("--pmids", type=Path, default=REPO / "bench-baseline.pmids")
     parser.add_argument("--texts", type=Path, default=REVIEW / "texts")
     parser.add_argument("--payloads", type=Path, default=REVIEW / "payloads")
-    parser.add_argument("--examples", type=Path, default=REVIEW / "examples")
+    parser.add_argument("--examples", type=Path, default=REVIEW / "examples",
+                        help="where built records are written")
+    parser.add_argument("--no-union", dest="union", action="store_false",
+                        help="evidence: skip the retriever, quote pass only")
+    parser.add_argument("--reranker-device", default="cpu",
+                        help="evidence: device for the union retriever, e.g. cuda:0")
     parser.add_argument("--workflow", choices=sorted(WORKFLOWS),
                         help="a named stage ordering; --stages overrides it")
     parser.add_argument("--stages", nargs="*", choices=STAGES,
@@ -155,6 +176,9 @@ def main() -> int:
                         help="withhold the stage-1 analysis listing from the analyses pass")
     parser.add_argument("--table-rows", action="store_true",
                         help="give the analyses pass stage 1's per-analysis detail in full")
+    parser.add_argument("--preprocess", default="none",
+                        help="deterministic text transform for every model pass; see "
+                             "review/preprocess.py --list")
     parser.add_argument("--zero-foci-rule", action="store_true",
                         help="tell the analyses pass that a stage-1 entry with no "
                              "coordinates is a tested effect that found nothing")
@@ -196,7 +220,11 @@ def main() -> int:
         common = ["--paper", study, "--text", text, "--out-dir", args.payloads,
                   "--key-file", args.key_file, "--model", args.model,
                   "--max-out", str(args.max_out),
-                  "--max-attempts", str(args.max_attempts), "--no-evidence"]
+                  "--max-attempts", str(args.max_attempts), "--no-evidence",
+                  # Every model pass, so an arm is one preprocessing decision and not a
+                  # different decision per stage. `build_record` is not given it: the
+                  # record is assembled against the original text.
+                  "--preprocess", args.preprocess]
 
         if "entities" in args.stages:
             if (payload_dir / "entities.json").is_file() and not args.redo:
@@ -261,6 +289,8 @@ def main() -> int:
                                   "--payloads", payload_dir,
                                   "--key-file", args.key_file, "--model", args.model,
                                   "--effort", args.effort,
+                                  "--reranker-device", args.reranker_device,
+                                  *([] if args.union else ["--no-union"]),
                                   *(["--redo"] if args.redo else [])]))
 
         if "build" in args.stages:
