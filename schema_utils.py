@@ -287,3 +287,71 @@ def reference_slots(classes: Mapping[str, object]) -> dict[str, set[str]]:
         }
         for class_name in classes
     }
+
+class _NotReported:
+    """A slot the paper did not report: a claim, not an absence.
+
+    Falsy, empty as a string and empty when iterated, so a caller that only wants the words
+    is unaffected; identifiable by `is NOT_REPORTED` so a caller that must tell it from an
+    absent slot, or from a slot the paper reported as empty, still can. It is not replaced by
+    `[]` on a multivalued slot, because "did not say" and "said none" are different claims and
+    collapsing them is the error this accessor exists to prevent.
+    """
+
+    __slots__ = ()
+
+    def __bool__(self) -> bool:
+        return False
+
+    def __str__(self) -> str:
+        return ""
+
+    def __iter__(self):
+        return iter(())
+
+    def __len__(self) -> int:
+        return 0
+
+    def __repr__(self) -> str:
+        return "NOT_REPORTED"
+
+
+#: The one instance; compare with `is`.
+NOT_REPORTED = _NotReported()
+
+
+def value_of(node: object, multivalued: bool = False) -> object:
+    """The value inside an ExtractedValue wrapper, in the shape its slot declares.
+
+    Reading a record by hand gets three cases wrong, and each is a silent wrong answer
+    rather than an error:
+
+      * a wrapper with no `value` key is `not_reported` -- a positive claim that the paper
+        did not say. Returning the wrapper makes it look like a scalar value.
+      * a `multivalued` slot holds a list. A caller that takes the value as a scalar drops
+        every entry but reads as if it succeeded.
+      * an absent slot and a reported-empty slot are different; only the latter is a claim.
+
+    `multivalued` comes from the schema -- see `slot_value` -- and is not guessed from
+    whether this particular record happens to hold a list.
+    """
+    if node is None:
+        return [] if multivalued else None
+    if isinstance(node, Mapping):
+        if "value" not in node:
+            return NOT_REPORTED
+        value = node["value"]
+    else:
+        value = node
+    if multivalued:
+        if isinstance(value, list):
+            return value
+        return [] if value is None else [value]
+    return value
+
+
+def slot_value(classes: Mapping[str, object], class_name: str, entity: Mapping[str, object],
+               slot: str) -> object:
+    """`value_of` with the slot's shape taken from the schema rather than from the caller."""
+    attribute = own_attributes(classes, class_name).get(slot) or {}
+    return value_of(entity.get(slot), bool(attribute.get("multivalued")))
