@@ -26,6 +26,8 @@ from __future__ import annotations
 import csv
 import json
 import re
+import xml.etree.ElementTree as ET
+from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
@@ -80,10 +82,22 @@ TRIPLE_CELL = re.compile(
 )
 
 #: Dash and space variants a publisher sets inside a coordinate.
-_COORD_EQUIVALENT = str.maketrans({
-    "‐": "-", "‑": "-", "‒": "-", "–": "-", "—": "-", "―": "-", "−": "-",
-    " ": " ", " ": " ", " ": " ", " ": " ", "​": " ",
-})
+_COORD_EQUIVALENT = str.maketrans(
+    {
+        "‐": "-",
+        "‑": "-",
+        "‒": "-",
+        "–": "-",
+        "—": "-",
+        "―": "-",
+        "−": "-",
+        " ": " ",
+        " ": " ",
+        " ": " ",
+        " ": " ",
+        "​": " ",
+    }
+)
 
 
 def normalize_number(cell: str | None) -> str:
@@ -97,6 +111,7 @@ def normalize_number(cell: str | None) -> str:
     """
 
     return re.sub(r"([-+])\s+", r"\1", (cell or "").translate(_COORD_EQUIVALENT)).strip()
+
 
 # -- reading ---------------------------------------------------------------
 
@@ -118,15 +133,197 @@ def _spans(cells: Sequence[str]) -> list[dict[str, Any]]:
     return out
 
 
-def read_manifest(study_dir: Path) -> dict[str, dict[str, Any]]:
-    """`{sanitized table_id: record}` from `<study>/processed/pubget/tables.jsonl`.
+# --------------------------------------------------------------------------------------
+# Raw table readers, one per flavour.
+#
+# Each returns (rows, n_header_rows, info) where `rows` is a rectangular grid of cleaned
+# strings -- spans already expanded, so every row has the same width. Everything after that
+# is shared: which columns hold coordinates, which rows are section headings, how it renders.
+# A flavour differs only in how the paper's publisher happened to store the grid.
 
-    `data_file` is lifted out of `metadata.data_path` because that basename -- not the
-    id -- is what locates the CSV. Absent manifest returns {} rather than raising: a
-    study with no pubget source is a degraded task, not a crash.
+
+def _grid(rows: list[list[str]]) -> list[list[str]]:
+    """Pad to a rectangle. A short row is a row whose trailing empties were not written."""
+
+    if not rows:
+        return []
+    width = max(len(row) for row in rows)
+    return [row + [""] * (width - len(row)) for row in rows]
+
+
+def _place(grid: list[list[str | None]], r: int, text: str, across: int, down: int) -> None:
+    """Write a cell and the cells its span covers, growing the grid as needed."""
+
+    while len(grid) < r + down:
+        grid.append([])
+    column = 0
+    while column < len(grid[r]) and grid[r][column] is not None:
+        column += 1
+    for dr in range(down):
+        row = grid[r + dr]
+        while len(row) < column + across:
+            row.append(None)
+        for dc in range(across):
+            # The spanned cells repeat the text: `_spans` collapses runs back into a
+            # colspan for rendering, and a repeated header is what marks a section row.
+            row[column + dc] = text
+
+
+def _flatten(node: "ET.Element") -> str:
+    """All text under an element, inline markup dropped."""
+
+    return _clean(" ".join(node.itertext()))
+
+
+def _local(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1]
+
+
+def _rows_from_cals(path: Path) -> tuple[list[list[str]], int, dict[str, Any]]:
+    """Elsevier ships CALS: tgroup > thead/tbody > row > entry.
+
+    Spans are named rather than counted -- an entry carries `namest`/`nameend` pointing at
+    `colspec` names -- so the colspec order is what turns them into a width.
     """
 
-    path = Path(study_dir) / "processed" / "pubget" / "tables.jsonl"
+    root = ET.parse(path).getroot()
+    label = caption = ""
+    for node in root:
+        if _local(node.tag) == "label":
+            label = _flatten(node)
+        elif _local(node.tag) == "caption":
+            caption = _flatten(node)
+    tgroup = next((n for n in root.iter() if _local(n.tag) == "tgroup"), None)
+    if tgroup is None:
+        return [], 0, {}
+
+    order = [n.get("colname") for n in tgroup if _local(n.tag) == "colspec"]
+    index = {name: i for i, name in enumerate(order) if name}
+
+    def collect(section: str) -> list[list[str]]:
+        grid: list[list[str | None]] = []
+        for parent in tgroup:
+            if _local(parent.tag) != section:
+                continue
+            for r, row in enumerate([n for n in parent if _local(n.tag) == "row"]):
+                while len(grid) <= r:
+                    grid.append([])
+                for entry in [n for n in row if _local(n.tag) == "entry"]:
+                    start, end = entry.get("namest"), entry.get("nameend")
+                    across = 1
+                    if start in index and end in index:
+                        across = max(1, index[end] - index[start] + 1)
+                    down = int(entry.get("morerows") or 0) + 1
+                    _place(grid, r, _flatten(entry), across, down)
+        return [[cell or "" for cell in row] for row in grid]
+
+    head, body = collect("thead"), collect("tbody")
+    rows = _grid(head + body)
+    footer = " ".join(_flatten(n) for n in root.iter() if _local(n.tag) == "legend")
+    return (
+        rows,
+        len(head),
+        {
+            "table_id": path.stem,
+            "table_label": label,
+            "table_caption": caption,
+            "table_foot": _clean(footer),
+        },
+    )
+
+
+class _TableHTML(HTMLParser):
+    """The rows of one `<table>`, spans expanded.
+
+    Skips `aria-hidden` subtrees. Publisher HTML puts a hidden " . " inside every header
+    cell for screen readers, and a header read as "x ." is a header no axis pattern
+    matches -- the coordinate columns then look absent and the table is dropped.
+    """
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.grid: list[list[str | None]] = []
+        self.head_rows = 0
+        self._row = -1
+        self._cell: list[str] | None = None
+        self._span = (1, 1)
+        self._hidden = 0
+        self._in_head = False
+
+    def handle_starttag(self, tag, attrs):
+        attr = dict(attrs)
+        if self._hidden or attr.get("aria-hidden") == "true":
+            self._hidden += 1
+            return
+        if tag == "thead":
+            self._in_head = True
+        elif tag == "tr":
+            self._row += 1
+        elif tag in ("td", "th"):
+            self._cell = []
+            self._span = (int(attr.get("colspan") or 1), int(attr.get("rowspan") or 1))
+
+    def handle_endtag(self, tag):
+        if self._hidden:
+            self._hidden -= 1
+            return
+        if tag == "thead":
+            self._in_head = False
+            self.head_rows = self._row + 1
+        elif tag in ("td", "th") and self._cell is not None:
+            _place(self.grid, self._row, _clean("".join(self._cell)), *self._span)
+            self._cell = None
+
+    def handle_data(self, data):
+        if self._cell is not None and not self._hidden:
+            self._cell.append(data)
+
+
+def _rows_from_html(path: Path) -> tuple[list[list[str]], int, dict[str, Any]]:
+    """ACE ships the rendered `<table>` element."""
+
+    parser = _TableHTML()
+    parser.feed(path.read_text(encoding="utf-8", errors="replace"))
+    rows = _grid([[cell or "" for cell in row] for row in parser.grid])
+    # No thead means the first row is the header, which is the usual shape when a
+    # publisher styles headers rather than marking them up.
+    head = parser.head_rows or (1 if rows else 0)
+    return rows, head, {"table_id": path.stem}
+
+
+def _rows_from_csv(path: Path) -> tuple[list[list[str]], int, dict[str, Any]]:
+    """pubget renders each table to CSV with a sidecar saying how many rows are header."""
+
+    info_path = path.with_name(path.stem + "_info.json")
+    if not info_path.is_file():
+        return [], 0, {}
+    info = json.loads(info_path.read_text(encoding="utf-8"))
+    with path.open(encoding="utf-8", newline="") as handle:
+        rows = _grid([[_clean(cell) for cell in row] for row in csv.reader(handle)])
+    return rows, min(int(info.get("n_header_rows") or 1), len(rows)), info
+
+
+#: How to find a flavour's raw table, and how to read it. `subdir` is under
+#: `<study>/source/<flavour>/`.
+READERS: dict[str, Any] = {
+    "pubget": _rows_from_csv,
+    "elsevier": _rows_from_cals,
+    "ace": _rows_from_html,
+}
+
+
+def read_manifest(study_dir: Path, flavour: str = "pubget") -> dict[str, dict[str, Any]]:
+    """`{sanitized table_id: record}` from `<study>/processed/<flavour>/tables.jsonl`.
+
+    `data_file` is lifted out of `metadata.data_path` because that basename -- not the
+    id -- is what locates the raw table. Absent manifest returns {} rather than raising: a
+    study with no source of that flavour is a degraded task, not a crash.
+
+    pubget, elsevier and ace write the same manifest fields, so only the path differs. What
+    differs is the raw table each points at, which is `READERS`' problem.
+    """
+
+    path = Path(study_dir) / "processed" / flavour / "tables.jsonl"
     if not path.is_file():
         return {}
     out: dict[str, dict[str, Any]] = {}
@@ -145,6 +342,7 @@ def read_manifest(study_dir: Path) -> dict[str, dict[str, Any]]:
             "data_file": Path(metadata.get("data_path") or "").name,
         }
     return out
+
 
 def _numeric_triple_somewhere(body: Sequence[Mapping[str, Any]], cols: Sequence[int]) -> bool:
     """Whether at least one data row parses as three numbers in these columns.
@@ -203,14 +401,20 @@ def _axis_columns(
             candidates: dict[str, list[int]] = {axis: [] for axis in "xyz"}
             for index in range(min(width, len(row))):
                 for axis, pattern in patterns.items():
-                    if pattern.search(row[index] or "") if patterns is PAREN_AXIS \
-                            else pattern.match(row[index] or ""):
+                    if (
+                        pattern.search(row[index] or "")
+                        if patterns is PAREN_AXIS
+                        else pattern.match(row[index] or "")
+                    ):
                         candidates[axis].append(index)
             if not all(candidates.values()):
                 continue
             for ix in candidates["x"]:
-                if ix + 1 in candidates["y"] and ix + 2 in candidates["z"] \
-                        and confirmed([ix, ix + 1, ix + 2]):
+                if (
+                    ix + 1 in candidates["y"]
+                    and ix + 2 in candidates["z"]
+                    and confirmed([ix, ix + 1, ix + 2])
+                ):
                     return [ix, ix + 1, ix + 2]
             leftmost = [candidates["x"][0], candidates["y"][0], candidates["z"][0]]
             if confirmed(leftmost):
@@ -224,14 +428,19 @@ def _axis_columns(
     # are no use where they sit. Either label plus the numeric confirmation is enough: the
     # colspan says these three columns are a coordinate and the data says which they are.
     for row in reversed(list(header_rows)):
-        bases = [DEDUP.match(row[index] or "").group("base")
-                 for index in range(min(width, len(row)))]
+        bases = [
+            DEDUP.match(row[index] or "").group("base")
+            for index in range(min(width, len(row)))
+        ]
         for index in range(len(bases) - 2):
             base = bases[index]
             if not base or not (AXIS_TRIPLE.search(base) or COORDISH.search(base)):
                 continue
-            if bases[index + 1] == base and bases[index + 2] == base \
-                    and confirmed([index, index + 1, index + 2]):
+            if (
+                bases[index + 1] == base
+                and bases[index + 2] == base
+                and confirmed([index, index + 1, index + 2])
+            ):
                 return [index, index + 1, index + 2]
     return None
 
@@ -254,49 +463,56 @@ def _axis_cell(
         for index in range(min(width, len(row))):
             if not AXIS_TRIPLE.search(row[index] or ""):
                 continue
-            cells = [(r.get("cells") or [None] * (index + 1))[index]
-                     for r in body if r.get("type") == "data"]
+            cells = [
+                (r.get("cells") or [None] * (index + 1))[index]
+                for r in body
+                if r.get("type") == "data"
+            ]
             present = [cell for cell in cells if cell]
-            if present and sum(bool(TRIPLE_CELL.match(normalize_number(cell))) for cell in present) \
-                    >= len(present) / 2:
+            if (
+                present
+                and sum(bool(TRIPLE_CELL.match(normalize_number(cell))) for cell in present)
+                >= len(present) / 2
+            ):
                 return index
     return None
 
 
 def read_table(
-    pubget_dir: Path,
+    source_dir: Path,
     data_file: str,
     *,
+    flavour: str = "pubget",
     label: str | None = None,
     caption: str | None = None,
 ) -> dict[str, Any] | None:
     """One table as structured data, ready to render.
 
-    `pubget_dir` is `<study>/source/pubget`; `data_file` is the CSV basename from
-    `read_manifest`. `label` and `caption` override the info file, because the manifest's
-    values are the ones the record's `Table.table_number` and `Table.caption` were copied
-    from and the reviewer should see the same strings twice.
+    `source_dir` is `<study>/source/<flavour>`; `data_file` is the basename from
+    `read_manifest`. `label` and `caption` override what the raw table says, because the
+    manifest's values are the ones the record's `Table.table_number` and `Table.caption`
+    were copied from and the reviewer should see the same strings twice.
+
+    The flavour decides only how the grid is read off disk. Everything below -- section
+    rows, coordinate columns, the axis triple -- is the same question of the same grid.
     """
 
-    tables = Path(pubget_dir) / TABLES_SUBDIR
-    csv_path = tables / data_file
-    info_path = tables / (Path(data_file).stem + "_info.json")
-    if not csv_path.is_file() or not info_path.is_file():
+    reader = READERS.get(flavour)
+    if reader is None:
+        raise ValueError(f"no table reader for flavour {flavour!r}; have {sorted(READERS)}")
+    path = Path(source_dir) / TABLES_SUBDIR / data_file
+    if not path.is_file():
         return None
-
-    info = json.loads(info_path.read_text(encoding="utf-8"))
-    with csv_path.open(encoding="utf-8", newline="") as handle:
-        raw = [[_clean(cell) for cell in row] for row in csv.reader(handle)]
+    raw, n_header, info = reader(path)
     if not raw:
         return None
 
-    n_header = min(int(info.get("n_header_rows") or 1), len(raw))
     width = max(len(row) for row in raw)
-    header_rows = [row + [""] * (width - len(row)) for row in raw[:n_header]]
+    header_rows = raw[:n_header]
 
     body: list[dict[str, Any]] = []
     for row in raw[n_header:]:
-        cells = row + [""] * (width - len(row))
+        cells = row
         filled = [cell for cell in cells if cell]
         if not filled:
             continue
@@ -333,10 +549,6 @@ def read_table(
         # A consumer wanting a row's triple has to consult both.
         "axis_cell": _axis_cell(header_rows, width, body),
     }
-
-
-
-
 
 
 def _md_cell(value: str) -> str:
