@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "study-schema"
+version = "0.1.0"
+description = "The neuroimaging study schema, and the three modules that define what a record means"
+requires-python = ">=3.11"
+dependencies = ["pyyaml"]
+
+[tool.setuptools]
+# Three modules, not a package. They are here rather than in a consumer because they
+# define the schema rather than read it: `source_text_hash` is the sha256 `text_index`
+# computes, and a coordinate table is whatever `table_parse` says its rows are. A second
+# copy anywhere would be a second definition.
+py-modules = ["schema_utils", "text_index", "table_parse"]
