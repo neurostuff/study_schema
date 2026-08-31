@@ -1,19 +1,5 @@
-
-# A local Label Studio instance used to run from here, before the review layer
-# API keys for the extractor and the review chat backend.
-*.egg-info/
-.env
-# Kept out of version control because it is bulk source material, not schema.
-label-studio/
-# Label Studio source checkout (has its own git history).
-# moved to ns-validate. Root-owned by the container that made it, so it needs
-# Paper full text, re-syncable from beast-proxy with review/sync_texts.py.
-# Pinned upstream checkout used by review/parse_tables.py (has its own git history).
-__pycache__/
-*.py[cod]
-review/ls_data/
-review/texts/
-# `sudo rm -rf review/ls_data` to go.
-.tmp_repos/
-# uv-managed virtualenv for the extractor.
-.venv/
+# This repository is the schema: LinkML YAML and the prose that goes with it. Nothing is
+# built or run here, so there is nothing generated to ignore -- only editor and OS cruft.
+.DS_Store
+*.swp
+*~

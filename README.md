@@ -1,5 +1,15 @@
 # Schemas
 
+This repository is the schema and nothing else: LinkML YAML, and the prose that says how to
+read a paper into it. There is no Python here.
+
+Everything that *reads* the schema lives in
+[pondie](https://github.com/neurostuff/pondie) — the generator, the checks this README
+runs, the extraction pipeline, and the three modules that define what a record means
+(`schema_utils`, `text_index`, `table_parse`). pondie carries this repository as a
+submodule, so a schema change and the code that consumes it are versioned together without
+either being a copy of the other.
+
 `neuroimaging-study-storage.yaml` and the modules under `neuroimaging-study-storage/` are
 the full storage schema: everything we might ever want to represent. It is the source of
 truth and is never narrowed in place.
@@ -33,12 +43,12 @@ states which variant it is — nothing downstream could guess — and storage ke
 slot, so they are in both schemas and in neither subset.
 
 ```bash
-python3 check_storage_parameter_priorities.py  # every field has exactly one priority entry
-python3 check_field_provenance.py             # every field says how it gets filled
-python3 check_field_provenance.py --strict    # ...and none are left unclassified
+python3 -m pondie.schema.checks.storage_parameter_priorities  # every field has exactly one priority entry
+python3 -m pondie.schema.checks.field_provenance              # every field says how it gets filled
+python3 -m pondie.schema.checks.field_provenance --strict     # ...and none are left unclassified
 ```
 
-`check_field_provenance.py` fails on a field marked both `deterministic` and
+`field_provenance` fails on a field marked both `deterministic` and
 `model_extracted`, or on an identifier marked `model_extracted`. Fields not yet classified
 are reported as remaining work and only fail under `--strict`, so the check is usable while
 the pass is in progress. It also prints where the marks disagree with `n/a` in the priority
@@ -48,18 +58,19 @@ entry has not caught up.
 
 ## Generating the MVP schema
 
+**Not implemented.** No `gen_mvp_schema.py` appears anywhere in this repository's history
+and no `neuroimaging-study-storage-mvp` tree is committed, so what follows is the design a
+generator would be written to. It is kept because the `mvp` marks it reads are on the
+fields today, and because the constraints below are what makes them meaningful.
+
 Attributes are the only thing marked. A class has no mark of its own — it survives when a
 marked attribute's range points at it — so leaving every attribute of a class unmarked is
 how a whole entity gets dropped. Identifiers and type designators are kept without a mark,
 but do not by themselves keep a class alive.
 
-```bash
-python3 gen_mvp_schema.py           # writes neuroimaging-study-storage-mvp{.yaml,/}
-python3 gen_mvp_schema.py --check   # fails when the committed tree is out of date
-```
-
-The generated tree is committed and must not be hand-edited. The generator refuses to
-write a structurally broken schema, reporting instead when a marked attribute points at a
+The generated tree would be committed and must not be hand-edited. The generator must
+refuse to write a structurally broken schema, reporting instead when a marked attribute
+points at a
 class with nothing marked in it, or when a surviving class drops a `required` field.
 `required` is only enforced inside classes that survive, so a field required within an
 entity we do not extract is not a problem.
@@ -77,8 +88,8 @@ slots, same nesting; a scalar becomes an `ExtractedValue` carrying the evidence 
 found for it. It is generated, so that stays true:
 
 ```bash
-python3 gen_extraction_schema.py           # writes neuroimaging-study-extraction{.yaml,/}
-python3 gen_extraction_schema.py --check   # fails when the committed tree is out of date
+python3 -m pondie.schema.generate           # writes neuroimaging-study-extraction{.yaml,/}
+python3 -m pondie.schema.generate --check   # fails when the committed tree is out of date
 ```
 
 The projection is mechanical, and the whole of it is:
@@ -119,7 +130,7 @@ identity map. It holds 23 derivations and 5 free-text tables; everything else is
 of the same name on the same class, with `.value` unwrapped.
 
 ```bash
-python3 check_extraction_to_storage_map.py
+python3 -m pondie.schema.checks.extraction_to_storage_map
 ```
 
 Three things must hold, and each fails in its own way:
@@ -150,18 +161,28 @@ keeping, since an answer the vocabulary has no slot for is the evidence it is sh
 
 ## Tests
 
+There is no Python here to test. This repository is the schema: LinkML YAML and the prose
+that goes with it. Everything that reads it — the generator, the checks above, the
+extraction pipeline, and the modules that define what a record means (`schema_utils`,
+`text_index`, `table_parse`) — lives in
+[pondie](https://github.com/neurostuff/pondie), which carries this repository as a
+submodule and runs its own suite against it:
+
 ```bash
-python3 -m pytest
+cd pondie && python3 -m pytest
 ```
 
-`pytest.ini` keeps the vendored checkouts out of collection, so a bare run works.
+The commands in this README are therefore run from a pondie checkout, and resolve the
+schema through `PONDIE_SCHEMA_DIR` or through the submodule. Point them at this checkout
+if it is not the submodule one:
 
-`test_review_foundation.py` covers what the review layer stands on and what feeds it:
-text normalization, span resolution, record building and validation, and the coordinate
-table parser. The Label Studio layer itself lives in the
-[ns-validate](https://github.com/neurostuff/ns-validate) repo, which carries this one as
-a submodule and reads the schema, the priority inventory and
-`review/{spans,text_index,tables}.py` from it.
+```bash
+PONDIE_SCHEMA_DIR=/path/to/study_schema python3 -m pondie.schema.checks.linkml
+```
+
+The Label Studio review layer lives in the
+[ns-validate](https://github.com/neurostuff/ns-validate) repo, which reads the schema and
+the priority inventory from here.
 
 
 ## Documents
@@ -173,7 +194,7 @@ a submodule and reads the schema, the priority inventory and
 | [extraction-deviations.yaml](extraction-deviations.yaml) | Every way the extraction schema is not a projection of storage. Currently: pipeline provenance, and nothing else. Its trailing comment lists the six shapes the hand-written schema used to have, as candidates to re-test |
 | [storage-schema-design-notes.md](storage-schema-design-notes.md) | Why the storage schema is shaped the way it is |
 | [analysis-entities.md](analysis-entities.md) | What each entity around an analysis is called, what owns it, and what points at what: the three layers, a crosswalk from the words papers use, and the joins a synthesis reads a record back out through. Start here before representing-models.md |
-| [representing-models.md](representing-models.md) | How to put a reported analysis into the schema: which facts belong to the model and which to the contrast, where each class's job ends, and what to do when a paper does not divide things the way the schema does. Its YAML fragments and the worked records under [review/examples/](review/examples/) are checked on every test run |
+| [representing-models.md](representing-models.md) | How to put a reported analysis into the schema: which facts belong to the model and which to the contrast, where each class's job ends, and what to do when a paper does not divide things the way the schema does. Its YAML fragments and the worked records under `pondie/tests/fixtures/examples/` are checked on every test run |
 | [ars-crosswalk.md](ars-crosswalk.md) | Field-level comparison against CDISC's Analysis Results Standard — the closest peer this schema has, and so the main check on the model/contrast split. For design comparison, not an executable map |
 | [standards-crosswalk.md](standards-crosswalk.md) | The same reading against BIDS Stats Models and NIDM-Results — what each represents, where they are more expressive, and where this schema keeps something they cannot say. Companion to the ARS crosswalk and does not repeat it |
 | [storage-schema-expressivity-probe.md](storage-schema-expressivity-probe.md) | Measured expressivity gaps against 25 corpus papers, with options |
