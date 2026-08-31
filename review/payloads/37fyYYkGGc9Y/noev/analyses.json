@@ -1,0 +1,223 @@
+{
+ "analyses": [
+  {
+   "local_id": "analysis-searchlight-results",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "Searchlight results",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "Clusters with above chance decoding of imagery condition",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "not_reported"
+   },
+   "interpretations": {
+    "extraction_status": "extracted",
+    "value": [
+     "Imagined hand actions could be decoded from activity patterns in left M1 and PMC, right SPL, bilateral motor and visual cortex, and human motion complex/extrastriate body area regions."
+    ],
+    "value_source": "reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "whole_brain",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "reported"
+   },
+   "regions": [],
+   "defines_regions": [],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "decoding_performance",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "decoding performance",
+     "value_source": "reported"
+    },
+    "specific_metric": {
+     "extraction_status": "extracted",
+     "value": "classification accuracy",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-volunteers",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 20,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-action-condition",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "aiming",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "unstated",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-action-condition",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "squeezing",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "unstated",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-action-condition",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "extension–flexion",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "unstated",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "DecodingDetails",
+    "decoded_variable": {
+     "extraction_status": "extracted",
+     "value": "identity of imagined actions",
+     "value_source": "reported"
+    },
+    "classes": [
+     {
+      "label": {
+       "extraction_status": "extracted",
+       "value": "MI of a right-hand squeezing task",
+       "value_source": "reported"
+      },
+      "condition": "cond-squeezing"
+     },
+     {
+      "label": {
+       "extraction_status": "extracted",
+       "value": "MI of a right-hand aiming task",
+       "value_source": "reported"
+      },
+      "condition": "cond-aiming"
+     },
+     {
+      "label": {
+       "extraction_status": "extracted",
+       "value": "MI of a right-hand extension–flexion task",
+       "value_source": "reported"
+      },
+      "condition": "cond-extension-flexion"
+     }
+    ],
+    "performance_metrics": [
+     {
+      "name": {
+       "extraction_status": "extracted",
+       "value": "classification accuracy",
+       "value_source": "reported"
+      },
+      "reference_value": {
+       "extraction_status": "extracted",
+       "value": 0.3333333333,
+       "value_source": "reported"
+      },
+      "relation": {
+       "extraction_status": "extracted",
+       "value": "above_reference",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "validation_scheme": {
+     "extraction_status": "extracted",
+     "value": "leave-one-run-out cross-validation",
+     "value_source": "reported"
+    }
+   },
+   "acquisitions": [
+    "acq-fmri"
+   ],
+   "tasks": [
+    "task-motor-imagery"
+   ],
+   "model_estimation": "me-subject-mvpa",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "reported"
+    },
+    "cluster_forming_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.001,
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "FWE",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-fmri",
+   "tables": [
+    "tbl1"
+   ],
+   "coordinate_space": {
+    "extraction_status": "not_reported"
+   }
+  }
+ ]
+}

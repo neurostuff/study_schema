@@ -1,0 +1,1524 @@
+{
+ "analyses": [
+  {
+   "local_id": "analysis-group-wm-load-interaction",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "A: Group × WM load interaction",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "Group × WM load interaction; whole-brain results, indicating reduced activation in the OCD group compared to the HC group at high WM load (3-back).",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "extracted",
+    "value": "preregested",
+    "value_source": "generated"
+   },
+   "interpretations": {
+    "extraction_status": "extracted",
+    "value": [
+     "Reduced activation in the OCD group compared to the HC group at high WM load (3-back).",
+     "Frontoparietal BOLD response in OCD patients seemed to be less adaptive to increasing WM load."
+    ],
+    "value_source": "reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "roi",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "reported"
+   },
+   "regions": [
+    "reg-wm-mask"
+   ],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "bold_response",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "BOLD response",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-hc",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 49,
+      "value_source": "reported"
+     }
+    },
+    {
+     "group": "grp-ocd",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 51,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "healthy control participants",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "OCD patients",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-wm-load",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "3-back",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-wm-load",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "0-back",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "generated"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "MassUnivariateDetails"
+   },
+   "acquisitions": [
+    "acq-fmri"
+   ],
+   "tasks": [
+    "task-nback"
+   ],
+   "model_estimation": "me-group-anova",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "generated"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.001,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "p",
+     "value_source": "reported"
+    },
+    "cluster_extent_threshold": {
+     "extraction_status": "extracted",
+     "value": 37,
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "Monte Carlo simulation correction with FWE cluster correction",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "WM mask",
+     "value_source": "reported"
+    },
+    "search_volume": {
+     "extraction_status": "extracted",
+     "value": "26,298 voxels",
+     "value_source": "reported"
+    },
+    "permutation_count": {
+     "extraction_status": "extracted",
+     "value": 10000,
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-fmri",
+   "tables": [
+    "tbl2"
+   ],
+   "coordinate_space": {
+    "extraction_status": "not_reported"
+   }
+  },
+  {
+   "local_id": "analysis-0back-ocd-hc",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "B: 0-back OCD > HC",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "WM load-specific group effect at 0-back: OCD > HC.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "extracted",
+    "value": "exploratory",
+    "value_source": "generated"
+   },
+   "interpretations": {
+    "extraction_status": "extracted",
+    "value": "Higher activation in OCD patients at 0-back.",
+    "value_source": "reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "roi",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "reported"
+   },
+   "regions": [
+    "reg-wm-mask"
+   ],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "bold_response",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "BOLD response",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-hc",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 49,
+      "value_source": "reported"
+     }
+    },
+    {
+     "group": "grp-ocd",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 51,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "OCD patients",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "healthy control participants",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-wm-load",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "0-back",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "held",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "generated"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "MassUnivariateDetails"
+   },
+   "acquisitions": [
+    "acq-fmri"
+   ],
+   "tasks": [
+    "task-nback"
+   ],
+   "model_estimation": "me-group-anova",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "generated"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.001,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "p",
+     "value_source": "reported"
+    },
+    "cluster_extent_threshold": {
+     "extraction_status": "extracted",
+     "value": 37,
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "Monte Carlo simulation correction with FWE cluster correction",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "WM mask",
+     "value_source": "reported"
+    },
+    "search_volume": {
+     "extraction_status": "extracted",
+     "value": "26,298 voxels",
+     "value_source": "reported"
+    },
+    "permutation_count": {
+     "extraction_status": "extracted",
+     "value": 10000,
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-fmri",
+   "tables": [
+    "tbl2"
+   ],
+   "coordinate_space": {
+    "extraction_status": "not_reported"
+   }
+  },
+  {
+   "local_id": "analysis-1back-hc-ocd",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "B: 1-back HC > OCD",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "WM load-specific group effect at 1-back: HC > OCD.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "extracted",
+    "value": "exploratory",
+    "value_source": "generated"
+   },
+   "interpretations": {
+    "extraction_status": "extracted",
+    "value": "Higher activation in healthy controls at 1-back.",
+    "value_source": "reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "roi",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "reported"
+   },
+   "regions": [
+    "reg-wm-mask"
+   ],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "bold_response",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "BOLD response",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-hc",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 49,
+      "value_source": "reported"
+     }
+    },
+    {
+     "group": "grp-ocd",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 51,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "healthy control participants",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "OCD patients",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-wm-load",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "1-back",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "held",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "generated"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "MassUnivariateDetails"
+   },
+   "acquisitions": [
+    "acq-fmri"
+   ],
+   "tasks": [
+    "task-nback"
+   ],
+   "model_estimation": "me-group-anova",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "generated"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.001,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "p",
+     "value_source": "reported"
+    },
+    "cluster_extent_threshold": {
+     "extraction_status": "extracted",
+     "value": 37,
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "Monte Carlo simulation correction with FWE cluster correction",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "WM mask",
+     "value_source": "reported"
+    },
+    "search_volume": {
+     "extraction_status": "extracted",
+     "value": "26,298 voxels",
+     "value_source": "reported"
+    },
+    "permutation_count": {
+     "extraction_status": "extracted",
+     "value": 10000,
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-fmri",
+   "tables": [
+    "tbl2"
+   ],
+   "coordinate_space": {
+    "extraction_status": "not_reported"
+   }
+  },
+  {
+   "local_id": "analysis-1back-ocd-hc",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "B: 1-back OCD > HC",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "WM load-specific group effect at 1-back: OCD > HC.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "extracted",
+    "value": "exploratory",
+    "value_source": "generated"
+   },
+   "interpretations": {
+    "extraction_status": "extracted",
+    "value": "Higher activation in OCD patients at 1-back.",
+    "value_source": "reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "roi",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "reported"
+   },
+   "regions": [
+    "reg-wm-mask"
+   ],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "bold_response",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "BOLD response",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-hc",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 49,
+      "value_source": "reported"
+     }
+    },
+    {
+     "group": "grp-ocd",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 51,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "OCD patients",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "healthy control participants",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-wm-load",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "1-back",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "held",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "generated"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "MassUnivariateDetails"
+   },
+   "acquisitions": [
+    "acq-fmri"
+   ],
+   "tasks": [
+    "task-nback"
+   ],
+   "model_estimation": "me-group-anova",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "generated"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.001,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "p",
+     "value_source": "reported"
+    },
+    "cluster_extent_threshold": {
+     "extraction_status": "extracted",
+     "value": 37,
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "Monte Carlo simulation correction with FWE cluster correction",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "WM mask",
+     "value_source": "reported"
+    },
+    "search_volume": {
+     "extraction_status": "extracted",
+     "value": "26,298 voxels",
+     "value_source": "reported"
+    },
+    "permutation_count": {
+     "extraction_status": "extracted",
+     "value": 10000,
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-fmri",
+   "tables": [
+    "tbl2"
+   ],
+   "coordinate_space": {
+    "extraction_status": "not_reported"
+   }
+  },
+  {
+   "local_id": "analysis-2back-hc-ocd",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "B: 2-back HC > OCD",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "WM load-specific group effect at 2-back: HC > OCD.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "extracted",
+    "value": "exploratory",
+    "value_source": "generated"
+   },
+   "interpretations": {
+    "extraction_status": "extracted",
+    "value": "Higher activation in healthy controls at 2-back.",
+    "value_source": "reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "roi",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "reported"
+   },
+   "regions": [
+    "reg-wm-mask"
+   ],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "bold_response",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "BOLD response",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-hc",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 49,
+      "value_source": "reported"
+     }
+    },
+    {
+     "group": "grp-ocd",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 51,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "healthy control participants",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "OCD patients",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-wm-load",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "2-back",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "held",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "generated"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "MassUnivariateDetails"
+   },
+   "acquisitions": [
+    "acq-fmri"
+   ],
+   "tasks": [
+    "task-nback"
+   ],
+   "model_estimation": "me-group-anova",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "generated"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.001,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "p",
+     "value_source": "reported"
+    },
+    "cluster_extent_threshold": {
+     "extraction_status": "extracted",
+     "value": 37,
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "Monte Carlo simulation correction with FWE cluster correction",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "WM mask",
+     "value_source": "reported"
+    },
+    "search_volume": {
+     "extraction_status": "extracted",
+     "value": "26,298 voxels",
+     "value_source": "reported"
+    },
+    "permutation_count": {
+     "extraction_status": "extracted",
+     "value": 10000,
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-fmri",
+   "tables": [
+    "tbl2"
+   ],
+   "coordinate_space": {
+    "extraction_status": "not_reported"
+   }
+  },
+  {
+   "local_id": "analysis-2back-ocd-hc",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "B: 2-back OCD > HC",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "WM load-specific group effect at 2-back: OCD > HC.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "extracted",
+    "value": "exploratory",
+    "value_source": "generated"
+   },
+   "interpretations": {
+    "extraction_status": "extracted",
+    "value": "Higher activation in OCD patients at 2-back.",
+    "value_source": "reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "roi",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "reported"
+   },
+   "regions": [
+    "reg-wm-mask"
+   ],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "bold_response",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "BOLD response",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-hc",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 49,
+      "value_source": "reported"
+     }
+    },
+    {
+     "group": "grp-ocd",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 51,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "OCD patients",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "healthy control participants",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-wm-load",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "2-back",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "held",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "generated"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "MassUnivariateDetails"
+   },
+   "acquisitions": [
+    "acq-fmri"
+   ],
+   "tasks": [
+    "task-nback"
+   ],
+   "model_estimation": "me-group-anova",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "generated"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.001,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "p",
+     "value_source": "reported"
+    },
+    "cluster_extent_threshold": {
+     "extraction_status": "extracted",
+     "value": 37,
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "Monte Carlo simulation correction with FWE cluster correction",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "WM mask",
+     "value_source": "reported"
+    },
+    "search_volume": {
+     "extraction_status": "extracted",
+     "value": "26,298 voxels",
+     "value_source": "reported"
+    },
+    "permutation_count": {
+     "extraction_status": "extracted",
+     "value": 10000,
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-fmri",
+   "tables": [
+    "tbl2"
+   ],
+   "coordinate_space": {
+    "extraction_status": "not_reported"
+   }
+  },
+  {
+   "local_id": "analysis-3back-hc-ocd",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "B: 3-back HC > OCD",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "WM load-specific group effect at 3-back: HC > OCD.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "extracted",
+    "value": "exploratory",
+    "value_source": "generated"
+   },
+   "interpretations": {
+    "extraction_status": "extracted",
+    "value": "Lower activation in OCD patients at 3-back.",
+    "value_source": "reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "roi",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "reported"
+   },
+   "regions": [
+    "reg-wm-mask"
+   ],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "bold_response",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "BOLD response",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-hc",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 49,
+      "value_source": "reported"
+     }
+    },
+    {
+     "group": "grp-ocd",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 51,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "healthy control participants",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "OCD patients",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-wm-load",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "3-back",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "held",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "generated"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "MassUnivariateDetails"
+   },
+   "acquisitions": [
+    "acq-fmri"
+   ],
+   "tasks": [
+    "task-nback"
+   ],
+   "model_estimation": "me-group-anova",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "generated"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.001,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "p",
+     "value_source": "reported"
+    },
+    "cluster_extent_threshold": {
+     "extraction_status": "extracted",
+     "value": 37,
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "Monte Carlo simulation correction with FWE cluster correction",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "WM mask",
+     "value_source": "reported"
+    },
+    "search_volume": {
+     "extraction_status": "extracted",
+     "value": "26,298 voxels",
+     "value_source": "reported"
+    },
+    "permutation_count": {
+     "extraction_status": "extracted",
+     "value": 10000,
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-fmri",
+   "tables": [
+    "tbl2"
+   ],
+   "coordinate_space": {
+    "extraction_status": "not_reported"
+   }
+  },
+  {
+   "local_id": "analysis-3back-ocd-hc",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "B: 3-back OCD > HC",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "WM load-specific group effect at 3-back: OCD > HC.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "extracted",
+    "value": "exploratory",
+    "value_source": "generated"
+   },
+   "interpretations": {
+    "extraction_status": "extracted",
+    "value": "Higher activation in OCD patients at 3-back.",
+    "value_source": "reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "roi",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "reported"
+   },
+   "regions": [
+    "reg-wm-mask"
+   ],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "bold_response",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "BOLD response",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-hc",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 49,
+      "value_source": "reported"
+     }
+    },
+    {
+     "group": "grp-ocd",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 51,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "OCD patients",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-group",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "healthy control participants",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-wm-load",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "3-back",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "held",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "generated"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "MassUnivariateDetails"
+   },
+   "acquisitions": [
+    "acq-fmri"
+   ],
+   "tasks": [
+    "task-nback"
+   ],
+   "model_estimation": "me-group-anova",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "generated"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.001,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "p",
+     "value_source": "reported"
+    },
+    "cluster_extent_threshold": {
+     "extraction_status": "extracted",
+     "value": 37,
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "Monte Carlo simulation correction with FWE cluster correction",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "WM mask",
+     "value_source": "reported"
+    },
+    "search_volume": {
+     "extraction_status": "extracted",
+     "value": "26,298 voxels",
+     "value_source": "reported"
+    },
+    "permutation_count": {
+     "extraction_status": "extracted",
+     "value": 10000,
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-fmri",
+   "tables": [
+    "tbl2"
+   ],
+   "coordinate_space": {
+    "extraction_status": "not_reported"
+   }
+  }
+ ]
+}

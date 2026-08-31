@@ -1,0 +1,195 @@
+{
+ "analyses": [
+  {
+   "local_id": "analysis-1",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "Differences in Left VIM seed FC between ET patients and HCs",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "Compared with HCs, ET patients exhibited decreased left VIM-related functional connectivity in the cerebellum and medial dorsal nucleus of the thalamus, and increased left VIM-related functional connectivity in the primary and supplementary motor cortices.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "extracted",
+    "value": "unstated",
+    "value_source": "generated"
+   },
+   "interpretations": {
+    "extraction_status": "extracted",
+    "value": [
+     "Compared with HCs, ET patients displayed VIM-related FC changes, primarily within the VIM-motor cortex-cerebellum circuit, which included decreased FC in the cerebellum and increased FC in the motor cortex.",
+     "FC changes in this circuit correlated with tremor severity."
+    ],
+    "value_source": "reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "whole_brain",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "reported"
+   },
+   "regions": [],
+   "defines_regions": [],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "connectivity_strength",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "functional connectivity",
+     "value_source": "reported"
+    },
+    "specific_metric": {
+     "extraction_status": "extracted",
+     "value": "seed-based functional connectivity",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-et",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 26,
+      "value_source": "reported"
+     }
+    },
+    {
+     "group": "grp-hc",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 26,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-diagnosis",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "ET patients",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-diagnosis",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "healthy controls",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": {
+     "extraction_status": "extracted",
+     "value": "ConnectivityDetails",
+     "value_source": "generated"
+    },
+    "connectivity_method": {
+     "extraction_status": "extracted",
+     "value": "seed_based",
+     "value_source": "generated"
+    },
+    "seed_regions": [
+     "reg-vim-left"
+    ],
+    "target_regions": [],
+    "parameter_sign": {
+     "extraction_status": "not_reported"
+    },
+    "parameter_change": {
+     "extraction_status": "not_reported"
+    },
+    "inference_target": {
+     "extraction_status": "extracted",
+     "value": "connectivity_parameter",
+     "value_source": "generated"
+    }
+   },
+   "acquisitions": [
+    "acq-rsfmri"
+   ],
+   "tasks": [
+    "task-rest"
+   ],
+   "model_estimation": "me-group-diagnosis",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.01,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "P",
+     "value_source": "reported"
+    },
+    "cluster_extent_threshold": {
+     "extraction_status": "extracted",
+     "value": 10,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "AlphaSim",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "combined one-sample t-test mask",
+     "value_source": "reported"
+    },
+    "permutation_count": {
+     "extraction_status": "extracted",
+     "value": 1000,
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-rsfmri",
+   "tables": [
+    "tbl1"
+   ],
+   "assessments": []
+  }
+ ]
+}

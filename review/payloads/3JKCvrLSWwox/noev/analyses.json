@@ -1,0 +1,998 @@
+{
+ "analyses": [
+  {
+   "local_id": "analysis-semantic-feature",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "Semantic Feature",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "Semantic feature classifier distinguishing auditory-feature words from visual-feature words across presentation modalities.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "not_reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "roi",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "generated"
+   },
+   "regions": [
+    "reg-atl-mask",
+    "reg-pac",
+    "reg-pvc"
+   ],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "decoding_performance",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "classification accuracy",
+     "value_source": "reported"
+    },
+    "specific_metric": {
+     "extraction_status": "extracted",
+     "value": "classification accuracy",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-functional",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 19,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-semantic-feature",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "AUD",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "unstated",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-semantic-feature",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "VIS",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "unstated",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "DecodingDetails",
+    "decoded_variable": {
+     "extraction_status": "extracted",
+     "value": "semantic feature type",
+     "value_source": "reported"
+    },
+    "classes": [
+     {
+      "label": {
+       "extraction_status": "extracted",
+       "value": "AUD",
+       "value_source": "reported"
+      },
+      "condition": "cond-spoken-aud"
+     },
+     {
+      "label": {
+       "extraction_status": "extracted",
+       "value": "VIS",
+       "value_source": "reported"
+      },
+      "condition": "cond-spoken-vis"
+     }
+    ],
+    "performance_metrics": [
+     {
+      "name": {
+       "extraction_status": "extracted",
+       "value": "classification accuracy",
+       "value_source": "reported"
+      },
+      "value": {
+       "extraction_status": "not_reported"
+      },
+      "reference_value": {
+       "extraction_status": "extracted",
+       "value": 50,
+       "value_source": "reported"
+      },
+      "relation": {
+       "extraction_status": "extracted",
+       "value": "above_reference",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "validation_scheme": {
+     "extraction_status": "extracted",
+     "value": "4-fold cross-validation (leave-one-run-out)",
+     "value_source": "reported"
+    },
+    "generalization": {
+     "extraction_status": "extracted",
+     "value": "trained in one presentation modality and tested in the other",
+     "value_source": "reported"
+    }
+   },
+   "acquisitions": [
+    "acq-functional"
+   ],
+   "tasks": [
+    "task-functional"
+   ],
+   "model_estimation": "me-mvpa",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 2.3,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "z",
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "FWE",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "ROI mask",
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-functional",
+   "tables": [
+    "tbl2"
+   ]
+  },
+  {
+   "local_id": "analysis-presentation-format",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "Presentation format",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "Presentation format classifier distinguishing spoken from written input across nonwords and words.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "not_reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "roi",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "generated"
+   },
+   "regions": [
+    "reg-atl-mask",
+    "reg-pac",
+    "reg-pvc"
+   ],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "decoding_performance",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "classification accuracy",
+     "value_source": "reported"
+    },
+    "specific_metric": {
+     "extraction_status": "extracted",
+     "value": "classification accuracy",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-functional",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 19,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-presentation-format",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "Spoken",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "unstated",
+       "value_source": "generated"
+      }
+     },
+     {
+      "term": "term-presentation-format",
+      "level": {
+       "extraction_status": "extracted",
+       "value": "Written",
+       "value_source": "reported"
+      },
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "unstated",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "DecodingDetails",
+    "decoded_variable": {
+     "extraction_status": "extracted",
+     "value": "presentation format",
+     "value_source": "reported"
+    },
+    "classes": [
+     {
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Spoken",
+       "value_source": "reported"
+      },
+      "condition": "cond-spoken-non"
+     },
+     {
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Written",
+       "value_source": "reported"
+      },
+      "condition": "cond-written-non"
+     }
+    ],
+    "performance_metrics": [
+     {
+      "name": {
+       "extraction_status": "extracted",
+       "value": "classification accuracy",
+       "value_source": "reported"
+      },
+      "value": {
+       "extraction_status": "not_reported"
+      },
+      "reference_value": {
+       "extraction_status": "extracted",
+       "value": 50,
+       "value_source": "reported"
+      },
+      "relation": {
+       "extraction_status": "extracted",
+       "value": "above_reference",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "validation_scheme": {
+     "extraction_status": "extracted",
+     "value": "4-fold cross-validation (leave-one-run-out)",
+     "value_source": "reported"
+    },
+    "generalization": {
+     "extraction_status": "extracted",
+     "value": "trained on nonwords and tested on words",
+     "value_source": "reported"
+    }
+   },
+   "acquisitions": [
+    "acq-functional"
+   ],
+   "tasks": [
+    "task-functional"
+   ],
+   "model_estimation": "me-mvpa",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 2.3,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "z",
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "FWE",
+     "value_source": "reported"
+    },
+    "correction_scope": {
+     "extraction_status": "extracted",
+     "value": "ROI mask",
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-functional",
+   "tables": [
+    "tbl2"
+   ]
+  },
+  {
+   "local_id": "analysis-astg-increased-correlation",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "aSTG — Increased Correlation",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "Resting-state connectivity analysis using the aSTG seed; increased correlation.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "not_reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "whole_brain",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "generated"
+   },
+   "regions": [],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "connectivity_strength",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "resting-state functional connectivity",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-resting",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 42,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-astg-seed",
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "ConnectivityDetails",
+    "connectivity_method": {
+     "extraction_status": "extracted",
+     "value": "seed_based",
+     "value_source": "generated"
+    },
+    "seed_regions": [
+     "reg-astg"
+    ],
+    "target_regions": [],
+    "parameter_sign": {
+     "extraction_status": "extracted",
+     "value": "positive",
+     "value_source": "generated"
+    },
+    "parameter_change": {
+     "extraction_status": "extracted",
+     "value": "increased",
+     "value_source": "reported"
+    },
+    "edges": [],
+    "inference_target": {
+     "extraction_status": "extracted",
+     "value": "connectivity_parameter",
+     "value_source": "generated"
+    }
+   },
+   "acquisitions": [
+    "acq-resting"
+   ],
+   "tasks": [
+    "task-resting"
+   ],
+   "model_estimation": "me-resting-connectivity-group",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 2.3,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "z",
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "cluster correction",
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-resting",
+   "tables": [
+    "tbl3"
+   ]
+  },
+  {
+   "local_id": "analysis-astg-reduced-correlation",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "aSTG — Reduced Correlation",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "Resting-state connectivity analysis using the aSTG seed; reduced correlation.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "not_reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "whole_brain",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "generated"
+   },
+   "regions": [],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "connectivity_strength",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "resting-state functional connectivity",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-resting",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 42,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-astg-seed",
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "ConnectivityDetails",
+    "connectivity_method": {
+     "extraction_status": "extracted",
+     "value": "seed_based",
+     "value_source": "generated"
+    },
+    "seed_regions": [
+     "reg-astg"
+    ],
+    "target_regions": [],
+    "parameter_sign": {
+     "extraction_status": "extracted",
+     "value": "negative",
+     "value_source": "generated"
+    },
+    "parameter_change": {
+     "extraction_status": "extracted",
+     "value": "decreased",
+     "value_source": "reported"
+    },
+    "edges": [],
+    "inference_target": {
+     "extraction_status": "extracted",
+     "value": "connectivity_parameter",
+     "value_source": "generated"
+    }
+   },
+   "acquisitions": [
+    "acq-resting"
+   ],
+   "tasks": [
+    "task-resting"
+   ],
+   "model_estimation": "me-resting-connectivity-group",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 2.3,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "z",
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "cluster correction",
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-resting",
+   "tables": [
+    "tbl3"
+   ]
+  },
+  {
+   "local_id": "analysis-aitg-increased-correlation",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "aITG — Increased Correlation",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "Resting-state connectivity analysis using the aITG seed; increased correlation.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "not_reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "whole_brain",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "generated"
+   },
+   "regions": [],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "connectivity_strength",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "resting-state functional connectivity",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-resting",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 42,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-aitg-seed",
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "ConnectivityDetails",
+    "connectivity_method": {
+     "extraction_status": "extracted",
+     "value": "seed_based",
+     "value_source": "generated"
+    },
+    "seed_regions": [
+     "reg-aitg"
+    ],
+    "target_regions": [],
+    "parameter_sign": {
+     "extraction_status": "extracted",
+     "value": "positive",
+     "value_source": "generated"
+    },
+    "parameter_change": {
+     "extraction_status": "extracted",
+     "value": "increased",
+     "value_source": "reported"
+    },
+    "edges": [],
+    "inference_target": {
+     "extraction_status": "extracted",
+     "value": "connectivity_parameter",
+     "value_source": "generated"
+    }
+   },
+   "acquisitions": [
+    "acq-resting"
+   ],
+   "tasks": [
+    "task-resting"
+   ],
+   "model_estimation": "me-resting-connectivity-group",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 2.3,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "z",
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "cluster correction",
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-resting",
+   "tables": [
+    "tbl3"
+   ]
+  },
+  {
+   "local_id": "analysis-aitg-reduced-correlation",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "aITG — Reduced Correlation",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "Resting-state connectivity analysis using the aITG seed; reduced correlation.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "not_reported"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "whole_brain",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "generated"
+   },
+   "regions": [],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "functional_bold",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "connectivity_strength",
+     "value_source": "generated"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "resting-state functional connectivity",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-resting",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 42,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-aitg-seed",
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "negative",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "ConnectivityDetails",
+    "connectivity_method": {
+     "extraction_status": "extracted",
+     "value": "seed_based",
+     "value_source": "generated"
+    },
+    "seed_regions": [
+     "reg-aitg"
+    ],
+    "target_regions": [],
+    "parameter_sign": {
+     "extraction_status": "extracted",
+     "value": "negative",
+     "value_source": "generated"
+    },
+    "parameter_change": {
+     "extraction_status": "extracted",
+     "value": "decreased",
+     "value_source": "reported"
+    },
+    "edges": [],
+    "inference_target": {
+     "extraction_status": "extracted",
+     "value": "connectivity_parameter",
+     "value_source": "generated"
+    }
+   },
+   "acquisitions": [
+    "acq-resting"
+   ],
+   "tasks": [
+    "task-resting"
+   ],
+   "model_estimation": "me-resting-connectivity-group",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "cluster",
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 2.3,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "z",
+     "value_source": "reported"
+    },
+    "clusterwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.05,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "cluster correction",
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-resting",
+   "tables": [
+    "tbl3"
+   ]
+  }
+ ]
+}

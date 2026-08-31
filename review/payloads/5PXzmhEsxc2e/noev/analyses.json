@@ -1,0 +1,139 @@
+{
+ "analyses": [
+  {
+   "local_id": "analysis-significant-mediation-clusters",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "Significant mediation clusters",
+    "value_source": "reported"
+   },
+   "definition": {
+    "extraction_status": "extracted",
+    "value": "Voxel-wise mediation of the age-related increase in bilateral PFC ICA network expression by grey matter density, identifying clusters showing the conjunction of age-related decline in GMD, the relationship between GMD and ICA loading, and attenuation of the age–ICA relationship.",
+    "value_source": "reported"
+   },
+   "prespecification": {
+    "extraction_status": "extracted",
+    "value": "unstated",
+    "value_source": "generated"
+   },
+   "spatial_scope": {
+    "extraction_status": "extracted",
+    "value": "whole_brain",
+    "value_source": "generated"
+   },
+   "spatial_unit": {
+    "extraction_status": "extracted",
+    "value": "voxel",
+    "value_source": "generated"
+   },
+   "regions": [],
+   "measure": {
+    "family": {
+     "extraction_status": "extracted",
+     "value": "structural_morphometry",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "gray_matter_density",
+     "value_source": "reported"
+    },
+    "source_label": {
+     "extraction_status": "extracted",
+     "value": "grey matter density",
+     "value_source": "reported"
+    }
+   },
+   "groups": [
+    {
+     "group": "grp-task",
+     "n": {
+      "extraction_status": "extracted",
+      "value": 25,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "effect": {
+    "cells": [
+     {
+      "term": "term-age-med",
+      "direction": {
+       "extraction_status": "extracted",
+       "value": "positive",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "mediation": {
+     "path": {
+      "extraction_status": "extracted",
+      "value": "indirect",
+      "value_source": "generated"
+     },
+     "mediator": "term-gmd"
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     }
+    }
+   },
+   "details": {
+    "details_type": "OtherAnalysisDetails",
+    "method_label": {
+     "extraction_status": "extracted",
+     "value": "mediation analysis",
+     "value_source": "reported"
+    },
+    "reason_first_class_type_not_used": {
+     "extraction_status": "extracted",
+     "value": "The reported effect is a voxel-wise mediation analysis, which has no dedicated first-class analysis-details subclass.",
+     "value_source": "generated"
+    }
+   },
+   "acquisitions": [
+    "acq-fmri",
+    "acq-smri"
+   ],
+   "tasks": [
+    "task-explicit"
+   ],
+   "model_estimation": "me-gmd-mediation",
+   "inference_settings": {
+    "inference_level": {
+     "extraction_status": "extracted",
+     "value": "voxel",
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_value": {
+     "extraction_status": "extracted",
+     "value": 0.01,
+     "value_source": "reported"
+    },
+    "voxelwise_threshold_type": {
+     "extraction_status": "extracted",
+     "value": "p",
+     "value_source": "reported"
+    },
+    "cluster_extent_threshold": {
+     "extraction_status": "extracted",
+     "value": 15,
+     "value_source": "reported"
+    },
+    "multiple_comparison_method": {
+     "extraction_status": "extracted",
+     "value": "conjunction of a, b, and ab effects",
+     "value_source": "reported"
+    }
+   },
+   "preprocessing": "prep-fmri",
+   "tables": [
+    "tbl3"
+   ]
+  }
+ ]
+}

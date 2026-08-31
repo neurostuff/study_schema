@@ -1,0 +1,70 @@
+# The referents named in representing-models.md §5, one per worked model.
+# pmid<TAB>neurostore_id<TAB>axis
+#
+# Extract these with `--examples review/referents`, never the default. `review/examples`
+# is the curated fixture corpus test_review_foundation.py asserts over, and it picks its
+# paper as the first record there alphabetically -- so a record dropped in that both
+# sorts early and carries validator errors silently becomes the fixture and fails four
+# tests that have nothing to do with it.
+#
+# Mixed renders. Most are pubget -- review/sync_texts.py then review/build_text.py.
+# 4CA3Ca2bzfPW, 3agtZxaWUcQV, 39HoutR6iLMj and 6WJs2gBAhcQL are ace-only and need
+# review/sync_texts_ace.py, which states what that costs.
+
+# --- the fragments in §5 are transcribed from these ---
+25821147	4CA3Ca2bzfPW	5.1/5.2 simple contrast, and the same model against implicit baseline
+31397949	3KGhvY7MhanA	5.3 cross-subject regression with covariates
+27062552	5P7tnuyp5NTP	5.4 moderation, continuous crossed with cohort
+37559139	Qa5HqrHq97Pm	5.5 factorial, one within- and one between-subject factor
+#   hand-audited: corrections/Qa5HqrHq97Pm.corrections.json, 34 operations taking it
+#   from five validator errors to none. Same adjudicate.py invocation as 5.7's.
+18417700	39HoutR6iLMj	5.6 pre-post change with no paradigm
+26624517	7EEyXsyEDf2Q	5.7/5.8 ordered load factor: extremes contrast and omnibus, one model
+#   5.7's `order` is a reviewer correction, not model output: see
+#   corrections/7EEyXsyEDf2Q.corrections.json, applied with
+#   `adjudicate.py apply 7EEyXsyEDf2Q --records-dir study-schema/review/referents
+#    --texts-dir study-schema/review/texts`
+29208951	3jDCyBsgwY5d	5.9 multivariate, decoding above chance
+28611616	6Ts55HvrSTEJ	5.10 double dissociation between regions
+25172389	5PXzmhEsxc2e	5.11 mediated path
+26467643	6WJs2gBAhcQL	5.12 model estimated in two stages
+
+# --- cited inside an example as a second instance or a counter-example ---
+11050021	6qSfdQCVbYhH	5.5 the level-string rewrite, four of its fifteen errors
+31158692	5CTBY5Ab8pxN	5.5 the same shape, clean but on a subject better avoided in a spec
+16154453	3agtZxaWUcQV	5.10 the same shape with the region axis left uncelled
+22076840	3qC7anyYszL4	5.3 same shape in VBM; typed `gender` continuous
+36221050	b9EfXh32hvPV	5.11 the same path reported total/direct/indirect
+29324299	44JVUHMAtbU8	5.10 a two-axis interaction cell-ed and signed on both, uncorrected
+20451630	34vuDT6rFwRC	5.9 the both-classes-`unstated` failure the example is written against
+
+# --- extracted and rejected; kept so the search is not repeated ---
+# Chasing Effect.mediation. Found by title/abstract, which does not work: mediation
+# reported in prose and figures never reaches stage 1. Caption search does.
+31397949	3KGhvY7MhanA	no Effect.mediation (also serves as 5.3's referent)
+35854194	E6cjU2Z28ePq	no Effect.mediation, despite it being in the title
+28808246	4M8ngZc23epF	mediation block, but cells on a categorical factor -- wrong shape for 5.11
+33385564	6bUjx5qvW8kk	no Effect.mediation
+27764116	4BhpWZw2TcmZ	mediation block, one analysis only
+# Chasing a clean decoding record.
+25714434	9b3o6gAAfuRg	no analyses at all
+28769835	zGaxp4o9kpRN	no DecodingDetails
+27908787	3JKCvrLSWwox	DecodingDetails, but both classes cell-ed `unstated`
+26452176	37fyYYkGGc9Y	one DecodingDetails, cells not reduced to one
+# Chasing FactorLevel.order on a genuinely ordered factor. None of these filled it.
+10982749	5YFoFBUZ9CuA	n-back, order on 2 of 5 levels
+29159055	3x3NvRprp2Nf	0/1/2/3-back crossed with group, order on none
+21267080	52gPD7fStUAi	perceptual load, order on none
+28066216	5dQy8C37TrHx	expression intensity, order on none
+# Chasing a 2x2 whose cells join their declared levels.
+26218424	7gbRngywU4Zw	clean strings, but main effects came out `unstated` not directional
+23711332	3CQebLm7Src7	2x2, no product column
+24377050	5uL2SQGgruxH	directional main effects, but cells say `running speech` for `running speech (RS)`
+20824394	4VLgdqtKxzeS	omnibus over four levels; copied a column up a stage
+39896204	2WxF4YVzpSQt	build failed; stage 1 found no coordinate tables
+# Chasing FactorLevel.order, continued. Within 5uL2SQGgruxH the same three levels are
+# declared on three terms and ordered on one, so no paper choice fixes this.
+22451259	7z7sYzrbz3qv	2x2, both factors within-subject
+24592229	5itEaxTFJkmh	2x2, both factors within-subject
+25228353	5D5FZPwCfiwj	task x stimuli; build ok, cells do not all join
+24582805	5i3xvC4witjB	5.5 non-clinical 2x4x3; 16 of 31 cells non-joining

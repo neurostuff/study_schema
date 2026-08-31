@@ -1,0 +1,530 @@
+{
+ "study": {
+  "description": {
+   "extraction_status": "extracted",
+   "value": "A functional MRI study of distractor interference during visual target identification under low and high perceptual load, examining load-dependent changes in whole-brain BOLD activity in 24 healthy adults.",
+   "value_source": "reported"
+  },
+  "design": {
+   "description": {
+    "extraction_status": "extracted",
+    "value": "Non-interventional, repeated-measures 2×2 factorial study with low versus high perceptual load and distractor versus no-distractor conditions. Participants performed three functional runs; block order was randomized within runs and run order was counterbalanced across participants.",
+    "value_source": "reported"
+   },
+   "allocation": {
+    "extraction_status": "extracted",
+    "value": "not_applicable"
+   },
+   "assignment_structure": {
+    "extraction_status": "extracted",
+    "value": "within_subject"
+   },
+   "blinding": {
+    "extraction_status": "extracted",
+    "value": "not_applicable"
+   },
+   "timepoints": [
+    {
+     "local_id": "tp-scan",
+     "name": {
+      "extraction_status": "extracted",
+      "value": "during fMRI scanning",
+      "value_source": "reported"
+     },
+     "relation_to_intervention": {
+      "extraction_status": "extracted",
+      "value": "single_occasion",
+      "value_source": "generated"
+     }
+    }
+   ]
+  }
+ },
+ "acquisitions": [
+  {
+   "local_id": "acq-fmri",
+   "acquisition_type": "MRI",
+   "modality": {
+    "extraction_status": "extracted",
+    "value": "fMRI",
+    "value_source": "reported"
+   },
+   "instrument": {
+    "manufacturer": {
+     "extraction_status": "extracted",
+     "value": "Siemens",
+     "value_source": "reported"
+    },
+    "model": {
+     "extraction_status": "extracted",
+     "value": "Allegra",
+     "value_source": "reported"
+    }
+   }
+  }
+ ],
+ "assessments": [],
+ "external_datasets": [],
+ "groups": [
+  {
+   "local_id": "grp-healthy",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "healthy participants",
+    "value_source": "reported"
+   },
+   "description": {
+    "extraction_status": "extracted",
+    "value": "Healthy adults recruited from the community of the University of California Los Angeles; three participants were excluded, leaving 24 participants for analysis.",
+    "value_source": "reported"
+   },
+   "species": {
+    "extraction_status": "extracted",
+    "value": "human",
+    "value_source": "generated"
+   },
+   "enrolled_count": {
+    "extraction_status": "extracted",
+    "value": 27,
+    "value_source": "reported"
+   },
+   "acquired_count": {
+    "extraction_status": "extracted",
+    "value": 27,
+    "value_source": "reported"
+   },
+   "excluded_count": {
+    "extraction_status": "extracted",
+    "value": 3,
+    "value_source": "reported"
+   },
+   "age_minimum": {
+    "extraction_status": "extracted",
+    "value": 23,
+    "value_source": "reported"
+   },
+   "age_maximum": {
+    "extraction_status": "extracted",
+    "value": 41,
+    "value_source": "reported"
+   },
+   "age_unit": {
+    "extraction_status": "extracted",
+    "value": "years",
+    "value_source": "reported"
+   },
+   "sex_distribution": [
+    {
+     "category": {
+      "extraction_status": "extracted",
+      "value": "female",
+      "value_source": "reported"
+     },
+     "count": {
+      "extraction_status": "extracted",
+      "value": 12,
+      "value_source": "reported"
+     }
+    }
+   ],
+   "is_healthy": {
+    "extraction_status": "extracted",
+    "value": true,
+    "value_source": "reported"
+   },
+   "handedness_distribution": [
+    {
+     "category": {
+      "extraction_status": "extracted",
+      "value": "right handed",
+      "value_source": "reported"
+     },
+     "count": {
+      "extraction_status": "extracted",
+      "value": 24,
+      "value_source": "generated"
+     }
+    }
+   ]
+  }
+ ],
+ "model_estimations": [
+  {
+   "local_id": "me-subject-glm",
+   "model_family": {
+    "extraction_status": "extracted",
+    "value": "glm",
+    "value_source": "reported"
+   },
+   "model_type": {
+    "extraction_status": "extracted",
+    "value": "standard GLM",
+    "value_source": "reported"
+   },
+   "hrf_model": {
+    "extraction_status": "extracted",
+    "value": "canonical hemodynamic response function",
+    "value_source": "reported"
+   },
+   "stage": {
+    "extraction_status": "extracted",
+    "value": "subject",
+    "value_source": "reported"
+   },
+   "software": {
+    "extraction_status": "extracted",
+    "value": "SPM2",
+    "value_source": "reported"
+   },
+   "terms": [
+    {
+     "local_id": "term-load",
+     "name": {
+      "extraction_status": "extracted",
+      "value": "perceptual load",
+      "value_source": "reported"
+     },
+     "type": {
+      "extraction_status": "extracted",
+      "value": "categorical",
+      "value_source": "generated"
+     },
+     "levels": [
+      {
+       "level": {
+        "extraction_status": "extracted",
+        "value": "low perceptual load",
+        "value_source": "reported"
+       },
+       "conditions": [
+        "cond-low-no-distractor",
+        "cond-low-distractor"
+       ]
+      },
+      {
+       "level": {
+        "extraction_status": "extracted",
+        "value": "high perceptual load",
+        "value_source": "reported"
+       },
+       "conditions": [
+        "cond-high-no-distractor",
+        "cond-high-distractor"
+       ]
+      }
+     ],
+     "variation_level": {
+      "extraction_status": "extracted",
+      "value": "within_subject",
+      "value_source": "generated"
+     }
+    },
+    {
+     "local_id": "term-distractor",
+     "name": {
+      "extraction_status": "extracted",
+      "value": "distractor condition",
+      "value_source": "generated"
+     },
+     "type": {
+      "extraction_status": "extracted",
+      "value": "categorical",
+      "value_source": "generated"
+     },
+     "levels": [
+      {
+       "level": {
+        "extraction_status": "extracted",
+        "value": "without distractor",
+        "value_source": "reported"
+       },
+       "conditions": [
+        "cond-low-no-distractor",
+        "cond-high-no-distractor"
+       ]
+      },
+      {
+       "level": {
+        "extraction_status": "extracted",
+        "value": "with distractor",
+        "value_source": "reported"
+       },
+       "conditions": [
+        "cond-low-distractor",
+        "cond-high-distractor"
+       ]
+      }
+     ],
+     "variation_level": {
+      "extraction_status": "extracted",
+      "value": "within_subject",
+      "value_source": "generated"
+     }
+    }
+   ]
+  },
+  {
+   "local_id": "me-group-glm",
+   "model_family": {
+    "extraction_status": "extracted",
+    "value": "glm",
+    "value_source": "reported"
+   },
+   "model_type": {
+    "extraction_status": "extracted",
+    "value": "one-sample t-test at the second level",
+    "value_source": "reported"
+   },
+   "stage": {
+    "extraction_status": "extracted",
+    "value": "group",
+    "value_source": "reported"
+   },
+   "estimator": {
+    "extraction_status": "extracted",
+    "value": "one-sample t-test",
+    "value_source": "reported"
+   },
+   "inputs_from": [
+    "me-subject-glm"
+   ],
+   "terms": []
+  }
+ ],
+ "preprocessings": [
+  {
+   "local_id": "prep-fmri",
+   "description": {
+    "extraction_status": "extracted",
+    "value": "Functional BOLD time series were motion-corrected, normalized to the MNI template, smoothed, and temporally high-pass filtered before GLM analysis.",
+    "value_source": "reported"
+   },
+   "software": {
+    "extraction_status": "extracted",
+    "value": [
+     "SPM2"
+    ],
+    "value_source": "reported"
+   },
+   "steps": {
+    "extraction_status": "extracted",
+    "value": [
+     "motion correction",
+     "normalization to MNI template",
+     "spatial smoothing",
+     "128-second high-pass temporal filtering"
+    ],
+    "value_source": "reported"
+   },
+   "smoothing_fwhm_mm": {
+    "extraction_status": "extracted",
+    "value": [
+     5
+    ],
+    "value_source": "reported"
+   }
+  }
+ ],
+ "regions": [
+  {
+   "local_id": "reg-occipital-parahippocampal",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "occipital cortex and parahippocampus cluster",
+    "value_source": "reported"
+   },
+   "definition_method": {
+    "extraction_status": "extracted",
+    "value": "same_study_analysis",
+    "value_source": "generated"
+   },
+   "region_type": {
+    "extraction_status": "extracted",
+    "value": "functional_cluster",
+    "value_source": "generated"
+   },
+   "description": {
+    "extraction_status": "extracted",
+    "value": "Functional cluster including bilateral occipital cortex, fusiform or parahippocampal regions, and related visual areas, used to define functional ROIs.",
+    "value_source": "reported"
+   }
+  },
+  {
+   "local_id": "reg-frontostriatal",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "frontostriatal clusters",
+    "value_source": "reported"
+   },
+   "definition_method": {
+    "extraction_status": "extracted",
+    "value": "same_study_analysis",
+    "value_source": "generated"
+   },
+   "region_type": {
+    "extraction_status": "extracted",
+    "value": "functional_cluster",
+    "value_source": "generated"
+   },
+   "description": {
+    "extraction_status": "extracted",
+    "value": "Functional clusters including caudate heads, inferior and middle frontal gyri, and medial prefrontal cortex, defined from significant study results for signal extraction.",
+    "value_source": "reported"
+   }
+  },
+  {
+   "local_id": "reg-tpj",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "temporoparietal junction clusters",
+    "value_source": "reported"
+   },
+   "definition_method": {
+    "extraction_status": "extracted",
+    "value": "same_study_analysis",
+    "value_source": "generated"
+   },
+   "region_type": {
+    "extraction_status": "extracted",
+    "value": "functional_cluster",
+    "value_source": "generated"
+   },
+   "description": {
+    "extraction_status": "extracted",
+    "value": "Bilateral functional TPJ clusters showing distractor-related decreases at low perceptual load and used as functional ROIs.",
+    "value_source": "reported"
+   }
+  },
+  {
+   "local_id": "reg-vta-sn",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "VTA/SN",
+    "value_source": "reported"
+   },
+   "definition_method": {
+    "extraction_status": "extracted",
+    "value": "same_study_analysis",
+    "value_source": "generated"
+   },
+   "region_type": {
+    "extraction_status": "extracted",
+    "value": "functional_cluster",
+    "value_source": "generated"
+   },
+   "description": {
+    "extraction_status": "extracted",
+    "value": "Ventral tegmental area and adjacent substantia nigra region identified in the study's functional results and used for extracted signal changes.",
+    "value_source": "reported"
+   }
+  }
+ ],
+ "tasks": [
+  {
+   "local_id": "task-visual-target-identification",
+   "name": {
+    "extraction_status": "extracted",
+    "value": "visual target identification task",
+    "value_source": "reported"
+   },
+   "description": {
+    "extraction_status": "extracted",
+    "value": "Participants identified target faces presented one at a time, under low or high perceptual load, with or without scene-picture distractors. They responded by pressing a button as soon as they detected a target.",
+    "value_source": "reported"
+   },
+   "conditions": [
+    {
+     "local_id": "cond-low-no-distractor",
+     "name": {
+      "extraction_status": "extracted",
+      "value": "low perceptual load without distractor",
+      "value_source": "reported"
+     },
+     "description": {
+      "extraction_status": "extracted",
+      "value": "Low-load target identification using a single facial feature, with faces presented without background scene distractors.",
+      "value_source": "reported"
+     }
+    },
+    {
+     "local_id": "cond-low-distractor",
+     "name": {
+      "extraction_status": "extracted",
+      "value": "low perceptual load with distractor",
+      "value_source": "reported"
+     },
+     "description": {
+      "extraction_status": "extracted",
+      "value": "Low-load target identification using a single facial feature, with faces overlaid on scene-picture distractors.",
+      "value_source": "reported"
+     }
+    },
+    {
+     "local_id": "cond-high-no-distractor",
+     "name": {
+      "extraction_status": "extracted",
+      "value": "high perceptual load without distractor",
+      "value_source": "reported"
+     },
+     "description": {
+      "extraction_status": "extracted",
+      "value": "High-load target identification requiring conjunction search across four facial features, with faces presented without background scene distractors.",
+      "value_source": "reported"
+     }
+    },
+    {
+     "local_id": "cond-high-distractor",
+     "name": {
+      "extraction_status": "extracted",
+      "value": "high perceptual load with distractor",
+      "value_source": "reported"
+     },
+     "description": {
+      "extraction_status": "extracted",
+      "value": "High-load target identification requiring conjunction search across four facial features, with faces overlaid on scene-picture distractors.",
+      "value_source": "reported"
+     }
+    }
+   ],
+   "design_type": {
+    "extraction_status": "extracted",
+    "value": "blocked",
+    "value_source": "reported"
+   },
+   "acquisitions": [
+    "acq-fmri"
+   ],
+   "presentation_software": {
+    "extraction_status": "extracted",
+    "value": "Psychtoolbox on a Macintosh laptop",
+    "value_source": "reported"
+   },
+   "instructions": {
+    "extraction_status": "extracted",
+    "value": "Please identify, followed by an instruction image specifying the facial features defining targets in the upcoming block.",
+    "value_source": "reported"
+   },
+   "stimuli": {
+    "extraction_status": "extracted",
+    "value": "Sixteen schematic faces as targets and 64 scene pictures as background distractors.",
+    "value_source": "reported"
+   },
+   "response_mode": {
+    "extraction_status": "extracted",
+    "value": [
+     "button_press"
+    ],
+    "value_source": "reported"
+   },
+   "performance_measures": {
+    "extraction_status": "extracted",
+    "value": [
+     "reaction time",
+     "omission error rate",
+     "commission error rate"
+    ],
+    "value_source": "reported"
+   }
+  }
+ ]
+}
