@@ -36,8 +36,7 @@ import known_gaps
 import spans as span_tools
 import text_index
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
-import derive_direction  # noqa: E402  (repo root, two levels up)
+import derive_direction  # noqa: E402  (beside this module)
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import parse_tables  # noqa: E402  (one parse-key numbering)
