@@ -554,7 +554,7 @@ classes:
   FactorLevel:
     description: |-
       One level of a categorical model term, and the entities that carry it. Which cell of the design a cohort or condition occupies is a property of the design rather than of any contrast drawn from it, so it is held here on the ModelTerm.
-      The five entity slots are what make the entity view of a contrast recoverable: an Effect's cells name levels, and joining those levels here says which cohorts, conditions, occasions, arms or regions were compared. A factor normally ranges over one of the five -- conditions for a task factor, cohorts for a participant factor, regions for one comparing places in the brain -- so the others stay empty; a level realized by a crossing, such as a drug given at follow-up, fills more than one.
+      The five entity slots are what make the entity view of a contrast recoverable: an Effect's cells name levels, and joining those levels here says which cohorts, conditions, occasions, arms or regions were compared. A factor normally ranges over one of the five -- conditions for a task factor, cohorts for a participant factor, occasions for a time factor, arms for a treatment factor, regions for one comparing places in the brain -- so the others stay empty; a level realized by a crossing, such as a drug given at follow-up, fills more than one.
       A factor whose levels are not entities of the study at all -- hemispheres, tasks, frequency bands, acquisition sessions -- leaves all five empty and is carried by `level` alone. Such a factor is complete, and takes `Cell`s like any other.
     attributes:
       level:
@@ -582,12 +582,20 @@ classes:
         range: Timepoint
         multivalued: true
         inlined: false
-        description: The occasions carrying this level, by identifier.
+        description: >-
+          The occasions carrying this level, by identifier. A factor whose levels are baseline,
+          week 6 or follow-up ranges over occasions and fills this: left empty, the level
+          stands on its label alone and no query can tell which scan preceded the intervention.
       arms:
         range: Arm
         multivalued: true
         inlined: false
-        description: The arms carrying this level, by identifier.
+        description: >-
+          The arms carrying this level, by identifier. A factor whose levels are drug and
+          placebo, or active and sham, ranges over arms. In a parallel trial each level is
+          both an arm and a cohort and both slots are filled; in a crossover one cohort receives
+          every arm, so `arms` alone distinguishes the levels and filling only `groups` loses
+          the allocation.
       regions:
         range: Region
         multivalued: true
