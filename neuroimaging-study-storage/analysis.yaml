@@ -138,8 +138,8 @@ classes:
         inlined: true
         required: true
         description: >-
-          The method that produced the map, and its method-specific payload. Which subclass
-          is filled states the method. A voxelwise, vertexwise, or ROI-wise GLM,
+          The method that produced the map and its method-specific payload. The populated
+          subclass identifies the method. A voxelwise, vertexwise, or ROI-wise GLM,
           mixed-effects model, ANOVA, ANCOVA, or robust regression takes
           MassUnivariateDetails; a method outside the first-class families takes
           OtherAnalysisDetails and names itself in method_label.
@@ -361,7 +361,7 @@ classes:
           - range: string
         required: true
         description: >-
-          Which statistic was used. Independent of the thresholding procedure: a t-test
+          The statistic used, independent of the thresholding procedure. A t-test
           corrected by permutation is still a `t`.
       degrees_of_freedom_numerator:
         in_subset: [mvp, model_extracted]
@@ -447,7 +447,7 @@ classes:
         range: EffectPath
         required: true
         description: >-
-          Which path through the mediation model this effect's map is. An effect that is not a
+          The path through the mediation model represented by this effect's map. An effect that is not a
           mediated path has no Mediation, so there is no `not_applicable` case.
       mediator:
         in_subset: [mvp, model_extracted]
@@ -463,10 +463,9 @@ classes:
       One side of the tested comparison: a level of a model term, and which way that level
       entered. The unit a contrast is built from.
 
-      A cell points at a `ModelTerm`. Which cohort, condition, occasion or
-      arm carries a level is a property of the design, held by the term's `FactorLevel`s, so the
-      entity view of a contrast -- which conditions were compared, which cohorts -- is recovered
-      by joining through the model. The `term` is therefore the axis of the comparison: cells
+      A cell points at a `ModelTerm`. The term's `FactorLevel`s record which cohort,
+      condition, occasion, or arm carries each level. Joining through the model recovers the
+      contrast's entities, including its conditions and cohorts. The `term` is the comparison axis: cells
       sharing a term compare within a factor, cells on different terms compare across them.
 
       A cell over a term that declares no levels -- a slope, or a product column -- leaves `level`
@@ -491,9 +490,9 @@ classes:
         in_subset: [mvp, model_extracted]
         range: string
         description: >-
-          Which level of that term this cell is, matching a `FactorLevel.level` of the referenced
-          ModelTerm. The level vocabulary is stated on the model, so what is here is only which of
-          them this comparison put on this side.
+          The level represented by this cell, matching a `FactorLevel.level` on the referenced
+          ModelTerm. The model states the level vocabulary; this field only identifies the level
+          placed on this side of the comparison.
 
           Required exactly when the referenced term declares levels, and unset when it does not.
           A factor declares levels; a slope and a product column declare none, and their cells
@@ -503,9 +502,9 @@ classes:
         range: Direction
         required: true
         description: >-
-          Which way this cell entered the contrast: for a categorical term the sign of the weight
-          put on this level, for a continuous one the sign of the fitted coefficient, and for a
-          product column the sign of the interaction coefficient.
+          How this cell entered the contrast: the weight's sign for a categorical level, the
+          fitted coefficient's sign for a continuous term, or the interaction coefficient's sign
+          for a product column.
 
           Signs, never numeric weights. For an ordered comparison mark the extremes `positive`
           and `negative`, leave the levels in between out of `cells` -- absence is the zero
@@ -653,9 +652,9 @@ classes:
           usual words, and any other the source uses is storable as written. Deliberately
           left open -- no vocabulary fits every design, and nothing derives anything from it.
 
-          A label, not an ordering. Which stage fed which is `inputs_from`, and only
-          `inputs_from`: two records both saying `group` say nothing about their relation, and
-          a chain is never inferred from these strings.
+          A label, not an ordering. Only `inputs_from` records which stage fed another: two
+          records labelled `group` say nothing about their relationship, and these strings
+          never imply a chain.
       estimator:
         in_subset: [mvp, model_extracted]
         range: string
@@ -894,9 +893,9 @@ classes:
 
   FactorLevel:
     description: >-
-      One level of a categorical model term, and the entities that carry it. Which cell of the
-      design a cohort or condition occupies is a property of the design rather than of any contrast
-      drawn from it, so it is held here on the ModelTerm.
+      One level of a categorical model term and the entities that carry it. The ModelTerm
+      records which design cell a cohort or condition occupies because that placement belongs
+      to the design, not to a contrast drawn from it.
 
       The five entity slots are what make the entity view of a contrast recoverable: an Effect's
       cells name levels, and joining those levels here says which cohorts, conditions, occasions,

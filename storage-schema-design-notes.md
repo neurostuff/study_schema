@@ -19,7 +19,7 @@ part none of those should carry.
 **An `Arm` reaches an analysis by two routes, and there is deliberately no third.**
 
 `FactorLevel.arms`, when the arm was *compared*: a cell names a level, the level names the
-arm. And `Group.arm`, when the cohort was *assigned* to it: the analysis names the cohort,
+arm. `Group.arm` applies when the cohort was *assigned* to it: the analysis names the cohort,
 the cohort names the arm. Both are the schema's usual device — direction lives in
 `Effect.cells` and nothing else, and every entity slot outside the model is membership.
 
@@ -163,7 +163,7 @@ record rather than a schema change.
 [representing-models.md](representing-models.md) reserves for a first-class method whose model
 the schema represents only approximately.
 
-And `check_arm_reachability`, which is what tells the two failures apart. The repaired record
+`check_arm_reachability` distinguishes the two failures. The repaired record
 in `data/gold/` validates with no warnings: every BPM analysis reaches `arm_heroin` or
 `arm_placebo` through `FactorLevel.arms`, so the arm is queryable without a designator. The
 extraction in `data/records/` fires the check on all four, alongside four `check_cell_terms`
@@ -294,8 +294,8 @@ themselves.
 
 ### Why not a slot on ModelEstimation
 
-Because a fit and a threshold are not the same decision, and 5 of 29 model estimations in
-the corpus prove it. `SULKxviGFurw/model-mvpa-lda` is one LDA fit tested two ways: an ROI
+A fit and a threshold are separate decisions. Five of 29 model estimations in the corpus
+show this. `SULKxviGFurw/model-mvpa-lda` is one LDA fit tested two ways: an ROI
 test Bonferroni-corrected over four regions at α=0.0125, and a searchlight over the same
 fit corrected by FDR at α=0.05 with 5000 permutations. `ngDTY5BgJUuX/model-mass-univariate`
 is one mass-univariate model reported FWE-corrected for two analyses and uncorrected for
@@ -342,8 +342,8 @@ two analyses both being a *t* is not them sharing an entity.
 
 ### Why not under InferenceSettings
 
-Because the two crosscut, and the corpus says so directly: **7 of 30 inference-settings
-blocks span more than one measure**, and **5 of 38 measures span more than one settings
+They cut across each other: **7 of 30 inference-settings blocks span more than one
+measure**, and **5 of 38 measures span more than one settings
 block**. `YwwKWoEFwY3G` thresholds five different measures under a single scheme.
 
 A study states one correction scheme in Methods and applies it to everything it measured;
@@ -406,7 +406,7 @@ covariance do not, whatever the paper's wording — and the field's own descript
 it is asking for a chance to disagree with the method, and the corpus took the chance: of 23 edges
 on 2026-08-14, 16 sat on `dcm` and **five of those were marked `undirected`**, which DCM cannot be.
 
-So it became a lookup, in `derivations.ConnectivityEdge.directionality.value_map` in
+It therefore became a lookup in `derivations.ConnectivityEdge.directionality.value_map` in
 [extraction-to-storage.map.yaml](extraction-to-storage.map.yaml) — two directed values, six
 undirected, one line each.
 
@@ -463,7 +463,7 @@ The exclusivity was being violated by the pipeline that was meant to hold it, in
 
 The reason to keep the two fields is the reason they disagree: a space is parsed **per table**, and
 one analysis's tables can be parsed inconsistently. That is a fact about the tables worth keeping
-rather than one to resolve by blanking a slot. So both are filled, and the analysis's value is the
+rather than one to resolve by blanking a slot. Both are filled, and the analysis's value is the
 analysis's space — a table can be parsed as one space while the analysis reporting it states another.
 
 The cost is that `Analysis.coordinate_space` has two fillers while the provenance subsets are

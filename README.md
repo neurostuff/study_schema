@@ -125,7 +125,7 @@ with a different shape. The generator refuses an entry that does not say what it
 
 ## Keeping extraction and storage in step
 
-Because the extraction schema is a projection, `extraction-to-storage.map.yaml` is an
+The extraction schema is a projection, so `extraction-to-storage.map.yaml` is an
 identity map. It holds 23 derivations and 5 free-text tables; everything else is the field
 of the same name on the same class, with `.value` unwrapped.
 
@@ -161,8 +161,8 @@ keeping, since an answer the vocabulary has no slot for is the evidence it is sh
 
 ## Tests
 
-There is no Python here to test. This repository is the schema: LinkML YAML and the prose
-that goes with it. Everything that reads it — the generator, the checks above, the
+This repository contains the LinkML schema and its documentation, not Python code. Everything
+that reads it—the generator, the checks above, the
 extraction pipeline, and the modules that define what a record means (`schema_utils`,
 `text_index`, `table_parse`) — lives in
 [pondie](https://github.com/neurostuff/pondie), which carries this repository as a

@@ -17,9 +17,9 @@ description: >-
   v0.1.0-alpha.11 (analysis-schema/analysis-schema-v0.1.0-alpha.11.md). That
   specification's invariants that LinkML cannot express, chiefly the derivation of
   Effect.kind from which terms carry direction, are enforced by a separate structural
-  validator. So are the two the stage chain adds: ModelEstimation.inputs_from must be
+  validator. The stage chain adds two more invariants: ModelEstimation.inputs_from must be
   acyclic, and a ModelTerm.name must be unique across a whole chain rather than within
-  the one record ModelTerm.unique_keys can scope. And one more that is not from that
+  the one record ModelTerm.unique_keys can scope. One more does not come from that
   specification: Group.is_healthy being true requires Group.medical_condition to be
   empty, which LinkML cannot state because no slot condition emits a boolean constant.
 

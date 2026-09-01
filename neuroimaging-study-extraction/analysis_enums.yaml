@@ -89,8 +89,8 @@ enums:
           of named regions of interest.
   EffectPath:
     description: |-
-      Which path through a mediation model an effect's map is. Without it, an indirect-effect map is structurally identical to a plain regression on the same predictor, and a synthesis would pool the two.
-      There is no `not_applicable`: an effect that is not a mediated path has no `Mediation` object, so there is no slot to fill.
+      The path through a mediation model represented by an effect's map. Without it, an indirect-effect map is structurally identical to a plain regression on the same predictor, and a synthesis would pool the two.
+      No `not_applicable` value is needed: an effect outside a mediated path has no `Mediation` object or slot to fill.
     permissible_values:
       direct:
         description: The effect of the primary term with the mediator controlled.
@@ -283,7 +283,7 @@ enums:
           factor some participants met every level of and others did not.
   Direction:
     description: |-
-      Which way a term entered or came out of an analysis, in one vocabulary for every kind of term. A categorical level put on the plus side of a comparison and a continuous term whose coefficient came out positive are both `positive`; which of the two a given cell carries follows from the referenced term's `type`, and on a cell over a **product** term it is the sign of the interaction coefficient rather than of either component's own slope.
+      How a term entered or came out of an analysis, using one vocabulary for every term type. Both a categorical level on the plus side of a comparison and a continuous term with a positive coefficient are `positive`. The referenced term's `type` distinguishes them. For a cell over a **product** term, this field gives the interaction coefficient's sign, not either component's slope.
       It is a sign, not a magnitude: numeric contrast weights are never recorded, and a contrast whose magnitudes matter keeps them in `Analysis.definition`. There is no value for a zero weight either -- a level the contrast did not weight has no `Cell` at all.
       Only `positive` and `negative` are directional. A cell can record no sign three ways -- `undirected`, `held`, or `extraction_status: not_reported` -- and choosing between them is the decision rule in extraction-readme.md §2.
     permissible_values:
@@ -376,7 +376,7 @@ enums:
         description: The measure has no reference to compare against.
   NullHypothesis:
     description: >-
-      Which null hypothesis a conjunction tested. Only the conjunction null licenses the interpretation
+      The null hypothesis tested by a conjunction. Only the conjunction null supports the interpretation
       that every component effect is present, so the hypothesis is recorded separately from
       the procedure that implemented it.
     permissible_values:

@@ -34,7 +34,7 @@ meta-analysis:
 | Unlabelled, **title says** meta-analysis | 6 | what the title gate catches |
 | Unlabelled, title does not | 132 | primary studies *running* a meta-analysis as a step — correctly kept |
 
-So the type label is precise, and its miss rate among genuine meta-analysis papers is roughly
+The type label is precise, and its miss rate among genuine meta-analysis papers is roughly
 6 in 68 (~9%); the title gate closes that. On a random sample of 250 corpus records, 2.8% carry
 the `Meta-Analysis` type.
 
@@ -114,7 +114,7 @@ all, and that a table holds no tested effect comes from `non_analysis_content` b
 `Modality` is no exception either — `acquisition_type` is a designator the extractor writes,
 not a value computed from the modality.
 
-What this rule does **not** touch is a value naming something the source did report:
+This rule does **not** change a value that names something the source reported:
 
 - `not_applicable` — the concept does not apply. An observational study allocated nobody.
 - `undirected` — the test yields no per-level sign. An F or chi-square reports that, and it is
@@ -261,8 +261,8 @@ the record claims — and each wrong guess fails differently. Omitting the cell 
 direction denies a weight the contrast gave. Marking a held-constant level `not_reported` asserts a
 comparison the contrast did not make. Marking an F-tested factor's levels `held` says the opposite —
 that the factor was held on both sides of its own test, which is a claim about every level at once
-and so about none. And marking an F's levels `not_reported` says a direction was withheld when the
-test never produced one, which turns an omnibus into a contrast. And treating a held-constant level
+and so about none. Marking an F's levels `not_reported` says a direction was withheld when the
+test never produced one, which turns an omnibus into a contrast. Treating a held-constant level
 as averaged-over puts a term in the derived adjustment set that the contrast never averaged, which
 is the failure that went unnoticed longest.
 
@@ -304,7 +304,7 @@ have to be checked in code:
    a column refitted at the stage above from one restated there by mistake.
 
 Two constraints that used to be here are now unrepresentable rather than checked. A term cannot be
-both tested and controlled for — see *The adjustment set is derived* below. And a mediation path
+both tested and controlled for—see *The adjustment set is derived* below. A mediation path
 cannot appear without its mediator: they were two slots on `Effect` that required each other, and
 they are now two required slots inside an optional `Mediation`, so neither half can exist alone.
 
@@ -332,7 +332,7 @@ categorical term, one of its levels — the **axis of a comparison is the term**
 > - **no cells** → unconstructable; `cells` is required, because an effect that compared nothing
 >   tested nothing
 
-There is no free-text branch: a cell pattern yields one of these labels or none, and a pattern
+Cell patterns yield one of these labels or none. No free-text branch exists, and a pattern
 yielding none is a record whose cells do not describe a test.
 
 `undirected`, `held` and a `not_reported` direction are not signs — a test with no sign to give,
@@ -414,7 +414,7 @@ is what a longitudinal pre-post comparison is; what the crossed term's levels ra
 label, is what marks it as a within-person change. A design crossing task with occasion or arm
 derives `interaction` because both terms are crossed.
 
-And a crossing *within* what used to be one entity axis — four cohorts that are genotype ×
+A crossing *within* what used to be one entity axis—four cohorts that are genotype ×
 diagnosis cells, or four arms that are drug A × drug B — needs nothing special. Those cells are
 levels of two categorical `ModelTerm`s, so signing both levels of each crosses both and the
 interaction derives as one. Under the five-slot encoding this was the case that had no home,
@@ -423,7 +423,7 @@ axis.
 
 ### The adjustment set is derived
 
-There is no slot for what a contrast controlled for. Being a column of the design matrix **is**
+The schema has no slot for what a contrast controlled for. A design-matrix column **is**
 what adjusting for something is — a motion regressor adjusts the condition betas whether or not
 any contrast weights it — so:
 
@@ -462,7 +462,7 @@ condition cell at all (so both cells carry the diagnosis sign). The vector is re
 cells; [test_effect_kind_derivation.py](test_effect_kind_derivation.py) reconstructs all four of the
 factorial example's.
 
-So a factorial yields, from one model:
+One factorial model therefore yields:
 
 | contrast | encoding | kind | adjusted for |
 |---|---|---|---|
@@ -495,7 +495,7 @@ fitting it in one step is not tractable, not because the stages are separate inf
 level of inference is normally the top stage, and the columns fitted beneath it are still columns
 that inference conditions on.
 
-So each stage the source describes takes its own `ModelEstimation`, keeping its own family,
+Each stage the source describes takes its own `ModelEstimation` and keeps its own family,
 estimator, software and HRF basis, and the higher stage names the lower one in `inputs_from`.
 **A model's terms are then its own plus, transitively, those of the stages it names.** Three
 things follow, and they are the whole reason the link exists:
@@ -522,7 +522,7 @@ record does exist, its `terms` is legitimately empty. Never invent an intercept 
 about their relation; `inputs_from` is the only thing that says which stage fed which.
 
 **The same subtraction runs one level down.** For a term the cells *do* name, the levels they do
-not name are the levels this contrast weighted out. So there is no `Direction` value for a zero
+not name are the levels this contrast weighted out. The schema therefore has no `Direction` value for a zero
 weight: absence is the zero weight, read against the term's `FactorLevel`s. A factor the contrast
 averages over is the other subtraction — no cell at all, so it falls into the adjustment set.
 
@@ -530,9 +530,9 @@ The one case that needs care: an undirected test of a term, such as an F-test ov
 give its levels cells with `undirected` rather than omitting them. Omitting them would put the
 term in the adjustment set and say the analysis controlled for the factor it tested.
 
-Because a term either has a cell or is in the difference, "tested and controlled for at once" is
-unconstructable rather than merely invalid. The same holds a level down for "signed and weighted
-out".
+A term either has a cell or appears in the difference, so the schema cannot represent
+"tested and controlled for at once." The structure makes this combination impossible, not merely
+invalid. The same rule prevents a level from being both "signed and weighted out."
 
 **What replaced the duplicate-axis check.** The five-slot encoding let one comparison be asserted
 twice — a directional `ConditionTerm` and a directional `FactorTerm` on the term whose level names
@@ -549,7 +549,7 @@ returns nothing rather than guessing. Do not reject the record, and do not coerc
 `within_subject` or `between_subject` to make the step apply: those free-text answers accumulating
 are the evidence for whether a further value earns a place in the vocabulary.
 
-There is no longer a compatible-set to check membership in. The old derivation could not separate
+The schema no longer has a compatible set for membership checks. The old derivation could not separate
 `omnibus` from `simple_effect`, so it returned both and let the record choose; reading the signs on
 each term settles it, and every determinate pattern yields exactly one label.
 
@@ -565,7 +565,7 @@ The mapper mostly copies. The extraction schema is generated from the storage sc
 storage field is filled from the extraction field of the same name on the same class, with
 `.value` unwrapped and `.evidence` kept in the audit log. What it does beyond that is two
 uniform moves — unwrap, and resolve `local_id` to a minted `id` — and the short list below.
-There is no normalize step: extraction carries storage's own vocabularies, so the value that
+Extraction carries storage's own vocabularies, so no normalization step is needed. The value that
 arrives is already one storage accepts.
 
 Facts the storage schema needs that no extraction field supplies. These are exactly the
@@ -676,7 +676,7 @@ five of those were marked `undirected`, which DCM cannot be.
 
 ### Review is routed deterministically
 
-There is no record-level confidence field. An extraction record is flagged for human review
+The schema has no record-level confidence field. It flags an extraction record for human review
 from the record itself:
 
 - `not_reported` fields, counted per record;

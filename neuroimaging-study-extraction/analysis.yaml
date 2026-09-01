@@ -112,8 +112,8 @@ classes:
         required: true
         inlined: true
         description: >-
-          The method that produced the map, and its method-specific payload. Which subclass
-          is filled states the method. A voxelwise, vertexwise, or ROI-wise GLM, mixed-effects
+          The method that produced the map and its method-specific payload. The populated
+          subclass identifies the method. A voxelwise, vertexwise, or ROI-wise GLM, mixed-effects
           model, ANOVA, ANCOVA, or robust regression takes MassUnivariateDetails; a method
           outside the first-class families takes OtherAnalysisDetails and names itself in
           method_label.
@@ -228,7 +228,7 @@ classes:
         range: ExtractedStatisticFamily
         required: true
         description: >-
-          Which statistic was used. Independent of the thresholding procedure: a t-test corrected
+          The statistic used, independent of the thresholding procedure. A t-test corrected
           by permutation is still a `t`.
       degrees_of_freedom_numerator:
         range: ExtractedNumber
@@ -286,7 +286,7 @@ classes:
         range: ExtractedEffectPath
         required: true
         description: >-
-          Which path through the mediation model this effect's map is. An effect that is not
+          The path through the mediation model represented by this effect's map. An effect that is not
           a mediated path has no Mediation, so there is no `not_applicable` case.
       mediator:
         range: ModelTerm
@@ -298,7 +298,7 @@ classes:
   Cell:
     description: |-
       One side of the tested comparison: a level of a model term, and which way that level entered. The unit a contrast is built from.
-      A cell points at a `ModelTerm`. Which cohort, condition, occasion or arm carries a level is a property of the design, held by the term's `FactorLevel`s, so the entity view of a contrast -- which conditions were compared, which cohorts -- is recovered by joining through the model. The `term` is therefore the axis of the comparison: cells sharing a term compare within a factor, cells on different terms compare across them.
+      A cell points at a `ModelTerm`. The term's `FactorLevel`s record which cohort, condition, occasion, or arm carries each level. Joining through the model therefore recovers the contrast's entities, including its conditions and cohorts. The `term` is the comparison axis: cells sharing a term compare within a factor, while cells on different terms compare across them.
       A cell over a term that declares no levels -- a slope, or a product column -- leaves `level` unset and carries its `direction` alone.
     attributes:
       term:
@@ -314,13 +314,13 @@ classes:
       level:
         range: ExtractedString
         description: |-
-          Which level of that term this cell is, matching a `FactorLevel.level` of the referenced ModelTerm. The level vocabulary is stated on the model, so what is here is only which of them this comparison put on this side.
+          The level represented by this cell, matching a `FactorLevel.level` on the referenced ModelTerm. The model states the level vocabulary; this field only identifies the level placed on this side of the comparison.
           Required exactly when the referenced term declares levels, and unset when it does not. A factor declares levels; a slope and a product column declare none, and their cells name none.
       direction:
         range: ExtractedDirection
         required: true
         description: |-
-          Which way this cell entered the contrast: for a categorical term the sign of the weight put on this level, for a continuous one the sign of the fitted coefficient, and for a product column the sign of the interaction coefficient.
+          How this cell entered the contrast: the weight's sign for a categorical level, the fitted coefficient's sign for a continuous term, or the interaction coefficient's sign for a product column.
           Signs, never numeric weights. For an ordered comparison mark the extremes `positive` and `negative`, leave the levels in between out of `cells` -- absence is the zero weight -- and keep the ordering on `FactorLevel.order`.
       label:
         range: ExtractedString
@@ -388,7 +388,7 @@ classes:
       One record is one estimation stage. Neuroimaging splits a model across stages for tractability, and `inputs_from` is what puts it back together: a stage's terms are its own plus those of the stages it consumed, so the split costs the record nothing while each stage keeps its own family, estimator, software and basis.
 
       The test for whether two analyses share a record is mechanical: list the columns each was fitted with. A different dependent variable, a different covariate set, or a different subset of participants means a different design matrix and therefore a separate record, even when family, estimator and software are identical. Two BPM regressions of the same measure on the same regressor, one over the patients and one over patients and controls pooled, are two records.
-      Sharing one record across matrices is not a tidy simplification. Because a contrast's adjustment set is *derived* -- the model's terms minus the terms its cells name -- one record behind several matrices makes every one of them claim adjustments that were never in the model that produced it, and nothing in the record contradicts it.
+      Sharing one record across matrices corrupts the derived adjustment set. The adjustment set is the model's terms minus the terms named by its cells. If several matrices share a record, they claim adjustments that their original models never made, and the record cannot expose the error.
     attributes:
       local_id:
         range: string
@@ -427,7 +427,7 @@ classes:
         required: true
         description: |-
           Stage of analysis, in the source's terms: run, session, subject and group are the usual words, and any other the source uses is storable as written. Deliberately left open -- no vocabulary fits every design, and nothing derives anything from it.
-          A label, not an ordering. Which stage fed which is `inputs_from`, and only `inputs_from`: two records both saying `group` say nothing about their relation, and a chain is never inferred from these strings.
+          A label, not an ordering. Only `inputs_from` records which stage fed another: two records labelled `group` say nothing about their relationship, and these strings never imply a chain.
       estimator:
         range: ExtractedString
         description: >-
@@ -553,7 +553,7 @@ classes:
           Not the shape of the fitted relationship, which is `functional_form`: a percent change entered linearly is a linear term computed from a difference, so recording the construction as the form would lose whether the fit was linear or quadratic. A transform *of the measure* the vocabulary cannot name still goes in functional_form.
   FactorLevel:
     description: |-
-      One level of a categorical model term, and the entities that carry it. Which cell of the design a cohort or condition occupies is a property of the design rather than of any contrast drawn from it, so it is held here on the ModelTerm.
+      One level of a categorical model term and the entities that carry it. The ModelTerm records which design cell a cohort or condition occupies because that placement belongs to the design, not to a contrast drawn from it.
       The five entity slots are what make the entity view of a contrast recoverable: an Effect's cells name levels, and joining those levels here says which cohorts, conditions, occasions, arms or regions were compared. A factor normally ranges over one of the five -- conditions for a task factor, cohorts for a participant factor, occasions for a time factor, arms for a treatment factor, regions for one comparing places in the brain -- so the others stay empty; a level realized by a crossing, such as a drug given at follow-up, fills more than one.
       A factor whose levels are not entities of the study at all -- hemispheres, tasks, frequency bands, acquisition sessions -- leaves all five empty and is carried by `level` alone. Such a factor is complete, and takes `Cell`s like any other.
     attributes:

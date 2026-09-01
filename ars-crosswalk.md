@@ -127,7 +127,7 @@ were entered, in whether the term was crossed with something else. A term cannot
 the model whose matrix it is a column of.
 
 The tell is that ARS has no design matrix at all: `AnalysisMethod` is a set of `Operation`s
-producing values (n, mean, SD, p), not a specification of a linear model. So the parity in
+producing values (n, mean, SD, p), not a specification of a linear model. The parity in
 finding 1 is a parity of *shape* — shared definitions, per-analysis selection — over different
 *content*. ARS splits population-stratification from method. We split model terms from contrast.
 
@@ -159,7 +159,7 @@ in all three the sequence survives only as prose.
 
 Two things make this worth acting on rather than noting. The claim it loses is one a synthesis
 would actually filter on: an *n*-back manipulation where 1-back, 2-back and 3-back are ordered
-levels and the finding is a monotonic increase with load. And the schema has already solved the
+levels and the finding is a monotonic increase with load. The schema has already solved the
 identical problem once — `Timepoint.order` is an integer "counting from 1", added because
 `relation_to_intervention` could not separate several `post_intervention` occasions. That is
 exactly the shape of the fix and exactly the argument for it.
@@ -195,7 +195,7 @@ ARS has no contrast, no weights, no greater/lesser. It reports a value per cell 
 comparison to the reader of the display. BIDS Stats Models and NIDM-Results both have contrasts
 but express them as numeric weight vectors.
 
-So on direction this schema is alone: `DirectionalRole` and the four-axis `Effect.kind`
+This schema is unique in representing direction: `DirectionalRole` and the four-axis `Effect.kind`
 derivation have no counterpart anywhere in the comparison set. That is not a gap on our side —
 it is the thing the schema exists to make queryable, and the reason a normalized
 `greater`/`lesser` was chosen over weights is that weights cannot be recovered from prose.

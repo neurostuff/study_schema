@@ -87,7 +87,7 @@ one way to say so (chapter 11).
 
 **A record is a claim, so a wrong fill is a false claim rather than untidiness.** "The analysis
 controlled for age" is not something anyone writes down here — it is *derived* from age being a
-column of the model with no cell on this contrast. So forgetting age does not leave a gap; it asserts
+column of the model with no cell on this contrast. Forgetting age does not leave a gap; it asserts
 that the model did not adjust for age. Almost every failure mode in this tutorial has that form, and
 the failure-mode tables always give the false claim rather than the missing field.
 
@@ -411,7 +411,7 @@ spans both sides.
 whole schema: `FactorLevel.timepoints`. An `Arm` is reached by exactly two: `FactorLevel.arms` when
 the arm was *compared*, and `Group.arm` when a cohort was *assigned* to it.
 
-So a record whose analyses report change over time and whose model terms name no occasion has recorded
+A record whose analyses report change over time but whose model terms name no occasion has recorded
 the scans and lost the comparison between them. The failing shape is a term called `pre > post
 change`, continuous, with no levels — the axis the design matrix distinguished, written down from its
 contrast's side. The encoding to use is a categorical term with a level per occasion; see
@@ -434,7 +434,7 @@ route reaches.
 `not_applicable`, which is for studies that administered nothing). `assignment_structure:
 within_subject` (repeated occasions around one intervention, no order of arms to cross).
 One `Arm`: name from the paper, `arm_kind: behavioural_intervention`. Two `Timepoint`s:
-`pre_intervention` with `order: 1`, `post_intervention` with `order: 2`. And — the part that is
+`pre_intervention` with `order: 1`, `post_intervention` with `order: 2`. The important detail is
 usually missed — the pre–post analysis needs a categorical `ModelTerm` whose two levels name those two
 timepoints, or the occasions stay unreachable.
 
@@ -707,7 +707,7 @@ the data, not a way of recording that two sequences differed.
 | `steps` | Operation names **in execution order**, free text | The smoothing kernel is not a phrase in this list |
 | `smoothing_fwhm_mm` | FWHM in mm: one value isotropic, three for [x, y, z]. **Record 0 when the source states no smoothing** | The one preprocessing parameter a synthesis filters on, which is why it is structured |
 
-And the connection people miss: **a pipeline attaches to the model, not to the analysis.**
+One connection is easy to miss: **a pipeline attaches to the model, not to the analysis.**
 `ModelEstimation.preprocessing` names the pipelines that produced the data the model was fitted to,
 because the data a model was fitted to is part of its specification (chapter 8). More than one entry
 where the fit consumed more than one kind of image — a multimodal regression of perfusion on
@@ -896,8 +896,8 @@ not one analysis over a factor whose levels are the parameters. Entered as a ter
 variable falls into its own analysis's derived adjustment set, and the record says the analysis
 controlled for the thing it measured.
 
-**And a term does not know whether it was tested.** Nothing marks a column as a nuisance regressor:
-having no `Cell` on a given contrast *is* the mark. Which is why the rule is to record **every** term
+**A term does not know whether it was tested.** Nothing marks a column as a nuisance regressor:
+having no `Cell` on a given contrast *is* the mark. Therefore, record **every** term
 the source states, including ones no reported contrast tests, and including ones mentioned only in
 passing — "controlling for age and sex" is a statement about the design matrix.
 
@@ -1183,7 +1183,7 @@ facts:
      and is missing from the page, which is missingness like any other.
 
 Two consequences worth holding on to. A `not_reported` direction is **completable** — a corrigendum or
-the authors could supply it — and an `undirected` cell is not, because nothing was withheld. And they
+the authors could supply it—and an `undirected` cell is not, because nothing was withheld. They
 derive different kinds: only `undirected` cells make an `omnibus`; a withheld sign leaves the kind the
 same as the cells would give if signed.
 
@@ -1252,7 +1252,7 @@ condition into the derived adjustment set.
 
 The third row is where records fail: without the `held` cell, "rotation > comparison in patients" and
 the same simple effect in controls are the *same two cells*, and the record cannot tell them apart.
-And note the first row — averaging over a factor is the **absence** of its cells, which is also how it
+The first row also shows that averaging over a factor is the **absence** of its cells. This is how it
 comes to be adjusted for them.
 
 ### 9.8 Failure modes
@@ -1296,7 +1296,7 @@ eight it is. There is no `analysis_type` field on `Analysis` to keep in step wit
 | `NotStructurableDetails` | An effect grounded in the source with no stable structured decomposition | `reason`, `explanation` |
 
 Naming `MassUnivariateDetails` is how mass-univariate gets **asserted** rather than inferred from
-silence. And whatever the payload, **what was tested always lives in `Effect`**: a connectivity,
+silence. Whatever the payload, **what was tested always lives in `Effect`**: a connectivity,
 decoding, RSA or component analysis states its tested effect in exactly the same fields a voxelwise
 GLM does.
 
@@ -1364,7 +1364,7 @@ latent variable's sign is arbitrary up to a flip, so a paper must say what posit
 direction can be pooled).
 
 One analysis reports **one** component; a second component from the same decomposition is a second
-`Analysis`. And a component map presented descriptively with no test is not an Analysis at all.
+`Analysis`. A component map presented descriptively with no test is not an Analysis at all.
 
 ### 10.3 The two escape hatches, and how to choose
 
@@ -1620,7 +1620,7 @@ same order is what stops you inventing entities to satisfy a cell.
 
 Two habits worth forming. When a step needs an entity that does not exist, **go back and declare it**
 rather than writing the fact in prose — an entity named only in an `Analysis.definition` is invisible
-to every query. And when a paper's wording resists, ask the one question of chapter 8: would this fact
+to every query. When a paper's wording resists, ask the question from chapter 8: would this fact
 change if a different contrast came off the same model?
 
 ### 12.3 What the validator checks

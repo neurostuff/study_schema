@@ -47,7 +47,7 @@ patients and controls pooled, are two records. This is the defect that stays *va
 record contradicts a shared term list, so a bare two-sample t-test ends up claiming it controlled
 for covariates that were in no model it was fitted with.
 
-**And one qualification.** "One per design matrix" counts *estimation stages*: a first-level GLM
+**One qualification.** "One per design matrix" counts *estimation stages*: a first-level GLM
 and the group model fitted on its output are two records, linked by `inputs_from` on the group one.
 The link is what keeps them one model — a stage's terms are its own plus those of the stages it
 consumed — so nothing above has to restate a column fitted below. §5.12 works this through.
@@ -133,7 +133,7 @@ participant or only *across* the sample. It applies to every term, not only cont
 a continuous term it decides whether the effect is a parametric modulation or a cross-subject
 regression.
 
-**Where it ends.** Nothing about a contrast: a term does not know whether it was tested. And nothing
+**Where it ends.** Nothing about a contrast: a term does not know whether it was tested. Nothing
 about the quantity being modelled — what the model *models* is `Analysis.measure`, never a term of
 it. A table laid out with one row-block per measured parameter (four diffusion metrics, three
 frequency bands) is one analysis per parameter over one `Measure` each, not one analysis over a
@@ -256,8 +256,8 @@ cell. There is no `zero` value: a zero weight *is* a missing cell.
 
 **Held constant is an unsigned cell.** "Patients versus controls, within the task condition" puts
 `task` on the plus side and the minus side at once, so its net sign on the condition axis is nothing.
-`positive` there would claim a condition comparison the contrast never makes. Because the level does
-have a cell, its term stays out of the adjustment set — the contrast did not average over it.
+`positive` there would claim a condition comparison the contrast never makes. The level has a cell,
+so its term stays out of the adjustment set—the contrast did not average over it.
 
 ### Which unsigned value: two questions
 
@@ -549,7 +549,7 @@ main effect of group simply has no task cells, which is also how it comes to be 
 Rows three and four are §4's pair in one model: the F-test cells every level `undirected` because
 the test yields no per-level sign, and the simple effect's `RA patients` cell is `held` because the
 comparison was taken within that level, which puts it on both sides.
-And **the two factors differ only in `variation_level`**; the cells are the same shape for a
+**The two factors differ only in `variation_level`**; the cells have the same shape for a
 between-subject and a within-subject factor, because what differs is a property of the design,
 recorded once on the model.
 
@@ -681,7 +681,7 @@ omitting them is what keeps the factor out of the adjustment set: it was tested,
 `undirected` and not the other two unsigned values, and §4's two questions say why. The levels were
 not held: the F compares them against each other rather than taking a contrast within any of them,
 so `held` on all three would claim the factor was held at three levels at once — the shape
-`check_unsigned_cells` flags as a miscoded F. And nothing was withheld: an F over three levels
+`check_unsigned_cells` flags as a miscoded F. Nothing was withheld: an F over three levels
 returns one statistic for the set and has no per-level direction to print, so this is not a withheld
 sign either. Reporting the follow-up contrasts would supply signs, but those are separate Analyses
 (§2) and would not sign *these* cells.

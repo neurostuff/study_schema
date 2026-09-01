@@ -241,10 +241,10 @@ deviations:
       regressions of the same measure on the same regressor, one over the patients and one
       over patients and controls pooled, are two records.
 
-      Sharing one record across matrices is not a tidy simplification. Because a contrast's
-      adjustment set is *derived* -- the model's terms minus the terms its cells name -- one
-      record behind several matrices makes every one of them claim adjustments that were
-      never in the model that produced it, and nothing in the record contradicts it.
+      Sharing one record across matrices corrupts the derived adjustment set. The adjustment
+      set is the model's terms minus the terms named by its cells. If several matrices share
+      one record, they claim adjustments that their original models never made, and the
+      record cannot expose the error.
 
   - id: a-term-is-not-the-thing-being-measured
     operation: describe_slot

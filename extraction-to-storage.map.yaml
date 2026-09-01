@@ -20,7 +20,7 @@
 # text, and 16 tables holding 316 synonyms were the only route from a paper's wording to a
 # permissible value. The extraction schema now carries the vocabularies themselves, with
 # each field's range copied from storage exactly -- closed where storage is closed, and
-# `any_of: [<Enum>, string]` where storage left an escape hatch. So the value that arrives
+# `any_of: [<Enum>, string]` where storage left an escape hatch. The incoming value
 # is already a value storage accepts, in both cases, and the tables had nothing left to do.
 # They were deleted rather than kept as a fallback; `git log` has them if a fallback turns
 # out to be wanted.
@@ -77,7 +77,7 @@ derivations:
     notes: >-
       The method decides whether an edge is directed, and no wording of the paper can override
       it: only a generative or precedence-based model supports a claim about which region
-      influences which. So this is a lookup on the containing analysis's `connectivity_method`
+      influences which. This is therefore a lookup on the containing analysis's `connectivity_method`
       rather than something a reader is asked for. A method written as free text -- one the
       vocabulary has no value for -- leaves the field unset, since there is nothing to look up;
       that is the one case where an edge's directionality is genuinely unknown to the record.

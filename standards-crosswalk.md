@@ -30,7 +30,7 @@ descriptive (as in summary of already fit models)."
 Three consequences run through everything that follows.
 
 **A prescriptive standard has no results.** BSM has no threshold, no correction, no statistic
-value, no direction of outcome — inference is the fitting tool's business. So BSM is *less*
+value, no direction of outcome—inference is the fitting tool's business. BSM is therefore *less*
 expressive than both this schema and NIDM-Results across the whole inference surface, and the
 comparison there is one-sided.
 

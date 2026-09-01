@@ -1,6 +1,6 @@
 # The entities around an analysis
 
-What each thing surrounding an `Analysis` is called, what owns it, and what points at what.
+This document names each object around an `Analysis` and shows its ownership and references.
 
 This is the map, not the instructions. [representing-models.md](representing-models.md) says how to
 encode a reported result and what to do when a paper resists;
@@ -121,7 +121,7 @@ predictors, they are terms.
 
 `FactorLevel.level` is the label — `"2-back"`, `"patients"`. `Cell.level` is a copy of that string,
 and how a cell says which level it is. **A cell reaches a level by matching that string, not by
-identifier**: `FactorLevel` has no `id`, being uniquely keyed by `level` within its term. So the
+identifier**: `FactorLevel` has no `id`; `level` uniquely keys it within its term. The
 join is `cell.term` → that `ModelTerm` → the `FactorLevel` whose `level` equals `cell.level`.
 
 ---
@@ -220,7 +220,7 @@ of what it did:
 
 The near-miss worth naming: a whole-brain seed-based analysis has a seed and **no** search-space
 region. Putting the seed in `Analysis.regions` says inference was restricted to it, which is the
-opposite of what happened. And `ModelTerm.region` is singular, so it cannot serve a factor that
+opposite of what happened. `ModelTerm.region` is singular, so it cannot serve a factor that
 compares regions — that is one term with several levels, with the regions on `FactorLevel.regions`.
 
 ### 5.5 The two ways an analysis touches a `Group`
