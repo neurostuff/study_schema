@@ -1,0 +1,1243 @@
+{
+ "case_id": "nmb_17488204",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev_p1lowp2high",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 4,
+ "stage1_names": [
+  "Decrease negative>Watch negative",
+  "Decrease positive>Watch positive",
+  "Increase negative>Watch negative",
+  "Increase positive>Watch positive"
+ ],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "neuroimaging-methods-curation-v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": [
+    {
+     "ordinal": 0,
+     "title": "Neural correlates of positive and negative emotion regulation",
+     "level": 0,
+     "start_char": 0,
+     "end_char": 3041
+    }
+   ]
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined the neural correlates of cognitively increasing and decreasing emotional reactions to positive and negative stimuli, including effects on prefrontal regions, the amygdala, and subjective emotional reactions.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Event-related functional magnetic resonance imaging study in which participants viewed negative, positive, and neutral pictures while attempting to increase, decrease, or not alter their emotional reactions; subjective reactions were assessed via on-line ratings.",
+   "value_source": "reported"
+  },
+  "external_datasets": [],
+  "assessments": [
+   {
+    "local_id": "assess_emotion_rating",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "on-line ratings",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Subjective reactions were assessed via on-line ratings.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "subjective reaction rating",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_emotion_valence",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "emotional valence",
+     "value_source": "generated"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "negative, positive, and neutral pictures",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_negative",
+     "cond_positive",
+     "cond_neutral"
+    ],
+    "groups": []
+   },
+   {
+    "local_id": "term_regulation_goal",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "regulation goal",
+     "value_source": "generated"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "attempting to increase, decrease, or not alter their emotional reactions",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_increase",
+     "cond_decrease",
+     "cond_no_alter"
+    ],
+    "groups": []
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g1",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Participants",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "not_reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "approached_count": {
+     "extraction_status": "not_reported"
+    },
+    "consented_count": {
+     "extraction_status": "not_reported"
+    },
+    "enrolled_count": {
+     "extraction_status": "not_reported"
+    },
+    "acquired_count": {
+     "extraction_status": "not_reported"
+    },
+    "excluded_count": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_emotion_regulation",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "positive and negative emotion regulation",
+     "value_source": "generated"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants viewed negative, positive, and neutral pictures while attempting to increase, decrease, or not alter their emotional reactions.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_negative",
+     "cond_positive",
+     "cond_neutral",
+     "cond_increase",
+     "cond_decrease",
+     "cond_no_alter"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "presentation_software": {
+     "extraction_status": "not_reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "attempting to increase, decrease, or not alter their emotional reactions",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "negative, positive, and neutral pictures",
+     "value_source": "reported"
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "Subjective reactions assessed via on-line ratings",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional magnetic resonance imaging",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Event-related functional magnetic resonance imaging",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "preprocessings": [],
+  "model_estimations": [],
+  "conditions": [
+   {
+    "local_id": "cond_negative",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "negative",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Negative pictures and associated negative emotional reactions",
+     "value_source": "generated"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_positive",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "positive",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Positive pictures and associated positive emotional reactions",
+     "value_source": "generated"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "neutral",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Neutral pictures",
+     "value_source": "generated"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_increase",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "increase",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Attempting to increase emotional reactions",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_decrease",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "decrease",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Attempting to decrease emotional reactions",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_no_alter",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "not alter",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Attempting not to alter emotional reactions",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "ana_decrease_negative_watch_negative",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Decrease negative>Watch negative",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "roi_label": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_emotion_regulation"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_decrease",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotional valence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "negative",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "regulation goal",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "decrease",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_no_alter",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Watch negative",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotional valence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "negative",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "regulation goal",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "not alter",
+         "value_source": "reported"
+        }
+       }
+      ]
+     }
+    ],
+    "terms": [
+     "term_emotion_valence",
+     "term_regulation_goal"
+    ],
+    "model_estimation": "",
+    "groups": [
+     {
+      "group": "g1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Decrease negative > Watch negative",
+     "value_source": "generated"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "Decreasing negative emotion activated bilateral prefrontal regions.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ana_decrease_positive_watch_positive",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Decrease positive>Watch positive",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "roi_label": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_emotion_regulation"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_decrease",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotional valence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "positive",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "regulation goal",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "decrease",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_no_alter",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Watch positive",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotional valence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "positive",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "regulation goal",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "not alter",
+         "value_source": "reported"
+        }
+       }
+      ]
+     }
+    ],
+    "terms": [
+     "term_emotion_valence",
+     "term_regulation_goal"
+    ],
+    "model_estimation": "",
+    "groups": [
+     {
+      "group": "g1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Decrease positive > Watch positive",
+     "value_source": "generated"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "Decreasing positive emotion activated bilateral prefrontal regions.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ana_increase_negative_watch_negative",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Increase negative>Watch negative",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "roi_label": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_emotion_regulation"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_increase",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotional valence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "negative",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "regulation goal",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "increase",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_no_alter",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Watch negative",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotional valence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "negative",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "regulation goal",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "not alter",
+         "value_source": "reported"
+        }
+       }
+      ]
+     }
+    ],
+    "terms": [
+     "term_emotion_valence",
+     "term_regulation_goal"
+    ],
+    "model_estimation": "",
+    "groups": [
+     {
+      "group": "g1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Increase negative > Watch negative",
+     "value_source": "generated"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "Increasing negative emotion engaged primarily left-lateralized prefrontal regions.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ana_increase_positive_watch_positive",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Increase positive>Watch positive",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "roi_label": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_emotion_regulation"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_increase",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotional valence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "positive",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "regulation goal",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "increase",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_no_alter",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Watch positive",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotional valence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "positive",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "regulation goal",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "not alter",
+         "value_source": "reported"
+        }
+       }
+      ]
+     }
+    ],
+    "terms": [
+     "term_emotion_valence",
+     "term_regulation_goal"
+    ],
+    "model_estimation": "",
+    "groups": [
+     {
+      "group": "g1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Increase positive > Watch positive",
+     "value_source": "generated"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "Increasing positive emotion engaged primarily left-lateralized prefrontal regions.",
+     "value_source": "generated"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 10755,
+  "completion": 12100,
+  "reasoning": 4333,
+  "cached": 0
+ },
+ "usage_pass1": {
+  "prompt": 5144,
+  "completion": 2326,
+  "reasoning": 151,
+  "cached": 0
+ },
+ "usage_pass2": {
+  "prompt": 5611,
+  "completion": 9774,
+  "reasoning": 4182,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 34361,
+ "service_tier_echo": "flex"
+}

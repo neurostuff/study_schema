@@ -1,0 +1,4118 @@
+{
+ "case_id": "nmb_25112281",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 3,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "a_conf_pos",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Positive relationship between confidence and BOLD signal amplitude",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Only one region displayed a positive relationship with confidence: the ventral striatum around the nucleus accumbens."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Using the parametric regressor, we separately tested for positive or negative linear relationships between the BOLD signal amplitude and the confidence of the subject across all experimental runs."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A GLM with 10 regressors per run was used to estimate BOLD response amplitudes in each voxel separately."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [
+     {
+      "condition": "c_conf_low",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser confidence",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "We call these confidence bins \u201clow,\u201d \u201cmedium,\u201d and \u201chigh confidence.\u201d"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_conf_high",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater confidence",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "We call these confidence bins \u201clow,\u201d \u201cmedium,\u201d and \u201chigh confidence.\u201d"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_confidence"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_univ",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "positive linear relationship between the BOLD signal amplitude and the confidence of the subject",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Using the parametric regressor, we separately tested for positive or negative linear relationships between the BOLD signal amplitude and the confidence of the subject across all experimental runs."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal amplitude",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Only one region displayed a positive relationship with confidence: the ventral striatum around the nucleus accumbens."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For this, we subjected all accuracy maps to a group-level t-test (P-cutoff < 0.0001, corrected family-wise for cluster size at P < 0.05)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For comparability with other studies, this template was brought to MNI space using affine transformation, and the transformation matrices of each subject were saved."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.0001",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "P",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "corrected family-wise for cluster size",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We were interested to find searchlight voxels where the mean Fisher z-transformed correlation coefficient was larger than 0."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "a confidence signal",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In this study, we focused on regions displaying a \u201cpositive\u201d relationship between confidence and BOLD signal amplitude because these could be more unambiguously treated as candidates for a confidence signal."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_conf_neg",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Negative relationship between confidence and BOLD signal amplitude",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Whereas several brain regions exhibited decreases in BOLD signal with increasing confidence (Fig. 4 and Table 1), only one region displayed a positive relationship with confidence: the ventral striatum around the nucleus accumbens."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Using the parametric regressor, we separately tested for positive or negative linear relationships between the BOLD signal amplitude and the confidence of the subject across all experimental runs."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A GLM with 10 regressors per run was used to estimate BOLD response amplitudes in each voxel separately."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_confidence"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_univ",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "negative linear relationship between the BOLD signal amplitude and the confidence of the subject",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Using the parametric regressor, we separately tested for positive or negative linear relationships between the BOLD signal amplitude and the confidence of the subject across all experimental runs."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal amplitude",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Whereas several brain regions exhibited decreases in BOLD signal with increasing confidence"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For this, we subjected all accuracy maps to a group-level t-test (P-cutoff < 0.0001, corrected family-wise for cluster size at P < 0.05)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For comparability with other studies, this template was brought to MNI space using affine transformation, and the transformation matrices of each subject were saved."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.0001",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "P",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "corrected family-wise for cluster size",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_class_choice_up",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Searchlight-based multivariate classification analysis: binary choices",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In a first step, we delineated brain regions in which activity reflected the subjects' choices."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "searchlight",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the searchlight classification, a sphere of voxels was selected around a given voxel with a radius of 10 mm (139 voxels)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the searchlight classification, a sphere of voxels was selected around a given voxel with a radius of 10 mm (139 voxels)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [
+     {
+      "condition": "c_up",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "one class",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "We assigned each vector a label corresponding to the choice of the subject (\u201cchoice up\u201d vs. \u201cchoice down\u201d)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_down",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "the other class",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "We assigned each vector a label corresponding to the choice of the subject (\u201cchoice up\u201d vs. \u201cchoice down\u201d)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_choice"
+    ],
+    "model_estimation": "me_glm_class",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_mv",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "\u201cchoice up\u201d vs. \u201cchoice down\u201d",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We assigned each vector a label corresponding to the choice of the subject (\u201cchoice up\u201d vs. \u201cchoice down\u201d)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "mean cross-validated accuracy",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "This generated a continuous map of mean cross-validated accuracies for each subject"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For this, we subjected all accuracy maps to a group-level t-test (P-cutoff < 0.0001, corrected family-wise for cluster size at P < 0.05)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "50% chance-level accuracy",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The chance-level accuracy for classification was set to 50%, because classification was based on an equal number of regressors for both categories."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The map of each subject was then spatially transformed to MNI space and smoothed for group-level analyses."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.0001",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "P",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "corrected family-wise for cluster size",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {
+     "decoded_variable": {
+      "extraction_status": "extracted",
+      "value": "binary perceptual choice",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "In a first step, we delineated brain regions in which activity reflected the subjects' choices."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "classes": [
+      {
+       "label": {
+        "extraction_status": "extracted",
+        "value": "choice up",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "We assigned each vector a label corresponding to the choice of the subject (\u201cchoice up\u201d vs. \u201cchoice down\u201d)."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "condition": "c_up"
+      },
+      {
+       "label": {
+        "extraction_status": "extracted",
+        "value": "choice down",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "We assigned each vector a label corresponding to the choice of the subject (\u201cchoice up\u201d vs. \u201cchoice down\u201d)."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "condition": "c_down"
+      }
+     ],
+     "performance_metrics": [
+      {
+       "name": {
+        "extraction_status": "extracted",
+        "value": "accuracy",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "This generated a continuous map of mean cross-validated accuracies for each subject"
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "value": {
+        "extraction_status": "not_reported",
+        "evidence": {
+         "status": "not_applicable"
+        }
+       },
+       "reference_value": {
+        "extraction_status": "extracted",
+        "value": "50%",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "The chance-level accuracy for classification was set to 50%, because classification was based on an equal number of regressors for both categories."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "relation": {
+        "extraction_status": "extracted",
+        "value": "above chance",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "We were interested to find searchlight voxels where across the group the mean classification accuracy of choices was significantly above chance."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     ],
+     "validation_scheme": {
+      "extraction_status": "extracted",
+      "value": "leave-one-run-out cross-validation scheme",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "This was performed within each subject, using a leave-one-run-out cross-validation scheme."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_dv_reg",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Searchlight-based multivariate regression analysis: continuous decision variable",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In order to investigate which brain regions changed their patterns of activity depending on the confidence of the subject, we employed a multivariate regression analysis."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "searchlight",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We searched for brain regions that exhibited a linear relationship between local patterns of brain activity and the DV."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For that purpose, we first ran a GLM analysis in which we modeled the 3 DVs separately for the 2 choices (up/down)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_dv"
+    ],
+    "model_estimation": "me_glm_reg",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_mv",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "linear relationship between local patterns of brain activity and the DV",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We searched for brain regions that exhibited a linear relationship between local patterns of brain activity and the DV."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "cross-validation performance",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "This mean Fisher-z-transformed correlation coefficient served as a measure of cross-validation performance"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For this, we subjected all correlation maps to a group-level t-test (P-cutoff < 0.0001, corrected family-wise for cluster size at P < 0.05)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "0",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We were interested to find searchlight voxels where the mean Fisher z-transformed correlation coefficient was larger than 0."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The map of each subject was then spatially transformed to MNI space and smoothed for group-level analyses."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.0001",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "P",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "corrected family-wise for cluster size",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical cutoff was set to P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {
+     "decoded_variable": {
+      "extraction_status": "extracted",
+      "value": "decision variable",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We searched for brain regions that exhibited a linear relationship between local patterns of brain activity and the DV."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "classes": [],
+     "performance_metrics": [],
+     "validation_scheme": {
+      "extraction_status": "extracted",
+      "value": "leave-one-run-out cross-validation approach within each subject",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "This was performed similar to the \u201cmultivariate classification analysis\u201d above, using a leave-one-run-out cross-validation approach within each subject"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_conn_vlpfc_vs",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Multivariate connectivity analysis between right ventrolateral prefrontal cortex and ventral striatum",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Only the activity patterns in the right ventrolateral prefrontal cortex exhibited the specific correlation with the activity patterns in the ventral striatum"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "two regions of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "This analysis investigates similarities in the representation of the DV in region A and the representation of confidence in region B"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We selected a sphere of voxels around each region's peak (radius 10 mm), providing us with one searchlight per region."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "this study's own earlier analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "As candidate seed regions, we selected the 12 regions that were identified in the multivariate regression analysis reflecting the DV"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "right ventrolateral prefrontal cortex and ventral striatum",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Only the activity patterns in the right ventrolateral prefrontal cortex exhibited the specific correlation with the activity patterns in the ventral striatum"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_dv",
+     "t_confidence"
+    ],
+    "model_estimation": "me_connectivity",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_mv",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "the across-run variation in DV signals in B to result in a corresponding across-run variation in confidence signals in A",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The idea was to see whether the across-run variation in DV signals in B to result in a corresponding across-run variation in confidence signals in A."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "correlation between activity patterns",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Only the activity patterns in the right ventrolateral prefrontal cortex exhibited the specific correlation with the activity patterns in the ventral striatum"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "These correlation coefficients were Fisher-z-transformed and averaged across runs."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For comparability with other studies, this template was brought to MNI space using affine transformation"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "region",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "As candidate seed regions, we selected the 12 regions that were identified in the multivariate regression analysis reflecting the DV"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Bonferroni correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "reflecting Bonferroni correction for P < 0.05 across 12 regions"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "reflecting Bonferroni correction for P < 0.05 across 12 regions"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "number_of_tests": {
+      "extraction_status": "extracted",
+      "value": "12",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "reflecting Bonferroni correction for P < 0.05 across 12 regions"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "multivariate connectivity analysis",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Using a multivariate connectivity analysis, we demonstrate that patterns of brain activity in the right ventrolateral prefrontal cortex reflecting the decision variable were linked to brain signals in the ventral striatum reflecting confidence."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "right ventrolateral prefrontal cortex",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Only the activity patterns in the right ventrolateral prefrontal cortex exhibited the specific correlation with the activity patterns in the ventral striatum"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "ventral striatum",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Only the activity patterns in the right ventrolateral prefrontal cortex exhibited the specific correlation with the activity patterns in the ventral striatum"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "similarities in the representation of the DV and confidence",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "This analysis investigates similarities in the representation of the DV in region A and the representation of confidence in region B"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_conn_mt_vlpfc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Multivariate connectivity analysis between MT+ and ventrolateral prefrontal cortex",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We found a correlation between MT+ and vlPFC (Fisher z = 0.18, permutation P = 0.0100)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "two regions of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To test for this, we took the signals from motion-sensitive area MT+ and ran the same multivariate connectivity analysis as mentioned above, but this time between MT+ and vlPFC"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "text": "We selected a sphere of voxels around each region's peak (radius 10 mm), providing us with one searchlight per region."
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "a functional localizer",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "text": "all subjects took part in a functional localizer run to locate motion-sensitive region MT+/V5 in each individual subject"
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "MT+ and vlPFC",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "text": "We found a correlation between MT+ and vlPFC (Fisher z = 0.18, permutation P = 0.0100)"
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_motion",
+     "exp_localizer"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_dv"
+    ],
+    "model_estimation": "me_connectivity",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_mv",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "correlation between MT+ and vlPFC",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We found a correlation between MT+ and vlPFC (Fisher z = 0.18, permutation P = 0.0100)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found a correlation between MT+ and vlPFC (Fisher z = 0.18, permutation P = 0.0100)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Fisher z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found a correlation between MT+ and vlPFC (Fisher z = 0.18, permutation P = 0.0100)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For comparability with other studies, this template was brought to MNI space using affine transformation"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "region",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "As candidate seed regions, we selected the 12 regions that were identified in the multivariate regression analysis reflecting the DV"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "permutation_count": {
+      "extraction_status": "extracted",
+      "value": "106",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "This process was repeated 106 times to generate a distribution of correlation coefficients for each region of interest."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "multivariate connectivity analysis",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "we ran the same multivariate connectivity analysis as mentioned above"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "MT+",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found a correlation between MT+ and vlPFC (Fisher z = 0.18, permutation P = 0.0100)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "vlPFC",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found a correlation between MT+ and vlPFC (Fisher z = 0.18, permutation P = 0.0100)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "correlation between predicted labels",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "According to this view, the predicted labels in MT+ would correlate with the predicted labels in vlPFC"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_conn_mt_vs",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Multivariate connectivity analysis between MT+ and ventral striatum",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "but not between MT+ and the ventral striatum (Fisher z = -0.04, permutation P = 0.5793)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "two regions of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we ran the same multivariate connectivity analysis as mentioned above, but this time between MT+ and vlPFC as well as between MT+ and the ventral striatum."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We selected a sphere of voxels around each region's peak (radius 10 mm), providing us with one searchlight per region."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "a functional localizer",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "all subjects took part in a functional localizer run to locate motion-sensitive region MT+/V5 in each individual subject"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "MT+ and ventral striatum",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "but not between MT+ and the ventral striatum (Fisher z = -0.04, permutation P = 0.5793)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_motion",
+     "exp_localizer"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_dv",
+     "t_confidence"
+    ],
+    "model_estimation": "me_connectivity",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_mv",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "correlation between MT+ and the ventral striatum",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "but not between MT+ and the ventral striatum (Fisher z = -0.04, permutation P = 0.5793)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "but not between MT+ and the ventral striatum (Fisher z = -0.04, permutation P = 0.5793)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Fisher z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "but not between MT+ and the ventral striatum (Fisher z = -0.04, permutation P = 0.5793)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For comparability with other studies, this template was brought to MNI space using affine transformation"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "region",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "As candidate seed regions, we selected the 12 regions that were identified in the multivariate regression analysis reflecting the DV"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "permutation_count": {
+      "extraction_status": "extracted",
+      "value": "106",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "This process was repeated 106 times to generate a distribution of correlation coefficients for each region of interest."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "multivariate connectivity analysis",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "we ran the same multivariate connectivity analysis as mentioned above"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "MT+",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "but not between MT+ and the ventral striatum (Fisher z = -0.04, permutation P = 0.5793)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "ventral striatum",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "but not between MT+ and the ventral striatum (Fisher z = -0.04, permutation P = 0.5793)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "correlation between transformed predicted labels and predicted labels of confidence",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the transformed predicted labels in MT+ would correlate with the predicted labels of confidence in the ventral striatum."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Brain regions where activity is related to confidence",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Brain regions where activity is related to confidence"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "A complete list of brain regions with parametric increases and decreases in brain activity in relationship to confidence.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A complete list of brain regions with parametric increases and decreases in brain activity in relationship to confidence."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "Results are reported at P < 0.0001, corrected family-wise for cluster size at P < 0.05.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Results are reported at P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Brain regions showing confidence-related increases and decreases in activity.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A complete list of brain regions with parametric increases and decreases in brain activity in relationship to confidence."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Brain regions informative about the DV",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Brain regions informative about the DV"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Brain regions carrying information about the DV reconstructed from choices and confidence ratings.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Brain regions carrying information about the DV reconstructed from choices and confidence ratings."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "Results are reported at P < 0.0001, corrected family-wise for cluster size at P < 0.05.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Results are reported at P < 0.0001, corrected family-wise for cluster size at P < 0.05."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Brain regions carrying information about the reconstructed decision variable.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Brain regions carrying information about the DV reconstructed from choices and confidence ratings."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "c_up",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "motion up",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "motion up\u201d or \u201cmotion down"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Dominant upward motion perceptual choice.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a binary perceptual judgment of the dominant direction of motion of the stimulus (\u201cmotion up\u201d or \u201cmotion down\u201d)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a binary perceptual judgment of the dominant direction of motion of the stimulus (\u201cmotion up\u201d or \u201cmotion down\u201d)."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_down",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "motion down",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "motion up\u201d or \u201cmotion down"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Dominant downward motion perceptual choice.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a binary perceptual judgment of the dominant direction of motion of the stimulus (\u201cmotion up\u201d or \u201cmotion down\u201d)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a binary perceptual judgment of the dominant direction of motion of the stimulus (\u201cmotion up\u201d or \u201cmotion down\u201d)."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_conf_low",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "low confidence",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We call these confidence bins \u201clow,\u201d \u201cmedium,\u201d and \u201chigh confidence.\u201d"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Confidence bins were created by separating the confidence ratings of all trials of each individual subject at the tertiles"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_conf_medium",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "medium confidence",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We call these confidence bins \u201clow,\u201d \u201cmedium,\u201d and \u201chigh confidence.\u201d"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Confidence bins were created by separating the confidence ratings of all trials of each individual subject at the tertiles"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_conf_high",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "high confidence",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We call these confidence bins \u201clow,\u201d \u201cmedium,\u201d and \u201chigh confidence.\u201d"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Confidence bins were created by separating the confidence ratings of all trials of each individual subject at the tertiles"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "t_confidence",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "confidence",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The second regressor was a parametric modulator that reflected the linear increase or decrease in BOLD signal across different confidence levels."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The second regressor was a parametric modulator"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The second regressor was a parametric modulator that reflected the linear increase or decrease in BOLD signal across different confidence levels."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_conf_low",
+     "c_conf_medium",
+     "c_conf_high"
+    ],
+    "groups": []
+   },
+   {
+    "local_id": "t_choice",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "choice",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we modeled the subject's choices separately for both directions of motion"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "\u201cmotion up, choice up,\u201d \u201cmotion up, choice down,\u201d \u201cmotion down, choice up,\u201d and \u201cmotion down, choice down\u201d"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we modeled the subject's choices separately for both directions of motion"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_up",
+     "c_down"
+    ],
+    "groups": []
+   },
+   {
+    "local_id": "t_dv",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "decision variable",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We searched for brain regions that exhibited a linear relationship between local patterns of brain activity and the DV."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "the binary choice multiplied with the binned confidence rating",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a proxy of the DV (more specifically: of the difference between the DV and the criterion) on each trial can be constructed from the subject's behavioral reports, as follows: the binary choice (coded as -1 or 1 for \u201cup\u201d and \u201cdown,\u201d respectively) multiplied with the binned confidence rating (here coded as 0.5, 1.5, and 2.5 for equidistant labels)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the resulting variable as \u201cdecision variable\u201d"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We searched for brain regions that exhibited a linear relationship between local patterns of brain activity and the DV."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_up",
+     "c_down"
+    ],
+    "groups": []
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_all",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "young and neurologically healthy subjects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Nineteen young and neurologically healthy subjects took part in the study"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Young neurologically healthy human subjects; one participant was excluded for excessive head motion.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "One participant was subsequently excluded due to excessive head motion, leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Nineteen young and neurologically healthy subjects took part in the study"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "19",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Nineteen young and neurologically healthy subjects took part in the study"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "18",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "excluded_count": {
+     "extraction_status": "extracted",
+     "value": "1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "One participant was subsequently excluded due to excessive head motion"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "26.4 years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "3.4",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "6",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "left-handed",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "1",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "leaving 18 subjects (6 female, 1 left-handed, mean age: 26.4 years, SD: 3.4)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_motion",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "visual motion discrimination task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "during a visual motion discrimination task"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Subjects observed a random dot motion stimulus and made a binary perceptual judgment of dominant motion direction followed by a continuous confidence rating.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The task of the subject was to observe a random dot motion (RDM) stimulus (Braddick 1974) and then perform two consecutive responses: (1) a binary perceptual judgment of the dominant direction of motion of the stimulus (\u201cmotion up\u201d or \u201cmotion down\u201d) and (2) a rating of confidence of the judgment on a continuous scale (Fig. 2A)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_up",
+     "c_down",
+     "c_conf_low",
+     "c_conf_medium",
+     "c_conf_high"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A trial began by a fixation period of 2, 4, or 6 s (counterbalanced within each experimental run"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "Cogent toolbox",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Stimuli were all shown on a black background."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Subjects were instructed to respond even when they were very unsure.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subjects were instructed to respond even when they were very unsure."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "random dot motion stimulus",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The RDM stimulus was created in a square region of 10 \u00d7 10 dva"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "accuracy",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Behavioral data of subjects were analyzed for accuracy, response time, and confidence."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "response time",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Behavioral data of subjects were analyzed for accuracy, response time, and confidence."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "confidence",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Behavioral data of subjects were analyzed for accuracy, response time, and confidence."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "local_id": "exp_localizer",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "functional localizer run",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "all subjects took part in a functional localizer run to locate motion-sensitive region MT+/V5"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Functional localizer run to locate motion-sensitive region MT+/V5 in each individual subject.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "all subjects took part in a functional localizer run to locate motion-sensitive region MT+/V5 in each individual subject"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [],
+    "acquisitions": [
+     "acq_bold"
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_bold",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional MRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All scanning was performed using a 3.0 Tesla TIM Trio MRI (Siemens) and a 12-channel head coil."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3.0 Tesla TIM Trio MRI (Siemens) and a 12-channel head coil",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All scanning was performed using a 3.0 Tesla TIM Trio MRI (Siemens) and a 12-channel head coil."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "T2*-weighted gradient-echo echo-planar functional images; 2247 functional volumes per subject; 33 descending slices; first 2 volumes discarded in each run.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In addition, 2247 functional volumes were acquired per subject (T2*-weighted gradient-echo echo-planar images, TE: 30 ms, TR: 2000 ms, flip angle: 78\u00b0, FOV: 192 mm, matrix size: 64 \u00d7 64, in-plane voxel size: 3 \u00d7 3 mm, slice thickness: 3 mm, gap: 0.3 mm, 33 slices, descending sequence), corresponding to the experimental runs and the functional localizer."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3.0 Tesla",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All scanning was performed using a 3.0 Tesla TIM Trio MRI (Siemens) and a 12-channel head coil."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "T2*-weighted gradient-echo echo-planar images",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "T2*-weighted gradient-echo echo-planar images"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2000 ms",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TE: 30 ms, TR: 2000 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "30 ms",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TE: 30 ms, TR: 2000 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "3 \u00d7 3 \u00d7 3 mm",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "in-plane voxel size: 3 \u00d7 3 mm, slice thickness: 3 mm"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "number_of_volumes": {
+      "extraction_status": "extracted",
+      "value": "2247",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "2247 functional volumes were acquired per subject"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_univ",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "For the univariate analysis, images were spatially realigned and slice-timing corrected, spatially normalized, and smoothed with a Gaussian kernel.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the univariate analysis, the images were then spatially normalized using the abovementioned transformation matrix and smoothed with a Gaussian kernel (6 mm FWHM)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM8",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "MRI data preprocessing and general linear model (GLM)-based statistical analyses were performed using SPM8"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "spatially realigned",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "functional images of each subject were first spatially realigned and slice-timing corrected."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "slice-timing corrected",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "functional images of each subject were first spatially realigned and slice-timing corrected."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "spatially normalized",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the images were then spatially normalized"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "smoothed with a Gaussian kernel (6 mm FWHM)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "smoothed with a Gaussian kernel (6 mm FWHM)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "local_id": "prep_mv",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "For both multivariate analyses, functional data were not spatially warped or smoothed.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For both multivariate analyses, functional data were not spatially warped or smoothed."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "The Decoding Toolbox",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All multivariate analyses were carried out with The Decoding Toolbox (G\u00f6rgen et al. 2012) and other in-house software."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "spatially realigned",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "functional images of each subject were first spatially realigned and slice-timing corrected."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "slice-timing corrected",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "functional images of each subject were first spatially realigned and slice-timing corrected."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "not spatially warped or smoothed",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For both multivariate analyses, functional data were not spatially warped or smoothed."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "me_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "GLM",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A GLM with 10 regressors per run was used to estimate BOLD response amplitudes in each voxel separately."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "canonical hemodynamic response function",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "convolved with a canonical hemodynamic response function (HRF)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "10 regressors per run; six head motion regressors; constant term; 1/128-Hz high-pass filter",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A GLM with 10 regressors per run was used to estimate BOLD response amplitudes in each voxel separately."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The resulting contrast images were submitted to two group-level t-tests"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM8",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "MRI data preprocessing and general linear model (GLM)-based statistical analyses were performed using SPM8"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "local_id": "me_glm_class",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "GLM",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Prior to decoding, we first ran a GLM analysis"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "first-level and group-level",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The parameter estimates of the GLM reflecting the choices of the subject"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "linear support vector classification model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Then, we used a linear support vector classification model in the implementation of LIBSVM"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "LIBSVM",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "in the implementation of LIBSVM (Chang and Lin 2011)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "local_id": "me_glm_reg",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "GLM",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We first ran a GLM analysis in which we modeled the 3 DVs separately for the 2 choices (up/down)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "first-level and group-level",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The parameter estimates of the GLM reflecting the DV were then used for a searchlight regression analysis."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "linear support vector regression model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we used a linear support vector regression (SVR) model in the implementation of LIBSVM"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "LIBSVM",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "in the implementation of LIBSVM (nu-SVR, Chang and Lin 2011)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "local_id": "me_connectivity",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "multivariate connectivity analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Using a multivariate connectivity analysis"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For group analysis, we picked one of these 120 combinations per subject and averaged them"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "permutation test",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For this reason, we implemented a permutation test"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "assessments": [],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study investigated how perceptual decision variables and confidence are represented and linked in the human brain during visual motion discrimination.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "The aim of the present study was to search for representations of the continuous DV and of perceptual confidence throughout the human brain and test whether these two signals are related."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "fMRI study combining standard mass-univariate analysis, multivariate searchlight classification, multivariate searchlight regression, and multivariate connectivity during a visual motion discrimination task.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Three analysis streams were carried out on the functional images: the standard mass-univariate approach in fMRI data analysis, a multivariate searchlight-based classification method, and a multivariate searchlight-based regression method."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [],
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "neuroimaging-methods-curation-v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  }
+ },
+ "usage": {
+  "prompt": 25937,
+  "completion": 16025,
+  "reasoning": 101,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 65325,
+ "service_tier_echo": "flex"
+}
