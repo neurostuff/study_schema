@@ -79,7 +79,9 @@ classes:
           - range: SpatialScope
           - range: string
         required: true
-        description: Spatial domain of the analysis.
+        description: >-
+          Spatial domain of the analysis modelled. The spatial_scope refers to what voxels
+          were modelled, not which voxels/brain regions had a correction applied.
       regions:
         in_subset: [model_extracted]
         range: Region
@@ -184,7 +186,9 @@ classes:
           The thresholding and correction this analysis was reported under, by identifier.
           Analyses sharing one scheme reference one record; an analysis thresholded or
           corrected differently takes its own. Not the model's -- one fit thresholded two
-          ways is two records here and one `model_estimation`.
+          ways is two records here and one `model_estimation`. A contrast reported at two
+          search volumes is two analyses sharing one `model_estimation`, not one analysis
+          with the stricter threshold.
       tables:
         in_subset: [mvp, model_extracted]
         range: Table
