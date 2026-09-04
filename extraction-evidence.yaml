@@ -59,9 +59,11 @@ enums:
           its margin gate, contributing a second set the model's quote did not already cover.
       repair_pass:
         description: >-
-          A later pass re-asked for the supporting sentences of a field whose cited span did
-          not support it, or which had no span at all, and the replacement scored better than
-          what it replaced.
+          A later pass over the built record placed this span: either resolving the value's
+          own text against the document, or applying a resolution the extraction model gave
+          with a quote. Distinct from `model_quote` because the extractor did not cite it,
+          and from `retriever` because nothing ranked it -- so a reviewer weighing it knows
+          it rests on a pass that came after the reading it supports.
 
 classes:
 
