@@ -642,10 +642,17 @@ classes:
         description: Correction method, such as FWE, FDR, Bonferroni, permutation, Monte Carlo,
           or none.
       correction_scope:
-        range: ExtractedString
-        description: >-
-          Domain over which correction was applied, such as whole brain, ROI set, hemisphere,
-          or mask.
+        range: ExtractedSpatialScope
+        description: |-
+          Whether the multiple-comparison correction searched the whole acquired volume or was restricted to regions. The correction's own domain, not the analysis's: a whole-brain voxelwise model whose significance was corrected inside an anatomical mask has `Analysis.spatial_scope: whole_brain` and `correction_scope: roi`, and the two differing is the ordinary case rather than a contradiction.
+          Held as a free string this accumulated 174 spellings over 458 filled slots -- "whole brain", "whole-brain", "entire brain", "roi", "roi mask" -- along with category errors such as "cluster level", which is an inference level and belongs in `inference_level`.
+      correction_regions:
+        range: Region
+        multivalued: true
+        inlined: false
+        description: |-
+          The regions correction was restricted to -- what `correction_scope: roi` names, as `Analysis.regions` names what `spatial_scope: roi` restricts the search space to. Empty for a whole-brain correction.
+          Not the analysis's search space. Naming the correction mask on the analysis instead says the model was fitted within it, which is a different claim about what the paper did.
       search_volume:
         range: ExtractedString
         description: Reported search volume, mask size, or number of vertices or voxels used
