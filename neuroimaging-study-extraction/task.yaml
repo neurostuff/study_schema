@@ -21,6 +21,34 @@ imports:
   - acquisition
   - design
 enums:
+  ConditionKind:
+    description: >-
+      What kind of state a condition was, in itself. Open vocabulary: write the source's own
+      wording in the field when nothing here fits.
+
+      Intrinsic to the condition and not its role in any one contrast. What a tested effect
+      was measured against is carried by `Cell.direction`, which a contrast fills for each
+      side; a condition can be the comparator in one analysis and the target in another, and
+      recording that here would make it a property of the wrong thing.
+    permissible_values:
+      task_state:
+        description: >-
+          An active state the paradigm put the participant in -- viewing cues, performing a
+          trial, responding. The default, and the one most conditions are.
+      rest:
+        description: >-
+          A period with no task demand, in which the participant was asked only to rest. A
+          rest block inside another paradigm; a standalone resting-state run is its own Task.
+      fixation:
+        description: >-
+          A period spent fixating a cross or point, with no other demand. Distinguished from
+          `rest` because papers report them separately and use them differently.
+      control_state:
+        description: >-
+          A state the source itself calls a control, neutral, or comparison condition --
+          matched to the state of interest on everything but the manipulation. Recorded
+          because the source labelled it so, not because a contrast used it that way: a
+          "neutral image" condition is one whether or not any analysis contrasted it.
   ResponseMode:
     description: >-
       How participants responded during a task. Open vocabulary: write the source's own wording
@@ -129,12 +157,29 @@ classes:
         description: >-
           Short condition label that distinguishes the condition from other task periods or
           modeled effects.
+      condition_kind:
+        range: ExtractedConditionKind
+        description: >-
+          What kind of state this was: an active task state, a rest or fixation period, or a
+          state the source calls a control or neutral condition. Asked as its own field
+          because it was asked for in prose before and arrived in under half of conditions,
+          and because a consumer that has to read it out of a description cannot rely on it.
       description:
         range: ExtractedString
         description: |-
-          Complete definition of the condition, including whether it was a rest, fixation, or control state, and whether it put a demand on the participant.
+          Complete definition of the condition, including whether it put a demand on the participant. Whether it was a rest, fixation, or control state belongs in `condition_kind`.
           A rest or fixation period inside another paradigm is a Condition of that paradigm's Task. A standalone resting-state run is not: it is its own Task, with one condition or none. The distinction is which paradigm the participant was in, not what they were doing -- a fixation baseline between working-memory blocks belongs to the working-memory Task.
           What a tested effect was measured against is not recorded here: a contrast against this condition gives it a `negative` cell, and a contrast against the unmodelled implicit baseline has no second cell.
+  ExtractedConditionKind:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is a ConditionKind, or the source's own wording when the
+      vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: ConditionKind
+          - range: string
   ExtractedResponseModeList:
     is_a: ExtractedValue
     description: >-

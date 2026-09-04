@@ -107,12 +107,23 @@ classes:
         required: true
         description: Short condition label that distinguishes the condition from other task periods or modeled
           effects.
+      condition_kind:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: ConditionKind
+          - range: string
+        description: >-
+          What kind of state this was: an active task state, a rest or fixation period, or a
+          state the source calls a control or neutral condition. Asked as its own field
+          because it was asked for in prose before and arrived in under half of conditions,
+          and because a consumer that has to read it out of a description cannot rely on it.
       description:
         in_subset: [mvp, model_extracted]
         range: string
         description: >-
-          Complete definition of the condition, including whether it was a rest, fixation, or
-          control state, and whether it put a demand on the participant.
+          Complete definition of the condition, including whether it put a demand on the
+          participant. Whether it was a rest, fixation, or control state belongs in
+          `condition_kind`.
 
           A rest or fixation period inside another paradigm is a Condition of that paradigm's
           Task. A standalone resting-state run is not: it is its own Task, with one condition or
@@ -125,6 +136,35 @@ classes:
           baseline has no second cell.
 
 enums:
+
+  ConditionKind:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      What kind of state a condition was, in itself. Open vocabulary: write the source's own
+      wording in the field when nothing here fits.
+
+      Intrinsic to the condition and not its role in any one contrast. What a tested effect
+      was measured against is carried by `Cell.direction`, which a contrast fills for each
+      side; a condition can be the comparator in one analysis and the target in another, and
+      recording that here would make it a property of the wrong thing.
+    permissible_values:
+      task_state:
+        description: >-
+          An active state the paradigm put the participant in -- viewing cues, performing a
+          trial, responding. The default, and the one most conditions are.
+      rest:
+        description: >-
+          A period with no task demand, in which the participant was asked only to rest. A
+          rest block inside another paradigm; a standalone resting-state run is its own Task.
+      fixation:
+        description: >-
+          A period spent fixating a cross or point, with no other demand. Distinguished from
+          `rest` because papers report them separately and use them differently.
+      control_state:
+        description: >-
+          A state the source itself calls a control, neutral, or comparison condition --
+          matched to the state of interest on everything but the manipulation. Recorded
+          because the source labelled it so, not because a contrast used it that way.
 
   ResponseMode:
     in_subset: [mvp, model_extracted]
