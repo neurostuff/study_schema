@@ -64,7 +64,9 @@ classes:
       spatial_scope:
         range: ExtractedSpatialScope
         required: true
-        description: Spatial domain of the analysis.
+        description: >-
+          Spatial domain of the analysis modelled. The spatial_scope refers to what voxels
+          were modelled, not which voxels/brain regions had a correction applied.
       regions:
         range: Region
         multivalued: true
@@ -149,7 +151,9 @@ classes:
           The thresholding and correction this analysis was reported under, by identifier.
           Analyses sharing one scheme reference one record; an analysis thresholded or corrected
           differently takes its own. Not the model's -- one fit thresholded two ways is two
-          records here and one `model_estimation`.
+          records here and one `model_estimation`. A contrast reported at two search volumes
+          is two analyses sharing one `model_estimation`, not one analysis with the stricter
+          threshold.
       tables:
         range: Table
         multivalued: true
@@ -286,8 +290,8 @@ classes:
         range: ExtractedEffectPath
         required: true
         description: >-
-          The path through the mediation model represented by this effect's map. An effect that is not
-          a mediated path has no Mediation, so there is no `not_applicable` case.
+          The path through the mediation model represented by this effect's map. An effect
+          that is not a mediated path has no Mediation, so there is no `not_applicable` case.
       mediator:
         range: ModelTerm
         required: true
@@ -298,7 +302,7 @@ classes:
   Cell:
     description: |-
       One side of the tested comparison: a level of a model term, and which way that level entered. The unit a contrast is built from.
-      A cell points at a `ModelTerm`. The term's `FactorLevel`s record which cohort, condition, occasion, or arm carries each level. Joining through the model therefore recovers the contrast's entities, including its conditions and cohorts. The `term` is the comparison axis: cells sharing a term compare within a factor, while cells on different terms compare across them.
+      A cell points at a `ModelTerm`. The term's `FactorLevel`s record which cohort, condition, occasion, or arm carries each level. Joining through the model recovers the contrast's entities, including its conditions and cohorts. The `term` is the comparison axis: cells sharing a term compare within a factor, cells on different terms compare across them.
       A cell over a term that declares no levels -- a slope, or a product column -- leaves `level` unset and carries its `direction` alone.
     attributes:
       term:
@@ -388,7 +392,7 @@ classes:
       One record is one estimation stage. Neuroimaging splits a model across stages for tractability, and `inputs_from` is what puts it back together: a stage's terms are its own plus those of the stages it consumed, so the split costs the record nothing while each stage keeps its own family, estimator, software and basis.
 
       The test for whether two analyses share a record is mechanical: list the columns each was fitted with. A different dependent variable, a different covariate set, or a different subset of participants means a different design matrix and therefore a separate record, even when family, estimator and software are identical. Two BPM regressions of the same measure on the same regressor, one over the patients and one over patients and controls pooled, are two records.
-      Sharing one record across matrices corrupts the derived adjustment set. The adjustment set is the model's terms minus the terms named by its cells. If several matrices share a record, they claim adjustments that their original models never made, and the record cannot expose the error.
+      Sharing one record across matrices corrupts the derived adjustment set. The adjustment set is the model's terms minus the terms named by its cells. If several matrices share one record, they claim adjustments that their original models never made, and the record cannot expose the error.
     attributes:
       local_id:
         range: string
@@ -638,10 +642,17 @@ classes:
         description: Correction method, such as FWE, FDR, Bonferroni, permutation, Monte Carlo,
           or none.
       correction_scope:
-        range: ExtractedString
-        description: >-
-          Domain over which correction was applied, such as whole brain, ROI set, hemisphere,
-          or mask.
+        range: ExtractedSpatialScope
+        description: |-
+          Whether the multiple-comparison correction searched the whole acquired volume or was restricted to regions. The correction's own domain, not the analysis's: a whole-brain voxelwise model whose significance was corrected inside an anatomical mask has `Analysis.spatial_scope: whole_brain` and `correction_scope: roi`, and the two differing is the ordinary case rather than a contradiction.
+          Held as a free string this accumulated 174 spellings over 458 filled slots -- "whole brain", "whole-brain", "entire brain", "roi", "roi mask" -- along with category errors such as "cluster level", which is an inference level and belongs in `inference_level`.
+      correction_regions:
+        range: Region
+        multivalued: true
+        inlined: false
+        description: |-
+          The regions correction was restricted to -- what `correction_scope: roi` names, as `Analysis.regions` names what `spatial_scope: roi` restricts the search space to. Empty for a whole-brain correction.
+          Not the analysis's search space. Naming the correction mask on the analysis instead says the model was fitted within it, which is a different claim about what the paper did.
       search_volume:
         range: ExtractedString
         description: Reported search volume, mask size, or number of vertices or voxels used

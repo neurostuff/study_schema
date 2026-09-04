@@ -67,6 +67,26 @@ classes:
           centered at [0 36 -6]". Definitional coordinates have no structured slot and belong
           here, where the evidence span makes them checkable; result coordinates reach the
           record through the table parser instead.
+    # A gray- or white-matter mask is not a region an analysis restricts inference *to*; it
+    # is the tissue modelled. Typing one `anatomical` sorts it beside 256 real structures, and
+    # -- because `Analysis.regions` is what the ROI rules key on -- turns a standard
+    # GM-masked whole-brain VBM into an ROI analysis, which the screening criteria exclude.
+    # The mask belongs in `InferenceSettings.search_volume`, which already asks for it.
+    #
+    # Stated as a prohibition: the precondition matches the name, and the postcondition
+    # cannot then hold, so any Region named for a bare tissue class is reported.
+    rules:
+      - description: >-
+          A bare tissue class is not a region. Record the mask as
+          InferenceSettings.search_volume and leave the analysis whole-brain.
+        preconditions:
+          slot_conditions:
+            name:
+              pattern: '(?i)^\s*(bi|bi-)?(lateral\s+)?(whole\s+)?(gr[ae]y|white)[\s-]*matter\s*(mask|volume|density|concentration|images?)?\s*$'
+        postconditions:
+          slot_conditions:
+            name:
+              value_presence: ABSENT
 
 enums:
 

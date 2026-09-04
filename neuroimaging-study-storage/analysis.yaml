@@ -79,7 +79,9 @@ classes:
           - range: SpatialScope
           - range: string
         required: true
-        description: Spatial domain of the analysis.
+        description: >-
+          Spatial domain of the analysis modelled. The spatial_scope refers to what voxels
+          were modelled, not which voxels/brain regions had a correction applied.
       regions:
         in_subset: [model_extracted]
         range: Region
@@ -184,7 +186,9 @@ classes:
           The thresholding and correction this analysis was reported under, by identifier.
           Analyses sharing one scheme reference one record; an analysis thresholded or
           corrected differently takes its own. Not the model's -- one fit thresholded two
-          ways is two records here and one `model_estimation`.
+          ways is two records here and one `model_estimation`. A contrast reported at two
+          search volumes is two analyses sharing one `model_estimation`, not one analysis
+          with the stricter threshold.
       tables:
         in_subset: [mvp, model_extracted]
         range: Table
@@ -1037,10 +1041,33 @@ classes:
         description: Correction method, such as FWE, FDR, Bonferroni, permutation, Monte Carlo, or none.
       correction_scope:
         in_subset: [model_extracted]
-        range: string
+        any_of:
+          - range: SpatialScope
+          - range: string
         description: >-
-          Domain over which correction was applied, such as whole brain, ROI set,
-          hemisphere, or mask.
+          Whether the multiple-comparison correction searched the whole acquired volume or
+          was restricted to regions. The correction's own domain, not the analysis's: a
+          whole-brain voxelwise model whose significance was corrected inside an anatomical
+          mask has `Analysis.spatial_scope: whole_brain` and `correction_scope: roi`, and
+          the two differing is the ordinary case rather than a contradiction.
+
+          Held as a free string this accumulated 174 spellings over 458 filled slots --
+          "whole brain", "whole-brain", "entire brain", "roi", "roi mask" -- along with
+          category errors such as "cluster level", which is an inference level and belongs
+          in `inference_level`.
+      correction_regions:
+        in_subset: [model_extracted]
+        range: Region
+        multivalued: true
+        inlined: false
+        description: >-
+          The regions correction was restricted to -- what `correction_scope: roi` names, as
+          `Analysis.regions` names what `spatial_scope: roi` restricts the search space to.
+          Empty for a whole-brain correction.
+
+          Not the analysis's search space. Naming the correction mask on the analysis
+          instead says the model was fitted within it, which is a different claim about what
+          the paper did.
       search_volume:
         in_subset: [model_extracted]
         range: string
@@ -1073,6 +1100,32 @@ classes:
         range: integer
         minimum_value: 0
         description: Number of statistical tests considered by the multiple-comparison procedure.
+    # The same pair Analysis states for `spatial_scope`/`regions`, for the correction slots.
+    # Without it a record can say correction covered the whole brain *and* name the regions it
+    # was restricted to, which are contradictory claims about the same procedure. Observed:
+    # 11950456, an STG volumetric study, was given `correction_scope: whole_brain` alongside
+    # `correction_regions: [r_stg]`, and nothing reported it.
+    rules:
+      - description: Whole-brain and searchlight correction restricts to no region.
+        preconditions:
+          slot_conditions:
+            correction_scope:
+              any_of:
+                - equals_string: whole_brain
+                - equals_string: searchlight
+        postconditions:
+          slot_conditions:
+            correction_regions:
+              value_presence: ABSENT
+      - description: Correction over an ROI must name the regions it was restricted to.
+        preconditions:
+          slot_conditions:
+            correction_scope:
+              equals_string: roi
+        postconditions:
+          slot_conditions:
+            correction_regions:
+              value_presence: PRESENT
 
   StatisticalMap:
     description: >-

@@ -136,6 +136,11 @@ classes:
         description: >-
           Aggregate phenotypic sex distribution. Use one entry per reported category,
           with the study's category label and a count and/or percentage.
+          A cohort described wholly as one sex reports its distribution without ever
+          printing a breakdown: "22 male smokers", "young women (n = 8)" and "ten male
+          patients" are each one entry whose count is the whole group, plus a second
+          entry for the absent sex with a count of zero. Read a demographics table row
+          ("N female | 5") exactly as you would read the same fact in a sentence.
       gender_distribution:
         in_subset: [mvp, model_extracted]
         range: CategoryDistribution

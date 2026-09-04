@@ -119,7 +119,12 @@ classes:
         inlined_as_list: true
         description: >-
           Aggregate phenotypic sex distribution. Use one entry per reported category, with
-          the study's category label and a count and/or percentage.
+          the study's category label and a count and/or percentage. A cohort described wholly
+          as one sex reports its distribution without ever printing a breakdown: "22 male
+          smokers", "young women (n = 8)" and "ten male patients" are each one entry whose
+          count is the whole group, plus a second entry for the absent sex with a count of
+          zero. Read a demographics table row ("N female | 5") exactly as you would read the
+          same fact in a sentence.
       gender_distribution:
         range: CategoryDistribution
         multivalued: true
@@ -166,15 +171,15 @@ classes:
         multivalued: true
         inlined: false
         description: >-
-          The study assessment that established this group's defining condition --
-          the `medical_condition` entries, or for a healthy group its confirmed absence. Naming
-          one here claims it classified this cohort, which is narrower than having been administered
-          to it: an interview screening a comorbidity the group is not defined by, or grading
-          the severity of a diagnosis made elsewhere, is recorded in `assessments` and pointed
-          at from nowhere. Groups defined by enrollment or history rather than by an assessment
-          -- a treatment programme's patients, self-reported users -- name nothing, as do
-          sources reporting a diagnostic system but never the instrument applying it. Every
-          entry must also appear in the study's `assessments`.
+          The study assessment that established this group's defining condition -- the `medical_condition`
+          entries, or for a healthy group its confirmed absence. Naming one here claims it
+          classified this cohort, which is narrower than having been administered to it: an
+          interview screening a comorbidity the group is not defined by, or grading the severity
+          of a diagnosis made elsewhere, is recorded in `assessments` and pointed at from
+          nowhere. Groups defined by enrollment or history rather than by an assessment --
+          a treatment programme's patients, self-reported users -- name nothing, as do sources
+          reporting a diagnostic system but never the instrument applying it. Every entry
+          must also appear in the study's `assessments`.
       clinical_characteristics:
         range: ExtractedString
         description: Disease duration, severity, treatment status, or other clinically relevant
@@ -207,9 +212,8 @@ classes:
         range: ExtractedString
         required: true
         description: >-
-          The distribution bucket counted by this entry, labelled as the study writes
-          it and not normalized to any external scheme: `female`, `left-handed`, `Hispanic
-          or Latino`.
+          The distribution bucket counted by this entry, labelled as the study writes it and
+          not normalized to any external scheme: `female`, `left-handed`, `Hispanic or Latino`.
       count:
         range: ExtractedInteger
         description: Number of participants assigned to this category.
