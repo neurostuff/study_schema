@@ -46,6 +46,23 @@ enums:
       not_applicable:
         description: No value was extracted because the attribute was not reported.
 
+  EvidenceSource:
+    description: Which locator placed a set of spans in the source text.
+    permissible_values:
+      model_quote:
+        description: >-
+          The extraction model was shown the paper and asked to copy the supporting
+          sentence; `build` then resolved that quote to offsets.
+      retriever:
+        description: >-
+          The cross-encoder ranked sentence and table-row units against the value and cleared
+          its margin gate, contributing a second set the model's quote did not already cover.
+      repair_pass:
+        description: >-
+          A later pass re-asked for the supporting sentences of a field whose cited span did
+          not support it, or which had no span at all, and the replacement scored better than
+          what it replaced.
+
 classes:
 
   ExtractedValue:
@@ -146,6 +163,14 @@ classes:
   EvidenceSet:
     description: One independently sufficient set of source-text spans supporting a value.
     attributes:
+      source:
+        range: EvidenceSource
+        description: >-
+          Which locator produced this set. Two sets on one field were already two different
+          locators -- the model's quote and the cross-encoder's union -- but only positionally,
+          so nothing downstream could tell them apart or count how often each was right. A
+          set added by a later repair pass is a third kind again, and a reviewer weighing a
+          span should know which of the three they are reading.
       spans:
         range: EvidenceSpan
         multivalued: true
