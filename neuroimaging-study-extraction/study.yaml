@@ -163,6 +163,17 @@ classes:
       extraction_date:
         range: date
         description: ISO-8601 date of extraction.
+      repaired_by:
+        range: string
+        description: >-
+          Identifier of the repair pass that edited this record after extraction, absent on
+          a record no pass touched. Stamped because a repaired record is not the record the
+          extractor produced, and treating the two as one makes a comparison between them
+          meaningless.
+
+          Declared here because the pass stamps it either way: undeclared, the honest label
+          was itself a validation finding, and it was the single most common thing repair
+          "introduced" -- 12 of 13 across fifteen records.
       paper_sections:
         range: PaperSection
         multivalued: true
