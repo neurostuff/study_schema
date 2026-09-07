@@ -539,6 +539,19 @@ enums:
       all locations rather than findings. Open vocabulary: write the source's own wording
       when nothing here fits.
     permissible_values:
+      reported_effect:
+        description: >-
+          The rows ARE the foci of a tested effect, so this table is an analysis and not one
+          of the kinds below. Derived rather than read: a table an `Analysis` names in
+          `tables` reports that analysis's result.
+
+          Present because absence could not say it. Absence meant both "this reports results"
+          and "nobody decided", so a reader could not tell a table deliberately left
+          unmarked from one no pass considered -- and a model shown eight kinds of
+          non-analysis and no way to say "it is an analysis" answers with the nearest one.
+          Measured over twelve papers: a repair pass marked 18 of 19 tables, and 16 of those
+          18 were cited by an analysis, which makes the mark wrong by this enum's own
+          definition.
       region_definitions:
         description: >-
           Regions of interest the study delimited, with the coordinates that locate them --

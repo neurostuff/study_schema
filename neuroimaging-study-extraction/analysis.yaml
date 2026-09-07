@@ -707,5 +707,5 @@ classes:
       non_analysis_content:
         range: ExtractedTableContent
         description: |-
-          What this table's rows are, filled only when they are not the foci of a reported effect: region or ROI definitions, atlas parcels, connectivity seeds, the peaks of a decomposition's components, coordinates cited from other papers, a stimulus list, demographics, descriptive statistics with no test. Leave it absent when the table reports results, which is the common case.
+          What this table's rows are, filled only when they are not the foci of a reported effect: region or ROI definitions, atlas parcels, connectivity seeds, the peaks of a decomposition's components, coordinates cited from other papers, a stimulus list, demographics, descriptive statistics with no test. A table an analysis names in `tables` takes `reported_effect`, which the builder derives from that join; absence now means only that nothing decided.
           A coordinate table is not an analysis merely by having coordinates in it, and this is the only field that can say so. Filling it is what distinguishes a table deliberately not encoded as an analysis from one the extraction missed -- without it those two are the same absence, and the coordinates belong on the entity they locate (a Region's description) rather than on a contrast that never produced them.
