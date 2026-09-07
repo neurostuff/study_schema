@@ -704,8 +704,9 @@ classes:
       description:
         range: ExtractedString
         description: Summary of the table contents and its role in the reported analyses.
-      non_analysis_content:
-        range: ExtractedTableContent
+      purpose:
+        range: ExtractedTablePurpose
         description: |-
-          What this table's rows are, filled only when they are not the foci of a reported effect: region or ROI definitions, atlas parcels, connectivity seeds, the peaks of a decomposition's components, coordinates cited from other papers, a stimulus list, demographics, descriptive statistics with no test. A table an analysis names in `tables` takes `reported_effect`, which the builder derives from that join; absence now means only that nothing decided.
+          What this table is for. `reported_effect` when its rows are the foci of a tested effect, which is the common case and which the builder derives from the analyses that name it; otherwise what the rows are instead -- region or ROI definitions, atlas parcels, connectivity seeds, the peaks of a decomposition's components, coordinates cited from other papers, a stimulus list, demographics, descriptive statistics with no test.
+          A coordinate table is not an analysis merely by having coordinates in it, and this is the only field that says which it is. Absence means nothing decided: a table deliberately encoded as a non-analysis and one no pass considered are otherwise the same silence, and the coordinates of the first belong on the entity they locate rather than on a contrast that never produced them.
           A coordinate table is not an analysis merely by having coordinates in it, and this is the only field that can say so. Filling it is what distinguishes a table deliberately not encoded as an analysis from one the extraction missed -- without it those two are the same absence, and the coordinates belong on the entity they locate (a Region's description) rather than on a contrast that never produced them.

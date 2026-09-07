@@ -531,9 +531,9 @@ enums:
           terms -- to decompose.
       source_too_vague:
         description: The paper reports an effect without saying enough about it to structure.
-  TableContent:
+  TablePurpose:
     description: >-
-      What a table's rows are, for a table that reports no tested effect. A coordinate table
+      What a table is for. A coordinate table
       is not an analysis merely by having coordinates in it: a study's ROI definitions, its
       atlas parcels, its connectivity seeds and the peaks of its independent components are
       all locations rather than findings. Open vocabulary: write the source's own wording
@@ -778,13 +778,13 @@ classes:
         any_of:
           - range: NotStructurableReason
           - range: string
-  ExtractedTableContent:
+  ExtractedTablePurpose:
     is_a: ExtractedValue
     description: >-
-      An ExtractedValue whose value is TableContent, or the source's own wording when the
+      An ExtractedValue whose value is TablePurpose, or the source's own wording when the
       vocabulary does not cover it.
     slot_usage:
       value:
         any_of:
-          - range: TableContent
+          - range: TablePurpose
           - range: string
