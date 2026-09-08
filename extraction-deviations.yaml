@@ -39,7 +39,8 @@ header:
     It has the same classes with the same slots in the same nesting; what differs is that
     every source-derived value is wrapped. An ExtractedValue records whether a value was
     found (extraction_status), the value itself when it was, how it relates to the source
-    (value_source), and the exact supporting spans (evidence). A slot needing a scalar
+    (value_source), why there is none when there is not (unreported_reason), and the exact
+    supporting spans (evidence). A slot needing a scalar
     uses a typed subtype -- ExtractedString, ExtractedInteger, ExtractedNumber,
     ExtractedBoolean. Storage's vocabularies come across whole, each field keeping the range
     storage gives it: a closed enum takes a permissible value and nothing else, and an open

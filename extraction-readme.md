@@ -108,6 +108,23 @@ Which a field is, is storage's decision and not one extraction may revisit;
 vocabulary offers an `unstated` member, and writing one is an error: silence recorded two
 ways is silence a query finds half of.
 
+**Say why, in `unreported_reason`.** One encoding of missingness, and a qualifier on it —
+a query asking what is missing still asks `extraction_status` alone. Five reasons, and they
+are about different things:
+
+- `silent` — the article does not mention it. The plain case.
+- `ambiguous` — the article addresses it and settles on no one value: two figures that
+  disagree, a range where the slot takes a point.
+- `outside_text` — the value is in a figure, an image-only table, or an unfetched
+  supplement. A fact about what was legible, not about the article.
+- `cited_elsewhere` — given by reference to another paper: "parameters as described in [12]".
+- `undetermined` — you could not work it out, and are **not** claiming the article is silent.
+
+Use `undetermined` rather than `silent` whenever you did not actually establish that the
+page says nothing. The four other reasons are claims about the source and a reviewer can
+check them; `undetermined` is a claim about this pass, and marking it is how a later pass
+knows to look again. A wrong `silent` is invisible — it reads exactly like a diligent one.
+
 Nothing is lost by that. A `not_reported` wrapper is still *present*, so everything the
 slot's presence asserts survives: that a test was run comes from the Analysis existing at
 all, and that a table holds no tested effect comes from `non_analysis_content` being filled.
@@ -128,6 +145,9 @@ Enforced by [review/validate_record.py](review/validate_record.py):
 - `extraction_status: not_reported` ⇒ omit `value`, and `evidence.status` must be
   `not_applicable`. A field recorded this way therefore carries **no span**: there is no
   way to cite the sentence that shows the answer was looked for and is not on the page.
+- `unreported_reason` appears only on a `not_reported` field. On an extracted one there is
+  no blank to explain. It is optional, and its absence means no pass recorded a reason —
+  which is not the same claim as `silent`.
 - `evidence.status: present` ⇒ at least one `EvidenceSet`, each with at least one span.
 - Every span satisfies `text == source[start_char:end_char]` against the normalized source
   text, half-open interval.

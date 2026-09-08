@@ -231,16 +231,23 @@ of both, because they are the same field.
 | `extraction_status` | `extracted` / `not_reported` | Whether a usable value was found. There is no third option |
 | `value` | the value | Present exactly when the status is `extracted`; omitted otherwise |
 | `value_source` | `reported` / `generated` | Whether the source states it, or the system built it from what the source states |
+| `unreported_reason` | `silent` / `ambiguous` / `outside_text` / `cited_elsewhere` / `undetermined` | Why there is no value. A qualifier on `not_reported`, never a second way to record silence |
 | `evidence.status` | `present` / `not_found` / `not_applicable` | A span was found / a value was extracted with no span behind it / nothing was extracted |
 
-Three invariants, and the validator enforces all three:
+Four invariants, and the validator enforces all four:
 
 1. `not_reported` ⇒ no `value`, and `evidence.status: not_applicable`. Such a field therefore carries
    **no span at all**: there is no way to cite the sentence proving the answer was looked for and is
    not on the page.
-2. `evidence.status: present` ⇒ at least one `EvidenceSet`, each with at least one span.
-3. Every span satisfies `text == source[start_char:end_char]` against the normalized source text,
+2. `extracted` ⇒ no `unreported_reason`. A filled slot has no blank to explain.
+3. `evidence.status: present` ⇒ at least one `EvidenceSet`, each with at least one span.
+4. Every span satisfies `text == source[start_char:end_char]` against the normalized source text,
    half-open. An offset that does not match is an error, not a rounding problem.
+
+`unreported_reason` is optional, and absent is not the same claim as `silent`: absent means no pass
+recorded a reason, `silent` means a pass looked and the article says nothing. Four of the five are
+claims about the source that a reviewer can check; `undetermined` reports on the extraction instead,
+and is how a pass declines without the decline reading as a finding.
 
 An `EvidenceSet` is **one independently sufficient** set of spans. Two sets mean either alone would
 do; two spans in one set mean both are needed together.
