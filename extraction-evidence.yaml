@@ -95,6 +95,14 @@ enums:
         description: >-
           The cross-encoder ranked sentence and table-row units against the value and cleared
           its margin gate, contributing a second set the model's quote did not already cover.
+      literal_match:
+        description: >-
+          The value occurs exactly once in the document and this is the clause around that
+          one occurrence, found by search before any model was asked. Distinct from
+          `model_quote` because nothing read the paper to choose it, and from `repair_pass`
+          because it is the first thing tried rather than a later correction. The strongest
+          of the four to read: the span provably contains the value, and re-running the
+          pass returns the same span rather than another sample.
       repair_pass:
         description: >-
           A later pass over the built record placed this span: either resolving the value's
