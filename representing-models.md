@@ -390,12 +390,8 @@ terms:
     type: continuous
     variation_level: between_subject
     unit: PSS score
-    assessment: asmt-pss          # the measurement's provenance
-  - id: term-age
-    name: age
-    type: continuous
-    variation_level: between_subject
-    unit: years
+    assessment: asmt-pss   # the measurement's provenance
+  - {id: term-age, name: age, type: continuous, variation_level: between_subject, unit: years}
   - id: term-sex
     name: sex
     type: categorical
@@ -474,11 +470,7 @@ terms:
     type: continuous
     variation_level: between_subject
     interaction_with: [term-ctq, term-ptsd]
-  - id: term-age
-    name: age
-    type: continuous
-    variation_level: between_subject
-    unit: years
+  - {id: term-age, name: age, type: continuous, variation_level: between_subject, unit: years}
 
 effect:
   cells:
@@ -511,7 +503,7 @@ Subject group (between) × task (within), one model, five results.
 
 ```yaml
 stage: group
-inputs_from: [me-first-level]        # task and motion are fitted below
+inputs_from: [me-first-level]   # task and motion are fitted below
 terms:
   - id: term-group
     name: subject group
@@ -527,10 +519,7 @@ terms:
     levels:
       - {level: active}
       - {level: remission}
-  - id: term-das28-crp
-    name: DAS28-CRP
-    type: continuous
-    variation_level: between_subject
+  - {id: term-das28-crp, name: DAS28-CRP, type: continuous, variation_level: between_subject}
 ```
 
 | result | cells | derives | adjusted for |
@@ -598,8 +587,8 @@ terms:
     type: categorical
     variation_level: within_subject
     levels:
-      - {level: after practice,  order: 2, timepoints: [tp-followup]}
-      - {level: before practice, order: 1, timepoints: [tp-baseline]}
+      - {level: before practice, timepoints: [tp-baseline]}
+      - {level: after practice, timepoints: [tp-followup]}
   - id: term-vbm-group
     name: group
     type: categorical
@@ -610,7 +599,7 @@ terms:
 
 effect:
   cells:
-    - {term: term-vbm-time, level: after practice,  direction: positive}
+    - {term: term-vbm-time, level: after practice, direction: positive}
     - {term: term-vbm-time, level: before practice, direction: negative}
 ```
 → **`contrast`**, adjusted for `term-vbm-group`. A longitudinal structural analysis has no
@@ -624,13 +613,15 @@ cohorts rather than a within-person crossing, the levels name `groups` and the a
 
 **The same paper's other contrast runs the other way.** Ilg et al. also report a practice-related
 *decrease* — "Decrease of mirror-reading-related activation after practice compared with before
-practice" — and its cells are the mirror of the block above, differing in nothing else:
+practice". That result is the fMRI model's rather than this one's, so its cells sit on the fMRI
+time factor; the point is that the two occasions carry the opposite signs, and nothing else about
+the encoding changes:
 
 ```yaml
 effect:
   cells:
-    - {term: term-vbm-time, level: after practice,  direction: negative}
-    - {term: term-vbm-time, level: before practice, direction: positive}
+    - {term: term-time, level: before practice, direction: positive}
+    - {term: term-time, level: after practice, direction: negative}
 ```
 
 The sign follows the measure, not the clock. A later level is not the plus side because it came
@@ -666,9 +657,9 @@ terms:
     type: categorical
     variation_level: within_subject
     levels:
-      - {level: 2-back, order: 3, conditions: [cond-2back]}
-      - {level: 1-back, order: 2, conditions: [cond-1back]}
       - {level: 0-back, order: 1, conditions: [cond-0back]}
+      - {level: 1-back, order: 2, conditions: [cond-1back]}
+      - {level: 2-back, order: 3, conditions: [cond-2back]}
 
 effect:
   cells:
@@ -733,15 +724,14 @@ terms:
     type: categorical
     variation_level: within_subject
     levels:
-      - {level: tone perception,  conditions: [cond-tone]}
-      - {level: vowel listening,  conditions: [cond-vowel-listening]}
-      - {level: vowel imagery,    conditions: [cond-vowel-imagery]}
+      - {level: tone perception, conditions: [cond-tone]}
+      - {level: vowel listening, conditions: [cond-vowel-listening]}
+      - {level: vowel imagery, conditions: [cond-vowel-imagery]}
       - {level: vowel production, conditions: [cond-vowel-production]}
 
 effect:
   cells:
     - {term: term-task-mvpa, level: vowel imagery, direction: positive}
-
 details:
   details_type: DecodingDetails
   decoded_variable: the seven vowels of the Italian language
@@ -791,7 +781,7 @@ terms:
     type: categorical
     variation_level: within_subject
     levels:
-      - {level: anterior right dlPFC,  regions: [reg-anterior-right-dlpfc]}
+      - {level: anterior right dlPFC, regions: [reg-anterior-right-dlpfc]}
       - {level: posterior right dlPFC, regions: [reg-posterior-right-dlpfc]}
   - id: term-group
     name: subject group
@@ -804,7 +794,7 @@ terms:
 effect:
   cells:
     - {term: term-seed, level: posterior right dlPFC, direction: positive}
-    - {term: term-seed, level: anterior right dlPFC,  direction: negative}
+    - {term: term-seed, level: anterior right dlPFC, direction: negative}
     - {term: term-group, level: healthy controls, direction: positive}
     - {term: term-group, level: Parkinson's disease patients, direction: negative}
 ```
@@ -911,11 +901,15 @@ model_estimations:
     stage: subject
     estimator: Pearson correlation
     terms:
-      - {id: term-vim-timecourse, name: VIM seed time series, region: reg-vim-left,
-         type: continuous, variation_level: within_subject}
-      - {id: term-motion, name: head motion and nuisance signals,
-         type: continuous, variation_level: within_subject}
-
+      - id: term-vim-timecourse
+        name: VIM seed time series
+        type: continuous
+        variation_level: within_subject
+        region: reg-vim-left
+      - id: term-motion
+        name: head motion and nuisance signals
+        type: continuous
+        variation_level: within_subject
   - id: me-group-diagnosis
     model_family: anova
     stage: group
@@ -929,8 +923,11 @@ model_estimations:
         levels:
           - {level: ET patients, groups: [grp-et]}
           - {level: HCs, groups: [grp-hc]}
-      - {id: term-trs, name: tremor severity, assessment: asmt-trs,
-         type: continuous, variation_level: between_subject}
+      - id: term-trs
+        name: tremor severity
+        type: continuous
+        variation_level: between_subject
+        assessment: asmt-trs
 ```
 
 ```yaml
@@ -938,8 +935,8 @@ analysis:
   model_estimation: me-group-diagnosis   # the top stage, always
   effect:
     cells:
-      - {term: term-diagnosis, level: HCs, direction: positive}
       - {term: term-diagnosis, level: ET patients, direction: negative}
+      - {term: term-diagnosis, level: HCs, direction: positive}
 ```
 → **`contrast`**, adjusted for `term-trs`, `term-motion` **and** `term-vim-timecourse`.
 
