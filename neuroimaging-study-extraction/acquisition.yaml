@@ -18,6 +18,18 @@ imports:
   - linkml:types
   - ../extraction-evidence
 enums:
+  BrainCoverage:
+    description: >-
+      Extent of the brain contained in an acquired volume. Two values, because the useful
+      question downstream is binary -- could a focus have been reported from anywhere in the
+      brain, or not -- and the structures a partial volume missed vary too much to enumerate.
+    permissible_values:
+      whole_brain:
+        description: The acquisition covered the whole brain or whole head.
+      partial:
+        description: >-
+          The field of view or slice prescription left part of the brain outside the acquired
+          volume -- a clipped cerebellum or vertex, or a deliberately limited slab.
   Modality:
     description: >-
       Imaging or recording modality of one Acquisition, and through `instantiates` the class
@@ -113,6 +125,12 @@ classes:
           The scanner, amplifier, or recording system this acquisition was made on, by identifier.
           Acquisitions made on one machine reference one record; a second record asserts the
           study used a second machine.
+      brain_coverage:
+        range: ExtractedBrainCoverage
+        description: |-
+          How much of the brain the acquired volume contained. This is the extent the SCANNER sampled, and it is a third axis distinct from the two the schema already carries: `Analysis.spatial_scope` is what the analysis tested, and `InferenceSettings.correction_scope` with `search_volume` is where multiple comparisons were controlled. A voxelwise analysis over a volume that clipped the cerebellum is `whole_brain` in scope and `partial` here, and an ROI analysis of a whole-head acquisition is the reverse. Never infer this from either of those.
+          It describes the volume behind the REPORTED results. A scan that clipped a structure in some participants who were then excluded is `whole_brain`, because the analysed volume was not clipped -- measured on a real case, `26535944` dropped 4 subjects whose scans missed the cerebellum, and calling that `partial` would say the opposite of what the results rest on.
+          A field of view in millimetres is not by itself a statement of coverage. Where only the geometry is given, the value is an inference and `value_source` records it as one: 23027680 was read as `whole_brain` from "160-180 1.2-mm contiguous coronal slices" and nothing else. Stated in some form by about half of 903 corpus papers; a named excluded structure appears in roughly 1%, which is why there is no list of them and the evidence span carries the rare detail.
   MRI:
     is_a: Acquisition
     description: >-
@@ -276,6 +294,12 @@ classes:
         description: >-
           Model or product name of the device, as reported, such as Prisma, Signa, Achieva,
           or actiCHamp.
+  ExtractedBrainCoverage:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is BrainCoverage.
+    slot_usage:
+      value:
+        range: BrainCoverage
   ExtractedModality:
     is_a: ExtractedValue
     description: An ExtractedValue whose value is Modality.

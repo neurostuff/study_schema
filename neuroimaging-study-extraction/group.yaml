@@ -20,6 +20,17 @@ imports:
   - design
   - assessment
 enums:
+  SampleSource:
+    description: >-
+      Where a participant group came from. Closed, because the three cases carry different
+      consequences for pooling and a fourth would be a judgement rather than a source.
+    permissible_values:
+      recruited:
+        description: Enrolled for this study, with no other source stated.
+      public_dataset:
+        description: Drawn from a named public or consortium dataset.
+      previously_reported:
+        description: The same or an overlapping sample was already reported in another publication.
   Species:
     description: >-
       Species of a participant cohort. The listed values are the ones neuroimaging uses often;
@@ -202,6 +213,28 @@ classes:
         range: ExtractedString
         description: Aggregate socioeconomic status and the instrument or proxy used to measure
           it.
+      sample_source:
+        range: ExtractedSampleSource
+        description: |-
+          Where this group's participants came from. `recruited` when they were enrolled for this study and no other source is stated; `public_dataset` when they were drawn from a named public or consortium dataset; `previously_reported` when the same or an overlapping sample was already reported in another publication.
+          On the group and not the study, because overlap is routinely partial: a study may scan a fresh patient group against controls taken from an existing dataset, and a study-level flag cannot say which. `Study.external_datasets` remains the place for a named dataset the study as a whole used.
+          A protocol, preprocessing pipeline or analysis "described previously" is a shared METHOD and leaves this `recruited`; so does comparing findings to earlier literature in the discussion. Only a statement that these same people were scanned, studied or reported before counts. Measured on 150 random papers: the value is decidable from a verbatim sentence in 38 of the 40 non-`recruited` cases, and both errors were this confusion, so the warning is the field's own text rather than a note somewhere else.
+          `recruited` is an assertion and not the absence of one. A meta-analysis excluding overlapping samples has to distinguish a study that recruited freshly from one nobody checked, and an unfilled field cannot.
+      sample_source_reference:
+        range: ExtractedString
+        description: >-
+          The dataset name, or the prior publication as the source cites it -- `Doehrmann
+          et al., 2013`, `Bryant et al. [17]`, `NCT01281228`. Present in 36 of 40 measured
+          cases. Without it the overlap is known and not actionable: deciding whether two
+          papers are one independent sample needs the identity of the other one.
+      sample_overlap_count:
+        range: ExtractedInteger
+        description: >-
+          How many of this group were in that prior report, when the source says. Stated in
+          about half of measured cases ("GM volume data from 14 of these 21 PTSD participants
+          has been previously reported"). It is the difference between two papers being one
+          sample and their sharing part of one, which is the difference between dropping a
+          study and down-weighting it.
   CategoryDistribution:
     description: >-
       One category in an aggregate participant distribution. Labels are free text, kept in
@@ -229,6 +262,12 @@ classes:
           The classification system the study used for these categories, in its own words,
           such as the OMB or NIH race and ethnicity categories, a named handedness inventory,
           or a self-report question's answer set.
+  ExtractedSampleSource:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is SampleSource.
+    slot_usage:
+      value:
+        range: SampleSource
   ExtractedSpecies:
     is_a: ExtractedValue
     description: >-
