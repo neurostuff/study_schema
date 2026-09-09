@@ -30,19 +30,18 @@ enums:
 
   UnreportedReason:
     description: >-
-      Why a slot carries no value. A qualifier on `extraction_status: not_reported`, never a
-      second way to record silence -- missingness keeps one encoding, and a query asking what
-      is missing still asks `extraction_status` alone.
-      It exists because the four situations below were one answer. A slot the article never
-      mentions, one it discusses without settling, one whose value sits in a figure this pass
-      cannot read, and one the pass simply could not work out all wrote `not_reported`, and
-      nothing downstream could tell them apart -- so a wrongly declared silence, which is the
-      one of the four that is a defect, was indistinguishable from the three that are not.
+      Why a slot carries no value, when the reason is not the plain one. A qualifier on
+      `extraction_status: not_reported`, never a second way to record silence -- missingness
+      keeps one encoding, and a query asking what is missing still asks `extraction_status`
+      alone.
+      Omitted for plain silence, and that is the whole of the plain case: `not_reported`
+      already says the attribute was examined and no value was found in the available
+      source, so a token repeating it would add a word and no fact. What these four add is
+      the cases that reading alone does not settle -- the source discusses the attribute
+      without resolving it, the value is on a page this pass cannot read, the source defers
+      to another publication, or the pass could not work it out. The last is a defect and
+      the first three are not, and before this they were all one answer.
     permissible_values:
-      silent:
-        description: >-
-          The source does not mention the attribute. The plain case, and the only one that
-          asserts the article itself is the reason there is no value.
       ambiguous:
         description: >-
           The source addresses the attribute but settles on no single value -- two figures
@@ -131,11 +130,12 @@ classes:
       unreported_reason:
         range: UnreportedReason
         description: >-
-          Why there is no value. Populate when extraction_status is not_reported; omit when
-          it is extracted, where there is nothing to explain.
-          Optional, and absent means no pass has recorded a reason -- which is distinct from
-          `silent`, a pass having looked and found the article says nothing. A record written
-          before this slot existed carries neither.
+          Why there is no value, where the reason is not the plain one. Populate when
+          extraction_status is not_reported and one of the four applies; omit when it is
+          extracted, where there is nothing to explain.
+          Absent is the ordinary case and claims nothing beyond the status: the attribute was
+          examined and the source carries no value. Reading absence as "no pass looked" would
+          contradict what `not_reported` already asserts, so nothing should.
       evidence:
         range: Evidence
         required: true
