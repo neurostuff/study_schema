@@ -120,11 +120,17 @@ enums:
   EffectKind:
     in_subset: [mvp, model_extracted]
     description: >-
-      The vocabulary of the derived kind view. **No slot has this as a range** -- an `Effect`
-      does not record what kind of thing it is, because that follows entirely from its cells.
-      There is no free-text branch: a cell pattern yields one of these labels or none, and a
-      pattern yielding none is a record whose cells do not describe a test. The derivation is
-      stated once, in extraction-readme.md §3.
+      What kind of test an effect's cells describe. The range of `Effect.kind`, and also the
+      output of deriving the same thing from the cells -- the two are compared, and a
+      disagreement is a record contradicting itself.
+
+      This once had no slot at all, on the reasoning that the kind follows entirely from the
+      cells and storing it would put one fact in two places. It does put it in two places, and
+      that turned out to be the reason to store it: a cell pattern that derives nothing, or
+      derives something other than what the analysis is, was invisible while the record stated
+      the shape only once. There is no free-text branch: a cell pattern yields one of these
+      labels or none, and a pattern yielding none is a record whose cells do not describe a
+      test. The derivation is stated once, in extraction-readme.md §3.
     permissible_values:
       simple_effect:
         in_subset: [mvp, model_extracted]

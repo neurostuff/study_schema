@@ -87,6 +87,36 @@ enums:
         description: >-
           Parcels of a parcellation covering the search space, as distinct from a small set
           of named regions of interest.
+  EffectKind:
+    description: |-
+      What kind of test an effect's cells describe. The range of `Effect.kind`, and also the output of deriving the same thing from the cells -- the two are compared, and a disagreement is a record contradicting itself.
+      This once had no slot at all, on the reasoning that the kind follows entirely from the cells and storing it would put one fact in two places. It does put it in two places, and that turned out to be the reason to store it: a cell pattern that derives nothing, or derives something other than what the analysis is, was invisible while the record stated the shape only once. There is no free-text branch: a cell pattern yields one of these labels or none, and a pattern yielding none is a record whose cells do not describe a test. The derivation is stated once, in extraction-readme.md §3.
+    permissible_values:
+      simple_effect:
+        description: >-
+          A quantity tested against zero rather than against another level. Covers activation
+          and deactivation against the unmodelled implicit baseline, decoding accuracy above
+          chance, dissimilarity above zero, and connectivity different from zero.
+      contrast:
+        description: >-
+          One term compared against itself. Whether it reads as a group comparison, a condition
+          comparison, a pre-post change or a region comparison follows from what that term's
+          levels range over, not from a different field.
+      interaction:
+        description: >-
+          Two comparisons at once -- a group factor and a condition factor together, occasions
+          and arms, or either of those and a factor whose levels are not entities at all,
+          such as region, hemisphere, task or frequency band. Also the kind of a **moderation**,
+          a crossing one of whose terms is continuous.
+      parametric_modulation:
+        description: A tested continuous term varying within subject.
+      cross_subject_regression:
+        description: A tested continuous term varying between subject or mixed.
+      omnibus:
+        description: >-
+          A multi-degree-of-freedom test with no direction to give -- an F or a chi-square
+          over a factor's levels or over an interaction's degrees of freedom. A comparison
+          whose direction the source merely withheld is not this.
   EffectPath:
     description: |-
       The path through a mediation model represented by an effect's map. Without it, an indirect-effect map is structurally identical to a plain regression on the same predictor, and a synthesis would pool the two.
@@ -533,25 +563,16 @@ enums:
         description: The paper reports an effect without saying enough about it to structure.
   TablePurpose:
     description: >-
-      What a table is for. A coordinate table
-      is not an analysis merely by having coordinates in it: a study's ROI definitions, its
-      atlas parcels, its connectivity seeds and the peaks of its independent components are
-      all locations rather than findings. Open vocabulary: write the source's own wording
+      What a table is for. A coordinate table is not an analysis merely by having coordinates
+      in it: a study's ROI definitions, its atlas parcels, its connectivity seeds and the
+      peaks of its independent components are all locations rather than findings, and `reported_effect`
+      is what says the rows ARE a finding. Open vocabulary: write the source's own wording
       when nothing here fits.
     permissible_values:
       reported_effect:
-        description: >-
-          The rows ARE the foci of a tested effect, so this table is an analysis and not one
-          of the kinds below. Derived rather than read: a table an `Analysis` names in
-          `tables` reports that analysis's result.
-
-          Present because absence could not say it. Absence meant both "this reports results"
-          and "nobody decided", so a reader could not tell a table deliberately left
-          unmarked from one no pass considered -- and a model shown eight kinds of
-          non-analysis and no way to say "it is an analysis" answers with the nearest one.
-          Measured over twelve papers: a repair pass marked 18 of 19 tables, and 16 of those
-          18 were cited by an analysis, which makes the mark wrong by this enum's own
-          definition.
+        description: |-
+          The rows ARE the foci of a tested effect, so this table is an analysis and not one of the kinds below. Derived rather than read: a table an `Analysis` names in `tables` reports that analysis's result.
+          Present because absence could not say it. Absence meant both "this reports results" and "nobody decided", so a reader could not tell a table deliberately left unmarked from one no pass considered -- and a model shown eight kinds of non-analysis and no way to say "it is an analysis" answers with the nearest one. Measured over twelve papers: a repair pass marked 18 of 19 tables, and 16 of those 18 were cited by an analysis, which makes the mark wrong by this enum's own definition.
       region_definitions:
         description: >-
           Regions of interest the study delimited, with the coordinates that locate them --
@@ -605,6 +626,12 @@ classes:
         any_of:
           - range: SpatialUnit
           - range: string
+  ExtractedEffectKind:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is EffectKind.
+    slot_usage:
+      value:
+        range: EffectKind
   ExtractedEffectPath:
     is_a: ExtractedValue
     description: An ExtractedValue whose value is EffectPath.

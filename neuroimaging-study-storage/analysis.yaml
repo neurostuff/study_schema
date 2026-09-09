@@ -336,6 +336,28 @@ classes:
           tests that coefficient against zero, which is what the unmodelled implicit baseline is,
           and the sign distinguishes activation from deactivation. A map with no inferential test
           at all is not an Analysis.
+      kind:
+        in_subset: [mvp, model_extracted]
+        range: EffectKind
+        description: >-
+          What kind of test these cells describe, stated as well as encoded.
+
+          Redundant on purpose, and the redundancy is the point: the kind follows entirely from
+          the cells by the six ordered steps of extraction-readme.md §3, so a `kind` that
+          disagrees with the cells beside it is a record contradicting itself, and one of the
+          two is wrong. Neither half is authoritative. A stated `contrast` over cells that
+          derive `simple_effect` may be cells missing their second level, or a kind read off
+          the analysis's title rather than its test; the pair says only that a reader should
+          look, which is more than either half says alone.
+
+          This is what catches a decoding result encoded as a comparison. Five analyses across
+          two reviewed papers -- ngDTY5BgJUuX's three classification analyses and SULKxviGFurw's
+          two MVPA ones -- carry `DecodingDetails` and two directionless cells, which derives
+          `contrast` with its direction lost. The papers report accuracy *above chance*, which
+          is one signed cell and a `simple_effect` (§5.9). Reviewers left every one of those
+          cells unsigned, agreeing there is no direction to give for a two-level reading, and
+          signed the genuine contrast in the same paper. Nothing reported the shape was wrong,
+          because nothing had two statements of it to compare.
       mediation:
         in_subset: [mvp, model_extracted]
         range: Mediation

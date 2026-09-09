@@ -298,11 +298,14 @@ LinkML rules cannot express a constraint that spans a multivalued nested slot or
 the entity carrying it. Six such constraints are documented on the fields they constrain and
 have to be checked in code:
 
-1. **`Effect.cells` must be non-empty.** An effect that compared nothing tested nothing, and a
-   map reported with no inferential test is not an Analysis — see §1. LinkML's `required` catches
-   an absent slot; a present-but-empty list needs the code check. This replaced "recompute
-   `effect.kind` and reject contradictions": there is no stored kind to contradict, since the
-   kind is read off the cells. The derivation is stated below.
+1. **`Effect.cells` must be non-empty, and `Effect.kind` must be the kind they derive.** An
+   effect that compared nothing tested nothing, and a map reported with no inferential test is
+   not an Analysis — see §1. LinkML's `required` catches an absent slot; a present-but-empty
+   list needs the code check. State the kind as well as the cells: it follows entirely from
+   them by the steps below, so the two are checked against each other and a disagreement means
+   one of them is wrong. Do not read the kind off the analysis's title — derive it from the
+   cells you are emitting, and if that derivation is not the shape the paper describes, the
+   cells are what to fix.
 2. **`Cell.term` must reference a `ModelTerm` of the `ModelEstimation` its `Analysis` names, or
    of a stage that model reaches through `inputs_from`.**
    This is what the old cross-class match between `FactorLevel.factor_name` and a categorical
