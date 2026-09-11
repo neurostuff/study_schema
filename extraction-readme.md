@@ -75,7 +75,7 @@ The schema says so rather than leaving it to convention: a multivalued scalar pr
 wrapper and a list of wrappers is not expressible. `Group.inclusion_criteria`,
 `Preprocessing.steps`, `Preprocessing.smoothing_fwhm_mm`, `MRI.echo_time_seconds`, and
 `Group.exclusion_criteria` all work this way, as does an enum list such as
-`Task.response_mode` (`ExtractedResponseModeList`).
+`Task.response_modality` (`ExtractedResponseModalityList`) and `Task.stimulus_modality` (`ExtractedStimulusModalityList`).
 `ModelTerm.levels` no longer does: its entries carry their own entity references, so it is a
 nested `FactorLevel` list rather than one wrapper over a list of labels. Cross-reference lists
 are the exception: `Analysis.acquisitions`, `Analysis.tasks`, and every other local-ID list
@@ -97,7 +97,7 @@ one down.
 Use the permissible value when one fits. When none does, write what the paper says rather
 than forcing the nearest match — those free-text answers accumulating are the evidence for
 whether the vocabulary is short a value. Twenty-six fields are open, including
-`Analysis.spatial_scope`, `Measure.family`, and `Task.response_mode`.
+`Analysis.spatial_scope`, `Measure.family`, `Task.stimulus_modality`, and `Task.response_modality`.
 
 Which a field is, is storage's decision and not one extraction may revisit;
 `check_extraction_to_storage_map.py` fails if the projection opens or closes a vocabulary.
@@ -758,7 +758,7 @@ list so an extractor is not left hunting for a slot.
 - **Condition-level stimulus, response and instruction** — a condition records a name, a
   description, and whether it carried a demand or was a rest baseline. CogPO's three parts are
   described once for the paradigm, on `Task.stimuli`, `Task.instructions` and
-  `Task.response_mode`, not per condition, so a paradigm where the response mode differs *between*
+  `Task.response_modality`, not per condition, so a paradigm where the response modality differs *between*
   conditions records both modes on the task and the difference only in each condition's
   `description`. Stimulus and response **laterality**, BrainMap's other response dimension, are
   not recorded at all.

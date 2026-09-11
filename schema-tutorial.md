@@ -595,7 +595,7 @@ factor, not by inventing a task.
 | `design_type` | Event-related, block, mixed, naturalistic, or continuous with no modelled events (resting state) | — |
 | `acquisitions` | The protocols that collected data for this task | Exclude structural scans unless they are part of the task itself |
 | `presentation_software`, `instructions`, `stimuli` | As reported | — |
-| `response_mode` | Open vocabulary, **multivalued**: `button_press`, `hand_movement`, `speech`, `covert_response`, `eye_movement`, `foot_or_leg_movement`, `oral_nonspeech`, `none` | `none` is a positive assertion — passive viewing, film watching, resting state — and is not the same as leaving the field empty. `covert_response` is a real, instructed, unobservable response, so no accuracy comes with it |
+| `response_modality` | Open vocabulary, **multivalued**: `button_press`, `hand_movement`, `speech`, `covert_response`, `eye_movement`, `foot_or_leg_movement`, `oral_nonspeech`, `none` | `none` is a positive assertion — passive viewing, film watching, resting state — and is not the same as leaving the field empty. `covert_response` is a real, instructed, unobservable response, so no accuracy comes with it |
 | `performance_measures` | Behavioural variables recorded, and the summaries used to verify performance | Not an `Assessment`: this came out of the paradigm |
 
 A paradigm whose response mode differs *between* conditions records both modes here and the
@@ -639,7 +639,7 @@ analysis had no paradigm.
 | Resting state with no `Task` | The record models conditions that belong to no paradigm, or loses that a paradigm existed |
 | A within-paradigm fixation as its own `Task` | The participant was in a separate paradigm |
 | A `Task` invented for a structural scan | Participants performed a paradigm they did not |
-| `response_mode` left empty for passive viewing | Nobody looked, rather than "no response was required" |
+| `response_modality` left empty for passive viewing | Nobody looked, rather than "no response was required" |
 
 ---
 
@@ -1515,7 +1515,7 @@ Three things look like silence and are not. Each names something the source *did
 |---|---|
 | `not_applicable` | The concept does not apply. An observational study allocated nobody |
 | `undirected` | The test yields no per-level sign. An F reports that, and it is a different claim from a sign the page withheld |
-| `none`, `other` | An asserted absence and an asserted unlisted value. `response_mode: none` says no response was required; `second_block: [none]` says the brain data were decomposed alone |
+| `none`, `other` | An asserted absence and an asserted unlisted value. `response_modality: none` says no response was required; `second_block: [none]` says the brain data were decomposed alone |
 
 ### 11.2 Open and closed vocabularies
 

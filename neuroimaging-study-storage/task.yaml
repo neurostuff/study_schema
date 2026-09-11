@@ -72,11 +72,30 @@ classes:
       stimuli:
         in_subset: [model_extracted]
         range: string
-        description: Visuals or other materials presented to participants.
-      response_mode:
+        description: >-
+          The materials presented to participants, in the source's own terms -- the stimulus
+          set, its name, how many items. `stimulus_modality` carries the sensory channel;
+          this carries what the stimuli actually were.
+      stimulus_modality:
         in_subset: [mvp, model_extracted]
         any_of:
-          - range: ResponseMode
+          - range: StimulusModality
+          - range: string
+        multivalued: true
+        description: >-
+          The sensory channel the stimuli were delivered through. Multivalued because a
+          paradigm may use more than one -- a photograph with a spoken label.
+
+          Often not stated in those words: a source naming IAPS, NimStim, Ekman faces or
+          film clips has said `visual` without using the word. Inferring it from such a cue
+          is intended, and the cue is what belongs in the evidence -- not the whole methods
+          section. Screening criteria ask about stimulus modality routinely ("the emotional
+          stimuli are VISUAL"), and against a free-text `stimuli` field that question cannot
+          be answered.
+      response_modality:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: ResponseModality
           - range: string
         multivalued: true
         description: >-
@@ -166,7 +185,45 @@ enums:
           matched to the state of interest on everything but the manipulation. Recorded
           because the source labelled it so, not because a contrast used it that way.
 
-  ResponseMode:
+  StimulusModality:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      The sensory channel a task's stimuli were delivered through.
+      Open vocabulary: write the source's own wording in the field when nothing here fits.
+    permissible_values:
+      visual:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Anything seen -- photographs, faces, scenes, words on a screen, film clips,
+          gratings, a fixation cross. The commonest modality in the literature by a wide
+          margin, and the one a named stimulus set usually implies.
+      auditory:
+        in_subset: [mvp, model_extracted]
+        description: Anything heard -- speech, tones, music, environmental sounds, noise bursts.
+      tactile:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          Touch or somatosensory delivery -- brushing, vibration, pressure, temperature,
+          electrical or noxious stimulation of the skin.
+      olfactory:
+        in_subset: [mvp, model_extracted]
+        description: An odour delivered to the nose.
+      gustatory:
+        in_subset: [mvp, model_extracted]
+        description: A taste delivered to the mouth -- sucrose, quinine, juice, a tasteless control.
+      interoceptive:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A stimulus acting on internal state rather than an external sense -- gastric or
+          bladder distension, inspiratory load, infusion, induced hunger or thirst.
+      none:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A positive assertion that no stimulus was presented -- resting state, or a task
+          driven entirely by instruction or self-generated thought. Not the same as leaving
+          the field empty, which says nobody looked.
+
+  ResponseModality:
     in_subset: [mvp, model_extracted]
     description: >-
       How participants responded during a task.
