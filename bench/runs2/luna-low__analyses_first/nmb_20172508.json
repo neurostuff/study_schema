@@ -1,0 +1,2176 @@
+{
+ "case_id": "nmb_20172508",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "a_wholebrain_slip_gt_abstinent",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Whole-Brain Analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A whole-brain mixed-effects analysis revealed that, relative to the abstinent group, the slip group had greater smoking-related versus neutral image reactivity in the bilateral insula, ACC, posterior cingulate cortex, amygdala, primary motor cortex, premotor cortex, inferior parietal cortex, parahippocampal gyrus, thalamus, putamen, cerebellar hemispheres and vermis, prefrontal cortex, and striate and extrastriate cortex"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A whole-brain mixed-effects analysis revealed that, relative to the abstinent group, the slip group had greater smoking-related versus neutral image reactivity"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_applicable",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_cue"
+    ],
+    "conditions": [
+     {
+      "condition": "c_smoking",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than neutral",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "the slip group had greater smoking-related versus neutral image reactivity"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than smoking-related",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "the slip group had greater smoking-related versus neutral image reactivity"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_image_condition"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_slip",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "relative to the abstinent group, the slip group had greater smoking-related versus neutral image reactivity"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "9",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Of the 21 subjects who completed prequit neuroimaging, nine slipped while on NRT."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_abstinent",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "relative to the abstinent group, the slip group had greater smoking-related versus neutral image reactivity"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "12",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "slip group greater smoking-related versus neutral image reactivity than abstinent group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "relative to the abstinent group, the slip group had greater smoking-related versus neutral image reactivity"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI activity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Beta maps comparing smoking with neutral images were created for each subject."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "unit": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "(t 19 = 2.86, cluster corrected p \u2264 .005"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": "19",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "(t 19 = 2.86, cluster corrected p \u2264 .005"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "neutral images",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Beta maps comparing smoking with neutral images were created for each subject."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mediation_path": {
+     "extraction_status": "not_applicable",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "spatially normalized into Talairach space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Multiple comparisons were cluster-level corrected"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.01,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "assuming an individual voxel Type 1 error of p = .01"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "assuming an individual voxel Type 1 error of p = .01"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 31,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "31 three-mm resampled isotropic voxels"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.005,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the cluster extent that yielded p = .005"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Monte Carlo simulation; cluster-level correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Multiple comparisons were cluster-level corrected"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A whole-brain mixed-effects analysis"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "smoking-cue brain reactivity relates to smoking outcomes",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Therefore, we determined whether fMRI smoking-cue reactivity before a smoking cessation attempt relates to smoking outcomes"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_roi_insula_correlation_accuracy",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Anterior insula fMRI reactivity and ES accuracy interference correlation",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "mean anterior insula ROI beta weights were significantly correlated with task interference effects (accuracy: r = \u2212.62, p < .006"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "anterior insula",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Beta weights were averaged across all voxels within each ROI."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "averaged regions",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "anatomically defined",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The insula and amygdala ROIs were defined anatomically"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "anterior insula",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Beta weights for the smoking image > neutral image contrasts were extracted from the anterior insula"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_cue",
+     "exp_stroop"
+    ],
+    "conditions": [
+     {
+      "condition": "c_smoking",
+      "role": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      }
+     },
+     {
+      "condition": "c_neutral",
+      "role": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_image_condition",
+     "term_es_interference"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_all_fmri_es",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "In subjects undergoing both fMRI and the ES task (n = 19)"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "19",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "In subjects undergoing both fMRI and the ES task (n = 19)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "mean anterior insula ROI beta weights correlated with ES task accuracy interference effects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "mean anterior insula ROI beta weights were significantly correlated with task interference effects (accuracy: r = \u2212.62, p < .006"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "ROI beta weights",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Beta weights for the smoking image > neutral image contrasts were extracted from the anterior insula"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "Pearson's correlation coefficient",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A Pearson's correlation coefficient was calculated to evaluate possible relationships between ROI fMRI activation and ES task performance."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "mediation_path": {
+     "extraction_status": "not_applicable",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "spatially normalized into Talairach space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [
+     "assess_es"
+    ],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "participants with the strongest anterior insula fMRI activation to smoking-related images showed the largest interference effects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thus, participants with the strongest anterior insula and dACC fMRI activation to smoking-related images showed the largest interference effects."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_discriminant_all_predictors",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Discriminant analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a discriminant analysis was conducted to determine whether prequit data could discriminate slip from abstinent subjects"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "anterior insula, dACC, left DLPFC, and amygdala ROIs",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Beta weights for the smoking image > neutral image contrasts were extracted from the anterior insula, dACC, DLPFC, and amygdala"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "anatomically defined for insula and amygdala; functionally connected regions for DLPFC and dACC",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The insula and amygdala ROIs were defined anatomically, and the DLPFC and dACC were defined on the basis of the functional connectivity analysis"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "anterior insula, dACC, DLPFC, and amygdala",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Beta weights for the smoking image > neutral image contrasts were extracted from the anterior insula, dACC, DLPFC, and amygdala"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_cue",
+     "exp_stroop"
+    ],
+    "conditions": [],
+    "terms": [
+     "term_es_interference",
+     "term_insula_reactivity",
+     "term_dacc_reactivity"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_slip",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "classified as slip",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "correctly classified 5 of 8 slip and 10 of 11 abstinent subjects"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "8",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "correctly classified 5 of 8 slip and 10 of 11 abstinent subjects"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_abstinent",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "classified as abstinent",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "correctly classified 5 of 8 slip and 10 of 11 abstinent subjects"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "11",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "correctly classified 5 of 8 slip and 10 of 11 abstinent subjects"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "prequit ES interference RT and accuracy effects, mean anterior insula fMRI reactivity, and dACC fMRI reactivity used to classify slip versus abstinent subjects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "when all four predictors were included, the overall model was significant"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "classification rate",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "78.9% correct classification rate"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "chi-square",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the overall model was significant [\u03c7 2 (4) = 10.44, p < .035]"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": "4",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the overall model was significant [\u03c7 2 (4) = 10.44, p < .035]"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "mediation_path": {
+     "extraction_status": "not_applicable",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "spatially normalized into Talairach space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [
+     "assess_es"
+    ],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {
+     "decoded_variable": {
+      "extraction_status": "extracted",
+      "value": "smoking cessation outcomes",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "prequit data could discriminate slip from abstinent subjects"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "classes": [
+      {
+       "label": {
+        "extraction_status": "extracted",
+        "value": "slip",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "slip from abstinent subjects"
+            }
+           ]
+          }
+         ]
+        }
+       }
+      },
+      {
+       "label": {
+        "extraction_status": "extracted",
+        "value": "abstinent",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "slip from abstinent subjects"
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     ],
+     "performance_metrics": [
+      {
+       "name": {
+        "extraction_status": "extracted",
+        "value": "correct classification rate",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "78.9% correct classification rate"
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "value": {
+        "extraction_status": "extracted",
+        "value": 78.9,
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "78.9% correct classification rate"
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     ],
+     "validation_scheme": {
+      "extraction_status": "extracted",
+      "value": "leave-one-out classification strategy",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The cross-validation used a leave-one-out classification strategy"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "prequit fMRI and ES measurements predicted which smokers would slip",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A discriminant analysis of ES and fMRI data predicted outcomes with 79% accuracy."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "tables": [],
+  "conditions": [
+   {
+    "local_id": "c_smoking",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "smoking-related images",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "During fMRI, subjects viewed smoking-related (people smoking, hands holding cigarettes, or cigarettes alone) or neutral"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "people smoking, hands holding cigarettes, or cigarettes alone",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "smoking-related (people smoking, hands holding cigarettes, or cigarettes alone)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "neutral images",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "or neutral (general content-matched but no smoking cues) images"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "general content-matched but no smoking cues",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "neutral (general content-matched but no smoking cues) images"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "comparator",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_animal",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "animal images",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Animal images were shown to prompt subjects to press a response button"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_image_condition",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "image regressors",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A whole-brain fixed-effects general linear model (GLM) was run using image regressors (smoking, neutral, animal images)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [
+     "c_smoking",
+     "c_neutral",
+     "c_animal"
+    ],
+    "groups": []
+   },
+   {
+    "local_id": "term_es_interference",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ES task interference effects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Group \u00d7 Condition interactions indicated significant group differences in ES task interference effects"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Accuracy Neutral \u2212 Accuracy Smoking and RT Smoking \u2212 RT Neutral",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "computed as Accuracy Neutral \u2212 Accuracy Smoking and RT Smoking \u2212 RT Neutral"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [
+     "c_smoking",
+     "c_neutral"
+    ],
+    "groups": [
+     "g_slip",
+     "g_abstinent"
+    ],
+    "assessment": "assess_es"
+   },
+   {
+    "local_id": "term_insula_reactivity",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "mean anterior insula fMRI reactivity",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "mean anterior insula fMRI reactivity"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [
+     "c_smoking",
+     "c_neutral"
+    ],
+    "groups": [
+     "g_slip",
+     "g_abstinent"
+    ]
+   },
+   {
+    "local_id": "term_dacc_reactivity",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "dACC fMRI reactivity",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "dACC fMRI reactivity was not"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [
+     "c_smoking",
+     "c_neutral"
+    ],
+    "groups": [
+     "g_slip",
+     "g_abstinent"
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_all",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "nicotine-dependent women",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-one women underwent neuroimaging"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "women",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-one women underwent neuroimaging"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "21",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-one women underwent neuroimaging"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": "current nicotine dependence",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subjects met DSM-IV criteria for current nicotine dependence"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "DSM-IV",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subjects met DSM-IV criteria for current nicotine dependence"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_slip",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "slip group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "nine slipped while on NRT"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "participants who smoked any cigarettes during the nicotine replacement therapy treatment period",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "participants who smoked any cigarettes during the nicotine replacement therapy (NRT) treatment period were considered at high risk for relapse (slip group)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "women",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Only women were enrolled"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_abstinent",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "abstinence group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "those who did not smoke during this period were considered at low relapse risk (abstinence group)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "women",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Only women were enrolled"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_all_fmri_es",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "subjects undergoing both fMRI and the ES task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In subjects undergoing both fMRI and the ES task (n = 19)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "women",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Only women were enrolled"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_cue",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "fMRI smoking-cue task",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "During fMRI, subjects viewed smoking-related ... or neutral images"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Smoking-related and neutral images were shown during fMRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "During fMRI, subjects viewed smoking-related ... or neutral images"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_smoking",
+     "c_neutral",
+     "c_animal"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "block design",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "were presented in 6 equal-length blocks"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ]
+   },
+   {
+    "local_id": "exp_stroop",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "computerized emotional Stroop task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Nineteen subjects performed a computerized ES task"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [],
+    "acquisitions": []
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "fMRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Scans were acquired on a Siemens Trio 3 Tesla scanner"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "Siemens Trio 3 Tesla scanner",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Scans were acquired on a Siemens Trio 3 Tesla scanner (Erlangen, Germany)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Multiplanar rapidly acquired gradient-echo structural images and gradient echo echo-planar images were acquired.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Multiplanar rapidly acquired gradient-echo structural images ... and gradient echo echo-planar images ... were acquired."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": 3,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Siemens Trio 3 Tesla scanner"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "gradient echo echo-planar images",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "gradient echo echo-planar images"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": 2,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TR = 2 sec"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": [
+       0.03
+      ],
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TE = 30 msec"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": [
+       3.5,
+       3.5,
+       3.5
+      ],
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "resolution = 3.5 mm isotropic with 0 mm gap"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Images were slice-time corrected, motion corrected, spatially smoothed, resampled, and spatially normalized into Talairach space.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Images were slice-time corrected, motion corrected, spatially smoothed (6-mm Gaussian kernel), resampled to 3 \u00d7 3 \u00d7 3 mm isotropic voxels, and spatially normalized into Talairach space."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": {
+     "extraction_status": "extracted",
+     "value": [
+      "Brain Voyager QX 1.10.4"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Images were analyzed using Brain Voyager QX 1.10.4"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "steps": {
+     "extraction_status": "extracted",
+     "value": [
+      "slice-time corrected",
+      "motion corrected",
+      "spatially smoothed (6-mm Gaussian kernel)",
+      "resampled to 3 \u00d7 3 \u00d7 3 mm isotropic voxels",
+      "spatially normalized into Talairach space",
+      "motion time points >1.75 mm modeled out"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Images were slice-time corrected, motion corrected, spatially smoothed (6-mm Gaussian kernel), resampled to 3 \u00d7 3 \u00d7 3 mm isotropic voxels, and spatially normalized into Talairach space."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "me_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "general linear model (GLM)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A whole-brain fixed-effects general linear model (GLM) was run"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "2-gamma hemodynamic response function",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The 2-gamma hemodynamic response function was convolved with square waves"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "image regressors for smoking, neutral, and animal images, with motion confound regressors",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "using image regressors (smoking, neutral, animal images) and motion confound regressors"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "whole-brain fixed-effects and random-effects group analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "These maps were used to compare fMRI activity between slip and abstinent subject groups using a random-effects analysis."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": {
+     "extraction_status": "extracted",
+     "value": [
+      "Brain Voyager QX 1.10.4"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Images were analyzed using Brain Voyager QX 1.10.4"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "assess_es",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "emotional Stroop (ES) task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Nineteen subjects performed a computerized ES task"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Attentional bias to smoking-related words measured through reaction time and accuracy while reporting word color.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subjects were instructed to report (by button press) word color as quickly and accurately as possible and to ignore word meaning."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "behavioural task",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   }
+  ],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined whether pre-quit fMRI reactivity to smoking-related cues and emotional Stroop performance identify nicotine-dependent women who are vulnerable to slipping during smoking cessation.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "We determined whether fMRI smoking-cue reactivity before a smoking cessation attempt relates to smoking outcomes"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Twenty-one nicotine-dependent women underwent prequit fMRI during smoking-related and neutral image viewing, completed an emotional Stroop task, attempted cessation, and were compared according to subsequent slip versus abstinence outcomes.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Before quitting smoking, 21 nicotine-dependent women underwent fMRI during which smoking-related and neutral images were shown."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [],
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  }
+ },
+ "usage": {
+  "prompt": 15191,
+  "completion": 7771,
+  "reasoning": 115,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 31781,
+ "service_tier_echo": "flex"
+}

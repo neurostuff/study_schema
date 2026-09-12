@@ -1,0 +1,2012 @@
+{
+ "case_id": "nmb_18801475",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "a_control_gt_sdi_whole",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Control Subjects > SDI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "#### Control Subjects > SDI"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "is a color overlay and glass brain from a whole brain analysis with ANCOVA, adjusting for known confounds of age and global GM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The VBM in SPM5 combines tissue segmentation, bias correction, and spatial normalization into a unified model ( )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_t1"
+    ],
+    "experiments": [],
+    "conditions": [
+     {
+      "condition": "c_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "There was significantly more GM specifically in bilateral medial OFC in control subjects compared with SDI."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "c_sdi",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "There was significantly more GM specifically in bilateral medial OFC in control subjects compared with SDI."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group",
+     "term_age",
+     "term_global_gm"
+    ],
+    "model_estimation": "model_ancova",
+    "groups": [
+     {
+      "group": "g_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "There was significantly more GM specifically in bilateral medial OFC in control subjects compared with SDI."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thirty-nine subjects, including 20 control subjects (14 women/6 men, 33 years old, SD 11 years) and 19 SDI (9 women/10 men, 35 years old, SD 7 years) participated in this study."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_sdi",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "There was significantly more GM specifically in bilateral medial OFC in control subjects compared with SDI."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "19",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thirty-nine subjects, including 20 control subjects (14 women/6 men, 33 years old, SD 11 years) and 19 SDI (9 women/10 men, 35 years old, SD 7 years) participated in this study."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Control subjects > SDI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "There was significantly more GM specifically in bilateral medial OFC in control subjects compared with SDI."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "GM volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "There was lower GM volume specifically in bilateral medial OFC in SDI compared with control subjects."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "There was lower GM volume specifically in bilateral medial OFC in SDI compared with control subjects."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The most significant difference was right medial OFC (\u22125, 53, \u22123, p < .004, corrected)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The GM volume was obtained from the voxel corresponding to the global maxima of the group difference model that localized to medial OFC (\u22125, 53, \u22125, Montreal Neurological Institute) ( )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Statistical maps were set at a cluster-level threshold of p < .05, corrected for multiple comparisons with family-wise error (FWE), and a voxel-level threshold of p < .005."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.005",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Statistical maps were set at a cluster-level threshold of p < .05, corrected for multiple comparisons with family-wise error (FWE), and a voxel-level threshold of p < .005."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "voxel-level p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Statistical maps were set at a cluster-level threshold of p < .05, corrected for multiple comparisons with family-wise error (FWE), and a voxel-level threshold of p < .005."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Statistical maps were set at a cluster-level threshold of p < .05, corrected for multiple comparisons with family-wise error (FWE), and a voxel-level threshold of p < .005."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "family-wise error (FWE)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Statistical maps were set at a cluster-level threshold of p < .05, corrected for multiple comparisons with family-wise error (FWE), and a voxel-level threshold of p < .005."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "This is the first study to use VBM with whole brain correction for multiple comparisons in SDI after prolonged abstinence."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Statistical maps were set at a cluster-level threshold of p < .05, corrected for multiple comparisons with family-wise error (FWE), and a voxel-level threshold of p < .005."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "Reduced medial OFC GM might reflect long-term adaptations within the reward-learning circuit underlying pathological decision-making in substance dependence.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Reduced medial OFC GM might reflect long-term adaptations within the reward-learning circuit underlying pathological decision-making in substance dependence."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_sdi_gt_control_whole",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "SDI > Control Subjects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "#### SDI > Control Subjects"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "There were no significant regions of increased GM in SDI compared with control subjects with the same whole brain cluster-level correction for multiple comparisons."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_t1"
+    ],
+    "experiments": [],
+    "conditions": [
+     {
+      "condition": "c_sdi",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "There were no significant regions of increased GM in SDI compared with control subjects with the same whole brain cluster-level correction for multiple comparisons."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "c_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "There were no significant regions of increased GM in SDI compared with control subjects with the same whole brain cluster-level correction for multiple comparisons."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group",
+     "term_age",
+     "term_global_gm"
+    ],
+    "model_estimation": "model_ancova",
+    "groups": [
+     {
+      "group": "g_sdi",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "There were no significant regions of increased GM in SDI compared with control subjects with the same whole brain cluster-level correction for multiple comparisons."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "19",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thirty-nine subjects, including 20 control subjects (14 women/6 men, 33 years old, SD 11 years) and 19 SDI (9 women/10 men, 35 years old, SD 7 years) participated in this study."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "There were no significant regions of increased GM in SDI compared with control subjects with the same whole brain cluster-level correction for multiple comparisons."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thirty-nine subjects, including 20 control subjects (14 women/6 men, 33 years old, SD 11 years) and 19 SDI (9 women/10 men, 35 years old, SD 7 years) participated in this study."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "SDI > Control Subjects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "There were no significant regions of increased GM in SDI compared with control subjects with the same whole brain cluster-level correction for multiple comparisons."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "GM volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "There were no significant regions of increased GM in SDI compared with control subjects with the same whole brain cluster-level correction for multiple comparisons."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The GM volume was obtained from the voxel corresponding to the global maxima of the group difference model that localized to medial OFC (\u22125, 53, \u22125, Montreal Neurological Institute) ( )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "There were no significant regions of increased GM in SDI compared with control subjects.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "There were no significant regions of increased GM in SDI compared with control subjects with the same whole brain cluster-level correction for multiple comparisons."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_roi_medial_ofc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ROI Analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "### ROI Analysis"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "one or more regions of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Left and right medial orbitofrontal regions confirmed the results from the whole brain analyses (control > SDI, Frontal_Med_Orb_Left, t = 3.59, p = .001, Frontal_Med_Orb_Right, t = 2.9, p = .006)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "Automated anatomic labeling (AAL) ROI library within Marsbar SPM toolbox",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To confirm whole brain analyses, a region-of-interest (ROI) analysis of right and left medial OFC was implemented with the Automated anatomic labeling (AAL) ROI library within Marsbar SPM toolbox ( )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "Frontal_Med_Orb_Left; Frontal_Med_Orb_Right",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Left and right medial orbitofrontal regions confirmed the results from the whole brain analyses (control > SDI, Frontal_Med_Orb_Left, t = 3.59, p = .001, Frontal_Med_Orb_Right, t = 2.9, p = .006)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_t1"
+    ],
+    "experiments": [],
+    "conditions": [
+     {
+      "condition": "c_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Left and right medial orbitofrontal regions confirmed the results from the whole brain analyses (control > SDI, Frontal_Med_Orb_Left, t = 3.59, p = .001, Frontal_Med_Orb_Right, t = 2.9, p = .006)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "c_sdi",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Left and right medial orbitofrontal regions confirmed the results from the whole brain analyses (control > SDI, Frontal_Med_Orb_Left, t = 3.59, p = .001, Frontal_Med_Orb_Right, t = 2.9, p = .006)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "model_ancova",
+    "groups": [
+     {
+      "group": "g_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Left and right medial orbitofrontal regions confirmed the results from the whole brain analyses (control > SDI, Frontal_Med_Orb_Left, t = 3.59, p = .001, Frontal_Med_Orb_Right, t = 2.9, p = .006)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      }
+     },
+     {
+      "group": "g_sdi",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Left and right medial orbitofrontal regions confirmed the results from the whole brain analyses (control > SDI, Frontal_Med_Orb_Left, t = 3.59, p = .001, Frontal_Med_Orb_Right, t = 2.9, p = .006)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "control > SDI in left and right medial orbitofrontal regions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Left and right medial orbitofrontal regions confirmed the results from the whole brain analyses (control > SDI, Frontal_Med_Orb_Left, t = 3.59, p = .001, Frontal_Med_Orb_Right, t = 2.9, p = .006)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "GM volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Left and right medial orbitofrontal regions confirmed the results from the whole brain analyses"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Left and right medial orbitofrontal regions confirmed the results from the whole brain analyses (control > SDI, Frontal_Med_Orb_Left, t = 3.59, p = .001, Frontal_Med_Orb_Right, t = 2.9, p = .006)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The GM volume was obtained from the voxel corresponding to the global maxima of the group difference model that localized to medial OFC (\u22125, 53, \u22125, Montreal Neurological Institute) ( )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "To confirm whole brain analyses",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To confirm whole brain analyses, a region-of-interest (ROI) analysis of right and left medial OFC was implemented with the Automated anatomic labeling (AAL) ROI library within Marsbar SPM toolbox ( )."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "tables": [],
+  "conditions": [
+   {
+    "local_id": "c_control",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "control subjects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Nineteen SDI and 20 control subjects participated."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "comparator",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_sdi",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "SDI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Nineteen SDI and 20 control subjects participated."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "substance-dependent individuals",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The SDI were dependent on two or more substances, most often cocaine, amphetamine, and alcohol, with mean duration of abstinence 4.7, 2.4, and 3.2 years, respectively."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_group",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the second level, whole brain data were modeled across the groups with analysis of covariance (ANCOVA) with total GM volume and age as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [
+     "c_control",
+     "c_sdi"
+    ],
+    "groups": [
+     "g_control",
+     "g_sdi"
+    ]
+   },
+   {
+    "local_id": "term_age",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "age",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the second level, whole brain data were modeled across the groups with analysis of covariance (ANCOVA) with total GM volume and age as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the second level, whole brain data were modeled across the groups with analysis of covariance (ANCOVA) with total GM volume and age as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "term_global_gm",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "total GM volume",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the second level, whole brain data were modeled across the groups with analysis of covariance (ANCOVA) with total GM volume and age as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The effects of total GM volume were removed to allow inferences about regional differences in GM volume."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_control",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "control subjects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty-nine subjects, including 20 control subjects (14 women/6 men, 33 years old, SD 11 years) and 19 SDI (9 women/10 men, 35 years old, SD 7 years) participated in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "20",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty-nine subjects, including 20 control subjects (14 women/6 men, 33 years old, SD 11 years) and 19 SDI (9 women/10 men, 35 years old, SD 7 years) participated in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "33 years old",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty-nine subjects, including 20 control subjects (14 women/6 men, 33 years old, SD 11 years) and 19 SDI (9 women/10 men, 35 years old, SD 7 years) participated in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "SD 11 years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty-nine subjects, including 20 control subjects (14 women/6 men, 33 years old, SD 11 years) and 19 SDI (9 women/10 men, 35 years old, SD 7 years) participated in this study."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_sdi",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "SDI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty-nine subjects, including 20 control subjects (14 women/6 men, 33 years old, SD 11 years) and 19 SDI (9 women/10 men, 35 years old, SD 7 years) participated in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "dependent on two or more substances, most often cocaine, amphetamine, and alcohol",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The SDI were dependent on two or more substances, most often cocaine, amphetamine, and alcohol, with mean duration of abstinence 4.7, 2.4, and 3.2 years, respectively."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "19",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty-nine subjects, including 20 control subjects (14 women/6 men, 33 years old, SD 11 years) and 19 SDI (9 women/10 men, 35 years old, SD 7 years) participated in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "35 years old",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty-nine subjects, including 20 control subjects (14 women/6 men, 33 years old, SD 11 years) and 19 SDI (9 women/10 men, 35 years old, SD 7 years) participated in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "SD 7 years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty-nine subjects, including 20 control subjects (14 women/6 men, 33 years old, SD 11 years) and 19 SDI (9 women/10 men, 35 years old, SD 7 years) participated in this study."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "experiments": [],
+  "acquisitions": [
+   {
+    "local_id": "acq_t1",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "high-resolution three-dimensional T1-weighted",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A high-resolution three-dimensional T1-weighted spoiled gradient echo (SPGR)-IR sequence used the following parameters: repetition time = 45, echo time = 20, flip angle = 45\u00b0, 256 2 matrix, 240 mm 2 field-of-view (.9 \u00d7 .9 mm 2 in-plane), 1.7-mm thick slice, coronal plane."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3-T whole body MR scanner (General Electric, Milwaukee, Wisconsin) with a standard quadrature head coil",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Images were acquired on a 3-T whole body MR scanner (General Electric, Milwaukee, Wisconsin) with a standard quadrature head coil."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "A high-resolution three-dimensional T1-weighted spoiled gradient echo (SPGR)-IR sequence was acquired in the coronal plane; scan time was 9 min 24 sec.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Scan time was 9 min 24 sec."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3-T",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Images were acquired on a 3-T whole body MR scanner (General Electric, Milwaukee, Wisconsin) with a standard quadrature head coil."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "spoiled gradient echo (SPGR)-IR",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A high-resolution three-dimensional T1-weighted spoiled gradient echo (SPGR)-IR sequence used the following parameters: repetition time = 45, echo time = 20, flip angle = 45\u00b0, 256 2 matrix, 240 mm 2 field-of-view (.9 \u00d7 .9 mm 2 in-plane), 1.7-mm thick slice, coronal plane."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "three-dimensional",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A high-resolution three-dimensional T1-weighted spoiled gradient echo (SPGR)-IR sequence used the following parameters: repetition time = 45, echo time = 20, flip angle = 45\u00b0, 256 2 matrix, 240 mm 2 field-of-view (.9 \u00d7 .9 mm 2 in-plane), 1.7-mm thick slice, coronal plane."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.045",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A high-resolution three-dimensional T1-weighted spoiled gradient echo (SPGR)-IR sequence used the following parameters: repetition time = 45, echo time = 20, flip angle = 45\u00b0, 256 2 matrix, 240 mm 2 field-of-view (.9 \u00d7 .9 mm 2 in-plane), 1.7-mm thick slice, coronal plane."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": [
+       "0.020"
+      ],
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A high-resolution three-dimensional T1-weighted spoiled gradient echo (SPGR)-IR sequence used the following parameters: repetition time = 45, echo time = 20, flip angle = 45\u00b0, 256 2 matrix, 240 mm 2 field-of-view (.9 \u00d7 .9 mm 2 in-plane), 1.7-mm thick slice, coronal plane."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": [
+       "0.9",
+       "0.9",
+       "1.7"
+      ],
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A high-resolution three-dimensional T1-weighted spoiled gradient echo (SPGR)-IR sequence used the following parameters: repetition time = 45, echo time = 20, flip angle = 45\u00b0, 256 2 matrix, 240 mm 2 field-of-view (.9 \u00d7 .9 mm 2 in-plane), 1.7-mm thick slice, coronal plane."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_vbm",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The VBM in SPM5 combines tissue segmentation, bias correction, and spatial normalization into a unified model. Hidden Markov Random Fields (HMRF) were applied to improve accuracy of tissue segmentation. Individual brains were normalized to tissue probability maps provided by International Consortium for Brain Mapping (ICBM). A 12-mm full-width-at-half-maximal Gaussian kernel resulted in a final smoothing of 14 \u00d7 15 \u00d7 14 mm 3.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The VBM in SPM5 combines tissue segmentation, bias correction, and spatial normalization into a unified model ( ). Hidden Markov Random Fields (HMRF) were applied to improve accuracy of tissue segmentation (medium HMRF .3). Otherwise, default parameters were used. Individual brains were normalized to tissue probability maps provided by International Consortium for Brain Mapping (ICBM). A 12-mm full-width-at-half-maximal Gaussian kernel resulted in a final smoothing of 14 \u00d7 15 \u00d7 14 mm 3 ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "Voxel-based morphometry toolbox (VBM5.1)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Image processing was conducted with the Voxel-based morphometry toolbox (VBM5.1) ( http://dbm.neuro.uni-jena.de/vbm/ ) implemented in Statistical Parametric Mapping (SPM)5 running on Matlab 7.5."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Statistical Parametric Mapping (SPM)5",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Image processing was conducted with the Voxel-based morphometry toolbox (VBM5.1) ( http://dbm.neuro.uni-jena.de/vbm/ ) implemented in Statistical Parametric Mapping (SPM)5 running on Matlab 7.5."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Matlab 7.5",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Image processing was conducted with the Voxel-based morphometry toolbox (VBM5.1) ( http://dbm.neuro.uni-jena.de/vbm/ ) implemented in Statistical Parametric Mapping (SPM)5 running on Matlab 7.5."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "tissue segmentation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The VBM in SPM5 combines tissue segmentation, bias correction, and spatial normalization into a unified model ( )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "bias correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The VBM in SPM5 combines tissue segmentation, bias correction, and spatial normalization into a unified model ( )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "spatial normalization",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The VBM in SPM5 combines tissue segmentation, bias correction, and spatial normalization into a unified model ( )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Hidden Markov Random Fields (HMRF)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Hidden Markov Random Fields (HMRF) were applied to improve accuracy of tissue segmentation (medium HMRF .3)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Gaussian smoothing with a 12-mm full-width-at-half-maximal kernel",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A 12-mm full-width-at-half-maximal Gaussian kernel resulted in a final smoothing of 14 \u00d7 15 \u00d7 14 mm 3 ."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_ancova",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "analysis of covariance (ANCOVA)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the second level, whole brain data were modeled across the groups with analysis of covariance (ANCOVA) with total GM volume and age as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "whole brain data were modeled across the groups with total GM volume and age as covariates",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the second level, whole brain data were modeled across the groups with analysis of covariance (ANCOVA) with total GM volume and age as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "second level",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the second level, whole brain data were modeled across the groups with analysis of covariance (ANCOVA) with total GM volume and age as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "Statistical Parametric Mapping (SPM)5",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Image processing was conducted with the Voxel-based morphometry toolbox (VBM5.1) ( http://dbm.neuro.uni-jena.de/vbm/ ) implemented in Statistical Parametric Mapping (SPM)5 running on Matlab 7.5."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "assessments": [],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study tested whether medial orbitofrontal cortex gray matter volume was reduced in abstinent substance-dependent individuals compared with control subjects and examined relationships between medial OFC gray matter and decision-making behavior.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "We tested the hypothesis that medial OFC gray matter (GM) volume would be lower in SDI compared with control subjects."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Nineteen substance-dependent individuals and 20 control subjects underwent high-resolution T1-weighted MRI. Voxel-based morphometry was analyzed with whole-brain ANCOVA, covarying for global gray matter and age, with an additional medial OFC ROI analysis.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Nineteen SDI and 20 control subjects participated."
+       },
+       {
+        "text": "Differences in regional GM volume were tested with an analysis of covariance model, co-varying for global GM and age."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [],
+  "extraction_metadata": {
+   "extractor_model": "unknown",
+   "extractor_version": "1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": [
+    {
+     "ordinal": 0,
+     "title": "Medial Orbitofrontal Cortex Gray Matter Is Reduced in Abstinent Substance-Dependent Individuals",
+     "level": 0,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 1,
+     "title": "Keywords",
+     "level": 1,
+     "parent_section": "Medial Orbitofrontal Cortex Gray Matter Is Reduced in Abstinent Substance-Dependent Individuals",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 2,
+     "title": "Abstract",
+     "level": 1,
+     "parent_section": "Medial Orbitofrontal Cortex Gray Matter Is Reduced in Abstinent Substance-Dependent Individuals",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 3,
+     "title": "Methods and Materials",
+     "level": 1,
+     "parent_section": "Medial Orbitofrontal Cortex Gray Matter Is Reduced in Abstinent Substance-Dependent Individuals",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 4,
+     "title": "Subjects",
+     "level": 2,
+     "parent_section": "Methods and Materials",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 5,
+     "title": "Behavioral Measures",
+     "level": 2,
+     "parent_section": "Methods and Materials",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 6,
+     "title": "MR Imaging",
+     "level": 2,
+     "parent_section": "Methods and Materials",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 7,
+     "title": "Image Processing and Statistics",
+     "level": 2,
+     "parent_section": "Methods and Materials",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 8,
+     "title": "Medial OFC Region of Interest",
+     "level": 2,
+     "parent_section": "Methods and Materials",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 9,
+     "title": "Correlation Between GM Volume and Decision-Making Behavior",
+     "level": 2,
+     "parent_section": "Methods and Materials",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 10,
+     "title": "Correlation Between GM Volume and CIDI Symptom Count",
+     "level": 2,
+     "parent_section": "Methods and Materials",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 11,
+     "title": "Effects of Gender on GM Volume and Decision-Making Behavior",
+     "level": 2,
+     "parent_section": "Methods and Materials",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 12,
+     "title": "Results",
+     "level": 1,
+     "parent_section": "Medial Orbitofrontal Cortex Gray Matter Is Reduced in Abstinent Substance-Dependent Individuals",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 13,
+     "title": "Whole Brain Analysis",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 14,
+     "title": "Control Subjects > SDI",
+     "level": 3,
+     "parent_section": "Whole Brain Analysis",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 15,
+     "title": "SDI > Control Subjects",
+     "level": 3,
+     "parent_section": "Whole Brain Analysis",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 16,
+     "title": "ROI Analysis",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 17,
+     "title": "Behavioral",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 18,
+     "title": "Correlation Between Decision-Making Performance and Medial OFC GM Volume",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 19,
+     "title": "Correlation Between GM Volume and CIDI Symptom Count",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 20,
+     "title": "Effects of Gender on GM Volume and Decision-Making Behavior",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 21,
+     "title": "Discussion",
+     "level": 1,
+     "parent_section": "Medial Orbitofrontal Cortex Gray Matter Is Reduced in Abstinent Substance-Dependent Individuals",
+     "start_char": 0,
+     "end_char": 0
+    }
+   ]
+  }
+ },
+ "usage": {
+  "prompt": 12687,
+  "completion": 13703,
+  "reasoning": 54,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 61829,
+ "service_tier_echo": "flex"
+}

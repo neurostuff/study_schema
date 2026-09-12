@@ -1,0 +1,2027 @@
+{
+ "case_id": "pmc_4810172",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev_p1highp2low",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 4,
+ "stage1_names": [
+  "CS+ > CS\u2212",
+  "CS\u2212 > CS+",
+  "CS+ > CS\u2212",
+  "CS\u2212 > CS+"
+ ],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "neuroimaging-extraction-v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined whether individual differences in trait anxiety were associated with anticipatory somatosensory cortex activity during fear conditioning and investigated multisensory relationships among auditory cortex, amygdala, and somatosensory cortex.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Twenty healthy participants completed a one-run fear-conditioning task during fMRI. One of two tones was counterbalanced across participants as the CS+ and paired with electric shock on 50% of CS+ trials; the other tone was the CS\u2212. Analyses examined condition differences, individual differences in trait anxiety, mediation among auditory cortex, amygdala, and right S1 activity, and condition-dependent functional connectivity.",
+   "value_source": "generated"
+  },
+  "external_datasets": [],
+  "assessments": [
+   {
+    "local_id": "ass_stai",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Spielberger State-Trait Anxiety Inventory (STAI)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "An established measure of individual differences in anxiety, providing state anxiety (STAI-S) and trait anxiety (STAI-T) scores.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "measure of individual differences in anxiety",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "ass_scr",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "skin conductance response (SCR)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Fear contingent responding was assessed using skin conductance response. Peak SCR amplitude from baseline was taken between 1\u20138 s after tone onset on a trial-by-trial basis and averaged as a function of CS tone.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "physiological measure",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "ass_tone_discrimination",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "tone (CS) discrimination task",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants indicated by button press with their index or middle finger of the right hand whether the tone was low or high pitched immediately after hearing the tone.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "behavioral task",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_glm1_condition",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "non-reinforced CS+ versus CS\u2212",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "The first two critical regressors were for non-reinforced CS+ trials and CS\u2212 trials.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_csplus_no_shock",
+     "cond_csminus"
+    ],
+    "groups": []
+   },
+   {
+    "local_id": "term_glm2_condition",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "shock epoch",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "The shock epoch on reinforced CS+ (shocked) trials was modeled using the same temporal epoch for both non-reinforced CS+ and CS\u2212 trials.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_csplus_shock",
+     "cond_csplus_no_shock",
+     "cond_csminus"
+    ],
+    "groups": []
+   },
+   {
+    "local_id": "term_motion",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "six motion parameters",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Six motion parameters were modeled as covariates of no interest.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": []
+   },
+   {
+    "local_id": "term_shock_covariate",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "shock-reinforced trials",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Shock-reinforced trials were modeled as covariates of no interest.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_csplus_shock"
+    ],
+    "groups": []
+   },
+   {
+    "local_id": "term_stai_trait",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "trait anxiety (STAI-T)",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Trait anxiety (STAI-T) score.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [
+     "g_healthy"
+    ],
+    "assessment": "ass_stai",
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "between subjects",
+     "value_source": "generated"
+    },
+    "association_direction": {
+     "extraction_status": "extracted",
+     "value": "positive",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "term_right_s1",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "right S1 activity",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Percent signal change extracted from the right S1 region corresponding to shock delivery; CS\u2212 values were subtracted from CS+ values.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "outcome",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_csplus_no_shock",
+     "cond_csminus"
+    ],
+    "groups": [
+     "g_healthy"
+    ],
+    "functional_form": {
+     "extraction_status": "extracted",
+     "value": "CS+ minus CS\u2212",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "term_left_s1",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "left S1 activity",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Percent signal change extracted from the left S1 region, described as the non-shock related region; CS\u2212 values were subtracted from CS+ values.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "outcome",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_csplus_no_shock",
+     "cond_csminus"
+    ],
+    "groups": [
+     "g_healthy"
+    ],
+    "functional_form": {
+     "extraction_status": "extracted",
+     "value": "CS+ minus CS\u2212",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "term_a1_activity",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "A1 activity",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Activity in bilateral auditory regions (A1), with CS\u2212 values subtracted from CS+ values.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "outcome",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_csplus_no_shock",
+     "cond_csminus"
+    ],
+    "groups": [
+     "g_healthy"
+    ],
+    "functional_form": {
+     "extraction_status": "extracted",
+     "value": "CS+ minus CS\u2212",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "term_amygdala_activity",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "amygdala activity",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Activity in bilateral amygdala, with CS\u2212 values subtracted from CS+ values.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "outcome",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_csplus_no_shock",
+     "cond_csminus"
+    ],
+    "groups": [
+     "g_healthy"
+    ],
+    "functional_form": {
+     "extraction_status": "extracted",
+     "value": "CS+ minus CS\u2212",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "term_global_signal",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "global mean signal level",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "The global mean signal level over all brain voxels was calculated for each time point and included to reduce the confounding effects of global signal change.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": []
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_healthy",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "healthy participants",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Twenty healthy participants (11 female) with mean age of 21.95 (range 18\u201335) participated in the study.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "approached_count": {
+     "extraction_status": "not_reported"
+    },
+    "consented_count": {
+     "extraction_status": "not_reported"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "twenty",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "twenty",
+     "value_source": "reported"
+    },
+    "excluded_count": {
+     "extraction_status": "extracted",
+     "value": "no participants were excluded from the analysis post hoc due to issues of data quality",
+     "value_source": "reported"
+    },
+    "inclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "safe for participation in the MRI environment",
+      "value_source": "reported"
+     }
+    ],
+    "exclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "self-reported having a clinically diagnosed mental illness",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "reported being on, or having taken in the past, any pharmacological intervention for a mental illness",
+      "value_source": "reported"
+     }
+    ],
+    "recruitment_method": {
+     "extraction_status": "not_reported"
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "21.95",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "not_reported"
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "18",
+     "value_source": "reported"
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "35",
+     "value_source": "reported"
+    },
+    "age_median": {
+     "extraction_status": "not_reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "generated"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "11",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "gender_distribution": [],
+    "handedness_distribution": [],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "healthy",
+      "value_source": "reported"
+     }
+    ],
+    "diagnostic_system": {
+     "extraction_status": "not_reported"
+    },
+    "diagnostic_instrument": [
+     {
+      "extraction_status": "extracted",
+      "value": "Spielberger State-Trait Anxiety Inventory (STAI)",
+      "value_source": "reported"
+     }
+    ],
+    "clinical_characteristics": {
+     "extraction_status": "not_reported"
+    },
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "No participants reported being on, or having taken in the past, any pharmacological intervention for a mental illness.",
+     "value_source": "reported"
+    },
+    "education_summary": {
+     "extraction_status": "not_reported"
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_fear_conditioning",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "Fear-conditioning task",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "The conditioning task consisted of one run in which either the low- or high-pitched tone was paired with electric shock. A total of 30 trials were presented in a random order: 10 CS+ with shock, 10 CS+ without shock and 10 CS\u2212 tones. CS+ tones were followed by a shock with a 50% partial reinforcement schedule.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_csplus_shock",
+     "cond_csplus_no_shock",
+     "cond_csminus"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "one run with trials presented in a random order",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold",
+     "acq_scr"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "PsychToolbox extensions based on Matlab 2010b (MathWorks Corp., Natrick, MA, USA)",
+     "value_source": "reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Participants were asked to indicate by button press with their index or middle finger of the right hand whether the tone was low or high pitched immediately after hearing the tone. Participants were informed of which CS would be paired with shock prior to study commencement.",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "Two tones (500 and 1500 Hz) were adopted as conditioned stimuli (CSs). The mild electric shock used as an unconditioned stimulus (US) was delivered to the third and fourth fingers of the left hand.",
+     "value_source": "reported"
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "low-versus-high-pitched tone discrimination by button press",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "skin conductance response (SCR)",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "exp_separate_task",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "separate task",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "The imaging session also involved a separate task following the conditioning phase; the details of this independent task were described previously by Lee et al. (2014).",
+     "value_source": "reported"
+    },
+    "conditions": [],
+    "design_type": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [],
+    "presentation_software": {
+     "extraction_status": "not_reported"
+    },
+    "instructions": {
+     "extraction_status": "not_reported"
+    },
+    "stimuli": {
+     "extraction_status": "not_reported"
+    },
+    "task_performance_measures": []
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_t1",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "high-resolution T1-MPRAGE structural MRI",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "Siemens 3T Magnetom Trio",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "High-resolution T1-MPRAGE structural images were acquired first.",
+     "value_source": "reported"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3 T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "T1-MPRAGE",
+      "value_source": "reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "1.95 seconds",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.00226 seconds",
+      "value_source": "generated"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "1 mm isotropic voxel",
+      "value_source": "reported"
+     }
+    }
+   },
+   {
+    "local_id": "acq_bold",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional images with gradient-echo echo-planar T2*-weighted imaging",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "Siemens 3T Magnetom Trio with a 32-channel matrix head coil",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Each functional volume consisted of 40 interleaved (no skip) 2.5 mm axial T2*-weighted slices. The images were acquired with a 64 \u00d7 64 matrix and a 192 mm field of view.",
+     "value_source": "reported"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3 T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "gradient-echo echo-planar T2*-weighted imaging",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "40 interleaved (no skip) 2.5 mm axial slices",
+      "value_source": "reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2 seconds",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.025 seconds",
+      "value_source": "generated"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   {
+    "local_id": "acq_scr",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "skin conductance response (SCR)",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "MP-150 system (BIOPAC System, Goleta, CA, USA), connected to a grounded RF filter, and MR-compatible leads and electrodes",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Individual skin conductance responses were acquired with MRI-compatible electrodes placed on the index and middle finger of the left hand. All physiological data were recorded at 1 kHz sampling rates. SCR data were detrended and smoothed with a median filter over 50 samples to filter out MRI-induced noise. Due to a technical failure, recording could not be completed for one participant.",
+     "value_source": "reported"
+    },
+    "other": {
+     "modality_label": {
+      "extraction_status": "extracted",
+      "value": "skin conductance response (SCR)",
+      "value_source": "reported"
+     },
+     "reason_no_modality_class_used": {
+      "extraction_status": "extracted",
+      "value": "This was a physiological recording rather than MRI, EEG, fNIRS, or PET.",
+      "value_source": "generated"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fsl",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Standard preprocessing was conducted using FMRIBs Software Library (FSL), including slice-time correction, motion correction with MCFLIRT, spatial smoothing with a Gaussian kernel of full width at half maximum (FWHM) 6 mm, high-pass temporal filtering with a filter width of 100 s, skull stripping of structural images with FSL\u2019s Brain Extraction Tool (BET), registration of each functional image to the participant\u2019s high-resolution structural image and the standard Montreal Neurological Institute (MNI) 2 mm brain, and removal of noise components with MELODIC ICA2. The first eight volumes were discarded to allow for signal equilibration.",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "FMRIBs Software Library (FSL)",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "MCFLIRT",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Brain Extraction Tool (BET)",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "MELODIC ICA2",
+      "value_source": "reported"
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "slice-time correction",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "motion correction with MCFLIRT",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "spatial smoothing with a Gaussian kernel of full width at half maximum (FWHM) 6 mm",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "high-pass temporal filtering with a filter width of 100 s",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "skull stripping of structural images with FSL\u2019s Brain Extraction Tool (BET)",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "registering each functional image to both the participant\u2019s high-resolution structural image and the standard Montreal Neurological Institute (MNI) 2 mm brain",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "MELODIC ICA2 was applied to remove noise components",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "The first eight volumes were discarded to allow for signal equilibration",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_glm1",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "primary general linear model (GLM-1)",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "gamma-variate function plus temporal derivative",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The model estimated individuals\u2019 BOLD signal during the CS tone interval using regressors for non-reinforced CS+ trials and CS\u2212 trials. Six motion parameters and shock-reinforced trials were modeled as covariates of no interest. Group-level random-effects analysis was thresholded with a height threshold of Z > 2.3 and cluster corrected to p < 0.05 (one-tailed), using Gaussian Random Field Theory for whole-brain multiple-comparisons correction.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "individual and group level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "random-effects analysis",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "FMRIBs Software Library (FSL)",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_glm2",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "secondary general linear model (GLM-2)",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "same temporal epoch for both non-reinforced CS+ and CS\u2212 trials",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The shock epoch on reinforced CS+ trials was modeled for 500 ms. Results were analyzed using anatomical ROIs of right and left S1.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "not_reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "FMRIBs Software Library (FSL)",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_robust_correlation",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "robust correlation method",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The robust method identifies bivariate outliers and removes them in the calculation of a 95% confidence interval.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group level",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "robust Pearson correlation",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "model_mediation",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "standard mediation analysis",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The analysis evaluated the total effect c, indirect path a, indirect path b, direct effect c\u2019 after controlling for the indirect path, and mediation effect ab. The effect of A1 on right S1 activity was tested as mediated by amygdala reactivity.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "mediation toolbox",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "mediation toolbox",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_beta_series",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "beta series correlation analysis",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "A new design matrix contained unique trial-by-trial regressors for CS+ no shock and CS\u2212 trials, resulting in 20 independent variables (10 CS+ tones and 10 CS\u2212 tones). The global mean signal level over all brain voxels, motion parameters, and shock trials were included in the design matrix. Mean parameter estimates for each trial from the S1 seed region were correlated with signal from all other voxels, and correlation magnitudes were converted into z scores using the Fisher\u2019s r-to-z transformation.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "individual and group level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "random effects analyses",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "FMRIBs Software Library (FSL)",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_csplus_shock",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "CS+ with shock",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "A CS+ tone trial followed by a 0.5 s mild electric shock after the 1.2 s inter-stimulus interval. Ten CS+ with shock trials were presented.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state with electric shock",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_csplus_no_shock",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "non-reinforced CS+ trials",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "A CS+ tone trial without shock. Ten CS+ without shock trials were presented as part of the 50% partial reinforcement schedule.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_csminus",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "CS\u2212 trials",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "A CS\u2212 tone trial with no shock. Ten CS\u2212 tones were presented.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "an1",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "CS+ > CS\u2212",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain level",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "right S1 seed region defined using the J\u00fclich histological atlas",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "right S1",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_fear_conditioning"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_csplus_no_shock",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "CS+ no shock",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater functional connectivity during non-reinforced CS+ trials compared to CS\u2212 trials",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_csminus",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "CS\u2212 trials",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser functional connectivity than during non-reinforced CS+ trials",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_glm1_condition"
+    ],
+    "model_estimation": "model_beta_series",
+    "groups": [
+     {
+      "group": "g_healthy",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 20,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fsl",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "right S1 had greater positive functional connectivity with prefrontal regions during non-reinforced CS+ trials compared to CS\u2212 trials",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Fisher\u2019s r-to-z transformed beta series correlations",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 2.3,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Gaussian Random Field Theory; corrected",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain level",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "not used",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "beta series correlation analysis",
+      "value_source": "reported"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "right S1",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "parameter_sign": {
+      "extraction_status": "extracted",
+      "value": "positive functional connectivity",
+      "value_source": "reported"
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "greater during non-reinforced CS+ trials than CS\u2212 trials",
+      "value_source": "reported"
+     },
+     "edges": [],
+     "modulatory_input": {
+      "extraction_status": "not_reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported"
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Unique trial-by-trial regressors were created for 10 CS+ tones and 10 CS\u2212 trials; global mean signal level, motion parameters, and shock trials were included as covariates.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "trial-by-trial activity in right S1 is functionally correlated with activity in regions implicated in higher-order cognitive processes",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "an2",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "CS\u2212 > CS+",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain level",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "right S1 seed region defined using the J\u00fclich histological atlas",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "right S1",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_fear_conditioning"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_csplus_no_shock",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "CS+ no shock",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser functional connectivity than during CS\u2212 trials",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_csminus",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "CS\u2212 trials",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater functional connectivity during CS\u2212 trials compared to non-reinforced CS+ trials",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_glm1_condition"
+    ],
+    "model_estimation": "model_beta_series",
+    "groups": [
+     {
+      "group": "g_healthy",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 20,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fsl",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "right S1 had less functional connectivity with early visual sensory regions during non-reinforced CS+ trials compared to CS\u2212 trials",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Fisher\u2019s r-to-z transformed beta series correlations",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 2.3,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Gaussian Random Field Theory; corrected",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain level",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "not used",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "beta series correlation analysis",
+      "value_source": "reported"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "right S1",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "parameter_sign": {
+      "extraction_status": "extracted",
+      "value": "negative functional connectivity",
+      "value_source": "reported"
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "less during non-reinforced CS+ trials than CS\u2212 trials",
+      "value_source": "reported"
+     },
+     "edges": [],
+     "modulatory_input": {
+      "extraction_status": "not_reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported"
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Unique trial-by-trial regressors were created for 10 CS+ tones and 10 CS\u2212 trials; global mean signal level, motion parameters, and shock trials were included as covariates.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "trial-by-trial activity in right S1 is functionally correlated with activity in regions implicated in higher-order cognitive processes",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "an3",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "CS+ > CS\u2212",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_fear_conditioning"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_csplus_no_shock",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "non-reinforced CS+ trials",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater activity than CS\u2212 trials",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_csminus",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "CS\u2212 trials",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser activity than non-reinforced CS+ trials",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_glm1_condition",
+     "term_motion",
+     "term_shock_covariate"
+    ],
+    "model_estimation": "model_glm1",
+    "groups": [
+     {
+      "group": "g_healthy",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 20,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fsl",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "CS+ versus CS\u2212 for the tone-only model",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "standard Montreal Neurological Institute (MNI) 2 mm brain",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 2.3,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Gaussian Random Field Theory; cluster corrected",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "not used",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "The regressors used a gamma-variate function plus temporal derivative; six motion parameters and shock-reinforced trials were modeled as covariates of no interest.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "general brain activation at a group level",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "an4",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "CS\u2212 > CS+",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_fear_conditioning"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_csminus",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "CS\u2212 trials",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater activity than CS+ trials",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_csplus_no_shock",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "non-reinforced CS+ trials",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser activity than CS\u2212 trials",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_glm1_condition",
+     "term_motion",
+     "term_shock_covariate"
+    ],
+    "model_estimation": "model_glm1",
+    "groups": [
+     {
+      "group": "g_healthy",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 20,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fsl",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "CS\u2212 versus CS+ for the tone-only model",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "standard Montreal Neurological Institute (MNI) 2 mm brain",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 2.3,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Gaussian Random Field Theory; cluster corrected",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "not used",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "The regressors used a gamma-variate function plus temporal derivative; six motion parameters and shock-reinforced trials were modeled as covariates of no interest.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "general brain activation at a group level",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Significant whole-brain clusters showing connectivity with the right S1 seed region.",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Table 1 Significant whole-brain clusters showing connectivity with the right S1 seed region. The regions of local maxima peak is derived from sub-regions within the larger cluster based on the Harvard-Oxford atlas in FSL.",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "MNI = Montreal Neurological Institute; Cluster # = the nominal cluster number assigned based on cluster size moving from the largest to smallest cluster; Cluster k = number of contiguous voxels; Z = z-score; p-val = p-value derived from z-score; H = hemisphere; L = left; R = right.",
+     "value_source": "reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": [
+      "Cluster #",
+      "Cluster k",
+      "Region of Local Maxima",
+      "Z",
+      "p-Val",
+      "H",
+      "MNI x",
+      "y",
+      "z"
+     ],
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Reports significant whole-brain connectivity clusters for the right S1 seed for CS+ > CS\u2212 and CS\u2212 > CS+.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Voxelwise analysis for tone only model with peak MNI coordinates.",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Table 2 Voxelwise analysis for tone only model with peak MNI coordinates. The regions of local maxima peak is derived from sub-regions within the larger cluster based on the Harvard-Oxford atlas in FSL.",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "MNI = Montreal Neurological Institute; Cluster # = the nominal cluster number assigned based on cluster size moving from the largest to smallest cluster; Cluster k = number of contiguous voxels; Z = z-score; p-val = p-value derived from z-score; H = hemisphere; L = left; R = right.",
+     "value_source": "reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": [
+      "Cluster #",
+      "Cluster k",
+      "Region of Local Maxima",
+      "Z",
+      "p-Val",
+      "H",
+      "MNI x",
+      "y",
+      "z"
+     ],
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Reports voxelwise whole-brain BOLD activation clusters for the tone-only CS+ versus CS\u2212 model in both directions.",
+     "value_source": "generated"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 22067,
+  "completion": 20200,
+  "reasoning": 4983,
+  "cached": 0
+ },
+ "usage_pass1": {
+  "prompt": 10697,
+  "completion": 12907,
+  "reasoning": 4698,
+  "cached": 0
+ },
+ "usage_pass2": {
+  "prompt": 11370,
+  "completion": 7293,
+  "reasoning": 285,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 64641,
+ "service_tier_echo": "flex"
+}

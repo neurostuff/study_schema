@@ -1,0 +1,1475 @@
+{
+ "case_id": "nmb_15701234",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev_p1highp2high",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 8,
+ "stage1_names": [
+  "Exp 1: Cint> Ph-C",
+  "Exp 1: Cint> Pint-1 and Pint-2",
+  "Exp 1: Pint-1> Ph-C",
+  "Exp 1: Pint-2> Ph-C",
+  "Exp 2: Cint> Psint>Pint-1",
+  "Exp 2: Pint-2> Ph-C",
+  "Exp 2: Psint-2> Ph-C",
+  "Exp 2:Psint-2> Ph-C"
+ ],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "extraction-contract-v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": [
+    {
+     "ordinal": 0,
+     "title": "Understanding intentions in social interaction: the role of the anterior paracingulate cortex.",
+     "level": 0,
+     "start_char": 0,
+     "end_char": 2675
+    },
+    {
+     "ordinal": 1,
+     "title": "Abstract",
+     "level": 1,
+     "parent_section": "Understanding intentions in social interaction: the role of the anterior paracingulate cortex.",
+     "start_char": 2675,
+     "end_char": 3942
+    }
+   ]
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study tested whether anterior paracingulate cortex involvement in theory of mind is specific to understanding intentions in social interaction and extends to predicting future intentional social interaction.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "In two separate fMRI experiments, the authors distinguished intentions of persons involved in social interactions from intentions of an isolated person.",
+   "value_source": "reported"
+  },
+  "external_datasets": [],
+  "assessments": [],
+  "terms": [],
+  "groups": [],
+  "experiments": [
+   {
+    "local_id": "exp1",
+    "task_name": {
+     "extraction_status": "not_reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "One of two separate fMRI experiments.",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "design_type": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "presentation_software": {
+     "extraction_status": "not_reported"
+    },
+    "instructions": {
+     "extraction_status": "not_reported"
+    },
+    "stimuli": {
+     "extraction_status": "not_reported"
+    },
+    "task_performance_measures": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "exp2",
+    "task_name": {
+     "extraction_status": "not_reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "One of two separate fMRI experiments.",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "design_type": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "presentation_software": {
+     "extraction_status": "not_reported"
+    },
+    "instructions": {
+     "extraction_status": "not_reported"
+    },
+    "stimuli": {
+     "extraction_status": "not_reported"
+    },
+    "task_performance_measures": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "fMRI",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "not_reported"
+    },
+    "instrument": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "In two separate fMRI experiments.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "not_reported"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "not_reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "not_reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "not_reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "not_reported"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "not_reported"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [],
+  "model_estimations": [],
+  "conditions": [],
+  "analyses": [
+   {
+    "local_id": "a1",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 1: Cint> Ph-C",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp1"
+    ],
+    "conditions": [
+     {
+      "condition": "c_cint",
+      "role": {
+       "extraction_status": "extracted",
+       "value": ">",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "c_phc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "<",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_not_reported",
+    "groups": [
+     {
+      "group": "g_exp1",
+      "role": {
+       "extraction_status": "not_reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_not_reported",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Cint> Ph-C",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl_exp1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "a2",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 1: Cint> Pint-1 and Pint-2",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp1"
+    ],
+    "conditions": [
+     {
+      "condition": "c_cint",
+      "role": {
+       "extraction_status": "extracted",
+       "value": ">",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "c_pint1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "<",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "c_pint2",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "<",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_not_reported",
+    "groups": [
+     {
+      "group": "g_exp1",
+      "role": {
+       "extraction_status": "not_reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_not_reported",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Cint> Pint-1 and Pint-2",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl_exp1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "a3",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 1: Pint-1> Ph-C",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp1"
+    ],
+    "conditions": [
+     {
+      "condition": "c_pint1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": ">",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "c_phc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "<",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_not_reported",
+    "groups": [
+     {
+      "group": "g_exp1",
+      "role": {
+       "extraction_status": "not_reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_not_reported",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Pint-1> Ph-C",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl_exp1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "a4",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 1: Pint-2> Ph-C",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp1"
+    ],
+    "conditions": [
+     {
+      "condition": "c_pint2",
+      "role": {
+       "extraction_status": "extracted",
+       "value": ">",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "c_phc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "<",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_not_reported",
+    "groups": [
+     {
+      "group": "g_exp1",
+      "role": {
+       "extraction_status": "not_reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_not_reported",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Pint-2> Ph-C",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl_exp1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "a5",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 2: Cint> Psint>Pint-1",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp2"
+    ],
+    "conditions": [
+     {
+      "condition": "c_cint",
+      "role": {
+       "extraction_status": "extracted",
+       "value": ">",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "c_psint",
+      "role": {
+       "extraction_status": "not_reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "c_pint1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "<",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_not_reported",
+    "groups": [
+     {
+      "group": "g_exp2",
+      "role": {
+       "extraction_status": "not_reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_not_reported",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Cint> Psint>Pint-1",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl_exp2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "a6",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 2: Pint-2> Ph-C",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp2"
+    ],
+    "conditions": [
+     {
+      "condition": "c_pint2",
+      "role": {
+       "extraction_status": "extracted",
+       "value": ">",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "c_phc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "<",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_not_reported",
+    "groups": [
+     {
+      "group": "g_exp2",
+      "role": {
+       "extraction_status": "not_reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_not_reported",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Pint-2> Ph-C",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl_exp2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "a7",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 2: Psint-2> Ph-C",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp2"
+    ],
+    "conditions": [
+     {
+      "condition": "c_psint2",
+      "role": {
+       "extraction_status": "extracted",
+       "value": ">",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "c_phc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "<",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_not_reported",
+    "groups": [
+     {
+      "group": "g_exp2",
+      "role": {
+       "extraction_status": "not_reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_not_reported",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Psint-2> Ph-C",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl_exp2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "a8",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 2:Psint-2> Ph-C",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp2"
+    ],
+    "conditions": [
+     {
+      "condition": "c_psint2",
+      "role": {
+       "extraction_status": "extracted",
+       "value": ">",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "c_phc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "<",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_not_reported",
+    "groups": [
+     {
+      "group": "g_exp2",
+      "role": {
+       "extraction_status": "not_reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_not_reported",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Psint-2> Ph-C",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl_exp2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl_exp1",
+    "table_number": {
+     "extraction_status": "not_reported"
+    },
+    "title": {
+     "extraction_status": "not_reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Result table reporting the Experiment 1 contrasts listed in the analysis inventory.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl_exp2",
+    "table_number": {
+     "extraction_status": "not_reported"
+    },
+    "title": {
+     "extraction_status": "not_reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Result table reporting the Experiment 2 contrasts listed in the analysis inventory.",
+     "value_source": "generated"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 11081,
+  "completion": 25123,
+  "reasoning": 15873,
+  "cached": 0
+ },
+ "usage_pass1": {
+  "prompt": 5309,
+  "completion": 10614,
+  "reasoning": 9454,
+  "cached": 0
+ },
+ "usage_pass2": {
+  "prompt": 5772,
+  "completion": 14509,
+  "reasoning": 6419,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 37788,
+ "service_tier_echo": "flex"
+}

@@ -1,0 +1,1969 @@
+{
+ "case_id": "nmb_24517388",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 3,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "openai-gpt",
+   "extractor_version": "1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "analyses": [
+   {
+    "local_id": "a_faces_diff",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Differential BOLD responses in patients with SAD versus healthy controls (HC > SAD) during Reappraise versus React in the Faces task",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Compared to HC, patients had lesser reappraisal-related BOLD responses in the left inferior frontal gyrus (IFG), dorsal anterior cingulate cortex (dACC), and left lateral orbitofrontal cortex (LOFC) (Figure a)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To examine differential responses in BOLD signal magnitude, we conducted a whole-brain 2 Group (SAD, HC) between-group t-test of Reappraise versus React in SAD versus HC."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The cluster statistical threshold for the between-group analyses consisted of a voxel-wise P <0.005 and cluster volume >244 mm (6 voxels \u00d7 3.438 mm ) to protect against false-positive cluster detection at P <0.01."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "roi_label": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_faces"
+    ],
+    "conditions": [
+     {
+      "condition": "c_reappraise",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Compared to HC, patients had lesser reappraisal-related BOLD responses"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_react",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_reappraisal"
+    ],
+    "model_estimation": "me_group",
+    "groups": [
+     {
+      "group": "g_sad",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Compared to HC, patients had lesser reappraisal-related BOLD responses"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "27",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Participants included 27 (12 women) unmedicated ... adults who met DSM-IV-TR criteria for primary generalized SAD"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_hc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Differential BOLD responses in patients with SAD versus healthy controls (HC > SAD)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "27",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "and 27 (13 women) HC with no lifetime history of psychiatric disorders"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Reappraise versus React in SAD versus HC",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we conducted a whole-brain 2 Group (SAD, HC) between-group t-test of Reappraise versus React in SAD versus HC."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal percentage change",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional MRI BOLD signal intensity was computed as percentage of signal change, an effect size measure"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "unit": {
+      "extraction_status": "extracted",
+      "value": "percentage of signal change",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional MRI BOLD signal intensity was computed as percentage of signal change"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a whole-brain 2 Group (SAD, HC) between-group t-test"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "React",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Reappraise versus React"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mediation_path": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach atlas space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Individual brain maps were converted to Talairach atlas space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "This method uses a voxel-wise and cluster volume joint-probability threshold to establish a cluster-wise false-positive cluster detection level."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.005,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The cluster statistical threshold for the between-group analyses consisted of a voxel-wise P <0.005"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "voxel-wise P",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel-wise P <0.005"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 244,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "cluster volume >244 mm (6 voxels \u00d7 3.438 mm )"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.01,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "to protect against false-positive cluster detection at P <0.01."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "AlphaSim, a Monte Carlo simulation bootstrapping program",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "To correct for multiple comparisons, AlphaSim, a Monte Carlo simulation bootstrapping program in the AFNI library, was used to protect against false positives"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "generated",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "search_volume": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": false,
+      "value_source": "generated",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Baseline parameters removed mean, linear, and quadratic trends and motion-related variance.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Multiple-regression implemented with AFNI 3dDeconvolve included baseline parameters to remove mean, linear, and quadratic trends, and motion-related variance in the BOLD signal."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The reduced late recruitment of prefrontal regulatory brain regions suggests deficits in reappraisal processes.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In patients, the reduced late recruitment of prefrontal regulatory brain regions suggests deficits in reappraisal processes, especially of faces displaying contempt, anger, or disapproval."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_faces_common",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Common BOLD responses in patients with SAD and healthy controls during Reappraise versus React in the Faces task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Separate one-sample t-tests of Reappraise versus React demonstrated increased BOLD responses in both groups in bilateral cuneus, precuneus, lingual gyrus, and hippocampus, and in left middle temporal gyrus, left precentral gyrus, and dorsomedial PFC"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To identify common responses, we ran a one-sample t-test of Reappraise versus React in SAD, and separately in HC."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "voxel-wise P <0.005"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "roi_label": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_faces"
+    ],
+    "conditions": [
+     {
+      "condition": "c_reappraise",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "increased BOLD responses in both groups"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_react",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_reappraisal"
+    ],
+    "model_estimation": "me_group",
+    "groups": [
+     {
+      "group": "g_sad",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "increased BOLD responses in both groups"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "27",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Participants included 27 (12 women) unmedicated"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_hc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "increased BOLD responses in both groups"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "27",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "and 27 (13 women) HC"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Reappraise versus React",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Separate one-sample t-tests of Reappraise versus React demonstrated increased BOLD responses in both groups"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal percentage change",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional MRI BOLD signal intensity was computed as percentage of signal change"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "unit": {
+      "extraction_status": "extracted",
+      "value": "percentage of signal change",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "percentage of signal change"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "one-sample t-tests"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "React",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Reappraise versus React"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mediation_path": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach atlas space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Individual brain maps were converted to Talairach atlas space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "cluster-wise false-positive cluster detection level"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.005,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel P <0.005"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "voxel P",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel P <0.005"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 244,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "minimum cluster volume threshold \u2265244 mm"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.01,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "cluster P <0.01"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "AlphaSim, a Monte Carlo simulation bootstrapping program",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "To correct for multiple comparisons, AlphaSim, a Monte Carlo simulation bootstrapping program in the AFNI library, was used to protect against false positives"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "search_volume": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": false,
+      "value_source": "generated",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "These regions are implicated in visual attention, working memory, cognitive regulation, memory, and language processes, which all take part during reappraisal.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "These regions are implicated in visual attention (cuneus, precuneus, lingual gyrus), working memory (dorsolateral PFC), cognitive regulation (dorsomedial PFC), memory (hippocampus), and language (left MTG, left precentral gyrus) processes, which all take part during reappraisal."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "tables": [],
+  "conditions": [
+   {
+    "local_id": "c_react",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "React",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The tasks were composed of \u2018React\u2019 and \u2018Reappraise\u2019 conditions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "React normally without any attempt to control, modify, or regulate reactions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The instructions for the \u2018React\u2019 condition were to react normally without any attempt to control, modify, or regulate any reactions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The tasks were composed of \u2018React\u2019 and \u2018Reappraise\u2019 conditions."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_reappraise",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reappraise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The tasks were composed of \u2018React\u2019 and \u2018Reappraise\u2019 conditions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Try and down regulate negative emotion reactions by actively reinterpreting the meaning of the emotion inducing stimulus",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "During the \u2018Reappraise\u2019 condition, participants were instructed to try and down regulate negative emotion reactions by actively reinterpreting the meaning of the emotion inducing stimulus."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The tasks were composed of \u2018React\u2019 and \u2018Reappraise\u2019 conditions."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_reappraisal",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reappraise versus React",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Separate one-sample t-tests of Reappraise versus React demonstrated increased BOLD responses in both groups"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Cognitive reappraisal involves changing the meaning of a stimulus that gives rise to an emotion.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "cognitive reappraisal, which involves changing the meaning of a stimulus that gives rise to an emotion"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [
+     "c_react",
+     "c_reappraise"
+    ],
+    "groups": [],
+    "assessment": "",
+    "levels": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "variation_level": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "association_direction": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "functional_form": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interaction_with": [],
+    "unit": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_sad",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "participants with generalized SAD",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we examined reappraisal-related behavioral and neural responses in 27 participants with generalized SAD"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Unmedicated adults who met DSM-IV-TR criteria for primary generalized SAD",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "patients were recruited through clinician referrals and advertisements on community and online bulletin boards."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "approached_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "consented_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "enrolled_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "27",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants included 27 (12 women) unmedicated"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "excluded_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "inclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": [
+      "met DSM-IV-TR criteria for primary generalized SAD",
+      "greater than moderate anxiety/fear for five or more distinct social situations"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Only patients who met clinical diagnostic criteria for a principal diagnosis of current generalized SAD (defined as greater than moderate anxiety/fear for five or more distinct social situations)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "exclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": [
+      "current pharmacotherapy or psychotherapy",
+      "history of neurological disorders",
+      "current psychiatric disorders other than specified comorbidities"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Potential patients were excluded if they reported current pharmacotherapy or psychotherapy, history of neurological disorders, and current psychiatric disorders"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "recruitment_method": {
+     "extraction_status": "extracted",
+     "value": "clinician referrals and advertisements on community and online bulletin boards",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "patients were recruited through clinician referrals and advertisements on community and online bulletin boards."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "age_mean": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "age_standard_deviation": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "age_minimum": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "age_maximum": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "age_median": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "age_unit": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "sex_distribution": [],
+    "gender_distribution": [],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All participants were right-handed as assessed by the Edinburgh Handedness Inventory"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "percentage": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "denominator": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "reporting_framework": {
+       "extraction_status": "extracted",
+       "value": "Edinburgh Handedness Inventory",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All participants were right-handed as assessed by the Edinburgh Handedness Inventory"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": [
+      "primary generalized social anxiety disorder"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "adults who met DSM-IV-TR criteria for primary generalized SAD"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "DSM-IV-TR",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "met DSM-IV-TR criteria"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_instrument": {
+     "extraction_status": "extracted",
+     "value": [
+      "Anxiety Disorders Interview Schedule for DSM-IV-TR Lifetime version (ADIS-IV-L)"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Two PhD-level clinical psychologists assessed each potential participant using the Anxiety Disorders Interview Schedule for DSM-IV-TR Lifetime version (ADIS-IV-L )"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "clinical_characteristics": {
+     "extraction_status": "extracted",
+     "value": "The selected subgroup had LSAS-SR scores ranging from 85\u2013102.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "for the subgroup: 85\u2013102"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "unmedicated (minimum of three months since stopping pharmacotherapy)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "unmedicated (minimum of three months since stopping pharmacotherapy)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "education_summary": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "g_hc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "healthy controls (HC)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "and 27 (13 women) HC with no lifetime history of psychiatric disorders"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Healthy controls with no lifetime history of psychiatric disorders",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "27 (13 women) HC with no lifetime history of psychiatric disorders"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "approached_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "consented_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "enrolled_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "27",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "and 27 (13 women) HC"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "excluded_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "inclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": [
+      "no current or past history of DSM-IV disorders"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "HC with no current or past history of DSM-IV disorders were eligible for participation."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "exclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": [
+      "any current or past psychiatric disorders"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "HC were not permitted to meet criteria for any current or past psychiatric disorders."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "recruitment_method": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "age_mean": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "age_standard_deviation": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "age_minimum": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "age_maximum": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "age_median": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "age_unit": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "sex_distribution": [],
+    "gender_distribution": [],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All participants were right-handed as assessed by the Edinburgh Handedness Inventory"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "percentage": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "denominator": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "reporting_framework": {
+       "extraction_status": "extracted",
+       "value": "Edinburgh Handedness Inventory",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All participants were right-handed as assessed by the Edinburgh Handedness Inventory"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": [
+      "no lifetime history of psychiatric disorders"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "HC with no lifetime history of psychiatric disorders"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "DSM-IV",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "no current or past history of DSM-IV disorders"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_instrument": {
+     "extraction_status": "extracted",
+     "value": [
+      "Anxiety Disorders Interview Schedule for DSM-IV-TR Lifetime version (ADIS-IV-L)"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "assessed each potential participant using the Anxiety Disorders Interview Schedule for DSM-IV-TR Lifetime version (ADIS-IV-L )"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "clinical_characteristics": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "medication_status": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "education_summary": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   }
+  ],
+  "experiments": [],
+  "acquisitions": [],
+  "preprocessings": [],
+  "model_estimations": [],
+  "assessments": [],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined whether cognitive reappraisal deficits in generalized social anxiety disorder differ across faces, social criticism, and autobiographical negative self-beliefs using behavioral ratings and fMRI BOLD responses, including temporal dynamics.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "The goal of the present study was to examine behavioral and fMRI BOLD responses in patients with SAD compared to healthy controls (HC) when reappraising socio-emotional stimuli."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "A between-group fMRI study compared 27 participants with generalized SAD and 27 healthy controls during three socio-emotional tasks, each containing React and Reappraise conditions; whole-brain magnitude analyses and early-versus-late temporal analyses were conducted.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Using functional magnetic resonance imaging (fMRI) of blood oxygen-level dependent (BOLD) signal, we examined reappraisal-related behavioral and neural responses in 27 participants with generalized SAD and 27 healthy controls (HC) during three socio-emotional tasks"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": []
+ },
+ "usage": {
+  "prompt": 19404,
+  "completion": 7263,
+  "reasoning": 58,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 30873,
+ "service_tier_echo": "flex"
+}

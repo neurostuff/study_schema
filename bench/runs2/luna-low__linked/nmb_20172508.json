@@ -1,0 +1,509 @@
+{
+ "case_id": "nmb_20172508",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "stage1_names": [
+  "NI>N"
+ ],
+ "record": {
+  "analyses": [
+   {
+    "local_id": "an_ni_n",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "NI>N",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A whole-brain mixed-effects analysis revealed that, relative to the abstinent group, the slip group had greater smoking-related versus neutral image reactivity in the bilateral insula, ACC, posterior cingulate cortex, amygdala, primary motor cortex, premotor cortex, inferior parietal cortex, parahippocampal gyrus, thalamus, putamen, cerebellar hemispheres and vermis, prefrontal cortex, and striate and extrastriate cortex ( t 19 = 2.86, cluster corrected p \u2264 .005, , )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the cluster extent that yielded p = .005 (31 three-mm resampled isotropic voxels, \u223c837 mm 3 ) was selected"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_cue"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_smoking",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "the slip group had greater smoking-related versus neutral image reactivity"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "cond_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "the slip group had greater smoking-related versus neutral image reactivity"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_slip",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "relative to the abstinent group, the slip group had greater smoking-related versus neutral image reactivity"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "9",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Of the 21 subjects who completed prequit neuroimaging, nine slipped while on NRT."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_abstinent",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "relative to",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "relative to the abstinent group, the slip group had greater smoking-related versus neutral image reactivity"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "smoking-related versus neutral image reactivity, slip group relative to abstinent group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A whole-brain mixed-effects analysis revealed that, relative to the abstinent group, the slip group had greater smoking-related versus neutral image reactivity"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI reactivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "slip subjects had heightened fMRI reactivity to smoking-related images"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "beta maps",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Beta maps comparing smoking with neutral images were created for each subject."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A whole-brain mixed-effects analysis revealed that, relative to the abstinent group, the slip group had greater smoking-related versus neutral image reactivity in the bilateral insula, ACC, posterior cingulate cortex, amygdala, primary motor cortex, premotor cortex, inferior parietal cortex, parahippocampal gyrus, thalamus, putamen, cerebellar hemispheres and vermis, prefrontal cortex, and striate and extrastriate cortex ( t 19 = 2.86, cluster corrected p \u2264 .005, , )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": "19",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "t 19 = 2.86"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "neutral images",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Beta maps comparing smoking with neutral images were created for each subject."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Images were slice-time corrected, motion corrected, spatially smoothed (6-mm Gaussian kernel), resampled to 3 \u00d7 3 \u00d7 3 mm isotropic voxels, and spatially normalized into Talairach space."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Multiple comparisons were cluster-level corrected ( )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.01",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "by assuming an individual voxel Type 1 error of p = .01"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "voxel Type 1 error",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "by assuming an individual voxel Type 1 error of p = .01"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": "31",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the cluster extent that yielded p = .005 (31 three-mm resampled isotropic voxels, \u223c837 mm 3 ) was selected"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.005",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the cluster extent that yielded p = .005 (31 three-mm resampled isotropic voxels, \u223c837 mm 3 ) was selected"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Monte Carlo simulation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Following 10,000 simulations, the cluster size probability was determined"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We investigated whether slip subjects exhibited different group-level whole-brain fMRI activation patterns."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "permutation_count": {
+      "extraction_status": "extracted",
+      "value": "10,000",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Following 10,000 simulations, the cluster size probability was determined"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.005",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the cluster extent that yielded p = .005 (31 three-mm resampled isotropic voxels, \u223c837 mm 3 ) was selected"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "prequit brain reactivity to smoking-related images is greater in smokers who eventually slip after attaining brief abstinence with NRT",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We conclude that prequit brain reactivity to smoking-related images is greater in smokers who eventually slip after attaining brief abstinence with NRT"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 22252,
+  "completion": 52525,
+  "reasoning": 48117,
+  "cached": 0
+ },
+ "usage_pass1": {
+  "prompt": 10976,
+  "completion": 48000,
+  "reasoning": 48000,
+  "cached": 0
+ },
+ "usage_pass2": {
+  "prompt": 11276,
+  "completion": 4525,
+  "reasoning": 117,
+  "cached": 0
+ },
+ "finish_reason": "length/stop",
+ "raw_chars": 20747,
+ "parse_error": "pass1=JSONDecodeError: Expecting value: line 1 column 1 (char 0) pass2=None",
+ "service_tier_echo": "flex"
+}

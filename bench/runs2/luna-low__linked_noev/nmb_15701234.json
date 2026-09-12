@@ -1,0 +1,1046 @@
+{
+ "case_id": "nmb_15701234",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 8,
+ "stage1_names": [
+  "Exp 1: Cint> Ph-C",
+  "Exp 1: Cint> Pint-1 and Pint-2",
+  "Exp 1: Pint-1> Ph-C",
+  "Exp 1: Pint-2> Ph-C",
+  "Exp 2: Cint> Psint>Pint-1",
+  "Exp 2: Pint-2> Ph-C",
+  "Exp 2: Psint-2> Ph-C",
+  "Exp 2:Psint-2> Ph-C"
+ ],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "api-assistant",
+   "extractor_version": "neuroimaging-methods-curation-v1",
+   "source_text_hash": "not_computed",
+   "extraction_date": "2026-08-04",
+   "paper_sections": [
+    {
+     "ordinal": 0,
+     "title": "Understanding intentions in social interaction: the role of the anterior paracingulate cortex.",
+     "level": 0,
+     "start_char": 0,
+     "end_char": 1789
+    },
+    {
+     "ordinal": 1,
+     "title": "Abstract",
+     "level": 1,
+     "parent_section": "Understanding intentions in social interaction: the role of the anterior paracingulate cortex.",
+     "start_char": 1789,
+     "end_char": 2526
+    }
+   ]
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study investigated whether the anterior paracingulate cortex is involved in understanding other people's intentions generally or specifically in understanding intentions embedded in social interactions, including predicted future social interactions.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "In two separate fMRI experiments, the authors compared understanding intentions of persons involved in social interactions with intentions of an isolated person.",
+   "value_source": "generated"
+  },
+  "external_datasets": [],
+  "assessments": [],
+  "terms": [],
+  "groups": [],
+  "experiments": [
+   {
+    "local_id": "exp1",
+    "task_name": {
+     "extraction_status": "not_reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "One of two separate fMRI experiments examining the understanding of intentions in social interaction and of an isolated person.",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "design_type": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "presentation_software": {
+     "extraction_status": "not_reported"
+    },
+    "instructions": {
+     "extraction_status": "not_reported"
+    },
+    "stimuli": {
+     "extraction_status": "not_reported"
+    },
+    "task_performance_measures": []
+   },
+   {
+    "local_id": "exp2",
+    "task_name": {
+     "extraction_status": "not_reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "One of two separate fMRI experiments examining represented intentions that imply social interaction and the prediction of future intentional social interaction based on an isolated agent's behavior.",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "design_type": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "presentation_software": {
+     "extraction_status": "not_reported"
+    },
+    "instructions": {
+     "extraction_status": "not_reported"
+    },
+    "stimuli": {
+     "extraction_status": "not_reported"
+    },
+    "task_performance_measures": []
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "fMRI",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "not_reported"
+    },
+    "instrument": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Functional magnetic resonance imaging was used in two separate experiments.",
+     "value_source": "generated"
+    },
+    "structured_details": {
+     "extraction_status": "not_reported"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "not_reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "not_reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "not_reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "not_reported"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "not_reported"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [],
+  "model_estimations": [],
+  "conditions": [],
+  "analyses": [
+   {
+    "local_id": "a1",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 1: Cint> Ph-C",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp1"
+    ],
+    "conditions": [
+     {
+      "condition": "cint",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      }
+     },
+     {
+      "condition": "ph_c",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "model1",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep1",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Cint > Ph-C",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI activation",
+      "value_source": "generated"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "a2",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 1: Cint> Pint-1 and Pint-2",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp1"
+    ],
+    "conditions": [
+     {
+      "condition": "cint",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      }
+     },
+     {
+      "condition": "pint1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      }
+     },
+     {
+      "condition": "pint2",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "model1",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep1",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Cint > Pint-1 and Pint-2",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI activation",
+      "value_source": "generated"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "a3",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 1: Pint-1> Ph-C",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp1"
+    ],
+    "conditions": [
+     {
+      "condition": "pint1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      }
+     },
+     {
+      "condition": "ph_c",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "model1",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep1",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Pint-1 > Ph-C",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI activation",
+      "value_source": "generated"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "a4",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 1: Pint-2> Ph-C",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp1"
+    ],
+    "conditions": [
+     {
+      "condition": "pint2",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      }
+     },
+     {
+      "condition": "ph_c",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "model1",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep1",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Pint-2 > Ph-C",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI activation",
+      "value_source": "generated"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "a5",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 2: Cint> Psint>Pint-1",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp2"
+    ],
+    "conditions": [
+     {
+      "condition": "cint",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater extreme",
+       "value_source": "generated"
+      }
+     },
+     {
+      "condition": "psint",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "middle term",
+       "value_source": "generated"
+      }
+     },
+     {
+      "condition": "pint1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser extreme",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "model1",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep1",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Cint > Psint > Pint-1",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI activation",
+      "value_source": "generated"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "a6",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 2: Pint-2> Ph-C",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp2"
+    ],
+    "conditions": [
+     {
+      "condition": "pint2",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      }
+     },
+     {
+      "condition": "ph_c",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "model1",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep1",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Pint-2 > Ph-C",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI activation",
+      "value_source": "generated"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "a7",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 2: Psint-2> Ph-C",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp2"
+    ],
+    "conditions": [
+     {
+      "condition": "psint2",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      }
+     },
+     {
+      "condition": "ph_c",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "model1",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep1",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Psint-2 > Ph-C",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI activation",
+      "value_source": "generated"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "a8",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Exp 2:Psint-2> Ph-C",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp2"
+    ],
+    "conditions": [
+     {
+      "condition": "psint2",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      }
+     },
+     {
+      "condition": "ph_c",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "model1",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep1",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Psint-2 > Ph-C",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI activation",
+      "value_source": "generated"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 11081,
+  "completion": 5112,
+  "reasoning": 515,
+  "cached": 0
+ },
+ "usage_pass1": {
+  "prompt": 5309,
+  "completion": 1367,
+  "reasoning": 284,
+  "cached": 0
+ },
+ "usage_pass2": {
+  "prompt": 5772,
+  "completion": 3745,
+  "reasoning": 231,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 18754,
+ "service_tier_echo": "flex"
+}

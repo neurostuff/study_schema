@@ -1,0 +1,817 @@
+{
+ "case_id": "pmc_12132253",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "schema",
+ "tag": "schema",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 4,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "api-assistant",
+   "extractor_version": "neuroimaging-methods-curator-v1",
+   "source_text_hash": "",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined habenula resting-state functional connectivity in autistic and neurotypical individuals, group differences, developmental variability, and associations with autism-related phenotypic measures.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Habenula alterations in resting state functional connectivity among autistic individuals"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "A multisite, cross-sectional resting-state functional MRI study using ABIDE I and II data, comparing autistic spectrum disorder and neurotypical groups and testing age-related and phenotypic associations.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "The combined ABIDE dataset consisted of neuroimaging data, as well as, demographic and phenotypic information from approximately 2,000 participants across 24 international sites."
+       },
+       {
+        "text": "The resulting z-transformed (Fisher r-to-z transformation) correlation maps were entered into group-level regression models with diagnosis (ASD, NT) as a categorical factor and age as a continuous factor, controlling for sex and scanning site using AFNI\u2019s 3dLMEr"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [
+   {
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ABIDE I and II datasets",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants for the current study were selected from the large-scale, multisite ABIDE I and II datasets."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "url": {
+     "extraction_status": "extracted",
+     "value": "http://fcon_1000.projects.nitrc.org/indi/abide/abide_I.html",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Further information regarding the ABIDE data collection can be found at http://fcon_1000.projects.nitrc.org/indi/abide/abide_I.html ."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "assessments": [],
+  "terms": [],
+  "groups": [],
+  "experiments": [
+   {
+    "local_id": "resting_state",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "resting state",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Resting state, functional, and structural MRI data were acquired across the 24 scanning sites using 3T MRI scanners."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Resting-state functional MRI used to calculate habenula whole-brain functional connectivity.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Whole-Brain Habenula Functional Connectivity Analysis"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "resting-state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Resting state, functional, and structural MRI data were acquired"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional MRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Resting state, functional, and structural MRI data were acquired across the 24 scanning sites using 3T MRI scanners."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3T MRI scanners",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Resting state, functional, and structural MRI data were acquired across the 24 scanning sites using 3T MRI scanners."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Resting-state functional and structural MRI data were acquired across 24 scanning sites. A T1-weighted structural image was collected for registration to MNI space.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For all participants, a T1-weighted structural image was collected and used for registration to Montreal Neurological Institute (MNI) space."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3T",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Resting state, functional, and structural MRI data were acquired across the 24 scanning sites using 3T MRI scanners."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmriprep_afni",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Data were preprocessed using fMRIPrep 23.1.3, followed by quality control, motion censoring, and denoising with AFNI\u2019s 3dTproject.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Data were preprocessed using fMRIPrep 23.1.3, which utilizes the Brain Imaging Data Structure (BIDS) to ensure high-quality preprocessing with minimal user intervention"
+         },
+         {
+          "text": "Lastly, denoising was performed on the remaining participants using AFNI\u2019s 3dTproject"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "fMRIPrep 23.1.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Data were preprocessed using fMRIPrep 23.1.3"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "MRIQC 23.1.0",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We then used MRIQC 23.1.0 to inspect, flag, and remove participants, sessions, or runs"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "AFNI\u2019s 3dTproject",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Lastly, denoising was performed on the remaining participants using AFNI\u2019s 3dTproject"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "intensity-corrected, skull-stripped, segmented, and spatially normalized to a standard brain template in MNI152 space",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The anatomical images were intensity-corrected, skull-stripped, segmented, and spatially normalized to a standard brain template in MNI152 space."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "participants that received a \u201cfail\u201d rating from any of the raters were manually excluded",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We manually excluded participants that received a \u201cfail\u201d rating from any of the raters."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "excessive head motion defined by a framewise displacement greater than 0.35mm or less than 100 usable time points following motion censoring",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "if they had excessive head motion defined by a framewise displacement greater than 0.35mm or had less than 100 usable time points following motion censoring"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "linear regression model to nuisance time series from each voxel within a dataset",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "AFNI\u2019s 3dTproject , which utilizes a linear regression model to nuisance time series from each voxel within a dataset."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "glm_connectivity",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "general linear model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The averaged ROI time series were entered into a general linear model to generate whole-brain correlation maps for each participant."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "diagnosis as a categorical factor and age as a continuous factor, controlling for sex and scanning site",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The resulting z-transformed (Fisher r-to-z transformation) correlation maps were entered into group-level regression models with diagnosis (ASD, NT) as a categorical factor and age as a continuous factor, controlling for sex and scanning site using AFNI\u2019s 3dLMEr"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The resulting z-transformed (Fisher r-to-z transformation) correlation maps were entered into group-level regression models"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "linear effects model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "z-transformed participant-level correlation maps were analyzed using a linear effects model"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "AFNI (v22.3.05), 3dLMEr",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Participant-level functional connectivity analyses were conducted using AFNI (v22.3.05)"
+          },
+          {
+           "text": "using AFNI\u2019s 3dLMEr"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "conditions": [],
+  "tables": [],
+  "analyses": [
+   {
+    "local_id": "a_group_avg_pos",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Group-averaged positive habenula connectivity",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A group-averaged map (ASD+NT) was generated to visualize regions exhibiting positive and negative habenula connectivity for the combined ASD and NT groups."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The whole-brain, group-averaged (ASD+NT) habenula connectivity map"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thresholded z-maps were generated using 3dClustSim"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "roi_label": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "resting_state"
+    ],
+    "conditions": [],
+    "terms": [],
+    "model_estimation": "glm_connectivity",
+    "groups": [
+     {
+      "group": "asd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "for the combined ASD and NT groups."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "nt",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "for the combined ASD and NT groups."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmriprep_afni",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "positive habenula connectivity for the combined ASD and NT groups",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A group-averaged map (ASD+NT) was generated to visualize regions exhibiting positive and negative habenula connectivity for the combined ASD and NT groups."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "habenula connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "positive and negative habenula connectivity"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Fisher r-to-z transformed correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The resulting z-transformed (Fisher r-to-z transformation) correlation maps"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Thresholded z-maps were generated"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "used for registration to Montreal Neurological Institute (MNI) space."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a cluster threshold of p = 0.01"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.0001",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "at a voxel threshold of p = 0.0001"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "at a voxel threshold of p = 0.0001"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.01",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "and a cluster threshold of p = 0.01"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "interpretations": [
+     {
+      "extraction_status": "extracted",
+      "value": "positive and negative habenula connectivity through an extensive network of bilateral cortical and subcortical regions",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The whole-brain, group-averaged (ASD+NT) habenula connectivity map depicts positive and negative habenula connectivity through an extensive network of bilateral cortical and subcortical regions"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimation": "",
+  "preprocessing": "",
+  "definition": {
+   "extraction_status": "not_reported",
+   "evidence": {
+    "status": "not_applicable"
+   }
+  },
+  "measure": {
+   "source_label": {
+    "extraction_status": "not_reported",
+    "evidence": {
+     "status": "not_applicable"
+    }
+   }
+  },
+  "statistic": {},
+  "coordinate_space": {
+   "extraction_status": "not_reported",
+   "evidence": {
+    "status": "not_applicable"
+   }
+  },
+  "inference_settings": {},
+  "statistical_maps": [],
+  "interpretations": []
+ },
+ "usage": {
+  "prompt": 11856,
+  "completion": 6686,
+  "reasoning": 106,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 27868,
+ "service_tier_echo": "flex"
+}

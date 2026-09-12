@@ -1,0 +1,5748 @@
+{
+ "case_id": "nmb_25798082",
+ "sample": "nmb",
+ "config": "luna-high",
+ "mode": "analyses_first",
+ "model": "gpt-5.6-luna",
+ "effort": "high",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "a_bias_pos",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "The neural correlates of the acquired bias in perceptual decisions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Using the absolute value difference between the two motion directions in each context (estimated from the best-fit reinforcement-learning model) as a parametric modulated regressor, we find that the activation of vmPFC and midbrain dopaminergic areas positively correlates with the amount of bias acquired in each reward context (Figure ; Table )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "No regions showed negative correlations with this regressor after whole-brain correction."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "brain areas",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Moreover, we find that the amount of bias acquired through reinforcement has a wider influence on the perceptual decision networks in the brain (Figure ; Table )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_func"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [
+     {
+      "condition": "c_blue",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "In the scanner, participants were asked to decide the motion direction of moving-dots presented in two independent reward contexts with a goal to get as many reward points as possible over the experiment."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_yellow",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "At the beginning of a trial, the color of the fixation-cross changed into either blue or yellow for 1 s to signal the reward context of the trial."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_up",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The participant had up to 800 ms from stimulus onset to decide the motion direction by pressing the corresponding button."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_down",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The participant had up to 800 ms from stimulus onset to decide the motion direction by pressing the corresponding button."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_bias"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "One participant was excluded because of extreme parameter estimates (with orders of magnitude different from the other subjects, which may be caused by excessive noise or head movement) in the fMRI data analysis to ensure against violations of normality in the group analysis."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The parameter values are shown as median and the interquartile range (25th, 75th percentile) across participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "the amount of bias on each trial",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The amount of the bias was derived as the absolute value of the difference between the two choices from the best-fit reinforcement-learning model at the group-level for each participant."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI signals",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The brain mechanisms underlying this bias acquisition process were similar to those observed in reward-based decision tasks: prediction errors correlated with the fMRI signals in ventral striatum, dlPFC, and parietal cortex, whereas the amount of acquired bias correlated with activity in ventromedial prefrontal (vmPFC), dorsolateral frontal (dlPFC), and parietal cortices."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "BOLD activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Using the absolute value difference between the two motion directions in each context (estimated from the best-fit reinforcement-learning model) as a parametric modulated regressor, we find that the activation of vmPFC and midbrain dopaminergic areas positively correlates with the amount of bias acquired in each reward context (Figure ; Table )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl_glm"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI-152 2 mm template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All functional images were registered to the high resolution structural image using Boundary-Based Registration (BBR) then the high resolution structural image to the MNI-152 2 mm template using the FLIRT linear registration (12 DOF) tool of FSL."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based random field theory; family-wise error",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All maps are presented at p < 0.05 whole-brain corrected using cluster-based Gaussian random field and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "the amount of acquired bias",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The brain mechanisms underlying this bias acquisition process were similar to those observed in reward-based decision tasks: prediction errors correlated with the fMRI signals in ventral striatum, dlPFC, and parietal cortex, whereas the amount of acquired bias correlated with activity in ventromedial prefrontal (vmPFC), dorsolateral frontal (dlPFC), and parietal cortices."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_bias_neg",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Negative correlations with the amount of acquired bias",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "No regions showed negative correlations with this regressor after whole-brain correction."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "No regions showed negative correlations with this regressor after whole-brain correction."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_func"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_bias"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "One participant was excluded because of extreme parameter estimates (with orders of magnitude different from the other subjects, which may be caused by excessive noise or head movement) in the fMRI data analysis to ensure against violations of normality in the group analysis."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The parameter values are shown as median and the interquartile range (25th, 75th percentile) across participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "negative correlations with the amount of acquired bias",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "No regions showed negative correlations with this regressor after whole-brain correction."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI signals",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The brain mechanisms underlying this bias acquisition process were similar to those observed in reward-based decision tasks: prediction errors correlated with the fMRI signals in ventral striatum, dlPFC, and parietal cortex, whereas the amount of acquired bias correlated with activity in ventromedial prefrontal (vmPFC), dorsolateral frontal (dlPFC), and parietal cortices."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "tables": [
+     "tbl_glm"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI-152 2 mm template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All functional images were registered to the high resolution structural image using Boundary-Based Registration (BBR) then the high resolution structural image to the MNI-152 2 mm template using the FLIRT linear registration (12 DOF) tool of FSL."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based random field theory; family-wise error",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "No regions showed negative correlations with this regressor after whole-brain correction."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "No brain areas negatively correlate with this signal after the whole-brain correction of multiple comparisons.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "No brain areas negatively correlate with this signal after the whole-brain correction of multiple comparisons."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_rpe_context_separate",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Context-based RPE regressor modeled separately",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Activation in ventral striatum, fronto-parietal, visual, and motor cortices positively correlated with both RPE signals when each of the regressors was modeled separately in a GLM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Activation in ventral striatum, fronto-parietal, visual, and motor cortices positively correlated with both RPE signals when each of the regressors was modeled separately in a GLM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_func"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_rpe_context"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "One participant was excluded because of extreme parameter estimates (with orders of magnitude different from the other subjects, which may be caused by excessive noise or head movement) in the fMRI data analysis to ensure against violations of normality in the group analysis."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The parameter values are shown as median and the interquartile range (25th, 75th percentile) across participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "context-based RPE",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The RPE derived from the contextual action-outcome association positively correlated with the ventral striatum, the fronto-parietal cortices, and the posterior and anterior cingulate gyrus (Figure , yellow-red; Table )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Activation in ventral striatum, fronto-parietal, visual, and motor cortices positively correlated with both RPE signals when each of the regressors was modeled separately in a GLM."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "tables": [
+     "tbl_glm"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI-152 2 mm template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All functional images were registered to the high resolution structural image using Boundary-Based Registration (BBR) then the high resolution structural image to the MNI-152 2 mm template using the FLIRT linear registration (12 DOF) tool of FSL."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based random field theory; family-wise error",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All maps are presented at p < 0.05 whole-brain corrected using cluster-based Gaussian random field and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "the signal pertaining to the difference between the expected and actual reward",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Human fMRI studies have identified that when individuals use reward feedback to adjust the subjective value of each possible action, the signal pertaining to the difference between the expected and actual reward (reward prediction error, RPE) is represented in ventral striatum, a major target of midbrain dopaminergic neurons (Pagnoni et al., )."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_rpe_free_separate",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Context-free RPE regressor modeled separately",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Activation in ventral striatum, fronto-parietal, visual, and motor cortices positively correlated with both RPE signals when each of the regressors was modeled separately in a GLM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Activation in ventral striatum, fronto-parietal, visual, and motor cortices positively correlated with both RPE signals when each of the regressors was modeled separately in a GLM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_func"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_rpe_free"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "One participant was excluded because of extreme parameter estimates (with orders of magnitude different from the other subjects, which may be caused by excessive noise or head movement) in the fMRI data analysis to ensure against violations of normality in the group analysis."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "The parameter values are shown as median and the interquartile range (25th, 75th percentile) across participants."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "context-free RPE",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In contrast, PE signals from the context-free RL model positively correlated with activity in the visual and motor cortices (Figure , blue-light blue; Table )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Activation in ventral striatum, fronto-parietal, visual, and motor cortices positively correlated with both RPE signals when each of the regressors was modeled separately in a GLM."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "tables": [
+     "tbl_glm"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI-152 2 mm template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All functional images were registered to the high resolution structural image using Boundary-Based Registration (BBR) then the high resolution structural image to the MNI-152 2 mm template using the FLIRT linear registration (12 DOF) tool of FSL."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based random field theory; family-wise error",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All maps are presented at p < 0.05 whole-brain corrected using cluster-based Gaussian random field and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "PE signals from the context-free RL model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In contrast, PE signals from the context-free RL model positively correlated with activity in the visual and motor cortices (Figure , blue-light blue; Table )."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_rpe_context_adjusted",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Context-based RPE adjusted for context-free RPE",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The RPE derived from the contextual action-outcome association positively correlated with the ventral striatum, the fronto-parietal cortices, and the posterior and anterior cingulate gyrus (Figure , yellow-red; Table )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The brain maps show the regions whose activation positively correlates with the two types of reward prediction error signals in perceptual decisions after adjusting one type over the other."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_func"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_rpe_context",
+     "t_rpe_free"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "One participant was excluded because of extreme parameter estimates (with orders of magnitude different from the other subjects, which may be caused by excessive noise or head movement) in the fMRI data analysis to ensure against violations of normality in the group analysis."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The parameter values are shown as median and the interquartile range (25th, 75th percentile) across participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "both of the regressors were presented together in the same GLM without orthognization",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "However, distinct patterns were revealed when both of the regressors were presented together in the same GLM without orthognization ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The RPE derived from the contextual action-outcome association positively correlated with the ventral striatum, the fronto-parietal cortices, and the posterior and anterior cingulate gyrus (Figure , yellow-red; Table )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "tables": [
+     "tbl_glm"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI-152 2 mm template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All functional images were registered to the high resolution structural image using Boundary-Based Registration (BBR) then the high resolution structural image to the MNI-152 2 mm template using the FLIRT linear registration (12 DOF) tool of FSL."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based random field theory; family-wise error",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The RPE derived from the contextual action-outcome association",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The RPE derived from the contextual action-outcome association positively correlated with the ventral striatum, the fronto-parietal cortices, and the posterior and anterior cingulate gyrus (Figure , yellow-red; Table )."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_rpe_free_adjusted",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Context-free RPE adjusted for context-based RPE",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In contrast, PE signals from the context-free RL model positively correlated with activity in the visual and motor cortices (Figure , blue-light blue; Table )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The brain maps show the regions whose activation positively correlates with the two types of reward prediction error signals in perceptual decisions after adjusting one type over the other."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_func"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_rpe_free",
+     "t_rpe_context"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "One participant was excluded because of extreme parameter estimates (with orders of magnitude different from the other subjects, which may be caused by excessive noise or head movement) in the fMRI data analysis to ensure against violations of normality in the group analysis."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The parameter values are shown as median and the interquartile range (25th, 75th percentile) across participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "both of the regressors were presented together in the same GLM without orthognization",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "However, distinct patterns were revealed when both of the regressors were presented together in the same GLM without orthognization ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "In contrast, PE signals from the context-free RL model positively correlated with activity in the visual and motor cortices (Figure , blue-light blue; Table )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "tables": [
+     "tbl_glm"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI-152 2 mm template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All functional images were registered to the high resolution structural image using Boundary-Based Registration (BBR) then the high resolution structural image to the MNI-152 2 mm template using the FLIRT linear registration (12 DOF) tool of FSL."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based random field theory; family-wise error",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "PE signals from the context-free RL model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In contrast, PE signals from the context-free RL model positively correlated with activity in the visual and motor cortices (Figure , blue-light blue; Table )."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_rpe_context_unsigned_control",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Signed context-based RPE controlling for unsigned RPE",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The signed context-based RPE still elicits the same activation pattern (whole-brain corrected) as described above after the level of surprise is controlled in the statistical model."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The signed context-based RPE still elicits the same activation pattern (whole-brain corrected) as described above after the level of surprise is controlled in the statistical model."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_func"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_rpe_context",
+     "t_rpe_unsigned"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "One participant was excluded because of extreme parameter estimates (with orders of magnitude different from the other subjects, which may be caused by excessive noise or head movement) in the fMRI data analysis to ensure against violations of normality in the group analysis."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The parameter values are shown as median and the interquartile range (25th, 75th percentile) across participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "added the absolute value of this RPE (i.e., unsigned RPE) into the above-mentioned model to account for the level of surprise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We therefore added the absolute value of this RPE (i.e., unsigned RPE) into the above-mentioned model to account for the level of surprise."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The signed context-based RPE still elicits the same activation pattern (whole-brain corrected) as described above after the level of surprise is controlled in the statistical model."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "tables": [
+     "tbl_glm"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI-152 2 mm template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All functional images were registered to the high resolution structural image using Boundary-Based Registration (BBR) then the high resolution structural image to the MNI-152 2 mm template using the FLIRT linear registration (12 DOF) tool of FSL."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based random field theory; family-wise error",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The signed context-based RPE still elicits the same activation pattern (whole-brain corrected) as described above after the level of surprise is controlled in the statistical model."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The signed context-based RPE still elicits the same activation pattern (whole-brain corrected) as described above after the level of surprise is controlled in the statistical model."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "the level of surprise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "One may argue that the activation pattern that uniquely correlates with the context-based RPE simply reflects the level of surprise (Ding and Gold, ; Gottlieb, ) that has nothing to do with whether the actual outcomes are better or worse than one's expectation."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_rpe_unsigned_null",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Unsigned RPE",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "No brain regions show activation that correlates with the level of surprise (i.e., unsigned RPE) after whole-brain correction for multiple comparisons, hence ruling out this potential confound in our results."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "No brain regions show activation that correlates with the level of surprise (i.e., unsigned RPE) after whole-brain correction for multiple comparisons, hence ruling out this potential confound in our results."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_func"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_rpe_unsigned"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "One participant was excluded because of extreme parameter estimates (with orders of magnitude different from the other subjects, which may be caused by excessive noise or head movement) in the fMRI data analysis to ensure against violations of normality in the group analysis."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The parameter values are shown as median and the interquartile range (25th, 75th percentile) across participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "absolute value of this RPE (i.e., unsigned RPE)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We therefore added the absolute value of this RPE (i.e., unsigned RPE) into the above-mentioned model to account for the level of surprise."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "No brain regions show activation that correlates with the level of surprise (i.e., unsigned RPE) after whole-brain correction for multiple comparisons, hence ruling out this potential confound in our results."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "tables": [
+     "tbl_glm"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI-152 2 mm template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All functional images were registered to the high resolution structural image using Boundary-Based Registration (BBR) then the high resolution structural image to the MNI-152 2 mm template using the FLIRT linear registration (12 DOF) tool of FSL."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All the statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05 (Worsley, )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based random field theory; family-wise error",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "No brain regions show activation that correlates with the level of surprise (i.e., unsigned RPE) after whole-brain correction for multiple comparisons, hence ruling out this potential confound in our results."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "No brain regions show activation that correlates with the level of surprise (i.e., unsigned RPE) after whole-brain correction for multiple comparisons, hence ruling out this potential confound in our results."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "the level of surprise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "No brain regions show activation that correlates with the level of surprise (i.e., unsigned RPE) after whole-brain correction for multiple comparisons, hence ruling out this potential confound in our results."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_ppi_frontal",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "PPI with the left frontal cortex as a single seed region",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "First, using the left frontal cortex as a single seed region, its connectivity with vmPFC, ventral striatum, and visual cortex increased as bias grew."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The brain maps on the right panel show the areas that positive correlate with the interaction between each of the seed regions and the amount of acquired bias on each trial."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_func"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_bias"
+    ],
+    "model_estimation": "me_ppi",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "One participant was excluded because of extreme parameter estimates (with orders of magnitude different from the other subjects, which may be caused by excessive noise or head movement) in the fMRI data analysis to ensure against violations of normality in the group analysis."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The parameter values are shown as median and the interquartile range (25th, 75th percentile) across participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "the interaction between the seed region and the regressor modulated by trial-wise amount of bias",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The interaction between the seed region and the regressor modulated by trial-wise amount of bias was generated in the neural domain and then reconvolved with hemodynamic function."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "First, using the left frontal cortex as a single seed region, its connectivity with vmPFC, ventral striatum, and visual cortex increased as bias grew."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "tables": [
+     "tbl_ppi"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI coordinates",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We centered the seed regions of frontal and parietal cortices at the MNI coordinates in which the BOLD signals have been repeatedly shown to correlate with the magnitudes of reward-induced bias in perceptual decisions (Fleming et al., ; Summerfield and Koechlin, )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based Gaussian random field correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "psychophysiological interaction (PPI) analysis",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We use psychophysiological interaction (PPI) analysis to examine how the interaction among these functionally specialized networks changes as individuals acquire bias in perceptual decisions."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left frontal cortex",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "First, using the left frontal cortex as a single seed region, its connectivity with vmPFC, ventral striatum, and visual cortex increased as bias grew."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "vmPFC, ventral striatum, and visual cortex",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "First, using the left frontal cortex as a single seed region, its connectivity with vmPFC, ventral striatum, and visual cortex increased as bias grew."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "increased as bias grew",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "First, using the left frontal cortex as a single seed region, its connectivity with vmPFC, ventral striatum, and visual cortex increased as bias grew."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "edges": [
+      {
+       "source_region": {
+        "extraction_status": "extracted",
+        "value": "left frontal cortex",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "First, using the left frontal cortex as a single seed region, its connectivity with vmPFC, ventral striatum, and visual cortex increased as bias grew."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "target_region": {
+        "extraction_status": "extracted",
+        "value": "vmPFC",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "First, using the left frontal cortex as a single seed region, its connectivity with vmPFC, ventral striatum, and visual cortex increased as bias grew."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      },
+      {
+       "source_region": {
+        "extraction_status": "extracted",
+        "value": "left frontal cortex",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "First, using the left frontal cortex as a single seed region, its connectivity with vmPFC, ventral striatum, and visual cortex increased as bias grew."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "target_region": {
+        "extraction_status": "extracted",
+        "value": "ventral striatum",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "First, using the left frontal cortex as a single seed region, its connectivity with vmPFC, ventral striatum, and visual cortex increased as bias grew."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      },
+      {
+       "source_region": {
+        "extraction_status": "extracted",
+        "value": "left frontal cortex",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "First, using the left frontal cortex as a single seed region, its connectivity with vmPFC, ventral striatum, and visual cortex increased as bias grew."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "target_region": {
+        "extraction_status": "extracted",
+        "value": "visual cortex",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "First, using the left frontal cortex as a single seed region, its connectivity with vmPFC, ventral striatum, and visual cortex increased as bias grew."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     ],
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We find that as people acquire bias in perceptual decision, the information about reward formed three different sets of functional connectivity patterns that were more complicated than expected based upon the current literature."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "the interaction among these functionally specialized networks changes as individuals acquire bias in perceptual decisions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We use psychophysiological interaction (PPI) analysis to examine how the interaction among these functionally specialized networks changes as individuals acquire bias in perceptual decisions."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_ppi_parietal",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "PPI with the left parietal cortex as the seed region",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Second, using the left parietal cortex as the seed region, its connectivity with ACC increased as bias grew."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The brain maps on the right panel show the areas that positive correlate with the interaction between each of the seed regions and the amount of acquired bias on each trial."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_func"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_bias"
+    ],
+    "model_estimation": "me_ppi",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "One participant was excluded because of extreme parameter estimates (with orders of magnitude different from the other subjects, which may be caused by excessive noise or head movement) in the fMRI data analysis to ensure against violations of normality in the group analysis."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The parameter values are shown as median and the interquartile range (25th, 75th percentile) across participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "the interaction between the seed region and the regressor modulated by trial-wise amount of bias",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The interaction between the seed region and the regressor modulated by trial-wise amount of bias was generated in the neural domain and then reconvolved with hemodynamic function."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Second, using the left parietal cortex as the seed region, its connectivity with ACC increased as bias grew."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "tables": [
+     "tbl_ppi"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI coordinates",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We centered the seed regions of frontal and parietal cortices at the MNI coordinates in which the BOLD signals have been repeatedly shown to correlate with the magnitudes of reward-induced bias in perceptual decisions (Fleming et al., ; Summerfield and Koechlin, )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based Gaussian random field correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "psychophysiological interaction (PPI) analysis",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We use psychophysiological interaction (PPI) analysis to examine how the interaction among these functionally specialized networks changes as individuals acquire bias in perceptual decisions."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left parietal cortex",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Second, using the left parietal cortex as the seed region, its connectivity with ACC increased as bias grew."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "ACC",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Second, using the left parietal cortex as the seed region, its connectivity with ACC increased as bias grew."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "increased as bias grew",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Second, using the left parietal cortex as the seed region, its connectivity with ACC increased as bias grew."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "edges": [
+      {
+       "source_region": {
+        "extraction_status": "extracted",
+        "value": "left parietal cortex",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Second, using the left parietal cortex as the seed region, its connectivity with ACC increased as bias grew."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "target_region": {
+        "extraction_status": "extracted",
+        "value": "ACC",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Second, using the left parietal cortex as the seed region, its connectivity with ACC increased as bias grew."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     ],
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We find that as people acquire bias in perceptual decision, the information about reward formed three different sets of functional connectivity patterns that were more complicated than expected based upon the current literature."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "the interaction among these functionally specialized networks changes as individuals acquire bias in perceptual decisions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We use psychophysiological interaction (PPI) analysis to examine how the interaction among these functionally specialized networks changes as individuals acquire bias in perceptual decisions."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_ppi_vmpfc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "PPI with vmPFC as the seed region",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Finally, using vmPFC as the seed region of the value system in the PPI analysis, we find that the task-related interaction between vmPFC and left motor cortex increases as the amount of bias increases over the experiment."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The brain maps on the right panel show the areas that positive correlate with the interaction between each of the seed regions and the amount of acquired bias on each trial."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_func"
+    ],
+    "experiments": [
+     "exp_motion"
+    ],
+    "conditions": [],
+    "terms": [
+     "t_bias"
+    ],
+    "model_estimation": "me_ppi",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "One participant was excluded because of extreme parameter estimates (with orders of magnitude different from the other subjects, which may be caused by excessive noise or head movement) in the fMRI data analysis to ensure against violations of normality in the group analysis."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The parameter values are shown as median and the interquartile range (25th, 75th percentile) across participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "the task-related interaction between vmPFC and left motor cortex",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Finally, using vmPFC as the seed region of the value system in the PPI analysis, we find that the task-related interaction between vmPFC and left motor cortex increases as the amount of bias increases over the experiment."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Finally, using vmPFC as the seed region of the value system in the PPI analysis, we find that the task-related interaction between vmPFC and left motor cortex increases as the amount of bias increases over the experiment."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "tables": [
+     "tbl_ppi"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI coordinates",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The vmPFC were selected with the MNI coordinates where its peak response to reward was observed in value-based decisions (Tom et al., )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based Gaussian random field correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical maps are corrected for multiple comparisons at the whole-brain level using cluster-based Gaussian random field correction at P < 0.05 and overlaying on the mean anatomical images from the group of participants."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "psychophysiological interaction (PPI) analysis",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We use psychophysiological interaction (PPI) analysis to examine how the interaction among these functionally specialized networks changes as individuals acquire bias in perceptual decisions."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "vmPFC",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Finally, using vmPFC as the seed region of the value system in the PPI analysis, we find that the task-related interaction between vmPFC and left motor cortex increases as the amount of bias increases over the experiment."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "left motor cortex",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Finally, using vmPFC as the seed region of the value system in the PPI analysis, we find that the task-related interaction between vmPFC and left motor cortex increases as the amount of bias increases over the experiment."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "increases as the amount of bias increases",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Finally, using vmPFC as the seed region of the value system in the PPI analysis, we find that the task-related interaction between vmPFC and left motor cortex increases as the amount of bias increases over the experiment."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "edges": [
+      {
+       "source_region": {
+        "extraction_status": "extracted",
+        "value": "vmPFC",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Finally, using vmPFC as the seed region of the value system in the PPI analysis, we find that the task-related interaction between vmPFC and left motor cortex increases as the amount of bias increases over the experiment."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "target_region": {
+        "extraction_status": "extracted",
+        "value": "left motor cortex",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Finally, using vmPFC as the seed region of the value system in the PPI analysis, we find that the task-related interaction between vmPFC and left motor cortex increases as the amount of bias increases over the experiment."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     ],
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We find that as people acquire bias in perceptual decision, the information about reward formed three different sets of functional connectivity patterns that were more complicated than expected based upon the current literature."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "the functional connectivity between the value and motor system should increase over time",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "This assumption then suggests that the functional connectivity between the value and motor system should increase over time, as the participants learn more about the value of each option."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl_bestfit",
+    "table_number": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Best-fitting parameter estimates",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Best-fitting parameter estimates ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Table reporting reinforcement-learning model parameter estimates and model fit comparisons.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The parameter values are shown as median and the interquartile range (25th, 75th percentile) across participants."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl_glm",
+    "table_number": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "GLM results",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "GLM results ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Table reporting the general linear model neuroimaging results.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We used multi-stage general linear model (GLM) approach to analyze the brain imaging data, using FSL FEAT (FMRI Expert Analysis Tool) Version 6.00."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl_ppi",
+    "table_number": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "PPI results",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "PPI results ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Table reporting psychophysiological interaction results.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We use psychophysiological interaction (PPI) analysis to examine how the interaction among these functionally specialized networks changes as individuals acquire bias in perceptual decisions."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "c_blue",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "blue reward context",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the beginning of a trial, the color of the fixation-cross changed into either blue or yellow for 1 s to signal the reward context of the trial."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "A reward context signaled by a blue fixation cross.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the beginning of a trial, the color of the fixation-cross changed into either blue or yellow for 1 s to signal the reward context of the trial."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "reward context",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the beginning of a trial, the color of the fixation-cross changed into either blue or yellow for 1 s to signal the reward context of the trial."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_yellow",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "yellow reward context",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the beginning of a trial, the color of the fixation-cross changed into either blue or yellow for 1 s to signal the reward context of the trial."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "A reward context signaled by a yellow fixation cross.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the beginning of a trial, the color of the fixation-cross changed into either blue or yellow for 1 s to signal the reward context of the trial."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "reward context",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the beginning of a trial, the color of the fixation-cross changed into either blue or yellow for 1 s to signal the reward context of the trial."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_up",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "upward motion",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The correct response for 0% coherence trials was decided using a random number generator, so that the probability of being either correct or incorrect on this trial type was equal over the entire experiment."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "One of the two motion directions participants classified by button press.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "After the stimulus offset, participants had to decide whether the global motion direction of these dots was upward or downward by pressing the corresponding spatially congruent buttons within 600 ms."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "motion direction task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "After the stimulus offset, participants had to decide whether the global motion direction of these dots was upward or downward by pressing the corresponding spatially congruent buttons within 600 ms."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_down",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "downward motion",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "After the stimulus offset, participants had to decide whether the global motion direction of these dots was upward or downward by pressing the corresponding spatially congruent buttons within 600 ms."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "One of the two motion directions participants classified by button press.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "After the stimulus offset, participants had to decide whether the global motion direction of these dots was upward or downward by pressing the corresponding spatially congruent buttons within 600 ms."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "motion direction task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "After the stimulus offset, participants had to decide whether the global motion direction of these dots was upward or downward by pressing the corresponding spatially congruent buttons within 600 ms."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "t_bias",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "trial-wise amount of bias",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The parametric modulated regressors included (1) the absolute value of the coherence level (duration between the onset and offset of the stimulus), (2) the trial-wise amount of bias (duration between trial onset and stimulus offset), and (3) the reward prediction error derived from both learning models (duration between the onset and offset of the reward feedback)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "The amount of the bias was derived as the absolute value of the difference between the two choices from the best-fit reinforcement-learning model at the group-level for each participant.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The amount of the bias was derived as the absolute value of the difference between the two choices from the best-fit reinforcement-learning model at the group-level for each participant."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All the values of parametric modulated regressors were mean-centered before entering the GLM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The parametric modulated regressors included (1) the absolute value of the coherence level (duration between the onset and offset of the stimulus), (2) the trial-wise amount of bias (duration between trial onset and stimulus offset), and (3) the reward prediction error derived from both learning models (duration between the onset and offset of the reward feedback)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "within subject",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The amount of bias on each trial was fit well by a reinforcement-learning model that estimated the subjective value of each option within the current context."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "t_rpe_context",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "context-based RPE",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The context-dependent RPE (\u03b4\u2032 ) was computed as the difference between expected and the actual outcomes ( r ) followed by a choice made in the specific context."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "The context-dependent RPE (\u03b4\u2032 ) was computed as the difference between expected and the actual outcomes ( r ) followed by a choice made in the specific context.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The context-dependent RPE (\u03b4\u2032 ) was computed as the difference between expected and the actual outcomes ( r ) followed by a choice made in the specific context."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All the values of parametric modulated regressors were mean-centered before entering the GLM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The parametric modulated regressors included (1) the absolute value of the coherence level (duration between the onset and offset of the stimulus), (2) the trial-wise amount of bias (duration between trial onset and stimulus offset), and (3) the reward prediction error derived from both learning models (duration between the onset and offset of the reward feedback)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "within subject",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "On every trial, the context-dependent action value was adjusted by keeping track of the context in which a choice was made."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "t_rpe_free",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "context-free RPE",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A second model was constructed based on the assumption that context was ignored."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "the action value was adjusted by adding RPE (\u03b4 ), weighted by a constant learning rate (\u03b1), to the value of each motion direction ( Q ( m )), regardless of the context where the choice was made",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In this case, the action value was adjusted by adding RPE (\u03b4 ), weighted by a constant learning rate (\u03b1), to the value of each motion direction ( Q ( m )), regardless of the context where the choice was made:"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All the values of parametric modulated regressors were mean-centered before entering the GLM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The parametric modulated regressors included (1) the absolute value of the coherence level (duration between the onset and offset of the stimulus), (2) the trial-wise amount of bias (duration between trial onset and stimulus offset), and (3) the reward prediction error derived from both learning models (duration between the onset and offset of the reward feedback)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "within subject",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A second model was constructed based on the assumption that context was ignored."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "t_rpe_unsigned",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "unsigned RPE",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We therefore added the absolute value of this RPE (i.e., unsigned RPE) into the above-mentioned model to account for the level of surprise."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "the absolute value of this RPE",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We therefore added the absolute value of this RPE (i.e., unsigned RPE) into the above-mentioned model to account for the level of surprise."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All the values of parametric modulated regressors were mean-centered before entering the GLM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We therefore added the absolute value of this RPE (i.e., unsigned RPE) into the above-mentioned model to account for the level of surprise."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "within subject",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We therefore added the absolute value of this RPE (i.e., unsigned RPE) into the above-mentioned model to account for the level of surprise."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_participants",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "human participants",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-four human participants completed the behavioral paradigm in the MRI scanner (12 females, 12 males; age range: 18\u201330)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Twenty-four participants completed the behavioral paradigm in the MRI scanner; one participant was excluded from fMRI data analysis.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-four human participants completed the behavioral paradigm in the MRI scanner (12 females, 12 males; age range: 18\u201330). One participant was excluded because of extreme parameter estimates (with orders of magnitude different from the other subjects, which may be caused by excessive noise or head movement) in the fMRI data analysis to ensure against violations of normality in the group analysis."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-four human participants completed the behavioral paradigm in the MRI scanner (12 females, 12 males; age range: 18\u201330)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "Twenty-four",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-four human participants completed the behavioral paradigm in the MRI scanner (12 females, 12 males; age range: 18\u201330)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "excluded_count": {
+     "extraction_status": "extracted",
+     "value": "One",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "One participant was excluded because of extreme parameter estimates (with orders of magnitude different from the other subjects, which may be caused by excessive noise or head movement) in the fMRI data analysis to ensure against violations of normality in the group analysis."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "inclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": "free of any self-reported neurological or psychiatric diseases",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "They were free of any self-reported neurological or psychiatric diseases, had normal or corrected-to-normal visual acuity and normal color vision, and right-handed."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "exclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": "self-reported neurological or psychiatric diseases",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "They were free of any self-reported neurological or psychiatric diseases, had normal or corrected-to-normal visual acuity and normal color vision, and right-handed."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "recruitment_method": {
+     "extraction_status": "extracted",
+     "value": "posted flyers",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All participants were recruited through posted flyers and were prescreened."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "18",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-four human participants completed the behavioral paradigm in the MRI scanner (12 females, 12 males; age range: 18\u201330)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "30",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-four human participants completed the behavioral paradigm in the MRI scanner (12 females, 12 males; age range: 18\u201330)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-four human participants completed the behavioral paradigm in the MRI scanner (12 females, 12 males; age range: 18\u201330)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "females",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-four human participants completed the behavioral paradigm in the MRI scanner (12 females, 12 males; age range: 18\u201330)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "12",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-four human participants completed the behavioral paradigm in the MRI scanner (12 females, 12 males; age range: 18\u201330)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "males",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-four human participants completed the behavioral paradigm in the MRI scanner (12 females, 12 males; age range: 18\u201330)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "12",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-four human participants completed the behavioral paradigm in the MRI scanner (12 females, 12 males; age range: 18\u201330)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "They were free of any self-reported neurological or psychiatric diseases, had normal or corrected-to-normal visual acuity and normal color vision, and right-handed."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "24",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-four human participants completed the behavioral paradigm in the MRI scanner (12 females, 12 males; age range: 18\u201330)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": "no self-reported neurological or psychiatric diseases",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "They were free of any self-reported neurological or psychiatric diseases, had normal or corrected-to-normal visual acuity and normal color vision, and right-handed."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_motion",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "motion discrimination task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the scanner, participants were asked to decide the motion direction of moving-dots presented in two independent reward contexts with a goal to get as many reward points as possible over the experiment."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants decided whether briefly presented moving dots moved upward or downward in two reward contexts, with trial-wise reward feedback.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the scanner, participants were asked to decide the motion direction of moving-dots presented in two independent reward contexts with a goal to get as many reward points as possible over the experiment."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_blue",
+     "c_yellow",
+     "c_up",
+     "c_down"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "trial structure with jittered inter-trial interval",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Before a trial started, a white fixation-cross presented at the center of the display screen during the jittered inter-trial interval (truncated exponential distribution; mean: 4 s, range 2.7\u201312.7 s)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_func"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "Matlab version 7.10.0, using the Psychophysics Toolbox extension, version 3.0.10",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All stimuli were generated in Matlab version 7.10.0, using the Psychophysics Toolbox extension, version 3.0.0.10 (Brainard, ; Pelli, )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "They were simply instructed to decide the motion direction on each trial in order to harvest the most reward points.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "They were simply instructed to decide the motion direction on each trial in order to harvest the most reward points."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "Each motion stimulus was composed of 150 white dots moving inside a donut-shaped display patch on a black background.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Each motion stimulus was composed of 150 white dots moving inside a donut-shaped display patch on a black background."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "choice",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The participants' choice and the reaction time were recorded on each trial."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "reaction time",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The participants' choice and the reaction time were recorded on each trial."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_func",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional MRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Imaging data were collected using a Siemens Skyra 3T MR scanner. Functional data were collected using a T2 -weighted multi-band echo-planar imaging sequence (Moeller et al., ) with 60\u00b0 flip-angle (TR: 2 s; TE: 30 ms; FOV: 256 mm, multi-band acceleration factor: 2, parallel acceleration factor: 2, matrix size: 128)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "Siemens Skyra 3T MR scanner",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Imaging data were collected using a Siemens Skyra 3T MR scanner."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Functional data were collected using a T2 -weighted multi-band echo-planar imaging sequence with 60\u00b0 flip-angle; 48 oblique axial slices were collected in interleaved fashion with 2 mm isotropic resolution.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Functional data were collected using a T2 -weighted multi-band echo-planar imaging sequence (Moeller et al., ) with 60\u00b0 flip-angle (TR: 2 s; TE: 30 ms; FOV: 256 mm, multi-band acceleration factor: 2, parallel acceleration factor: 2, matrix size: 128). Forty-eight oblique axial slices were collected in interleaved fashion with 2 mm isotropic resolution."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"flip_angle\":\"60\u00b0\",\"FOV\":\"256 mm\",\"multi-band acceleration factor\":2,\"parallel acceleration factor\":2,\"matrix size\":128,\"slices\":48,\"slice_orientation\":\"oblique axial\",\"slice_order\":\"interleaved\"}",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Functional data were collected using a T2 -weighted multi-band echo-planar imaging sequence (Moeller et al., ) with 60\u00b0 flip-angle (TR: 2 s; TE: 30 ms; FOV: 256 mm, multi-band acceleration factor: 2, parallel acceleration factor: 2, matrix size: 128). Forty-eight oblique axial slices were collected in interleaved fashion with 2 mm isotropic resolution."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3T",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Imaging data were collected using a Siemens Skyra 3T MR scanner."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "T2 -weighted multi-band echo-planar imaging sequence",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional data were collected using a T2 -weighted multi-band echo-planar imaging sequence (Moeller et al., ) with 60\u00b0 flip-angle (TR: 2 s; TE: 30 ms; FOV: 256 mm, multi-band acceleration factor: 2, parallel acceleration factor: 2, matrix size: 128)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "48 oblique axial slices",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Forty-eight oblique axial slices were collected in interleaved fashion with 2 mm isotropic resolution."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2 s",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional data were collected using a T2 -weighted multi-band echo-planar imaging sequence (Moeller et al., ) with 60\u00b0 flip-angle (TR: 2 s; TE: 30 ms; FOV: 256 mm, multi-band acceleration factor: 2, parallel acceleration factor: 2, matrix size: 128)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.03 s, converted from TE: 30 ms",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional data were collected using a T2 -weighted multi-band echo-planar imaging sequence (Moeller et al., ) with 60\u00b0 flip-angle (TR: 2 s; TE: 30 ms; FOV: 256 mm, multi-band acceleration factor: 2, parallel acceleration factor: 2, matrix size: 128)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "2 mm isotropic resolution",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Forty-eight oblique axial slices were collected in interleaved fashion with 2 mm isotropic resolution."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   },
+   {
+    "local_id": "acq_struct",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "T1-weighted anatomical MRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "T1-weighted anatomical images were collected using an MP-RAGE sequence with 9\u00b0 flip angle (TR: 1.9 s; TE: 2.43 ms; FOV: 256 mm; Matrix size: 256 \u00d7 256, 192 slices; slice thickness: 1 mm)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "Siemens Skyra 3T MR scanner",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Imaging data were collected using a Siemens Skyra 3T MR scanner."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "T1-weighted anatomical images were collected using an MP-RAGE sequence with 9\u00b0 flip angle, 192 slices, and 1 mm slice thickness.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "T1-weighted anatomical images were collected using an MP-RAGE sequence with 9\u00b0 flip angle (TR: 1.9 s; TE: 2.43 ms; FOV: 256 mm; Matrix size: 256 \u00d7 256, 192 slices; slice thickness: 1 mm)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3T",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Imaging data were collected using a Siemens Skyra 3T MR scanner."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "MP-RAGE",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "T1-weighted anatomical images were collected using an MP-RAGE sequence with 9\u00b0 flip angle (TR: 1.9 s; TE: 2.43 ms; FOV: 256 mm; Matrix size: 256 \u00d7 256, 192 slices; slice thickness: 1 mm)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "1.9 s",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "T1-weighted anatomical images were collected using an MP-RAGE sequence with 9\u00b0 flip angle (TR: 1.9 s; TE: 2.43 ms; FOV: 256 mm; Matrix size: 256 \u00d7 256, 192 slices; slice thickness: 1 mm)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.00243 s, converted from TE: 2.43 ms",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "T1-weighted anatomical images were collected using an MP-RAGE sequence with 9\u00b0 flip angle (TR: 1.9 s; TE: 2.43 ms; FOV: 256 mm; Matrix size: 256 \u00d7 256, 192 slices; slice thickness: 1 mm)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "1 mm slice thickness",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "T1-weighted anatomical images were collected using an MP-RAGE sequence with 9\u00b0 flip angle (TR: 1.9 s; TE: 2.43 ms; FOV: 256 mm; Matrix size: 256 \u00d7 256, 192 slices; slice thickness: 1 mm)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "FMRI data preprocessing was carried out using FSL Version 5.0.1, including motion alignment, bad-time-point identification, skull removal, spatial smoothing, intensity normalization, high-pass temporal filtering, and registration to structural and MNI images.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "FMRI data preprocessing was carried out using FSL Version 5.0.1 (FMRIB's Software Library: www.fmrib.ox.ac.uk/ )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "FSL Version 5.0.1",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "FMRI data preprocessing was carried out using FSL Version 5.0.1 (FMRIB's Software Library: www.fmrib.ox.ac.uk/ )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "MCFLIRT",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All image time series were aligned with the MCFLIRT tool"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "BET",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The skull was removed from the functional images with the brain extraction tool (BET)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "FreeSurfer",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "and from the structural images using FreeSurfer"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "FLIRT",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "then the high resolution structural image to the MNI-152 2 mm template using the FLIRT linear registration (12 DOF) tool of FSL."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "image time series alignment with MCFLIRT",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All image time series were aligned with the MCFLIRT tool"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "computed frame-wise displacement and DVARS to identify bad time points",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the resulting motion parameters were used to compute frame-wise displacement (FD) and temporal derivative of the root mean square variance over voxels (DVARS) to identify bad time points ( FD > 0.5; DVARS > 0.5)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "skull removal from functional and structural images",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The skull was removed from the functional images with the brain extraction tool (BET) and from the structural images using FreeSurfer"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "spatial smoothing using a Gaussian kernel of FWHM 5 mm",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Spatial smoothing was applied using a Gaussian kernel of FWHM 5 mm."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "grand-mean intensity normalization",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The grand-mean intensity was normalized over the entire 4D dataset by a single multiplicative factor"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "high-pass temporal filtering with sigma = 50.0 s",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "and a high-pass temporal filtering (Gaussian-weighted least-squares straight line fitting, with sigma = 50.0 s)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "functional-to-structural registration using Boundary-Based Registration and structural-to-MNI registration using FLIRT linear registration",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All functional images were registered to the high resolution structural image using Boundary-Based Registration (BBR) then the high resolution structural image to the MNI-152 2 mm template using the FLIRT linear registration (12 DOF) tool of FSL."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "me_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "multi-stage general linear model (GLM)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We used multi-stage general linear model (GLM) approach to analyze the brain imaging data, using FSL FEAT (FMRI Expert Analysis Tool) Version 6.00."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "double-gamma hemodynamic response function",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All the regressors except the motion-correction regressors in the first-level model were convolved with a double-gamma hemodynamic response function."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The first-level model was estimated separately for each run and each participant; all five runs were combined within participant using a fixed-effects model; at the group level, the FLAME 1 mixed-effects model was applied.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The first-level model was estimated separately for each run and each participant. All five runs were combined within participant using a fixed-effects model. At the group level, the FLAME 1 mixed-effects model of FSL was applied to all participants."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "first-level and group level",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The first-level model was estimated separately for each run and each participant. All five runs were combined within participant using a fixed-effects model. At the group level, the FLAME 1 mixed-effects model of FSL was applied to all participants."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "FLAME 1 mixed-effects model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the group level, the FLAME 1 mixed-effects model of FSL was applied to all participants."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "FSL FEAT (FMRI Expert Analysis Tool) Version 6.00",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We used multi-stage general linear model (GLM) approach to analyze the brain imaging data, using FSL FEAT (FMRI Expert Analysis Tool) Version 6.00."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "local_id": "me_ppi",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "psychophysiological interaction (PPI) analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We use psychophysiological interaction (PPI) analysis to examine how the interaction among these functionally specialized networks changes as individuals acquire bias in perceptual decisions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "hemodynamic function",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The interaction between the seed region and the regressor modulated by trial-wise amount of bias was generated in the neural domain and then reconvolved with hemodynamic function."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The PPI first-level design matrix was the above-mentioned GLM design matrix with two additional regressors: the raw time course extracted from the seed and a PPI regressor.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The first-level design matrix of the PPI analysis was the above-mentioned GLM design matrix with two additional regressors: (1) the raw time course extracted from the seed, and (2) a PPI regressor (the interaction between the amount of bias and the mean BOLD response in the seed region) with duration between the trial onset and the stimulus offset."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "first-level and group level",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The first-level design matrix of the PPI analysis was the above-mentioned GLM design matrix with two additional regressors"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "FLAME 1 mixed-effects model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the group level, the FLAME 1 mixed-effects model of FSL was applied to all participants."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM deconvolution algorithm",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For each individual and each run, the neural signal of the seed region was estimated by deconvolving the BOLD signals using the deconvolution algorithm of SPM (Gitelman et al., )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "assessments": [],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined how reward-associated contextual values are learned and how acquired value bias influences perceptual decision-making and brain connectivity.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "In the present study, we examined how bias is developed in perceptual decision-making and once developed how it influences the perceptual decision-making process in the brain."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Participants performed a motion discrimination task during fMRI in two reward contexts, receiving trial-wise feedback; reinforcement-learning regressors were entered into whole-brain GLMs and PPI analyses.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "During fMRI acquisition, participants performed a motion discrimination task (Newsome et al., ; Britten et al., ; Shadlen and Newsome, ) with pre-trial cues signaling one of two different reward contexts."
+       }
+      ]
+     },
+     {
+      "spans": [
+       {
+        "text": "We used multi-stage general linear model (GLM) approach to analyze the brain imaging data, using FSL FEAT (FMRI Expert Analysis Tool) Version 6.00."
+       }
+      ]
+     },
+     {
+      "spans": [
+       {
+        "text": "We use psychophysiological interaction (PPI) analysis to examine how the interaction among these functionally specialized networks changes as individuals acquire bias in perceptual decisions."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [],
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "neuroimaging-methods-curation-1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": [
+    {
+     "ordinal": 0,
+     "title": "Multiple brain networks contribute to the acquisition of bias in perceptual decision-making",
+     "level": 0,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 1,
+     "title": "Introduction",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 2,
+     "title": "Materials and methods",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 3,
+     "title": "Participants",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 4,
+     "title": "Stimuli",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 5,
+     "title": "Procedures and task",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 6,
+     "title": "Behavioral data analysis",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 7,
+     "title": "Reinforcement learning models",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 8,
+     "title": "MRI data acquisition",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 9,
+     "title": "Image preprocessing and registration",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 10,
+     "title": "fMRI analysis",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 11,
+     "title": "GLM model",
+     "level": 3,
+     "parent_section": "fMRI analysis",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 12,
+     "title": "Psychophysiological interaction (PPI) analysis",
+     "level": 3,
+     "parent_section": "fMRI analysis",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 13,
+     "title": "Results",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 14,
+     "title": "Behavioral results",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 15,
+     "title": "Neuroimaging results",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 16,
+     "title": "The neural correlates of the acquired bias in perceptual decisions",
+     "level": 3,
+     "parent_section": "Neuroimaging results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 17,
+     "title": "Learning signals for the acquisition of bias in perceptual decisions",
+     "level": 3,
+     "parent_section": "Neuroimaging results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 18,
+     "title": "The changes in functional connectivity as the bias grows",
+     "level": 3,
+     "parent_section": "Neuroimaging results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 19,
+     "title": "Discussion",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 20,
+     "title": "Conflict of interest statement",
+     "level": 2,
+     "parent_section": "Discussion",
+     "start_char": 0,
+     "end_char": 0
+    }
+   ]
+  }
+ },
+ "usage": {
+  "prompt": 18705,
+  "completion": 30340,
+  "reasoning": 3584,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 115714,
+ "service_tier_echo": "flex"
+}

@@ -1,0 +1,1881 @@
+{
+ "case_id": "pmc_6543522",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "OpenAI",
+   "extractor_version": "neuroimaging-methods-curator-v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "analyses": [
+   {
+    "local_id": "a_behavior_tDCS_sham",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Improvement of behavioral scores for tDCS vs sham",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Additional behavioral improvement in the tDCS group as compared to the sham group was identified by a Welch two sample t-test"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [],
+    "experiments": [
+     "exp_treatment"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_tdcs",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "tDCS",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Additional behavioral improvement in the tDCS group as compared to the sham group was identified by a Welch two sample t-test"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_sham",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "sham",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Additional behavioral improvement in the tDCS group as compared to the sham group was identified by a Welch two sample t-test"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_treatment"
+    ],
+    "model_estimation": "model_welch",
+    "groups": [
+     {
+      "group": "g_tdcs",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Additional behavioral improvement in the tDCS group as compared to the sham group was identified by a Welch two sample t-test"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "12",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Table 4 Trained tDCS (n\u202f=\u202f12) Sham (n\u202f=\u202f12)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_sham",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Additional behavioral improvement in the tDCS group as compared to the sham group was identified by a Welch two sample t-test"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "12",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Table 4 Trained tDCS (n\u202f=\u202f12) Sham (n\u202f=\u202f12)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_rsfmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "additional gain tDCS over sham in percentage point change in letter accuracy for trained items",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Mean and 95% confidence interval of additional gain for tDCS over sham are reported in the fourth column."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "letter accuracy",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The primary outcomes for the present study were changes in written naming because writing has the potential to be a good compensatory mechanism for alternative communication in cases of oral language decline in some PPA variants"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "percentage of correct letters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The proxy we used to measure performance in written naming was letter accuracy instead of whole-word accuracy"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "unit": {
+      "extraction_status": "extracted",
+      "value": "percentage points",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We report the percentage point change in percent correct out of total stimuli."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "Welch two sample t-test",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Additional behavioral improvement in the tDCS group as compared to the sham group was identified by a Welch two sample t-test"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": "17.85",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "21.03 [3.80, 38.25] 0.020 (df\u202f=\u202f17.85)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "before treatment",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Welch two sample t-tests were conducted on the difference for tDCS vs. sham groups in absolute change in percentage correct from before and after treatment."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl4"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "assessments": [],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "the relationship between connectivity and treatment gains for tDCS versus sham",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the present study we focus on the relationship between connectivity and treatment gains for tDCS versus sham, rather than the behavioral effects of tDCS versus sham."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Patient demographics."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Patient demographics",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Patient demographics."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "For age, years post onset, severity, total treatment sessions and left IFG volume (in mm 3 ), values shown are Mean (Standard Deviation).",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Patient demographics. For age, years post onset, severity, total treatment sessions and left IFG volume (in mm 3 ), values shown are Mean (Standard Deviation)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Demographic and clinical characteristics of the combined, tDCS, and sham groups.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Patient demographics."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Means (standard deviations) for baseline tasks grouped by first-phase condition."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Means (standard deviations) for baseline tasks grouped by first-phase condition",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Means (standard deviations) for baseline tasks grouped by first-phase condition."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Baseline behavioral task scores by first-phase treatment condition.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Means (standard deviations) for baseline tasks grouped by first-phase condition."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Centers of the ROIs in the Montreal Neurological Institute (MNI) coordinate system."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Centers of the ROIs in the Montreal Neurological Institute (MNI) coordinate system",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Centers of the ROIs in the Montreal Neurological Institute (MNI) coordinate system."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Coordinates of predefined language-network and DMN regions of interest.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Centers of the ROIs in the Montreal Neurological Institute (MNI) coordinate system."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl4",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 4",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 4 Letter accuracy measurements."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Letter accuracy measurements",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 4 Letter accuracy measurements."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Pre- and post-intervention letter accuracy and change for trained items in the tDCS and sham groups.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Mean\u202f\u00b1\u202fStandard Deviation of behavioral scores in trained items before and after intervention and the pre-post changes are reported for each treatment group."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl5",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 5",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 5 Identified intra Language Network ROI pairs with significant tDCS effects on inter-regional correlation before family-wise error rate (FWER) correction."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Identified intra Language Network ROI pairs with significant tDCS effects on inter-regional correlation before family-wise error rate (FWER) correction",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 5 Identified intra Language Network ROI pairs with significant tDCS effects on inter-regional correlation before family-wise error rate (FWER) correction."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Five intra-language-network ROI-pair effects, including estimates, Wald statistics, raw and adjusted P-values, and confidence intervals.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In all five pairs, a negative tDCS effect on ROI correlations was observed (see Table 5 )."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl6",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 6",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 6 Identified inter-Language-DMN ROI pairs with significant tDCS effects on inter-regional correlation before family-wise error rate (FWER) correction."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Identified inter-Language-DMN ROI pairs with significant tDCS effects on inter-regional correlation before family-wise error rate (FWER) correction",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 6 Identified inter-Language-DMN ROI pairs with significant tDCS effects on inter-regional correlation before family-wise error rate (FWER) correction."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Twelve inter-language-DMN ROI-pair effects, including estimates, Wald statistics, raw and adjusted P-values, and confidence intervals.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "relatively lower correlation in the tDCS group contrasted to the sham group was identified in twelve pairs"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl7",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 7",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 7 Letter accuracy changes regressed against correlation changes with intercept on previously identified pairs."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Letter accuracy changes regressed against correlation changes with intercept on previously identified pairs",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 7 Letter accuracy changes regressed against correlation changes with intercept on previously identified pairs."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Regression associations between changes in letter accuracy and changes in ROI-pair connectivity.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Associations between the behavioral improvements and the functional connectivity changes were tested."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_tdcs",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "tDCS",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The tDCS phase consisted of anodal tDCS over the left inferior frontal gyrus (IFG) and speech-language therapy"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "anodal tDCS over the left inferior frontal gyrus and speech-language therapy",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The tDCS phase consisted of anodal tDCS over the left inferior frontal gyrus (IFG) and speech-language therapy"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "brain stimulation",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The tDCS phase consisted of anodal tDCS over the left inferior frontal gyrus (IFG) and speech-language therapy"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "cond_sham",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "sham",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the sham phase consisted of a sham procedure explained below paired with speech-language therapy."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "sham procedure paired with speech-language therapy",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the sham phase consisted of a sham procedure explained below paired with speech-language therapy."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "sham comparator",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the sham phase consisted of a sham procedure explained below paired with speech-language therapy."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_treatment",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "treatment condition",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the treatment condition as S (S\u202f=\u202f1 for tDCS, S\u202f=\u202f0 for sham)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the treatment condition as S (S\u202f=\u202f1 for tDCS, S\u202f=\u202f0 for sham)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the target of inference, i.e., ATE (denoted by \u03b8), is"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "cond_tdcs",
+     "cond_sham"
+    ],
+    "groups": [
+     "g_tdcs",
+     "g_sham"
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_all",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "participants with primary progressive aphasia",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-four participants with primary progressive aphasia took part in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants had at least two years of progressive language deficits, no other etiology, predominantly left-hemisphere atrophy, and no primary memory deficits.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All had a history of at least two years of progressive language deficits with no other etiology (e.g., stroke, tumors, etc.), atrophy predominantly in the left hemisphere and no primary memory deficits."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-four participants with primary progressive aphasia took part in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "24",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-four participants with primary progressive aphasia took part in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "24",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Center location of each ROI is averaged over 24 subjects."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_tdcs",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "tDCS",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Combined (n\u202f=\u202f24) tDCS (n\u202f=\u202f12) Sham (n\u202f=\u202f12)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-four participants with primary progressive aphasia took part in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "12",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Combined (n\u202f=\u202f24) tDCS (n\u202f=\u202f12) Sham (n\u202f=\u202f12)"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_sham",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "sham",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Combined (n\u202f=\u202f24) tDCS (n\u202f=\u202f12) Sham (n\u202f=\u202f12)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-four participants with primary progressive aphasia took part in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "12",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Combined (n\u202f=\u202f24) tDCS (n\u202f=\u202f12) Sham (n\u202f=\u202f12)"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_treatment",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "written word production/spelling intervention",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The language therapy involved oral and written picture naming/spelling therapy"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Patients received either anodal tDCS or sham simultaneous with language therapy, including oral and written picture naming/spelling therapy.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Each condition consisted of 15 sessions of daily therapy, in which patients received either tDCS or sham simultaneous with the start of language therapy."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "cond_tdcs",
+     "cond_sham"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "between-subject design",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we focus on data only from the first phase of stimulation in a between-subject design."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_rsfmri",
+     "acq_structural"
+    ],
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "the patient was shown a picture on the computer, asked to orally name the object, and then write it down",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the patient was shown a picture on the computer, asked to orally name the object, and then write it down."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "trained items and untrained items",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "There were two sets of materials: trained items (practiced at each session of either tDCS or sham stimulation), and untrained items (not practiced but only tested before treatment and at follow-up points)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "letter accuracy",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The primary outcomes for the present study were changes in written naming"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_rsfmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "resting-state fMRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Resting-state fMRI (rsfMRI) data were acquired for approximately 9\u202fmin (210 time-point acquisitions)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "extracted",
+     "value": "540",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Resting-state fMRI (rsfMRI) data were acquired for approximately 9\u202fmin (210 time-point acquisitions)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3\u202fT Philips Achieva MRI scanner equipped with a 32-channel head coil",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "MRI scans were obtained at the Kennedy Krieger Institute at Johns Hopkins University, using a 3\u202fT Philips Achieva MRI scanner equipped with a 32-channel head coil."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "2D EPI sequence with SENSE partial-parallel imaging acceleration; in-plane resolution 3.3 \u00d7 3.3 mm2, 64 \u00d7 64 voxels, TR/TE = 2500/30 ms, flip angle 75\u00b0, SENSE acceleration factor 2, SPIR fat suppression, and 3 mm slice thickness.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We used a 2D EPI sequence with SENSE partial-parallel imaging acceleration to obtain an in-plane resolution of 3.3\u202f\u00d7\u202f3.3\u202fmm 2 (64\u202f\u00d7\u202f64 voxels; TR/TE\u202f=\u202f2500/30\u202fms; flip angle\u202f=\u202f75\u00b0; SENSE acceleration factor\u202f=\u202f2; SPIR for fat suppression, 3\u202fmm slice thickness)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "using a 3\u202fT Philips Achieva MRI scanner equipped with a 32-channel head coil."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "2D EPI",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We used a 2D EPI sequence with SENSE partial-parallel imaging acceleration"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "2D",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We used a 2D EPI sequence with SENSE partial-parallel imaging acceleration"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2.5",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TR/TE\u202f=\u202f2500/30\u202fms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.03",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TR/TE\u202f=\u202f2500/30\u202fms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "[3.3, 3.3, 3]",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "to obtain an in-plane resolution of 3.3\u202f\u00d7\u202f3.3\u202fmm 2"
+          },
+          {
+           "text": "3\u202fmm slice thickness"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "number_of_volumes": {
+      "extraction_status": "extracted",
+      "value": "210",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Resting-state fMRI (rsfMRI) data were acquired for approximately 9\u202fmin (210 time-point acquisitions)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   },
+   {
+    "local_id": "acq_structural",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "structural MRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Structural scans, acquired axially with a scan time of 6\u202fmin (150 slices), used a T1-weighted MPRAGE sequence"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "extracted",
+     "value": "360",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Structural scans, acquired axially with a scan time of 6\u202fmin (150 slices)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "T1-weighted MPRAGE sequence with 3D inversion recovery, magnetization-prepared rapid gradient, isotropic 1 \u00d7 1 \u00d7 1 mm3 resolution, FOV 224 \u00d7 224 mm2, TR/TE = 8.1/3.7 ms, flip angle 8\u00b0, and SENSE acceleration factor 2.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Structural scans, acquired axially with a scan time of 6\u202fmin (150 slices), used a T1-weighted MPRAGE sequence with 3D inversion recovery, magnetization-prepared rapid gradient, isotropic with a resolution of 1\u202f\u00d7\u202f1\u202f\u00d7\u202f1\u202fmm 3 (FOV\u202f=\u202f224\u202f\u00d7\u202f224\u202fmm 2 ; TR/TE\u202f=\u202f8.1/3.7\u202fms; flip angle\u202f=\u202f8\u00b0; SENSE acceleration factor\u202f=\u202f2)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "T1-weighted MPRAGE",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "used a T1-weighted MPRAGE sequence"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "[1, 1, 1]",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "isotropic with a resolution of 1\u202f\u00d7\u202f1\u202f\u00d7\u202f1\u202fmm 3"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_rsfmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The resting-state fMRI was processed in MRICloud and analyzed in a seed-by-seed manner.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The resting-state fMRI was also processed in MRICloud and analyzed in a seed-by-seed manner."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "MRICloud",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The resting-state fMRI was also processed in MRICloud and analyzed in a seed-by-seed manner."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "SPM connectivity toolbox",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "including routines imported from the SPM connectivity toolbox for coregistration, motion, and slice timing correction"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "ART",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "motion and intensity TR outlier rejection using \u201cART\u201d"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "CompCor",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "physiological nuisance correction using CompCor"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "coregistration",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "including routines imported from the SPM connectivity toolbox for coregistration, motion, and slice timing correction"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "motion and slice timing correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "including routines imported from the SPM connectivity toolbox for coregistration, motion, and slice timing correction"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "physiological nuisance correction using CompCor",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "physiological nuisance correction using CompCor"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "motion and intensity TR outlier rejection using ART",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "motion and intensity TR outlier rejection using \u201cART\u201d"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "deconvolution regression of movement and physiological nuisance matrices",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the movement matrix combined with the physiological nuisance matrix is used in the deconvolution regression for the remaining TRs."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_welch",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "Welch two sample t-test",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Welch two sample t-tests were conducted on the difference for tDCS vs. sham groups"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Welch two sample t-tests were conducted on the difference for tDCS vs. sham groups"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "assess_letter_accuracy",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "letter accuracy",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The proxy we used to measure performance in written naming was letter accuracy instead of whole-word accuracy"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "percentage of letters corresponding to sounds making up words",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "letter accuracy, i.e., percentage of letters corresponding to sounds making up words"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "behavioral task",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The primary outcomes for the present study were changes in written naming"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined whether anodal tDCS over the left inferior frontal gyrus, combined with language therapy, altered resting-state functional connectivity and whether connectivity changes related to improvements in written naming in people with primary progressive aphasia.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "In the present study, we examined changes in functional connectivity in the language network, as identified in task-based fMRI studies of spoken and written word production, to determine whether functional connectivity change is a mechanism for tDCS effects in PPA."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "This is an analysis of the first phase results of a larger double-blinded, within-subject crossover clinical trial, analyzed here as a between-subject comparison of participants initially assigned to tDCS versus sham. Both groups received language therapy, with MRI and behavioral data collected before and immediately after treatment.",
+   "value_source": "reported",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "This is an analysis of the first phase results of the current clinical trial, focusing on the association between gains in written naming (the primary outcome measure) and changes in connectivity in participants who initially received tDCS versus those who initially received sham."
+       },
+       {
+        "text": "we focus on data only from the first phase of stimulation in a between-subject design."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [
+   {
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ClinicalTrials.gov NCT02606422",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "see Clinical Trial Identifier: NCT02606422 on clinicaltrials.gov"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "url": {
+     "extraction_status": "extracted",
+     "value": "clinicaltrials.gov",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "see Clinical Trial Identifier: NCT02606422 on clinicaltrials.gov"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 19322,
+  "completion": 11587,
+  "reasoning": 94,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 53992,
+ "service_tier_echo": "flex"
+}

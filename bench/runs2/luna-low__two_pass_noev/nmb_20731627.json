@@ -1,0 +1,1049 @@
+{
+ "case_id": "nmb_20731627",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "two_pass",
+ "tag": "two_pass_noev",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 2,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "openai-gpt",
+   "extractor_version": "structured-extraction-v1",
+   "source_text_hash": "",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study investigated regional gray matter volume differences between chronic cigarette smokers and matched non-smokers using whole-brain voxel-based morphometry.",
+   "value_source": "reported"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "A cross-sectional whole-brain voxel-based morphometry study comparing 44 otherwise healthy chronic cigarette smokers with 44 matched non-smoking control subjects.",
+   "value_source": "reported"
+  },
+  "external_datasets": [],
+  "assessments": [
+   {
+    "local_id": "assess_phone",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "semi-structured telephone interview",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Initial screening to assess smoking, medical, psychiatric, medication and substance use history.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "semi-structured interview",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "assess_clinical",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "clinical interviews",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Clinical interviews conducted by a licensed psychiatrist at MD level.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical interview",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "assess_urine",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "urine toxicology",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Urine toxicology screening; participants with positive results were excluded.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "toxicology assay",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_group",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "smoking group",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Smokers versus non-smokers group.",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_smokers",
+     "cond_nonsmokers"
+    ],
+    "groups": [
+     "g_smokers",
+     "g_nonsmokers"
+    ],
+    "levels": {
+     "extraction_status": "extracted",
+     "value": "smokers; non-smokers",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "term_total_gm",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "total gray matter volume",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Total gray matter volume was set as a covariate.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "reported"
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "between subjects",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "term_age",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "age",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate in demographic comparison",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "term_gender",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "gender",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "reported"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "matching variable",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "term_education",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "education",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "group characteristic",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_smokers",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "smokers",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Otherwise healthy chronic cigarette smokers; smokers who had smoked 10 cigarettes per day or more during the previous year, had no period of smoking abstinence longer than three months in the past year and met DSM-IV criteria for nicotine dependence were eligible.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "44",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "44",
+     "value_source": "reported"
+    },
+    "inclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "Han Chinese",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "19-39 years of age",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "smoked 10 cigarettes per day or more during the previous year",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "no period of smoking abstinence longer than three months in the past year",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "met DSM-IV criteria for nicotine dependence",
+      "value_source": "reported"
+     }
+    ],
+    "exclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "a diagnosis of mental retardation",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "current alcohol or drug abuse/dependence",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "current or past central nervous system disease or condition",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "medical condition or disease with likely significant central nervous system effects",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "history of head injury with skull fracture or loss of consciousness of greater than 10 minutes",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "any current or previous psychiatric disorder",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "a family history of psychosis disorder",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "current or previous use of electroconvulsive therapy or psychotropic medications",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "positive pregnant test",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "positive urine toxicology",
+      "value_source": "reported"
+     }
+    ],
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "28.1",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "5.50",
+     "value_source": "reported"
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "19",
+     "value_source": "reported"
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "39",
+     "value_source": "reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "extracted",
+       "value": "18.2%",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "race_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "Han Chinese",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "extracted",
+       "value": "100%",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "left-handed",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "extracted",
+       "value": "4.5%",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "otherwise healthy",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "nicotine dependence",
+      "value_source": "reported"
+     }
+    ],
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "DSM-IV",
+     "value_source": "reported"
+    },
+    "diagnostic_instrument": [
+     {
+      "extraction_status": "extracted",
+      "value": "semi-structured telephone interview",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "clinical interviews",
+      "value_source": "reported"
+     }
+    ],
+    "clinical_characteristics": {
+     "extraction_status": "extracted",
+     "value": "The smokers smoked an average of 20.3 \u00b1 7.70 cigarettes per day and had 10.4 \u00b1 5.72 years of smoking history. The average age of first smoking was 18.0 \u00b1 4.29.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "g_nonsmokers",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "non-smokers",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Matched non-smoking control subjects; non-smoking history was defined as having smoked no more than five cigarettes in a lifetime.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "44",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "44",
+     "value_source": "reported"
+    },
+    "inclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "Han Chinese",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "19-39 years of age",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "having smoked no more than five cigarettes in a lifetime",
+      "value_source": "reported"
+     }
+    ],
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "26.3",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "5.84",
+     "value_source": "reported"
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "19",
+     "value_source": "reported"
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "39",
+     "value_source": "reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "extracted",
+       "value": "22.7%",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "race_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "Han Chinese",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "extracted",
+       "value": "100%",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "left-handed",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "extracted",
+       "value": "2.3%",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "otherwise healthy",
+      "value_source": "reported"
+     }
+    ],
+    "diagnostic_instrument": [
+     {
+      "extraction_status": "extracted",
+      "value": "semi-structured telephone interview",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "clinical interviews",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_vbm",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "whole-brain voxel-based morphometry",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Structural MRI voxel-based morphometry was used to quantify regional gray matter volume between chronic cigarette smokers and matched non-smoking control subjects.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_smokers",
+     "cond_nonsmokers"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "cross-sectional group comparison",
+     "value_source": "generated"
+    },
+    "acquisitions": [
+     "acq_t1"
+    ],
+    "task_performance_measures": []
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_t1",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "structural T1-weighted MRI",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3.0-Tesla Siemens scanner (Allegra; Siemens Medical System Borhn, Germany)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Brain MR images were acquired at the Magnetic Resonance Center of Hunan Provincial People's Hospital. Structural T1-weighted images were acquired in a sagittal orientation employing a magnetization prepared rapid gradient echo sequence. Foam pads were used to reduce head movements and scanner noise.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"slice_thickness\":\"1 mm\",\"gap\":\"0 mm\",\"field_of_view\":\"256 \u00d7 256 mm\",\"flip_angle\":\"8\u00b0\",\"matrix_size\":\"256 \u00d7 256\",\"slices\":\"176\"}",
+     "value_source": "generated"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3.0-Tesla",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "magnetization prepared rapid gradient echo sequence",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "3D volume",
+      "value_source": "generated"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.0026",
+      "value_source": "generated"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_vbm",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The VBM toolbox combines tissue segmentation, bias correction and spatial normalization into a unified model. Images were multiplied (modulated) by the Jacobian determinants from the normalization step to preserve volume information. Modulated gray matter images were smoothed with a 12 mm full width at half maximum Gaussian kernel.",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "VBM5.1, Christian Gaser, University of Jena, Jena, Germany",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Statistical Parametric Mapping (SPM) 5",
+      "value_source": "reported"
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "tissue segmentation",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "bias correction",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "spatial normalization",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Hidden Markov Random Field model used to introduce spatial constraints into segmentation",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "modulation by Jacobian determinants",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "smoothing with a 12 mm FWHM Gaussian kernel",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_vbm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "voxel-wise two-sample t-test",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Total gray matter volume was set as a covariate. An absolute threshold mask of 0.1 was used. An initial threshold of 100 voxels or greater surviving an uncorrected threshold of P < 0.001 was set.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "two-sample t-test",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM5",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_demographics",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "independent sample t-test and \u03c72 tests",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Independent sample t-test and \u03c72 tests were used to compare demographic data between two groups.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "independent sample t-test and \u03c72 tests",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPSS 15.0 software (SPSS, Chicago, IL, USA)",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_smokers",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "smokers",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Chronic cigarette smoking group.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "participant group condition",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_nonsmokers",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "non-smokers",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Non-smoking control group.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "comparator group condition",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "an_smokers_less_nonsmokers",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Differences in regional gray matter volumes between smokers and non-smokers",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain voxel-based morphometry",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_t1"
+    ],
+    "experiments": [
+     "exp_vbm"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_smokers",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "smokers",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "less than non-smokers",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_nonsmokers",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "non-smokers",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than smokers",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group",
+     "term_total_gm"
+    ],
+    "model_estimation": "model_vbm",
+    "groups": [
+     {
+      "group": "g_smokers",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "less than non-smokers",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "44",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_nonsmokers",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than smokers",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "44",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "gray matter volume was lower in the smokers than in the non-smokers group",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "two-sample t-test",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel-level threshold with a cluster size threshold",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.001",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected P",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": "100",
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": [
+      {
+       "extraction_status": "extracted",
+       "value": "FDR correction was not survived",
+       "value_source": "reported"
+      }
+     ],
+     "correction_scope": {
+      "extraction_status": "not_reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "no",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "total gray matter volume was set as a covariate; an absolute threshold mask of 0.1 was used.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "reduction of regional gray matter volume in smokers",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "not_reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Results table reporting clusters with reduced gray matter volume in smokers compared with non-smokers.",
+     "value_source": "generated"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 14352,
+  "completion": 5679,
+  "reasoning": 446,
+  "cached": 6978
+ },
+ "usage_pass1": {
+  "prompt": 6981,
+  "completion": 3798,
+  "reasoning": 189,
+  "cached": 6978
+ },
+ "usage_pass2": {
+  "prompt": 7371,
+  "completion": 1881,
+  "reasoning": 257,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 23337,
+ "service_tier_echo": "flex"
+}

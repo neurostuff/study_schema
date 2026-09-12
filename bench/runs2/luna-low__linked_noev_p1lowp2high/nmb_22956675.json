@@ -1,0 +1,1056 @@
+{
+ "case_id": "nmb_22956675",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev_p1lowp2high",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "stage1_names": [
+  "Target Reappraisal>Target Appraise"
+ ],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "OpenAI",
+   "extractor_version": "structured-extraction-v1",
+   "source_text_hash": "",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study investigated neural correlates of preparatory and reactive control when participants anticipated and applied expressive suppression or cognitive reappraisal to upcoming negative, high-arousing images.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Event-related functional magnetic resonance imaging was recorded in 42 female participants while they completed an emotion-regulation paradigm involving suppression, reappraisal, and appraisal instructions during cue and target phases.",
+   "value_source": "reported"
+  },
+  "external_datasets": [
+   {
+    "name": {
+     "extraction_status": "extracted",
+     "value": "International Affective Picture System (IAPS)",
+     "value_source": "reported"
+    },
+    "url": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "assess_success",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Emotion-regulation success rating",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "A Likert scale allowed participants to rate how successful they were in regulating or appraising their negative emotions (1 = not at all to 4 = very good).",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "behavioural task",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "assess_mood",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Mood rating",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants indicated how they felt while looking at the pictures using a 9-point Likert scale for mood (1 = unhappy, 5 = neutral and 9 = happy).",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "assess_arousal",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Arousal rating",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants indicated how they felt while looking at the pictures using a 9-point Likert scale for arousal (1 = calm, 5 = intermediate and 9 = excited).",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "assess_mini",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Mini-International Neuropsychiatric Interview (M.I.N.I.)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Structured interview based on Diagnostic and Statistical Manual of Mental Disorders, Fourth Edition, Text Revision criteria, used to exclude psychiatric disorders and/or a history of psychiatric disorders.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical scale",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_strategy",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Emotion-regulation strategy",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Suppression, reappraisal or appraisal instruction.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_suppress",
+     "cond_reappraise",
+     "cond_appraise"
+    ],
+    "groups": [],
+    "levels": {
+     "extraction_status": "not_reported"
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "within subject",
+     "value_source": "generated"
+    },
+    "interaction_with": []
+   },
+   {
+    "local_id": "term_motion",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Movement parameters",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Movement parameters were included to account for variance associated with head motion.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [],
+    "levels": {
+     "extraction_status": "not_reported"
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "within subject",
+     "value_source": "generated"
+    },
+    "interaction_with": []
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_female",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "female participants",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "A group of 42 female participants with a mean age of 21.26 (s.d. = 2.29, [18\u201331]) years and without medical conditions that might influence the interpretation of brain functioning related to emotion and cognitive processing.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "approached_count": {
+     "extraction_status": "not_reported"
+    },
+    "consented_count": {
+     "extraction_status": "not_reported"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "42",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "42",
+     "value_source": "reported"
+    },
+    "excluded_count": {
+     "extraction_status": "not_reported"
+    },
+    "inclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "All participants were right-handed, had normal or corrected-normal vision and were eligible for fMRI research.",
+      "value_source": "reported"
+     }
+    ],
+    "exclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "medical conditions that might influence the interpretation of brain functioning related to emotion and cognitive processing",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "psychiatric disorders (and/or a history of)",
+      "value_source": "reported"
+     }
+    ],
+    "recruitment_method": {
+     "extraction_status": "extracted",
+     "value": "Postings on the university website were used to recruit",
+     "value_source": "reported"
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "21.26",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "2.29",
+     "value_source": "reported"
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "18",
+     "value_source": "reported"
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "31",
+     "value_source": "reported"
+    },
+    "age_median": {
+     "extraction_status": "not_reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "42",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "gender_distribution": [],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "42",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "without medical conditions that might influence the interpretation of brain functioning related to emotion and cognitive processing",
+      "value_source": "reported"
+     }
+    ],
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "Diagnostic and Statistical Manual of Mental Disorders, Fourth Edition, Text Revision",
+     "value_source": "reported"
+    },
+    "diagnostic_instrument": [
+     {
+      "extraction_status": "extracted",
+      "value": "Mini-International Neuropsychiatric Interview",
+      "value_source": "reported"
+     }
+    ],
+    "clinical_characteristics": {
+     "extraction_status": "not_reported"
+    },
+    "medication_status": {
+     "extraction_status": "not_reported"
+    },
+    "education_summary": {
+     "extraction_status": "not_reported"
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_emoreg",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "emotion-regulation paradigm",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants were cued to suppress, reappraise and appraise a series of 63 randomly intermixed trials in three blocks. Each trial included a cue word, a preparatory blank-screen period, a negative high-arousing image presented for 10 s, a success rating, and an 8-s RELAX period.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_suppress",
+     "cond_reappraise",
+     "cond_appraise"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_mprage",
+     "acq_bold"
+    ],
+    "presentation_software": {
+     "extraction_status": "not_reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Participants were instructed to \u2018suppress\u2019, \u2018reappraise\u2019 or \u2018appraise\u2019 their emotions in response to aversive images.",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "63 negative pictures of the IAPS with mean arousal values >6 and mean valence ratings <4, based on normative ratings of female participants.",
+     "value_source": "reported"
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "successfully regulating or appraising negative emotions, rated from 1 = not at all to 4 = very good",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_mprage",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "T1-weighted structural MRI",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "not_reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3T Magnetom Trio MRI scanner system (Siemens Medical Systems, Erlangen, Germany) using an eight-channel radiofrequency head coil",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "High-resolution anatomical images were acquired using a T1-weighted 3D Magnetization Prepared RApid Gradient Echo (3D MPRAGE) sequence.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"TR_ms\":2530,\"TE_ms\":2.58,\"TI_ms\":1100,\"acquisition_matrix\":\"256 \u00d7 256 \u00d7 176\",\"sagittal_FOV_mm\":220,\"flip_angle_deg\":7,\"voxel_size_mm\":\"0.86 \u00d7 0.86 \u00d7 0.9\"}",
+     "value_source": "generated"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "3D MPRAGE",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "3D volume",
+      "value_source": "reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2.53",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.00258",
+      "value_source": "generated"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "0.86 \u00d7 0.86 \u00d7 0.9 mm",
+      "value_source": "reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   {
+    "local_id": "acq_bold",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "whole-brain functional MRI",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "not_reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3T Magnetom Trio MRI scanner system (Siemens Medical Systems, Erlangen, Germany) using an eight-channel radiofrequency head coil",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Whole-brain functional images were collected using a T2*-weighted echo planar imaging (EPI) sequence sensitive to BOLD contrast.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"image_matrix\":\"64 \u00d7 64\",\"FOV_mm\":224,\"flip_angle_deg\":80,\"slice_thickness_mm\":3.0,\"distance_factor_percent\":17,\"number_of_axial_slices\":30}",
+     "value_source": "generated"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "T2*-weighted echo planar imaging (EPI)",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "2D slices",
+      "value_source": "generated"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.035",
+      "value_source": "generated"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "3.5 \u00d7 3.5 \u00d7 3 mm",
+      "value_source": "reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The first four volumes of all EPI series were excluded. Data processing included slice-time correction, realignment, co-registration, normalization to the MNI template, resampling, spatial smoothing, and removal of low-frequency drifts.",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM5 software (Wellcome Department of Cognitive Neurology, London, UK)",
+      "value_source": "reported"
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "The first four volumes of all EPI series were excluded from the analysis.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "slice-time correction",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "realignment of the EPI datasets",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "A mean image for all EPI volumes was created, to which individual volumes were spatially realigned by rigid body transformations.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "The high-resolution structural image was co-registered with the mean image of the EPI series.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "The structural image was normalized to the Montreal Neurological Institute (MNI) template, and the normalization parameters were applied to the EPI images.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "anatomy image volumes were re-sampled to 1 \u00d7 1 \u00d7 1 mm3",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "A filter of 8 mm full-width at half maximum was used.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Low-frequency drifts in the time domain were removed by modeling the time series for each voxel by a set of discrete cosine functions to which a cut-off of 128 s was applied.",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "general linear model",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "canonical hemodynamic response function and its temporal derivative",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The model contained separate regressors for the Cue Suppression, Reappraisal and Appraise cue (1\u20139 s), the Suppression, Reappraisal and Appraise Target phase (duration of 10 s), and the response to the rating screen. Movement parameters were included to account for variance associated with head motion. Group-level contrasts were analyzed with one-sample t-tests and whole-brain family-wise error correction at P < 0.05, with cluster extent >5.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "subject-level and group-level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "statistical parametric mapping; random effects analysis",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM5",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Marsbar",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "WFU PickAtlas",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_suppress",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "suppression",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants were trained to suppress displaying their feelings elicited by the picture and to prepare not to show their feelings on an outward level, without holding their face already still beforehand.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "emotion-regulation task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_reappraise",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "reappraisal",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants were trained to reinterpret the situational event depicted by changing the emotions, actions and outcomes of individuals depicted in that situational context, and to prepare to down-regulate their emotions.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "emotion-regulation task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_appraise",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "appraisal",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants were instructed to simply look at the pictures, feel their natural feelings and not change anything; no preparatory control was required.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "control task state",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "ana_target_reappraise_appraise",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Target Reappraisal>Target Appraise",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain analysis",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "roi_label": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_emoreg"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_reappraise",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Target Reappraisal",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_appraise",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Target Appraise",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "less than",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_strategy",
+     "term_motion"
+    ],
+    "model_estimation": "model_glm",
+    "groups": [
+     {
+      "group": "g_female",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 42,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Target Reappraisal > Target Appraise",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "Z-score",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "mediation_path": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI coordinate system",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster extent",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "FWE-corrected P",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 5,
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "family-wise error (FWE)",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain analysis",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "All resulting vectors were convolved with the canonical hemodynamic response function and its temporal derivative to form the main regressors in the design matrix.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "For reappraisal, we observed activity in the left and right middle temporal gyrus, left and right IFG, middle frontal gyrus and right inferior parietal lobe.",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "not_reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Areas showing significant activation during the target-phase within the contrasts Target Suppression > Target Appraise and Target Reappraisal > Target Appraise (FWE, P < 0.05)",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "Area BA Peak coordinates (MNI) Z-score Voxel extent",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Reports significant target-phase activation for Target Suppression > Target Appraise and Target Reappraisal > Target Appraise.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "not_reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "MNI coordinates of the contrasts Target Suppression > Target Reappraisal and Target Reappraisal > Target Suppression (FWE corrected P < 0.05, cluster > 5)",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "Area BA Peak coordinates (MNI) Z-score Voxel extent",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Reports target-phase differences between expressive suppression and cognitive reappraisal.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "not_reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "MNI coordinates of the contrasts Cue Suppression > Cue Appraisal, Cue Reappraisal > Cue Appraisal (FWE corrected P < 0.05, cluster > 5)",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "Area BA Peak coordinates (MNI) Z-score Voxel extent",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Reports cue-phase differences between suppression or reappraisal and appraisal.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl4",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 4",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "not_reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Areas showing significant activation during the cue-phase within the contrasts Cue Suppression > Cue Reappraisal and Cue Reappraisal > Cue Suppression (FWE, P < 0.05)",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "Area BA Peak coordinates (MNI) Z-score Voxel extent",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Reports significant cue-phase activation differences between expressive suppression and cognitive reappraisal.",
+     "value_source": "generated"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 41605,
+  "completion": 10635,
+  "reasoning": 4124,
+  "cached": 0
+ },
+ "usage_pass1": {
+  "prompt": 20564,
+  "completion": 3881,
+  "reasoning": 44,
+  "cached": 0
+ },
+ "usage_pass2": {
+  "prompt": 21041,
+  "completion": 6754,
+  "reasoning": 4080,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 28466,
+ "service_tier_echo": "flex"
+}

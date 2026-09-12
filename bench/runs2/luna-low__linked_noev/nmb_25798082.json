@@ -1,0 +1,974 @@
+{
+ "case_id": "nmb_25798082",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "stage1_names": [
+  "Acquired bias"
+ ],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "neuroimaging-methods-curation-v1",
+   "source_text_hash": "",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined how reward-induced bias is acquired during perceptual motion decisions and how learned value influences brain activity and functional connectivity.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Participants performed a motion discrimination task during fMRI acquisition in two independently presented reward contexts. Trial-wise reward feedback was used to model context-dependent and context-free reinforcement learning signals, acquired bias, and bias-related functional connectivity.",
+   "value_source": "generated"
+  },
+  "external_datasets": [],
+  "assessments": [],
+  "terms": [
+   {
+    "local_id": "term_coherence",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "absolute value of the coherence level",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "the absolute value of the coherence level",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "parametric modulated regressor",
+     "value_source": "reported"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [],
+    "levels": {
+     "extraction_status": "not_reported"
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "within subject",
+     "value_source": "generated"
+    },
+    "functional_form": {
+     "extraction_status": "extracted",
+     "value": "absolute value",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "term_bias",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "trial-wise amount of bias",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "the absolute value of the difference between the two choices from the best-fit reinforcement-learning model at the group-level for each participant",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "parametric modulated regressor",
+     "value_source": "reported"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_blue",
+     "cond_yellow"
+    ],
+    "groups": [],
+    "levels": {
+     "extraction_status": "not_reported"
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "within subject",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "term_rpe_context",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "context-based reward prediction error",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "the difference between expected and actual outcomes followed by a choice made in the specific context",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "parametric modulated regressor",
+     "value_source": "reported"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_blue",
+     "cond_yellow"
+    ],
+    "groups": [],
+    "levels": {
+     "extraction_status": "not_reported"
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "within subject",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "term_rpe_free",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "context-free reward prediction error",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "the action value was adjusted by adding RPE to the value of each motion direction regardless of the context",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "parametric modulated regressor",
+     "value_source": "reported"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [],
+    "levels": {
+     "extraction_status": "not_reported"
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "within subject",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_participants",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "human participants",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Twenty-four human participants completed the behavioral paradigm in the MRI scanner; one participant was excluded because of extreme parameter estimates in the fMRI data analysis.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "reported"
+    },
+    "approached_count": {
+     "extraction_status": "not_reported"
+    },
+    "consented_count": {
+     "extraction_status": "not_reported"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "24",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "24",
+     "value_source": "reported"
+    },
+    "excluded_count": {
+     "extraction_status": "extracted",
+     "value": "one participant",
+     "value_source": "reported"
+    },
+    "inclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "normal or corrected-to-normal visual acuity",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "normal color vision",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "right-handed",
+      "value_source": "reported"
+     }
+    ],
+    "exclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "self-reported neurological or psychiatric diseases",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "extreme parameter estimates ... in the fMRI data analysis",
+      "value_source": "reported"
+     }
+    ],
+    "recruitment_method": {
+     "extraction_status": "extracted",
+     "value": "recruited through posted flyers and were prescreened",
+     "value_source": "reported"
+    },
+    "age_mean": {
+     "extraction_status": "not_reported"
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "18",
+     "value_source": "reported"
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "30",
+     "value_source": "reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "females",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "12",
+       "value_source": "reported"
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "males",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "12",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "free of any self-reported neurological or psychiatric diseases",
+      "value_source": "reported"
+     }
+    ],
+    "medication_status": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_motion_reward",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "motion discrimination task",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants decided whether the global motion direction of moving dots was upward or downward in two independent reward contexts, with trial-wise reward feedback.",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_blue",
+     "cond_yellow",
+     "cond_up",
+     "cond_down"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "generated"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "Matlab version 7.10.0, using the Psychophysics Toolbox extension, version 3.0.10",
+     "value_source": "reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "They were simply instructed to decide the motion direction on each trial in order to harvest the most reward points.",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "Each motion stimulus was composed of 150 white dots moving inside a donut-shaped display patch on a black background.",
+     "value_source": "reported"
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "The participants' choice and the reaction time were recorded on each trial.",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "fMRI",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "Siemens Skyra 3T MR scanner",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Functional data were collected using a T2-weighted multi-band echo-planar imaging sequence with 60\u00b0 flip-angle. Forty-eight oblique axial slices were collected in interleaved fashion with 2 mm isotropic resolution.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"field_strength\":\"3T\",\"flip_angle\":\"60\u00b0\",\"FOV\":\"256 mm\",\"multiband_acceleration_factor\":2,\"parallel_acceleration_factor\":2,\"matrix_size\":128,\"slices\":48,\"slice_orientation\":\"oblique axial\",\"slice_order\":\"interleaved\",\"resolution\":\"2 mm isotropic\"}",
+     "value_source": "generated"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "T2-weighted multi-band echo-planar imaging sequence",
+      "value_source": "reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2 s",
+      "value_source": "reported"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "30 ms",
+      "value_source": "reported"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "2 mm isotropic resolution",
+      "value_source": "reported"
+     }
+    }
+   },
+   {
+    "local_id": "acq_mprage",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "T1-weighted anatomical MRI",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "Siemens Skyra 3T MR scanner",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "T1-weighted anatomical images were collected using an MP-RAGE sequence with 9\u00b0 flip angle.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"flip_angle\":\"9\u00b0\",\"FOV\":\"256 mm\",\"matrix_size\":\"256 \u00d7 256\",\"slices\":192,\"slice_thickness\":\"1 mm\"}",
+     "value_source": "generated"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "MP-RAGE",
+      "value_source": "reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "1.9 s",
+      "value_source": "reported"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2.43 ms",
+      "value_source": "reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fsl",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "FMRI data preprocessing was carried out using FSL Version 5.0.1.",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "FSL Version 5.0.1",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "FreeSurfer",
+      "value_source": "reported"
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "All image time series were aligned with the MCFLIRT tool.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Frame-wise displacement and DVARS were computed to identify bad time points (FD > 0.5; DVARS > 0.5).",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "The skull was removed from the functional images with the brain extraction tool (BET) and from the structural images using FreeSurfer.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Spatial smoothing was applied using a Gaussian kernel of FWHM 5 mm.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "The grand-mean intensity was normalized over the entire 4D dataset by a single multiplicative factor.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "A high-pass temporal filtering was applied with sigma = 50.0 s.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "All functional images were registered to the high resolution structural image using Boundary-Based Registration (BBR) then the high resolution structural image to the MNI-152 2 mm template using the FLIRT linear registration (12 DOF) tool of FSL.",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_behavior_logistic",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "hierarchical logistic models",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The full model included five exploratory regressors: coherence-level, reward context, run-number, context-by-run, and coherence-by-run interaction. The intercept was taken as a random effect across participants.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "Chi-square test to compare goodness-of-fit; lme4 package in R",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "lme4 package in R Version 3.0.0",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_rl",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "reinforcement-learning model",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Two Q-learning models were separately specified. A logit function generated the probability of binary choices based on reward and the motion stimulus. One model used context-dependent action values and the other ignored context.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "subject-level parameter estimation with group-level model comparison",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "maximum likelihood; minimizing the negative log likelihood with non-linear optimization",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "Scipy toolbox for python",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "R",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_fmri_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "multi-stage general linear model (GLM)",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "double-gamma hemodynamic response function",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The first-level model was estimated separately for each run and each participant. All five runs were combined within participant using a fixed-effects model. At the group level, the FLAME 1 mixed-effects model of FSL was applied to all participants. Statistical maps were corrected by cluster-based random field theory using clusters determined by Z > 2.3 and a family-wise error corrected cluster significance threshold of P = 0.05.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "first-level and group-level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "fixed-effects model within participant and FLAME 1 mixed-effects model at group level",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "FSL FEAT Version 6.00",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_ppi",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "psychophysiological interaction (PPI) analysis",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "reconvolved with hemodynamic function",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The interaction between the seed region and the regressor modulated by trial-wise amount of bias was generated in the neural domain and then reconvolved with hemodynamic function. The design matrix included the GLM design matrix, the raw time course extracted from the seed, and a PPI regressor.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "first-level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "seed-region BOLD deconvolution and PPI regression",
+     "value_source": "generated"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM deconvolution algorithm",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_blue",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "blue reward context",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "One of two independent reward contexts signaled by the color of the fixation cross.",
+     "value_source": "generated"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "reward context",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "cond_yellow",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "yellow reward context",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "One of two independent reward contexts signaled by the color of the fixation cross.",
+     "value_source": "generated"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "reward context",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "cond_up",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "upward motion",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Motion dots moving upward; participants selected the corresponding spatially congruent button.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "motion direction",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "cond_down",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "downward motion",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Motion dots moving downward; participants selected the corresponding spatially congruent button.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "motion direction",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "ana_acquired_bias",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Acquired bias",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_motion_reward"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_blue",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_yellow",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_bias"
+    ],
+    "model_estimation": "model_fmri_glm",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fsl",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "The absolute value difference between the two choices from the best-fit reinforcement-learning model, representing the trial-wise amount of acquired bias, was entered as a parametric modulated regressor.",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI signals",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl_glm"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI-152 2 mm template",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based random field theory; family-wise error corrected",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "no",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The amount of acquired bias correlated with activity in ventromedial prefrontal, dorsolateral frontal, parietal, visual, and motor cortices.",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl_glm",
+    "table_number": {
+     "extraction_status": "not_reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "GLM results",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Reports the whole-brain GLM results for the acquired-bias and reward-prediction-error analyses.",
+     "value_source": "generated"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 29292,
+  "completion": 7379,
+  "reasoning": 278,
+  "cached": 0
+ },
+ "usage_pass1": {
+  "prompt": 14401,
+  "completion": 5663,
+  "reasoning": 87,
+  "cached": 0
+ },
+ "usage_pass2": {
+  "prompt": 14891,
+  "completion": 1716,
+  "reasoning": 191,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 30472,
+ "service_tier_echo": "flex"
+}

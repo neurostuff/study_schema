@@ -1,0 +1,1464 @@
+{
+ "case_id": "nmb_27090501",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "a_main",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "task by frequency interaction effects (ball-toss [high-frequency - normal-frequency]>button-press [high-frequency - normal-frequency])",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "During the ball-toss runs, there were significant high-frequency effects in the precuneus (cluster peak=[6, -44, 42], partly overlapping with occipital cortex and cingulate cortex) and right ventral striatum (cluster peak=[22, 0, -8]) in comparison with the high-frequency effects during the button-press"
+         }
+        ]
+       }
+      ]
+     },
+     "spatial_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Whole-brain high-resolution, T1-weighted anatomical MRI using magnetization prepared rapid acquisition gradient echo (MP-RAGE) was also performed for each participant"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "spatial_unit": {
+      "extraction_status": "extracted",
+      "value": "voxels",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The statistical threshold for these analyses was set at an uncorrected p<0.005 at the voxel level with a family-wise error (FWE) corrected p<0.05 at the cluster level."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisitions": [
+      "acq_bold"
+     ],
+     "experiments": [
+      "exp_toss",
+      "exp_press"
+     ],
+     "conditions": [
+      {
+       "condition": "c_toss_high",
+       "role": {
+        "extraction_status": "extracted",
+        "value": "greater side",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "ball-toss [high-frequency - normal-frequency]>button-press [high-frequency - normal-frequency]"
+            }
+           ]
+          }
+         ]
+        }
+       }
+      },
+      {
+       "condition": "c_toss_normal",
+       "role": {
+        "extraction_status": "extracted",
+        "value": "lesser side",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "ball-toss [high-frequency - normal-frequency]>button-press [high-frequency - normal-frequency]"
+            }
+           ]
+          }
+         ]
+        }
+       }
+      },
+      {
+       "condition": "c_press_high",
+       "role": {
+        "extraction_status": "extracted",
+        "value": "lesser side",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "ball-toss [high-frequency - normal-frequency]>button-press [high-frequency - normal-frequency]"
+            }
+           ]
+          }
+         ]
+        }
+       }
+      },
+      {
+       "condition": "c_press_normal",
+       "role": {
+        "extraction_status": "extracted",
+        "value": "greater side",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "ball-toss [high-frequency - normal-frequency]>button-press [high-frequency - normal-frequency]"
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     ],
+     "terms": [],
+     "model_estimation": "me_glm",
+     "groups": [
+      {
+       "group": "g_all",
+       "role": {
+        "extraction_status": "extracted",
+        "value": "included without a direction",
+        "value_source": "generated",
+        "evidence": {
+         "status": "not_found"
+        }
+       },
+       "n": {
+        "extraction_status": "extracted",
+        "value": "31",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Therefore, data from these seven participants were excluded, and data were analyzed from the remaining 31 participants (21.10\u00b10.27 years; 16 males, 21.19 \u00b1 0.43 years; 15 females, 21.00 \u00b1 0.43 years)."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     ],
+     "preprocessing": "prep_fmri",
+     "definition": {
+      "extraction_status": "extracted",
+      "value": "ball-toss [high-frequency - normal-frequency]>button-press [high-frequency - normal-frequency]",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Based on this comparison, abstraction processes related to visual stimuli and motor functions including response selection and execution could be canceled out."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "measure": {
+      "source_label": {
+       "extraction_status": "extracted",
+       "value": "average beta values",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Average beta values in the significant cluster related to the high-frequency effects (high-frequency - normal-frequency) during the ball-toss run (\u201cToss\u201d) and the button-press run (\u201cPress\u201d) are shown."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     "statistic": {
+      "family": {
+       "extraction_status": "extracted",
+       "value": "paired t test",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thus, using the two types of contrast image related to high-frequency effects (ball-toss [high-frequency >normal-frequency] and button-press [high-frequency >normal-frequency]), group analyses were conducted using paired t test."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     "tables": [
+      "tbl1"
+     ],
+     "coordinate_space": {
+      "extraction_status": "extracted",
+      "value": "Montreal Neurological Institute (MNI) template",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Subsequently, the co-registered T1-weighted MP-RAGE image was normalized to the Montreal Neurological Institute (MNI) template using linear and nonlinear three-dimensional (3D) transformations."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "assessments": [],
+     "inference_settings": {
+      "inference_level": {
+       "extraction_status": "extracted",
+       "value": "cluster",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The activation was thresholded at a voxel-level uncorrected p<0.005 and a cluster level family-wise error (FWE) corrected p<0.05."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "voxelwise_threshold_value": {
+       "extraction_status": "extracted",
+       "value": "0.005",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The activation was thresholded at a voxel-level uncorrected p<0.005 and a cluster level family-wise error (FWE) corrected p<0.05."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "voxelwise_threshold_type": {
+       "extraction_status": "extracted",
+       "value": "uncorrected p",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The activation was thresholded at a voxel-level uncorrected p<0.005 and a cluster level family-wise error (FWE) corrected p<0.05."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "clusterwise_threshold_value": {
+       "extraction_status": "extracted",
+       "value": "0.05",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The activation was thresholded at a voxel-level uncorrected p<0.005 and a cluster level family-wise error (FWE) corrected p<0.05."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "multiple_comparison_method": {
+       "extraction_status": "extracted",
+       "value": "family-wise error (FWE) corrected",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The activation was thresholded at a voxel-level uncorrected p<0.005 and a cluster level family-wise error (FWE) corrected p<0.05."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "correction_scope": {
+       "extraction_status": "extracted",
+       "value": "cluster level",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The activation was thresholded at a voxel-level uncorrected p<0.005 and a cluster level family-wise error (FWE) corrected p<0.05."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     "statistical_maps": [],
+     "decoding": {},
+     "similarity": {},
+     "connectivity": {},
+     "conjunction": {},
+     "component_decomposition": {},
+     "not_structurable": {},
+     "other_method": {},
+     "interpretations": {
+      "extraction_status": "extracted",
+      "value": "The higher frequency of social interaction was represented as a social reward",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Therefore, an increased frequency of simple social interaction serves as a social reward, and the value of this reward acts as an approach motivation for social interaction in a manner that is modulated by individual preferences for social interaction."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The study tested whether increasing the frequency of social interaction activates reward-related brain regions and whether this response varies with individual interaction preferences.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Therefore, we hypothesized that social interaction itself activates the reward system in a manner that depends upon individual interaction preferences."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "design": {
+     "extraction_status": "extracted",
+     "value": "Participants played a virtual ball-toss game with normal- and high-frequency social interaction conditions and a button-press control task during fMRI.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The task design consisted of a ball-toss run and a button-press run."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "extraction_metadata": {
+     "extractor_model": "gpt-5",
+     "extractor_version": "1.0",
+     "extraction_date": "2026-08-04",
+     "paper_sections": [
+      {
+       "ordinal": 0,
+       "title": "Increased frequency of social interaction is associated with enjoyment enhancement and reward system activation.",
+       "level": 0,
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 1,
+       "title": "Introduction",
+       "level": 1,
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 2,
+       "title": "Results",
+       "level": 1,
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 3,
+       "title": "Questionnaire results",
+       "level": 2,
+       "parent_section": "Results",
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 4,
+       "title": "Rating scores",
+       "level": 2,
+       "parent_section": "Results",
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 5,
+       "title": "fMRI results",
+       "level": 2,
+       "parent_section": "Results",
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 6,
+       "title": "Discussion",
+       "level": 1,
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 7,
+       "title": "Methods",
+       "level": 1,
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 8,
+       "title": "Participants",
+       "level": 2,
+       "parent_section": "Methods",
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 9,
+       "title": "Questionnaire",
+       "level": 2,
+       "parent_section": "Methods",
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 10,
+       "title": "Presentation of visual stimuli",
+       "level": 2,
+       "parent_section": "Methods",
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 11,
+       "title": "Task design",
+       "level": 2,
+       "parent_section": "Methods",
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 12,
+       "title": "Ball-toss task",
+       "level": 3,
+       "parent_section": "Task design",
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 13,
+       "title": "Button-press task",
+       "level": 3,
+       "parent_section": "Task design",
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 14,
+       "title": "fMRI data acquisition",
+       "level": 2,
+       "parent_section": "Methods",
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 15,
+       "title": "fMRI data analysis",
+       "level": 2,
+       "parent_section": "Methods",
+       "start_char": 0,
+       "end_char": 0
+      },
+      {
+       "ordinal": 16,
+       "title": "Performance data analysis",
+       "level": 2,
+       "parent_section": "Methods",
+       "start_char": 0,
+       "end_char": 0
+      }
+     ]
+    },
+    "tables": [
+     {
+      "local_id": "tbl1",
+      "table_number": {
+       "extraction_status": "extracted",
+       "value": "Table 1",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "During the ball-toss runs, there were significant high-frequency effects in the precuneus (cluster peak=[6, -44, 42], partly overlapping with occipital cortex and cingulate cortex) and right ventral striatum (cluster peak=[22, 0, -8]) in comparison with the high-frequency effects during the button-press"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "title": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      },
+      "caption": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      },
+      "footer": {
+       "extraction_status": "not_reported",
+       "evidence": {
+        "status": "not_applicable"
+       }
+      },
+      "description": {
+       "extraction_status": "extracted",
+       "value": "Table reporting the significant fMRI clusters.",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Table 1 and Figs 3, 4, 5"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "conditions": [
+     {
+      "local_id": "c_toss_high",
+      "name": {
+       "extraction_status": "extracted",
+       "value": "high-frequency condition",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "There were two types of ball-toss block: normal- and high-frequency conditions."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "condition_kind": {
+       "extraction_status": "extracted",
+       "value": "task state",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "In the high-frequency condition, the number of ball tosses from each participant was 13 per block."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "local_id": "c_toss_normal",
+      "name": {
+       "extraction_status": "extracted",
+       "value": "normal-frequency condition",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "There were two types of ball-toss block: normal- and high-frequency conditions."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "condition_kind": {
+       "extraction_status": "extracted",
+       "value": "task state",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "In the normal-frequency condition, each participant had six ball tosses during a block."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "local_id": "c_press_high",
+      "name": {
+       "extraction_status": "extracted",
+       "value": "high-frequency condition",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "There were two types of button-press block: normal- and high-frequency."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "condition_kind": {
+       "extraction_status": "extracted",
+       "value": "task state",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "In the normal-frequency condition, there were six button-presses per block, and in the high-frequency condition there were 13 button-presses per block."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "local_id": "c_press_normal",
+      "name": {
+       "extraction_status": "extracted",
+       "value": "normal-frequency condition",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "There were two types of button-press block: normal- and high-frequency."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "condition_kind": {
+       "extraction_status": "extracted",
+       "value": "task state",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "In the normal-frequency condition, there were six button-presses per block, and in the high-frequency condition there were 13 button-presses per block."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     {
+      "local_id": "term_collectivism",
+      "name": {
+       "extraction_status": "extracted",
+       "value": "Collectivism Scale",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Participants completed the Collectivism Scale22, a 14-item scale that measures allocentric tendency."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "type": {
+       "extraction_status": "extracted",
+       "value": "continuous",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Higher collectivism scores indicate high allocentric traits in social interaction, which are associated with higher affiliative tendency and higher sensitivity to rejection22."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "term of interest",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Stepwise multiple regression was conducted between the collectivism scores and the average beta values"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "assessment": "assess_collectivism"
+     }
+    ],
+    "groups": [
+     {
+      "local_id": "g_all",
+      "name": {
+       "extraction_status": "extracted",
+       "value": "participants",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thirty-eight adults (21 males and 17 females) took part in the experiment."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "species": {
+       "extraction_status": "extracted",
+       "value": "adults",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thirty-eight adults (21 males and 17 females) took part in the experiment."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "acquired_count": {
+       "extraction_status": "extracted",
+       "value": "38",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Thirty-eight adults (21 males and 17 females) took part in the experiment."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "handedness_distribution": [
+       {
+        "category": {
+         "extraction_status": "extracted",
+         "value": "right-handed",
+         "value_source": "reported",
+         "evidence": {
+          "status": "present",
+          "sets": [
+           {
+            "spans": [
+             {
+              "text": "All participants had normal or corrected-to-normal visual acuity, were right-handed according to the Edinburgh handedness inventory57"
+             }
+            ]
+           }
+          ]
+         }
+        }
+       }
+      ],
+      "medical_condition": {
+       "extraction_status": "extracted",
+       "value": "free of neurological and medical disorders",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All participants had normal or corrected-to-normal visual acuity, were right-handed according to the Edinburgh handedness inventory57, and were free of neurological and medical disorders."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "experiments": [
+     {
+      "local_id": "exp_toss",
+      "task_name": {
+       "extraction_status": "extracted",
+       "value": "ball-toss task",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Ball-toss task"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "task_description": {
+       "extraction_status": "extracted",
+       "value": "Participants played a virtual ball-toss game with four same-gender players unknown to them.",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "In the ball-toss run, the participants were required to play a virtual ball-toss game19,20,58,59 with four same-gender players that were unknown to them."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "conditions": [
+       "c_toss_normal",
+       "c_toss_high"
+      ],
+      "acquisitions": [
+       "acq_bold"
+      ]
+     },
+     {
+      "local_id": "exp_press",
+      "task_name": {
+       "extraction_status": "extracted",
+       "value": "button-press task",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Button-press task"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "task_description": {
+       "extraction_status": "extracted",
+       "value": "Participants pressed a button according to visual cues.",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "In the button-press run, the participants were required to press a button according to the following rules."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "conditions": [
+       "c_press_normal",
+       "c_press_high"
+      ],
+      "acquisitions": [
+       "acq_bold"
+      ]
+     }
+    ],
+    "acquisitions": [
+     {
+      "local_id": "acq_bold",
+      "modality": {
+       "extraction_status": "extracted",
+       "value": "fMRI",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "A 3T scanner (Verio; Siemens, Ltd., Erlangen) was used for acquisition of fMRI data."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "instrument": {
+       "extraction_status": "extracted",
+       "value": "Verio; Siemens, Ltd., Erlangen",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "A 3T scanner (Verio; Siemens, Ltd., Erlangen) was used for acquisition of fMRI data."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "mri": {
+       "magnetic_field_strength_tesla": {
+        "extraction_status": "extracted",
+        "value": "3T",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "A 3T scanner (Verio; Siemens, Ltd., Erlangen) was used for acquisition of fMRI data."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "pulse_sequence_type": {
+        "extraction_status": "extracted",
+        "value": "EPI gradient-echo sequence",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "fMRI was performed using an EPI gradient-echo sequence (echo time [TE]=30ms; repetition time [TR]=2,500ms; field of view [FOV]=192\u00d7192mm2; flip angle=80\u00b0; matrix size=64\u00d764; 39 slices; slice thickness=3mm; total number of volumes=136)."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "repetition_time_seconds": {
+        "extraction_status": "extracted",
+        "value": "2.5",
+        "value_source": "generated",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "fMRI was performed using an EPI gradient-echo sequence (echo time [TE]=30ms; repetition time [TR]=2,500ms; field of view [FOV]=192\u00d7192mm2; flip angle=80\u00b0; matrix size=64\u00d764; 39 slices; slice thickness=3mm; total number of volumes=136)."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "echo_time_seconds": {
+        "extraction_status": "extracted",
+        "value": "0.03",
+        "value_source": "generated",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "fMRI was performed using an EPI gradient-echo sequence (echo time [TE]=30ms; repetition time [TR]=2,500ms; field of view [FOV]=192\u00d7192mm2; flip angle=80\u00b0; matrix size=64\u00d764; 39 slices; slice thickness=3mm; total number of volumes=136)."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "number_of_volumes": {
+        "extraction_status": "extracted",
+        "value": "136",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "fMRI was performed using an EPI gradient-echo sequence (echo time [TE]=30ms; repetition time [TR]=2,500ms; field of view [FOV]=192\u00d7192mm2; flip angle=80\u00b0; matrix size=64\u00d764; 39 slices; slice thickness=3mm; total number of volumes=136)."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     }
+    ],
+    "preprocessings": [
+     {
+      "local_id": "prep_fmri",
+      "description": {
+       "extraction_status": "extracted",
+       "value": "Functional images were analyzed using SPM8 revision 4667 implemented in MATLAB 2011b. The first four volumes were discarded, followed by motion correction, slice-timing correction, co-registration, normalization to the MNI template, resampling to 2mm\u00d72mm\u00d72mm, and spatial smoothing with an 8mm FWHM Gaussian kernel.",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The first four volumes of each fMRI run were discarded because the MRI signal was unsteady. After performing motion correction, Fourier phase-shift interpolation was used to correct the slice timing of each image to the middle slice."
+           },
+           {
+            "text": "Finally, the anatomically normalized EPI images were resampled to a voxel size of 2mm\u00d72mm\u00d72mm and spatially smoothed using a Gaussian kernel of 8mm full width at half-maximum (FWHM)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "software": [
+       {
+        "extraction_status": "extracted",
+        "value": "SPM8 revision 4667",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Functional images were analyzed using SPM8 revision 4667 (The Wellcome Trust Centre for Neuroimaging; http://www.fil.ion.ucl.ac.uk/spm60) implemented in MATLAB 2011b (MathWorks, Inc.)."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       {
+        "extraction_status": "extracted",
+        "value": "MATLAB 2011b",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Functional images were analyzed using SPM8 revision 4667 (The Wellcome Trust Centre for Neuroimaging; http://www.fil.ion.ucl.ac.uk/spm60) implemented in MATLAB 2011b (MathWorks, Inc.)."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      ],
+      "steps": [
+       {
+        "extraction_status": "extracted",
+        "value": "discarded the first four volumes",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "The first four volumes of each fMRI run were discarded because the MRI signal was unsteady."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       {
+        "extraction_status": "extracted",
+        "value": "motion correction",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "After performing motion correction, Fourier phase-shift interpolation was used to correct the slice timing of each image to the middle slice."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       {
+        "extraction_status": "extracted",
+        "value": "slice timing correction",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "After performing motion correction, Fourier phase-shift interpolation was used to correct the slice timing of each image to the middle slice."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       {
+        "extraction_status": "extracted",
+        "value": "co-registration with the T1-weighted MP-RAGE image",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Then, the mean of the realigned EPI images was co-registered with the T1-weighted MP-RAGE image."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       {
+        "extraction_status": "extracted",
+        "value": "normalization to the MNI template",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Subsequently, the co-registered T1-weighted MP-RAGE image was normalized to the Montreal Neurological Institute (MNI) template using linear and nonlinear three-dimensional (3D) transformations."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       {
+        "extraction_status": "extracted",
+        "value": "resampling to a voxel size of 2mm\u00d72mm\u00d72mm",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Finally, the anatomically normalized EPI images were resampled to a voxel size of 2mm\u00d72mm\u00d72mm and spatially smoothed using a Gaussian kernel of 8mm full width at half-maximum (FWHM)."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       {
+        "extraction_status": "extracted",
+        "value": "spatial smoothing using an 8mm FWHM Gaussian kernel",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Finally, the anatomically normalized EPI images were resampled to a voxel size of 2mm\u00d72mm\u00d72mm and spatially smoothed using a Gaussian kernel of 8mm full width at half-maximum (FWHM)."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      ]
+     }
+    ],
+    "model_estimations": [
+     {
+      "local_id": "me_glm",
+      "model_type": {
+       "extraction_status": "extracted",
+       "value": "general linear model",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The task-related activation was evaluated statistically using a general linear model at the individual level to generate contrast images, which were then incorporated into a random-effects analysis at the group level60."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "model_settings": {
+       "extraction_status": "extracted",
+       "value": "five regressors were defined (ball-toss normal-frequency, ball-toss high-frequency, button-press normal-frequency, button-press high-frequency, and rating blocks) and the general linear model included the six motion parameters and a constant term",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For individual analyses, five regressors were defined (ball-toss normal-frequency, ball-toss high-frequency, button-press normal-frequency, button-press high-frequency, and rating blocks) and the general linear model included the six motion parameters and a constant term."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "level": {
+       "extraction_status": "extracted",
+       "value": "individual level and group level",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The task-related activation was evaluated statistically using a general linear model at the individual level to generate contrast images, which were then incorporated into a random-effects analysis at the group level60."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "estimator": {
+       "extraction_status": "extracted",
+       "value": "random-effects analysis",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The task-related activation was evaluated statistically using a general linear model at the individual level to generate contrast images, which were then incorporated into a random-effects analysis at the group level60."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "assessments": [
+     {
+      "local_id": "assess_collectivism",
+      "name": {
+       "extraction_status": "extracted",
+       "value": "Collectivism Scale",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Participants completed the Collectivism Scale22, a 14-item scale that measures allocentric tendency."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "description": {
+       "extraction_status": "extracted",
+       "value": "A 14-item scale measuring allocentric tendency, with each item rated on a five-point scale.",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Participants completed the Collectivism Scale22, a 14-item scale that measures allocentric tendency. Each item is rated on a five-point scale ranging from 1 \u201cnot at all\u201d to 5 \u201cvery much\u201d."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "assessment_type": {
+       "extraction_status": "extracted",
+       "value": "questionnaire",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Participants completed the Collectivism Scale22, a 14-item scale that measures allocentric tendency."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "external_datasets": []
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 20742,
+  "completion": 6466,
+  "reasoning": 125,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 25919,
+ "service_tier_echo": "flex"
+}

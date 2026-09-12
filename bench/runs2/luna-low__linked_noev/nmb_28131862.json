@@ -1,0 +1,1152 @@
+{
+ "case_id": "nmb_28131862",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "stage1_names": [
+  "experimentalmotion>control conditions"
+ ],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "neuroimaging-methods-curation-v1",
+   "source_text_hash": "",
+   "extraction_date": "2026-08-04",
+   "paper_sections": [
+    {
+     "ordinal": 0,
+     "title": "Evidence accumulation detected in BOLD signal using slow perceptual decision making",
+     "level": 0,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 1,
+     "title": "Introduction",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 2,
+     "title": "Materials and methods",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 3,
+     "title": "Motion discrimination task",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 4,
+     "title": "Slowing down decision time",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 5,
+     "title": "Control task",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 6,
+     "title": "Participants",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 7,
+     "title": "DDM model fits",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 8,
+     "title": "Data acquisition and preprocessing",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 9,
+     "title": "General linear model",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 10,
+     "title": "Results",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 11,
+     "title": "Behavioral results",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 12,
+     "title": "GLM results",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 13,
+     "title": "Discussion",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    }
+   ]
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study tested whether evidence accumulation during slow perceptual decisions could be observed in BOLD fMRI by imposing penalties for incorrect responses, separating detection from integration with up-ramp and down-ramp regressors, and comparing a motion discrimination task with a matched control task.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Participants performed a random dot motion discrimination task and a control task with matched visual input, dot-motion viewing times, and manual responses but no evidence accumulation for dot motion. Incorrect responses were penalized to prolong decisions, and fMRI data were analyzed with GLM up-ramp and down-ramp regressors and voxel-wise repeated-measures ANOVA.",
+   "value_source": "generated"
+  },
+  "external_datasets": [],
+  "assessments": [],
+  "terms": [
+   {
+    "local_id": "term_task_type",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "task type",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "dots condition vs. arrows condition",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_dots",
+     "cond_arrows"
+    ],
+    "groups": []
+   },
+   {
+    "local_id": "term_ramp_type",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ramp regressor type",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "up-ramps vs. down-ramps",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [],
+    "levels": {
+     "extraction_status": "extracted",
+     "value": "up-ramp; down-ramp",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "term_participants",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "participants",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "participants modeled as random effects",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "random effect",
+     "value_source": "reported"
+    },
+    "conditions": [],
+    "groups": [
+     "g_retained"
+    ]
+   },
+   {
+    "local_id": "term_motion_coherence",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "stimulus coherence",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "the percentage of coherently moving dots",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_low_coherence",
+     "cond_high_coherence"
+    ],
+    "groups": [],
+    "levels": {
+     "extraction_status": "extracted",
+     "value": "low coherence; high coherence",
+     "value_source": "reported"
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "within subject",
+     "value_source": "generated"
+    },
+    "functional_form": {
+     "extraction_status": "extracted",
+     "value": "linear",
+     "value_source": "generated"
+    },
+    "unit": {
+     "extraction_status": "extracted",
+     "value": "percentage of dots moving in one direction",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_retained",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "participants",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants were recruited from the Princeton community.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "approached_count": {
+     "extraction_status": "extracted",
+     "value": "30",
+     "value_source": "reported"
+    },
+    "consented_count": {
+     "extraction_status": "not_reported"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "30",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "20",
+     "value_source": "generated"
+    },
+    "excluded_count": {
+     "extraction_status": "extracted",
+     "value": "10",
+     "value_source": "reported"
+    },
+    "inclusion_criteria": [],
+    "exclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "failed to finish the pre-fMRI behavioral training sessions",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "fell asleep in the scanner",
+      "value_source": "reported"
+     }
+    ],
+    "recruitment_method": {
+     "extraction_status": "extracted",
+     "value": "Participants were recruited from the Princeton community.",
+     "value_source": "reported"
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "22.7",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "not_reported"
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "17.5",
+     "value_source": "reported"
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "38.4",
+     "value_source": "reported"
+    },
+    "age_median": {
+     "extraction_status": "not_reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "generated"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "females",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "13",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "extracted",
+       "value": "30",
+       "value_source": "generated"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "gender_distribution": [],
+    "handedness_distribution": [],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": [],
+    "diagnostic_system": {
+     "extraction_status": "not_reported"
+    },
+    "diagnostic_instrument": [],
+    "clinical_characteristics": {
+     "extraction_status": "not_reported"
+    },
+    "medication_status": {
+     "extraction_status": "not_reported"
+    },
+    "education_summary": {
+     "extraction_status": "not_reported"
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_motion",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "motion discrimination task",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants judged the net direction (leftward or rightward) of a cloud of randomly moving dots, indicating responses bimanually with a button box. Each trial began with moving dots; after a decision, feedback indicated whether the answer was correct and the running total of points earned.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_dots",
+     "cond_low_coherence",
+     "cond_high_coherence"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "generated"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "PsychToolbox",
+     "value_source": "reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Participants were encouraged to maximize the points they earned over the course of each block.",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "An aperture of approximately 3 inch diameter viewed from approximately 100 cm, in which white dots (2 \u00d7 2 pixels) moved on a black background; a subset moved coherently either left or right and the remainder were distractors that jumped randomly from frame to frame. Dot density was 17 dots/square degree.",
+     "value_source": "reported"
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "response time",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "proportion of incorrect responses",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "points earned",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "exp_control",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "control task",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants viewed randomly moving dots with 0% coherence and were then cued by a yellow arrow to respond left or right. Arrow onset was timed so that the distribution of dot motion viewing times matched the experimental condition.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_arrows"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "block design",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "PsychToolbox",
+     "value_source": "reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Participants were told to ignore the randomly moving dots and respond according to the arrow.",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "Randomly moving dots with zero coherence followed by a yellow arrow indicating the response direction.",
+     "value_source": "reported"
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "dot motion viewing time",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_structural",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "anatomical scan",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "not_reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3 T Siemens Allegra scanner",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "An anatomical scan was acquired using an MPRAGE sequence.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "not_reported"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3 T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "MPRAGE",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "not_reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "not_reported"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "not_reported"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "1 \u00d7 0.5 \u00d7 0.5 mm",
+      "value_source": "reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   {
+    "local_id": "acq_bold",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "whole brain, BOLD-weighted echo-planar images",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "extracted",
+     "value": "1200",
+     "value_source": "generated"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3 T Siemens Allegra scanner",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Whole brain BOLD-weighted echo-planar images were acquired parallel to the anterior commissure-posterior commissure line while participants performed the task. Each session consisted of three approximately 20-min runs.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"matrix\":\"64 \u00d7 64 \u00d7 34 voxels\",\"orientation\":\"parallel to the anterior commissure-posterior commissure line\"}",
+     "value_source": "generated"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3 T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "echo-planar images",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "not_reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2 s",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "30 milliseconds",
+      "value_source": "reported"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "3 \u00d7 3 \u00d7 4 mm",
+      "value_source": "reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Functional images were aligned to correct for head movement, slice timing correction was performed, images were normalized to Montreal Neurological Institute coordinates and resampled, Gaussian smoothing was applied, and time series were scaled.",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "AFNI",
+      "value_source": "reported"
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "Functional images were aligned to correct for head movement during the scan.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Slice timing correction was performed using sine interpolation.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Images were normalized to Montreal Neurological Institute coordinates using the TT_N27 template.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Images were resampled at 3 \u00d7 3 \u00d7 3 mm3 resolution.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "A Gaussian smoothing kernel of 4 mm full-width at half-maximum was applied.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "All time series were scaled to have a mean signal value of 100.",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Head movement estimates were included as regressors in all analyses.",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_ddm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "drift diffusion model",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "not_reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Only drift rate was allowed to vary between conditions; the DDM noise parameter was set to 0.1; response times longer than 25 s were removed before fitting.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "participant-level behavioral model",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "DMA toolbox fitting algorithm",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "DMA toolbox (VandeKerckhove and Tuerlinckx, 2007, 2008)",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "multiple linear regression / general linear model",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "hemodynamic response function",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Ten regressors were used: up-ramp regressors for dots and arrows trials, down-ramp regressors for dots and arrows trials, and six standard motion-correction regressors. Each run included third-order polynomial baseline detrending. An additional GLM included a stick-function regressor at response time.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "first-level",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "multiple linear regression",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "AFNI\u2019s 3dDeconvolve",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_anova",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "voxel-wise ANOVA",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "not_reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "A three-factor repeated-measures ANOVA on four beta estimates per participant, with task type, ramp regressor type, and participants modeled as random effects. Multiple comparisons were corrected using AFNI\u2019s 3dClustSim with a voxelwise threshold of p < 0.001 and corrected threshold of p < 0.01.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "repeated-measures ANOVA",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "AFNI\u2019s 3dANOVA3; AFNI\u2019s 3dFWHMx; AFNI\u2019s 3dClustSim",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_dots",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "dots task",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Motion discrimination trials in which participants judged whether coherently moving dots moved leftward or rightward.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_arrows",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "arrows task",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Control trials with 0% coherence random dot motion followed by an arrow cue indicating whether to respond left or right; no evidence accumulation of the moving dots could take place.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "control task",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_low_coherence",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "low coherence condition",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Motion coherence was calibrated for approximately 75% correct performance; average coherence was 3.8%.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_high_coherence",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "high coherence condition",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Motion coherence was calibrated for approximately 85% correct performance; average coherence was 7.6%.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "analysis_experimentalmotion_control",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "experimentalmotion>control conditions",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_motion",
+     "exp_control"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_dots",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "dots task",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than the arrows task",
+       "value_source": "reported"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "task type",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "dots condition",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_arrows",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "arrows task",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than the dots task",
+       "value_source": "reported"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "task type",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "arrows condition",
+         "value_source": "reported"
+        }
+       }
+      ]
+     }
+    ],
+    "terms": [
+     "term_task_type",
+     "term_ramp_type",
+     "term_participants"
+    ],
+    "model_estimation": "model_anova",
+    "groups": [
+     {
+      "group": "g_retained",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "A significant main effect of condition on beta-weights, and an interaction between condition and ramp regressor type on beta-weights; beta-weights were greater during the perceptual decision making task (dots) than the control task (arrows), and the difference between up-ramp and down-ramp beta-weights was greater for dots trials than for arrows trials.",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "GLM parameter estimates (beta-weights)",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "beta-weights",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "ANOVA",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute coordinates (the TT_N27 template)",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.001",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.01",
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "spatial autocorrelation function fitted to a mixture model of Gaussian plus mono-exponential and AFNI's 3dClustSim",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "extracted",
+      "value": "bi-sided and face/edge nearest neighbor clustering parameters",
+      "value_source": "reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "No",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Participants were modeled as random effects.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "These areas should be involved in the decision making process, although not necessarily involved in evidence accumulation; the interaction indicates significant upward ramping activity that is more significant for the decision making task than for the control task.",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Areas showing both a main effect of trial type (dots vs. arrows) and an interaction between trial type and ramp regressor type (up-ramp vs. down-ramp) in GLM parameter estimates.",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Table 2. Areas showing both a main effect of trial type (dots vs. arrows) and an interaction between trial type and ramp regressor type (up-ramp vs. down-ramp) in GLM parameter estimates.",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Reports the name, voxel size, and center-of-mass location of all fourteen clusters showing both effects.",
+     "value_source": "reported"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 33366,
+  "completion": 6604,
+  "reasoning": 395,
+  "cached": 0
+ },
+ "usage_pass1": {
+  "prompt": 16443,
+  "completion": 4339,
+  "reasoning": 114,
+  "cached": 0
+ },
+ "usage_pass2": {
+  "prompt": 16923,
+  "completion": 2265,
+  "reasoning": 281,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 27784,
+ "service_tier_echo": "flex"
+}

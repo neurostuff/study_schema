@@ -1,0 +1,3212 @@
+{
+ "case_id": "nmb_20840335",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 2,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "a_prg_hc_gambling",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Gambling pictures versus neutral pictures: PRG relative to HC",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For gambling pictures versus neutral pictures, we found greater activation in left occipital cortex, bilateral parahippocampal gyrus, right amygdala and right DLPFC in PRG relative to HC."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "covering the entire brain except for the inferior regions of the cerebellum."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "reported with a cluster size restriction of 10 voxels at P < 0.05 corrected for multiple comparisons according to the Family Wise Error method"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "roi_label": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_cue"
+    ],
+    "conditions": [
+     {
+      "condition": "c_gambling",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For gambling pictures versus neutral pictures, we found greater activation"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For gambling pictures versus neutral pictures"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_prg",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "in PRG relative to HC"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "17 PRG, 18 HSM and 17 HC constituted the three groups used for statistical analysis."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_hc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "in PRG relative to HC"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "17 PRG, 18 HSM and 17 HC constituted the three groups used for statistical analysis."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "gambling pictures versus neutral pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For gambling pictures versus neutral pictures, we found greater activation in left occipital cortex, bilateral parahippocampal gyrus, right amygdala and right DLPFC in PRG relative to HC."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Cue Reactivity Task: BOLD activations for main effects"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "unit": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "one-way ANOVA",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Main effects and interaction effects were analyzed with one-way ANOVA implemented in SPM2"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "neutral pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For gambling pictures versus neutral pictures"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "reported with a cluster size restriction of 10 voxels at P < 0.05 corrected for multiple comparisons according to the Family Wise Error method"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": "10",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "reported with a cluster size restriction of 10 voxels at P < 0.05 corrected for multiple comparisons according to the Family Wise Error method"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Family Wise Error method",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "corrected for multiple comparisons according to the Family Wise Error method"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "search_volume": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "No",
+      "value_source": "generated",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "at P < 0.05 corrected for multiple comparisons"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "PRG showed higher brain activation compared with HC ... when viewing gambling pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "PRG showed higher brain activation compared with HC and HSM when viewing gambling pictures (compared with neutral pictures)"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_prg_hsm_gambling",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Gambling pictures versus neutral pictures: PRG relative to HSM",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Relative to the HSM, PRG showed higher bilateral occipital cortex, bilateral parahippocampal gyrus, bilateral amygdala, bilateral DLPFC and left VLPFC activation when viewing gambling pictures versus neutral pictures"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "covering the entire brain except for the inferior regions of the cerebellum."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "cluster size restriction of 10 voxels"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_cue"
+    ],
+    "conditions": [
+     {
+      "condition": "c_gambling",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "PRG showed higher ... activation when viewing gambling pictures versus neutral pictures"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "when viewing gambling pictures versus neutral pictures"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_prg",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Relative to the HSM, PRG showed higher"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "17 PRG, 18 HSM and 17 HC constituted the three groups used for statistical analysis."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_hsm",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Relative to the HSM, PRG showed higher"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "17 PRG, 18 HSM and 17 HC constituted the three groups used for statistical analysis."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "gambling pictures versus neutral pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Relative to the HSM, PRG showed higher bilateral occipital cortex, bilateral parahippocampal gyrus, bilateral amygdala, bilateral DLPFC and left VLPFC activation when viewing gambling pictures versus neutral pictures"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Cue Reactivity Task: BOLD activations"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "one-way ANOVA",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Main effects and interaction effects were analyzed with one-way ANOVA implemented in SPM2"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "neutral pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "gambling pictures versus neutral pictures"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "assessments": [],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   },
+   {
+    "local_id": "a_hsmhigh_hc_smoking",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Smoking-related pictures versus neutral pictures: FTND-high group relative to HC",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Greater activation was present in the ventromedial prefrontal cortex (VMPFC) bilaterally, in the rostral ACC bilaterally and in the left VLPFC in the FTND-high group compared with HC"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "covering the entire brain except for the inferior regions of the cerebellum."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "cluster size restriction of 5 voxels"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_cue"
+    ],
+    "conditions": [
+     {
+      "condition": "c_smoking",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Greater activation was present"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "smoking-related pictures versus neutral pictures"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_ftnd"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_ftnd_high",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "in the FTND-high group compared with HC"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "10",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "FTND-high group M = 5.4"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_hc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "compared with HC"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "17 PRG, 18 HSM and 17 HC constituted the three groups used for statistical analysis."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "smoking-related pictures versus neutral pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Greater activation was present in the ventromedial prefrontal cortex (VMPFC) bilaterally, in the rostral ACC bilaterally and in the left VLPFC in the FTND-high group compared with HC"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Cue-reactivity task: BOLD activations for group interactions"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "one-way ANOVA",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Main effects and interaction effects were analyzed with one-way ANOVA implemented in SPM2"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "neutral pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "smoking-related pictures versus neutral pictures"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "assessments": [],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   },
+   {
+    "local_id": "a_hsmhigh_hsmlow_smoking",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Smoking-related pictures versus neutral pictures: FTND-high group relative to FTND-low group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "in the FTND-high group compared with ... the FTND-low group."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "covering the entire brain except for the inferior regions of the cerebellum."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "cluster size restriction of 5 voxels"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_cue"
+    ],
+    "conditions": [
+     {
+      "condition": "c_smoking",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "in the FTND-high group compared with ... the FTND-low group."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "smoking-related pictures versus neutral pictures"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_ftnd"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_ftnd_high",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "in the FTND-high group compared with ... the FTND-low group."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "10",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "FTND-high group M = 5.4"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_ftnd_low",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "in the FTND-high group compared with ... the FTND-low group."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "8",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "FTND-low group: n = 8"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "smoking-related pictures versus neutral pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "in the FTND-high group compared with ... the FTND-low group."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Cue-reactivity task: BOLD activations for group interactions"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "one-way ANOVA",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Main effects and interaction effects were analyzed with one-way ANOVA implemented in SPM2"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "neutral pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "smoking-related pictures versus neutral pictures"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "assessments": [],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   },
+   {
+    "local_id": "a_prg_craving",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Gambling cue-related BOLD activation correlated with subjective craving in PRG",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Regression analyses indicated a positive relation between subjective craving for gambling after scanning in PRG and BOLD activation in the VLPFC, left anterior insula and left caudate head when viewing gambling pictures versus neutral pictures"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "covering the entire brain except for the inferior regions of the cerebellum."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "brain activation in the VLPFC, left anterior insula and left caudate head"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_cue"
+    ],
+    "conditions": [
+     {
+      "condition": "c_gambling",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "when viewing gambling pictures versus neutral pictures"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "when viewing gambling pictures versus neutral pictures"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_gambling_craving"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_prg",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "subjective craving for gambling after scanning in PRG"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "17 PRG, 18 HSM and 17 HC constituted the three groups used for statistical analysis."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "subjective craving for gambling after scanning and BOLD activation when viewing gambling pictures versus neutral pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Regression analyses indicated a positive relation between subjective craving for gambling after scanning in PRG and BOLD activation in the VLPFC, left anterior insula and left caudate head when viewing gambling pictures versus neutral pictures"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "BOLD activation"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "Regression analyses",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regression analyses indicated a positive relation"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "neutral pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "gambling pictures versus neutral pictures"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "assessments": [
+     "ass_gambling_urge"
+    ],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   },
+   {
+    "local_id": "a_hsm_craving",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Smoking cue-related BOLD activation correlated with nicotine craving in HSM",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A positive relation between subjective craving for nicotine after scanning in HSM and BOLD activation in the VLPFC and left amygdala region during viewing of smoking-related pictures versus neutral pictures was present"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "covering the entire brain except for the inferior regions of the cerebellum."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "BOLD activation in the VLPFC and left amygdala region"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_cue"
+    ],
+    "conditions": [
+     {
+      "condition": "c_smoking",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "during viewing of smoking-related pictures versus neutral pictures"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "smoking-related pictures versus neutral pictures"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_nicotine_craving"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_hsm",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "subjective craving for nicotine after scanning in HSM"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "17 PRG, 18 HSM and 17 HC constituted the three groups used for statistical analysis."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "subjective craving for nicotine after scanning and BOLD activation during viewing of smoking-related pictures versus neutral pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A positive relation between subjective craving for nicotine after scanning in HSM and BOLD activation in the VLPFC and left amygdala region during viewing of smoking-related pictures versus neutral pictures was present"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "BOLD activation"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "Regression analyses",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regression analyses indicated"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "neutral pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "smoking-related pictures versus neutral pictures"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "assessments": [
+     "ass_smoking_urge"
+    ],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   }
+  ],
+  "tables": [],
+  "conditions": [
+   {
+    "local_id": "c_gambling",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "gambling pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty gambling pictures, 30 smoking-related pictures, 30 neutral pictures and 30 low-level baseline pictures were presented randomly"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "gambling-related pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty gambling pictures"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "gambling pictures"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_smoking",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "smoking-related pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty gambling pictures, 30 smoking-related pictures, 30 neutral pictures and 30 low-level baseline pictures were presented randomly"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "smoking-related pictures"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "neutral pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty gambling pictures, 30 smoking-related pictures, 30 neutral pictures and 30 low-level baseline pictures were presented randomly"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "neutral pictures"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_baseline",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "low-level baseline pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty gambling pictures, 30 smoking-related pictures, 30 neutral pictures and 30 low-level baseline pictures were presented randomly"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "implicit baseline",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "low-level baseline pictures"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "t_ftnd",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "FTND score",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The Fagerstr\u00f6m Test for Nicotine Dependence (FTND) served as an indicator of nicotine dependence severity"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "indicator of nicotine dependence severity",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The Fagerstr\u00f6m Test for Nicotine Dependence (FTND) served as an indicator of nicotine dependence severity"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "FTND scores differed substantially within this group."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "exploratory analyses were done, comparing HSM with high FTND scores"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [],
+    "groups": [
+     "g_hsm",
+     "g_ftnd_high",
+     "g_ftnd_low"
+    ]
+   },
+   {
+    "local_id": "t_gambling_craving",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "subjective craving for gambling",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "subjective craving for gambling after scanning in PRG"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Regression analyses indicated a positive relation"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "subjective craving for gambling"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment": "ass_gambling_urge"
+   },
+   {
+    "local_id": "t_nicotine_craving",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "subjective craving for nicotine",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "subjective craving for nicotine after scanning in HSM"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A positive relation between subjective craving for nicotine"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "subjective craving for nicotine"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment": "ass_smoking_urge"
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_prg",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "PRG",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "17 treatment-seeking non-smoking PRG"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "treatment-seeking problem gamblers",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The PRG were recruited from two Dutch addiction treatment centers."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "all males, participated in this study"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "19",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Nineteen treatment-seeking PRG"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "inclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": "current treatment for gambling problems",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The main inclusion criterion for PRG was current treatment for gambling problems."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "exclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": "age under 18 years; difficulty reading Dutch; use of psychotropic medication; a lifetime diagnosis of schizophrenia or psychotic episodes; a 12-month diagnosis of manic disorder; current treatment for mental disorders other than those under study; physical conditions known to influence cognition or motor performance; positive urine screen for alcohol, amphetamines, benzodiazepines, opioids or cocaine; consumption of more than 21 units of alcohol per week",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Exclusion criteria for all groups were: age under 18 years; difficulty reading Dutch; use of psychotropic medication; a lifetime diagnosis of schizophrenia or psychotic episodes; a 12-month diagnosis of manic disorder, assessed with the respective sections of the Composite International Diagnostic Interview (CIDI; ; ); current treatment for mental disorders other than those under study; physical conditions known to influence cognition or motor performance (e.g. multiple sclerosis, rheumatic disease); positive urine screen for alcohol, amphetamines, benzodiazepines, opioids or cocaine; consumption of more than 21 units of alcohol per week."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": "problem gambling",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "current treatment for gambling problems"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_hsm",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "HSM",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "18 non-gambling HSM"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "all males, participated in this study"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "19",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "19 HSM"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "inclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": "smoked at least 15 cigarettes per day; did not engage in gambling activities more than twice a year",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "HSM were included if they smoked at least 15 cigarettes per day, and did not engage in gambling activities more than twice a year."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": "current smokers",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "HSM were current smokers"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "overnight smoking abstinent; 16\u201318 hours abstinent",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "HSM had to be overnight smoking abstinent"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_hc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "HC",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "17 non-gambling and non-smoking HC"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "all males, participated in this study"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "19",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "19 non-smoking HC"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "inclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": "never smoked; did not have a history of problem gambling; did not engage in gambling activities more than twice in the last year",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "HC never smoked, did not have a history of problem gambling and did not engage in gambling activities more than twice in the last year."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_ftnd_high",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "FTND-high group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "FTND-high group M = 5.4, SD = 0.5"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "HSM subgroup"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_ftnd_low",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "FTND-low group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "FTND-low group: n = 8, FTND-low group M = 2.9, SD = 1.0"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "HSM subgroup"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_cue",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "Cue Reactivity Task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In addition to the Cue Reactivity Task"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "A picture two-choice response task with gambling, smoking-related, neutral and low-level baseline pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A picture two-choice response task was used"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_gambling",
+     "c_smoking",
+     "c_neutral",
+     "c_baseline"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A functional magnetic resonance imaging event-related cue reactivity paradigm"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Participants had to press a response button with their left index finger when a face was present in the picture and ... with their right index finger when no face was present.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the gambling, smoking-related and neutral pictures, participants had to press a response button with their left index finger when a face was present in the picture and had to press a response button with their right index finger when no face was present."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "Thirty gambling pictures, 30 smoking-related pictures, 30 neutral pictures and 30 low-level baseline pictures",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty gambling pictures, 30 smoking-related pictures, 30 neutral pictures and 30 low-level baseline pictures were presented randomly"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "mean reaction time to the pictures in each stimulus category",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The performance parameter for the task was mean reaction time to the pictures in each stimulus category."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "acquisitions": [
+     "acq_fmri"
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional magnetic resonance imaging",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Imaging data was obtained using a 3.0 Tesla Philips Intera full-body fMRI scanner"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3.0 Tesla Philips Intera full-body fMRI scanner equipped with a standard SENSE RF head coil (Quasar gradient system, Philips Medical Systems BV, Eindhoven, the Netherlands)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Imaging data was obtained using a 3.0 Tesla Philips Intera full-body fMRI scanner equipped with a standard SENSE RF head coil (Quasar gradient system, Philips Medical Systems BV, Eindhoven, the Netherlands) located at the Academic Medical Center, Amsterdam."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "T2*-weighted echo planar images sensitive to BOLD contrast were acquired with 35 axial slices, 3 \u00d7 3 \u00d7 3 mm voxels, 0.3 mm interslice gap, 64 \u00d7 64 matrix, 90 kHz bandwidth, TE 35 ms and repetition time 2.28 seconds, covering the entire brain except for the inferior regions of the cerebellum.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "While participants performed the task, T2*-weighted echo planar images, sensitive to blood oxygenation level-dependent (BOLD) contrast were acquired (35 axial slices, voxel size 3 \u00d7 3 \u00d7 3 mm, interslice gap 0.3 mm, matrix size 64 \u00d7 64 mm, bandwidth 90 kHz, TE 35 ms, repetition time 2.28 seconds), covering the entire brain except for the inferior regions of the cerebellum."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3.0 Tesla",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "3.0 Tesla Philips Intera full-body fMRI scanner"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "echo planar images",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "T2*-weighted echo planar images"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2.28",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "repetition time 2.28 seconds"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.035",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TE 35 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "[3, 3, 3]",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel size 3 \u00d7 3 \u00d7 3 mm"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Images were slice-timed, reoriented, realigned, coregistered, normalized and spatially smoothed.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Images were slice-timed, reoriented and realigned to the first volume. Next, T1-coregistered volumes were normalized to an SPM T1-template (using 12 linear parameters and a set of non-linear cosine basis functions), and spatial smoothing was performed using an 8 mm FWHM Gaussian kernel."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM2",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Imaging analysis was done using SPM2"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "slice-timing",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Images were slice-timed"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "reorientation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "reoriented"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "realignment to the first volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "realigned to the first volume"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "normalization to an SPM T1-template",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "normalized to an SPM T1-template"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "spatial smoothing using an 8 mm FWHM Gaussian kernel",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "spatial smoothing was performed using an 8 mm FWHM Gaussian kernel"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "me_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "general linear model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The fMRI data were analyzed in the context of the general linear model"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "synthetic hemodynamic response function",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "using delta functions convolved with a synthetic hemodynamic response function"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "delta functions convolved with a synthetic hemodynamic response function to model responses to each stimulus type; single-subject contrast images entered into second-level random-effects analyses",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For each comparison of interest, single-subject contrast images were entered into second-level (random effects) analyses."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "second-level (random effects)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "second-level (random effects) analyses"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM2",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "one-way ANOVA implemented in SPM2"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "ass_gambling_urge",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "8-item gambling urge questionnaire",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "An 8-item gambling urge questionnaire, range 1\u20137"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "assess levels of gambling craving",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "were included to assess levels of gambling and nicotine craving, respectively."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "urge questionnaire"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "ass_smoking_urge",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "10-item smoking urge questionnaire",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a 10-item smoking urge questionnaire, range 1\u20137"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "assess levels of nicotine craving",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "were included to assess levels of gambling and nicotine craving, respectively."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "urge questionnaire"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study investigated brain activation patterns and cue reactivity to gambling and smoking pictures in treatment-seeking problem gamblers, heavy smokers and healthy controls, including relationships between cue-related activation and subjective craving.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "In the present study, we wanted to address these issues by investigating brain activation patterns to gambling or smoking cues in chronic PRGs seeking treatment, heavy smokers (HSM) and non-smoking non-gambling healthy controls (HC)."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "A functional magnetic resonance imaging event-related cue reactivity paradigm consisting of gambling, smoking-related, neutral and low-level baseline pictures was administered to treatment-seeking PRG, HSM and HC, with whole-brain group-interaction and craving-correlation analyses.",
+   "value_source": "reported",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "A functional magnetic resonance imaging event-related cue reactivity paradigm, consisting of gambling, smoking-related and neutral pictures, was employed in 17 treatment-seeking non-smoking PRG, 18 non-gambling HSM, and 17 non-gambling and non-smoking HC."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [],
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  }
+ },
+ "usage": {
+  "prompt": 15944,
+  "completion": 11463,
+  "reasoning": 81,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 47681,
+ "service_tier_echo": "flex"
+}
