@@ -239,6 +239,13 @@ classes:
           has been previously reported"). It is the difference between two papers being one
           sample and their sharing part of one, which is the difference between dropping a
           study and down-weighting it.
+      is_healthy:
+        range: ExtractedBoolean
+        description: >-
+          Whether this cohort is free of medical, neurological and psychiatric conditions.
+          Derived from `medical_condition` by `pondie.normalization.is_healthy`, never extracted,
+          so it cannot disagree with the field it summarises. Unset where `medical_condition`
+          was never read: that is an unread cohort, not a healthy one.
   CategoryDistribution:
     description: >-
       One category in an aggregate participant distribution. Labels are free text, kept in

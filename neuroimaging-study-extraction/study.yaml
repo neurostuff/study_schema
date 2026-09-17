@@ -137,6 +137,14 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Named external datasets used, cited, or made available by the study.
+      study_type:
+        range: string
+        multivalued: true
+        description: >-
+          PubMed publication types for this record, verbatim as the E-utilities API returns
+          them. Filled by `pondie.extraction.pubmed`, not read off the paper: it is what the
+          indexers said about the article, which is what a publication-type exclusion asks
+          about.
   ExternalDataset:
     description: A named external dataset, with an optional public location.
     attributes:

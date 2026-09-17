@@ -215,6 +215,51 @@ deviations:
         what says so. Without it the two halves look like independent findings, and a
         meta-analysis that counts both counts one sample twice.
 
+  - id: publication-type-is-filled-from-pubmed-onto-the-record
+    operation: add_slot
+    class: study.Study
+    slot: study_type
+    why: >-
+      Storage marks this `deterministic`, so the projection drops it, and the same argument
+      as `mirror_of` applies: the code that fills it runs on the extraction side, not at
+      ingestion, so the slot has to exist in the extraction record even though no pass
+      extracts it. Measured against the queries the benchmark's own meta-analyses ran, six
+      of sixteen exclude by publication type -- "editorial letters, case-reports, systematic
+      reviews, meta-analyses" (sleep deprivation), "systematic reviews or meta-analyses"
+      (social) -- and the criterion is unexpressible today because the slot is `None` on all
+      1,817 records with no writer anywhere in the package.
+
+      Native strings and not an `ExtractedValue`: PubMed is not the paper, so there is no
+      span in the source text to cite and `evidence` would have nothing honest to say. The
+      same reason `local_id` and the provenance fields are native.
+    definition:
+      range: string
+      multivalued: true
+      description: >-
+        PubMed publication types for this record, verbatim as the E-utilities API returns
+        them. Filled by `pondie.extraction.pubmed`, not read off the paper: it is what the
+        indexers said about the article, which is what a publication-type exclusion asks
+        about.
+
+  - id: is-healthy-is-derived-onto-the-record
+    operation: add_slot
+    class: group.Group
+    slot: is_healthy
+    why: >-
+      The same case as `study_type` and `mirror_of`, and it was already being written
+      without the declaration: `pondie.normalization.is_healthy.apply` fills the slot from
+      `medical_condition` after extraction, and the validator reported it as an undeclared
+      attribute on every group it touched -- 4,133 groups across the committed corpus.
+      Deriving it rather than asking was the right call and it left the record saying
+      something the schema did not know.
+    definition:
+      range: ExtractedBoolean
+      description: >-
+        Whether this cohort is free of medical, neurological and psychiatric conditions.
+        Derived from `medical_condition` by `pondie.normalization.is_healthy`, never
+        extracted, so it cannot disagree with the field it summarises. Unset where
+        `medical_condition` was never read: that is an unread cohort, not a healthy one.
+
   - id: region-definition-method-is-about-independence
     operation: describe_slot
     class: region.Region
