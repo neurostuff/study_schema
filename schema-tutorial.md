@@ -499,16 +499,18 @@ report one of them, and which one they reported is itself information.
 
 **Clinical.** `is_healthy`, `medical_condition` (multivalued: primary diagnosis and all
 comorbidities), `diagnostic_system`, `diagnostic_instrument`, `clinical_characteristics`,
-`medications`, `medication_status`.
+`medications`, `medication_status`. Beside them, **not clinical**:
+`population_characteristics`.
 
-Four boundaries here, all of them routinely crossed:
+Five boundaries here, all of them routinely crossed:
 
 | | | |
 |---|---|---|
-| `is_healthy` | Whether the source characterizes the cohort as healthy | `true` together with a non-empty `medical_condition` is a contradiction. No LinkML slot condition can emit a boolean constant, so the schema states the invariant in its root header and a record audit outside the schema enforces it (`audit_records.py` in the ns-validate review layer) |
+| `is_healthy` | Whether the cohort is free of medical, neurological and psychiatric conditions | The complement of `medical_condition`, not the source's choice of words: "healthy smokers" with nicotine dependence is `false`. Measured over 1,817 records, 168 groups had `true` beside a real diagnosis because the addiction and obesity literature uses "healthy" to mean free of comorbidity. `true` together with a non-empty `medical_condition` is a contradiction. No LinkML slot condition can emit a boolean constant, so the schema states the invariant in its root header and a record audit outside the schema enforces it (`audit_records.py` in the ns-validate review layer) |
 | `diagnostic_system` | The system the group's condition was diagnosed under | An edition inside an *instrument's title* does not establish it: "SCID for DSM-IV Axis II Disorders", used to screen comorbidities, says nothing about how the defining diagnosis was made |
 | `diagnostic_instrument` | Which of the study's `Assessment`s **classified this cohort** | Not everything administered to it. An interview screening a comorbidity the group is not defined by, or grading severity of a diagnosis made elsewhere, is an `Assessment` that nothing points at |
 | `medications` vs `medication_status` | The agents, one per entry / whether the cohort was medicated, drug-naive, withdrawn, on or off during acquisition | The state is what a synthesis filters on; the names are what it reports |
+| `population_characteristics` vs `medical_condition` | Non-pathological traits that define the cohort / diagnoses | The test is whether a clinician would diagnose it: obesity and alcohol dependence are conditions, "sedentary" and "social drinker" are not. Record what characterises the cohort, never what was screened out -- "excluding caffeine" in an exclusion list is not a caffeine characteristic, and the exclusion list was where these traits used to land |
 
 Groups defined by enrollment or history rather than by an instrument — a treatment programme's
 patients, self-reported users — name **no** `diagnostic_instrument`, and that emptiness is correct.
@@ -558,7 +560,8 @@ on the VBM analysis's `AnalysisGroup`, and `n: 24` on the resting-state one's. P
 | The analysed n as `acquired_count` | Fewer participants were scanned than were |
 | A screening interview as `diagnostic_instrument` | That instrument classified the cohort |
 | A DSM edition read out of an instrument's title | The defining diagnosis was made under that system |
-| `is_healthy: true` with a `medical_condition` | Both that the cohort was healthy and that it had a condition; rejected |
+| `is_healthy: true` with a `medical_condition` | Both that the cohort was free of conditions and that it had one; rejected |
+| A trait in `medical_condition` | That a clinician would diagnose "sedentary" or "undergraduate"; these are `population_characteristics` |
 | Task accuracy as an `Assessment` | A measurement independent of the paradigm, when it came out of the paradigm |
 
 ---

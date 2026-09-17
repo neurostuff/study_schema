@@ -162,8 +162,24 @@ classes:
         description: Aggregate ethnic distribution using the study-reported category labels.
       is_healthy:
         range: ExtractedBoolean
-        description: 'Whether the source characterizes this cohort as healthy: a healthy control
-          group, typically developing children, healthy volunteers. '
+        description: >-
+          Whether this cohort is free of medical, neurological and psychiatric conditions.
+          True asserts the absence of a diagnosis, not the source's choice of words, and is
+          the complement of `medical_condition`: if a condition is recorded for the group,
+          this is False even when the source calls the cohort healthy. "Healthy smokers" with
+          nicotine dependence is False, and the source's wording belongs in `description` or
+          `population_characteristics`. Leave unset when the source says nothing either way.
+      population_characteristics:
+        range: ExtractedStringList
+        description: >-
+          Non-pathological characteristics that define or distinguish this cohort: habitual
+          exposure (heavy caffeine use, social drinkers, smoking status), training or
+          expertise (athletes, musicians, bilinguals, gamers), occupation or social role
+          (veterans, undergraduates, shift workers), and lifestyle (sedentary, vegetarian,
+          meditation practitioners). Distinct from `medical_condition`, which takes
+          diagnoses: the test is whether a clinician would diagnose it. Record only what
+          characterises the cohort, not what was screened out -- "excluding caffeine" in an
+          exclusion list is not a caffeine characteristic.
       medical_condition:
         range: ExtractedStringList
         description: >-
