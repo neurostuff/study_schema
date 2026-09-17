@@ -215,6 +215,24 @@ classes:
         range: EvidenceSet
         multivalued: true
         inlined_as_list: true
+      unlocated_quotes:
+        range: integer
+        minimum_value: 1
+        description: >-
+          How many quotes were offered for this value that no locator could place in the
+          source text. Set by `build` and omitted where none were, so its presence is the
+          claim.
+
+          It exists because `status: not_found` collapsed two opposite faults. A value with
+          no quote at all is a recall failure -- the pass never proposed support. A value
+          whose quote was rejected is a fidelity failure -- support was proposed and
+          `spans.resolve` could not match it character-for-character. The two have opposite
+          fixes, and over 1,817 records 32,500 fields carried `value_source: reported` with
+          `not_found` and no way to tell which of the two had happened, so the warning that
+          fires on 98.6% of papers could not be acted on.
+
+          The same argument `EvidenceSource` was added for, one level up: a distinction the
+          pipeline already knows and the record did not carry.
 
   EvidenceSet:
     description: One independently sufficient set of source-text spans supporting a value.
