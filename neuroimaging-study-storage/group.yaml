@@ -195,29 +195,35 @@ classes:
         range: string
         multivalued: true
         description: >-
-          The catch-all for what characterizes this cohort and has no field of its own:
+          How this cohort **deviates from the typical**, where no other field covers it:
           habitual exposure (heavy caffeine use, social drinkers, smoking status), training
           or expertise (athletes, musicians, bilinguals, gamers), occupation or social role
-          (veterans, undergraduates, shift workers), and lifestyle (sedentary, vegetarian,
-          meditation practitioners).
+          (veterans, undergraduates, shift workers), lifestyle (sedentary, vegetarian,
+          meditation practitioners), and body habitus where it is atypical (obese,
+          overweight, underweight).
 
-          **Every other Group slot takes priority.** Do not record here anything that belongs
-          in `age_mean`, `age_minimum`, `age_maximum`, `age_median`, `sex_distribution`,
+          Deviation is the test, and it is what makes this field worth querying. A study
+          selects its cohort for something; that something is what belongs here. The
+          unremarkable does not: "normal weight", "healthy weight", "typically developing",
+          "right-handed", "no hearing loss" and an ordinary age range describe a cohort that
+          was not selected for anything, and recording them fills the field with the absence
+          of information. If every plausible cohort could carry the value, leave it out.
+
+          **Every other Group slot takes priority.** Nothing here that belongs in `age_mean`,
+          `age_minimum`, `age_maximum`, `age_median`, `sex_distribution`,
           `gender_distribution`, `handedness_distribution`, `race_distribution`,
           `ethnicity_distribution`, `education_summary`, `socioeconomic_status_summary`,
           `medications`, `medication_status`, `recruitment_method`, `species`,
-          `inclusion_criteria`, `exclusion_criteria` or `medical_condition`. A trait that
-          belongs to one of those is recorded there and not repeated here.
+          `inclusion_criteria`, `exclusion_criteria` or `medical_condition`. "All Caucasian"
+          is `race_distribution`; "children aged 8-11" is `age_minimum` and `age_maximum`;
+          "five participants were female" is `sex_distribution`.
 
-          Two specific exclusions, because the first version of this field collected both.
-          Not a demographic that already has a slot: "right-handed", "all Caucasian",
-          "children aged 8-11", "five participants were female" accounted for 8 of the first
-          33 entries and every one of them had somewhere better to go. And not a diagnosis:
-          where a trait is also the cohort's condition -- heavy drinking, obesity -- it goes
-          in `medical_condition` alone, which is where a clinician would look for it.
+          Not a diagnosis either. Where a trait is also the cohort's condition -- alcohol
+          dependence, obesity as a diagnosed disease -- `medical_condition` takes it alone,
+          which is where a clinician would look.
 
           What was screened out is not a characteristic. "Excluding caffeine" in an exclusion
-          list says nothing about caffeine use in the cohort, and `exclusion_criteria` was
+          list says nothing about caffeine use in the cohort, and `exclusion_criteria` is
           where these traits used to land.
       medical_condition:
         in_subset: [mvp, model_extracted]
