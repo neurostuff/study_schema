@@ -225,6 +225,35 @@ classes:
           What was screened out is not a characteristic. "Excluding caffeine" in an exclusion
           list says nothing about caffeine use in the cohort, and `exclusion_criteria` is
           where these traits used to land.
+      other_characteristics:
+        in_subset: [mvp, deterministic]
+        range: string
+        multivalued: true
+        description: >-
+          Cohort traits that are true but not selective: the entries moved out of
+          `population_characteristics` because every plausible cohort could carry them.
+          "normal weight", "typically developing", "right-handed", "normal or
+          corrected-to-normal vision", "no history of neurological illness", "MRI
+          compatible", "native English speakers" are the recurring forms.
+
+          **Derived, not extracted.** `pondie.normalization.population_characteristics`
+          partitions the extracted list and code writes this side of it, so the slot is
+          never put to a model. It exists because three rewrites of the
+          `population_characteristics` description could not keep these values out by
+          asking -- 24%, then 14%, then 7% of entries were still non-selective, on a
+          sample too small to tell those apart -- and because the alternative to moving
+          them is dropping them, which loses a cohort detail a reader auditing the study
+          wants to see.
+
+          The partition is by selectivity, not by truth. A value here is not wrong; it is
+          a value no query can usefully filter on, which is the only reason it cannot share
+          a field with the trait a study chose its cohort for.
+
+          Asymmetric where the literature is: "right-handed" is normative and "left-handed"
+          or "mixed-handed" is selective, because a study recruiting left-handers recruited
+          for that. Likewise a negated *condition* is normative ("no psychiatric history")
+          and a negated *exposure* is not ("no history of smoking" defines the control arm
+          of a smoking study).
       medical_condition:
         in_subset: [mvp, model_extracted]
         range: string
