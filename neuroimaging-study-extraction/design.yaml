@@ -29,9 +29,9 @@ enums:
       randomized:
         description: Participants were assigned to arms by a random or quasi-random procedure.
       non_randomized:
-        description: >-
-          Participants were assigned to arms by some deliberate non-random procedure, such
-          as clinician choice, self-selection, or an existing exposure.
+        description: |-
+          Participants were assigned to arms by some deliberate non-random procedure, such as clinician choice or self-selection. Something was still administered; only the procedure that decided who got it was not random.
+          A characteristic participants already had is not an assignment. Splitting a sample by diagnosis, exposure or genotype allocates nobody, and the study takes `not_applicable` here and `observational_cohorts` for its `assignment_structure`. 569 of 1,817 records read this value the other way.
       single_arm:
         description: >-
           Every participant received the same thing, so there was nothing to allocate. An
@@ -41,15 +41,20 @@ enums:
           Nothing was administered, so allocation does not apply. An observational cross-sectional
           study takes this value.
   AssignmentStructure:
-    description: >-
-      Whether the arms of the study are separate cohorts or the same participants at different
-      times. Open vocabulary: write the source's own wording in the field when nothing here
-      fits.
+    description: |-
+      How the cohorts a study compares came about. Open vocabulary: write the source's own wording in the field when nothing here fits.
+      **The first question is whether there are arms at all.** This enum used to ask only which *kind* of arms a study had, and a study with none has to answer something: over 1,817 records 1,120 said `parallel` and 956 of those declared no Arm, 93% of them with `allocation` of `non_randomized` or `not_applicable` and cohorts named "healthy controls", "bvFTD" and "smokers". Two cohorts are in parallel in the ordinary sense of the word, so the answer was reasonable and the vocabulary was wrong.
     permissible_values:
+      observational_cohorts:
+        description: |-
+          Two or more cohorts that were **not assigned to anything**: they differ by a characteristic the participants already had -- a diagnosis, an exposure, an age band, a trait score -- and nothing was administered. The commonest design in this literature, and it has **no arms**: leave `arms` empty and leave `Group.arm` empty, and let the cohorts reach an analysis through `FactorLevel.groups`, which is the slot that records which cohorts a contrast compared.
+          Patients against healthy controls is this. So is smokers against non-smokers, or carriers against non-carriers. `parallel` is not: nobody allocated anyone to having bvFTD.
+          One cohort rather than two is `single_group`. A cohort that was observed *and* given something -- an untreated patient group against a treated one -- has arms, so it is `parallel`.
+          **A within-subject structure takes priority over this value.** Where the same participants were also measured under several arms or on several occasions, answer `crossover` or `within_subject` even though the cohorts themselves were not assigned: the cohort comparison is already recorded, in `FactorLevel.groups`, and the repeated-measures structure has no other slot to go in. A study comparing two cohorts under two portion sizes, or men against women across a stress manipulation, is a mixed design and this field records the within-subject half.
       parallel:
-        description: >-
-          Each arm is a separate cohort, and no participant is in more than one, so the allocation
-          is a property of a Group: set `Group.arm`.
+        description: |-
+          Each arm is a separate cohort, and no participant is in more than one, so the allocation is a property of a Group: set `Group.arm`.
+          Requires that something was administered or assigned, and that the study has arms to put in `arms`. A between-cohort comparison with nothing administered is `observational_cohorts`; this value asserts an allocation, and asserting one that never happened is the error it is easiest to make here.
       crossover:
         description: >-
           Every participant passes through several arms, in an order that was randomized or
@@ -61,7 +66,10 @@ enums:
           no randomized order of arms to cross over. A single-arm pre-post design is this
           rather than a crossover.
       single_group:
-        description: One cohort measured once, with no arms and no repeated occasions to structure.
+        description: >-
+          One cohort measured **once**, with no arms and no repeated occasions to structure.
+          Both halves are required: two or more cohorts that were never assigned to anything
+          is `observational_cohorts`, and one cohort measured on several occasions is `within_subject`.
   Blinding:
     description: >-
       Who was kept unaware of the assignment. Open vocabulary: write the source's own wording
@@ -156,8 +164,11 @@ classes:
       assignment_structure:
         range: ExtractedAssignmentStructure
         description: >-
-          Whether the arms are separate cohorts or the same participants passing through several
-          arms. This is what says whether an arm reference belongs on a Group or on a Condition.
+          How the compared cohorts came about. Ask first whether anything was *administered
+          or assigned* at all: where nothing was, the answer is `observational_cohorts` and
+          the study has no arms. Only where something was does the rest of the question apply
+          -- separate cohorts, or the same participants passing through several arms -- and
+          that is what says whether an arm reference belongs on a Group or a Condition.
       blinding:
         range: ExtractedBlinding
         description: Who was kept unaware of the assignment.
