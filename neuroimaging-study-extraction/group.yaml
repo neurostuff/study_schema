@@ -160,26 +160,13 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Aggregate ethnic distribution using the study-reported category labels.
-      is_healthy:
-        range: ExtractedBoolean
-        description: >-
-          Whether this cohort is free of medical, neurological and psychiatric conditions.
-          True asserts the absence of a diagnosis, not the source's choice of words, and is
-          the complement of `medical_condition`: if a condition is recorded for the group,
-          this is False even when the source calls the cohort healthy. "Healthy smokers" with
-          nicotine dependence is False, and the source's wording belongs in `description` or
-          `population_characteristics`. Leave unset when the source says nothing either way.
       population_characteristics:
         range: ExtractedStringList
-        description: >-
-          Non-pathological characteristics that define or distinguish this cohort: habitual
-          exposure (heavy caffeine use, social drinkers, smoking status), training or
-          expertise (athletes, musicians, bilinguals, gamers), occupation or social role
-          (veterans, undergraduates, shift workers), and lifestyle (sedentary, vegetarian,
-          meditation practitioners). Distinct from `medical_condition`, which takes
-          diagnoses: the test is whether a clinician would diagnose it. Record only what
-          characterises the cohort, not what was screened out -- "excluding caffeine" in an
-          exclusion list is not a caffeine characteristic.
+        description: |-
+          The catch-all for what characterizes this cohort and has no field of its own: habitual exposure (heavy caffeine use, social drinkers, smoking status), training or expertise (athletes, musicians, bilinguals, gamers), occupation or social role (veterans, undergraduates, shift workers), and lifestyle (sedentary, vegetarian, meditation practitioners).
+          **Every other Group slot takes priority.** Do not record here anything that belongs in `age_mean`, `age_minimum`, `age_maximum`, `age_median`, `sex_distribution`, `gender_distribution`, `handedness_distribution`, `race_distribution`, `ethnicity_distribution`, `education_summary`, `socioeconomic_status_summary`, `medications`, `medication_status`, `recruitment_method`, `species`, `inclusion_criteria`, `exclusion_criteria` or `medical_condition`. A trait that belongs to one of those is recorded there and not repeated here.
+          Two specific exclusions, because the first version of this field collected both. Not a demographic that already has a slot: "right-handed", "all Caucasian", "children aged 8-11", "five participants were female" accounted for 8 of the first 33 entries and every one of them had somewhere better to go. And not a diagnosis: where a trait is also the cohort's condition -- heavy drinking, obesity -- it goes in `medical_condition` alone, which is where a clinician would look for it.
+          What was screened out is not a characteristic. "Excluding caffeine" in an exclusion list says nothing about caffeine use in the cohort, and `exclusion_criteria` was where these traits used to land.
       medical_condition:
         range: ExtractedStringList
         description: >-

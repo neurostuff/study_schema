@@ -45,34 +45,34 @@ enums:
           source labelled it so, not because a contrast used it that way.
   StimulusModality:
     description: >-
-      The sensory channel a task's stimuli were delivered through. Open vocabulary: write the
-      source's own wording in the field when nothing here fits.
+      The sensory channel a task's stimuli were delivered through. Open vocabulary: write
+      the source's own wording in the field when nothing here fits.
     permissible_values:
       visual:
         description: >-
           Anything seen -- photographs, faces, scenes, words on a screen, film clips, gratings,
-          a fixation cross. The commonest modality in the literature by a wide margin, and the
-          one a named stimulus set usually implies.
+          a fixation cross. The commonest modality in the literature by a wide margin, and
+          the one a named stimulus set usually implies.
       auditory:
         description: Anything heard -- speech, tones, music, environmental sounds, noise bursts.
       tactile:
         description: >-
-          Touch or somatosensory delivery -- brushing, vibration, pressure, temperature,
-          electrical or noxious stimulation of the skin.
+          Touch or somatosensory delivery -- brushing, vibration, pressure, temperature, electrical
+          or noxious stimulation of the skin.
       olfactory:
         description: An odour delivered to the nose.
       gustatory:
-        description: A taste delivered to the mouth -- sucrose, quinine, juice, a tasteless control.
+        description: A taste delivered to the mouth -- sucrose, quinine, juice, a tasteless
+          control.
       interoceptive:
         description: >-
-          A stimulus acting on internal state rather than an external sense -- gastric or bladder
-          distension, inspiratory load, infusion, induced hunger or thirst.
+          A stimulus acting on internal state rather than an external sense -- gastric or
+          bladder distension, inspiratory load, infusion, induced hunger or thirst.
       none:
         description: >-
-          A positive assertion that no stimulus was presented -- resting state, or a task driven
-          entirely by instruction or self-generated thought. Not the same as leaving the field
-          empty, which says nobody looked.
-
+          A positive assertion that no stimulus was presented -- resting state, or a task
+          driven entirely by instruction or self-generated thought. Not the same as leaving
+          the field empty, which says nobody looked.
   ResponseModality:
     description: >-
       How participants responded during a task. Open vocabulary: write the source's own wording
@@ -157,19 +157,13 @@ classes:
         range: ExtractedString
         description: >-
           The materials presented to participants, in the source's own terms -- the stimulus
-          set, its name, how many items. `stimulus_modality` carries the sensory channel; this
-          carries what the stimuli actually were.
+          set, its name, how many items. `stimulus_modality` carries the sensory channel;
+          this carries what the stimuli actually were.
       stimulus_modality:
         range: ExtractedStimulusModalityList
-        description: >-
-          The sensory channel the stimuli were delivered through. Multivalued because a paradigm
-          may use more than one -- a photograph with a spoken label.
-
-          Often not stated in those words: a source naming IAPS, NimStim, Ekman faces or film
-          clips has said `visual` without using the word. Inferring it from such a cue is
-          intended; quote the cue as the evidence, not the whole methods section, and mark the
-          value inferred. An inferred value stretched past the span that licensed it is worse
-          than an absent one -- it reads as fact downstream.
+        description: |-
+          The sensory channel the stimuli were delivered through. Multivalued because a paradigm may use more than one -- a photograph with a spoken label.
+          Often not stated in those words: a source naming IAPS, NimStim, Ekman faces or film clips has said `visual` without using the word. Inferring it from such a cue is intended, and the cue is what belongs in the evidence -- not the whole methods section. Screening criteria ask about stimulus modality routinely ("the emotional stimuli are VISUAL"), and against a free-text `stimuli` field that question cannot be answered.
       response_modality:
         range: ExtractedResponseModalityList
         description: >-
@@ -229,7 +223,6 @@ classes:
           - range: StimulusModality
           - range: string
         multivalued: true
-
   ExtractedResponseModalityList:
     is_a: ExtractedValue
     description: >-

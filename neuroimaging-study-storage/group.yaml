@@ -170,47 +170,55 @@ classes:
         inlined_as_list: true
         description: Aggregate ethnic distribution using the study-reported category labels.
       is_healthy:
-        in_subset: [mvp, model_extracted]
+        in_subset: [mvp, deterministic]
         range: boolean
         description: >-
           Whether this cohort is free of medical, neurological and psychiatric conditions.
-          True asserts the absence of a diagnosis, not the source's choice of words, and is
-          therefore the complement of `medical_condition`: if a condition is recorded for the
-          group, this is False even when the source calls the cohort healthy.
+          **Derived, not extracted**: code sets it from `medical_condition`, so it cannot
+          disagree with it.
 
-          That distinction is not pedantic. Across 1,817 extracted records, 168 groups carried
-          True alongside a real diagnosis -- "healthy male smokers" with nicotine dependence,
-          "tobacco-dependent smokers" with nicotine dependence, "obese subjects" with obesity
-          -- because the addiction and obesity literature says "healthy" to mean free of
-          comorbidity. Under this definition those are False, and the source's own wording
-          belongs in `description` or `population_characteristics`.
+          True when the group records no condition, or records only an assertion of absence
+          ("no neurological or psychiatric disorder", "healthy controls"). False when any
+          entry is a condition. Unset when `medical_condition` was never extracted -- that
+          is not a healthy cohort, it is an unread one.
 
-          Leave unset when the source says nothing either way. False is a positive assertion
-          that a condition is present; empty means nobody looked.
+          It was `model_extracted` until testing showed a description could not carry the
+          distinction. Asked directly, models answer with the source's wording: over 1,817
+          records 168 groups said True beside a real diagnosis, 132 of them
+          `value_source: reported`, because the addiction and obesity literature says
+          "healthy" to mean free of comorbidity. Rewriting this description to say otherwise
+          moved 2 of 5 test cases, and left `is_healthy=True` next to
+          `medical_condition=[obesity]` untouched. Deriving it removes the question instead
+          of rephrasing it.
       population_characteristics:
         in_subset: [mvp, model_extracted]
         range: string
         multivalued: true
         description: >-
-          Non-pathological characteristics that define or distinguish this cohort: habitual
-          exposure (heavy caffeine use, social drinkers, smoking status), training or
-          expertise (athletes, musicians, bilinguals, video-game players, professional
-          drivers), occupation or social role (veterans, undergraduates, shift workers), and
-          lifestyle (sedentary, vegetarian, meditation practitioners).
+          The catch-all for what characterizes this cohort and has no field of its own:
+          habitual exposure (heavy caffeine use, social drinkers, smoking status), training
+          or expertise (athletes, musicians, bilinguals, gamers), occupation or social role
+          (veterans, undergraduates, shift workers), and lifestyle (sedentary, vegetarian,
+          meditation practitioners).
 
-          Distinct from `medical_condition`, which takes diagnoses. The test is whether a
-          clinician would diagnose it: obesity and alcohol dependence are conditions,
-          "sedentary" and "social drinker" are not. A trait that has become a diagnosis in
-          this study's framing goes in `medical_condition` and may also appear here if the
-          source describes the cohort by it.
+          **Every other Group slot takes priority.** Do not record here anything that belongs
+          in `age_mean`, `age_minimum`, `age_maximum`, `age_median`, `sex_distribution`,
+          `gender_distribution`, `handedness_distribution`, `race_distribution`,
+          `ethnicity_distribution`, `education_summary`, `socioeconomic_status_summary`,
+          `medications`, `medication_status`, `recruitment_method`, `species`,
+          `inclusion_criteria`, `exclusion_criteria` or `medical_condition`. A trait that
+          belongs to one of those is recorded there and not repeated here.
 
-          Record only what characterises the cohort, not what was screened out: "excluding
-          caffeine" in an exclusion list is not a caffeine characteristic. Across 1,817
-          records these traits had nowhere to go and scattered into `exclusion_criteria`
-          (their commonest destination, where they mean the opposite),
-          `clinical_characteristics`, `education_summary`, `recruitment_method` and the
-          group's name -- so a query for studies of athletes or of caffeine users could not
-          be answered from a field.
+          Two specific exclusions, because the first version of this field collected both.
+          Not a demographic that already has a slot: "right-handed", "all Caucasian",
+          "children aged 8-11", "five participants were female" accounted for 8 of the first
+          33 entries and every one of them had somewhere better to go. And not a diagnosis:
+          where a trait is also the cohort's condition -- heavy drinking, obesity -- it goes
+          in `medical_condition` alone, which is where a clinician would look for it.
+
+          What was screened out is not a characteristic. "Excluding caffeine" in an exclusion
+          list says nothing about caffeine use in the cohort, and `exclusion_criteria` was
+          where these traits used to land.
       medical_condition:
         in_subset: [mvp, model_extracted]
         range: string
