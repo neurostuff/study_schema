@@ -1,0 +1,971 @@
+{
+ "case_id": "nmb_18801475",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "two_pass",
+ "tag": "two_pass_noev",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "a_whole_control_gt_sdi",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Control Subjects > SDI",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_t1"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "model_ancova",
+    "groups": [
+     {
+      "group": "g_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "control subjects compared with SDI",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_sdi",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "SDI",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "19",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm5",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Control subjects > SDI, adjusting for known confounds of age and global GM",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "regional GM volume",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.005",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "voxel-level p",
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "family-wise error (FWE)",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_whole_sdi_gt_control",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "SDI > Control Subjects",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_t1"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "model_ancova",
+    "groups": [
+     {
+      "group": "g_sdi",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "SDI compared with control subjects",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "19",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "control subjects",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm5",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "SDI > control subjects, with the same whole brain cluster-level correction for multiple comparisons",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "regional GM volume",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.005",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "voxel-level p",
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "family-wise error (FWE)",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_roi_left_medial_ofc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ROI Analysis: Left medial orbitofrontal region",
+     "value_source": "generated"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "one region of interest",
+     "value_source": "generated"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "averaged regions",
+     "value_source": "generated"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "Automated anatomic labeling (AAL) ROI library within Marsbar SPM toolbox",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "Frontal_Med_Orb_Left",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_t1"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "model_roi_ttest",
+    "groups": [
+     {
+      "group": "g_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "control > SDI",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_sdi",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "SDI",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "19",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm5",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "control > SDI, Frontal_Med_Orb_Left",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "GM volume",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "multiple comparison correction",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_roi_right_medial_ofc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ROI Analysis: Right medial orbitofrontal region",
+     "value_source": "generated"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "one region of interest",
+     "value_source": "generated"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "averaged regions",
+     "value_source": "generated"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "Automated anatomic labeling (AAL) ROI library within Marsbar SPM toolbox",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "Frontal_Med_Orb_Right",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_t1"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "model_roi_ttest",
+    "groups": [
+     {
+      "group": "g_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "control > SDI",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_sdi",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "SDI",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "19",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm5",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "control > SDI, Frontal_Med_Orb_Right",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "GM volume",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "multiple comparison correction",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_behavior_group_time",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Group \u00d7 time interaction on selection of bad decks",
+     "value_source": "generated"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "not applicable",
+     "value_source": "generated"
+    },
+    "acquisitions": [],
+    "experiments": [
+     "exp_igt"
+    ],
+    "conditions": [],
+    "terms": [
+     "term_group",
+     "term_time"
+    ],
+    "model_estimation": "model_rm_anova",
+    "groups": [
+     {
+      "group": "g_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "15",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_sdi",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "19",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Repeated measures analysis of variance analyzing for effects of group \u00d7 time interaction",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "selection of bad decks",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "F",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "multiple comparison correction",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_gm_behavior_correlation",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Correlation Between Decision-Making Performance and Medial OFC GM Volume",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "one region of interest",
+     "value_source": "generated"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxel",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "the voxel corresponding to the global maxima of the group difference model that localized to medial OFC",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "medial OFC",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_t1"
+    ],
+    "experiments": [
+     "exp_igt"
+    ],
+    "conditions": [],
+    "terms": [
+     "term_gm_volume",
+     "term_bad_deck_avoidance"
+    ],
+    "model_estimation": "model_partial_correlation",
+    "groups": [
+     {
+      "group": "g_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "15",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_sdi",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "19",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm5",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Partial correlation between medial OFC GM volume and avoidance of bad decks, adjusted for IQ, education, and total GM",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "medial OFC GM volume",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "r",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute",
+     "value_source": "reported"
+    },
+    "assessments": [
+     "assessment_gambling"
+    ],
+    "inference_settings": {
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_gm_symptom_correlation",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Correlation Between GM Volume and CIDI Symptom Count",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "one region of interest",
+     "value_source": "generated"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxel",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "medial OFC",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "medial OFC",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_t1"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [
+     "term_gm_volume",
+     "term_cidi_symptom_count"
+    ],
+    "model_estimation": "model_partial_correlation",
+    "groups": [
+     {
+      "group": "g_sdi",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "19",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm5",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Partial correlation between symptom count and medial OFC GM volume, adjusted for total GM, IQ, and age",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "medial OFC GM volume",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "correlation",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute",
+     "value_source": "reported"
+    },
+    "assessments": [
+     "assessment_cidi"
+    ],
+    "inference_settings": {
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_gender_gm_anova",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Effects of Gender on GM Volume and Decision-Making Behavior",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated"
+    },
+    "acquisitions": [
+     "acq_t1"
+    ],
+    "experiments": [
+     "exp_igt"
+    ],
+    "conditions": [],
+    "terms": [
+     "term_gender",
+     "term_group",
+     "term_gender_group_interaction"
+    ],
+    "model_estimation": "model_2x2_anova",
+    "groups": [
+     {
+      "group": "g_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_sdi",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "19",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm5",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "A 2 \u00d7 2 (gender, group) ANOVA with covariates of age and total GM, evaluating for a main effect of gender and gender \u00d7 group interactions on GM volume",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "GM volume",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "F",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "multiple comparison correction",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 16970,
+  "completion": 52077,
+  "reasoning": 48111,
+  "cached": 8380
+ },
+ "usage_pass1": {
+  "prompt": 8383,
+  "completion": 48000,
+  "reasoning": 48000,
+  "cached": 8380
+ },
+ "usage_pass2": {
+  "prompt": 8587,
+  "completion": 4077,
+  "reasoning": 111,
+  "cached": 0
+ },
+ "finish_reason": "length/stop",
+ "raw_chars": 17091,
+ "parse_error": "pass1=JSONDecodeError: Expecting value: line 1 column 1 (char 0) pass2=None",
+ "service_tier_echo": "flex"
+}

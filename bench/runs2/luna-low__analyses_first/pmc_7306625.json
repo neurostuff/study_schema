@@ -1,0 +1,2226 @@
+{
+ "case_id": "pmc_7306625",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 2,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "OpenAI",
+   "extractor_version": "1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "analyses": [
+   {
+    "local_id": "ana_error_interaction",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "repeated measures ANOVA of time (pre, post) by group (rIFC-NF group, lPHG-NF group)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A repeated-measures ANOVA was then conducted to test the interaction of time (pre, post) by group (rIFC-NF group, lPHG-NF group)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "3D voxel clusters",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "After that, a cluster-level threshold was computed for the resulting 3D voxel clusters and set in such a way as to produce less than one false positive cluster per map, in this analysis achieved at cluster-level p < 0.02."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The voxel-level threshold was first set to p < 0.05 to give maximum sensitivity and to minimize type II errors."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_stop"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_failed_stop",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "unsuccessful stop trials",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The individual and group-level analysis methods are described in detail elsewhere ( Brammer et al., 1997 , Bullmore et al., 1999a , Bullmore et al., 1999b ). Version 4.1 of the non-parametric XBAM software package ( Brammer et al., 1997 ) was used to analyse the data. The data analyses details are described in detail in Alegria et al. (2017 ) and in the supplementary material . Individual Analysis. The main experimental condition of error monitoring in the stop task, e.g. failed stop trials, against an implicit baseline, e.g. the go trials, was obtained using a standard GLM approach."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "In the rIFC-NF group, compared to the lPHG-NF group, the repeated measures ANOVA showed increased activation during the unsuccessful stop\u2013go trials post- relative to pre-fMRI-NF"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "cond_go",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "go trials",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The main experimental condition of error monitoring in the stop task, e.g. failed stop trials, against an implicit baseline, e.g. the go trials, was obtained using a standard GLM approach."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The main experimental condition of error monitoring in the stop task, e.g. failed stop trials, against an implicit baseline, e.g. the go trials, was obtained using a standard GLM approach."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_time",
+     "term_group",
+     "term_time_group"
+    ],
+    "model_estimation": "model_glm",
+    "groups": [
+     {
+      "group": "g_rifc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "rIFC-NF group compared to the lPHG-NF group",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The study was a single-blind randomised controlled trial investigating the effect of fMRI-NF of the rIFC in 18 boys with ADHD (rIFC-NF group) compared to an active control group of 13 boys with ADHD (lPHG-NF group)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "16",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For the purpose of this analysis, only the participants who completed the stop task were included, resulting in 16 in the rIFC-NF group and 11 in the lPHG-NF group."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_lphg",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "compared to the rIFC-NF group",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "In the rIFC-NF group, compared to the lPHG-NF group, the repeated measures ANOVA showed increased activation during the unsuccessful stop\u2013go trials post- relative to pre-fMRI-NF"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "11",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For the purpose of this analysis, only the participants who completed the stop task were included, resulting in 16 in the rIFC-NF group and 11 in the lPHG-NF group."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "unsuccessful stop trials minus go trials post- relative to pre-fMRI-NF in the rIFC-NF group compared to the lPHG-NF group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the rIFC-NF group, compared to the lPHG-NF group, the repeated measures ANOVA showed increased activation during the unsuccessful stop\u2013go trials post- relative to pre-fMRI-NF in the left premotor cortex/postcentral gyrus (BA 6/4) and in a cluster comprising the left anterior insula and inferior frontal cortex reaching into putamen (BA 45) ( Table 4 , Fig. 2 )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "brain activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Table 4 Changes in brain activation in the rIFC-NF ADHD group compared to the lPHG ADHD group."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "BOLD response",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "These BOLD responses were then correlated with the changes post- versus pre- fMRI-NF in post-error reaction times to go signals, as well as with the primary clinical outcome measures of the ADHD-RS."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "ANOVA",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A repeated-measures ANOVA was then conducted to test the interaction of time (pre, post) by group (rIFC-NF group, lPHG-NF group)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "implicit baseline, e.g. the go trials",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The main experimental condition of error monitoring in the stop task, e.g. failed stop trials, against an implicit baseline, e.g. the go trials, was obtained using a standard GLM approach."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl4"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Individual goodness-of-fit statistic (SSQ-ratio) maps were created and transformed into standard space ( Talairach and Tournoux, 1988 )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [
+     "assess_adhdrs"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The cluster p-value is adjusted to eliminate any potential false positive cluster from the map, i.e. we can be confident that all the clusters we see are not false positives (based on our non-parametric data-driven analysis)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The voxel-level threshold was first set to p < 0.05 to give maximum sensitivity and to minimize type II errors."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The voxel-level threshold was first set to p < 0.05 to give maximum sensitivity and to minimize type II errors."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.02,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "After that, a cluster-level threshold was computed for the resulting 3D voxel clusters and set in such a way as to produce less than one false positive cluster per map, in this analysis achieved at cluster-level p < 0.02."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "direct permutation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The necessary combination of voxel- and cluster-level thresholds was not assumed from theory but rather was determined by direct permutation, giving excellent type I error control ( Bullmore et al., 1999b )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.02,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "After that, a cluster-level threshold was computed for the resulting 3D voxel clusters and set in such a way as to produce less than one false positive cluster per map, in this analysis achieved at cluster-level p < 0.02."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "the increased brain activation in the cluster comprising left inferior fronto-insular-striatal regions in the rIFC-NF relative to the lPHG-NF group after compared to before fMRI-NF was related with improvement in total and in hyperactivity/impulsiveness ADHD symptoms",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "This suggests that the increased brain activation in the cluster comprising left inferior fronto-insular-striatal regions in the rIFC-NF relative to the lPHG-NF group after compared to before fMRI-NF was related with improvement in total and in hyperactivity/impulsiveness ADHD symptoms."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "ana_nf_baseline",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "group activation across all 11 fMRI-NF runs in both groups",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "3.5 Group activation across all 11 fMRI-NF runs in both groups"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "group brain activation map",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For this purpose, a group brain activation map was produced for the fMRI-NF condition contrasted with the baseline condition."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A voxel-wise test at p < 0.05 was conducted to identify any voxels that might plausibly be activated, followed by a subsequent test at a cluster-level threshold of p < 0.011 to remove false positive clusters produced by the voxel level test."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_nf"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_nf",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "We found increased brain activation, averaged across all runs, in both groups"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "cond_nf_baseline",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For this purpose, a group brain activation map was produced for the fMRI-NF condition contrasted with the baseline condition."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "model_glm",
+    "groups": [
+     {
+      "group": "g_rifc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "we conducted a group activation map across all participants (rIFC-NF and lPHG-NF groups) for the NF condition versus baseline"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "16",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All participants who completed the stop task (16 participants in the rIFC-NF group and 11 in the lPHG-NF group) were included in the analyses."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_lphg",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "we conducted a group activation map across all participants (rIFC-NF and lPHG-NF groups) for the NF condition versus baseline"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "11",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All participants who completed the stop task (16 participants in the rIFC-NF group and 11 in the lPHG-NF group) were included in the analyses."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "fMRI-NF condition versus baseline, averaged across all 11 runs",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 5 Brain activation in both groups combined during Neurofeedback compared to baseline averaged across all 11 runs."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "brain activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found increased brain activation, averaged across all runs, in both groups"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "baseline condition",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For this purpose, a group brain activation map was produced for the fMRI-NF condition contrasted with the baseline condition."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl5"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "standard space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Individual goodness-of-fit statistic (SSQ-ratio) maps were created and transformed into standard space ( Talairach and Tournoux, 1988 )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Hypothesis testing was carried out at the cluster level."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A voxel-wise test at p < 0.05 was conducted to identify any voxels that might plausibly be activated, followed by a subsequent test at a cluster-level threshold of p < 0.011 to remove false positive clusters produced by the voxel level test."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A voxel-wise test at p < 0.05 was conducted to identify any voxels that might plausibly be activated, followed by a subsequent test at a cluster-level threshold of p < 0.011 to remove false positive clusters produced by the voxel level test."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.011,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A voxel-wise test at p < 0.05 was conducted to identify any voxels that might plausibly be activated, followed by a subsequent test at a cluster-level threshold of p < 0.011 to remove false positive clusters produced by the voxel level test."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "permutation testing",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Combined voxel/cluster tests with permutation testing allow for excellent Type 1 error control ( Bullmore et al, 1999b )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Demographic, clinical, and medication status characteristics and number of fMRI-NF runs in active and control ADHD groups at baseline."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Demographic, clinical, and medication status characteristics and number of fMRI-NF runs in active and control ADHD groups at baseline.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Demographic, clinical, and medication status characteristics and number of fMRI-NF runs in active and control ADHD groups at baseline."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Baseline demographic, clinical, medication, and neurofeedback run characteristics.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Demographic, clinical, and medication status characteristics and number of fMRI-NF runs in active and control ADHD groups at baseline."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Behaviour ratings before and after real-time fMRI neurofeedback training for each ADHD group."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Behaviour ratings before and after real-time fMRI neurofeedback training for each ADHD group.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Behaviour ratings before and after real-time fMRI neurofeedback training for each ADHD group."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Performance measures in the Stop task at pre- and post-fMRI-NF for each ADHD group."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Performance measures in the Stop task at pre- and post-fMRI-NF for each ADHD group.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Performance measures in the Stop task at pre- and post-fMRI-NF for each ADHD group."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl4",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 4",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 4 Changes in brain activation in the rIFC-NF ADHD group compared to the lPHG ADHD group."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Changes in brain activation in the rIFC-NF ADHD group compared to the lPHG ADHD group.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 4 Changes in brain activation in the rIFC-NF ADHD group compared to the lPHG ADHD group."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl5",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 5",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 5 Brain activation in both groups combined during Neurofeedback compared to baseline averaged across all 11 runs."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Brain activation in both groups combined during Neurofeedback compared to baseline averaged across all 11 runs.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 5 Brain activation in both groups combined during Neurofeedback compared to baseline averaged across all 11 runs."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_failed_stop",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "failed stop trials",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The main experimental condition of error monitoring in the stop task, e.g. failed stop trials, against an implicit baseline, e.g. the go trials, was obtained using a standard GLM approach."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "unsuccessful stop trials",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the current study, we focussed instead on the contrast of unsuccessful stop trials minus go trials which measures the brain response that mediates error monitoring"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The tracking stop task is a very efficient tool to investigate motor response inhibition as well as error monitoring."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "cond_go",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "go trials",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The contrast of motor response inhibition measures in the 50% successful stop versus go trials has been published previously"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "It is a choice reaction time task where participants are instructed to respond as fast as they can to arrows pointing left or right."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "cond_nf",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "NF condition",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For this purpose, a group brain activation map was produced for the fMRI-NF condition contrasted with the baseline condition."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the activation blocks, the neurofeedback of the target region was represented by a video of a rocket"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "cond_nf_baseline",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "baseline condition",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For this purpose, a group brain activation map was produced for the fMRI-NF condition contrasted with the baseline condition."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "rest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The run always started with a rest block showing an image of a dolphin."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_time",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "time",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A repeated-measures ANOVA was then conducted to test the interaction of time (pre, post) by group (rIFC-NF group, lPHG-NF group)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "time (pre, post)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A repeated-measures ANOVA was then conducted to test the interaction of time (pre, post) by group (rIFC-NF group, lPHG-NF group)."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "term_group",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A repeated-measures ANOVA was then conducted to test the interaction of time (pre, post) by group (rIFC-NF group, lPHG-NF group)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "group (rIFC-NF group, lPHG-NF group)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A repeated-measures ANOVA was then conducted to test the interaction of time (pre, post) by group (rIFC-NF group, lPHG-NF group)."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "term_time_group",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "interaction of time by group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A repeated-measures ANOVA was then conducted to test the interaction of time (pre, post) by group (rIFC-NF group, lPHG-NF group)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical interaction",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A repeated-measures ANOVA was then conducted to test the interaction of time (pre, post) by group (rIFC-NF group, lPHG-NF group)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A repeated-measures ANOVA was then conducted to test the interaction of time (pre, post) by group (rIFC-NF group, lPHG-NF group)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "interaction_with": [
+     "term_time",
+     "term_group"
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_rifc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "rIFC-NF group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The study was a single-blind randomised controlled trial investigating the effect of fMRI-NF of the rIFC in 18 boys with ADHD (rIFC-NF group) compared to an active control group of 13 boys with ADHD (lPHG-NF group)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "boys with ADHD",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-seven boys with ADHD between 12 and 17 years of age (mean (SD) = 14 (1.5)) were included in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "18",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The study was a single-blind randomised controlled trial investigating the effect of fMRI-NF of the rIFC in 18 boys with ADHD (rIFC-NF group)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "DSM-5",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-four participants met the DSM-5 criteria for the ADHD combined hyperactive/impulsive subtype, while three met the criteria for the ADHD inattentive subtype."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "ADHD",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Twenty-seven boys with ADHD between 12 and 17 years of age"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "14",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-seven boys with ADHD between 12 and 17 years of age (mean (SD) = 14 (1.5)) were included in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "1.5",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-seven boys with ADHD between 12 and 17 years of age (mean (SD) = 14 (1.5)) were included in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "12",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-seven boys with ADHD between 12 and 17 years of age"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "17",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-seven boys with ADHD between 12 and 17 years of age"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-seven boys with ADHD between 12 and 17 years of age"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "Fourteen rIFC-NF participants and seven participants in the lPHG-NF group received psychostimulant medication during the study; in all cases the medication regime was stable",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Fourteen rIFC-NF participants and seven participants in the lPHG-NF group received psychostimulant medication during the study (rIFC-NF group: methylphenidate: N = 12, dexamphetamine: N = 2; lPHG-NF group: methylphenidate: N = 7); in all cases the medication regime was stable, with a period of at least seven days after titration before testing started."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_lphg",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "lPHG-NF group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The study was a single-blind randomised controlled trial investigating the effect of fMRI-NF of the rIFC in 18 boys with ADHD (rIFC-NF group) compared to an active control group of 13 boys with ADHD (lPHG-NF group)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "boys with ADHD",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-seven boys with ADHD between 12 and 17 years of age (mean (SD) = 14 (1.5)) were included in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "13",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "compared to an active control group of 13 boys with ADHD (lPHG-NF group)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "ADHD",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Twenty-seven boys with ADHD between 12 and 17 years of age"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "One boy in the lPHG-NF group was medication-na\u00efve.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "One boy in the lPHG-NF group was medication-na\u00efve."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_stop",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "fMRI tracking stop task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Before and after NF training, participants underwent an fMRI tracking stop task"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "A choice reaction time task investigating motor response inhibition and error monitoring, with go trials and stop signals.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The tracking stop task is a very efficient tool to investigate motor response inhibition as well as error monitoring. It is a choice reaction time task where participants are instructed to respond as fast as they can to arrows pointing left or right."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "cond_failed_stop",
+     "cond_go"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In 20% of the trials, this \u201cgo\u201d signal is followed by a stop signal, and participants have to inhibit their response."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "post-error reaction time to go signals",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The key dependent variable of interest for this analysis was therefore the post-error reaction time to go signals"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "stop signal reaction time (SSRT)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Other variables assessed were the dependent variable for the inhibitory process: the stop signal reaction time (SSRT)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "local_id": "exp_nf",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "fMRI-NF protocol",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The fMRI-NF protocol consisted of four 1 h to 1.15 hr sessions within a 2-week period"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Real-time fMRI neurofeedback training involving activation blocks, rest blocks, rocket feedback, and self-regulation.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the activation blocks, the neurofeedback of the target region was represented by a video of a rocket, which the participants were asked to move toward space using any strategy they could."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "cond_nf",
+     "cond_nf_baseline"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "block design",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Each fMRI-NF run consisted of 6 activation blocks of 40 s, separated by a rest block of 30 s."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "fMRI-NF performance",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The fMRI-NF performance was acquired for each run, for each participant as another way to measure brain regulation capacity."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "fMRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "2.5 FMRI data acquisition and processing"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Real-time fMRI data were acquired for neurofeedback and an fMRI stop task; target ROIs were mapped using T1-weighted structural and two-volume EPI localizer images.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Two target ROIs (rIFC and lPHG - ROI TAR ) were defined in Talairach space and mapped to the individual participant\u2019s fMRI scans via the T1-weighted structural image and a two-volume EPI localizer image collected at the start of each session."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": 2,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The video of the rocket displayed a continuous feedback, meaning that the direction and distance travelled in space was updated every MRI repetition time (TR, i.e., 2 s)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   },
+   {
+    "local_id": "acq_t1",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "T1-weighted structural image",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "mapped to the individual participant\u2019s fMRI scans via the T1-weighted structural image"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The fMRI data underwent realignment, motion correction, smoothing, global detrending and spin-excitation history correction.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The fMRI data underwent realignment, motion correction, smoothing, global detrending and spin-excitation history correction."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "AFNI",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A custom fMRI-NF interface system ( Bodurka and Bandettini, 2008 ) and the AFNI software ( Cox, 1996 ) were used for real-time transfer and analysis of the fMRI data."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "XBAM version 4.1",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Version 4.1 of the non-parametric XBAM software package ( Brammer et al., 1997 ) was used to analyse the data."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "realignment",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The fMRI data underwent realignment, motion correction, smoothing, global detrending and spin-excitation history correction."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "motion correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The fMRI data underwent realignment, motion correction, smoothing, global detrending and spin-excitation history correction."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "smoothing",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The fMRI data underwent realignment, motion correction, smoothing, global detrending and spin-excitation history correction."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "global detrending",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The fMRI data underwent realignment, motion correction, smoothing, global detrending and spin-excitation history correction."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "spin-excitation history correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The fMRI data underwent realignment, motion correction, smoothing, global detrending and spin-excitation history correction."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "standard GLM approach",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The main experimental condition of error monitoring in the stop task, e.g. failed stop trials, against an implicit baseline, e.g. the go trials, was obtained using a standard GLM approach."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "individual and group-level",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The individual and group-level analysis methods are described in detail elsewhere"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "XBAM version 4.1",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Version 4.1 of the non-parametric XBAM software package ( Brammer et al., 1997 ) was used to analyse the data."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "wavelet-based data resampling method",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The time series analysis of individual data was then performed with a wavelet-based data resampling method"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "assess_adhdrs",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ADHD rating scale (ADHD-RS)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Both primary and secondary outcome measures were parent-rated questionnaires, the ADHD rating scale (ADHD-RS) and the CPRS-R, respectively."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Assesses ADHD symptoms according to the DSM-5 and monitors treatment effects.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The ADHD-RS assesses ADHD symptoms according to the DSM-5 and also monitors treatment effects"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "parent-rated questionnaire",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Both primary and secondary outcome measures were parent-rated questionnaires"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study investigated whether fMRI neurofeedback targeting the right inferior frontal cortex altered error-monitoring brain activation and behavioural or clinical outcomes in adolescents with ADHD, compared with active-control neurofeedback targeting the left parahippocampal gyrus.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "The study was a single-blind randomised controlled trial investigating the effect of fMRI-NF of the rIFC in 18 boys with ADHD (rIFC-NF group) compared to an active control group of 13 boys with ADHD (lPHG-NF group)."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "single-blind randomised controlled trial with pre- and post-fMRI neurofeedback assessment and an active control group",
+   "value_source": "reported",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "The study was a single-blind randomised controlled trial investigating the effect of fMRI-NF of the rIFC in 18 boys with ADHD (rIFC-NF group) compared to an active control group of 13 boys with ADHD (lPHG-NF group)."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": []
+ },
+ "usage": {
+  "prompt": 16300,
+  "completion": 14522,
+  "reasoning": 105,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 67560,
+ "service_tier_echo": "flex"
+}

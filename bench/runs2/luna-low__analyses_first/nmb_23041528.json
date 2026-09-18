@@ -1,0 +1,2725 @@
+{
+ "case_id": "nmb_23041528",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 6,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "analyses": [
+   {
+    "local_id": "a_hvc_searchlight",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "High visibility condition searchlight classification analysis",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Second, the searchlight classification analysis revealed that the category of highly visible object stimuli was encoded in the bilateral visual cortex/LOC (accuracy 61%; )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "searchlight",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The mean probability of correct classification (decoding accuracy) assigned to each central voxel of a searchlight was then combined to three-dimensional maps of local decoding accuracy values for each condition and each participant."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For a given position in the brain, a searchlight cluster was defined as a sphere of N voxels (c 1\u2026N ), with radius of 4 voxels ( ), constructed around the central voxel v i ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_decision"
+    ],
+    "conditions": [
+     {
+      "condition": "c_hvc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_choice"
+    ],
+    "model_estimation": "me_glm_searchlight",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "15",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The data from the remaining 15 participants (7 female; mean age 25 years; range 21\u201328) were used for the analyses."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_mvpa",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "decode the category of highly visible object stimuli",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Second, the searchlight classification analysis revealed that the category of highly visible object stimuli was encoded in the bilateral visual cortex/LOC (accuracy 61%; )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "decoding accuracy",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The mean probability of correct classification (decoding accuracy) assigned to each central voxel of a searchlight was then combined to three-dimensional maps of local decoding accuracy values for each condition and each participant."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "probability of correct classification",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The mean probability of correct classification (decoding accuracy) assigned to each central voxel of a searchlight was then combined to three-dimensional maps of local decoding accuracy values for each condition and each participant."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Third, replicating our earlier findings ( ), choices under high visibility could exclusively be decoded from the LOC ( p < .05, FWE-corrected for clusters, 10 voxel cluster threshold; accuracy left LOC 58%; accuracy right LOC 61%; )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "chance",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute EPI template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "These maps were normalized to a standard stereotaxic space (Montreal Neurological Institute EPI template) and smoothed with a Gaussian kernel of 6 mm FWHM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Third, replicating our earlier findings ( ), choices under high visibility could exclusively be decoded from the LOC ( p < .05, FWE-corrected for clusters, 10 voxel cluster threshold; accuracy left LOC 58%; accuracy right LOC 61%; )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": "10",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Third, replicating our earlier findings ( ), choices under high visibility could exclusively be decoded from the LOC ( p < .05, FWE-corrected for clusters, 10 voxel cluster threshold; accuracy left LOC 58%; accuracy right LOC 61%; )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE-corrected for clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Third, replicating our earlier findings ( ), choices under high visibility could exclusively be decoded from the LOC ( p < .05, FWE-corrected for clusters, 10 voxel cluster threshold; accuracy left LOC 58%; accuracy right LOC 61%; )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Third, replicating our earlier findings ( ), choices under high visibility could exclusively be decoded from the LOC ( p < .05, FWE-corrected for clusters, 10 voxel cluster threshold; accuracy left LOC 58%; accuracy right LOC 61%; )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {
+     "decoded_variable": {
+      "extraction_status": "extracted",
+      "value": "category choices",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The parameter estimates for each voxel position formed the basis of subsequent searchlight decoding analyses for choices in all three conditions."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "classes": [
+      {
+       "label": {
+        "extraction_status": "extracted",
+        "value": "piano",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Trials were assigned to piano- and chair-trials according to participants' choices in all three conditions (HVC, PGC, FDC) in separate analyses."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "condition": "c_piano"
+      },
+      {
+       "label": {
+        "extraction_status": "extracted",
+        "value": "chair",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Trials were assigned to piano- and chair-trials according to participants' choices in all three conditions (HVC, PGC, FDC) in separate analyses."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "condition": "c_chair"
+      }
+     ],
+     "performance_metrics": [
+      {
+       "name": {
+        "extraction_status": "extracted",
+        "value": "accuracy",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Second, the searchlight classification analysis revealed that the category of highly visible object stimuli was encoded in the bilateral visual cortex/LOC (accuracy 61%; )."
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "value": {
+        "extraction_status": "extracted",
+        "value": "61",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Second, the searchlight classification analysis revealed that the category of highly visible object stimuli was encoded in the bilateral visual cortex/LOC (accuracy 61%; )."
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     ],
+     "validation_scheme": {
+      "extraction_status": "extracted",
+      "value": "six-fold cross-validation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A six-fold cross-validation was performed by repeating the classification process independently with the pattern vectors of each run as the \u201ctest data set\u201d."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_pgc_searchlight",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Perceptual guessing condition searchlight classification analysis",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We found that the choice outcome of perceptual guesses could only be decoded from the medial posterior parietal cortex/precuneus ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; accuracy 61%; )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "searchlight",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We then used a \u201csearchlight\u201d decoding approach ( ) to search for brain regions that encoded participants' category choices in all three conditions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For a given position in the brain, a searchlight cluster was defined as a sphere of N voxels (c 1\u2026N ), with radius of 4 voxels ( ), constructed around the central voxel v i ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_decision"
+    ],
+    "conditions": [
+     {
+      "condition": "c_pgc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_choice"
+    ],
+    "model_estimation": "me_glm_searchlight",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "14",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "One participant's choices were strongly imbalanced in more than half of the runs and were completely excluded."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_mvpa",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "decode the choice outcome of perceptual guesses",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We found that the choice outcome of perceptual guesses could only be decoded from the medial posterior parietal cortex/precuneus ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; accuracy 61%; )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "decoding accuracy",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The mean probability of correct classification (decoding accuracy) assigned to each central voxel of a searchlight was then combined to three-dimensional maps of local decoding accuracy values for each condition and each participant."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found that the choice outcome of perceptual guesses could only be decoded from the medial posterior parietal cortex/precuneus ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; accuracy 61%; )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "chance",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute EPI template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "These maps were normalized to a standard stereotaxic space (Montreal Neurological Institute EPI template) and smoothed with a Gaussian kernel of 6 mm FWHM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found that the choice outcome of perceptual guesses could only be decoded from the medial posterior parietal cortex/precuneus ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; accuracy 61%; )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": "10",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found that the choice outcome of perceptual guesses could only be decoded from the medial posterior parietal cortex/precuneus ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; accuracy 61%; )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE-corrected for clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found that the choice outcome of perceptual guesses could only be decoded from the medial posterior parietal cortex/precuneus ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; accuracy 61%; )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found that the choice outcome of perceptual guesses could only be decoded from the medial posterior parietal cortex/precuneus ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; accuracy 61%; )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_fdc_searchlight",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Free decision condition searchlight classification analysis",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Searchlight decoding showed that besides the medial parietal cortex ( p = .009 uncorrected; accuracy 57%; see ), outcomes of free decisions were also encoded in the anterior medial prefrontal cortex (aMPFC; p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; accuracy 64%; )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "searchlight",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We then used a \u201csearchlight\u201d decoding approach ( ) to search for brain regions that encoded participants' category choices in all three conditions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For a given position in the brain, a searchlight cluster was defined as a sphere of N voxels (c 1\u2026N ), with radius of 4 voxels ( ), constructed around the central voxel v i ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_decision"
+    ],
+    "conditions": [
+     {
+      "condition": "c_fdc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_choice"
+    ],
+    "model_estimation": "me_glm_searchlight",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "15",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The data from the remaining 15 participants (7 female; mean age 25 years; range 21\u201328) were used for the analyses."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_mvpa",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "decode outcomes of free decisions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Searchlight decoding showed that besides the medial parietal cortex ( p = .009 uncorrected; accuracy 57%; see ), outcomes of free decisions were also encoded in the anterior medial prefrontal cortex (aMPFC; p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; accuracy 64%; )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "decoding accuracy",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Searchlight decoding showed that besides the medial parietal cortex ( p = .009 uncorrected; accuracy 57%; see ), outcomes of free decisions were also encoded in the anterior medial prefrontal cortex (aMPFC; p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; accuracy 64%; )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Searchlight decoding showed that besides the medial parietal cortex ( p = .009 uncorrected; accuracy 57%; see ), outcomes of free decisions were also encoded in the anterior medial prefrontal cortex (aMPFC; p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; accuracy 64%; )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "chance",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute EPI template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "These maps were normalized to a standard stereotaxic space (Montreal Neurological Institute EPI template) and smoothed with a Gaussian kernel of 6 mm FWHM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Searchlight decoding showed that besides the medial parietal cortex ( p = .009 uncorrected; accuracy 57%; see ), outcomes of free decisions were also encoded in the anterior medial prefrontal cortex (aMPFC; p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; accuracy 64%; )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE-corrected for clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Searchlight decoding showed that besides the medial parietal cortex ( p = .009 uncorrected; accuracy 57%; see ), outcomes of free decisions were also encoded in the anterior medial prefrontal cortex (aMPFC; p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; accuracy 64%; )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_cross_pgc_to_fdc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Cross-condition classification from perceptual guessing to free decisions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The pattern vectors from one condition (e.g. perceptual guessing) were used to train the classifier to distinguish between choices for pianos and chairs, but instead of predicting the participants' choices in the one remaining run within the same condition, it was used to predict decisions from the left-out run for the other condition (e.g. free decisions, and vice versa)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "searchlight",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We then used a \u201csearchlight\u201d decoding approach ( ) to search for brain regions that encoded participants' category choices in all three conditions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For a given position in the brain, a searchlight cluster was defined as a sphere of N voxels (c 1\u2026N ), with radius of 4 voxels ( ), constructed around the central voxel v i ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_decision"
+    ],
+    "conditions": [
+     {
+      "condition": "c_pgc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "training condition",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The pattern vectors from one condition (e.g. perceptual guessing) were used to train the classifier"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_fdc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "test condition",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "it was used to predict decisions from the left-out run for the other condition (e.g. free decisions, and vice versa)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_choice"
+    ],
+    "model_estimation": "me_glm_searchlight",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "15",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The data from the remaining 15 participants (7 female; mean age 25 years; range 21\u201328) were used for the analyses."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_mvpa",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "guesses could be predicted from classifiers trained on free choices and vice versa",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We found that two clusters bilaterally located in the precuneus allowed a bi-directional classification such that guesses could be predicted from classifiers trained on free choices and vice versa"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "peak accuracy",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found that two clusters bilaterally located in the precuneus allowed a bi-directional classification such that guesses could be predicted from classifiers trained on free choices and vice versa ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; peak accuracy 57%; )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found that two clusters bilaterally located in the precuneus allowed a bi-directional classification such that guesses could be predicted from classifiers trained on free choices and vice versa ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; peak accuracy 57%; )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "chance",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute EPI template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "These maps were normalized to a standard stereotaxic space (Montreal Neurological Institute EPI template) and smoothed with a Gaussian kernel of 6 mm FWHM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found that two clusters bilaterally located in the precuneus allowed a bi-directional classification such that guesses could be predicted from classifiers trained on free choices and vice versa ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; peak accuracy 57%; )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE-corrected for clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found that two clusters bilaterally located in the precuneus allowed a bi-directional classification such that guesses could be predicted from classifiers trained on free choices and vice versa ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; peak accuracy 57%; )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_cross_fdc_to_pgc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Cross-condition classification from free decisions to perceptual guessing",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Both ways of cross-condition classification were performed"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "searchlight",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We then used a \u201csearchlight\u201d decoding approach ( ) to search for brain regions that encoded participants' category choices in all three conditions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For a given position in the brain, a searchlight cluster was defined as a sphere of N voxels (c 1\u2026N ), with radius of 4 voxels ( ), constructed around the central voxel v i ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_decision"
+    ],
+    "conditions": [
+     {
+      "condition": "c_fdc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "training condition",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The pattern vectors from one condition (e.g. perceptual guessing) were used to train the classifier"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_pgc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "test condition",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "it was used to predict decisions from the left-out run for the other condition (e.g. free decisions, and vice versa)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_choice"
+    ],
+    "model_estimation": "me_glm_searchlight",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "15",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The data from the remaining 15 participants (7 female; mean age 25 years; range 21\u201328) were used for the analyses."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_mvpa",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "free decisions could predict perceptual guesses",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Both ways of cross-condition classification were performed"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "cross-condition classification accuracy",
+      "value_source": "generated",
+      "evidence": {
+       "status": "not_found"
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found that two clusters bilaterally located in the precuneus allowed a bi-directional classification such that guesses could be predicted from classifiers trained on free choices and vice versa ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; peak accuracy 57%; )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "chance",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute EPI template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "These maps were normalized to a standard stereotaxic space (Montreal Neurological Institute EPI template) and smoothed with a Gaussian kernel of 6 mm FWHM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found that two clusters bilaterally located in the precuneus allowed a bi-directional classification such that guesses could be predicted from classifiers trained on free choices and vice versa ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; peak accuracy 57%; )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE-corrected for clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found that two clusters bilaterally located in the precuneus allowed a bi-directional classification such that guesses could be predicted from classifiers trained on free choices and vice versa ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; peak accuracy 57%; )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_conjunction_cross",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Inclusive conjunction of both cross-condition classification directions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Only regions that successfully supported both directions of prediction were considered significant."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "searchlight",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We then used a \u201csearchlight\u201d decoding approach ( ) to search for brain regions that encoded participants' category choices in all three conditions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For a given position in the brain, a searchlight cluster was defined as a sphere of N voxels (c 1\u2026N ), with radius of 4 voxels ( ), constructed around the central voxel v i ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_decision"
+    ],
+    "conditions": [
+     {
+      "condition": "c_pgc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      }
+     },
+     {
+      "condition": "c_fdc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_choice"
+    ],
+    "model_estimation": "me_glm_searchlight",
+    "groups": [
+     {
+      "group": "g_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "15",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The data from the remaining 15 participants (7 female; mean age 25 years; range 21\u201328) were used for the analyses."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_mvpa",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "inclusive conjunction test for both contrasts",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Both ways of cross-condition classification were performed and an ANOVA was applied followed by an inclusive conjunction test for both contrasts."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "decoding accuracy",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The mean probability of correct classification (decoding accuracy) assigned to each central voxel of a searchlight was then combined to three-dimensional maps of local decoding accuracy values for each condition and each participant."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "ANOVA",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Both ways of cross-condition classification were performed and an ANOVA was applied followed by an inclusive conjunction test for both contrasts."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "chance",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute EPI template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "These maps were normalized to a standard stereotaxic space (Montreal Neurological Institute EPI template) and smoothed with a Gaussian kernel of 6 mm FWHM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found that two clusters bilaterally located in the precuneus allowed a bi-directional classification such that guesses could be predicted from classifiers trained on free choices and vice versa ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; peak accuracy 57%; )."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE-corrected for clusters",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We found that two clusters bilaterally located in the precuneus allowed a bi-directional classification such that guesses could be predicted from classifiers trained on free choices and vice versa ( p < .05, FWE-corrected for clusters; 10 voxel cluster threshold; peak accuracy 57%; )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {
+     "components": [
+      {
+       "analysis_id": "a_cross_pgc_to_fdc",
+       "definition": {
+        "extraction_status": "extracted",
+        "value": "perceptual guessing patterns predicted free decisions",
+        "value_source": "generated",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "The pattern vectors from one condition (e.g. perceptual guessing) were used to train the classifier"
+            }
+           ]
+          }
+         ]
+        }
+       }
+      },
+      {
+       "analysis_id": "a_cross_fdc_to_pgc",
+       "definition": {
+        "extraction_status": "extracted",
+        "value": "free decision patterns predicted perceptual guesses",
+        "value_source": "generated",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Both ways of cross-condition classification were performed"
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     ],
+     "null_hypothesis": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "implementation": {
+      "extraction_status": "extracted",
+      "value": "inclusive conjunction test",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Both ways of cross-condition classification were performed and an ANOVA was applied followed by an inclusive conjunction test for both contrasts."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   }
+  ],
+  "tables": [],
+  "conditions": [
+   {
+    "local_id": "c_hvc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "high visibility condition",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Perceptual choices under high visibility: On each trial the sequence contained an object image (piano or chair) that was clearly visible."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants identified the category of a clearly visible piano or chair.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants were asked to identify the category of the presented object."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_pgc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "perceptual guessing condition",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Perceptual choices under \u201clow visibility\u201d (perceptual guesses): Participants were given the same task but the timing of the stimuli was chosen to yield strong masking and the sequence only contained a neutral noise image instead of an object."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants guessed whether the invisible object was a piano or chair.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The use of noise stimuli guaranteed that participants' decisions were pure guesses or free choices (for pianos or chairs), without residual visibility influencing either process."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_fdc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "free decision condition",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The third condition was a free decision condition (FDC) for the same two categories."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants spontaneously chose piano or chair independent of the stimulus.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the FDC, participants were presented with the same stimulus sequence as for the PGC but they were instructed to spontaneously choose the category that first came to their mind, independent of the presentation."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_piano",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "piano",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Trials were assigned to piano- and chair-trials according to participants' choices in all three conditions (HVC, PGC, FDC) in separate analyses."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_chair",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "chair",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Trials were assigned to piano- and chair-trials according to participants' choices in all three conditions (HVC, PGC, FDC) in separate analyses."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_choice",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "category choices",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The parameter estimates for each voxel position formed the basis of subsequent searchlight decoding analyses for choices in all three conditions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [
+     "c_piano",
+     "c_chair"
+    ],
+    "groups": [],
+    "levels": {
+     "extraction_status": "extracted",
+     "value": "piano; chair",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Trials were assigned to piano- and chair-trials according to participants' choices in all three conditions (HVC, PGC, FDC) in separate analyses."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_participants",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "participants",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Sixteen right-handed participants with normal or corrected to normal visual acuity gave written informed consent and participated in the study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Sixteen right-handed participants with normal or corrected to normal visual acuity gave written informed consent and participated in the study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "16",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Sixteen right-handed participants with normal or corrected to normal visual acuity gave written informed consent and participated in the study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "excluded_count": {
+     "extraction_status": "extracted",
+     "value": "1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "One participant indicated that he had noticed the missing object images and was excluded."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "25 years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The data from the remaining 15 participants (7 female; mean age 25 years; range 21\u201328) were used for the analyses."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "21",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The data from the remaining 15 participants (7 female; mean age 25 years; range 21\u201328) were used for the analyses."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "28",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The data from the remaining 15 participants (7 female; mean age 25 years; range 21\u201328) were used for the analyses."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The data from the remaining 15 participants (7 female; mean age 25 years; range 21\u201328) were used for the analyses."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The data from the remaining 15 participants (7 female; mean age 25 years; range 21\u201328) were used for the analyses."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "7",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The data from the remaining 15 participants (7 female; mean age 25 years; range 21\u201328) were used for the analyses."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Sixteen right-handed participants with normal or corrected to normal visual acuity gave written informed consent and participated in the study."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_decision",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "category choices about pianos and chairs",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Here, we conducted an event-related fMRI study in which participants made category choices about pianos and chairs using three different conditions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants performed high-visibility perceptual choices, perceptual guesses under zero visibility, and free choices.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The experiment implemented three conditions (equal number of trials per condition in each run)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_hvc",
+     "c_pgc",
+     "c_fdc"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Here, we conducted an event-related fMRI study in which participants made category choices about pianos and chairs using three different conditions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Participants were asked to identify visible objects, make perceptual guesses, or spontaneously choose the category that first came to mind.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the FDC, participants were presented with the same stimulus sequence as for the PGC but they were instructed to spontaneously choose the category that first came to their mind, independent of the presentation."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "24 pictures of pianos and chairs, masks, and a scrambled phase-texture noise image",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The stimuli were 24 pictures of pianos and chairs, created from freely available pictures from the Internet or custom-made photographs, showing objects in different natural backgrounds ( )."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_bold",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "Functional MRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Functional MRI volumes of the whole brain were acquired using a Siemens TRIO 3 T scanner (Erlangen, Germany) with a standard head coil (42 axial slices, TR = 2800 ms, echo time TE = 30 ms, resolution 3 \u00d7 3 \u00d7 2 mm 3 with 1 mm gap)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "Siemens TRIO 3 T scanner (Erlangen, Germany) with a standard head coil",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Functional MRI volumes of the whole brain were acquired using a Siemens TRIO 3 T scanner (Erlangen, Germany) with a standard head coil (42 axial slices, TR = 2800 ms, echo time TE = 30 ms, resolution 3 \u00d7 3 \u00d7 2 mm 3 with 1 mm gap)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Whole-brain functional MRI volumes were acquired; six runs contained 208 volumes each, with the first two volumes discarded.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Within each of the six runs, 208 volumes were acquired for each participant using gradient-echo EPI."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3 T",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional MRI volumes of the whole brain were acquired using a Siemens TRIO 3 T scanner"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "gradient-echo EPI",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Within each of the six runs, 208 volumes were acquired for each participant using gradient-echo EPI."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2.8",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional MRI volumes of the whole brain were acquired using a Siemens TRIO 3 T scanner (Erlangen, Germany) with a standard head coil (42 axial slices, TR = 2800 ms, echo time TE = 30 ms, resolution 3 \u00d7 3 \u00d7 2 mm 3 with 1 mm gap)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.03",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional MRI volumes of the whole brain were acquired using a Siemens TRIO 3 T scanner (Erlangen, Germany) with a standard head coil (42 axial slices, TR = 2800 ms, echo time TE = 30 ms, resolution 3 \u00d7 3 \u00d7 2 mm 3 with 1 mm gap)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "3 \u00d7 3 \u00d7 2 mm3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional MRI volumes of the whole brain were acquired using a Siemens TRIO 3 T scanner (Erlangen, Germany) with a standard head coil (42 axial slices, TR = 2800 ms, echo time TE = 30 ms, resolution 3 \u00d7 3 \u00d7 2 mm 3 with 1 mm gap)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "number_of_volumes": {
+      "extraction_status": "extracted",
+      "value": "208",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Within each of the six runs, 208 volumes were acquired for each participant using gradient-echo EPI."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_mvpa",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Motion corrected and unsmoothed brain images were used for the multivariate GLM and searchlight analyses; maps were normalized and smoothed with a 6 mm Gaussian kernel.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "First, motion corrected and unsmoothed brain images were used for a general linear model (GLM), which was then used for statistical analyses on the individual participant level"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM2",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "First, motion corrected and unsmoothed brain images were used for a general linear model (GLM), which was then used for statistical analyses on the individual participant level (using SPM2, http://www.fil.ion.ucl.ac.uk/spm/ )."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "motion correction; no spatial smoothing before GLM; normalization to a standard stereotaxic space; Gaussian smoothing with 6 mm FWHM",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "These maps were normalized to a standard stereotaxic space (Montreal Neurological Institute EPI template) and smoothed with a Gaussian kernel of 6 mm FWHM."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "local_id": "prep_univariate",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Volumes were motion corrected, normalized to MNI space, resampled to 3 \u00d7 3 \u00d7 3 mm3, and smoothed with an 8 mm FWHM Gaussian kernel.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All volumes were then normalized to MNI space, re-sampled to a voxel size of 3 \u00d7 3 \u00d7 3 mm 3 and smoothed with a Gaussian kernel of 8 mm FWHM."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM2",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "First, all data was motion corrected to the first volume of the first run using SPM2."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "motion correction to first volume; normalization to MNI space; resampling; Gaussian smoothing",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "First, all data was motion corrected to the first volume of the first run using SPM2. All volumes were then normalized to MNI space, re-sampled to a voxel size of 3 \u00d7 3 \u00d7 3 mm 3 and smoothed with a Gaussian kernel of 8 mm FWHM."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "me_glm_searchlight",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "general linear model (GLM)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "First, motion corrected and unsmoothed brain images were used for a general linear model (GLM), which was then used for statistical analyses on the individual participant level"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "canonical haemodynamic response function (HRF)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For each run, trials were modelled as events, beginning with the presentation of the cue, and convolved with the canonical haemodynamic response function (HRF), to obtain the regressors."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Trials were modelled as events beginning with cue presentation, separately for piano and chair trials and each run and condition.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Trials were assigned to piano- and chair-trials according to participants' choices in all three conditions (HVC, PGC, FDC) in separate analyses."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "individual participant level and random-effects group-level",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Random-effects group-level analyses were computed on a voxel-by-voxel basis to identify searchlight positions where local patterns had significant decoding accuracy across all participants."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "estimator": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM2; LIBSVM toolbox",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For this, we used a linear support vector pattern classifier with a fixed regularisation parameter C = 1"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "assessments": [],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study tested whether perceptual guesses and free decisions share neural mechanisms by using fMRI pattern classification and cross-condition prediction.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Here we directly investigated whether perceptual guesses share brain networks with other types of free decisions."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Event-related fMRI study with three decision conditions, using searchlight multivariate pattern classification and cross-condition classification between perceptual guessing and free decisions.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Here, we conducted an event-related fMRI study in which participants made category choices about pianos and chairs using three different conditions."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": []
+ },
+ "usage": {
+  "prompt": 16081,
+  "completion": 12210,
+  "reasoning": 88,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 51932,
+ "service_tier_echo": "flex"
+}

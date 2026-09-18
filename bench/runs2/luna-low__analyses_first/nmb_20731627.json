@@ -1,0 +1,1159 @@
+{
+ "case_id": "nmb_20731627",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 2,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "ana_smokers_gt_nonsmokers",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Differences between smokers and non-smokers in regional gray matter volumes",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To further investigate the effects of chronic cigarette smoking on structural brain changes, we applied whole-brain voxel-based morphometry (VBM) to quantify regional gray matter volume between 44 otherwise healthy chronic cigarette smokers and 44 matched non-smoking control subjects."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To further investigate the effects of chronic cigarette smoking on structural brain changes, we applied whole-brain voxel-based morphometry (VBM) to quantify regional gray matter volume between 44 otherwise healthy chronic cigarette smokers and 44 matched non-smoking control subjects."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A voxel-wise two-sample t-test analysis in SPM5 and total gray matter volume was set as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_structural_mri"
+    ],
+    "experiments": [
+     "exp_structural_vbm"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_smoking",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side: smokers",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "gray matter volume was lower in the smokers that in the non-smokers group"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "cond_non_smoking",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side: non-smokers",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "gray matter volume was lower in the smokers that in the non-smokers group"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_group",
+     "term_total_gm"
+    ],
+    "model_estimation": "model_vbm_group",
+    "groups": [
+     {
+      "group": "g_smokers",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "smokers",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "gray matter volume was lower in the smokers that in the non-smokers group"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "44",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "A total of 44 smokers and 44 non-smokers, 19-39 years of age were recruited from local community by advertisements."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_non_smokers",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "non-smokers",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "gray matter volume was lower in the smokers that in the non-smokers group"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "44",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "A total of 44 smokers and 44 non-smokers, 19-39 years of age were recruited from local community by advertisements."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "smokers versus non-smokers for regional gray matter volume, with total gray matter volume as a covariate",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To examine differences in regional gray matter volume between groups, a voxel-wise two-sample t-test analysis in SPM5 and total gray matter volume was set as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "In the VBM analysis, gray matter volume was lower in the smokers that in the non-smokers group in the left thalamus, left medial frontal cortex (Brodmann area 10) and left anterior cingulated"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "regional gray matter volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "To further investigate the effects of chronic cigarette smoking on structural brain changes, we applied whole-brain voxel-based morphometry (VBM) to quantify regional gray matter volume between 44 otherwise healthy chronic cigarette smokers and 44 matched non-smoking control subjects."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "two-sample t-test",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "To examine differences in regional gray matter volume between groups, a voxel-wise two-sample t-test analysis in SPM5 and total gray matter volume was set as covariates."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All clusters shown exceed an uncorrected statistical threshold of voxel-level P\u2003<\u20030.001 and a cluster size threshold of 100 consecutive voxels."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.001",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "An initial threshold of 100 voxels (a voxel size equal to 1\u2003mm3) or greater surviving an uncorrected threshold of P\u2003<\u20030.001 was set."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected P",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "An initial threshold of 100 voxels (a voxel size equal to 1\u2003mm3) or greater surviving an uncorrected threshold of P\u2003<\u20030.001 was set."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": "100",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All clusters shown exceed an uncorrected statistical threshold of voxel-level P\u2003<\u20030.001 and a cluster size threshold of 100 consecutive voxels."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FDR correction was not survived",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We have to point out that the results in the present study must be interpreted with caution because it failed to survive the FDR correction."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "reduction of regional gray matter volume in smokers",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "This voxel-based morphometry study is showing reduction of regional gray matter volume in smokers, which might better guide future research into the pathogenesis of chronic smoking."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the VBM analysis, gray matter volume was lower in the smokers that in the non-smokers group in the left thalamus, left medial frontal cortex (Brodmann area 10) and left anterior cingulated (see Fig.\u20031 and Table\u20031)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "caption": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "footer": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "column_headings": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Reports the VBM group differences.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the VBM analysis, gray matter volume was lower in the smokers that in the non-smokers group in the left thalamus, left medial frontal cortex (Brodmann area 10) and left anterior cingulated (see Fig.\u20031 and Table\u20031)."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_smoking",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "smokers",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A total of 44 smokers and 44 non-smokers, 19-39 years of age were recruited from local community by advertisements."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "smoking group",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "gray matter volume was lower in the smokers that in the non-smokers group"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "cond_non_smoking",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "non-smokers",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A total of 44 smokers and 44 non-smokers, 19-39 years of age were recruited from local community by advertisements."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "non-smoking control group",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To further investigate the effects of chronic cigarette smoking on structural brain changes, we applied whole-brain voxel-based morphometry (VBM) to quantify regional gray matter volume between 44 otherwise healthy chronic cigarette smokers and 44 matched non-smoking control subjects."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_group",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To examine differences in regional gray matter volume between groups, a voxel-wise two-sample t-test analysis in SPM5 and total gray matter volume was set as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "between groups"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "gray matter volume was lower in the smokers that in the non-smokers group"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "cond_smoking",
+     "cond_non_smoking"
+    ],
+    "groups": [
+     "g_smokers",
+     "g_non_smokers"
+    ]
+   },
+   {
+    "local_id": "term_total_gm",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "total gray matter volume",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To examine differences in regional gray matter volume between groups, a voxel-wise two-sample t-test analysis in SPM5 and total gray matter volume was set as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "total gray matter volume was set as covariates"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The effects of total gray matter (GM) volume were removed to allow inferences about regional differences in volume."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_smokers",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "smokers",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A total of 44 smokers and 44 non-smokers, 19-39 years of age were recruited from local community by advertisements."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Written informed consent was given by all the subjects."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "44",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A total of 44 smokers and 44 non-smokers, 19-39 years of age were recruited from local community by advertisements."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "19",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A total of 44 smokers and 44 non-smokers, 19-39 years of age were recruited from local community by advertisements."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "39",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A total of 44 smokers and 44 non-smokers, 19-39 years of age were recruited from local community by advertisements."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A total of 44 smokers and 44 non-smokers, 19-39 years of age were recruited from local community by advertisements."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_non_smokers",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "non-smokers",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A total of 44 smokers and 44 non-smokers, 19-39 years of age were recruited from local community by advertisements."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Written informed consent was given by all the subjects."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "44",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A total of 44 smokers and 44 non-smokers, 19-39 years of age were recruited from local community by advertisements."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_structural_vbm",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "voxel-based morphometry",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To further investigate the effects of chronic cigarette smoking on structural brain changes, we applied whole-brain voxel-based morphometry (VBM) to quantify regional gray matter volume between 44 otherwise healthy chronic cigarette smokers and 44 matched non-smoking control subjects."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Structural MRI voxel-based morphometry study comparing smokers and matched non-smokers.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "MRI study was carried for 44 smokers and 44 matched non-smokers to assess gray matter volume differences between the two groups."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "cond_smoking",
+     "cond_non_smoking"
+    ],
+    "acquisitions": [
+     "acq_structural_mri"
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_structural_mri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "structural T1-weighted MRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Structural T1-weighted images were acquired in a sagittal orientation employing a magnetization prepared rapid gradient echo sequence with the following parameters: slice thickness\u2003=\u20031\u2003mm, Gap\u2003=\u20030\u2003mm, TR (repetition time)\u2003=\u20032000 milliseconds, TE (echo time)\u2003=\u20032.6 milliseconds, field of view\u2003=\u2003256\u2003\u00d7\u2003256\u2003mm, flip angle\u2003=\u20038\u00b0, matrix size\u2003=\u2003256\u2003\u00d7\u2003256, slices\u2003=\u2003176."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3.0-Tesla Siemens scanner (Allegra; Siemens Medical System Borhn, Germany)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Brain MR images were acquired using a 3.0-Tesla Siemens scanner (Allegra; Siemens Medical System Borhn, Germany) at the Magnetic Resonance Center of Hunan Provincial People's Hospital."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Structural T1-weighted images were acquired in a sagittal orientation.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Structural T1-weighted images were acquired in a sagittal orientation employing a magnetization prepared rapid gradient echo sequence with the following parameters: slice thickness\u2003=\u20031\u2003mm, Gap\u2003=\u20030\u2003mm, TR (repetition time)\u2003=\u20032000 milliseconds, TE (echo time)\u2003=\u20032.6 milliseconds, field of view\u2003=\u2003256\u2003\u00d7\u2003256\u2003mm, flip angle\u2003=\u20038\u00b0, matrix size\u2003=\u2003256\u2003\u00d7\u2003256, slices\u2003=\u2003176."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3.0",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Brain MR images were acquired using a 3.0-Tesla Siemens scanner (Allegra; Siemens Medical System Borhn, Germany) at the Magnetic Resonance Center of Hunan Provincial People's Hospital."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "magnetization prepared rapid gradient echo sequence",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Structural T1-weighted images were acquired in a sagittal orientation employing a magnetization prepared rapid gradient echo sequence with the following parameters: slice thickness\u2003=\u20031\u2003mm, Gap\u2003=\u20030\u2003mm, TR (repetition time)\u2003=\u20032000 milliseconds, TE (echo time)\u2003=\u20032.6 milliseconds, field of view\u2003=\u2003256\u2003\u00d7\u2003256\u2003mm, flip angle\u2003=\u20038\u00b0, matrix size\u2003=\u2003256\u2003\u00d7\u2003256, slices\u2003=\u2003176."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2.0",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TR (repetition time)\u2003=\u20032000 milliseconds"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2.6 milliseconds",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TE (echo time)\u2003=\u20032.6 milliseconds"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_vbm",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The VBM toolbox combines tissue segmentation, bias correction and spatial normalization into a unified model. Images were multiplied (modulated) by the Jacobian determinants from the normalization step to preserve volume information. Modulated gray matter images were smoothed with a 12 mm full width at half maximum Gaussian kernel for statistical analyses.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The VBM toolbox combines tissue segmentation, bias correction and spatial normalization into a unified model. A Hidden Markov Random Field model was used to introduce spatial constraints into the segmentation process to improve accuracy of tissue segmentation. Images were multiplied (modulated) by the Jacobian determinants from the normalization step to preserve volume information. Modulated gray matter images were smoothed with a 12\u2003mm full width at half maximum (FWHM) Gaussian kernel for statistical analyses."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": {
+     "extraction_status": "extracted",
+     "value": "VBM5.1; Statistical Parametric Mapping (SPM) 5",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All structural data were processed with voxel-based morphometry toolbox (VBM5.1, Christian Gaser, University of Jena, Jena, Germany) (http://dbm.neuro.uni-jena.de/vbm) with the Statistical Parametric Mapping (SPM) 5 software package (http://www.fil.ion.ucl.ac.uk/spm)."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_vbm_group",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "voxel-wise two-sample t-test",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To examine differences in regional gray matter volume between groups, a voxel-wise two-sample t-test analysis in SPM5 and total gray matter volume was set as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "total gray matter volume was set as covariate; absolute threshold mask of 0.1",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The effects of total gray matter (GM) volume were removed to allow inferences about regional differences in volume. An absolute threshold mask of 0.1 was used to avoid possible edge effects around the border between GM and white matter (WM)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To examine differences in regional gray matter volume between groups"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": {
+     "extraction_status": "extracted",
+     "value": "SPM5",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To examine differences in regional gray matter volume between groups, a voxel-wise two-sample t-test analysis in SPM5 and total gray matter volume was set as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "assessments": [],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study investigated whether chronic cigarette smoking is associated with regional gray matter volume reductions using whole-brain voxel-based morphometry in smokers and matched non-smokers.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "To further investigate the effects of chronic cigarette smoking on structural brain changes, we applied whole-brain voxel-based morphometry (VBM) to quantify regional gray matter volume between 44 otherwise healthy chronic cigarette smokers and 44 matched non-smoking control subjects."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "A cross-sectional matched-group structural MRI study comparing 44 chronic smokers with 44 non-smokers using whole-brain voxel-based morphometry.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "MRI study was carried for 44 smokers and 44 matched non-smokers to assess gray matter volume differences between the two groups."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [],
+  "extraction_metadata": {
+   "extractor_model": "claude-sonnet-4-6",
+   "extractor_version": "neuroimaging-methods-curation-v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  }
+ },
+ "usage": {
+  "prompt": 11285,
+  "completion": 5308,
+  "reasoning": 74,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 21697,
+ "service_tier_echo": "flex"
+}

@@ -1,0 +1,1968 @@
+{
+ "case_id": "pmc_6658918",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev_p1lowp2high",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 5,
+ "stage1_names": [
+  "Face-matching > shape-matching",
+  "Effect of valence (ANOVA)",
+  "Negative faces > neutral faces (post hoc t tests)",
+  "Positive faces > neutral faces (post hoc t tests)",
+  "Negative faces > positive faces (post hoc t tests)"
+ ],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "unknown",
+   "extractor_version": "unknown",
+   "source_text_hash": "",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study investigated valence-dependent changes in effective connectivity within a right-hemisphere prefrontal-amygdala-fusiform face processing network during dynamic facial affect processing.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Thirty-three healthy volunteers completed a 6-min event-related fMRI dynamic face-matching and shape-matching task with positive, negative, and neutral facial-valence blocks. Whole-brain GLM analyses and dynamic causal modeling with Bayesian model comparison and Bayesian model averaging were performed.",
+   "value_source": "generated"
+  },
+  "external_datasets": [
+   {
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Radboud face database",
+     "value_source": "reported"
+    },
+    "url": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "assess_accuracy",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Response accuracy",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Accuracy (% correct) during face-matching and shape-matching trials.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "behavioral measure",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "assess_rt",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Response time",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Response time during face-matching and shape-matching trials.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "behavioral measure",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_task",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "task",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "face-matching > shape-matching",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_faces",
+     "cond_shapes"
+    ],
+    "groups": []
+   },
+   {
+    "local_id": "term_valence",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "valence",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "positive, negative, and neutral valence conditions",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_positive",
+     "cond_negative",
+     "cond_neutral"
+    ],
+    "groups": []
+   },
+   {
+    "local_id": "term_accuracy",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "mean accuracy",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "mean accuracy for the different valence conditions",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "behavioral outcome",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [],
+    "assessment": "assess_accuracy"
+   },
+   {
+    "local_id": "term_rt",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "mean RTs",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "mean RTs for the different valence conditions",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "behavioral outcome",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [],
+    "assessment": "assess_rt"
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_hc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "healthy volunteers",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "A group of 33 healthy volunteers.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "approached_count": {
+     "extraction_status": "not_reported"
+    },
+    "consented_count": {
+     "extraction_status": "not_reported"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "33",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "33",
+     "value_source": "reported"
+    },
+    "excluded_count": {
+     "extraction_status": "not_reported"
+    },
+    "inclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "age of 18\u201345 years",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "signed informed consent",
+      "value_source": "reported"
+     }
+    ],
+    "exclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "any MRI contraindication",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "pregnancy",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "a history of brain injury",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "psychiatric disorders",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "other major medical illnesses",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "drug abuse",
+      "value_source": "reported"
+     }
+    ],
+    "recruitment_method": {
+     "extraction_status": "extracted",
+     "value": "recruited for this study",
+     "value_source": "reported"
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "27.4 years",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "5.2 years",
+     "value_source": "reported"
+    },
+    "age_minimum": {
+     "extraction_status": "not_reported"
+    },
+    "age_maximum": {
+     "extraction_status": "not_reported"
+    },
+    "age_median": {
+     "extraction_status": "not_reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "females",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "24",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "males",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "9",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "gender_distribution": [],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right handed",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "30",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "left handed",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "3",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "healthy volunteers; no subject reported any past or current psychiatric disorder",
+      "value_source": "reported"
+     }
+    ],
+    "diagnostic_system": {
+     "extraction_status": "not_reported"
+    },
+    "diagnostic_instrument": [],
+    "clinical_characteristics": {
+     "extraction_status": "not_reported"
+    },
+    "medication_status": {
+     "extraction_status": "not_reported"
+    },
+    "education_summary": {
+     "extraction_status": "not_reported"
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_face_shape",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "dynamic face-matching and shape-matching task",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants matched a dynamic target image with one of two static probe images according to facial emotion or number of vertices. The task comprised 12 alternating 20-s blocks, six face and six shape blocks, each containing five 4-s trials.",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_positive",
+     "cond_negative",
+     "cond_neutral",
+     "cond_shapes"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "blocks",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_func"
+    ],
+    "presentation_software": {
+     "extraction_status": "not_reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Subjects were instructed to match either the left or the right static item at the bottom with the dynamic item on top and to press either the left or the right button with their dominant hand on a response-pad to indicate their choice as soon as they recognized which probe matched.",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "Dynamic and static emotional faces from the Radboud face database and polygon shapes. Positive blocks used happy, surprised, and neutral faces; negative blocks used sad and disgusted faces; neutral blocks used neutral and surprised faces.",
+     "value_source": "reported"
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "response accuracy",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "response time (RT)",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_func",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional images",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "extracted",
+     "value": "360 seconds",
+     "value_source": "generated"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "Philips Achieva 3 Tesla scanner (Philips Medical Systems) using a 32-channel head coil",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Functional images were acquired with a multiband echoplanar images (EPIs) sequence. Five dummy scans were acquired before the actual data acquisition.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"number_of_volumes\":175,\"TR\":\"2 s\",\"TE\":\"35 ms\",\"tilt\":\"15\u00b0 tilted downwards of AC-PC\",\"slices\":54,\"voxel_size\":\"2.0 \u00d7 2.0 \u00d7 2.5 mm3\",\"matrix\":\"96 \u00d7 94 px\",\"flip_angle\":\"80\u00b0\",\"gap\":\"no gap\",\"SENSE_factor\":2,\"MB_factor\":2}",
+     "value_source": "generated"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3 Tesla",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "multiband echoplanar images (EPIs) sequence",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "not_reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2 seconds",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": [
+      {
+       "extraction_status": "extracted",
+       "value": "0.035 seconds",
+       "value_source": "generated"
+      }
+     ],
+     "acquisition_voxel_size_mm": [
+      {
+       "extraction_status": "extracted",
+       "value": "2.0 \u00d7 2.0 \u00d7 2.5 mm3",
+       "value_source": "reported"
+      }
+     ],
+     "number_of_volumes": {
+      "extraction_status": "extracted",
+      "value": "175",
+      "value_source": "reported"
+     }
+    }
+   },
+   {
+    "local_id": "acq_t1",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "T1-weighted anatomic image",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "not_reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "Philips Achieva 3 Tesla scanner (Philips Medical Systems) using a 32-channel head coil",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "A T1-weighted anatomic image was acquired for each subject after the task and used for coregistration and normalization of functional data.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"sequence\":\"3D magnetization-prepared rapid gradient-echo (MP-RAGE)\",\"time_between_inversion_pulses\":\"2484 ms\",\"TI\":\"900 ms\",\"inter-echo_delay\":\"6.7 ms\",\"alignment\":\"AC-PC\",\"flip_angle\":\"9\u00b0\",\"voxel_size\":\"1.05 \u00d7 1.05 \u00d7 1.2 mm3\",\"field_of_view\":\"270 \u00d7 354 mm2\",\"sagittal_slices\":170}",
+     "value_source": "generated"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3 Tesla",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "3D magnetization-prepared rapid gradient-echo sequence (MP-RAGE)",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "3D",
+      "value_source": "reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "not_reported"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "not_reported"
+     },
+     "acquisition_voxel_size_mm": [
+      {
+       "extraction_status": "extracted",
+       "value": "1.05 \u00d7 1.05 \u00d7 1.2 mm3",
+       "value_source": "reported"
+      }
+     ],
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_spm12",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Preprocessing included slice-timing correction, realignment, coregistration, segmentation, normalization to MNI-152 template space using deformations derived from segmentation, resampling to 2-mm isometric voxels, and smoothing with a 6-mm FWHM Gaussian kernel.",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM12 (7219)",
+      "value_source": "reported"
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "slice-timing correction",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "realignment",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "coregistration",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "segmentation",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "normalization to the Montreal Neurologic Institute (MNI)-152 template space",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "resampling to 2-mm isometric voxels",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "smoothing with a 6-mm full-width-half-maximum (FWHM) Gaussian kernel",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_glm_wholebrain",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "general linear model",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "canonical hemodynamic response function",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The final GLM included regressors for all faces, positive faces, negative faces, neutral faces, and shapes, plus six realignment parameters as nuisance regressors.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "first-level and second-level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "one-sample t test and second-level repeated measures ANOVA",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM12",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_dcm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "dynamic causal modeling (DCM)",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "hemodynamic forward model",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Four-region right-hemisphere DCM comprising MPFC, AMY, LPFC, and FFA; 256 models varied intrinsic connectivity and positive- and negative-valence modulation; four model families were compared, followed by Bayesian model averaging.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "subject-level models with group-level family-wise Bayesian model selection and Bayesian model averaging",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "random-effects family-wise Bayesian model selection, Bayesian model averaging, and one-sample t tests of averaged parameter estimates with Benjamini-Hochberg FDR correction",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM12",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "MATLAB and Statistics Toolbox Release 2017a",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_positive",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "positive valence",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Positive face-matching blocks included happy, surprised, and neutral faces, with an average valence of 3.55 \u00b1 0.08.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "facial-emotion task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_negative",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "negative valence",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Negative face-matching blocks included sad and disgusted faces, with an average valence of 2.01 \u00b1 0.04.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "facial-emotion task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "neutral valence",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Neutral face-matching blocks included neutral and surprised faces, with an average valence of 2.94 \u00b1 0.04.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "facial-emotion task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_faces",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "faces",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Face-matching trials across positive, negative, and neutral valence conditions.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_shapes",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "shapes",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Shape-matching blocks in which the target shape was morphed from a round circle into a polygon with three to eight vertices.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "an_face_shape",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Face-matching > shape-matching",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_func",
+     "acq_t1"
+    ],
+    "experiments": [
+     "exp_face_shape"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_faces",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "face-matching",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_shapes",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "shape-matching",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "less than",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_task"
+    ],
+    "model_estimation": "model_glm_wholebrain",
+    "groups": [
+     {
+      "group": "g_hc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 33,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_spm12",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "The main effect of our task (face-matching > shape-matching)",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "effect of task",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "one-sample t test; Z values reported in Table 2",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": 32,
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurologic Institute (MNI)-152 template space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected p, cluster-defining threshold",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based family-wise error (FWE) correction",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain level",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "brain regions commonly recruited during face processing",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "an_valence_anova",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Effect of valence (ANOVA)",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_func",
+     "acq_t1"
+    ],
+    "experiments": [
+     "exp_face_shape"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_positive",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "positive valence",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "across the positive, negative, and neutral valence conditions",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_negative",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "negative valence",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "across the positive, negative, and neutral valence conditions",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_neutral",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "neutral valence",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "across the positive, negative, and neutral valence conditions",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_valence"
+    ],
+    "model_estimation": "model_glm_wholebrain",
+    "groups": [
+     {
+      "group": "g_hc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 33,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_spm12",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "a repeated measures ANOVA across the positive, negative, and neutral valence conditions",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "main effect of valence",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "F",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "extracted",
+      "value": 2,
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": 32,
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurologic Institute (MNI)-152 template space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected p, cluster-defining threshold",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based family-wise error (FWE) correction",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain level",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "main effect of valence in the MPFC",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "an_negative_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Negative faces > neutral faces (post hoc t tests)",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_func",
+     "acq_t1"
+    ],
+    "experiments": [
+     "exp_face_shape"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_negative",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Negative faces",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_neutral",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "neutral faces",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "less than",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_valence"
+    ],
+    "model_estimation": "model_glm_wholebrain",
+    "groups": [
+     {
+      "group": "g_hc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 33,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_spm12",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Negative faces > neutral faces",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "effect of valence",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "post-hoc t test; Z values reported in Table 2",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": 32,
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurologic Institute (MNI)-152 template space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected p, cluster-defining threshold",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based family-wise error (FWE) correction",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain level",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "the effect in the MPFC was driven by negative valence",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "an_positive_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Positive faces > neutral faces (post hoc t tests)",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_func",
+     "acq_t1"
+    ],
+    "experiments": [
+     "exp_face_shape"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_positive",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Positive faces",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_neutral",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "neutral faces",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "less than",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_valence"
+    ],
+    "model_estimation": "model_glm_wholebrain",
+    "groups": [
+     {
+      "group": "g_hc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 33,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_spm12",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Positive faces > neutral faces",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "effect of valence",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "post-hoc t test; Z values reported in Table 2",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": 32,
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurologic Institute (MNI)-152 template space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected p, cluster-defining threshold",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based family-wise error (FWE) correction",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain level",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "an_negative_positive",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Negative faces > positive faces (post hoc t tests)",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_func",
+     "acq_t1"
+    ],
+    "experiments": [
+     "exp_face_shape"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_negative",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Negative faces",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_positive",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "positive faces",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "less than",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_valence"
+    ],
+    "model_estimation": "model_glm_wholebrain",
+    "groups": [
+     {
+      "group": "g_hc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 33,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_spm12",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Negative faces > positive faces",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "effect of valence",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "post-hoc t test; Z values reported in Table 2",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": 32,
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurologic Institute (MNI)-152 template space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected p, cluster-defining threshold",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-based family-wise error (FWE) correction",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain level",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Behavioral results of the analysis of the behavioral data",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "Mean \u00b1 SD across all subjects (n = 33).",
+     "value_source": "reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "Positive valence; Negative valence; Neutral valence; Shapes; Accuracy; RT",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Behavioral accuracy and response-time results for positive, negative, neutral, and shape-matching conditions.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Results of the group analysis (n = 33)",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "Significant clusters on whole-brain level in the second-level contrast face matching versus shape matching, the ANOVA across valence conditions, and post hoc t tests. Significance level at whole-brain cluster-level threshold p FWEc < 0.05, cluster-defining threshold at p CDT < 0.001. k, cluster size; R, right; L, left.",
+     "value_source": "reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "MNI coordinates (mm); Cluster level; Peak; Brain region; x; y; z; p FWEc; k; Z",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Whole-brain significant clusters for face-matching versus shape-matching, the valence ANOVA, and post hoc valence contrasts.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Mean and SD of endogenous and modulatory parameter estimates for all connections across all subjects and across the models of the winning bidirectional family, and the respective p value resulting from a one-sample t test (corrected for multiple comparisons)",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "Significant (FDR adjusted p FDRc < 0.05, df = 31).",
+     "value_source": "reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "Connection type; Mean; SD; p FDRc",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Endogenous and valence-modulatory effective-connectivity parameter estimates and corrected one-sample t-test results.",
+     "value_source": "generated"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 22839,
+  "completion": 17896,
+  "reasoning": 5905,
+  "cached": 11145
+ },
+ "usage_pass1": {
+  "prompt": 11148,
+  "completion": 4141,
+  "reasoning": 59,
+  "cached": 11145
+ },
+ "usage_pass2": {
+  "prompt": 11691,
+  "completion": 13755,
+  "reasoning": 5846,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 51640,
+ "service_tier_echo": "flex"
+}

@@ -1,0 +1,1772 @@
+{
+ "case_id": "pmc_12132253",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev_p1lowp2high",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 4,
+ "stage1_names": [
+  "Positive Habenula Connectivity",
+  "Negative Habenula Connectivity",
+  "ASD>NT increased habenula connectivity (controlling for age, sex, and scanning site)",
+  "Age by group interaction (controlling for sex and scanning site)"
+ ],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "unknown",
+   "extractor_version": "unknown",
+   "source_text_hash": "",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined resting-state functional connectivity of the bilateral habenula in autistic and neurotypical individuals, including group differences, age-related developmental variability, functional decoding, and associations with autism-related phenotypic measures.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "A multisite, cross-sectional resting-state functional MRI study using ABIDE I and II data. Participant-level habenula-to-whole-brain correlation maps were entered into group-level regression models comparing autistic spectrum disorder and neurotypical groups, examining age-by-group interactions and associations with phenotypic measures while controlling for sex and scanning site.",
+   "value_source": "generated"
+  },
+  "external_datasets": [
+   {
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ABIDE I and II datasets",
+     "value_source": "reported"
+    },
+    "url": {
+     "extraction_status": "extracted",
+     "value": "http://fcon_1000.projects.nitrc.org/indi/abide/abide_I.html",
+     "value_source": "reported"
+    }
+   },
+   {
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Neurosynth database",
+     "value_source": "reported"
+    },
+    "url": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "assess_srs_sm",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Social Responsiveness Scale (SRS) Social Motivation subscale",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The 11-item Social Motivation subscale measured the extent to which an individual is generally motivated to engage in social-interpersonal behavior.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "behavioral measure",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "assess_srs_sc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "SRS Social Communication subscale",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The 22-item Social Communication subscale measured reciprocal and expressive communication in social situations.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "behavioral measure",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "assess_brief_gec",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Behavior Rating Inventory of Executive Function (BRIEF) Global Executive Composite Score (GEC) T-score",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The BRIEF GEC T-score measured executive function by compiling scores from composite indexes testing behavior regulation, emotional recognition, and cognitive regulation.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "behavioral measure",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "assess_vineland_dls",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "DLS domain of Vineland-2nd edition",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The DLS domain measured adaptive behavior encompassing everyday tasks necessary for independent living, including personal care, household responsibilities, and community activities such as maintaining hygiene, preparing meals, and managing money and time.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "behavioral measure",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_diagnosis",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "diagnosis",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "ASD, NT",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "reported"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "categorical factor",
+     "value_source": "reported"
+    },
+    "conditions": [],
+    "groups": [
+     "g_asd",
+     "g_nt"
+    ],
+    "levels": {
+     "extraction_status": "extracted",
+     "value": "ASD, NT",
+     "value_source": "reported"
+    },
+    "interaction_with": []
+   },
+   {
+    "local_id": "term_age",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "age",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "age at scan",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "reported"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "continuous factor",
+     "value_source": "reported"
+    },
+    "conditions": [],
+    "groups": [],
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "between subjects",
+     "value_source": "generated"
+    },
+    "interaction_with": [],
+    "unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "term_sex",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "sex",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "not_reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [],
+    "interaction_with": []
+   },
+   {
+    "local_id": "term_site",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "scanning site",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "not_reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [],
+    "interaction_with": []
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_asd",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ASD participants",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants with autism spectrum disorder diagnoses made according to DSM-IV and DSM-5.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "approached_count": {
+     "extraction_status": "not_reported"
+    },
+    "consented_count": {
+     "extraction_status": "not_reported"
+    },
+    "enrolled_count": {
+     "extraction_status": "not_reported"
+    },
+    "acquired_count": {
+     "extraction_status": "not_reported"
+    },
+    "excluded_count": {
+     "extraction_status": "not_reported"
+    },
+    "inclusion_criteria": [],
+    "exclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "MRI data did not meet the previously defined inclusion criteria.",
+      "value_source": "reported"
+     }
+    ],
+    "recruitment_method": {
+     "extraction_status": "extracted",
+     "value": "Selected from the large-scale, multisite ABIDE I and II datasets.",
+     "value_source": "reported"
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "16.26 years",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "8.15 years",
+     "value_source": "reported"
+    },
+    "age_minimum": {
+     "extraction_status": "not_reported"
+    },
+    "age_maximum": {
+     "extraction_status": "not_reported"
+    },
+    "age_median": {
+     "extraction_status": "not_reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported"
+    },
+    "sex_distribution": [],
+    "gender_distribution": [],
+    "handedness_distribution": [],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "autism spectrum disorder",
+      "value_source": "reported"
+     }
+    ],
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "Diagnosis and Statistical Manual of Mental Disorders\u20144th edition (DSM-IV) and 5th edition (DSM-5)",
+     "value_source": "reported"
+    },
+    "diagnostic_instrument": [],
+    "clinical_characteristics": {
+     "extraction_status": "not_reported"
+    },
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "Medication status was available as a demographic variable; the ASD and NT groups differed significantly in medication status.",
+     "value_source": "reported"
+    },
+    "education_summary": {
+     "extraction_status": "not_reported"
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "g_nt",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "NT participants",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Neurotypical control participants from the ABIDE I and II datasets.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "approached_count": {
+     "extraction_status": "not_reported"
+    },
+    "consented_count": {
+     "extraction_status": "not_reported"
+    },
+    "enrolled_count": {
+     "extraction_status": "not_reported"
+    },
+    "acquired_count": {
+     "extraction_status": "not_reported"
+    },
+    "excluded_count": {
+     "extraction_status": "not_reported"
+    },
+    "inclusion_criteria": [],
+    "exclusion_criteria": [],
+    "recruitment_method": {
+     "extraction_status": "extracted",
+     "value": "Selected from the large-scale, multisite ABIDE I and II datasets.",
+     "value_source": "reported"
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "16.26 years",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "8.15 years",
+     "value_source": "reported"
+    },
+    "age_minimum": {
+     "extraction_status": "not_reported"
+    },
+    "age_maximum": {
+     "extraction_status": "not_reported"
+    },
+    "age_median": {
+     "extraction_status": "not_reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported"
+    },
+    "sex_distribution": [],
+    "gender_distribution": [],
+    "handedness_distribution": [],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "neurotypical",
+      "value_source": "reported"
+     }
+    ],
+    "diagnostic_system": {
+     "extraction_status": "not_reported"
+    },
+    "diagnostic_instrument": [],
+    "clinical_characteristics": {
+     "extraction_status": "not_reported"
+    },
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "Medication status was available as a demographic variable; the ASD and NT groups differed significantly in medication status.",
+     "value_source": "reported"
+    },
+    "education_summary": {
+     "extraction_status": "not_reported"
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_rest",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "Resting state",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Resting state functional MRI data were acquired.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_rest"
+    ],
+    "design_type": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "presentation_software": {
+     "extraction_status": "not_reported"
+    },
+    "instructions": {
+     "extraction_status": "not_reported"
+    },
+    "stimuli": {
+     "extraction_status": "not_reported"
+    },
+    "task_performance_measures": []
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional MRI",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "not_reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3T MRI scanners",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Resting state, functional, and structural MRI data were acquired across the 24 scanning sites using 3T MRI scanners.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "not_reported"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "not_reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "not_reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "not_reported"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "not_reported"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   {
+    "local_id": "acq_t1",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "T1-weighted structural MRI",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "not_reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3T MRI scanners",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "For all participants, a T1-weighted structural image was collected and used for registration to Montreal Neurological Institute space.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "not_reported"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "T1-weighted",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "not_reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "not_reported"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "not_reported"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmriprep",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Data were preprocessed using fMRIPrep 23.1.3. Anatomical images were intensity-corrected, skull-stripped, segmented, and spatially normalized to MNI152 space. Preprocessed data underwent manual and automated quality control. Participants with a fail rating were excluded, MRIQC 23.1.0 was used to flag and remove participants, sessions, or runs with framewise displacement greater than 0.35 mm or fewer than 100 usable time points following motion censoring, and remaining data were denoised using AFNI's 3dTproject.",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "fMRIPrep 23.1.3",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "MRIQC 23.1.0",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "AFNI's 3dTproject",
+      "value_source": "reported"
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "Intensity correction",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Skull stripping",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Segmentation",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Spatial normalization to MNI152 space",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Manual and automated quality control",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Exclusion for a fail rating from any independent rater",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Removal for framewise displacement greater than 0.35 mm or fewer than 100 usable time points following motion censoring",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Denoising with AFNI's 3dTproject using linear regression of nuisance time series from each voxel",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_subject_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "general linear model",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "not_reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Averaged left and right habenula ROI time series were entered into a general linear model to generate whole-brain correlation maps for each participant; resulting maps were Fisher r-to-z transformed.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "participant-level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "not_reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "AFNI v22.3.05",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_group_lmer",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "linear effects model",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "not_reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Group-level regression models included diagnosis as a categorical factor and age as a continuous factor, controlling for sex and scanning site. Age-by-group interactions and phenotypic main effects and interactions were tested.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "3dLMEr",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "AFNI's 3dLMEr",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_rest",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Resting state",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Resting state functional MRI condition.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "rest",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "ana_pos_habenula",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Positive Habenula Connectivity",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Resting state",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_age",
+     "term_sex",
+     "term_site"
+    ],
+    "model_estimation": "model_group_lmer",
+    "groups": [
+     {
+      "group": "g_asd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 705,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_nt",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmriprep",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Positive habenula connectivity for the combined ASD and NT groups",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "z-transformed correlation maps",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Fisher r-to-z transformation",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "generated"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.0001,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.01,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "3dClustSim to compute a cluster size",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "seed-based correlation",
+      "value_source": "generated"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left and right habenula ROIs",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "none; seed-to-whole-brain analysis",
+      "value_source": "generated"
+     },
+     "parameter_sign": {
+      "extraction_status": "extracted",
+      "value": "positive habenula connectivity",
+      "value_source": "reported"
+     },
+     "parameter_change": {
+      "extraction_status": "not_reported"
+     },
+     "edges": [],
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "habenula functional connectivity",
+      "value_source": "reported"
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI152 space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "statistical_maps": [],
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The connectivity pattern is commonly associated with terms for fear, reward, and emotion processing.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "ana_neg_habenula",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Negative Habenula Connectivity",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Resting state",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_age",
+     "term_sex",
+     "term_site"
+    ],
+    "model_estimation": "model_group_lmer",
+    "groups": [
+     {
+      "group": "g_asd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 705,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_nt",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmriprep",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Negative habenula connectivity for the combined ASD and NT groups",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "z-transformed correlation maps",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Fisher r-to-z transformation",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "generated"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.0001,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.01,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "3dClustSim to compute a cluster size",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "seed-based correlation",
+      "value_source": "generated"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left and right habenula ROIs",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "none; seed-to-whole-brain analysis",
+      "value_source": "generated"
+     },
+     "parameter_sign": {
+      "extraction_status": "extracted",
+      "value": "negative habenula connectivity",
+      "value_source": "reported"
+     },
+     "parameter_change": {
+      "extraction_status": "not_reported"
+     },
+     "edges": [],
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "habenula functional connectivity",
+      "value_source": "reported"
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI152 space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "statistical_maps": [],
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The connectivity pattern is commonly associated with terms for fear, reward, and emotion processing.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "ana_asd_gt_nt_habenula",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ASD>NT increased habenula connectivity (controlling for age, sex, and scanning site)",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Resting state",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_diagnosis",
+     "term_age",
+     "term_sex",
+     "term_site"
+    ],
+    "model_estimation": "model_group_lmer",
+    "groups": [
+     {
+      "group": "g_asd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "ASD>NT",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 705,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_nt",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmriprep",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "ASD>NT increased habenula connectivity, controlling for age, sex, and scanning site",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "group-difference map of z-transformed participant-level correlation maps",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Fisher r-to-z transformation",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "generated"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.0001,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.01,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "seed-based correlation",
+      "value_source": "generated"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left and right habenula ROIs",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "none; seed-to-whole-brain analysis",
+      "value_source": "generated"
+     },
+     "parameter_sign": {
+      "extraction_status": "not_reported"
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "increased habenula connectivity for the ASD group compared to the NT group",
+      "value_source": "reported"
+     },
+     "edges": [],
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "habenula functional connectivity",
+      "value_source": "reported"
+     }
+    },
+    "tables": [
+     "tbl3"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI152 space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "statistical_maps": [],
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The regions of increased habenula connectivity among ASD participants are commonly associated with terms for speech, language, and action processing.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "ana_age_group_habenula",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Age by group interaction (controlling for sex and scanning site)",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "Resting state",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_diagnosis",
+     "term_age",
+     "term_sex",
+     "term_site"
+    ],
+    "model_estimation": "model_group_lmer",
+    "groups": [
+     {
+      "group": "g_asd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     },
+     {
+      "group": "g_nt",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmriprep",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Age-by-group interactions in habenula connectivity between groups among participants aged 5\u201321 years, controlling for sex and scanning site",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "z-scored beta coefficients from age-by-group interactions in habenula connectivity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Fisher r-to-z transformation",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "generated"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.005,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "seed-based correlation",
+      "value_source": "generated"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left and right habenula ROIs",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "none; seed-to-whole-brain analysis",
+      "value_source": "generated"
+     },
+     "parameter_sign": {
+      "extraction_status": "not_reported"
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "Habenula connectivity increases across development for ASD participants, whereas NTs inversely decrease",
+      "value_source": "reported"
+     },
+     "edges": [],
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "age-by-group interaction in habenula functional connectivity",
+      "value_source": "reported"
+     }
+    },
+    "tables": [
+     "tbl4"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI152 space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "statistical_maps": [],
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Participants were restricted to ages 5\u201321 years; age was modeled as a continuous factor, with sex and scanning site as covariates.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "Habenula connectivity increases across development for ASD participants, whereas NTs inversely decrease; these regional changes were more prominent in the culmen than in the parahippocampus, and the regions are commonly associated with reward, risk, and negative outcomes.",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Participant Information.",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participant demographic and phenotypic information.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Peak coordinates for clusters of positive and negative group-averaged (ASD+NT) habenula connectivity, controlling for age, sex, and scanning site.",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Peak coordinates for positive and negative habenula connectivity in the combined ASD and NT groups.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Peak coordinates for clusters of increased habenula connectivity among ASD participants compared to neurotypical controls (ASD>NT), controlling for age, sex, and scanning site.",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Peak coordinates for clusters with increased habenula connectivity among ASD participants compared with NT participants.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "tbl4",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 4",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Peak coordinates for clusters of regions that showed an age by group interaction, controlling for sex and scanning site.",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Peak coordinates for regions showing an age-by-group interaction in habenula connectivity.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "tbl5",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 5",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Group-difference (ASD>NT) main effect and interaction of phenotypic measures on habenula connectivity.",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Main effects and between-group interaction effects of phenotypic measures on habenula connectivity.",
+     "value_source": "reported"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 15798,
+  "completion": 20459,
+  "reasoning": 7948,
+  "cached": 7612
+ },
+ "usage_pass1": {
+  "prompt": 7615,
+  "completion": 5438,
+  "reasoning": 53,
+  "cached": 7612
+ },
+ "usage_pass2": {
+  "prompt": 8183,
+  "completion": 15021,
+  "reasoning": 7895,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 53142,
+ "service_tier_echo": "flex"
+}
