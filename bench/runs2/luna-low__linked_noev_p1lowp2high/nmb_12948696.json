@@ -1,0 +1,1370 @@
+{
+ "case_id": "nmb_12948696",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev_p1lowp2high",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 3,
+ "stage1_names": [
+  "F>N, conjunction",
+  "F>N, high vs control",
+  "F>N, low vs control"
+ ],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "unknown",
+   "extractor_version": "neuroimaging-methods-curation-v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined cerebral responses to visual presentations of high-calorie foods, low-calorie foods, and nonedible dining-related utensils in healthy normal-weight women.",
+   "value_source": "reported"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "A within-subjects fMRI study used three visual activation tasks presented over separate scanning runs: low-calorie foods, high-calorie foods, and nonedible food-related utensils. Each paradigm consisted of alternating stimulation and control blocks, and task order was counterbalanced across subjects.",
+   "value_source": "reported"
+  },
+  "external_datasets": [
+   {
+    "name": {
+     "extraction_status": "extracted",
+     "value": "freeweightlosscenter.com",
+     "value_source": "reported"
+    },
+    "url": {
+     "extraction_status": "extracted",
+     "value": "www.freeweightlosscenter.com",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "assess_recognition",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "postscan recognition tests",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Each recognition test presented previously seen category-specific photographs randomly intermixed with novel distractor photographs, and subjects indicated whether each photograph had been seen previously or had not been seen in the scanner. Percentage correct was calculated.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "recognition memory test",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "assess_salience",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "motivational salience rating",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Subjects rated how each photograph affected their appetite on an 11-point scale ranging from \u22125 (highly aversive) to +5 (highly appealing).",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "assess_diet",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "hourly dietary intake questionnaire",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants completed a questionnaire regarding their hourly dietary intake over the preceding day; calorie intake for the 6 h prior to the scan was calculated by two raters.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "dietary questionnaire",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_condition",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "condition",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "The low-calorie food, high-calorie food, and utensil conditions were modeled relative to control conditions.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_low",
+     "cond_high",
+     "cond_utensil"
+    ]
+   },
+   {
+    "local_id": "term_calories",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "calorie intake",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Total calorie consumption for each subject during the 6 h prior to the scan, estimated as the mean of the calorie counts provided by two raters.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated"
+    },
+    "assessment": "assess_diet",
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "between subjects",
+     "value_source": "generated"
+    },
+    "unit": {
+     "extraction_status": "extracted",
+     "value": "calories",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "term_time_last_food",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "time since the last meal",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Time since the last meal before scanning.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated"
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "between subjects",
+     "value_source": "generated"
+    },
+    "unit": {
+     "extraction_status": "extracted",
+     "value": "hours",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g1",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "healthy right-handed female participants",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "13 healthy right-handed female participants with no history of eating disorder, psychiatric diagnoses, or neurologic illness, recruited from the staff of McLean Hospital.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "13",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "13",
+     "value_source": "reported"
+    },
+    "inclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "healthy normal-weight adult women",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "right-handed",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "normal or corrected-to-normal vision",
+      "value_source": "reported"
+     }
+    ],
+    "exclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "history of eating disorder",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "psychiatric diagnoses",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "neurologic illness",
+      "value_source": "reported"
+     }
+    ],
+    "recruitment_method": {
+     "extraction_status": "extracted",
+     "value": "recruited from the staff of McLean Hospital",
+     "value_source": "reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "23.5",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "2.1",
+     "value_source": "reported"
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "21",
+     "value_source": "reported"
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "28",
+     "value_source": "reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported"
+    },
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "13",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "13",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "no history of eating disorder, psychiatric diagnoses, or neurologic illness",
+      "value_source": "reported"
+     }
+    ],
+    "clinical_characteristics": {
+     "extraction_status": "extracted",
+     "value": "Participants were within normal limits for body mass; mean body mass index was 22.1 (SD = 2.4) kg/m2.",
+     "value_source": "reported"
+    },
+    "medication_status": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "g_rating",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "subset of participants providing motivational salience ratings",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "A subset of the total sample provided motivational salience ratings.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "9",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_food_viewing",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "visual food and utensil viewing task",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants viewed color photographs of low-calorie foods, high-calorie foods, and nonedible food-related utensils in separate scanning runs. Each paradigm lasted 150 sec and consisted of two 30-sec stimulation periods alternating with three 30-sec control blocks.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_low",
+     "cond_high",
+     "cond_utensil",
+     "cond_control"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "block design",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "Psyscope software program",
+     "value_source": "reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Participants were instructed to view each series of photographs and to try to remember them for a recognition test upon completion of the scanning session.",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "Professional quality full-color photographs of low-calorie foods, high-calorie foods, food-related utensils, and visually interesting nonfood control objects.",
+     "value_source": "reported"
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "percentage of photographs correctly recognized during the postscan recognition test",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_bold",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional magnetic resonance imaging (fMRI)",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "extracted",
+     "value": "150",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "1.5-T GE LX MRI scanner equipped with a quadrature RF head coil",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "BOLD activation data were acquired during three 50-scan runs. Functional images were collected over 20 coronal slices with a 20-cm field of view and a 64 \u00d7 64 acquisition matrix. Three dummy images were taken at the outset of each functional scan.",
+     "value_source": "reported"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "1.5 T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "BOLD fMRI; sequence type not otherwise reported",
+      "value_source": "reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "3",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.040",
+      "value_source": "generated"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "3.125 \u00d7 3.125 \u00d7 7 mm",
+      "value_source": "reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "extracted",
+      "value": "50 scans per run",
+      "value_source": "reported"
+     }
+    }
+   },
+   {
+    "local_id": "acq_t1",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "T1-weighted magnetic resonance imaging",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "1.5-T GE LX MRI scanner",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Matched T1-weighted high-resolution images were collected for every subject at the beginning of the scanning session.",
+     "value_source": "reported"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "1.5 T",
+      "value_source": "reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Functional images were corrected for motion, convolved into three-dimensional space, smoothed, and resliced into stereotaxic space.",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM99",
+      "value_source": "reported"
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "Intrarun motion realignment using the first image as a reference",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Spatial smoothing with an isotropic Gaussian kernel, FWHM = 10 mm",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Reslicing to 2 \u00d7 2 \u00d7 2 mm within stereotaxic space using sinc interpolation",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "general linear model",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "6-sec time-shifted box-car waveform employed as the reference paradigm",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "A statistical parametric map was generated for each subject. Fixed-effects group SPM contrast maps were created for the low-calorie food, high-calorie food, and utensil conditions relative to control conditions. Group SPMs and contrasts used P < .005 uncorrected with a minimum cluster size of 20 contiguous voxels; a post hoc threshold of P < .0005 uncorrected was used for the high-calorie condition.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "first-level and group-level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "fixed-effects approach",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM99",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_low",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "low-calorie foods",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Photographs depicting freshly prepared garden salads, whole-grain cereals, fresh vegetables, and fruits.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_high",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "high-calorie foods",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Photographs such as french fries, ice cream sundaes, cheeseburgers, hot dogs, chocolate chip cookies, barbequed chicken, strawberry shortcake, and pasta with meat sauce.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_utensil",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "nonedible food-related utensils",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Photographs of forks and spoons, dishes, placemats, chopsticks, and tableware, with no edible items present.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_control",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "nonfood control stimuli",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Photographs of visually interesting objects that are generally not consumed as food in modern western cultures, such as rocks, shrubs, bricks, trees, and flowers.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "a1_conjunction",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "F>N, conjunction",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_food_viewing"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_high",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "high-calorie conditions",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "activated during the high-calorie condition",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_low",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "low-calorie conditions",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "activated during the low-calorie condition",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_control",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "control stimuli",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "control condition",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_condition"
+    ],
+    "model_estimation": "model_glm",
+    "groups": [
+     {
+      "group": "g1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 13,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "regions that were significantly activated during both the high- and low-calorie conditions",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal change",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl_conjunction"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute (MNI) standardized coordinate space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "generated"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.005,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected P",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 20,
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "whole-brain statistical correction for multiple comparisons",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {
+     "components": [
+      {
+       "analysis_id": "a2_high_control",
+       "analysis_type": {
+        "extraction_status": "extracted",
+        "value": "mass-univariate SPM contrast",
+        "value_source": "generated"
+       },
+       "definition": {
+        "extraction_status": "extracted",
+        "value": "high-calorie food stimuli relative to the control condition",
+        "value_source": "reported"
+       }
+      },
+      {
+       "analysis_id": "a3_low_control",
+       "analysis_type": {
+        "extraction_status": "extracted",
+        "value": "mass-univariate SPM contrast",
+        "value_source": "generated"
+       },
+       "definition": {
+        "extraction_status": "extracted",
+        "value": "low-calorie foods relative to nonfood control stimuli",
+        "value_source": "reported"
+       }
+      }
+     ],
+     "null_hypothesis": {
+      "extraction_status": "not_reported"
+     },
+     "implementation": {
+      "extraction_status": "extracted",
+      "value": "conjunction analysis using SPM99",
+      "value_source": "reported"
+     }
+    },
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The amygdala may be responsive to a general category of biologically relevant stimuli such as food.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "a2_high_control",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "F>N, high vs control",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_food_viewing"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_high",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "high-calorie food stimuli",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater activation",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_control",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "the control condition",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "relative to the control condition",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_condition"
+    ],
+    "model_estimation": "model_glm",
+    "groups": [
+     {
+      "group": "g1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 13,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "the perception of high-calorie food stimuli relative to the control condition",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal change",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl_high"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute (MNI) standardized coordinate space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "generated"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.0005,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected P",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 20,
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "whole-brain statistical correction for multiple comparisons",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The perception of high-calorie food stimuli resulted in significant activation across a distributed network of cortical and subcortical regions often implicated in attention, motivation, emotional experience, and the inhibition of emotion.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "a3_low_control",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "F>N, low vs control",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_food_viewing"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_low",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "photographs of low-calorie foods",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "significant activation",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_control",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "blocks of nonfood control stimuli",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "relative to blocks of nonfood control stimuli",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_condition"
+    ],
+    "model_estimation": "model_glm",
+    "groups": [
+     {
+      "group": "g1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 13,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "presentation of photographs of low-calorie foods relative to blocks of nonfood control stimuli",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal change",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl_low"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute (MNI) standardized coordinate space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "generated"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.005,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected P",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 20,
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "whole-brain statistical correction for multiple comparisons",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "These regions appear to be activated during actual taste stimulation, although discrete areas within these regions may be activated differentially to pleasant and unpleasant tastes; the findings suggest that visual presentation of low-calorie food activates this visceral/sensory processing system to a greater extent than similar presentations of high-calorie foods.",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl_conjunction",
+    "table_number": {
+     "extraction_status": "not_reported"
+    },
+    "title": {
+     "extraction_status": "not_reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Reports regions activated in common by the high- and low-calorie food conditions relative to control stimuli.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl_high",
+    "table_number": {
+     "extraction_status": "not_reported"
+    },
+    "title": {
+     "extraction_status": "not_reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Lists the foci of maximal activation for the high-calorie perception condition across the entire brain.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "tbl_low",
+    "table_number": {
+     "extraction_status": "not_reported"
+    },
+    "title": {
+     "extraction_status": "not_reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Lists the local maxima and atlas coordinates for activated regions during the low-calorie food condition.",
+     "value_source": "reported"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 24656,
+  "completion": 15808,
+  "reasoning": 7512,
+  "cached": 0
+ },
+ "usage_pass1": {
+  "prompt": 12066,
+  "completion": 3378,
+  "reasoning": 134,
+  "cached": 0
+ },
+ "usage_pass2": {
+  "prompt": 12590,
+  "completion": 12430,
+  "reasoning": 7378,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 36663,
+ "service_tier_echo": "flex"
+}

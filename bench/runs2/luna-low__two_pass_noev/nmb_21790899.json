@@ -1,0 +1,2158 @@
+{
+ "case_id": "nmb_21790899",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "two_pass",
+ "tag": "two_pass_noev",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "api-assistant",
+   "extractor_version": "structured-extraction-v1",
+   "source_text_hash": "",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study investigated regional brain activation associated with cue-elicited craving and resisting the urge to smoke in treatment-seeking nicotine-dependent smokers.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Thirty-two treatment-seeking, nicotine-dependent smokers viewed blocks of smoking-related and neutral cues alternating with rest periods during fMRI scanning. Participants completed consecutive scans under instructions to allow themselves to crave and to resist the urge to smoke. The study used a block design and analyzed smoking-related cues versus neutral cues, as well as craving-versus-resisting contrasts.",
+   "value_source": "generated"
+  },
+  "external_datasets": [
+   {
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Pictures obtained from Dr. Elliot Stein lab at NIDA",
+     "value_source": "reported"
+    },
+    "url": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "ass_ftnd",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Fagerstr\u00f6m Test for Nicotine Dependence (FTND)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Assessment of nicotine dependence.",
+     "value_source": "generated"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical scale",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ass_qsu",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Questionnaire of Smoking Urges-Brief",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "not_reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ass_mws",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Minnesota Withdrawal Scale-Revised",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "not_reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical scale",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ass_smoking_history",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Tobacco Use History",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "not_reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ass_mini",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Mini-International Neuropsychiatric Interview",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Assessment for current psychiatric and substance use disorders.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical interview",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ass_craving",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "self-rating of craving",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Craving was rated on a scale of 0-10 using a hand-pad fitted onto the right hand.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "subjective rating",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_cue",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "smoking-related cues versus neutral cues",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "smoking-related cue crave condition, smoking-related cue resist condition, and neutral condition",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_smoking",
+     "cond_neutral"
+    ],
+    "groups": [],
+    "levels": {
+     "extraction_status": "extracted",
+     "value": "smoking-related cues; neutral cues",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "term_state",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Crave versus Resist",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "smoking-related Crave minus smoking-related Resist and smoking-related Resist minus smoking-related Crave",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_crave",
+     "cond_resist"
+    ],
+    "groups": [],
+    "levels": {
+     "extraction_status": "extracted",
+     "value": "Crave; Resist",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "term_strategy",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "resistance strategy",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "distraction or contemplation of the adverse effects of continued smoking",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_distraction",
+     "cond_adverse"
+    ],
+    "groups": [
+     "g_distraction",
+     "g_adverse"
+    ],
+    "levels": {
+     "extraction_status": "extracted",
+     "value": "distraction; contemplation of the adverse effects of continued smoking",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_smokers",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "treatment-seeking, nicotine-dependent smokers",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Thirty-two healthy right-handed, treatment-seeking adult nicotine-dependent smokers who smoked at least 10 cigarettes per day.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "approached_count": {
+     "extraction_status": "not_reported"
+    },
+    "consented_count": {
+     "extraction_status": "not_reported"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "32",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "32",
+     "value_source": "reported"
+    },
+    "excluded_count": {
+     "extraction_status": "extracted",
+     "value": "one was excluded entirely from the analysis due to excess movement; data from two additional resist sessions were excluded",
+     "value_source": "reported"
+    },
+    "inclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "between 21 and 60 years of age",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "meet criteria for nicotine dependence",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "motivated to quit smoking",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "willing to set a quit date",
+      "value_source": "reported"
+     }
+    ],
+    "exclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "use of other tobacco products",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "current use of nicotine replacement therapy, bupropion, or varenicline",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "medical conditions or medications that could affect brain function",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "pregnancy",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "non-nicotine substance dependence or abuse",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "current pending charges for a violent crime",
+      "value_source": "reported"
+     }
+    ],
+    "recruitment_method": {
+     "extraction_status": "extracted",
+     "value": "local flyers, newspaper, and internet advertisements",
+     "value_source": "reported"
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "33.5 years",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "11.5 years",
+     "value_source": "reported"
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "21 years",
+     "value_source": "reported"
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "60 years",
+     "value_source": "reported"
+    },
+    "age_median": {
+     "extraction_status": "not_reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "women",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "19",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "men",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "14",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "gender_distribution": [],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "not_reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "nicotine dependence",
+      "value_source": "reported"
+     }
+    ],
+    "diagnostic_system": {
+     "extraction_status": "not_reported"
+    },
+    "diagnostic_instrument": [
+     {
+      "extraction_status": "extracted",
+      "value": "Mini-International Neuropsychiatric Interview",
+      "value_source": "reported"
+     }
+    ],
+    "clinical_characteristics": {
+     "extraction_status": "extracted",
+     "value": "Participants smoked, on average, 17.7 cigarettes per day (SD=6.9). FTND scores averaged 5.6 (SD=1.9).",
+     "value_source": "reported"
+    },
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "Participants were excluded for current use of nicotine replacement therapy, bupropion, or varenicline.",
+     "value_source": "reported"
+    },
+    "education_summary": {
+     "extraction_status": "not_reported"
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "g_distraction",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "distraction strategy group",
+     "value_source": "generated"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants who used distraction alone to resist craving (n=13).",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "13",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "g_adverse",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "adverse effects contemplation group",
+     "value_source": "generated"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants who used contemplation of the adverse effects of continued smoking to resist craving (n=6).",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "6",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_crave_resist",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "cue-elicited craving and resisting craving task",
+     "value_source": "generated"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants viewed standardized pictures of people smoking or engaged in neutral activities, as well as smoking-related and neutral objects, in alternating blocks of smoking-related images, neutral images, and rest. They completed one presentation while instructed to allow themselves to crave and a second presentation while instructed to resist the urge to smoke.",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_smoking",
+     "cond_neutral",
+     "cond_rest",
+     "cond_crave",
+     "cond_resist",
+     "cond_distraction",
+     "cond_adverse"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "block design",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "presentation_software": {
+     "extraction_status": "not_reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "allow yourself to crave when you see the smoking related pictures; resist the urge to smoke when you see the smoking pictures by any means you find helpful",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "Standardized pictures of people smoking or engaged in neutral activities, smoking-related objects such as packages of cigarettes and ashtrays, and neutral objects such as pencils and dishes.",
+     "value_source": "reported"
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "self-rating of craving on a scale of 0-10",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "strategies employed in resisting the urge to smoke",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional MRI",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "extracted",
+     "value": "720 seconds",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3.0 T Siemens Trio scanner (Siemens AG, Erlangen, Germany)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Standard multislice single-shot gradient echo EPI sequence with 36 ascending transverse slices and approximate AC-PC alignment.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"matrix\":\"64\u00d764\",\"voxel_size\":\"3\u00d73\u00d73 mm\",\"slices\":36,\"slice_order\":\"ascending\",\"alignment\":\"approximate AC-PC\"}",
+     "value_source": "generated"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3.0 T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "single-shot gradient echo EPI",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "not_reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2.2 seconds",
+      "value_source": "reported"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.035 seconds",
+      "value_source": "generated"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "[3, 3, 3] mm",
+      "value_source": "generated"
+     },
+     "number_of_volumes": {
+      "extraction_status": "extracted",
+      "value": "328 volumes",
+      "value_source": "reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fsl",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "FSL pre-statistics processing prior to analysis included removal of non-brain tissue, motion correction, spatial smoothing, grand-mean intensity normalization, and highpass temporal filtering.",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "FSL 4.1.5",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Brain Extraction Tool (BET)",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "MCFLIRT",
+      "value_source": "reported"
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "removal of non-brain with Brain Extraction Tool (BET)",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "motion correction with MCFLIRT",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "spatial smoothing with a Gaussian kernel of FWHM 8 mm",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "grand-mean intensity normalization of the entire 4D dataset by a single multiplicative factor",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "highpass temporal filtering with Gaussian-weighted least-squares straight line fitting and sigma=50.0s",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_feat",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "hierarchical analysis using FEAT",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "not_reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Three levels of hierarchical analysis were completed: first-level individual data, second-level within-subject comparisons across conditions, and third-level analyses across groups. Contrasts included smoking-related cues minus neutral cues, neutral cues minus smoking-related cues, smoking-related Crave minus smoking-related Resist, and smoking-related Resist minus smoking-related Crave. Voxels were thresholded at Z>2.3 with final cluster thresholding at p=.05.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "first-level, second-level, and third-level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "FILM with local autocorrelation correction; upper-level analyses used FLAME 1 random effects",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "FSL 4.1.5; FEAT version 5.98; FILM; FLAME 1",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_fixed",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "fixed effects analysis",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "not_reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The random effects variance was forced to zero in FLAME; clusters were thresholded at p=.05.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "fixed effects",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "FSL FLAME",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_smoking",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "smoking-related cues",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Pictures and objects related to smoking.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "neutral cues",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Pictures of neutral activities and neutral objects.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "comparator stimulus class",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_rest",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "rest",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Rest block with a static crosshair.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "rest",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "cond_crave",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Crave condition",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants were instructed to allow themselves to crave when viewing smoking-related pictures.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_resist",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Resist condition",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants were instructed to resist the urge to smoke when viewing smoking pictures by any means they found helpful.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_distraction",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "distraction",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Distraction used as a strategy to resist craving.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "resistance strategy",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_adverse",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "contemplation of the adverse effects of continued smoking",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Thinking about the negative effects of smoking as a strategy to resist craving.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "resistance strategy",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "a_crave_smoke_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Crave Condition: Smoking versus Neutral Cue",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "Whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_crave_resist"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_smoking",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than neutral cues",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than smoking-related cues",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_crave",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "terms": [
+     "term_cue"
+    ],
+    "model_estimation": "model_feat",
+    "groups": [
+     {
+      "group": "g_smokers",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "31 usable crave sessions",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fsl",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "smoking-related cues minus neutral cues during the Crave condition",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI signal",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "neutral cues",
+     "value_source": "reported"
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster thresholding with corrected cluster threshold of p=.05",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_resist_smoke_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Resist Condition: Smoking versus Neutral Cue",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "Whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_crave_resist"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_smoking",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than neutral cues",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than smoking-related cues",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_resist",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "terms": [
+     "term_cue"
+    ],
+    "model_estimation": "model_feat",
+    "groups": [
+     {
+      "group": "g_smokers",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "29 usable resist sessions",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fsl",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "smoking-related cues minus neutral cues during the Resist condition",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI signal",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "neutral cues",
+     "value_source": "reported"
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "Z",
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster thresholding with corrected cluster threshold of p=.05",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_crave_gt_resist",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Crave Condition versus Resist Condition (Smoking-Neutral Contrast) Utilizing Fixed Effects",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "Whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_crave_resist"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_smoking",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included in smoking-neutral contrast",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included in smoking-neutral contrast",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_crave",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than Resist",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_resist",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than Crave",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "terms": [
+     "term_cue",
+     "term_state"
+    ],
+    "model_estimation": "model_fixed",
+    "groups": [
+     {
+      "group": "g_smokers",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "32 participants",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fsl",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "smoking-neutral contrast in the Crave condition compared to the smoking-neutral contrast in the Resist condition",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "MR signal",
+      "value_source": "reported"
+     }
+    },
+    "tables": [
+     "tbl3"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "fixed effects and cluster thresholding",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_resist_gt_crave",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Resist Condition versus Crave Condition (Smoking-Neutral Contrast) Utilizing Fixed Effects",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "Whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_crave_resist"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_smoking",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included in smoking-neutral contrast",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included in smoking-neutral contrast",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_resist",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than Crave",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_crave",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than Resist",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "terms": [
+     "term_cue",
+     "term_state"
+    ],
+    "model_estimation": "model_fixed",
+    "groups": [
+     {
+      "group": "g_smokers",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "32 participants",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fsl",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "smoking-neutral contrast in the Resist condition compared to the smoking-neutral contrast in the Crave condition",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "MR signal",
+      "value_source": "reported"
+     }
+    },
+    "tables": [
+     "tbl3"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "fixed effects and cluster thresholding",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_distraction_crave",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Crave Condition (Smoke-Neutral Contrast) in Distraction Strategy",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "Whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_crave_resist"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_smoking",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than neutral cues",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than smoking-related cues",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_crave",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_distraction",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "terms": [
+     "term_cue",
+     "term_strategy"
+    ],
+    "model_estimation": "model_feat",
+    "groups": [
+     {
+      "group": "g_distraction",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "13",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fsl",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "smoking-neutral contrast during the Crave condition in participants who used distraction alone to resist craving",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI signal",
+      "value_source": "reported"
+     }
+    },
+    "tables": [
+     "tbl4"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FLAME1+2 and clusters thresholded at p=.05",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_distraction_resist",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Resist Condition (Smoke-Neutral Contrast) in Distraction Strategy",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "Whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_crave_resist"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_smoking",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than neutral cues",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than smoking-related cues",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_resist",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_distraction",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "terms": [
+     "term_cue",
+     "term_strategy"
+    ],
+    "model_estimation": "model_feat",
+    "groups": [
+     {
+      "group": "g_distraction",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "13",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fsl",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "smoking-neutral contrast during the Resist condition in participants who used distraction alone to resist craving",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fMRI signal",
+      "value_source": "reported"
+     }
+    },
+    "tables": [
+     "tbl4"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FLAME1+2 and clusters thresholded at p=.05",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_distraction_gt_crave",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Resist Condition greater than Crave Condition in Distraction Strategy",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "Whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_crave_resist"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_resist",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than Crave",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_crave",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than Resist",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_distraction",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "terms": [
+     "term_state",
+     "term_strategy"
+    ],
+    "model_estimation": "model_feat",
+    "groups": [
+     {
+      "group": "g_distraction",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "13",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fsl",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Resist condition compared to Crave condition in the distraction strategy group",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "MR signal",
+      "value_source": "reported"
+     }
+    },
+    "tables": [
+     "tbl4"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FLAME1+2 and clusters thresholded at p=.05",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_distraction_vs_adverse",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Distraction versus Thinking about the Adverse Effects of Smoking",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "Whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_crave_resist"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_distraction",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than adverse effects contemplation",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_adverse",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than distraction",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "terms": [
+     "term_strategy"
+    ],
+    "model_estimation": "model_fixed",
+    "groups": [
+     {
+      "group": "g_distraction",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "13",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_adverse",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "6",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fsl",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "distraction compared with contemplation of the adverse effects of continued smoking",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "MR signal",
+      "value_source": "reported"
+     }
+    },
+    "tables": [
+     "tbl5"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "fixed effects analysis and clusters thresholded at p=.05",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_adverse_vs_distraction",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Thinking about the Adverse Effects of Smoking versus Distraction",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "Whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_crave_resist"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_adverse",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than distraction",
+       "value_source": "reported"
+      }
+     },
+     {
+      "condition": "cond_distraction",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than adverse effects contemplation",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "terms": [
+     "term_strategy"
+    ],
+    "model_estimation": "model_fixed",
+    "groups": [
+     {
+      "group": "g_distraction",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "13",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_adverse",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "6",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fsl",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "contemplation of the adverse effects of continued smoking compared with distraction",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "MR signal",
+      "value_source": "reported"
+     }
+    },
+    "tables": [
+     "tbl5"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "fixed effects analysis and clusters thresholded at p=.05",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Crave Condition: Smoking versus Neutral Cue",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Whole-brain results for the smoking-related cues minus neutral cues contrast during craving.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Resist Condition: Smoking vs. Neutral Cue",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Whole-brain results for the smoking-related cues minus neutral cues contrast during resisting craving.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Crave Condition versus Resist Condition (Smoking-Neutral Contrast) Utilizing Fixed Effects and Cluster Thresholding at p=.05",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Fixed-effects comparison of smoking-neutral activation between Crave and Resist conditions.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl4",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 4",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Crave and Resist Condition (Smoke-Neutral Contrast) in Distraction Strategy",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Results for smoking-neutral contrasts and Crave-Resist comparison in the distraction strategy group.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl5",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 5",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Regional Areas of Activation Using Distraction or Thinking about the Adverse Effects of Smoking with a Fixed Effects Analysis and Clusters Thresholded at p=.05",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Fixed-effects comparison of regional activation between distraction and adverse-effects contemplation strategies.",
+     "value_source": "generated"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 22774,
+  "completion": 11895,
+  "reasoning": 225,
+  "cached": 11138
+ },
+ "usage_pass1": {
+  "prompt": 11141,
+  "completion": 6608,
+  "reasoning": 92,
+  "cached": 11138
+ },
+ "usage_pass2": {
+  "prompt": 11633,
+  "completion": 5287,
+  "reasoning": 133,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 50823,
+ "service_tier_echo": "flex"
+}
