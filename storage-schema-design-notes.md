@@ -493,3 +493,44 @@ The distinction the reference now carries: two `Device` records assert the study
 machines — a second site, or a rescan on different hardware. That is a claim about the data
 and worth stating, and it is not the same as two sequences differing, which the
 `Acquisition` records already say on their own.
+
+## Why a coordinate set, and not a table, says what its coordinates are for
+
+`Table.purpose` answers per table. A table, or a passage of text, often holds coordinates
+with different purposes: the ROIs an analysis was restricted to beside the peaks it found,
+or a connectivity seed beside the regions connected to it. `CoordinateSet` moves the answer
+to the group of coordinates reported together -- a table's row group, keyed as
+`Analysis.source_table_analysis` keys it, or a run of sentences -- and covers text, which
+had nowhere to go.
+
+**Measured 2026-10-02** by having gpt-5.6-luna label 250 tables that passed coordinate
+triage and 250 passages of article text, giving each coordinate set a role and letting a
+point override it:
+
+| | tables | text |
+|---|---|---|
+| coordinate sets / points | 552 / 2,862 | 422 / 653 |
+| items whose sets have more than one role | 18% | 20% |
+| sets with a point of a different role | 7.2% | 3.8% |
+
+So one item in five is mis-described by a per-table or per-passage label, while a set is
+almost always one thing. Most of the per-point disagreements in tables were coordinates of
+tables triage passed but that hold no coordinates at all; the genuine mixed set -- a seed
+listed as a row of its own connectivity results -- is 1.3% of sets, about 0.7% of points.
+
+**A mixed set takes its dominant role, and that error is accepted.** The sets are the table
+parse's groups, made before any role is assigned and keyed by ordinal, so splitting one
+would mean renumbering or appending keys the parse never made. The cost of not splitting is
+bounded and one-directional: a seed recorded as one more point of the result set it was
+printed in. No result is lost. The sets that carry it have a recognisable signature -- a
+connectivity result whose analysis names a seed -- so they can be found and split later
+without redoing anything else.
+
+**The five roles.** `result` (with `result_kind`), `anchor` (with `anchor_kind`),
+`localization`, `reference` and `display`, from neurostuff/ns-pond-ingestion-workflow#3.
+In tables, 91% of points are results and the rest anchors; `display` did not occur in 250
+tables and belongs to text, where figure legends give slice and crosshair positions (17 of
+653 points). `localization` and `reference` occurred only in text in this sample (7 and 36
+points); `TablePurpose.prior_literature_coordinates` already covers the tables that hold
+references. The one gap found was the centre of an artificial lesion used to test a method,
+which none of the roles names; it is left to the open vocabulary.

@@ -716,3 +716,41 @@ classes:
         description: |-
           What this table is for. `reported_effect` when its rows are the foci of a tested effect, which is the common case and which is derived from the analyses that name the table; otherwise what the rows are instead -- region or ROI definitions, atlas parcels, connectivity seeds, the peaks of a decomposition's components, coordinates cited from other papers, a stimulus list, demographics, descriptive statistics with no test.
           A coordinate table is not an analysis merely by having coordinates in it, and this is the only field that says which it is. Absence means nothing decided: a table deliberately encoded as a non-analysis and one no pass considered are otherwise the same silence, and the coordinates of the first belong on the entity they locate (a Region's description) rather than on a contrast that never produced them.
+          A per-table answer, so it cannot be right for a table whose row groups serve different purposes -- results beside the ROIs they were tested in. Each row group states its own role in a `CoordinateSet`.
+  CoordinateSet:
+    description: |-
+      A group of coordinates reported together -- a row group of a table, or a run of sentences in the text -- and what it is for. The coordinates stay in the parse, as for tables; this records their role and links them to what they belong to: the analysis a result reports, the regions an anchor locates.
+      A set has one role: its dominant one. The groups come from the table parse, which splits a table by what was tested rather than by what each row is for, so a set can mix roles -- a connectivity results table that lists its own seed as a row. Such a set keeps the role of most of its points, and the odd point takes that role with it. This is a known error, about 1.3% of sets, accepted rather than splitting the parse's groups.
+    attributes:
+      local_id:
+        range: string
+        required: true
+        description: >-
+          The key the parse gave this set: `<table id>#<ordinal>` for a table's row group,
+          the same key `Analysis.source_table_analysis` names, or `text#<ordinal>` for a run
+          of sentences.
+      role:
+        range: ExtractedCoordinateRole
+        description: What these coordinates are for.
+      result_kind:
+        range: ExtractedResultKind
+        description: For a `result`, the kind of analysis that produced it. Absent for every
+          other role.
+      anchor_kind:
+        range: ExtractedAnchorKind
+        description: For an `anchor`, what it defines. Absent for every other role.
+      analysis:
+        range: Analysis
+        inlined: false
+        description: >-
+          For a `result`, the analysis whose findings these are. The same join `Analysis.source_table_analysis`
+          makes from the other side, here for sets read from the text as well.
+      regions:
+        range: Region
+        multivalued: true
+        inlined: false
+        description: For an `anchor`, the regions these coordinates locate.
+      description:
+        range: ExtractedString
+        description: What the set is, in the source's words, when the role alone does not
+          say.

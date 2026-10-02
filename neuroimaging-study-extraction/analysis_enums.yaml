@@ -595,6 +595,67 @@ enums:
       descriptive_statistics:
         description: Summary values with no inferential test -- means, percentages, dwell
           times.
+  CoordinateRole:
+    description: >-
+      What a set of reported coordinates is for. A paper prints coordinates for five reasons,
+      and only the first is a finding; the rest locate something the study used, measured
+      with, quoted, or showed. Open vocabulary: write the source's own wording when nothing
+      here fits.
+    permissible_values:
+      result:
+        description: >-
+          A finding of this study: the peaks, clusters, local maxima or centres of gravity
+          of a tested effect. `result_kind` says what kind of analysis produced it.
+      anchor:
+        description: >-
+          A location that defines an analysis rather than resulting from one: a region of
+          interest, a connectivity seed, a stimulation target, a network node. `anchor_kind`
+          says which.
+      localization:
+        description: >-
+          Where a sensor, electrode, fiducial, intracranial contact, dipole or anatomical
+          landmark is. Metadata about a measurement, not a finding.
+      reference:
+        description: >-
+          Coordinates quoted from other studies for comparison. A cited location used to place
+          a region of interest is an `anchor`, not a reference.
+      display:
+        description: >-
+          A location used only to show a figure: a slice position, crosshairs, an example
+          voxel. Found in text, almost never in tables.
+  ResultKind:
+    description: >-
+      The kind of analysis a `result` came from, coarse enough to read from a table or a sentence.
+      An analysis the record models in full states its method in `details` and its test in
+      `Effect.kind`; this is the label for a coordinate set either way. Open vocabulary.
+    permissible_values:
+      contrast:
+        description: Conditions, groups or tasks compared (A > B, patients > controls).
+      association:
+        description: >-
+          Signal varying with a continuous variable: a correlation, a parametric modulation,
+          a regression on symptoms, age or performance.
+      multivariate:
+        description: Decoding, searchlight, classifier weights, representational similarity.
+      morphometric:
+        description: A structural effect -- volume, thickness, density, shape.
+      lesion:
+        description: Lesion locations, or lesion-symptom and lesion-network mapping.
+      connectivity:
+        description: Regions whose connectivity with a seed is the finding. The seed itself
+          is an `anchor`.
+  AnchorKind:
+    description: What an `anchor` coordinate set defines. Open vocabulary.
+    permissible_values:
+      roi:
+        description: A region of interest or sphere that data were extracted from or restricted
+          to.
+      seed:
+        description: The seed of a connectivity, PPI or DCM analysis.
+      stimulation_target:
+        description: Where TMS, tDCS, DBS or focused ultrasound was delivered.
+      node:
+        description: An atlas parcel or network node definition.
 classes:
   ExtractedAnalysisType:
     is_a: ExtractedValue
@@ -818,4 +879,34 @@ classes:
       value:
         any_of:
           - range: TablePurpose
+          - range: string
+  ExtractedCoordinateRole:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is CoordinateRole, or the source's own wording when the
+      vocabulary does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: CoordinateRole
+          - range: string
+  ExtractedResultKind:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is ResultKind, or the source's own wording when the vocabulary
+      does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: ResultKind
+          - range: string
+  ExtractedAnchorKind:
+    is_a: ExtractedValue
+    description: >-
+      An ExtractedValue whose value is AnchorKind, or the source's own wording when the vocabulary
+      does not cover it.
+    slot_usage:
+      value:
+        any_of:
+          - range: AnchorKind
           - range: string

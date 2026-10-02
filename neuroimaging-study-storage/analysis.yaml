@@ -1262,3 +1262,80 @@ classes:
           the same silence, and the coordinates of the first belong on the entity they
           locate (a Region's description) rather than on a contrast that never produced
           them.
+
+          A per-table answer, so it cannot be right for a table whose row groups serve
+          different purposes -- results beside the ROIs they were tested in. Each row group
+          states its own role in a `CoordinateSet`.
+
+  CoordinateSet:
+    description: >-
+      A group of coordinates reported together -- a row group of a table, or a run of
+      sentences in the text -- and what it is for. The coordinates stay in the parse, as for
+      tables; this records their role and links them to what they belong to: the analysis a
+      result reports, the regions an anchor locates.
+
+      A set has one role: its dominant one. The groups come from the table parse, which splits
+      a table by what was tested rather than by what each row is for, so a set can mix roles
+      -- a connectivity results table that lists its own seed as a row. Such a set keeps the
+      role of most of its points, and the odd point takes that role with it. This is a known
+      error, about 1.3% of sets, accepted rather than splitting the parse's groups.
+    attributes:
+      id:
+        in_subset: [mvp, deterministic]
+        range: string
+        identifier: true
+        required: true
+        description: >-
+          The key the parse gave this set: `<table id>#<ordinal>` for a table's row group,
+          the same key `Analysis.source_table_analysis` names, or `text#<ordinal>` for a run
+          of sentences.
+      table:
+        in_subset: [mvp, deterministic]
+        range: Table
+        inlined: false
+        description: The table this set was read from. Absent for a set read from the text.
+      text_excerpt:
+        in_subset: [mvp, deterministic]
+        range: string
+        description: >-
+          For a set read from the text, the sentences it was read from: the sentence holding
+          the coordinates and its neighbours, extended past any neighbour that also holds
+          coordinates.
+      role:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: CoordinateRole
+          - range: string
+        description: What these coordinates are for.
+      result_kind:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: ResultKind
+          - range: string
+        description: >-
+          For a `result`, the kind of analysis that produced it. Absent for every other
+          role.
+      anchor_kind:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: AnchorKind
+          - range: string
+        description: For an `anchor`, what it defines. Absent for every other role.
+      analysis:
+        in_subset: [mvp, model_extracted]
+        range: Analysis
+        inlined: false
+        description: >-
+          For a `result`, the analysis whose findings these are. The same join
+          `Analysis.source_table_analysis` makes from the other side, here for sets read
+          from the text as well.
+      regions:
+        in_subset: [model_extracted]
+        range: Region
+        multivalued: true
+        inlined: false
+        description: For an `anchor`, the regions these coordinates locate.
+      description:
+        in_subset: [model_extracted]
+        range: string
+        description: What the set is, in the source's words, when the role alone does not say.
