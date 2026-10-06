@@ -13,6 +13,18 @@ default_prefix: neurostudy
 default_range: string
 
 classes:
+  ExtractedMainDesignType:
+    is_a: ExtractedValue
+    description: >-
+      Standardized main experimental design type extracted from the study.
+    slot_usage:
+      value:
+        range: MainDesignType
+        required: true
+        description: >-
+          Strictly one of Block, Event-Related, or NS. Follow coding guidelines
+          for continuous/dynamic cues (classify as Block).
+
 
   Group:
     description: >-
@@ -152,7 +164,7 @@ classes:
           printing a breakdown: "22 male smokers", "young women (n = 8)" and "ten male
           patients" are each one entry whose count is the whole group, plus a second
           entry for the absent sex with a count of zero. Read a demographics table row
-          ("N female | 5") exactly as you would read the same fact in a sentence.
+          ("N female | 5") exactly as you would read the same fact in a sentence. Extract the participant count whenever it is available, including from Table 1, demographic tables, or the Methods section. Do not leave sex missing when the article reports the numbers of male and female participants.
       gender_distribution:
         in_subset: [mvp, model_extracted]
         range: CategoryDistribution
@@ -256,14 +268,25 @@ classes:
           for that. Likewise a negated *condition* is normative ("no psychiatric history")
           and a negated *exposure* is not ("no history of smoking" defines the control arm
           of a smoking study).
-      medical_condition:
+      drug_or_behaviour:
         in_subset: [mvp, model_extracted]
-        range: string
-        multivalued: true
+        range: DrugOrBehaviour
         description: >-
-          Medical, neurological, psychiatric, developmental, or physiological
-          condition(s) defining or characterizing the group. List the primary diagnosis
-          and all comorbidities.
+          The primary substance, addictive behaviour, or special category
+          defining the participant group. Use only the standardized terms
+          in DrugOrBehaviour. If the group includes more than one substance
+          or addictive behaviour, use `Multiple`. Use `Healthy` for healthy
+          control groups.
+      group_type:
+        in_subset: [mvp, model_extracted]
+        range: GroupType
+        description: >-
+          Standardized classification of the participant group based on
+          addiction status and treatment/abstinence status. Select the
+          category that best represents the primary and most comprehensive
+          group represented in the study.
+          
+
       diagnostic_system:
         in_subset: [mvp, model_extracted]
         range: string
@@ -411,6 +434,70 @@ classes:
 
 enums:
 
+  DrugOrBehaviour:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      Standardized substance, addictive behaviour, or special category
+      defining the participant group.
+    permissible_values:
+      Alcohol:
+        description: Alcohol-related use or addiction.
+      Cannabis:
+        description: Cannabis-related use or addiction.
+      Cocaine:
+        description: Cocaine-related use or addiction.
+      Heroin:
+        description: Heroin-related use or addiction.
+      Inhalant:
+        description: Inhalant-related use or addiction.
+      Methamphetamine:
+        description: Methamphetamine-related use or addiction.
+      Nicotine:
+        description: Nicotine-related use or addiction.
+      Opioids:
+        description: Opioid-related use or addiction, excluding heroin when heroin is specifically identified.
+      Gambling:
+        description: Gambling-related behavioural addiction.
+      Videogaming:
+        description: Videogaming-related behavioural addiction.
+      Multiple:
+        description: >-
+          More than one substance or addictive behaviour is represented
+          in the primary group.
+      Healthy:
+        description: Healthy control participants with no addiction.
+
+
+  GroupType:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      Standardized participant-group classification for addiction-related
+      studies.
+    permissible_values:
+      healthy:
+        description: >-
+          Participants with no addiction or healthy control participants.
+
+      User:
+        description: >-
+          Substance users without a clinical addiction diagnosis.
+
+      Ad_Treated:
+        description: >-
+          Participants with addiction who are receiving treatment or were
+          recruited from a treatment setting.
+
+      AD-Untreated:
+        description: >-
+          Participants with addiction who are not currently receiving treatment.
+
+      LTA:
+        description: >-
+          Long-term abstinent participants with a history of substance use
+          disorder who are currently abstinent and not receiving treatment.
+
+
+
   AgeUnit:
     in_subset: [deterministic]
     description: >-
@@ -468,3 +555,5 @@ enums:
         in_subset: [mvp, model_extracted]
       mouse:
         in_subset: [mvp, model_extracted]
+  
+

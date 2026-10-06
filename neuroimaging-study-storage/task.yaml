@@ -90,20 +90,14 @@ classes:
           The materials presented to participants, in the source's own terms -- the stimulus
           set, its name, how many items. One entry per distinct material;
           `stimulus_modality` carries the sensory channel.
-      stimulus_modality:
+      stimulus_type:
         in_subset: [mvp, model_extracted]
-        any_of:
-          - range: StimulusModality
-          - range: string
-        multivalued: true
+        range: StimulusType
         description: >-
-          The sensory channel the stimuli were delivered through. Multivalued because a
-          paradigm may use more than one -- a photograph with a spoken label.
+          Standardized classification of the type of stimulus presented
+          to participants. If more than one stimulus type is used in the
+          task, use `Mixed`.
 
-          Often not stated in those words: a source naming IAPS, NimStim, Ekman faces or
-          film clips has said `visual` without using the word. Inferring it from such a cue
-          is intended, and the cue is what belongs in the evidence -- not the whole methods
-          section.
       response_modality:
         in_subset: [mvp, model_extracted]
         any_of:
@@ -118,6 +112,23 @@ classes:
         range: string
         multivalued: true
         description: Behavioral variables recorded and summaries used to verify task performance.
+      duration_seconds:
+        in_subset: [mvp, model_extracted]
+        range: string # Use string (or any_of: [float, string]) to support plain seconds, "EST: <val>", or "NS"
+        description: >-
+          Duration of the task inside the scanner in seconds for one scanning session.
+          Recorded as reported value in seconds, estimated with 'EST: <value>', or 'NS' if not reliably determinable.
+      combined_task_category:
+        in_subset: [mvp, model_extracted]
+        multivalued: true
+        any_of:
+          - range: CombinedTaskCategory
+          - range: string
+        description: >-
+          The standardized category of any additional cognitive or behavioral task administered 
+          alongside the primary Drug Cue Reactivity (FDCR) paradigm. Do not use this field to 
+          classify the FDCR task itself; it is intended exclusively to capture secondary or 
+          combined tasks performed concurrently within the same scanning session.
 
   Condition:
     description: >-
@@ -219,13 +230,13 @@ enums:
         description: >-
           Conditions presented in extended runs of like trials and modelled as those runs.
           Covers `blocked`, `block design` and a randomised or alternating block order:
-          randomisation is how the blocks were sequenced, not a different design.
+          randomisation is how the blocks were sequenced, not a different design. In cases where the cue has a dynamic nature, such as a video or a script, and has been presented for more than 10 seconds, it should be classified as block.
       event_related:
         in_subset: [mvp, model_extracted]
         description: >-
           Individual trials modelled as separate events. Rapid, slow and fast variants are
           this design at different inter-stimulus intervals; write the source's phrase in
-          the field when that distinction matters.
+          the field when that distinction matters. In cases where the cue has a dynamic nature, such as a video or a script, and has been presented for more than 10 seconds, it should be classified as block.
       mixed:
         in_subset: [mvp, model_extracted]
         description: >-
@@ -317,3 +328,52 @@ enums:
         description: >-
           The task required no response: passive viewing or listening, film watching, resting
           state. A positive statement, and not the same as leaving the field empty.
+  StimulusType:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      Standardized classification of the type of stimulus presented
+      to participants.
+    permissible_values:
+      semantic:
+        description: >-
+          Semantic or conceptual stimuli, such as words or other
+          meaning-based information, where the presentation type is not
+          better classified as visual, auditory, etc.
+      visual_picture:
+        description: A static visual image or picture.
+      visual_video_without_audio:
+        description: A visual video presented without an audio component.
+      visual_video_with_audio:
+        description: A visual video presented with an audio component.
+      auditory:
+        description: Auditory stimuli presented through sound.
+      olfactory:
+        description: Odor or smell stimuli.
+      taste:
+        description: Taste or gustatory stimuli.
+      tactile:
+        description: Touch or somatosensory stimuli.
+      imaginary:
+        description: Stimuli generated through instructed imagery or imagination.
+      mixed:
+        description: >-
+          More than one stimulus type is used in the task.
+  CombinedTaskCategory:
+    permissible_values:
+      working_memory:
+        description: Working Memory
+      perception:
+        description: Perception
+      interference_resolution:
+        description: Interference Resolution
+      decision_reward:
+        description: Decision / Reward
+      attention:
+        description: Attention
+      approach:
+        description: Approach
+      avoidance:
+        description: Avoidance
+      response_inhibition:
+        description: Response Inhibition
+

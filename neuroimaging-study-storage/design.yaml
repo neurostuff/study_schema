@@ -75,6 +75,27 @@ classes:
         inlined_as_list: true
         description: >-
           The occasions on which data were collected.
+      intervention_type:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: InterventionType
+          - range: string
+        description: >-
+          The modality of the study's intervention: behavioural, brain stimulation,
+          neurofeedback, or pharmacological. Use this field to characterize the
+          intervention being studied, not the type of comparator arm, such as placebo,
+          sham, usual care, or no intervention.
+      type_of_interventional_study:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: InterventionalStudyType
+          - range: string
+        description: >-
+          The standardized type of interventional study. Select the value that best
+          matches the study design; do not infer a type when the available information
+          is insufficient.
+
+
 
   Arm:
     description: >-
@@ -153,6 +174,23 @@ classes:
           and units, for example 24 h or six weeks.
 
 enums:
+  MainDesignType:
+    description: >-
+      Standardized fMRI / neuroimaging experimental design type.
+    permissible_values:
+      Block:
+        description: >-
+          Block design (boxcar). Note: In cases where the cue is presented for a
+          relatively long period and has a dynamic nature, such as a video, film clip,
+          or script/guided imagery, it MUST be classified as Block, even if the article
+          describes the design using different terminology.
+      Event-Related:
+        description: >-
+          Event-related design (rapid or jittered discrete trials with brief stimulus
+          presentations).
+      NS:
+        description: >-
+          Not Specified (NS) / Not reported by the authors in the text.
 
   Allocation:
     in_subset: [mvp, model_extracted]
@@ -345,3 +383,34 @@ enums:
           Data were collected on several occasions but nothing was administered, so there is
           no intervention to be relative to. A longitudinal observational study takes this
           value.
+  InterventionType:
+    description: Standardized modalities of study interventions.
+    permissible_values:
+      behavioural:
+        description: A behavioural intervention, such as training, therapy, or exercise.
+      brain_stimulation:
+        description: Brain stimulation, such as TMS, tDCS, tACS, or deep brain stimulation.
+      neurofeedback:
+        description: Neurofeedback training.
+      pharmacological:
+        description: A drug or other pharmacological agent.
+  InterventionalStudyType:
+    description: Standardized types of interventional study.
+    permissible_values:
+      controlled_nonrandomized:
+        description: Controlled study in which participants were not randomly assigned.
+      controlled_randomized:
+        description: Controlled study in which participants were randomly assigned.
+      double_blind_randomized_placebo_controlled_rct:
+        description: Double-blind, randomized, placebo-controlled trial (RCT).
+      double_blind_randomized_crossover:
+        description: Double-blind, randomized crossover study.
+      randomized_placebo_controlled:
+        description: Randomized, placebo-controlled study.
+      replication_study:
+        description: Study designed to replicate findings from an earlier study.
+      retrospective:
+        description: Retrospective interventional study, as identified by the source.
+      single_arm:
+        description: Interventional study with one treatment arm and no comparison arm.
+
