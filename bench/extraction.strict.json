@@ -1,0 +1,3684 @@
+{
+ "$defs": {
+  "Acquisition": {
+   "additionalProperties": false,
+   "description": "Extracted technical acquisition protocol record, with or without an associated participant paradigm.",
+   "properties": {
+    "acquisition_duration_seconds": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How long the acquisition ran, in seconds. A run length, not the total across runs, unless the source gives only the total."
+    },
+    "description": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Narrative account of the acquisition, verbatim, holding whatever this schema has no field for. Fill this in rather than dropping a reported parameter, whatever the modality."
+    },
+    "eeg": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/EEG"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Fill in for an EEG recording."
+    },
+    "fnirs": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/FNIRS"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Fill in for an fNIRS recording."
+    },
+    "instrument": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Scanner, amplifier, or recording system, verbatim, including manufacturer and model."
+    },
+    "local_id": {
+     "description": "Short label assigned by the extractor; resolved to stable ID by mapper.",
+     "type": "string"
+    },
+    "modality": {
+     "description": "Modality as stated in the paper (e.g., \"functional MRI\", \"DTI\"), verbatim; the mapper normalizes it to the storage Modality vocabulary. Do not translate it here, and do not omit a modality the vocabulary has no obvious slot for -- an unmatched label lands on `other` with the label preserved.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "mri": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/MRI"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Fill in for an MRI acquisition of any kind, functional, structural, or diffusion."
+    },
+    "other": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/OtherModality"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Fill in only for a modality none of the four above covers, such as MEG, SPECT, ultrasound, or intracranial EEG. Extra parameters for a modality that does have a class go in description or structured_details, not here."
+    },
+    "pet": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/PET"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Fill in for a PET scan."
+    },
+    "structured_details": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "JSON-encoded acquisition parameters that no field below accepts, when the reported parameters have structure worth keeping. A string because the schema has no free-form object range."
+    }
+   },
+   "required": [
+    "acquisition_duration_seconds",
+    "description",
+    "eeg",
+    "fnirs",
+    "instrument",
+    "local_id",
+    "modality",
+    "mri",
+    "other",
+    "pet",
+    "structured_details"
+   ],
+   "title": "Acquisition",
+   "type": "object"
+  },
+  "Analysis": {
+   "additionalProperties": false,
+   "description": "Extracted analysis record, including direct links and analysis-level inference metadata.",
+   "properties": {
+    "acquisitions": {
+     "description": "local_ids of Acquisition records supplying data to this analysis. Extract these explicitly, including for structural, diffusion, and other analyses without an associated Experiment.",
+     "items": {
+      "type": "string"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "assessments": {
+     "description": "local_ids of Assessment records used by this analysis.",
+     "items": {
+      "type": "string"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "baseline": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "What the map was tested against, verbatim -- a named condition such as rest or fixation, an implicit baseline, chance, or zero; mapper normalizes. Do not invent a baseline condition: if the baseline is a modelled condition, give it a condition term on the lesser side instead."
+    },
+    "component_decomposition": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ComponentDecompositionDetails"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Fill in for ICA and related component maps."
+    },
+    "conditions": {
+     "description": "The conditions entering this analysis and, for each, which side of the comparison it sits on. Every condition the analysis uses gets an entry, directional or not.",
+     "items": {
+      "$ref": "#/$defs/ConditionTerm"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "conjunction": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ConjunctionDetails"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Fill in for a logical combination of independently defined effects."
+    },
+    "connectivity": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ConnectivityDetails"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Fill in for a connectivity analysis -- PPI, gPPI, seed-based, DCM, Granger causality, or coherence."
+    },
+    "coordinate_space": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Coordinate space the results are reported in, verbatim, such as \"MNI space\" or \"Talairach\"; mapper normalizes. Extract it from the Methods even when the tables state it, because table parsing does not always recover it."
+    },
+    "decoding": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/DecodingDetails"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Fill in for a classification or pattern-discriminability analysis."
+    },
+    "definition": {
+     "description": "Contrast specification, verbatim.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "experiments": {
+     "description": "local_ids of the Experiment records this analysis draws on. Multivalued because an analysis can span paradigms -- a cross-task conjunction, or a localizer plus a main task. Empty for an analysis with no paradigm, which is linked through acquisitions.",
+     "items": {
+      "type": "string"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "groups": {
+     "description": "The participant cohorts in this analysis and, for each, which side of the comparison it sits on and how many of its participants this analysis included.",
+     "items": {
+      "$ref": "#/$defs/GroupTerm"
+     },
+     "type": "array"
+    },
+    "inference_settings": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/InferenceSettings"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Thresholding and correction settings for this analysis. Fill this in per analysis, since papers routinely use one threshold for whole-brain tests and another inside an ROI."
+    },
+    "interpretations": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "What the authors say the analysis measures, in their words. A claim about the paper's own reading, never the extractor's, and never a substitute for the definition."
+    },
+    "local_id": {
+     "description": "Short label assigned by the extractor.",
+     "type": "string"
+    },
+    "measure": {
+     "description": "The scientific quantity of the map, in the source's words.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/Measure"
+      }
+     ]
+    },
+    "mediation_path": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "For a mediation analysis, which path was tested, verbatim -- the direct effect, the indirect or mediated path, or the total effect; mapper normalizes. Omit otherwise."
+    },
+    "model_estimation": {
+     "description": "local_id of the ModelEstimation used.",
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "model_representation_notes": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Model components this schema could not represent, verbatim -- random slopes, latent variables, custom basis functions, dependencies between terms. Fill this in rather than dropping a component; it is how the gap becomes visible."
+    },
+    "name": {
+     "description": "Analysis label, verbatim.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "not_structurable": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/NotStructurableDetails"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Fill in only when the effect is grounded in the source but has no stable structured decomposition at all -- not merely a method outside the named families, which is other_method."
+    },
+    "other_method": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/OtherAnalysisDetails"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Fill in for a method none of the five above covers, such as a mediation analysis. Leave all six empty for a mass-univariate analysis -- a voxelwise, vertexwise, or ROI-wise GLM, mixed-effects model, ANOVA, ANCOVA, or robust regression -- which needs no method payload."
+    },
+    "preprocessing": {
+     "description": "local_id of the Preprocessing pipeline used.",
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "roi_definition": {
+     "description": "How a region of interest was defined, verbatim -- an atlas or parcellation, prior literature, an a priori anatomical region, a separate functional localizer, or this study's own earlier analysis; mapper normalizes. Omit for a whole-brain or searchlight analysis.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "roi_label": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The atlas, parcellation, or region name, verbatim. Omit for a whole-brain analysis."
+    },
+    "similarity": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/SimilarityDetails"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Fill in for a representational-similarity analysis, where the association is at the level of dissimilarity matrices. A similarity regressor entered into a univariate GLM is a parametric modulation instead, recorded as a Term."
+    },
+    "spatial_scope": {
+     "description": "Spatial extent of the inference, verbatim -- whole brain, one or more regions of interest, or a searchlight; mapper normalizes.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "spatial_unit": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The element the analysis ran over, verbatim -- voxels, surface vertices, averaged regions, or parcels; mapper normalizes. Distinct from spatial_scope, which gives the extent."
+    },
+    "statistic": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/Statistic"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The test statistic reported for this analysis and its degrees of freedom."
+    },
+    "statistical_maps": {
+     "description": "Statistical images made available for this analysis, usually in a repository such as NeuroVault.",
+     "items": {
+      "$ref": "#/$defs/StatisticalMap"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "tables": {
+     "description": "local_ids of Table records reporting results.",
+     "items": {
+      "type": "string"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "terms": {
+     "description": "local_ids of Term records entering this analysis.",
+     "items": {
+      "type": "string"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    }
+   },
+   "required": [
+    "acquisitions",
+    "assessments",
+    "baseline",
+    "component_decomposition",
+    "conditions",
+    "conjunction",
+    "connectivity",
+    "coordinate_space",
+    "decoding",
+    "definition",
+    "experiments",
+    "groups",
+    "inference_settings",
+    "interpretations",
+    "local_id",
+    "measure",
+    "mediation_path",
+    "model_estimation",
+    "model_representation_notes",
+    "name",
+    "not_structurable",
+    "other_method",
+    "preprocessing",
+    "roi_definition",
+    "roi_label",
+    "similarity",
+    "spatial_scope",
+    "spatial_unit",
+    "statistic",
+    "statistical_maps",
+    "tables",
+    "terms"
+   ],
+   "title": "Analysis",
+   "type": "object"
+  },
+  "Assessment": {
+   "additionalProperties": false,
+   "description": "",
+   "properties": {
+    "assessment_type": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Broad type, verbatim -- a cognitive test, clinical scale, questionnaire, behavioural task, physiological measure, or a biospecimen assay such as salivary cortisol."
+    },
+    "description": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "What the assessment measured and how, verbatim."
+    },
+    "local_id": {
+     "description": "Short label assigned by the extractor.",
+     "type": "string"
+    },
+    "name": {
+     "description": "The instrument's name as the paper gives it, such as Digit Span, MMSE, or BDI-II.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    }
+   },
+   "required": [
+    "assessment_type",
+    "description",
+    "local_id",
+    "name"
+   ],
+   "title": "Assessment",
+   "type": "object"
+  },
+  "CategoryDistribution": {
+   "additionalProperties": false,
+   "description": "",
+   "properties": {
+    "category": {
+     "description": "The category label as the study writes it, not normalized to any external scheme.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "count": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How many participants fall in this category, when the source gives a count."
+    },
+    "denominator": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The total the count or percentage is out of, when it is not the whole group -- a distribution reported for the subset who answered, for instance."
+    },
+    "percentage": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The percentage in this category, when the source gives a percentage rather than a count."
+    },
+    "reporting_framework": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The classification system behind these categories, verbatim, such as the OMB or NIH race and ethnicity categories or a named handedness inventory. Free-text categories only compare across studies when the scheme is known."
+    }
+   },
+   "required": [
+    "category",
+    "count",
+    "denominator",
+    "percentage",
+    "reporting_framework"
+   ],
+   "title": "CategoryDistribution",
+   "type": "object"
+  },
+  "ComponentDecompositionDetails": {
+   "additionalProperties": false,
+   "description": "Method payload for ICA and related component maps.",
+   "properties": {
+    "component_id": {
+     "description": "Identifier of the component within the decomposition, as reported.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "component_label": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The source's name for the component, verbatim, such as a network label."
+    },
+    "map_quantity": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "What the values of the reported map represent, verbatim -- a loading, a weight, a z-score, or a spatial map; mapper normalizes."
+    },
+    "method": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Decomposition method, verbatim, such as ICA, tensor ICA, PCA, or dictionary learning; mapper normalizes."
+    },
+    "polarity_semantics": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Whether the sign of the map carries meaning, verbatim; mapper normalizes. Decomposition methods can return components whose polarity is arbitrary, in which case a negative loading is not a decrease."
+    },
+    "selection_criterion": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How this component was selected for reporting, verbatim."
+    },
+    "total_components": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Number of components the decomposition produced."
+    }
+   },
+   "required": [
+    "component_id",
+    "component_label",
+    "map_quantity",
+    "method",
+    "polarity_semantics",
+    "selection_criterion",
+    "total_components"
+   ],
+   "title": "ComponentDecompositionDetails",
+   "type": "object"
+  },
+  "Condition": {
+   "additionalProperties": false,
+   "description": "Extracted condition record.",
+   "properties": {
+    "condition_kind": {
+     "description": "What kind of thing this condition is, verbatim or as judged -- a task state, a class of stimulus, rest, a timepoint, a drug, brain stimulation, a training or therapy programme, or a comparator such as a placebo, a sham, an active comparator, usual care, or no intervention; mapper normalizes. Type the comparator as carefully as the manipulation.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "description": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Condition definition, verbatim."
+    },
+    "local_id": {
+     "description": "Short label assigned by the extractor.",
+     "type": "string"
+    },
+    "name": {
+     "description": "Condition label as stated in the paper.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    }
+   },
+   "required": [
+    "condition_kind",
+    "description",
+    "local_id",
+    "name"
+   ],
+   "title": "Condition",
+   "type": "object"
+  },
+  "ConditionTerm": {
+   "additionalProperties": false,
+   "description": "One experimental condition entering an analysis and the side of the comparison it sits on.",
+   "properties": {
+    "condition": {
+     "description": "local_id of the Condition record.",
+     "type": "string"
+    },
+    "factor_levels": {
+     "description": "The factorial cell this condition represents. Record a factor held constant across the directional terms as well, with its constant level.",
+     "items": {
+      "$ref": "#/$defs/FactorLevel"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "label": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The source's wording for this condition in this analysis, verbatim, when it differs from the Condition name."
+    },
+    "role": {
+     "description": "Which side of the comparison this condition sits on, verbatim as the source frames it; mapper normalizes. For an ordered contrast mark the extremes and leave the middle terms undirected, keeping the ordering in contrast_definition.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    }
+   },
+   "required": [
+    "condition",
+    "factor_levels",
+    "label",
+    "role"
+   ],
+   "title": "ConditionTerm",
+   "type": "object"
+  },
+  "ConjunctionComponent": {
+   "additionalProperties": false,
+   "description": "One component effect of a conjunction.",
+   "properties": {
+    "analysis_id": {
+     "description": "local_id of the sibling Analysis record for this component, when it is separately reported.",
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "analysis_type": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The component's own method, verbatim, when it is known and differs from the others."
+    },
+    "definition": {
+     "description": "Statement of the component effect, verbatim, including its direction.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    }
+   },
+   "required": [
+    "analysis_id",
+    "analysis_type",
+    "definition"
+   ],
+   "title": "ConjunctionComponent",
+   "type": "object"
+  },
+  "ConjunctionDetails": {
+   "additionalProperties": false,
+   "description": "Method payload for a logical combination of independently defined effects.",
+   "properties": {
+    "components": {
+     "description": "The independently defined effects that were combined.",
+     "items": {
+      "$ref": "#/$defs/ConjunctionComponent"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "implementation": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Procedure that computed the conjunction, verbatim, such as a minimum-statistic test, masking, or a logical OR; mapper normalizes."
+    },
+    "null_hypothesis": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Which null hypothesis was tested, verbatim -- the global null or the conjunction null; mapper normalizes."
+    }
+   },
+   "title": "ConjunctionDetails",
+   "type": "object",
+   "required": [
+    "components",
+    "implementation",
+    "null_hypothesis"
+   ]
+  },
+  "ConnectivityDetails": {
+   "additionalProperties": false,
+   "description": "Method payload for a connectivity analysis.",
+   "properties": {
+    "connectivity_method": {
+     "description": "Method used to estimate connectivity, verbatim -- PPI, gPPI, seed-based correlation, DCM, Granger causality, or coherence; mapper normalizes.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "edges": {
+     "description": "Named region pairs, when the source reports specific edges.",
+     "items": {
+      "$ref": "#/$defs/ConnectivityEdge"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "inference_target": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "What the analysis drew inference about, verbatim -- a connectivity parameter, a model comparison, or a network; mapper normalizes."
+    },
+    "modulatory_input": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Modulatory input of the model, verbatim, for DCM and related methods."
+    },
+    "parameter_change": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Whether the experimental effect raised or lowered the connectivity parameter, verbatim; mapper normalizes."
+    },
+    "parameter_sign": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Sign of the connectivity parameter itself, verbatim, such as a negative PPI; mapper normalizes."
+    },
+    "seed_regions": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Seed or source regions, verbatim."
+    },
+    "target_regions": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Target regions, verbatim. Empty for a seed-to-whole-brain analysis."
+    }
+   },
+   "required": [
+    "connectivity_method",
+    "edges",
+    "inference_target",
+    "modulatory_input",
+    "parameter_change",
+    "parameter_sign",
+    "seed_regions",
+    "target_regions"
+   ],
+   "title": "ConnectivityDetails",
+   "type": "object"
+  },
+  "ConnectivityEdge": {
+   "additionalProperties": false,
+   "description": "One reported connection between two named regions.",
+   "properties": {
+    "directionality": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Whether this edge is directed, verbatim; mapper normalizes. Only a directed model such as DCM or Granger causality supports a direction -- never infer one the method cannot support."
+    },
+    "parameter_sign": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Sign of this edge's parameter, verbatim, when reported per edge."
+    },
+    "source_region": {
+     "description": "Source region, verbatim.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "target_region": {
+     "description": "Target region, verbatim.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    }
+   },
+   "required": [
+    "directionality",
+    "parameter_sign",
+    "source_region",
+    "target_region"
+   ],
+   "title": "ConnectivityEdge",
+   "type": "object"
+  },
+  "DecodingClass": {
+   "additionalProperties": false,
+   "description": "One class discriminated by a decoding analysis.",
+   "properties": {
+    "condition": {
+     "description": "local_id of the Condition this class corresponds to, when it is one.",
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "label": {
+     "description": "Class label as reported, verbatim.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    }
+   },
+   "required": [
+    "condition",
+    "label"
+   ],
+   "title": "DecodingClass",
+   "type": "object"
+  },
+  "DecodingDetails": {
+   "additionalProperties": false,
+   "description": "Method payload for a classification or pattern-discriminability analysis.",
+   "properties": {
+    "classes": {
+     "description": "The classes discriminated.",
+     "items": {
+      "$ref": "#/$defs/DecodingClass"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "decoded_variable": {
+     "description": "The variable the classifier or discriminability test predicted, verbatim.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "generalization": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Train and test split for cross-decoding, verbatim, when the analysis generalized across sets."
+    },
+    "performance_metrics": {
+     "description": "Every performance measure the paper reports for this analysis, one entry each, with its value. Record all of them -- a paper giving accuracy, sensitivity and specificity gets three entries, not one.",
+     "items": {
+      "$ref": "#/$defs/PerformanceMetric"
+     },
+     "type": "array"
+    },
+    "validation_scheme": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Cross-validation or resampling scheme, verbatim, such as leave-one-run-out."
+    }
+   },
+   "required": [
+    "classes",
+    "decoded_variable",
+    "generalization",
+    "performance_metrics",
+    "validation_scheme"
+   ],
+   "title": "DecodingDetails",
+   "type": "object"
+  },
+  "EEG": {
+   "additionalProperties": false,
+   "description": "",
+   "properties": {
+    "eeg_channel_count": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How many recording channels were used, excluding reference and ground unless the source counts them."
+    },
+    "eeg_placement_scheme": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The electrode layout system, verbatim, such as the 10-20 or 10-10 system."
+    },
+    "eeg_reference": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The reference the raw signal was recorded against, verbatim -- linked mastoids, a common average, a named electrode."
+    },
+    "recording_type": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How the recording was organized, verbatim -- continuous, discontinuous, or already epoched."
+    },
+    "sampling_frequency_hz": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Sampling rate of the recording in hertz."
+    }
+   },
+   "title": "EEG",
+   "type": "object",
+   "required": [
+    "eeg_channel_count",
+    "eeg_placement_scheme",
+    "eeg_reference",
+    "recording_type",
+    "sampling_frequency_hz"
+   ]
+  },
+  "Evidence": {
+   "additionalProperties": false,
+   "description": "Evidence associated with an extracted value.",
+   "properties": {
+    "sets": {
+     "items": {
+      "$ref": "#/$defs/EvidenceSet"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "status": {
+     "$ref": "#/$defs/EvidenceStatus"
+    }
+   },
+   "required": [
+    "sets",
+    "status"
+   ],
+   "title": "Evidence",
+   "type": "object"
+  },
+  "EvidenceSet": {
+   "additionalProperties": false,
+   "description": "One independently sufficient set of source-text spans supporting a value.",
+   "properties": {
+    "spans": {
+     "items": {
+      "$ref": "#/$defs/EvidenceSpan"
+     },
+     "type": "array"
+    }
+   },
+   "required": [
+    "spans"
+   ],
+   "title": "EvidenceSet",
+   "type": "object"
+  },
+  "EvidenceSpan": {
+   "additionalProperties": false,
+   "description": "An exact source-text span used as evidence for an extracted value.",
+   "properties": {
+    "end_char": {
+     "type": "integer"
+    },
+    "start_char": {
+     "type": "integer"
+    },
+    "text": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "end_char",
+    "start_char",
+    "text"
+   ],
+   "title": "EvidenceSpan",
+   "type": "object"
+  },
+  "EvidenceStatus": {
+   "description": "Indicates whether source-text evidence was identified for an extracted value.",
+   "enum": [
+    "present",
+    "not_found",
+    "not_applicable"
+   ],
+   "title": "EvidenceStatus",
+   "type": "string"
+  },
+  "Experiment": {
+   "additionalProperties": false,
+   "description": "Extracted meaningful participant paradigm, such as a task, resting-state protocol, stimulation, or passive viewing.",
+   "properties": {
+    "acquisitions": {
+     "description": "local_ids of Acquisition records collected as part of this experiment. Use multiple entries for simultaneously collected modalities (e.g., EEG and fMRI) or for site-specific variants of the experimental acquisition. Do not attach structural or other non-paradigm scans merely because they were collected in the same session.",
+     "items": {
+      "type": "string"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "conditions": {
+     "description": "local_ids of Condition records belonging to this experiment.",
+     "items": {
+      "type": "string"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "design_type": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Design form as stated in the paper (e.g., \"event-related\", \"block design\"); mapper normalizes to controlled vocabulary."
+    },
+    "instructions": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Task- or paradigm-specific instructions, verbatim."
+    },
+    "local_id": {
+     "description": "Short label assigned by the extractor; resolved to a stable ID by the mapper.",
+     "type": "string"
+    },
+    "presentation_software": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Stimulus presentation software, verbatim."
+    },
+    "stimuli": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Stimulus description, verbatim."
+    },
+    "task_description": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Full narrative description of the paradigm, verbatim."
+    },
+    "task_name": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Task or paradigm label as stated in the paper, when applicable."
+    },
+    "task_performance_measures": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Behavioral outcome variables, verbatim, one per entry."
+    }
+   },
+   "required": [
+    "acquisitions",
+    "conditions",
+    "design_type",
+    "instructions",
+    "local_id",
+    "presentation_software",
+    "stimuli",
+    "task_description",
+    "task_name",
+    "task_performance_measures"
+   ],
+   "title": "Experiment",
+   "type": "object"
+  },
+  "ExternalDataset": {
+   "additionalProperties": false,
+   "description": "Evidence-backed extraction of a named external dataset and its optional URL.",
+   "properties": {
+    "name": {
+     "description": "Dataset name as stated in the source.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "url": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Dataset URL as stated in the source, when available."
+    }
+   },
+   "required": [
+    "name",
+    "url"
+   ],
+   "title": "ExternalDataset",
+   "type": "object"
+  },
+  "ExtractedInteger": {
+   "additionalProperties": false,
+   "description": "An ExtractedValue whose value is a whole number.",
+   "properties": {
+    "evidence": {
+     "$ref": "#/$defs/Evidence"
+    },
+    "extraction_status": {
+     "$ref": "#/$defs/ExtractionStatus"
+    },
+    "value": {
+     "description": "Extracted or generated value. Populate when extraction_status is extracted; omit when it is not_reported.",
+     "type": [
+      "integer",
+      "null"
+     ]
+    },
+    "value_source": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ValueSource"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    }
+   },
+   "required": [
+    "evidence",
+    "extraction_status",
+    "value",
+    "value_source"
+   ],
+   "title": "ExtractedInteger",
+   "type": "object"
+  },
+  "ExtractedNumber": {
+   "additionalProperties": false,
+   "description": "An ExtractedValue whose value is numeric, including fractional values.",
+   "properties": {
+    "evidence": {
+     "$ref": "#/$defs/Evidence"
+    },
+    "extraction_status": {
+     "$ref": "#/$defs/ExtractionStatus"
+    },
+    "value": {
+     "description": "Extracted or generated value. Populate when extraction_status is extracted; omit when it is not_reported.",
+     "type": [
+      "number",
+      "null"
+     ]
+    },
+    "value_source": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ValueSource"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    }
+   },
+   "required": [
+    "evidence",
+    "extraction_status",
+    "value",
+    "value_source"
+   ],
+   "title": "ExtractedNumber",
+   "type": "object"
+  },
+  "ExtractedString": {
+   "additionalProperties": false,
+   "description": "An ExtractedValue whose value is text.",
+   "properties": {
+    "evidence": {
+     "$ref": "#/$defs/Evidence"
+    },
+    "extraction_status": {
+     "$ref": "#/$defs/ExtractionStatus"
+    },
+    "value": {
+     "description": "Extracted or generated value. Populate when extraction_status is extracted; omit when it is not_reported.",
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "value_source": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ValueSource"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    }
+   },
+   "required": [
+    "evidence",
+    "extraction_status",
+    "value",
+    "value_source"
+   ],
+   "title": "ExtractedString",
+   "type": "object"
+  },
+  "ExtractedValue": {
+   "additionalProperties": false,
+   "description": "A schema attribute explicitly examined during extraction, including its value, source, and supporting evidence.",
+   "properties": {
+    "evidence": {
+     "$ref": "#/$defs/Evidence"
+    },
+    "extraction_status": {
+     "$ref": "#/$defs/ExtractionStatus"
+    },
+    "value": {
+     "description": "Extracted or generated value. Populate when extraction_status is extracted; omit when it is not_reported."
+    },
+    "value_source": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ValueSource"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    }
+   },
+   "required": [
+    "evidence",
+    "extraction_status",
+    "value",
+    "value_source"
+   ],
+   "title": "ExtractedValue",
+   "type": "object"
+  },
+  "ExtractionMetadata": {
+   "additionalProperties": false,
+   "description": "Pipeline provenance stamped onto the extraction record at generation time.",
+   "properties": {
+    "extraction_date": {
+     "description": "ISO-8601 date of extraction.",
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "extractor_model": {
+     "description": "Model identifier used for extraction, e.g. claude-sonnet-4-6.",
+     "type": "string"
+    },
+    "extractor_version": {
+     "description": "Version string of the extraction prompt or pipeline.",
+     "type": "string"
+    },
+    "paper_sections": {
+     "description": "Complete deterministic index of all paper sections and subsections, including character spans.",
+     "items": {
+      "$ref": "#/$defs/PaperSection"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "source_text_hash": {
+     "description": "SHA-256 of the paper text processed, for reproducibility checking.",
+     "type": [
+      "string",
+      "null"
+     ]
+    }
+   },
+   "required": [
+    "extraction_date",
+    "extractor_model",
+    "extractor_version",
+    "paper_sections",
+    "source_text_hash"
+   ],
+   "title": "ExtractionMetadata",
+   "type": "object"
+  },
+  "ExtractionStatus": {
+   "description": "Outcome of explicitly examining a requested attribute during extraction.",
+   "enum": [
+    "extracted",
+    "not_reported"
+   ],
+   "title": "ExtractionStatus",
+   "type": "string"
+  },
+  "FNIRS": {
+   "additionalProperties": false,
+   "description": "",
+   "properties": {
+    "nirs_channel_count": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How many source-detector pairs were recorded, which is not the number of optodes."
+    },
+    "nirs_placement_scheme": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The optode layout, verbatim -- a standard system such as 10-20, or the listed positions."
+    },
+    "nirs_system_type": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The instrument's measurement principle, verbatim -- continuous-wave, frequency- domain, or time-domain."
+    },
+    "recorded_signal_types": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "What the channels recorded, verbatim -- raw continuous-wave amplitude, optical density, or concentrations of oxygenated and deoxygenated haemoglobin."
+    },
+    "sampling_frequency_hz": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Sampling rate of the recording in hertz."
+    },
+    "short_channel_count": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How many short-separation channels were used, which measure scalp signal for regression rather than brain signal."
+    },
+    "source_detector_distances_mm": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Separation between each source and detector in millimetres, as a list. It sets the depth the channel is sensitive to."
+    },
+    "wavelengths_nm": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The nominal emitted wavelengths in nanometres, as a list."
+    }
+   },
+   "title": "FNIRS",
+   "type": "object",
+   "required": [
+    "nirs_channel_count",
+    "nirs_placement_scheme",
+    "nirs_system_type",
+    "recorded_signal_types",
+    "sampling_frequency_hz",
+    "short_channel_count",
+    "source_detector_distances_mm",
+    "wavelengths_nm"
+   ]
+  },
+  "FactorLevel": {
+   "additionalProperties": false,
+   "description": "One factor and the level of it that a cohort or condition represents.",
+   "properties": {
+    "factor_name": {
+     "description": "Name of the experimental or participant factor, verbatim. Must match the name of a categorical Term of this analysis.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "level": {
+     "description": "The level of that factor which this cohort or condition carries, verbatim.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    }
+   },
+   "required": [
+    "factor_name",
+    "level"
+   ],
+   "title": "FactorLevel",
+   "type": "object"
+  },
+  "Group": {
+   "additionalProperties": false,
+   "description": "An extracted participant group record. Source-derived attributes are ExtractedValues; local_id is a generated document-local identifier.",
+   "properties": {
+    "acquired_count": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Participants scanned as text or number; mapper parses to integer."
+    },
+    "age_maximum": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Maximum reported age as text; mapper parses float."
+    },
+    "age_mean": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Mean age as text (e.g., \"32.4\" or \"32.4 years\"); mapper parses float and unit separately."
+    },
+    "age_median": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Median age as text; mapper parses float."
+    },
+    "age_minimum": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Minimum reported age as text; mapper parses float."
+    },
+    "age_standard_deviation": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Age SD as text; mapper parses float."
+    },
+    "age_unit": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Age unit as stated (e.g., \"years\", \"months\"); mapper normalizes to controlled vocabulary."
+    },
+    "approached_count": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Participants approached as text or number; mapper parses to integer."
+    },
+    "clinical_characteristics": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Disease duration, severity, and related clinical summaries, verbatim."
+    },
+    "consented_count": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Participants consented as text or number; mapper parses to integer."
+    },
+    "description": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Narrative definition of the group, verbatim."
+    },
+    "diagnostic_instrument": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Assessment instruments used, verbatim, one per entry."
+    },
+    "diagnostic_system": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Diagnostic system as stated (e.g., \"DSM-5\", \"ICD-10\"); mapper normalizes abbreviations."
+    },
+    "education_summary": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Education level aggregate, verbatim."
+    },
+    "enrolled_count": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Participants enrolled as text or number; mapper parses to integer."
+    },
+    "ethnicity_distribution": {
+     "description": "Ethnic distribution using the study's own category labels, one entry each.",
+     "items": {
+      "$ref": "#/$defs/CategoryDistribution"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "excluded_count": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Participants excluded as text or number; mapper parses to integer."
+    },
+    "exclusion_criteria": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Exclusion criteria, one per list entry, verbatim."
+    },
+    "gender_distribution": {
+     "description": "Self-described gender distribution, kept separate from phenotypic sex. One entry per reported category.",
+     "items": {
+      "$ref": "#/$defs/CategoryDistribution"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "handedness_distribution": {
+     "description": "Handedness distribution, one entry per reported category -- right, left, ambidextrous.",
+     "items": {
+      "$ref": "#/$defs/CategoryDistribution"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "inclusion_criteria": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Eligibility requirements, one per list entry, verbatim."
+    },
+    "local_id": {
+     "description": "Short label assigned by the extractor, unique within this extraction document (e.g., \"hc\", \"pd_patients\"). Used for cross-references in Analysis and Experiment records. The mapper resolves these to stable storage IDs.",
+     "type": "string"
+    },
+    "medical_condition": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Medical, neurological, psychiatric, developmental, or physiological condition(s), verbatim, one per entry."
+    },
+    "medication_status": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Medication exposure and state during acquisition or testing, verbatim."
+    },
+    "name": {
+     "description": "Group label as stated in the paper.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "race_distribution": {
+     "description": "Racial distribution using the study's own category labels, one entry each.",
+     "items": {
+      "$ref": "#/$defs/CategoryDistribution"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "recruitment_dates": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Recruitment period as stated, verbatim."
+    },
+    "recruitment_method": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How participants were recruited, verbatim."
+    },
+    "sex_distribution": {
+     "description": "Phenotypic sex distribution, one entry per category the source reports, each with its label and a count or percentage.",
+     "items": {
+      "$ref": "#/$defs/CategoryDistribution"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "socioeconomic_status_summary": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "SES aggregate, verbatim."
+    },
+    "species": {
+     "description": "Species of this cohort, verbatim, such as human, rhesus macaque, or Sprague-Dawley rat; mapper normalizes. Populate it for human cohorts too -- everything else on this record reads as human by default, so leaving it out is not the same as saying human.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    }
+   },
+   "required": [
+    "acquired_count",
+    "age_maximum",
+    "age_mean",
+    "age_median",
+    "age_minimum",
+    "age_standard_deviation",
+    "age_unit",
+    "approached_count",
+    "clinical_characteristics",
+    "consented_count",
+    "description",
+    "diagnostic_instrument",
+    "diagnostic_system",
+    "education_summary",
+    "enrolled_count",
+    "ethnicity_distribution",
+    "excluded_count",
+    "exclusion_criteria",
+    "gender_distribution",
+    "handedness_distribution",
+    "inclusion_criteria",
+    "local_id",
+    "medical_condition",
+    "medication_status",
+    "name",
+    "race_distribution",
+    "recruitment_dates",
+    "recruitment_method",
+    "sex_distribution",
+    "socioeconomic_status_summary",
+    "species"
+   ],
+   "title": "Group",
+   "type": "object"
+  },
+  "GroupTerm": {
+   "additionalProperties": false,
+   "description": "One participant cohort in an analysis, the side of the comparison it sits on, and how many of its participants the analysis included.",
+   "properties": {
+    "factor_levels": {
+     "description": "The factorial cell this cohort represents, for a crossed design such as genotype by diagnosis. Leave empty for the ordinary case of one cohort per group.",
+     "items": {
+      "$ref": "#/$defs/FactorLevel"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "group": {
+     "description": "local_id of the Group record.",
+     "type": "string"
+    },
+    "n": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Participants from this cohort included in this analysis, when reported per analysis."
+    },
+    "role": {
+     "description": "Which side of the comparison this cohort sits on, verbatim as the source frames it -- the greater side, the lesser side, or simply included without a direction; mapper normalizes. Omit when the source compares the cohorts but does not report which way the effect went.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    }
+   },
+   "required": [
+    "factor_levels",
+    "group",
+    "n",
+    "role"
+   ],
+   "title": "GroupTerm",
+   "type": "object"
+  },
+  "InferenceSettings": {
+   "additionalProperties": false,
+   "description": "",
+   "properties": {
+    "alpha_level": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The error rate the test was held to -- the family-wise, false-discovery, or nominal alpha, usually 0.05. Distinct from a threshold value: alpha is the rate being controlled, a threshold is what implements it."
+    },
+    "cluster_extent_threshold": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The minimum surviving cluster size, in the unit the source uses -- contiguous voxels, vertices, or a volume. Record the number as given, without converting it."
+    },
+    "cluster_forming_threshold_value": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The threshold deciding which elements join a cluster, when the source reports it separately from voxelwise_threshold_value. In most software these are the same number and only one is populated; fill both only when the paper gives two distinct values."
+    },
+    "clusterwise_threshold_value": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The cluster-level threshold a whole cluster had to pass, as distinct from the height threshold its elements passed. 'p < 0.001 voxelwise, cluster-level p < 0.05' gives 0.001 above and 0.05 here."
+    },
+    "correction_scope": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The space the correction was applied over, verbatim -- the whole brain, a mask, an ROI set, one hemisphere. A correction over a small mask is a weaker claim than the same method over the whole brain, which is why the scope is recorded and not only the method."
+    },
+    "inference_level": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The element inference was drawn about, verbatim -- a voxel, a vertex, a cluster, a region, or a network; mapper normalizes. A voxelwise threshold followed by a cluster-extent criterion is cluster-level inference, not voxel-level."
+    },
+    "multiple_comparison_method": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How the multiple-comparison problem was handled, verbatim -- FWE, FDR, Bonferroni, permutation, Monte Carlo simulation, small-volume correction, or none. Record every one a paper applies, not just the first."
+    },
+    "neighborhood_definition": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The adjacency rule deciding whether two elements belong to one cluster, verbatim -- face, edge, or corner connectivity, often written as 6, 18, or 26 neighbours."
+    },
+    "number_of_tests": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How many tests the correction accounted for, when the source states it."
+    },
+    "permutation_count": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How many permutations, randomizations, or simulations the inference rested on."
+    },
+    "search_volume": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The size of the space searched, verbatim as reported -- a volume, a mask size, or a count of voxels or vertices."
+    },
+    "tfce_parameters": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "TFCE height and extent exponents, verbatim, when the source reports them."
+    },
+    "tfce_used": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Whether threshold-free cluster enhancement was used, which replaces a height threshold with a weighting by cluster support."
+    },
+    "voxelwise_threshold_type": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "What voxelwise_threshold_value is a value of, verbatim -- an uncorrected p, an FDR q, or a t, z, or F statistic."
+    },
+    "voxelwise_threshold_value": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The per-element height threshold applied before any correction or cluster formation, as a number: p < 0.001 uncorrected gives 0.001, Z > 3.09 gives 3.09. voxelwise_threshold_type says which of those the number is."
+    }
+   },
+   "title": "InferenceSettings",
+   "type": "object",
+   "required": [
+    "alpha_level",
+    "cluster_extent_threshold",
+    "cluster_forming_threshold_value",
+    "clusterwise_threshold_value",
+    "correction_scope",
+    "inference_level",
+    "multiple_comparison_method",
+    "neighborhood_definition",
+    "number_of_tests",
+    "permutation_count",
+    "search_volume",
+    "tfce_parameters",
+    "tfce_used",
+    "voxelwise_threshold_type",
+    "voxelwise_threshold_value"
+   ]
+  },
+  "MRI": {
+   "additionalProperties": false,
+   "description": "",
+   "properties": {
+    "acquisition_voxel_size_mm": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Acquired voxel dimensions in millimetres, as a list of the three edge lengths. The size at acquisition, not after resampling in preprocessing."
+    },
+    "echo_time_seconds": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Echo time in seconds, as a list when the sequence is multi-echo -- one value per echo, in the order the source gives them."
+    },
+    "magnetic_field_strength_tesla": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Scanner field strength in tesla, as reported."
+    },
+    "mr_acquisition_type": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Whether the sequence was acquired in 2D slices or as a 3D volume, verbatim. Distinguishes a slab-based EPI from a whole-volume acquisition."
+    },
+    "number_of_volumes": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedInteger"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How many volumes the functional run contains, sometimes reported as time points or dynamics."
+    },
+    "pulse_sequence_type": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Pulse sequence family, verbatim -- EPI, MPRAGE, SPGR, spin echo."
+    },
+    "repetition_time_seconds": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Repetition time in seconds. Convert a value the paper gives in milliseconds; the unit here is seconds."
+    }
+   },
+   "title": "MRI",
+   "type": "object",
+   "required": [
+    "acquisition_voxel_size_mm",
+    "echo_time_seconds",
+    "magnetic_field_strength_tesla",
+    "mr_acquisition_type",
+    "number_of_volumes",
+    "pulse_sequence_type",
+    "repetition_time_seconds"
+   ]
+  },
+  "Measure": {
+   "additionalProperties": false,
+   "description": "The scientific quantity of the map, in the source's own words.",
+   "properties": {
+    "source_label": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The paper's own term for the measure, verbatim, such as \"BOLD signal change\", \"grey matter volume\", or \"fractional anisotropy\". The mapper normalizes it to a family and a type."
+    },
+    "specific_metric": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Named metric when the measure is a specific one, verbatim, such as fractional anisotropy, ALFF, or a named tracer binding potential."
+    },
+    "unit": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Reported unit of the measure, verbatim, when meaningful."
+    }
+   },
+   "title": "Measure",
+   "type": "object",
+   "required": [
+    "source_label",
+    "specific_metric",
+    "unit"
+   ]
+  },
+  "ModelEstimation": {
+   "additionalProperties": false,
+   "description": "Extracted record of how a model was specified and estimated.",
+   "properties": {
+    "estimator": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Estimation method, verbatim."
+    },
+    "hrf_model": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Haemodynamic response basis the design matrix used, verbatim, such as \"canonical HRF\", \"canonical plus temporal derivative\", or \"FIR\". Omit for a measure that models no timeseries."
+    },
+    "level": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Analysis level as stated (e.g., \"first-level\", \"group-level\"); mapper normalizes to run/session/subject/group vocabulary."
+    },
+    "local_id": {
+     "description": "Short label assigned by the extractor.",
+     "type": "string"
+    },
+    "model_settings": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Essential model settings, verbatim."
+    },
+    "model_type": {
+     "description": "Model family as stated (e.g., \"GLM\", \"general linear model\", \"ICA\"); mapper normalizes to controlled vocabulary.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "software": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Statistical software name and version, verbatim."
+    }
+   },
+   "required": [
+    "estimator",
+    "hrf_model",
+    "level",
+    "local_id",
+    "model_settings",
+    "model_type",
+    "software"
+   ],
+   "title": "ModelEstimation",
+   "type": "object"
+  },
+  "NotStructurableDetails": {
+   "additionalProperties": false,
+   "description": "Payload for an effect that is grounded in the source but has no stable structured decomposition.",
+   "properties": {
+    "explanation": {
+     "description": "What specifically could not be represented.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "reason": {
+     "description": "Why the effect could not be structured, verbatim or as judged -- a method-specific derived metric, too little standard structure, or a source too vague; mapper normalizes.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    }
+   },
+   "required": [
+    "explanation",
+    "reason"
+   ],
+   "title": "NotStructurableDetails",
+   "type": "object"
+  },
+  "OtherAnalysisDetails": {
+   "additionalProperties": false,
+   "description": "Method payload for a method outside the first-class families, such as a mediation analysis.",
+   "properties": {
+    "method_label": {
+     "description": "The source's name for the method, verbatim.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "reason_first_class_type_not_used": {
+     "description": "Why none of the five named method payloads fits this analysis.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "structured_details": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "JSON-encoded method-specific payload, when the method has structure worth keeping. A string because the schema has no free-form object range."
+    }
+   },
+   "required": [
+    "method_label",
+    "reason_first_class_type_not_used",
+    "structured_details"
+   ],
+   "title": "OtherAnalysisDetails",
+   "type": "object"
+  },
+  "OtherModality": {
+   "additionalProperties": false,
+   "description": "Extracted record of an acquisition whose modality none of MRI, EEG, FNIRS, or PET covers. Its parameters go in the enclosing Acquisition's description or structured_details, which no modality normalizes.",
+   "properties": {
+    "modality_label": {
+     "description": "The paper's own name for the modality or recording technique, verbatim.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "reason_no_modality_class_used": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Why the MRI, EEG, FNIRS, and PET fields do not describe this acquisition."
+    }
+   },
+   "required": [
+    "modality_label",
+    "reason_no_modality_class_used"
+   ],
+   "title": "OtherModality",
+   "type": "object"
+  },
+  "PET": {
+   "additionalProperties": false,
+   "description": "",
+   "properties": {
+    "image_units": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The unit the image voxels are in, verbatim -- Bq/mL, SUV, a binding potential."
+    },
+    "mode_of_administration": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How the tracer was given, verbatim -- a bolus, a constant infusion, or a bolus plus infusion."
+    },
+    "reconstructed_voxel_size_mm": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Voxel dimensions after reconstruction, in millimetres, as a list of the three edge lengths."
+    },
+    "scan_type": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Whether the analysed data are a static image or a dynamic time series, verbatim. It decides whether kinetic modelling was possible."
+    },
+    "spatial_resolution_mm": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The scanner's effective resolution, usually as a full width at half maximum in millimetres. Coarser than the voxel size, and the figure that limits localization."
+    },
+    "tracer_name": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The injected tracer compound as the paper names it, such as FDG or raclopride."
+    },
+    "tracer_radionuclide": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The isotope labelling the tracer, verbatim -- C11, F18, O15."
+    },
+    "uptake_time_seconds": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How long after administration the analysed data were acquired, in seconds."
+    }
+   },
+   "title": "PET",
+   "type": "object",
+   "required": [
+    "image_units",
+    "mode_of_administration",
+    "reconstructed_voxel_size_mm",
+    "scan_type",
+    "spatial_resolution_mm",
+    "tracer_name",
+    "tracer_radionuclide",
+    "uptake_time_seconds"
+   ]
+  },
+  "PaperSection": {
+   "additionalProperties": false,
+   "description": "Deterministic document index entry for every section and subsection in the processed paper text. Character offsets use the same normalized source text and half-open interval convention [start_char, end_char).",
+   "properties": {
+    "end_char": {
+     "description": "Exclusive character offset immediately before the next same-or-higher-level heading or EOF.",
+     "type": "integer"
+    },
+    "level": {
+     "description": "Heading depth; 0 is the document-level title, 1 is a top-level section.",
+     "type": "integer"
+    },
+    "ordinal": {
+     "description": "Zero-based document order of the section heading.",
+     "type": "integer"
+    },
+    "parent_section": {
+     "description": "title of the immediately containing section, when applicable.",
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "start_char": {
+     "description": "Inclusive character offset of the section heading in normalized source text.",
+     "type": "integer"
+    },
+    "title": {
+     "description": "Section or subsection heading text after deterministic normalization.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "end_char",
+    "level",
+    "ordinal",
+    "parent_section",
+    "start_char",
+    "title"
+   ],
+   "title": "PaperSection",
+   "type": "object"
+  },
+  "PerformanceMetric": {
+   "additionalProperties": false,
+   "description": "One reported performance measure of a decoding analysis, and its value.",
+   "properties": {
+    "name": {
+     "description": "The measure as the source names it, verbatim, such as accuracy, AUC, d-prime, sensitivity, or specificity.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "reference_value": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Numeric reference this measure was compared against, when reported -- chance for an accuracy, zero for a correlation. Each measure carries its own."
+    },
+    "relation": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Whether this measure was above or below its reference, verbatim; mapper normalizes."
+    },
+    "value": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The value as reported, verbatim in the source's own scale. Do not convert a percentage to a proportion or the reverse."
+    }
+   },
+   "required": [
+    "name",
+    "reference_value",
+    "relation",
+    "value"
+   ],
+   "title": "PerformanceMetric",
+   "type": "object"
+  },
+  "Preprocessing": {
+   "additionalProperties": false,
+   "description": "Extracted preprocessing pipeline record.",
+   "properties": {
+    "description": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Narrative pipeline overview, verbatim."
+    },
+    "local_id": {
+     "description": "Short label assigned by the extractor.",
+     "type": "string"
+    },
+    "software": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Software packages used, verbatim, one per entry."
+    },
+    "steps": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Ordered preprocessing steps, verbatim, in execution order."
+    }
+   },
+   "required": [
+    "description",
+    "local_id",
+    "software",
+    "steps"
+   ],
+   "title": "Preprocessing",
+   "type": "object"
+  },
+  "SimilarityDetails": {
+   "additionalProperties": false,
+   "description": "Method payload for a representational-similarity analysis.",
+   "properties": {
+    "competing_models": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Other models the reported model was compared against, verbatim."
+    },
+    "model": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The model dissimilarity matrix tested, verbatim. Omit for a model-free test such as within- versus between-category pattern similarity."
+    },
+    "neural_representation": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "How the neural pattern was defined, verbatim, such as the voxel set or time window used."
+    },
+    "similarity_metric": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Similarity or distance metric, verbatim."
+    }
+   },
+   "title": "SimilarityDetails",
+   "type": "object",
+   "required": [
+    "competing_models",
+    "model",
+    "neural_representation",
+    "similarity_metric"
+   ]
+  },
+  "Statistic": {
+   "additionalProperties": false,
+   "description": "The test statistic reported for an analysis and its degrees of freedom.",
+   "properties": {
+    "degrees_of_freedom_denominator": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Denominator degrees of freedom, as reported. For a single-degree-of-freedom statistic this is the only one -- t(151) is F(1,151), so record 151 here and leave the numerator out."
+    },
+    "degrees_of_freedom_numerator": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedNumber"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Numerator degrees of freedom, as reported. Normally only an F or a likelihood ratio has one."
+    },
+    "family": {
+     "description": "Test statistic as reported, verbatim -- t, z, F, chi-square, a likelihood ratio, a beta, or a correlation; mapper normalizes.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    }
+   },
+   "required": [
+    "degrees_of_freedom_denominator",
+    "degrees_of_freedom_numerator",
+    "family"
+   ],
+   "title": "Statistic",
+   "type": "object"
+  },
+  "StatisticalMap": {
+   "additionalProperties": false,
+   "description": "",
+   "properties": {
+    "coordinate_space": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The space the map is in, verbatim. May differ from the space the paper's tables report, which is why it is recorded per map."
+    },
+    "description": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Notes on where the map came from and how it relates to the reported analysis."
+    },
+    "is_thresholded": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Whether the shared image has already had a threshold applied, which decides whether it can be re-analysed."
+    },
+    "local_id": {
+     "description": "Short label assigned by the extractor.",
+     "type": "string"
+    },
+    "map_type": {
+     "description": "What the image contains, verbatim -- a statistic map, an effect estimate, a variance map, or a thresholded label map.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "statistic_type": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The statistical quantity the map's values are, verbatim -- t, z, beta, a p value."
+    },
+    "url": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Where the map can be retrieved, or the landing page of the archive holding it."
+    }
+   },
+   "required": [
+    "coordinate_space",
+    "description",
+    "is_thresholded",
+    "local_id",
+    "map_type",
+    "statistic_type",
+    "url"
+   ],
+   "title": "StatisticalMap",
+   "type": "object"
+  },
+  "Study": {
+   "additionalProperties": false,
+   "description": "Root extraction record for a single publication.",
+   "properties": {
+    "acquisitions": {
+     "description": "Acquisition protocols extracted from the paper.",
+     "items": {
+      "$ref": "#/$defs/Acquisition"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "analyses": {
+     "description": "Analyses extracted from the paper.",
+     "items": {
+      "$ref": "#/$defs/Analysis"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "assessments": {
+     "description": "Assessment records extracted from the paper. Every assessment a Term or an Analysis refers to must appear here.",
+     "items": {
+      "$ref": "#/$defs/Assessment"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "conditions": {
+     "description": "Experimental conditions extracted from the paper.",
+     "items": {
+      "$ref": "#/$defs/Condition"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "description": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Brief summary of the study aims in the extractor's own words."
+    },
+    "design": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Verbatim or closely paraphrased study design description."
+    },
+    "experiments": {
+     "description": "Tasks or paradigms extracted from the paper.",
+     "items": {
+      "$ref": "#/$defs/Experiment"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "external_datasets": {
+     "description": "Named external datasets used, cited, or made available by the study.",
+     "items": {
+      "$ref": "#/$defs/ExternalDataset"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "extraction_metadata": {
+     "description": "Provenance for this extraction record.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractionMetadata"
+      }
+     ]
+    },
+    "groups": {
+     "description": "Participant groups extracted from the paper.",
+     "items": {
+      "$ref": "#/$defs/Group"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "model_estimations": {
+     "description": "Model estimation records extracted from the paper.",
+     "items": {
+      "$ref": "#/$defs/ModelEstimation"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "preprocessings": {
+     "description": "Preprocessing pipelines extracted from the paper.",
+     "items": {
+      "$ref": "#/$defs/Preprocessing"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "tables": {
+     "description": "Result tables extracted from the paper.",
+     "items": {
+      "$ref": "#/$defs/Table"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "terms": {
+     "description": "Term records extracted from the paper. Analyses refer to them by local_id, so a term used by two analyses is one record here, not two.",
+     "items": {
+      "$ref": "#/$defs/Term"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    }
+   },
+   "required": [
+    "acquisitions",
+    "analyses",
+    "assessments",
+    "conditions",
+    "description",
+    "design",
+    "experiments",
+    "external_datasets",
+    "extraction_metadata",
+    "groups",
+    "model_estimations",
+    "preprocessings",
+    "tables",
+    "terms"
+   ],
+   "title": "Study",
+   "type": "object"
+  },
+  "Table": {
+   "additionalProperties": false,
+   "description": "Extracted table record.",
+   "properties": {
+    "caption": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Full table caption, verbatim."
+    },
+    "column_headings": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Ordered column headings, verbatim."
+    },
+    "description": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Summary of the table's role in the study."
+    },
+    "footer": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Table notes and footnotes, verbatim."
+    },
+    "local_id": {
+     "description": "Short label assigned by the extractor.",
+     "type": "string"
+    },
+    "table_number": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Printed table identifier, verbatim (e.g., \"Table 2\", \"Supplementary Table S4\")."
+    },
+    "title": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Table title, verbatim."
+    }
+   },
+   "required": [
+    "caption",
+    "column_headings",
+    "description",
+    "footer",
+    "local_id",
+    "table_number",
+    "title"
+   ],
+   "title": "Table",
+   "type": "object"
+  },
+  "Term": {
+   "additionalProperties": false,
+   "description": "One term of a statistical model, categorical or continuous. Replaces the factor and predictor split: what matters is whether the term is categorical or continuous.",
+   "properties": {
+    "assessment": {
+     "description": "local_id of the Assessment supplying a continuous term's measurement.",
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "association_direction": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Reported sign of a continuous term's coefficient, verbatim; mapper normalizes. Omit when the source reports no direction."
+    },
+    "conditions": {
+     "description": "local_ids of Condition records a categorical term ranges over.",
+     "items": {
+      "type": "string"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "functional_form": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Shape of the term's relationship to the measure, verbatim -- linear, quadratic, a product, an absolute value, log-transformed, or a named transform; mapper normalizes. Do not report a non-linear or transformed term as linear."
+    },
+    "groups": {
+     "description": "local_ids of Group records a categorical term ranges over.",
+     "items": {
+      "type": "string"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "interaction_with": {
+     "description": "local_ids of the other Term records this term is a product of, when the source names an interaction term.",
+     "items": {
+      "type": "string"
+     },
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "levels": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedValue"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The factor's level labels, verbatim, when they are not all present as condition or group terms of the analysis."
+    },
+    "local_id": {
+     "description": "Short label assigned by the extractor.",
+     "type": "string"
+    },
+    "name": {
+     "description": "Term label as the source names it, verbatim. Also the factor's identity, referred to by FactorLevel.factor_name.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "role": {
+     "description": "How the term enters the model, verbatim or as evident -- a term of interest, a covariate controlled for, a moderator, a mediator; mapper normalizes. Say \"covariate\" for something the paper controls for rather than tests.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "source_definition": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The source's own definition of the term, verbatim, including the origin of a continuous term that no Assessment supplies -- age, dose, a motion parameter, cardiac phase, scanner drift."
+    },
+    "type": {
+     "description": "Whether the term is categorical or continuous, as stated or as evident from the model; mapper normalizes.",
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      }
+     ]
+    },
+    "unit": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "Unit of a continuous term, verbatim, when meaningful."
+    },
+    "variation_level": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ExtractedString"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "description": "The level a continuous term varies at, verbatim -- within subject, between subjects, or both; mapper normalizes. This is what separates a parametric modulation from a cross-subject regression."
+    }
+   },
+   "required": [
+    "assessment",
+    "association_direction",
+    "conditions",
+    "functional_form",
+    "groups",
+    "interaction_with",
+    "levels",
+    "local_id",
+    "name",
+    "role",
+    "source_definition",
+    "type",
+    "unit",
+    "variation_level"
+   ],
+   "title": "Term",
+   "type": "object"
+  },
+  "ValueSource": {
+   "description": "Describes how an extracted value relates to the source material.",
+   "enum": [
+    "reported",
+    "generated"
+   ],
+   "title": "ValueSource",
+   "type": "string"
+  }
+ },
+ "additionalProperties": false,
+ "description": "Root extraction record for a single publication.",
+ "properties": {
+  "acquisitions": {
+   "description": "Acquisition protocols extracted from the paper.",
+   "items": {
+    "$ref": "#/$defs/Acquisition"
+   },
+   "type": [
+    "array",
+    "null"
+   ]
+  },
+  "analyses": {
+   "description": "Analyses extracted from the paper.",
+   "items": {
+    "$ref": "#/$defs/Analysis"
+   },
+   "type": [
+    "array",
+    "null"
+   ]
+  },
+  "assessments": {
+   "description": "Assessment records extracted from the paper. Every assessment a Term or an Analysis refers to must appear here.",
+   "items": {
+    "$ref": "#/$defs/Assessment"
+   },
+   "type": [
+    "array",
+    "null"
+   ]
+  },
+  "conditions": {
+   "description": "Experimental conditions extracted from the paper.",
+   "items": {
+    "$ref": "#/$defs/Condition"
+   },
+   "type": [
+    "array",
+    "null"
+   ]
+  },
+  "description": {
+   "anyOf": [
+    {
+     "$ref": "#/$defs/ExtractedString"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "description": "Brief summary of the study aims in the extractor's own words."
+  },
+  "design": {
+   "anyOf": [
+    {
+     "$ref": "#/$defs/ExtractedString"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "description": "Verbatim or closely paraphrased study design description."
+  },
+  "experiments": {
+   "description": "Tasks or paradigms extracted from the paper.",
+   "items": {
+    "$ref": "#/$defs/Experiment"
+   },
+   "type": [
+    "array",
+    "null"
+   ]
+  },
+  "external_datasets": {
+   "description": "Named external datasets used, cited, or made available by the study.",
+   "items": {
+    "$ref": "#/$defs/ExternalDataset"
+   },
+   "type": [
+    "array",
+    "null"
+   ]
+  },
+  "extraction_metadata": {
+   "description": "Provenance for this extraction record.",
+   "anyOf": [
+    {
+     "$ref": "#/$defs/ExtractionMetadata"
+    }
+   ]
+  },
+  "groups": {
+   "description": "Participant groups extracted from the paper.",
+   "items": {
+    "$ref": "#/$defs/Group"
+   },
+   "type": [
+    "array",
+    "null"
+   ]
+  },
+  "model_estimations": {
+   "description": "Model estimation records extracted from the paper.",
+   "items": {
+    "$ref": "#/$defs/ModelEstimation"
+   },
+   "type": [
+    "array",
+    "null"
+   ]
+  },
+  "preprocessings": {
+   "description": "Preprocessing pipelines extracted from the paper.",
+   "items": {
+    "$ref": "#/$defs/Preprocessing"
+   },
+   "type": [
+    "array",
+    "null"
+   ]
+  },
+  "tables": {
+   "description": "Result tables extracted from the paper.",
+   "items": {
+    "$ref": "#/$defs/Table"
+   },
+   "type": [
+    "array",
+    "null"
+   ]
+  },
+  "terms": {
+   "description": "Term records extracted from the paper. Analyses refer to them by local_id, so a term used by two analyses is one record here, not two.",
+   "items": {
+    "$ref": "#/$defs/Term"
+   },
+   "type": [
+    "array",
+    "null"
+   ]
+  }
+ },
+ "required": [
+  "acquisitions",
+  "analyses",
+  "assessments",
+  "conditions",
+  "description",
+  "design",
+  "experiments",
+  "external_datasets",
+  "extraction_metadata",
+  "groups",
+  "model_estimations",
+  "preprocessings",
+  "tables",
+  "terms"
+ ],
+ "title": "neuroimaging-study-extraction",
+ "type": "object"
+}

@@ -1,0 +1,215 @@
+{
+ "case_id": "nmb_27177981",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 4,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "an_face_activation",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "difficult pictures (40% and 55% noise level combined and independent of faces and houses) versus clear pictures (0% noise level)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the face-house discrimination task, brain activations were computed by contrasting the difficult pictures (40% and 55% noise level combined and independent of faces and houses) versus clear pictures (0% noise level)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain MRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The whole-brain MRI was done on a 3-Tesla Siemens scanner available at the Georgia State University and Georgia Institute of Technology Center for Advanced Brain Imaging, Atlanta, Georgia."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_applicable",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "roi_label": {
+     "extraction_status": "not_applicable",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_face"
+    ],
+    "conditions": [
+     {
+      "condition": "c_face_easy",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "clear pictures",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "In the face-house discrimination task, brain activations were computed by contrasting the difficult pictures (40% and 55% noise level combined and independent of faces and houses) versus clear pictures (0% noise level)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_face_hard",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "difficult pictures (40% and 55% noise level combined)",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "In the face-house discrimination task, brain activations were computed by contrasting the difficult pictures (40% and 55% noise level combined and independent of faces and houses) versus clear pictures (0% noise level)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_noise"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_all",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "32",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "There were 32 human participants (16 males, 16 females; mean age\u00b1standard deviation=27.6\u00b14.7 years) who completed all four experimental tasks"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "40% and 55% noise level combined versus 0% noise level",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the face-house discrimination task, brain activations were computed by contrasting the difficult pictures (40% and 55% noise level combined and independent of faces and houses) versus clear pictures (0% noise level)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The BOLD signal increased in SN nodes with the ambiguity in the sensory information."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "specific_metric": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "unit": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   },
+   "statistic slightly omitted?,"
+  ]
+ },
+ "usage": {
+  "prompt": 24321,
+  "completion": 930,
+  "reasoning": 86,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 3556,
+ "service_tier_echo": "flex"
+}

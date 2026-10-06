@@ -1,0 +1,5778 @@
+{
+ "case_id": "nmb_20385663",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 2,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "neuroimaging-methods-curator-v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "analyses": [
+   {
+    "local_id": "a_reappraise_pos_gt_exp_pos",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reappraise > Experience",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We first examined the main effect of condition, \u2018Reappraise vs Experience\u2019 ( Figure 3 ; Table 2 ), collapsing across age groups, for positive and negative valence separately ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "roi_label": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reappraisal"
+    ],
+    "conditions": [
+     {
+      "condition": "c_reappraise_positive",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Reappraise > experience"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_experience_positive",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "less than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Experience > Reappraise"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_regulation"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_younger",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "22",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The subject sample comprised 20 older adults between the ages of 59 and 73 years ( M = 69 years) and 22 younger adults between the ages of 19 and 33 years ( M = 23 years)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_older",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The subject sample comprised 20 older adults between the ages of 59 and 73 years ( M = 69 years) and 22 younger adults between the ages of 19 and 33 years ( M = 23 years)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Reappraise-positive > Experience-positive",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The contrast of \u2018Reappraise\u2019 >\u2018Experience\u2019, collapsed over conditions and age groups, revealed that activation in dlPFC, dmPFC and the IPL increased when participants engaged in reappraisal."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD fMRI activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We acquired data on a GE 4T scanner using a gradient-echo inverse-spiral pulse sequence with standard parameters for blood-oxygenation-level-dependent (BOLD) fMRI"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "unit": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "Experience",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Reappraise > experience"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mediation_path": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "BA, estimated Brodmann\u2019s Area; L, left; R, right; B, bilateral; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z, z -statistic of peak voxel."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "whole-brain correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "search_volume": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "no",
+      "value_source": "generated",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {
+     "decoded_variable": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "classes": [],
+     "performance_metrics": [],
+     "validation_scheme": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "generalization": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "similarity": {
+     "model": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "neural_representation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "similarity_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "competing_models": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "target_regions": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "parameter_sign": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "edges": [],
+     "modulatory_input": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "inference_target": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "conjunction": {
+     "components": [],
+     "null_hypothesis": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "implementation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "component_decomposition": {
+     "method": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "component_id": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "component_label": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "total_components": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "selection_criterion": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "map_quantity": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "polarity_semantics": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "not_structurable": {
+     "reason": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "explanation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "other_method": {
+     "method_label": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "structured_details": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "reason_first_class_type_not_used": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "active regulation of emotions leads to an increase in PFC activation, but a decrease in amygdalar activation",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "active regulation of emotions leads to an increase in PFC activation, but a decrease in amygdalar activation"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_reappraise_neg_gt_exp_neg",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reappraise > Experience",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The contrast of \u2018Reappraise\u2019 >\u2018Experience\u2019, collapsed over conditions and age groups, revealed that activation in dlPFC, dmPFC and the IPL increased when participants engaged in reappraisal."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "roi_label": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reappraisal"
+    ],
+    "conditions": [
+     {
+      "condition": "c_reappraise_negative",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Reappraise > experience"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_experience_negative",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "less than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Experience > Reappraise"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_regulation"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_younger",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "22",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The subject sample comprised 20 older adults between the ages of 59 and 73 years ( M = 69 years) and 22 younger adults between the ages of 19 and 33 years ( M = 23 years)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_older",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The subject sample comprised 20 older adults between the ages of 59 and 73 years ( M = 69 years) and 22 younger adults between the ages of 19 and 33 years ( M = 23 years)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "negative \u2018Reappraise\u2019 > negative \u2018Experience\u2019",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To confirm this difference, we also performed a whole-brain analysis, which revealed that, for the contrast between negative \u2018Reappraise\u2019 and \u2018Experience\u2019 trials, the younger adults exhibited a greater change in activation than older adults in two regions: the LIFG and superior temporal gyrus"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD fMRI activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We acquired data on a GE 4T scanner using a gradient-echo inverse-spiral pulse sequence with standard parameters for blood-oxygenation-level-dependent (BOLD) fMRI"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "unit": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "BA, estimated Brodmann\u2019s Area; L, left; R, right; B, bilateral; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z, z -statistic of peak voxel."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "Experience",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "negative \u2018Reappraise\u2019 and \u2018Experience\u2019 trials"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mediation_path": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl4"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "BA, estimated Brodmann\u2019s Area; L, left; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z , z -statistic of peak voxel."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "whole-brain correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "search_volume": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "no",
+      "value_source": "generated",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {
+     "decoded_variable": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "classes": [],
+     "performance_metrics": [],
+     "validation_scheme": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "generalization": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "similarity": {
+     "model": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "neural_representation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "similarity_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "competing_models": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "target_regions": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "parameter_sign": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "edges": [],
+     "modulatory_input": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "inference_target": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "conjunction": {
+     "components": [],
+     "null_hypothesis": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "implementation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "component_decomposition": {
+     "method": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "component_id": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "component_label": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "total_components": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "selection_criterion": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "map_quantity": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "polarity_semantics": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "not_structurable": {
+     "reason": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "explanation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "other_method": {
+     "method_label": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "structured_details": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "reason_first_class_type_not_used": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "For both age groups, PFC activation increased and amygdala activation decreased under reappraisal",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For both age groups, PFC activation increased and amygdala activation decreased under reappraisal"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_exp_gt_reap_positive",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Experience > Reappraise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Conversely, the contrast of \u2018Experience\u2019 >\u2018Reappraise\u2019 revealed that activation in the amygdala was decreased by reappraisal."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "roi_label": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reappraisal"
+    ],
+    "conditions": [
+     {
+      "condition": "c_experience_positive",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Experience > Reappraise"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_reappraise_positive",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "less than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Experience > Reappraise"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_regulation"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_younger",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "22",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The subject sample comprised 20 older adults between the ages of 59 and 73 years ( M = 69 years) and 22 younger adults between the ages of 19 and 33 years ( M = 23 years)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_older",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The subject sample comprised 20 older adults between the ages of 59 and 73 years ( M = 69 years) and 22 younger adults between the ages of 19 and 33 years ( M = 23 years)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Experience-positive > Reappraise-positive",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Positive \u2018Experience\u2019 trials, compared to positive \u2018Reappraise\u2019 trials, evoked increased activation in regions including bilateral amygdala, mid-cingulate cortex, bilateral post-central gyrus and pregenual cortex."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD fMRI activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We acquired data on a GE 4T scanner using a gradient-echo inverse-spiral pulse sequence with standard parameters for blood-oxygenation-level-dependent (BOLD) fMRI"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "unit": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "BA, estimated Brodmann\u2019s Area; L, left; R, right; B, bilateral; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z, z -statistic of peak voxel."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "Reappraise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Experience > Reappraise"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mediation_path": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "BA, estimated Brodmann\u2019s Area; L, left; R, right; B, bilateral; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z, z -statistic of peak voxel."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "whole-brain correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "search_volume": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "no",
+      "value_source": "generated",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {
+     "decoded_variable": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "classes": [],
+     "performance_metrics": [],
+     "validation_scheme": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "generalization": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "similarity": {
+     "model": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "neural_representation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "similarity_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "competing_models": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "target_regions": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "parameter_sign": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "edges": [],
+     "modulatory_input": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "inference_target": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "conjunction": {
+     "components": [],
+     "null_hypothesis": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "implementation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "component_decomposition": {
+     "method": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "component_id": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "component_label": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "total_components": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "selection_criterion": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "map_quantity": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "polarity_semantics": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "not_structurable": {
+     "reason": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "explanation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "other_method": {
+     "method_label": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "structured_details": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "reason_first_class_type_not_used": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "activation in the amygdala was decreased by reappraisal",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Conversely, the contrast of \u2018Experience\u2019 >\u2018Reappraise\u2019 revealed that activation in the amygdala was decreased by reappraisal."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_exp_gt_reap_negative",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Experience > Reappraise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Conversely, the contrast of \u2018Experience\u2019 >\u2018Reappraise\u2019 revealed that activation in the amygdala was decreased by reappraisal."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "roi_label": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reappraisal"
+    ],
+    "conditions": [
+     {
+      "condition": "c_experience_negative",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Experience > Reappraise"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_reappraise_negative",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "less than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Experience > Reappraise"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_regulation"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_younger",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "22",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The subject sample comprised 20 older adults between the ages of 59 and 73 years ( M = 69 years) and 22 younger adults between the ages of 19 and 33 years ( M = 23 years)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_older",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The subject sample comprised 20 older adults between the ages of 59 and 73 years ( M = 69 years) and 22 younger adults between the ages of 19 and 33 years ( M = 23 years)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "negative \u2018Experience\u2019 > negative \u2018Reappraise\u2019",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Negative \u2018Experience\u2019 trials, compared to negative \u2018Reappraise\u2019 trials, revealed activations in amygdala, post-central gyrus and putamen, all bilaterally."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD fMRI activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We acquired data on a GE 4T scanner using a gradient-echo inverse-spiral pulse sequence with standard parameters for blood-oxygenation-level-dependent (BOLD) fMRI"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "unit": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "BA, estimated Brodmann\u2019s Area; L, left; R, right; B, bilateral; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z, z -statistic of peak voxel."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "Reappraise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Experience > Reappraise"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mediation_path": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "BA, estimated Brodmann\u2019s Area; L, left; R, right; B, bilateral; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z, z -statistic of peak voxel."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "whole-brain correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "search_volume": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "no",
+      "value_source": "generated",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {
+     "decoded_variable": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "classes": [],
+     "performance_metrics": [],
+     "validation_scheme": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "generalization": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "similarity": {
+     "model": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "neural_representation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "similarity_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "competing_models": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "target_regions": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "parameter_sign": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "edges": [],
+     "modulatory_input": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "inference_target": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "conjunction": {
+     "components": [],
+     "null_hypothesis": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "implementation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "component_decomposition": {
+     "method": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "component_id": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "component_label": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "total_components": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "selection_criterion": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "map_quantity": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "polarity_semantics": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "not_structurable": {
+     "reason": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "explanation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "other_method": {
+     "method_label": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "structured_details": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "reason_first_class_type_not_used": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "For both positive and negative stimuli, and for both younger and older adults, amygdala activation increased to \u2018Experience\u2019 trials compared to \u2018Reappraise\u2019 trials.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For both positive and negative stimuli, and for both younger and older adults, amygdala activation increased to \u2018Experience\u2019 trials compared to \u2018Reappraise\u2019 trials."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_ppi_amygdala_lifg",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "psychophysiological interaction of amygdala and left inferior frontal gyrus",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Activity in both the left and right amygdala exhibited a regulation-modulated PPI with left PFC, specifically overlapping in left IFG"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "a separate functional localizer",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We extracted time courses from functionally defined ROIs in each amygdala, using voxels defined by the conjunction of the \u2018Reappraise > Experience\u2019 contrasts for both positive and negative stimuli."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "left and right amygdala; left IFG",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We conducted a PPI analysis using each of the left and right amygdala as seed regions, and the regulation condition (\u2018Experience\u2019 or \u2018Reappraise\u2019) as a modulatory variable."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reappraisal"
+    ],
+    "conditions": [
+     {
+      "condition": "c_reappraise",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "positive weight",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "convolved with a boxcar function using a positive weight for \u2018Reappraise\u2019 trials and a negative weight for \u2018Experience\u2019 trials to create the PPI regressor."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_experience",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "negative weight",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "convolved with a boxcar function using a positive weight for \u2018Reappraise\u2019 trials and a negative weight for \u2018Experience\u2019 trials to create the PPI regressor."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_regulation"
+    ],
+    "model_estimation": "me_ppi",
+    "groups": [
+     {
+      "group": "g_younger",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "22",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The subject sample comprised 20 older adults between the ages of 59 and 73 years ( M = 69 years) and 22 younger adults between the ages of 19 and 33 years ( M = 23 years)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_older",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The subject sample comprised 20 older adults between the ages of 59 and 73 years ( M = 69 years) and 22 younger adults between the ages of 19 and 33 years ( M = 23 years)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "regulation-modulated PPI between the left and right amygdala and left inferior frontal gyrus",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Activity in both the left and right amygdala exhibited a regulation-modulated PPI with left PFC, specifically overlapping in left IFG"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Thus, we conclude that the functional connectivity between the LIFG and the amygdala was indeed modulated by the regulation demands of the task"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "unit": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "BA, estimated Brodmann\u2019s Area; L, left; R, right; B, bilateral; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z, z -statistic of peak voxel."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "mediation_path": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl3"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "BA, estimated Brodmann\u2019s Area; L, left; R, right; B, bilateral; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z, z -statistic of peak voxel."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "z",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "whole-brain correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All analyses described below use whole-brain-corrected thresholds for significance: voxel-significance thresholds of z > 2.3 and cluster-significance threshold corrected to P < 0.05."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "search_volume": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "no",
+      "value_source": "generated",
+      "evidence": {
+       "status": "not_found"
+      }
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {
+     "decoded_variable": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "classes": [],
+     "performance_metrics": [],
+     "validation_scheme": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "generalization": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "similarity": {
+     "model": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "neural_representation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "similarity_metric": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "competing_models": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "psychophysiological interaction (PPI)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "To evaluate whether these opposing responses in PFC and the amygdala were driven by the functional demands of the task, we conducted psychophysical interaction (PPI) analyses using the left and right amygdala as seed regions and the regulation condition (\u2018Experience vs Reappraise\u2019) as a modulatory variable."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left and right amygdala",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We conducted a PPI analysis using each of the left and right amygdala as seed regions"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "left inferior frontal gyrus",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Activity in both the left and right amygdala exhibited a regulation-modulated PPI with left PFC, specifically overlapping in left IFG"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_sign": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "modulated by regulation demands",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Thus, we conclude that the functional connectivity between the LIFG and the amygdala was indeed modulated by the regulation demands of the task"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "edges": [
+      {
+       "source_region": {
+        "extraction_status": "extracted",
+        "value": "left amygdala",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "using the left and right amygdala as seed regions"
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "target_region": {
+        "extraction_status": "extracted",
+        "value": "left inferior frontal gyrus",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Activity in both the left and right amygdala exhibited a regulation-modulated PPI with left PFC, specifically overlapping in left IFG"
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "directionality": {
+        "extraction_status": "not_reported",
+        "evidence": {
+         "status": "not_applicable"
+        }
+       },
+       "parameter_sign": {
+        "extraction_status": "not_reported",
+        "evidence": {
+         "status": "not_applicable"
+        }
+       }
+      },
+      {
+       "source_region": {
+        "extraction_status": "extracted",
+        "value": "right amygdala",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "using the left and right amygdala as seed regions"
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "target_region": {
+        "extraction_status": "extracted",
+        "value": "left inferior frontal gyrus",
+        "value_source": "reported",
+        "evidence": {
+         "status": "present",
+         "sets": [
+          {
+           "spans": [
+            {
+             "text": "Activity in both the left and right amygdala exhibited a regulation-modulated PPI with left PFC, specifically overlapping in left IFG"
+            }
+           ]
+          }
+         ]
+        }
+       },
+       "directionality": {
+        "extraction_status": "not_reported",
+        "evidence": {
+         "status": "not_applicable"
+        }
+       },
+       "parameter_sign": {
+        "extraction_status": "not_reported",
+        "evidence": {
+         "status": "not_applicable"
+        }
+       }
+      }
+     ],
+     "modulatory_input": {
+      "extraction_status": "extracted",
+      "value": "regulation condition (\u2018Experience vs Reappraise\u2019)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "using the left and right amygdala as seed regions and the regulation condition (\u2018Experience vs Reappraise\u2019) as a modulatory variable."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Thus, we conclude that the functional connectivity between the LIFG and the amygdala was indeed modulated by the regulation demands of the task"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {
+     "components": [],
+     "null_hypothesis": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "implementation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "component_decomposition": {
+     "method": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "component_id": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "component_label": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "total_components": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "selection_criterion": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "map_quantity": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "polarity_semantics": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "not_structurable": {
+     "reason": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "explanation": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "other_method": {
+     "method_label": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "structured_details": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "reason_first_class_type_not_used": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "These results indicate that emotion regulation modulates the functional connectivity between the amygdala and the LIFG.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "These results indicate that emotion regulation modulates the functional connectivity between the amygdala and the LIFG."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1. Demographic information about participant samples"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Demographic information about participant samples",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1. Demographic information about participant samples"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "caption": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "MMSE, mini mental-state examination; BDI, Beck depression inventory; ERQ-R, ERQ-S, emotion regulation questionnaire, reappraisal and suppression subscales; AIM, affect intensity measure.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "MMSE, mini mental-state examination; BDI, Beck depression inventory; ERQ-R, ERQ-S, emotion regulation questionnaire, reappraisal and suppression subscales; AIM, affect intensity measure."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "Younger; Older; M (s.d.); Characteristics by age group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Younger Older M (s.d.) M (s.d.) Characteristics by age group"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Demographic and questionnaire characteristics by age group.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2. Regions of activation associated with cognitive reappraisal or emotional experience"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Regions of activation associated with cognitive reappraisal or emotional experience",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2. Regions of activation associated with cognitive reappraisal or emotional experience"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "caption": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "BA, estimated Brodmann\u2019s Area; L, left; R, right; B, bilateral; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z, z -statistic of peak voxel.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "BA, estimated Brodmann\u2019s Area; L, left; R, right; B, bilateral; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z, z -statistic of peak voxel."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "Positive; Negative; Region; BA; x; y; z; Max Z",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Positive Negative Region BA x y z Max Z"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Whole-brain activation regions for cognitive reappraisal and emotional experience in positive and negative conditions.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3. Regions of activation exhibiting a PPI with seed regions in the left and right amygdale"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Regions of activation exhibiting a PPI with seed regions in the left and right amygdale",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3. Regions of activation exhibiting a PPI with seed regions in the left and right amygdale"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "caption": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "BA, estimated Brodmann\u2019s Area; L, left; R, right; B, bilateral; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z, z -statistic of peak voxel.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "BA, estimated Brodmann\u2019s Area; L, left; R, right; B, bilateral; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z, z -statistic of peak voxel."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "Region; BA; x; y; z; Max Z",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Region BA x y z Max Z"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Regions showing psychophysiological interaction effects with left and right amygdala seeds.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "tbl4",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 4",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 4. Regions exhibiting a significant effect of age-group on the negative-reappraise > negative-experience contrast"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Regions exhibiting a significant effect of age-group on the negative-reappraise > negative-experience contrast",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 4. Regions exhibiting a significant effect of age-group on the negative-reappraise > negative-experience contrast"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "caption": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "BA, estimated Brodmann\u2019s Area; L, left; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z , z -statistic of peak voxel.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "BA, estimated Brodmann\u2019s Area; L, left; x , y , z , coordinates of peak voxel, shown in MNI space; Max Z , z -statistic of peak voxel."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "Region; BA; x; y; z; Max Z",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Region BA x y z Max Z"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Whole-brain regions showing age-group effects on the negative reappraise-versus-experience contrast.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "c_reappraise_positive",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reappraise-Positive",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "\u2018Experience-Positive, Experience-Negative, Experience-Neutral, Reappraise-Positive and Reappraise-Negative\u2019"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants attempted to decrease their emotional response to positive images by reappraising the image.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "\u2018Reappraise\u2019 trials had similar timing, save that the cue instructed participants to decrease their emotional response to the image by reappraising the image"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_experience_positive",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Experience-Positive",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "\u2018Experience-Positive, Experience-Negative, Experience-Neutral, Reappraise-Positive and Reappraise-Negative\u2019"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants naturally experienced emotions evoked by positive images.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "On \u2018Experience\u2019 trials, participants viewed an image then received an instruction to experience naturally the emotions evoked by that image."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_reappraise_negative",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reappraise-Negative",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "\u2018Experience-Positive, Experience-Negative, Experience-Neutral, Reappraise-Positive and Reappraise-Negative\u2019"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants attempted to decrease their emotional response to negative images by reappraising the image.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "\u2018Reappraise\u2019 trials had similar timing, save that the cue instructed participants to decrease their emotional response to the image by reappraising the image"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_experience_negative",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Experience-Negative",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "\u2018Experience-Positive, Experience-Negative, Experience-Neutral, Reappraise-Positive and Reappraise-Negative\u2019"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants naturally experienced emotions evoked by negative images.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "On \u2018Experience\u2019 trials, participants viewed an image then received an instruction to experience naturally the emotions evoked by that image."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_reappraise",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reappraise",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The image remained on screen by itself for 2 s, whereupon a 2-s verbal cue indicated whether the participant was to experience his emotions naturally (\u2018Experience\u2019 condition) or to decrease his emotional response to the image (\u2018Reappraise\u2019 condition)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Regulation condition across valence categories.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the regulation condition (\u2018Experience\u2019 or \u2018Reappraise\u2019)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_experience",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Experience",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The image remained on screen by itself for 2 s, whereupon a 2-s verbal cue indicated whether the participant was to experience his emotions naturally (\u2018Experience\u2019 condition) or to decrease his emotional response to the image (\u2018Reappraise\u2019 condition)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Natural emotional experience condition across valence categories.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "On \u2018Experience\u2019 trials, participants viewed an image then received an instruction to experience naturally the emotions evoked by that image."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_regulation",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "regulation condition",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the regulation condition (\u2018Experience\u2019 or \u2018Reappraise\u2019)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "\u2018Experience\u2019 or \u2018Reappraise\u2019",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the regulation condition (\u2018Experience\u2019 or \u2018Reappraise\u2019)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [
+     "c_experience",
+     "c_reappraise"
+    ],
+    "groups": [],
+    "assessment": "",
+    "levels": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "variation_level": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "association_direction": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "functional_form": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interaction_with": [],
+    "unit": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_younger",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "younger adults",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The subject sample comprised 20 older adults between the ages of 59 and 73 years ( M = 69 years) and 22 younger adults between the ages of 19 and 33 years ( M = 23 years)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Adults aged 19\u201333 years with no history of neurological or psychiatric disorder and MMSE scores of 27 or above.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants reported no history of neurological or psychiatric disorder and scored a 27 or above on the Mini-Mental State Examination"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "approached_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "consented_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "enrolled_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "excluded_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "inclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": [
+      "between the ages of 19 and 33 years",
+      "scored a 27 or above on the Mini-Mental State Examination"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The subject sample comprised 20 older adults between the ages of 59 and 73 years ( M = 69 years) and 22 younger adults between the ages of 19 and 33 years ( M = 23 years). Participants reported no history of neurological or psychiatric disorder and scored a 27 or above on the Mini-Mental State Examination"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "exclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": [
+      "history of neurological or psychiatric disorder"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants reported no history of neurological or psychiatric disorder"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "recruitment_method": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "23.1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Age 23.1 (4) 69 (3.9)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "4",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Age 23.1 (4) 69 (3.9)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "19",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "22 younger adults between the ages of 19 and 33 years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "33",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "22 younger adults between the ages of 19 and 33 years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_median": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "between the ages of 19 and 33 years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "sex_distribution": [],
+    "gender_distribution": [],
+    "handedness_distribution": [],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": [
+      "no history of neurological or psychiatric disorder"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants reported no history of neurological or psychiatric disorder"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_system": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "diagnostic_instrument": {
+     "extraction_status": "extracted",
+     "value": [
+      "Mini-Mental State Examination"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "scored a 27 or above on the Mini-Mental State Examination"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "clinical_characteristics": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "medication_status": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "education_summary": {
+     "extraction_status": "extracted",
+     "value": "15.2 (2.6) years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Education (years) 15.2 (2.6) 17.1 (2.6)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   },
+   {
+    "local_id": "g_older",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "older adults",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The subject sample comprised 20 older adults between the ages of 59 and 73 years ( M = 69 years) and 22 younger adults between the ages of 19 and 33 years ( M = 23 years)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Adults aged 59\u201373 years with no history of neurological or psychiatric disorder and MMSE scores of 27 or above.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants reported no history of neurological or psychiatric disorder and scored a 27 or above on the Mini-Mental State Examination"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "approached_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "consented_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "enrolled_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "excluded_count": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "inclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": [
+      "between the ages of 59 and 73 years",
+      "scored a 27 or above on the Mini-Mental State Examination"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The subject sample comprised 20 older adults between the ages of 59 and 73 years ( M = 69 years) and 22 younger adults between the ages of 19 and 33 years ( M = 23 years). Participants reported no history of neurological or psychiatric disorder and scored a 27 or above on the Mini-Mental State Examination"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "exclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": [
+      "history of neurological or psychiatric disorder"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants reported no history of neurological or psychiatric disorder"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "recruitment_method": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "69",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Age 23.1 (4) 69 (3.9)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "3.9",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Age 23.1 (4) 69 (3.9)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "59",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "20 older adults between the ages of 59 and 73 years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "73",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "20 older adults between the ages of 59 and 73 years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_median": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "between the ages of 59 and 73 years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "sex_distribution": [],
+    "gender_distribution": [],
+    "handedness_distribution": [],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": [
+      "no history of neurological or psychiatric disorder"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants reported no history of neurological or psychiatric disorder"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_system": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "diagnostic_instrument": {
+     "extraction_status": "extracted",
+     "value": [
+      "Mini-Mental State Examination"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "scored a 27 or above on the Mini-Mental State Examination"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "clinical_characteristics": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "medication_status": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "education_summary": {
+     "extraction_status": "extracted",
+     "value": "17.1 (2.6) years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Education (years) 15.2 (2.6) 17.1 (2.6)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_reappraisal",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "Cognitive reappraisal task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Cognitive reappraisal paradigm"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants viewed positive, negative or neutral pictures and either naturally experienced the image (\u2018Experience\u2019 condition) or attempted to detach themselves from the image (\u2018Reappraise\u2019 condition).",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "On each trial, participants viewed positive, negative or neutral pictures and either naturally experienced the image (\u2018Experience\u2019 condition) or attempted to detach themselves from the image (\u2018Reappraise\u2019 condition)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_reappraise_positive",
+     "c_experience_positive",
+     "c_reappraise_negative",
+     "c_experience_negative",
+     "c_reappraise",
+     "c_experience"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "Psychtoolbox",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The task was created using Psychtoolbox"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Participants were instructed to continue implementing the cued strategy for the entire 6-s block.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subjects were instructed to continue implementing the cued strategy for the entire 6-s block."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "Images were drawn from the International Affective Picture System and categorized as positive, neutral, or negative in valence.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All images were drawn from the International Affective Picture System ( Lang et al. , 2005 ). Images were categorized according to their standardized valence ratings: positive ( M = 7.3), neutral ( M = 5.1), negative ( M = 2.5)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_performance_measures": {
+     "extraction_status": "extracted",
+     "value": [
+      "perceived affective valence using an 8-option non-verbal Manikin scale"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the end of each trial, participants rated how negative or positive the image was using an 8-option non-verbal Manikin scale"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional magnetic resonance imaging (fMRI)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "older adults (range: 59\u201373 years) and younger adults (range: 19\u201333 years) participated in a cognitive reappraisal task during functional magnetic resonance imaging (fMRI) scanning."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "GE 4T scanner",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We acquired data on a GE 4T scanner"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Gradient-echo inverse-spiral BOLD fMRI with 34 axial slices parallel to the AC\u2013PC plane; six runs with 238 imaging volumes each; first six volumes removed for T2 signal stabilization.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We acquired data on a GE 4T scanner using a gradient-echo inverse-spiral pulse sequence with standard parameters for blood-oxygenation-level-dependent (BOLD) fMRI: repetition time (TR) = 2000 ms; echo time (TE) = 31 ms; field of view (FOV) = 240 mm; flip angle = 90\u00b0; 34 axial slices parallel to the AC\u2013PC plane; voxel size: 3.75 \u00d7 3.75 \u00d7 3.8 mm. Functional data were collected across six runs, each containing 238 imaging volumes."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "structured_details": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "4",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We acquired data on a GE 4T scanner"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "gradient-echo inverse-spiral",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "using a gradient-echo inverse-spiral pulse sequence"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "repetition time (TR) = 2000 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": [
+       "0.031"
+      ],
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "echo time (TE) = 31 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": [
+       "3.75",
+       "3.75",
+       "3.8"
+      ],
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel size: 3.75 \u00d7 3.75 \u00d7 3.8 mm"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "number_of_volumes": {
+      "extraction_status": "extracted",
+      "value": "238",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional data were collected across six runs, each containing 238 imaging volumes."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "eeg": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "fnirs": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "pet": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "other": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   },
+   {
+    "local_id": "acq_spgr",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "anatomical MRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "An initial high-resolution inversion-recovery-prepared SPGR anatomical scan was acquired to aid with co-registration and normalization"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "GE 4T scanner",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We acquired data on a GE 4T scanner"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "High-resolution inversion-recovery-prepared SPGR anatomical scan with whole-brain coverage and approximately 1 mm3 voxel size.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "An initial high-resolution inversion-recovery-prepared SPGR anatomical scan was acquired to aid with co-registration and normalization (TR = 12.3 ms; TE = 5.4 ms; whole-brain coverage with \u223c1 mm 3 voxel size)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "structured_details": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "4",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We acquired data on a GE 4T scanner"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "SPGR",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "inversion-recovery-prepared SPGR anatomical scan"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.0123",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "text": "An initial high-resolution inversion-recovery-prepared SPGR anatomical scan was acquired to aid with co-registration and normalization (TR = 12.3 ms; TE = 5.4 ms; whole-brain coverage with \u223c1 mm 3 voxel size)."
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": [
+       "0.0054"
+      ],
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "text": "An initial high-resolution inversion-recovery-prepared SPGR anatomical scan was acquired to aid with co-registration and normalization (TR = 12.3 ms; TE = 5.4 ms; whole-brain coverage with \u223c1 mm 3 voxel size)."
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": [
+       "1",
+       "1",
+       "1"
+      ],
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "text": "An initial high-resolution inversion-recovery-prepared SPGR anatomical scan was acquired to aid with co-registration and normalization (TR = 12.3 ms; TE = 5.4 ms; whole-brain coverage with \u223c1 mm 3 voxel size)."
+        }
+       ]
+      }
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "eeg": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "fnirs": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "pet": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "other": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Motion correction, slice-timing correction, removal of non-brain voxels, spatial smoothing, high-pass temporal filtering, run exclusion based on motion, registration to high-resolution anatomical images, and normalization to the MNI template.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The following pre-statistics processing steps were applied: motion correction using MCFLIRT, slice-timing correction, removal of non-brain voxels using BET, spatial smoothing with a Gaussian kernel of FWHM 6 mm, and high-pass temporal filtering (>100 s)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": {
+     "extraction_status": "extracted",
+     "value": [
+      "FEAT Version 5.98",
+      "FSL (FMRIB's Software Library)",
+      "MCFLIRT",
+      "BET",
+      "FLIRT"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Analysis of brain data was performed using FEAT Version 5.98, part of FSL (FMRIB's Software Library) package"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "steps": {
+     "extraction_status": "extracted",
+     "value": [
+      "motion correction using MCFLIRT",
+      "slice-timing correction",
+      "removal of non-brain voxels using BET",
+      "spatial smoothing with a Gaussian kernel of FWHM 6 mm",
+      "high-pass temporal filtering (>100 s)",
+      "exclusion of runs with more than five volumes with greater than 1 mm of movement in any direction",
+      "registration to high-resolution anatomical images",
+      "normalization to the Montreal Neurologic Institute (MNI) template image using FLIRT"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The following pre-statistics processing steps were applied: motion correction using MCFLIRT, slice-timing correction, removal of non-brain voxels using BET, spatial smoothing with a Gaussian kernel of FWHM 6 mm, and high-pass temporal filtering (>100 s)."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "me_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "regression model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We used two regression models for our analyses, one for condition effects and the other for interactions between regions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "double-gamma hemodynamic response function",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All regressors were convolved with a double-gamma hemodynamic response function."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Five regressors of interest modeled the 8-s reappraisal or experience period; nuisance regressors modeled the 2-s visual presentation and response period.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Our first model created five regressors of interest, one for each of the trial types (\u2018Experience-Positive, Experience-Negative, Experience-Neutral, Reappraise-Positive and Reappraise-Negative\u2019). These regressors modeled the 8-s period when participants either reappraised or experienced the emotional content of the stimuli using a unit amplitude function. Additional nuisance regressors modeled the 2-s visual presentation of each stimulus and the response period."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "third-level (across-subjects) analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the whole-brain comparisons, we introduced age group as a covariate at the third-level (i.e. across-subjects) analysis."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "estimator": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "software": {
+     "extraction_status": "extracted",
+     "value": [
+      "FEAT Version 5.98",
+      "FSL (FMRIB's Software Library)"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Analysis of brain data was performed using FEAT Version 5.98, part of FSL (FMRIB's Software Library) package"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "me_ppi",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "psychophysiological interaction (PPI) model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we conducted psychophysical interaction (PPI) analyses using the left and right amygdala as seed regions and the regulation condition (\u2018Experience vs Reappraise\u2019) as a modulatory variable."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "hrf_model": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Two amygdala activation time-course regressors, a regulation-condition boxcar regressor, and two interaction regressors formed by convolving amygdala activation with the task regressor.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "This model included two regressors consisting of activation time courses in the left and right amygdala, a task regressor that was a boxcar waveform weighted according to the regulation conditions (collapsing across valence), and two regressors of interest created from the convolution of amygdala activation and the task regressor."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "estimator": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "software": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "ass_mmse",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Mini-Mental State Examination",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "scored a 27 or above on the Mini-Mental State Examination"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Screening measure of global cognitive status; participants scored 27 or above.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants reported no history of neurological or psychiatric disorder and scored a 27 or above on the Mini-Mental State Examination"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "cognitive test",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "ass_cognitive_composite",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "single composite score",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a single composite score was derived based on mean performance across all measures."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Composite cognitive functioning score derived from memory, executive function, reaction time, Stroop, and digit-span measures.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subjects were assigned z scores for each of these measures, relative to the mean and standard deviation of the younger subjects, and a single composite score was derived based on mean performance across all measures."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "cognitive test",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   }
+  ],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined whether younger and older adults use similar neural mechanisms for cognitive reappraisal and whether age and individual differences in cognitive ability influence emotion-regulation-related brain activation and connectivity.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Here we compared the neural mechanisms of cognitive reappraisal in younger and older adults."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Younger and older adults completed cognitive testing and a cognitive reappraisal task during fMRI. On trials with positive, negative, or neutral images, participants either experienced their emotions naturally or reappraised the image to decrease their emotional response; analyses examined condition effects, age-group differences, PPI connectivity, and cognition\u2013activation relationships.",
+   "value_source": "reported",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Each person participated in two sessions on different days. The first session included a psychometric testing battery and training on our emotional reappraisal paradigm, and the second session involved fMRI scanning."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [
+   {
+    "name": {
+     "extraction_status": "extracted",
+     "value": "International Affective Picture System",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All images were drawn from the International Affective Picture System ( Lang et al. , 2005 )."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "url": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 28184,
+  "completion": 23860,
+  "reasoning": 60,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 99907,
+ "service_tier_echo": "flex"
+}

@@ -1,0 +1,3450 @@
+{
+ "case_id": "pmc_8455857",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 11,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "analyses": [
+   {
+    "local_id": "a_alff_gsr_gt",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ALFF UM > NC with GSR",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Compared with controls, patients with UM had lower ALFF values in the left temporal pole, superior temporal gyrus, middle temporal gyrus, and medial prefrontal cortex; and higher ALFF values in the left inferior temporal gyrus and precuneus."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The temporal correlations between this reference time series and the time courses of all other brain voxels were calculated"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The temporal correlations between this reference time series and the time courses of all other brain voxels were calculated"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "c_um",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "UM > NC",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Table 2 Clusters with significant group effects in data with GSR. Metric direction regions"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_nc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Compared with controls, patients with UM had lower ALFF values in the left temporal pole, superior temporal gyrus, middle temporal gyrus, and medial prefrontal cortex; and higher ALFF values in the left inferior temporal gyrus and precuneus."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "me_group",
+    "groups": [
+     {
+      "group": "g_um",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Compared with controls, patients with UM had lower ALFF values in the left temporal pole, superior temporal gyrus, middle temporal gyrus, and medial prefrontal cortex; and higher ALFF values in the left inferior temporal gyrus and precuneus."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "24",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "UM (n = 24) NC (n = 25)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_nc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Compared with controls, patients with UM had lower ALFF values in the left temporal pole, superior temporal gyrus, middle temporal gyrus, and medial prefrontal cortex; and higher ALFF values in the left inferior temporal gyrus and precuneus."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "25",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "UM (n = 24) NC (n = 25)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_rsfmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "UM > NC, ALFF",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ALFF UM > NC L.ITG, BA20 79 \u221245 \u221212 \u221242 4.65 L.Precuneus, BA5 91 \u221212 \u221257 51 4.41"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "amplitude of low-frequency fluctuations (ALFF)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The amplitude of low-frequency fluctuations (ALFF) was defined as the total power within the frequency range between 0.01 and 0.1 Hz"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "ALFF",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The amplitude of low-frequency fluctuations (ALFF) was defined as the total power within the frequency range between 0.01 and 0.1 Hz"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Table 2 Clusters with significant group effects in data with GSR."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "MNI coordinates"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Gaussian random field (GRF) corrections were used for multiple comparisons (p < 0.001 at the voxel level and p < 0.05 at the cluster level)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.001",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Gaussian random field (GRF) corrections were used for multiple comparisons (p < 0.001 at the voxel level and p < 0.05 at the cluster level)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Gaussian random field (GRF) corrections were used for multiple comparisons (p < 0.001 at the voxel level and p < 0.05 at the cluster level)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Gaussian random field (GRF) corrections were used for multiple comparisons (p < 0.001 at the voxel level and p < 0.05 at the cluster level)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Gaussian random field (GRF) corrections",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Gaussian random field (GRF) corrections were used for multiple comparisons (p < 0.001 at the voxel level and p < 0.05 at the cluster level)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Strict quality control was maintained for the integrity of scans, for errors in raw DICOM data, for head motions, and for coverage of the entire brain."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_falff_gsr_gt",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "fALFF UM > NC with GSR",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In addition, the UM group had higher fALFF values in the left inferior temporal gyrus and fusiform"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The temporal correlations between this reference time series and the time courses of all other brain voxels were calculated"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The temporal correlations between this reference time series and the time courses of all other brain voxels were calculated"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "me_group",
+    "groups": [
+     {
+      "group": "g_um",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "the UM group had higher fALFF values in the left inferior temporal gyrus and fusiform"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "24",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "UM (n = 24) NC (n = 25)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_nc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "the UM group had higher fALFF values in the left inferior temporal gyrus and fusiform"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "25",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "UM (n = 24) NC (n = 25)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_rsfmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "UM > NC, fALFF",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "fALFF UM > NC L.ITG, BA20 104 \u221251 \u221215 \u221230 4.85 L.Fusiform, BA37 60 \u221233 \u221248 \u22126 4.77"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "fractional amplitude of low-frequency fluctuation (fALFF)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The fractional amplitude of low-frequency fluctuation (fALFF) was defined as the division of ALFF within a given frequency band by the whole frequency range"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "fALFF",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The fractional amplitude of low-frequency fluctuation (fALFF) was defined as the division of ALFF within a given frequency band by the whole frequency range"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Table 2 Clusters with significant group effects in data with GSR."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "MNI coordinates"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Thresholds were set at p < 0.001 at the voxel level and p < 0.05 after Gaussian random field correction."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Gaussian random field correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Thresholds were set at p < 0.001 at the voxel level and p < 0.05 after Gaussian random field correction."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_reho_gsr_gt",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ReHo UM > NC with GSR",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "higher ReHo values in the left inferior temporal gyrus"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Regional homogeneity (ReHo) was defined as the nonparametric concordance of adjacent voxel time series"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Regional homogeneity (ReHo) was defined as the nonparametric concordance of adjacent voxel time series"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "me_group",
+    "groups": [
+     {
+      "group": "g_um",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "higher ReHo values in the left inferior temporal gyrus"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "24",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "UM (n = 24) NC (n = 25)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_nc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "higher ReHo values in the left inferior temporal gyrus"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "25",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "UM (n = 24) NC (n = 25)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_rsfmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "UM > NC, ReHo",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ReHo UM > NC L.ITG, BA20 83 \u221248 \u221215 \u221239 5.23"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "regional homogeneity (ReHo)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regional homogeneity (ReHo) was defined as the nonparametric concordance of adjacent voxel time series"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "ReHo",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regional homogeneity (ReHo) was defined as the nonparametric concordance of adjacent voxel time series"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Table 2 Clusters with significant group effects in data with GSR."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "MNI coordinates"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Thresholds were set at p < 0.001 at the voxel level and p < 0.05 after Gaussian random field correction."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Gaussian random field correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Thresholds were set at p < 0.001 at the voxel level and p < 0.05 after Gaussian random field correction."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_sbfc_gsr",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "SBFC UM versus NC with GSR",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Compared with controls, subjects in the UM group showed lower connectivity with the left precuneus, right fusiform and right cuneus and higher connectivity with the left inferior parietal gyrus and inferior frontal gyrus"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Seed-based functional connectivity analysis (SBFC) was performed to determine the functional coordination between a given grey matter voxel and other voxels within the brain"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Seed-based functional connectivity analysis (SBFC) was performed to determine the functional coordination between a given grey matter voxel and other voxels within the brain"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "me_group",
+    "groups": [
+     {
+      "group": "g_um",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater and lesser directions reported",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Compared with controls, subjects in the UM group showed lower connectivity with the left precuneus, right fusiform and right cuneus and higher connectivity with the left inferior parietal gyrus and inferior frontal gyrus"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "24",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "UM (n = 24) NC (n = 25)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_nc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "comparison group",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Compared with controls, subjects in the UM group showed lower connectivity with the left precuneus, right fusiform and right cuneus and higher connectivity with the left inferior parietal gyrus and inferior frontal gyrus"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "25",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "UM (n = 24) NC (n = 25)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_rsfmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "SBFC using the left inferior temporal gyrus seed; UM > NC and UM < NC connectivity contrasts",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Clusters with significant between-group differences in ALFF, fALFF and ReHo were selected as the seed regions to further explore differences in SBFC changes between the UM and NC groups."
+         },
+         {
+          "text": "SBFC UM > NC L.IPG, BA40 163 \u221257 \u221245 48 4.32 (Seed: L.ITG) L.IFG, BA45 181 \u221242 42 0 5.17 UM < NC R.Fusiform, BA37 145 24 \u221257 \u221215 \u22125.05 R.Cuneus, BA18 141 3 \u221284 24 \u22124.98 L.Precuneus, BA5 135 \u221212 \u221254 63 \u22125.25"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "To calculate the functional connectivity, the average time series of the BOLD signal was extracted from the seed."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Fisher\u2019s r-to-z transformed temporal correlations",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the normality of the data increased by transforming the correlation coefficients to z values using Fisher\u2019s r-to-z transformation"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Table 2 Clusters with significant group effects in data with GSR."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "MNI coordinates"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Thresholds were set at p < 0.001 at the voxel level and p < 0.05 after Gaussian random field correction."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Gaussian random field correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Thresholds were set at p < 0.001 at the voxel level and p < 0.05 after Gaussian random field correction."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "seed-based functional connectivity analysis (SBFC)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Seed-based functional connectivity analysis (SBFC) was performed to determine the functional coordination between a given grey matter voxel and other voxels within the brain"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left inferior temporal gyrus",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "ALFF, fALFF, and ReHo measurements showed convergent alterations in the left inferior temporal gyrus, with this region regarded as the seed for SBFC analysis."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "left precuneus, right fusiform, right cuneus, left inferior parietal gyrus and inferior frontal gyrus",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Compared with controls, subjects in the UM group showed lower connectivity with the left precuneus, right fusiform and right cuneus and higher connectivity with the left inferior parietal gyrus and inferior frontal gyrus"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "To calculate the functional connectivity, the average time series of the BOLD signal was extracted from the seed."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_corr_duration_alff",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Correlation between disease duration and ALFF of the left inferior temporal gyrus",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The duration of disease in the UM group showed significant positive correlations with the ALFF (p = 0.021)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "region of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ROI-wise Pearson\u2019s correlation analysis was used to investigate the relationship between brain regions showing group differences and clinical features."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "region",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ROI-wise Pearson\u2019s correlation analysis was used to investigate the relationship between brain regions showing group differences and clinical features."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "brain regions showing group differences",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ROI-wise Pearson\u2019s correlation analysis was used to investigate the relationship between brain regions showing group differences and clinical features."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "left inferior temporal gyrus",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The duration of disease in the UM group showed significant positive correlations with the ALFF (p = 0.021)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [],
+    "terms": [
+     "term_duration"
+    ],
+    "model_estimation": "me_corr",
+    "groups": [
+     {
+      "group": "g_um",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The duration of disease in the UM group showed significant positive correlations with the ALFF (p = 0.021)"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "24",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "UM (n = 24)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_rsfmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Disease duration positively correlated with ALFF of the left inferior temporal gyrus",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The duration of disease in the UM group showed significant positive correlations with the ALFF (p = 0.021)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "ALFF",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The duration of disease in the UM group showed significant positive correlations with the ALFF (p = 0.021)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "Pearson correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "ROI-wise Pearson\u2019s correlation analysis was used to investigate the relationship between brain regions showing group differences and clinical features."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [
+     "tbl_supp1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Statistical significance was defined as a threshold p < 0.05 with the Bonferroni correction."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Bonferroni correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Statistical significance was defined as a threshold p < 0.05 with the Bonferroni correction."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_corr_hearing_alff",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Correlation between hearing threshold and ALFF",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Additionally, the ALFF value of the left inferior temporal gyrus correlated negatively with hearing threshold (p < 0.001)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "region of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ROI-wise Pearson\u2019s correlation analysis was used to investigate the relationship between brain regions showing group differences and clinical features."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "brain regions showing group differences",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ROI-wise Pearson\u2019s correlation analysis was used to investigate the relationship between brain regions showing group differences and clinical features."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [],
+    "terms": [
+     "term_hearing"
+    ],
+    "model_estimation": "me_corr",
+    "groups": [
+     {
+      "group": "g_um",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Additionally, the ALFF value of the left inferior temporal gyrus correlated negatively with hearing threshold (p < 0.001)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "24",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "UM (n = 24)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_rsfmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Hearing threshold negatively correlated with ALFF",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Additionally, the ALFF value of the left inferior temporal gyrus correlated negatively with hearing threshold (p < 0.001)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "ALFF",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Additionally, the ALFF value of the left inferior temporal gyrus correlated negatively with hearing threshold (p < 0.001)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "Pearson correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "ROI-wise Pearson\u2019s correlation analysis was used to investigate the relationship between brain regions showing group differences and clinical features."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [
+     "tbl_supp1"
+    ],
+    "assessments": [],
+    "inference_settings": {
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Statistical significance was defined as a threshold p < 0.05 with the Bonferroni correction."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Bonferroni correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Statistical significance was defined as a threshold p < 0.05 with the Bonferroni correction."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Demographic and clinical characteristics of the study subjects."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Demographic and clinical characteristics of the study subjects.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Demographic and clinical characteristics of the study subjects."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Demographic and clinical characteristics of UM and NC participants.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A comparison of the clinical and demographic characteristics showed no significant between-group differences in gender, age or educational level"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Clusters with significant group effects in data with GSR."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Clusters with significant group effects in data with GSR.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Clusters with significant group effects in data with GSR."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Significant clusters for ALFF, fALFF, ReHo and SBFC group effects with GSR.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Clusters with significant group effects in data with GSR."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Clusters with significant group effects in data without GSR."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Clusters with significant group effects in data without GSR.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Clusters with significant group effects in data without GSR."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Significant clusters for ALFF, fALFF, ReHo and SBFC group effects without GSR.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Clusters with significant group effects in data without GSR."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "c_um",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "UM group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The present study included 27 patients aged 11\u201340 years with right-sided congenital unilateral microtia (UM group)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Patients with right-sided congenital unilateral microtia and severe hearing loss in the affected ear.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All subjects in the UM group had severe HL in the affected ear (>60 dB HL)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "resting-state condition",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subjects were instructed to lie still and relax with their eyes closed but not fall asleep and not think of anything."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_nc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "NC group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "27 age- and sex-matched normal hearing individuals aged 11\u201335 years (NC group)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Age- and sex-matched normal hearing individuals.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "27 age- and sex-matched normal hearing individuals aged 11\u201335 years (NC group)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "resting-state condition",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subjects were instructed to lie still and relax with their eyes closed but not fall asleep and not think of anything."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_group",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ALFF, fALFF, ReHo and SBFC were compared in the two groups"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ALFF, fALFF, ReHo and SBFC were compared in the two groups"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ALFF, fALFF, ReHo and SBFC were compared in the two groups"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_um",
+     "c_nc"
+    ],
+    "groups": [
+     "g_um",
+     "g_nc"
+    ]
+   },
+   {
+    "local_id": "term_duration",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "duration of hearing loss",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we assessed correlations of hearing threshold, duration of hearing loss, MMSE, and MoCA scores with functional brain measurements"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "duration of hearing loss",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we assessed correlations of hearing threshold, duration of hearing loss, MMSE, and MoCA scores with functional brain measurements"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The duration of disease in the UM group showed significant positive correlations with the ALFF"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The duration of disease in the UM group showed significant positive correlations with the ALFF"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "between subjects",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The duration of disease in the UM group showed significant positive correlations with the ALFF"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "association_direction": {
+     "extraction_status": "extracted",
+     "value": "positive",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The duration of disease in the UM group showed significant positive correlations with the ALFF"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "term_hearing",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "hearing threshold",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we assessed correlations of hearing threshold, duration of hearing loss, MMSE, and MoCA scores with functional brain measurements"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Additionally, the ALFF value of the left inferior temporal gyrus correlated negatively with hearing threshold"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Additionally, the ALFF value of the left inferior temporal gyrus correlated negatively with hearing threshold"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "association_direction": {
+     "extraction_status": "extracted",
+     "value": "negative",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Additionally, the ALFF value of the left inferior temporal gyrus correlated negatively with hearing threshold"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "unit": {
+     "extraction_status": "extracted",
+     "value": "dB HL",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "PTA of affected ear (dB HL)"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_um",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "UM group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The present study included 27 patients aged 11\u201340 years with right-sided congenital unilateral microtia (UM group)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Patients with right-sided congenital unilateral microtia.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "only subjects with right-sided microtia were included in the present study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The present study included 27 patients aged 11\u201340 years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "24",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "UM (n = 24)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "18.6 \u00b1 6.6",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Age (years) 18.6 \u00b1 6.6"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Age (years) 18.6 \u00b1 6.6"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "male",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Gender (male/female) 17\u22158"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Gender (male/female) 17\u22158"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Gender (male/female) 17\u22158"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "8",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Gender (male/female) 17\u22158"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All subjects were right-handed."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "24",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Handedness (right/left) 24/0"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "right-sided congenital unilateral microtia",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "right-sided congenital unilateral microtia"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "exclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "known neurologic or psychiatric diseases",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Subjects were excluded if they had known neurologic or psychiatric diseases, brain lesions such as white matter hypoplasia, epilepsy, tumors or strokes, and had contraindications to MR imaging."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Patients who had previously received hearing interventions",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Patients who had previously received hearing interventions were also excluded."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "clinical_characteristics": {
+     "extraction_status": "extracted",
+     "value": "Disease duration 18.6 \u00b1 6.6 years; PTA of affected ear 75.4 \u00b1 4.8 dB HL.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Disease duration (year) 18.6 \u00b1 6.6 \u2013 \u2013"
+         },
+         {
+          "text": "PTA of affected ear (dB HL) 75.4 \u00b1 4.8 15.1 \u00b1 2.3"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_nc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "NC group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "27 age- and sex-matched normal hearing individuals aged 11\u201335 years (NC group)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Age- and sex-matched normal hearing individuals.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "27 age- and sex-matched normal hearing individuals aged 11\u201335 years (NC group)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "27 age- and sex-matched normal hearing individuals"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "25",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "NC (n = 25)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "19.5 \u00b1 4.3",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Age (years) 18.6 \u00b1 6.6 19.5 \u00b1 4.3"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Age (years) 18.6 \u00b1 6.6 19.5 \u00b1 4.3"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "male",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Gender (male/female) 17\u22158 18\u22158"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Gender (male/female) 17\u22158 18\u22158"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Gender (male/female) 17\u22158 18\u22158"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "8",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Gender (male/female) 17\u22158 18\u22158"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All subjects were right-handed."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "25",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Handedness (right/left) 24/0 25/0"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_rest",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "resting-state fMRI",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All rs-fMRI images were processed using SPM12"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants lay still and relaxed with eyes closed, not falling asleep and not thinking of anything.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subjects were instructed to lie still and relax with their eyes closed but not fall asleep and not think of anything."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_um",
+     "c_nc"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "resting-state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subjects were instructed to lie still and relax with their eyes closed but not fall asleep and not think of anything."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional MRI",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Magnetic resonance images were obtained using a GE750 3.0 T MR scanner"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "GE750 3.0 T MR scanner with an eight-channel standard quadrature head coil",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Magnetic resonance images were obtained using a GE750 3.0 T MR scanner with an eight-channel standard quadrature head coil."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Resting-state functional images were acquired axially using a gradient echo EPI sequence; anatomical images were also acquired with a high-resolution T1-weighted gradient-echo sequence.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Functional images were obtained axially with a gradient echo type echo planar imaging (EPI) sequence."
+         },
+         {
+          "text": "Anatomical images were acquired with a high-resolution T1-weighted gradient-echo sequence"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3.0",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "GE750 3.0 T MR scanner"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "gradient echo type echo planar imaging (EPI)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional images were obtained axially with a gradient echo type echo planar imaging (EPI) sequence."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a repetition time (TR) of 2000 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.03",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "an echo time (TE) of 30 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "3.75 \u00d7 3.75 \u00d7 4 mm3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel size of 3.75 \u00d7 3.75 \u00d7 4 mm 3"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_rsfmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The first 10 time points were deleted; images underwent slice-timing and head-motion correction, normalization, resampling, smoothing, nuisance regression, band-pass filtering and scrubbing.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The first 10 time points of the functional imaging were deleted because of the instability of the initial MRI signal and the need for participants to adapt to the scanning environment. Thereafter, slice-timing and head-motion correction were implemented."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM12",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All rs-fMRI images were processed using SPM12"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "SeeCAT",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "and SeeCAT software"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "first 10 time points deleted",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The first 10 time points of the functional imaging were deleted"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "slice-timing and head-motion correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "slice-timing and head-motion correction were implemented."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "normalized to the EPI template and resampled to 3-mm isotropic voxels",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The corrected images were normalized to the EPI template, resampled to 3-mm isotropic voxels"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "smoothed with a 4-mm full-width at half maximum Gaussian kernel",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "and further smoothed with a 4-mm full-width at half maximum Gaussian kernel."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "confounding signals removed using linear regression",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Confounding signals, including those of white matter and cerebrospinal fluid, as well as linear drift and Friston-24 head-motion parameters, were removed using a linear regression model."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "temporally band-pass filtered (0.01\u20130.1 Hz)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The time series for each voxel was temporally band-pass filtered (0.01\u20130.1 Hz)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "scrubbing based on framewise indices",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Finally, a scrubbing procedure based on framewise indices was utilized to reduce motion-related effects on FC analysis"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "me_group",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "statistical module in SPM12",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Functional data were analyzed using a statistical module in SPM12."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "ALFF, fALFF, ReHo and SBFC were compared in the two groups with regressing covariates such as age, gender and educational level.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ALFF, fALFF, ReHo and SBFC were compared in the two groups with regressing covariates such as age, gender and educational level."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ALFF, fALFF, ReHo and SBFC were compared in the two groups"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM12",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional data were analyzed using a statistical module in SPM12."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "local_id": "me_corr",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "ROI-wise Pearson\u2019s correlation analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ROI-wise Pearson\u2019s correlation analysis was used to investigate the relationship between brain regions showing group differences and clinical features."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The duration of disease in the UM group showed significant positive correlations"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "ass_mmse",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Mini-Mental State Examination (MMSE)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Cognitive abilities were evaluated by professionals using the Mini-Mental State Examination (MMSE)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "cognitive test",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Cognitive abilities were evaluated by professionals using the Mini-Mental State Examination (MMSE)"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "ass_moca",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Montreal Cognitive Assessment (MoCA) test",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "and the Montreal Cognitive Assessment (MoCA) test"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "cognitive test",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Cognitive abilities were evaluated by professionals using the Mini-Mental State Examination (MMSE) and the Montreal Cognitive Assessment (MoCA) test."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined alterations in resting-state regional brain activity and seed-based functional connectivity in patients with congenital unilateral conductive hearing loss compared with normal-hearing controls, and assessed associations with clinical features and the effect of global signal regression.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "To examine the effect of GSR on UM-related functional alterations, rs-fMRI data were analyzed both with and without GSR during preprocessing."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "A cross-sectional case-control resting-state fMRI study compared patients with right-sided congenital unilateral microtia with age- and sex-matched normal hearing controls; ALFF, fALFF, ReHo and SBFC were analyzed with and without global signal regression.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "The present study included 27 patients aged 11\u201340 years with right-sided congenital unilateral microtia (UM group) and 27 age- and sex-matched normal hearing individuals aged 11\u201335 years (NC group)."
+       },
+       {
+        "text": "To examine the effect of GSR on UM-related functional alterations, rs-fMRI data were analyzed both with and without GSR during preprocessing."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [],
+  "not_applicable": true
+ },
+ "usage": {
+  "prompt": 12886,
+  "completion": 13003,
+  "reasoning": 79,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 52403,
+ "service_tier_echo": "flex"
+}

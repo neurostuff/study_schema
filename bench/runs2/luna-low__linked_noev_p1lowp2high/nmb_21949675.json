@@ -1,0 +1,1652 @@
+{
+ "case_id": "nmb_21949675",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev_p1lowp2high",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 3,
+ "stage1_names": [
+  "Decrease negative>Look negative",
+  "Decrease neutral>Look neutral",
+  "Regulation Dec>no regulation"
+ ],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "unknown",
+   "extractor_version": "1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study investigated whether voluntary emotion regulation by detachment produces immediate and sustained effects on amygdala activation after active regulation has ended.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Functional magnetic resonance imaging study in healthy female subjects using two sequenced tasks: active emotion regulation of aversive visual scenes followed approximately ten minutes later by passive viewing of the same stimuli.",
+   "value_source": "generated"
+  },
+  "external_datasets": [
+   {
+    "name": {
+     "extraction_status": "extracted",
+     "value": "International Affective Picture System",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "ass_bdi",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Beck Depression Inventory (BDI)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Assessment used to rule out effects of altered mood states.",
+     "value_source": "generated"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ass_stai",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "State Trait Anxiety Inventory (STAI)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Assessment used to rule out effects of altered mood states.",
+     "value_source": "generated"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ass_tas20",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Toronto Alexithymia Scale (TAS-20)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Assessment used to rule out deficits in emotion perception.",
+     "value_source": "generated"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ass_erq",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Emotion Regulation Questionnaire",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Assessment of habitual emotion regulation strategies, including suppression and reappraisal subscales.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ass_wbsi",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "White Bear Suppression Inventory (WBSI)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Measure of habitual thought control.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ass_reg_success",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "9-point-Likert scale",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Post-hoc rating of emotion regulation success, where 1 was very successful and 9 was not successful.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "behavioural rating",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ass_negative_affect",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "trial-by-trial rating of subjective negative affect",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Control-experiment rating from 0 (weakest) to 7 (strongest).",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "behavioural rating",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_regulation",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "regulation condition",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "regulation, no regulation",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_regulate",
+     "cond_permit"
+    ]
+   },
+   {
+    "local_id": "term_valence",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "valence",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "negative, neutral",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_negative",
+     "cond_neutral"
+    ]
+   },
+   {
+    "local_id": "term_wbsi",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "WBSI score",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "individual scores in the WBSI",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "moderator",
+     "value_source": "generated"
+    },
+    "assessment": "ass_wbsi",
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "between subjects",
+     "value_source": "generated"
+    },
+    "association_direction": {
+     "extraction_status": "extracted",
+     "value": "positive",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_healthy",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "healthy female volunteers",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "20 healthy right-handed female volunteers aged 24\u00b13 years without any history of neurological or psychiatric illness participated in the imaging study. Two subjects reached BDI scores above the cut-off score of 9 and thus were discarded from further analyses.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "20",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "20",
+     "value_source": "reported"
+    },
+    "excluded_count": {
+     "extraction_status": "extracted",
+     "value": "2",
+     "value_source": "reported"
+    },
+    "inclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "healthy",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "right-handed",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "female",
+      "value_source": "reported"
+     }
+    ],
+    "exclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "any history of neurological or psychiatric illness",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "BDI scores above the cut-off score of 9",
+      "value_source": "reported"
+     }
+    ],
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "24\u00b13 years",
+     "value_source": "reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported"
+    },
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "20",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "healthy; without any history of neurological or psychiatric illness",
+      "value_source": "reported"
+     }
+    ],
+    "clinical_characteristics": {
+     "extraction_status": "extracted",
+     "value": "All 18 subjects included in the analyses had average (non pathological) scores on the BDI, STAI and TAS-20.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "g_control",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "independent sample",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Independent sample used in a control experiment with trial-by-trial rating.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "10",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_task1",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "active regulation",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Subjects saw 60 pictures of negative or neutral content and either simply watched the pictures and permitted all upcoming emotions or intentionally regulated their emotions by taking the position of a neutral observer.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_regulate",
+     "cond_permit",
+     "cond_negative",
+     "cond_neutral"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_task1_bold"
+    ],
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "For the regulation condition: \u201cLook at the following picture directly but try to take the position of a noninvolved observer, thinking about the present picture in a neutral way.\u201d For the no-regulation condition: \u201cLook at the following picture directly and permit feeling your emotions.\u201d",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "60 pictures of negative or neutral content taken from the International Affective Picture System.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "exp_task2",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "passive viewing",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Approximately ten minutes after task 1, subjects looked at the same 60 pictures again, presented for only 1 s each in a newly randomized order, with no instructions to regulate.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_formerly_regulated",
+     "cond_formerly_nonregulated",
+     "cond_negative",
+     "cond_neutral"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_task2_bold"
+    ],
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Subjects were instructed to just look at the 60 pictures from the IAPS again.",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "The same 60 negative and neutral IAPS pictures as in task 1.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "exp_control",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "control experiment",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Independent-sample control experiment using trial-by-trial ratings of subjective negative affect.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_regulated_negative",
+     "cond_nonregulated_negative"
+    ],
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "trial-by-trial rating of subjective negative affect",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_task1_bold",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "T2* weighted functional MR images",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3 Tesla Siemens Allegra scanner equipped with a head coil",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Event-related echoplanar imaging in a tangential-axial orientation. Task 1 whole-brain volumes consisted of 31 slices; slice thickness was 3 mm with 25% gap; image size was 64\u00d764 pixels; field of view was 192 mm; flip angle was 90\u00b0; voxel size was 3\u00d73\u00d73.75 mm; volumes were obtained every 2000 ms; TE was 35 ms.",
+     "value_source": "reported"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3 Tesla",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "echoplanar imaging",
+      "value_source": "reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.035 seconds",
+      "value_source": "generated"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "3\u00d73\u00d73.75 mm",
+      "value_source": "reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   {
+    "local_id": "acq_task2_bold",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "T2* weighted functional MR images",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3 Tesla Siemens Allegra scanner equipped with a head coil",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Task 2 volumes were obtained every 1500 ms with TE 35 ms. One volume consisted of 23 slices with a slice thickness of 3 mm and 25% gap, covering the brain from the temporal poles to the superior parietal cortex; all other acquisition parameters were similar to task 1.",
+     "value_source": "reported"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3 Tesla",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "echoplanar imaging",
+      "value_source": "reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "1.5",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.035 seconds",
+      "value_source": "generated"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "3\u00d73\u00d73.75 mm",
+      "value_source": "reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   },
+   {
+    "local_id": "acq_anatomical",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "three-dimensional T1 weighted anatomical volumes",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3 Tesla Siemens Allegra scanner",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "For each subject, three-dimensional T1 weighted anatomical volumes were acquired.",
+     "value_source": "reported"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3 Tesla",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "T1 weighted",
+      "value_source": "reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "not_reported"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "not_reported"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Data preprocessing and statistical analyses were carried out with SPM 2 and Matlab 6.5.1. Preprocessing included realignment, spatial normalization to the EPI-template and spatial smoothing.",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM 2",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Matlab 6.5.1",
+      "value_source": "reported"
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "realignment",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "spatial normalization to the EPI-template (2\u00d72\u00d72 mm)",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "spatial smoothing (8 mm)",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_firstlevel",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "General Linear Model",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "hemodynamic response function",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The regression model consisted of five regressors (instruction, non-regulated negative, non-regulated neutral, regulated negative, regulated neutral) convolved with the hemodynamic response function and six regressors describing residual motion. Intrinsic autocorrelations were accounted for by an autoregressive model of 1 order and low frequency drifts were removed via high pass filter.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "first-level",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "not_reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM 2",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Matlab 6.5.1",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_group",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "within-subject ANOVA",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Second level random effects group analysis; 2\u00d72 design with factors regulation condition (regulation, no regulation) and valence (negative, neutral), with non-sphericity correction resulting in a t-statistic for every voxel.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "second level random effects group analysis",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "not_reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM 2",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_timecourse",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "ANOVA for repeated measures",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Mean time course for each subject and each condition, with factors valence, regulation and period; data were taken from scan 5 and scan 9.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "subject-level",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "not_reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "Statistica 6.0",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_regulate",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "regulation",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Subjects intentionally regulated their emotions by taking the position of a neutral observer.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_permit",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "no regulation",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Subjects simply watched the pictures and permitted all upcoming emotions.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_negative",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "negative",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Pictures of negative content.",
+     "value_source": "generated"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "neutral",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Pictures of neutral content.",
+     "value_source": "generated"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_formerly_regulated",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "formerly regulated negative pictures",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Negative pictures that had been regulated during task 1 and were passively viewed during task 2.",
+     "value_source": "generated"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_formerly_nonregulated",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "formerly non-regulated pictures",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Pictures that had been viewed without regulation during task 1 and were passively viewed during task 2.",
+     "value_source": "generated"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_regulated_negative",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "regulated negative trials",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Negative trials during which subjects regulated their emotions.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus"
+    }
+   },
+   {
+    "local_id": "cond_nonregulated_negative",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "non-regulated negative trials",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Negative trials during which subjects did not regulate their emotions.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "analysis_decrease_negative",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Decrease negative>Look negative",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "the amygdala region of interest",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "an anatomically defined region of interest",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "amygdala",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_task1_bold"
+    ],
+    "experiments": [
+     "exp_task1"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_nonregulated_negative",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "no-regulation negative",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "regulation condition",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "no regulation",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "valence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "negative",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_regulated_negative",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "regulation negative",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "regulation condition",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "regulation",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "valence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "negative",
+         "value_source": "reported"
+        }
+       }
+      ]
+     }
+    ],
+    "terms": [
+     "term_regulation",
+     "term_valence"
+    ],
+    "model_estimation": "model_group",
+    "groups": [
+     {
+      "group": "g_healthy",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 18,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "no-regulation negative>regulation negative",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "amygdala activation",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t-statistic",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "EPI-template",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "a voxel",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "FWE-corrected p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "family wise error rate (FWE)",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "within an anatomically defined region of interest",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "The regression model also included an instruction regressor, six regressors describing residual motion, convolution with the hemodynamic response function, an autoregressive model of 1 order, and a high pass filter.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "Amygdala activation was significantly reduced during regulation.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "analysis_decrease_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Decrease neutral>Look neutral",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "the amygdala region of interest",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "an anatomically defined region of interest",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "amygdala",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_task1_bold"
+    ],
+    "experiments": [
+     "exp_task1"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_permit",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "no-regulation neutral",
+       "value_source": "generated"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "regulation condition",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "no regulation",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "valence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "neutral",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_regulate",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "regulation neutral",
+       "value_source": "generated"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "regulation condition",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "regulation",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "valence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "neutral",
+         "value_source": "reported"
+        }
+       }
+      ]
+     }
+    ],
+    "terms": [
+     "term_regulation",
+     "term_valence"
+    ],
+    "model_estimation": "model_group",
+    "groups": [
+     {
+      "group": "g_healthy",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 18,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "no-regulation neutral>regulation neutral",
+     "value_source": "generated"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "amygdala activation",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t-statistic",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "EPI-template",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "a voxel",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "FWE-corrected p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "family wise error rate (FWE)",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "within an anatomically defined region of interest",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "The regression model also included an instruction regressor, six regressors describing residual motion, convolution with the hemodynamic response function, an autoregressive model of 1 order, and a high pass filter.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "analysis_regulation_decrease",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Regulation Dec>no regulation",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "the amygdala region of interest",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "an anatomically defined region of interest",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "amygdala",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_task2_bold"
+    ],
+    "experiments": [
+     "exp_task2"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_formerly_nonregulated",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "regulation condition",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "no regulation",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "valence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "negative",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_formerly_regulated",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "regulation condition",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "regulation",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "valence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "negative",
+         "value_source": "reported"
+        }
+       }
+      ]
+     }
+    ],
+    "terms": [
+     "term_regulation",
+     "term_valence"
+    ],
+    "model_estimation": "model_group",
+    "groups": [
+     {
+      "group": "g_healthy",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 18,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "formerly non-regulated pictures>formerly regulated negative pictures",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "amygdala activation",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t-statistic",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "EPI-template",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "a voxel",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "FWE-corrected p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "family wise error rate (FWE)",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "within an anatomically defined region of interest",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "The regression model also included an instruction regressor, six regressors describing residual motion, convolution with the hemodynamic response function, an autoregressive model of 1 order, and a high pass filter.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "We observed a delayed aftereffect with a sustained decrease of amygdala activation after 10 minutes.",
+     "value_source": "reported"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 21596,
+  "completion": 19679,
+  "reasoning": 10320,
+  "cached": 0
+ },
+ "usage_pass1": {
+  "prompt": 10462,
+  "completion": 4514,
+  "reasoning": 80,
+  "cached": 0
+ },
+ "usage_pass2": {
+  "prompt": 11134,
+  "completion": 15165,
+  "reasoning": 10240,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 42107,
+ "service_tier_echo": "flex"
+}

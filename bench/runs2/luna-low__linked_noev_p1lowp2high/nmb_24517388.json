@@ -1,0 +1,1499 @@
+{
+ "case_id": "nmb_24517388",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev_p1lowp2high",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 3,
+ "stage1_names": [
+  "Reappraise>React criticism",
+  "Reappraise>React faces",
+  "Reappraise>react beliefs"
+ ],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "neuroimaging_methods_curator_v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined behavioral and fMRI BOLD responses during cognitive reappraisal of three socio-emotional stimulus types in participants with generalized social anxiety disorder and healthy controls.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "A between-group study comparing 27 unmedicated adults with generalized SAD and 27 healthy controls during three socio-emotional fMRI tasks, each containing React and Reappraise conditions. Analyses examined behavioral responses, BOLD signal magnitude, and early versus late BOLD temporal dynamics.",
+   "value_source": "generated"
+  },
+  "external_datasets": [],
+  "assessments": [
+   {
+    "local_id": "assess_lsas",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Liebowitz Social Anxiety Scale-Self-Report (LSAS-SR)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "This questionnaire assesses both fear and behavioral avoidance of social situations.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "assess_adis",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Anxiety Disorders Interview Schedule for DSM-IV-TR Lifetime version (ADIS-IV-L)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Two PhD-level clinical psychologists assessed each potential participant using the Anxiety Disorders Interview Schedule for DSM-IV-TR Lifetime version.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical diagnostic interview",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "assess_edinburgh",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Edinburgh Handedness Inventory",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Handedness was assessed using the Edinburgh Handedness Inventory.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "handedness inventory",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "assess_negative_rating",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Negative emotion rating",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "After each trial, participants provided a negative emotion rating by responding to \u2018How negative do you feel?\u2019 (1 = not at all to 5 = very much).",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "behavioral task measure",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_group",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Group",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "SAD and HC",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [
+     "g_sad",
+     "g_hc"
+    ]
+   },
+   {
+    "local_id": "term_reappraisal",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reappraise versus React",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "The contrast of Reappraise versus React conditions",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_react",
+     "cond_reappraise"
+    ]
+   },
+   {
+    "local_id": "term_early_late",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Early and late BOLD responses",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Early responses were the first three time points; late responses were the last two or three time points, depending on the task.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [],
+    "levels": {
+     "extraction_status": "extracted",
+     "value": "early; late",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_sad",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "generalized SAD",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "27 unmedicated adults who met DSM-IV-TR criteria for primary generalized SAD; the selected subgroup had the highest social anxiety symptom severity.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "27",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "27",
+     "value_source": "reported"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "women",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "12",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "primary generalized social anxiety disorder",
+      "value_source": "reported"
+     }
+    ],
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "DSM-IV-TR",
+     "value_source": "reported"
+    },
+    "diagnostic_instrument": [
+     {
+      "extraction_status": "extracted",
+      "value": "Anxiety Disorders Interview Schedule for DSM-IV-TR Lifetime version (ADIS-IV-L)",
+      "value_source": "reported"
+     }
+    ],
+    "clinical_characteristics": {
+     "extraction_status": "extracted",
+     "value": "LSAS-SR scores for the selected subgroup ranged from 85\u2013102. Current Axis-I co-morbidity included panic attacks, generalized anxiety disorder, dysthymia, and specific phobia; past Axis-I co-morbidity included major depression, post-traumatic stress disorder, substance abuse, and eating disorder.",
+     "value_source": "reported"
+    },
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "Unmedicated; minimum of three months since stopping pharmacotherapy. Potential patients reporting current pharmacotherapy or psychotherapy were excluded.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "g_hc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "healthy controls (HC)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "27 healthy controls with no lifetime history of psychiatric disorders.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "27",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "27",
+     "value_source": "reported"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "women",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "13",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "no lifetime history of psychiatric disorders",
+      "value_source": "reported"
+     }
+    ],
+    "diagnostic_instrument": [
+     {
+      "extraction_status": "extracted",
+      "value": "Anxiety Disorders Interview Schedule for DSM-IV-TR Lifetime version (ADIS-IV-L)",
+      "value_source": "reported"
+     }
+    ],
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "HC were not permitted to meet criteria for any current or past psychiatric disorders.",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_faces",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "Faces task",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants viewed color photos of faces displaying Ekman facial action coded anger and contempt facial expressions. Each trial included a Look or Reframe cue, a looming harsh facial stimulus, and a negative emotion rating.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_react",
+     "cond_reappraise"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "generated"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "Eprime (Psychology Software Tools, Inc.)",
+     "value_source": "reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Participants were instructed either to react normally without attempting to control, modify, or regulate their reactions, or to down regulate negative emotion reactions by actively reinterpreting the meaning of the emotion-inducing stimulus.",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "Color photos of faces displaying anger and contempt facial expressions, appearing to move closer to simulate looming.",
+     "value_source": "reported"
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "Negative emotion rating; percent reduction in negative emotion",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "exp_criticism",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "Criticism task",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants watched videotaped actors delivering social criticism or praise. Only the evaluation period of social criticism trials was included in the analysis.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_react",
+     "cond_reappraise"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "generated"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "Eprime (Psychology Software Tools, Inc.)",
+     "value_source": "reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Participants were told either to react to social criticism by reflecting on how the statement represented something true about themselves, or to reappraise by thinking, for example, \u2018this is not always true\u2019 or \u2018this is only a thought, not a fact\u2019.",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "Video clips from five male and five female actors delivering social criticism or praise with harsh or happy evaluation-congruent facial expressions.",
+     "value_source": "reported"
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "Negative emotion rating; percent reduction in negative emotion",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "exp_beliefs",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "Beliefs task",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants reacted to or reframed autobiographical social anxiety-related negative self-beliefs embedded in written descriptions of participant-generated situations.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_react",
+     "cond_reappraise"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "generated"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "Eprime (Psychology Software Tools, Inc.)",
+     "value_source": "reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Participants were instructed either to react to the negative self-beliefs by reflecting on how they represented something true about themselves, or to reappraise by thinking of a positive coping statement that directly challenged the thoughts.",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "Written autobiographical social anxiety situations, 16 sentences describing each situation, and participant-provided negative self-beliefs flashed in uppercase letters.",
+     "value_source": "reported"
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "Negative emotion rating; percent reduction in negative emotion",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional magnetic resonance imaging (fMRI) of blood oxygen-level dependent (BOLD) signal",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "General Electric 3-T Signa magnet with a custom-built quadrature \u2018dome\u2019 elliptical bird cage head-coil (GE Healthcare, Milwaukee, WI, USA)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Functional volumes were obtained from 22 sequential axial slices. Head movements were minimized using a bite-bar and foam padding.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"functional_volumes\":{\"Faces\":516,\"Criticism\":684,\"Beliefs\":630},\"flip_angle\":\"60\u00b0\",\"field_of_view\":\"22 cm\",\"matrix\":\"64 \u00d7 64\",\"acquisition\":\"single-shot\",\"resolution\":\"3.438 mm \u00d7 4.5 mm\"}",
+     "value_source": "generated"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3-T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "T2*-weighted gradient echo spiral-in/out pulse sequence",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "2D slices",
+      "value_source": "generated"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "1.5",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.03",
+      "value_source": "generated"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "3.438 mm \u00d7 4.5 mm \u00d7 22 sequential axial slices",
+      "value_source": "reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "extracted",
+      "value": "516 for Faces, 684 for Criticism, and 630 for Beliefs",
+      "value_source": "reported"
+     }
+    }
+   },
+   {
+    "local_id": "acq_anatomical",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "three-dimensional high-resolution anatomical scans",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "General Electric 3-T Signa magnet",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Three-dimensional high-resolution anatomical scans were acquired using a fast spin-echo spoiled gradient recall sequence.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"resolution\":\"0.8594 mm \u00d7 1.5 mm\",\"field_of_view\":\"22 cm\",\"frequency_encoding\":256}",
+     "value_source": "generated"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3-T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "fast spin-echo spoiled gradient recall",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "3D volume",
+      "value_source": "reported"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "0.8594 mm \u00d7 1.5 mm",
+      "value_source": "reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_afni",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Preprocessing included analysis of potential outliers, volume registration to a base image, motion correction, 4 mm isotropic Gaussian spatial smoothing, high-pass filtering, linear detrending, and conversion into BOLD signal percentage change in each voxel.",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "Analysis of Functional Neuroimages (AFNI)",
+      "value_source": "reported"
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "Analysis of potential outliers",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Volume registration to a base image",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Motion correction",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "4 mm isotropic Gaussian spatial smoothing",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "High-pass filtering at 0.011 Hz",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Linear detrending",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Conversion into BOLD signal percentage change in each voxel",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Exclusion of the first four images of each functional run for T2* equilibration",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Concatenation of the two Criticism and Beliefs functional runs prior to statistical analysis",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_firstlevel",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "multiple regression",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "Cohen\u2019s gamma variate model of the hemodynamic response function",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "AFNI 3dDeconvolve included baseline parameters to remove mean, linear, and quadratic trends, and motion-related variance in the BOLD signal. Regressors for the React and Reappraise conditions were convolved with the Cohen\u2019s gamma variate model.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "individual brain maps",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "not_reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "AFNI 3dDeconvolve",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_group",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "random-effects model",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Second-level group statistical parametric maps were produced. Multiple comparisons were corrected with AlphaSim using a voxel-wise P <0.005 and cluster volume >244 mm\u00b3 to protect against false-positive cluster detection at P <0.01.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "second-level group",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "between-group and one-sample t-tests",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "AFNI; AlphaSim",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_react",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "React",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants were instructed to react normally without any attempt to control, modify, or regulate any reactions.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "cond_reappraise",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reappraise",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants were instructed to try and down regulate negative emotion reactions by actively reinterpreting the meaning of the emotion inducing stimulus.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "ana_criticism_reappraise_react",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reappraise>React criticism",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_criticism"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_reappraise",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_react",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group",
+     "term_reappraisal"
+    ],
+    "model_estimation": "model_group",
+    "groups": [
+     {
+      "group": "g_hc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 27,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_sad",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 27,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_afni",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Reappraise versus React in SAD versus HC",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal intensity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "percentage of signal change",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "extracted",
+      "value": "percentage of signal change",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "React",
+     "value_source": "reported"
+    },
+    "tables": [
+     "tbl_criticism"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach atlas space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 2.932,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "t-value",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 244,
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.01,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "AlphaSim, a Monte Carlo simulation bootstrapping program in the AFNI library",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Baseline parameters to remove mean, linear, and quadratic trends, and motion-related variance in the BOLD signal",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "Compared to HC, patients had lesser reappraisal-related BOLD responses in bilateral fusiform gyrus, left lingual gyrus, left putamen, and right cerebellum",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "ana_faces_reappraise_react",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reappraise>React faces",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_faces"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_reappraise",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_react",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group",
+     "term_reappraisal"
+    ],
+    "model_estimation": "model_group",
+    "groups": [
+     {
+      "group": "g_hc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 27,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_sad",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 27,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_afni",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Reappraise versus React in SAD versus HC",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal intensity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "percentage of signal change",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "extracted",
+      "value": "percentage of signal change",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "React",
+     "value_source": "reported"
+    },
+    "tables": [
+     "tbl_faces"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach atlas space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 2.932,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "t-value",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 244,
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.01,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "AlphaSim, a Monte Carlo simulation bootstrapping program in the AFNI library",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Baseline parameters to remove mean, linear, and quadratic trends, and motion-related variance in the BOLD signal",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "Compared to HC, patients had lesser reappraisal-related BOLD responses in the left inferior frontal gyrus, dorsal anterior cingulate cortex, and left lateral orbitofrontal cortex",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "ana_beliefs_reappraise_react",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reappraise>react beliefs",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_beliefs"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_reappraise",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     },
+     {
+      "condition": "cond_react",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group",
+     "term_reappraisal"
+    ],
+    "model_estimation": "model_group",
+    "groups": [
+     {
+      "group": "g_hc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 27,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_sad",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 27,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_afni",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Reappraise versus React in SAD versus HC",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal intensity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "percentage of signal change",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "extracted",
+      "value": "percentage of signal change",
+      "value_source": "reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "React",
+     "value_source": "reported"
+    },
+    "tables": [
+     "tbl_beliefs"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach atlas space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 2.932,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "t-value",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 244,
+      "value_source": "reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.01,
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "AlphaSim, a Monte Carlo simulation bootstrapping program in the AFNI library",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Baseline parameters to remove mean, linear, and quadratic trends, and motion-related variance in the BOLD signal",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "Compared to HC, patients had lesser BOLD responses in the left superior temporal gyrus during reappraisal of beliefs",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl_criticism",
+    "table_number": {
+     "extraction_status": "not_reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Criticism task: differential and common BOLD responses for Reappraise versus React",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Regions showing increased BOLD response during Reappraise versus React in both SAD and HC (common responses) are marked in italics.",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "Note. t-value threshold \u22652.932, voxel P <0.005, minimum cluster volume threshold \u2265244 mm (6 voxels\u2009\u00d7\u20093.438 mm ), cluster P <0.01. BA\u2009=\u2009Brodmann area, xyz\u2009=\u2009Talairach and Tournoux coordinates of maximum BOLD signal intensity voxel.",
+     "value_source": "reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Reports differential and common BOLD responses for Reappraise versus React in the Criticism task.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl_faces",
+    "table_number": {
+     "extraction_status": "not_reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Faces task: differential and common BOLD responses for Reappraise versus React",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Regions showing increased BOLD response during Reappraise versus React in both SAD and HC (common responses) are marked in italics.",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "Note. t-value threshold \u22652.932, voxel P <0.005, minimum cluster volume threshold \u2265244 mm (6 voxels\u2009\u00d7\u20093.438 mm ), cluster P <0.01. BA\u2009=\u2009Brodmann area, xyz\u2009=\u2009Talairach and Tournoux coordinates of maximum BOLD signal intensity voxel.",
+     "value_source": "reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Reports differential and common BOLD responses for Reappraise versus React in the Faces task.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl_beliefs",
+    "table_number": {
+     "extraction_status": "not_reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Beliefs task: differential and common BOLD responses for Reappraise versus React",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Regions showing increased BOLD response during Reappraise versus React in both SAD and HC (common responses) are marked in italics.",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "Note. t-value threshold \u22652.932, voxel P <0.005, minimum cluster volume threshold \u2265244 mm (6 voxels\u2009\u00d7\u20093.438 mm ), cluster P <0.01. BA\u2009=\u2009Brodmann area, xyz\u2009=\u2009Talairach and Tournoux coordinates of maximum BOLD signal intensity voxel.",
+     "value_source": "reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Reports differential and common BOLD responses for Reappraise versus React in the Beliefs task.",
+     "value_source": "generated"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 30760,
+  "completion": 16694,
+  "reasoning": 7288,
+  "cached": 15097
+ },
+ "usage_pass1": {
+  "prompt": 15100,
+  "completion": 4170,
+  "reasoning": 86,
+  "cached": 15097
+ },
+ "usage_pass2": {
+  "prompt": 15660,
+  "completion": 12524,
+  "reasoning": 7202,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 41307,
+ "service_tier_echo": "flex"
+}
