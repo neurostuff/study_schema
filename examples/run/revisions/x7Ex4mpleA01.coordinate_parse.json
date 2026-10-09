@@ -1,0 +1,391 @@
+{
+  "header": {
+    "artifact_kind": "coordinate_parse",
+    "schema_version": "0.5.0",
+    "article_id": "art-000001",
+    "identifiers": {
+      "pmid": "00000000",
+      "pmcid": null,
+      "doi": null,
+      "neurostore_base_study_id": "x7Ex4mpleA01"
+    },
+    "producer": {
+      "name": "pondie",
+      "version": "0.0.0-example",
+      "stage": "audit",
+      "model": "example-model",
+      "prompt_version": null
+    },
+    "inputs": [
+      {
+        "artifact_kind": "coordinate_parse",
+        "fingerprint": "c106973d3c1eeda6baffcf4413499931f42e026ce7eeb22ed6c3ea4114cbd9fe",
+        "producer_version": null
+      },
+      {
+        "artifact_kind": "parsed_paper",
+        "fingerprint": "a44901241d8884e85cfead36b324ccb4dba1b0213436ed2a8d216cb8c3803da5",
+        "producer_version": null
+      }
+    ],
+    "created_at": "2026-10-09T12:00:00Z"
+  },
+  "parse_id": "2a78a79c87463fac0a9109fba0cc54d844446b3b29c14893747aefe95f25a087",
+  "text_sha256": "a44901241d8884e85cfead36b324ccb4dba1b0213436ed2a8d216cb8c3803da5",
+  "revision_of": "c106973d3c1eeda6baffcf4413499931f42e026ce7eeb22ed6c3ea4114cbd9fe",
+  "analyses": [
+    {
+      "key": "tbl1#fecf37c3fb55",
+      "cells": [
+        {
+          "row": 0,
+          "column_group": 0
+        },
+        {
+          "row": 1,
+          "column_group": 0
+        }
+      ],
+      "text_spans": null,
+      "origin": "table",
+      "table_id": "tbl1",
+      "name": "Gain > Neutral",
+      "name_is_printed": true,
+      "description": null,
+      "coordinate_space": "MNI",
+      "space_as_printed": "MNI",
+      "space_basis": null,
+      "role": "result",
+      "anchor_kind": null,
+      "from_prior_study": null,
+      "prior_study_evidence": null,
+      "role_confidence": null,
+      "role_source": null,
+      "split": {
+        "group": "Gain > Neutral",
+        "direction": "positive",
+        "rule": "sign_of_directional_statistic",
+        "primary": true
+      },
+      "derived_from": null,
+      "statistic": "t",
+      "statistic_df": null,
+      "thresholds": [
+        {
+          "level": "height",
+          "quantity": "p",
+          "value": 0.001,
+          "correction": "uncorrected",
+          "scope_as_printed": null,
+          "text_span": {
+            "start_char": 214,
+            "end_char": 235,
+            "text": "p < 0.001 uncorrected"
+          }
+        },
+        {
+          "level": "cluster_extent",
+          "quantity": "voxels",
+          "value": 20.0,
+          "correction": null,
+          "scope_as_printed": null,
+          "text_span": {
+            "start_char": 244,
+            "end_char": 271,
+            "text": "cluster extent of 20 voxels"
+          }
+        },
+        {
+          "level": "cluster_level",
+          "quantity": "p",
+          "value": 0.05,
+          "correction": "fwe",
+          "scope_as_printed": null,
+          "text_span": {
+            "start_char": 291,
+            "end_char": 330,
+            "text": "family-wise error corrected at p < 0.05"
+          }
+        }
+      ],
+      "points": [
+        {
+          "coordinates": [
+            12.0,
+            10.0,
+            -6.0
+          ],
+          "space": "MNI",
+          "row": 0,
+          "column_group": 0,
+          "text_span": null,
+          "values": [
+            {
+              "kind": "t",
+              "kind_as_printed": null,
+              "value": 5.8,
+              "level": "peak",
+              "correction": null
+            }
+          ],
+          "sign": "positive",
+          "cluster_size": null,
+          "cluster_measure": null,
+          "is_subpeak": null,
+          "label": "Ventral striatum"
+        },
+        {
+          "coordinates": [
+            34.0,
+            22.0,
+            2.0
+          ],
+          "space": "MNI",
+          "row": 1,
+          "column_group": 0,
+          "text_span": null,
+          "values": [
+            {
+              "kind": "t",
+              "kind_as_printed": null,
+              "value": 4.9,
+              "level": "peak",
+              "correction": null
+            }
+          ],
+          "sign": "positive",
+          "cluster_size": null,
+          "cluster_measure": null,
+          "is_subpeak": null,
+          "label": "Insula"
+        }
+      ]
+    },
+    {
+      "key": "tbl1#6636e6914e83",
+      "cells": [
+        {
+          "row": 2,
+          "column_group": 0
+        },
+        {
+          "row": 3,
+          "column_group": 0
+        }
+      ],
+      "text_spans": null,
+      "origin": "table",
+      "table_id": "tbl1",
+      "name": "Neutral > Gain",
+      "name_is_printed": false,
+      "description": null,
+      "coordinate_space": "MNI",
+      "space_as_printed": "MNI",
+      "space_basis": null,
+      "role": "result",
+      "anchor_kind": null,
+      "from_prior_study": null,
+      "prior_study_evidence": null,
+      "role_confidence": null,
+      "role_source": null,
+      "split": {
+        "group": "Gain > Neutral",
+        "direction": "negative",
+        "rule": "sign_of_directional_statistic",
+        "primary": false
+      },
+      "derived_from": null,
+      "statistic": "t",
+      "statistic_df": null,
+      "thresholds": [
+        {
+          "level": "height",
+          "quantity": "p",
+          "value": 0.001,
+          "correction": "uncorrected",
+          "scope_as_printed": null,
+          "text_span": {
+            "start_char": 214,
+            "end_char": 235,
+            "text": "p < 0.001 uncorrected"
+          }
+        },
+        {
+          "level": "cluster_extent",
+          "quantity": "voxels",
+          "value": 20.0,
+          "correction": null,
+          "scope_as_printed": null,
+          "text_span": {
+            "start_char": 244,
+            "end_char": 271,
+            "text": "cluster extent of 20 voxels"
+          }
+        },
+        {
+          "level": "cluster_level",
+          "quantity": "p",
+          "value": 0.05,
+          "correction": "fwe",
+          "scope_as_printed": null,
+          "text_span": {
+            "start_char": 291,
+            "end_char": 330,
+            "text": "family-wise error corrected at p < 0.05"
+          }
+        }
+      ],
+      "points": [
+        {
+          "coordinates": [
+            -4.0,
+            -48.0,
+            28.0
+          ],
+          "space": "MNI",
+          "row": 2,
+          "column_group": 0,
+          "text_span": null,
+          "values": [
+            {
+              "kind": "t",
+              "kind_as_printed": null,
+              "value": -4.4,
+              "level": "peak",
+              "correction": null
+            }
+          ],
+          "sign": "negative",
+          "cluster_size": null,
+          "cluster_measure": null,
+          "is_subpeak": null,
+          "label": "Posterior cingulate"
+        },
+        {
+          "coordinates": [
+            -44.0,
+            -64.0,
+            30.0
+          ],
+          "space": "MNI",
+          "row": 3,
+          "column_group": 0,
+          "text_span": null,
+          "values": [
+            {
+              "kind": "t",
+              "kind_as_printed": null,
+              "value": -4.1,
+              "level": "peak",
+              "correction": null
+            }
+          ],
+          "sign": "negative",
+          "cluster_size": null,
+          "cluster_measure": null,
+          "is_subpeak": null,
+          "label": "Angular gyrus"
+        }
+      ]
+    },
+    {
+      "key": "text#20dac93e967c",
+      "cells": null,
+      "text_spans": [
+        {
+          "start_char": 424,
+          "end_char": 474,
+          "text": "Loss > Neutral produced no significant activation."
+        }
+      ],
+      "origin": "text",
+      "table_id": null,
+      "name": "Loss > Neutral",
+      "name_is_printed": true,
+      "description": null,
+      "coordinate_space": "MNI",
+      "space_as_printed": null,
+      "space_basis": null,
+      "role": "result",
+      "anchor_kind": null,
+      "from_prior_study": null,
+      "prior_study_evidence": null,
+      "role_confidence": null,
+      "role_source": null,
+      "split": null,
+      "derived_from": null,
+      "statistic": "t",
+      "statistic_df": null,
+      "thresholds": [
+        {
+          "level": "height",
+          "quantity": "p",
+          "value": 0.001,
+          "correction": "uncorrected",
+          "scope_as_printed": null,
+          "text_span": {
+            "start_char": 214,
+            "end_char": 235,
+            "text": "p < 0.001 uncorrected"
+          }
+        },
+        {
+          "level": "cluster_extent",
+          "quantity": "voxels",
+          "value": 20.0,
+          "correction": null,
+          "scope_as_printed": null,
+          "text_span": {
+            "start_char": 244,
+            "end_char": 271,
+            "text": "cluster extent of 20 voxels"
+          }
+        },
+        {
+          "level": "cluster_level",
+          "quantity": "p",
+          "value": 0.05,
+          "correction": "fwe",
+          "scope_as_printed": null,
+          "text_span": {
+            "start_char": 291,
+            "end_char": 330,
+            "text": "family-wise error corrected at p < 0.05"
+          }
+        }
+      ],
+      "points": []
+    }
+  ],
+  "tables": [
+    {
+      "table_id": "tbl1",
+      "reading": "coordinates",
+      "reason": null
+    }
+  ],
+  "text_sweep": null,
+  "verdicts": [
+    {
+      "key": "tbl1#4ab5959292ac",
+      "verdict": "split",
+      "replaced_by": [
+        "tbl1#fecf37c3fb55",
+        "tbl1#6636e6914e83"
+      ],
+      "role": null,
+      "reason": "Rows 0-1 have positive t and rows 2-3 negative: two directions of one contrast.",
+      "evidence": null
+    },
+    {
+      "key": "text#20dac93e967c",
+      "verdict": "add",
+      "replaced_by": [
+        "text#20dac93e967c"
+      ],
+      "role": null,
+      "reason": "The results state a null for Loss > Neutral with no table of its own.",
+      "evidence": null
+    }
+  ]
+}

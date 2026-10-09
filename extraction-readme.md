@@ -51,8 +51,18 @@ title gate, and re-run the type gate later once indexing catches up.
 PubMed also returns funding types — `Research Support, Non-U.S. Gov't` was on 174 of 300
 sampled records. They are stored verbatim and carry no design information. `Systematic Review`,
 `Review`, `Editorial`, `Letter`, and `Comment` describe papers with no analyses of their own;
-they are not currently gated, but a paper of those types will simply yield no `Analysis`
-records.
+they are not currently gated. A paper of those types yields no `Analysis` records and says
+so: `Study.result_reporting: no_analyses_reported`, with the sentences that show it. An
+empty `analyses` list without that field is a failed extraction, not a finding.
+
+A paper whose analyses all found nothing is the opposite case and must not be confused with
+it: `result_reporting: analyses_reported`, one `Analysis` per tested effect with
+`outcome: no_significant_effect`, and no coordinates because none survived. Such a paper
+reaches extraction even though its parse holds no points, provided its parse lists the
+contrasts: a paper is extracted when its parse has coordinates or contrasts listed without
+them (`TableReading.reading: contrasts_without_coordinates`). A paper whose nulls are stated
+only in prose is not extracted; that loss is accepted for cost. Nulls found incidentally in
+an extracted paper are still recorded, through an `add` verdict.
 
 ---
 
@@ -176,6 +186,27 @@ The extraction schema used to carry eight sibling slots here and five on `Acquis
 eight and cannot be silently ambiguous, but it does ask the extractor to make a choice it
 previously made by omission. If that turns out to extract worse, it is candidate 2 in
 [extraction-deviations.yaml](extraction-deviations.yaml).
+
+### A task's name is split into its paradigm and the ways it varies
+
+A task name often joins a paradigm to a variant: an *emotional* Stroop task, an *auditory*
+flanker task, a *food-picture* n-back. The variant is usually a feature of the stimuli, and
+it must not make two tasks running one paradigm look like different paradigms. So:
+
+- `Task.name` keeps the name as printed.
+- `Task.paradigm` is the name with every variant qualifier taken off (`Stroop task`,
+  `flanker task`, `n-back task`, `incentive delay task`); it equals `name` when nothing
+  qualifies it.
+- `Task.variant_qualifiers` lists each word taken off with its axis -- `stimulus_content`,
+  `stimulus_modality`, `response_modality`, `design`, `adaptation` -- and the same fact is
+  moved into its own field: `emotional words` into `Task.stimulus_content` (or the
+  conditions' `stimulus_content` where it differs between them), `auditory` into
+  `Task.stimulus_modality`.
+- Split every name the same way, named paradigms included. Whether `incentive delay task`
+  or `monetary incentive delay task` is the paradigm is not a fact one paper states: task
+  normalization decides it across the corpus (`Task.paradigm_category`), from which
+  variants appear and which papers the tasks cite. The extractor's job is a consistent
+  split with evidence; the corpus's job is the call.
 
 ### An entity is declared once and referenced everywhere
 

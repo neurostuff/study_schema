@@ -1,0 +1,46 @@
+id: https://neurostuff.org/schemas/neuroimaging-paper-parse
+name: neuroimaging-paper-parse
+title: Neuroimaging Paper Parse Schema
+description: >-
+  The two artifacts the ingestion workflow hands downstream before any language model has
+  read the paper for its study design: the parsed paper (contract C2) and the coordinate
+  parse (contract C3). The extraction record (neuroimaging-study-extraction) and the
+  storage record (neuroimaging-study-storage) both point back into these artifacts --
+  evidence spans into the parsed paper's text, analyses into the coordinate parse's keys --
+  so the three schemas live in one repository and are versioned together.
+
+  A ParsedPaper is what a paper is once it has been downloaded and parsed: one text that
+  every later character offset addresses, its tables row by row, and the bibliographic
+  facts the metadata lookup returned. Every download source (PMC, Europe PMC, pubget,
+  Elsevier, ACE, PDF) emits this one shape, so no consumer needs to know which source a
+  paper came from.
+
+  A CoordinateParse is the reported coordinates grouped into analyses. Its points are a
+  superset of NIMADS points (`coordinates`, `space`, `values[{kind, value}]`), so the
+  projection to the studyset format NiMARE reads is a field copy. NIMADS itself is not
+  extended: it is the meta-analysis interchange, and the parse needs table rows, keys, a
+  sign split and a revision history that a studyset has no use for.
+
+  Two producers write a CoordinateParse. The ingestion workflow writes the original, whose
+  grouping of rows into analyses and whose coordinate roles are proposals. pondie audits
+  each proposal while it extracts the whole record, and where its verdict differs it writes
+  a revision: a complete CoordinateParse naming the parse it revises and one verdict per
+  original analysis. The revision supersedes the original, and is uploaded with pondie's
+  record so the stored analyses match the analyses the record describes.
+
+license: CC0-1.0
+version: 0.5.0
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  parse: https://neurostuff.org/schemas/neuroimaging-paper-parse/
+
+imports:
+  - linkml:types
+  - neuroimaging-paper-parse/parse_enums
+  - neuroimaging-paper-parse/header
+  - neuroimaging-paper-parse/paper
+  - neuroimaging-paper-parse/coordinates
+
+default_prefix: parse
+default_range: string

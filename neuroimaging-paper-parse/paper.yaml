@@ -1,0 +1,345 @@
+id: https://neurostuff.org/schemas/neuroimaging-paper-parse/paper
+name: neuroimaging-paper-parse-paper
+title: Neuroimaging Paper Parse Paper Module
+description: >-
+  Contract C2: a downloaded paper, parsed. Written once by the ingestion workflow; read by
+  its own coordinate stages and by pondie, neither of which writes it.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  parse: https://neurostuff.org/schemas/neuroimaging-paper-parse/
+imports:
+  - linkml:types
+  - parse_enums
+  - header
+default_prefix: parse
+default_range: string
+
+classes:
+
+  ParsedPaper:
+    description: >-
+      One paper as text, tables and bibliographic facts. The same shape for every download
+      source.
+
+      The text is the only offset space. Every evidence span an extraction record cites,
+      every table row's position and every text-read point addresses `text_sha256`'s
+      characters, so a span can be checked by slicing the text, and a span made against a
+      different text is detectably wrong.
+    attributes:
+      header:
+        range: ArtifactHeader
+        inlined: true
+        required: true
+      source:
+        any_of:
+          - range: DocumentSource
+          - range: string
+        required: true
+      source_reason:
+        range: string
+        description: >-
+          Why this source's text was chosen over the others downloaded, such as "most tables"
+          or "first in download order". Every stage reads this one text, so the choice is
+          made once and recorded.
+      text_path:
+        range: string
+        required: true
+        description: The text file's path, relative to the paper's bundle directory.
+      text_sha256:
+        range: string
+        required: true
+        description: sha256 of the text file's UTF-8 bytes. This artifact's fingerprint.
+      text_length:
+        range: integer
+        minimum_value: 0
+      bibliography:
+        range: Bibliography
+        inlined: true
+        required: true
+      is_meta_analysis:
+        range: boolean
+        required: true
+        description: >-
+          Whether the paper is itself a meta-analysis or review, decided here once. Every
+          consumer reads this field; none applies its own test.
+      is_meta_analysis_basis:
+        range: MetaAnalysisBasis
+      sections:
+        range: Section
+        multivalued: true
+        inlined_as_list: true
+      supplements:
+        range: Supplement
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Supplementary material the paper links to, and whether it was fetched. A result
+          the text cites to a supplement that was not fetched is reported elsewhere, not
+          missing.
+      references:
+        range: Reference
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The paper's reference list, in order. Usually fetched from an API by the paper's
+          identifiers rather than parsed from the text (`Reference.provider` says which), so
+          it is complete and carries DOIs even when the text's list is badly extracted.
+      citations:
+        range: Citation
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Every in-text citation, where it sits in the text and which reference it points
+          to. The link from a sentence to a work, which the reference list alone cannot
+          give: what resolves the citations a task's description makes (storage
+          `Task.reference_ids`) and traces a task to the paper that introduced it.
+      tables:
+        range: ParsedTable
+        multivalued: true
+        inlined_as_list: true
+
+  Bibliography:
+    description: >-
+      The paper's bibliographic facts, as the metadata lookup returned them. Downstream they
+      are copied, never extracted: pondie fills the record's Study.title, authors, doi,
+      journal, publication_year, language and study_type from here, and neurostore fills
+      BaseStudy from here.
+    attributes:
+      title:
+        range: string
+        required: true
+      authors:
+        range: string
+        multivalued: true
+        description: Author names in published order.
+      journal:
+        range: string
+      publication_year:
+        range: integer
+      volume:
+        range: string
+      issue:
+        range: string
+      pages:
+        range: string
+      abstract:
+        range: string
+      language:
+        range: string
+        multivalued: true
+      publication_types:
+        range: string
+        multivalued: true
+        description: PubMed publication types, verbatim. The storage schema's Study.study_type.
+      keywords:
+        range: string
+        multivalued: true
+      license:
+        range: string
+      open_access:
+        range: boolean
+      corrections:
+        range: Correction
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Notices attached to the paper -- errata, retractions, expressions of concern -- as
+          the indexer lists them. A retracted paper is still parsed and stored, marked by
+          its `retraction` notice, and left out of studysets by default; a filter can ask for
+          it explicitly.
+      provider:
+        range: string
+        description: The metadata service the facts came from, such as pubmed or europepmc.
+
+  Reference:
+    description: One entry of a paper's reference list.
+    attributes:
+      id:
+        identifier: true
+        range: string
+        required: true
+        description: >-
+          Stable within the paper: the source's own id where it has one (a JATS `ref` id such
+          as `B12`), else `ref<position>`.
+      position:
+        range: integer
+        minimum_value: 1
+        description: 1-based order in the list, which a numbered citation style cites by.
+      provider:
+        any_of:
+          - range: ReferenceProvider
+          - range: string
+        description: Where the entry came from.
+      label:
+        range: string
+        description: >-
+          How the text cites it: the number of a numbered style ("12"), or the author-year
+          key of an author-year style ("Stroop 1935").
+      text:
+        range: string
+        required: true
+        description: The entry as printed.
+      doi:
+        range: string
+      pmid:
+        range: string
+      title:
+        range: string
+      year:
+        range: integer
+
+  Citation:
+    description: >-
+      One in-text citation and the reference entries it names. A grouped citation ("[3-5]",
+      "(Smith, 2001; Jones, 2003)") is one Citation with several references.
+    attributes:
+      text_span:
+        range: TextSpan
+        inlined: true
+        required: true
+        description: The citation marker in the text.
+      references:
+        range: Reference
+        multivalued: true
+        inlined: false
+        description: The entries it names, by `Reference.id`. Empty when it could not be aligned.
+      method:
+        range: CitationAlignment
+        required: true
+        description: How the marker was tied to its entries -- what its reliability rests on.
+      confidence:
+        range: float
+        minimum_value: 0
+        maximum_value: 1
+        description: For a heuristic alignment, how sure; absent for an exact one.
+
+  Correction:
+    description: One notice attached to a paper.
+    attributes:
+      kind:
+        any_of:
+          - range: CorrectionKind
+          - range: string
+        required: true
+      pmid:
+        range: string
+      doi:
+        range: string
+
+  Supplement:
+    description: One item of supplementary material.
+    attributes:
+      label:
+        range: string
+      url:
+        range: string
+      fetched:
+        range: boolean
+        required: true
+      path:
+        range: string
+        description: Where the fetched file is, relative to the bundle directory.
+
+  Section:
+    description: A span of the text and what it is.
+    attributes:
+      kind:
+        any_of:
+          - range: SectionKind
+          - range: string
+        required: true
+      heading:
+        range: string
+        description: The heading as printed.
+      start_char:
+        range: integer
+        required: true
+        minimum_value: 0
+      end_char:
+        range: integer
+        required: true
+        minimum_value: 0
+
+  ParsedTable:
+    description: A table of the paper, cell by cell.
+    attributes:
+      table_id:
+        identifier: true
+        range: string
+        required: true
+        description: >-
+          The table's key, as the source's parser names it. Stable for the life of the
+          parsed paper and used unchanged by every consumer: the coordinate parse's keys,
+          the record's Table.id, neurostore's Table.t_id. Never renumbered from the printed
+          label and never sanitized differently on disk.
+      label:
+        range: string
+        description: The printed label, such as Table 2 or Supplementary Table S4.
+      number:
+        range: string
+      caption:
+        range: string
+      footer:
+        range: string
+      raw_path:
+        range: string
+        description: The source's raw table file, relative to the bundle directory.
+      column_headings:
+        range: string
+        multivalued: true
+      rows:
+        range: TableRow
+        multivalued: true
+        inlined_as_list: true
+        description: The body rows, in printed order.
+      text_span:
+        range: TextSpan
+        inlined: true
+        description: Where the table's rows are inlined in the text, when the source inlines them.
+      coordinate_space_hint:
+        range: ReportedSpace
+        description: >-
+          The source parser's own guess at the table's space. A hint for the coordinate
+          stages, not an answer: the space a point is stored in is the coordinate parse's.
+      triage:
+        range: TableTriage
+        inlined: true
+
+  TableRow:
+    description: One body row of a table.
+    attributes:
+      row:
+        range: integer
+        required: true
+        minimum_value: 0
+        description: >-
+          The row's index among the table's body rows, from 0. What a coordinate parse's
+          point cites, and so part of every analysis key.
+      cells:
+        range: string
+        multivalued: true
+        description: The row's cells, as printed, in column order.
+      text_span:
+        range: TextSpan
+        inlined: true
+        description: Where the row sits in the text, when the table is inlined there.
+
+  TableTriage:
+    description: Whether a table is worth reading for coordinates, and why.
+    attributes:
+      passes:
+        range: boolean
+        required: true
+      score:
+        range: float
+      route:
+        range: string
+      located_by:
+        range: string
+      excluded_by_hand:
+        range: boolean
+        description: >-
+          A person marked the table as not holding coordinates. Overrides `passes`, and no
+          consumer reads coordinates from it.
+      exclusion_reason:
+        range: string

@@ -36,6 +36,50 @@ classes:
         range: string
         description: Short, unique label for the task or paradigm; corresponds conceptually to BIDS TaskName
           when applicable.
+      paradigm:
+        in_subset: [mvp, model_extracted]
+        range: string
+        description: >-
+          The name with every qualifier that says how this version varies taken off and
+          moved to its own field: `Stroop task` for an emotional Stroop task, `flanker task`
+          for an auditory flanker task, `n-back task` for a food-picture n-back,
+          `incentive delay task` for a monetary incentive delay task. The same as `name`
+          when nothing qualifies it.
+
+          This is the extractor's split, made the same way in every paper. Whether the stem
+          or the qualified name is the paradigm is not a fact one paper can state; it is
+          decided across the corpus, in `paradigm_category`.
+      paradigm_category:
+        in_subset: [mvp, deterministic]
+        range: string
+        description: >-
+          The paradigm this task is grouped under, decided by task normalization across the
+          corpus rather than read from one paper. The stem in `paradigm` when the corpus
+          shows it varied -- `Stroop task` once an emotional, a counting or an auditory
+          Stroop appears beside it -- and the qualified name when that variant is the only
+          form ever seen. Citations sharpen the call: tasks whose `reference_ids` lead back
+          to the same originating paper belong to one lineage. An outside vocabulary such as
+          the Cognitive Atlas is a noisy suggestion, filtered against the corpus, never the
+          authority on which variants are paradigms.
+      reference_ids:
+        in_subset: [mvp, deterministic]
+        range: string
+        multivalued: true
+        description: >-
+          `references` resolved to the works they cite, as DOIs or PMIDs, through the
+          parsed paper's reference list. What links a task to the paper that introduced it
+          and to the adaptations that cite that paper, so a task's lineage can be followed.
+      variant_qualifiers:
+        in_subset: [mvp, model_extracted]
+        range: TaskQualifier
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The words of `name` that `paradigm` leaves out, each with the axis it varies the
+          paradigm on. Each is also stated in its own field: a stimulus-content qualifier in
+          `stimulus_content`, a modality qualifier in `stimulus_modality` or
+          `response_modality`, a timing qualifier in `design_type`. Empty when `paradigm`
+          equals `name`.
       description:
         in_subset: [mvp, model_extracted]
         range: string
@@ -90,6 +134,17 @@ classes:
           The materials presented to participants, in the source's own terms -- the stimulus
           set, its name, how many items. One entry per distinct material;
           `stimulus_modality` carries the sensory channel.
+      stimulus_content:
+        in_subset: [mvp, model_extracted]
+        range: string
+        multivalued: true
+        description: >-
+          What the task's stimuli were about when that holds across all its conditions --
+          food pictures at every n-back load, emotional words throughout a Stroop -- which
+          `Condition.stimulus_content` leaves unset because it does not tell the conditions
+          apart. The task-level half of the stimulus facet: a meta-analysis can ask for food
+          stimuli across paradigms, or for Stroop tasks across stimuli, without either
+          question splitting the other.
       stimulus_modality:
         in_subset: [mvp, model_extracted]
         any_of:
@@ -118,6 +173,24 @@ classes:
         range: string
         multivalued: true
         description: Behavioral variables recorded and summaries used to verify task performance.
+
+  TaskQualifier:
+    description: >-
+      One word or phrase of a task's name that varies its paradigm rather than naming it:
+      the `emotional` of an emotional Stroop task, the `auditory` of an auditory flanker.
+    attributes:
+      qualifier:
+        in_subset: [mvp, model_extracted]
+        range: string
+        required: true
+        description: The qualifier as the name prints it.
+      axis:
+        in_subset: [mvp, model_extracted]
+        any_of:
+          - range: TaskVariantAxis
+          - range: string
+        required: true
+        description: What the qualifier varies.
 
   Condition:
     description: >-
@@ -178,6 +251,30 @@ classes:
           baseline has no second cell.
 
 enums:
+
+  TaskVariantAxis:
+    in_subset: [mvp, model_extracted]
+    description: >-
+      What a task-name qualifier varies about its paradigm. Open vocabulary: write the
+      source's own wording when nothing here fits.
+    permissible_values:
+      stimulus_content:
+        in_subset: [mvp, model_extracted]
+        description: What the stimuli are about -- emotional, food, alcohol, numerical, face.
+      stimulus_modality:
+        in_subset: [mvp, model_extracted]
+        description: The sensory channel -- auditory, visual, tactile.
+      response_modality:
+        in_subset: [mvp, model_extracted]
+        description: How the subject answers -- vocal, manual, saccadic.
+      design:
+        in_subset: [mvp, model_extracted]
+        description: How events are timed -- block, event-related, rapid, mixed.
+      adaptation:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A modified or shortened version, or one adapted for a population -- modified,
+          child-friendly, short, computerized.
 
   ConditionKind:
     in_subset: [mvp, model_extracted]

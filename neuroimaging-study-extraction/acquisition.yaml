@@ -97,6 +97,7 @@ classes:
       -- MRI, EEG, FNIRS, PET, or OtherModality.
     attributes:
       local_id:
+        identifier: true
         range: string
         required: true
       acquisition_type:
@@ -281,6 +282,7 @@ classes:
       One record is one physical machine, referenced by every acquisition made on it: a study that collected functional, structural and diffusion scans in one session has three Acquisitions and one Device. Two records mean the study says it used two machines -- a second site, or a rescan on different hardware -- which is a claim about the data and not a way of recording that two sequences differed.
     attributes:
       local_id:
+        identifier: true
         range: string
         required: true
         description: Stable identifier used by Acquisition foreign-key references.

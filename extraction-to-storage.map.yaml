@@ -29,8 +29,9 @@
 #
 # derivations
 #   Storage fields no extraction field feeds, because code fills them: a bibliographic
-#   fact an API states, an identifier the pipeline mints, a value computed from an
-#   ingestion artifact. They are exactly the storage fields marked
+#   fact copied from the parsed paper (`copy`, naming `source_artifact` and
+#   `source_field` in neuroimaging-paper-parse), a fact an API states, an identifier the
+#   pipeline mints, a value computed from an ingestion artifact. They are exactly the storage fields marked
 #   `in_subset: [deterministic]`, and check_extraction_to_storage_map.py asserts that
 #   correspondence in both directions.
 #
@@ -47,7 +48,7 @@
 id: https://neurostuff.org/schemas/extraction-to-storage-map
 name: extraction-to-storage-map
 title: Neuroimaging Study Extraction-to-Storage Transformation Map
-version: 0.5.0
+version: 0.6.0
 source_schema: https://neurostuff.org/schemas/neuroimaging-study-extraction
 target_schema: https://neurostuff.org/schemas/neuroimaging-study-storage
 
@@ -116,40 +117,91 @@ derivations:
   Preprocessing.id:
     transform: generate
   Study.authors:
-    transform: api_lookup
-    notes: 'Author list for the record''s PMID, from the E-utilities API, in published order. Not
-      extracted: a bibliographic fact the API states is not one a model should be asked to read off
-      the page.'
+    transform: copy
+    source_artifact: neuroimaging-paper-parse/ParsedPaper
+    source_field: Bibliography.authors
+    notes: >-
+      Author list in published order, copied from the parsed paper. Not extracted: a
+      bibliographic fact the metadata lookup states is not one a model should be asked to
+      read off the page.
   Study.doi:
-    transform: api_lookup
-    notes: 'DOI from the record''s identifiers, resolved at ingest. Not extracted: a bibliographic
-      fact the API states is not one a model should be asked to read off the page.'
+    transform: copy
+    source_artifact: neuroimaging-paper-parse/ParsedPaper
+    source_field: ArticleIdentifiers.doi
+    notes: >-
+      DOI from the parsed paper's header identifiers. Not extracted: a bibliographic fact
+      the metadata lookup states is not one a model should be asked to read off the page.
   Study.id:
     transform: generate
     notes: Assigned by the ingestion pipeline; typically DOI-derived (doi:10.../record) or a UUID.
   Study.journal:
-    transform: api_lookup
-    notes: 'Journal title for the record''s PMID, from the E-utilities API. Not extracted: a bibliographic
-      fact the API states is not one a model should be asked to read off the page.'
+    transform: copy
+    source_artifact: neuroimaging-paper-parse/ParsedPaper
+    source_field: Bibliography.journal
+    notes: >-
+      Journal title, copied from the parsed paper. Not extracted: a bibliographic fact the
+      metadata lookup states is not one a model should be asked to read off the page.
+  Task.paradigm_category:
+    transform: derive
+    source_representation: corpus
+    source_field: Task.paradigm
+    notes: >-
+      Set by pondie's task normalization over the whole corpus, not per record: the stem in
+      Task.paradigm when variants of it occur, the qualified Task.name when that variant is
+      the only form seen, refined by the lineage Task.reference_ids traces. Cognitive Atlas
+      matches are suggestions filtered against the corpus.
+  Task.reference_ids:
+    transform: derive
+    source_representation: ingestion_artifact
+    source_field: Task.references
+    notes: >-
+      Each citation in Task.references found among the parsed paper's citations
+      (neuroimaging-paper-parse ParsedPaper.citations) by overlapping the task's evidence
+      spans, and recorded as the DOI or PMID of the entries it is aligned to in
+      ParsedPaper.references. Exact (xref) alignments are used as they are; heuristic ones
+      only above a confidence threshold. A citation aligned to no entry is left out, not
+      guessed.
+  Study.outcome_summary:
+    transform: derive
+    source_representation: sibling_field
+    source_field: Analysis.outcome
+    notes: >-
+      From Study.result_reporting and every Analysis.outcome: some_significant_effects when
+      any analysis found an effect; only_null_effects when every analysis was tested and
+      found nothing; no_analyses when result_reporting says the paper reports none here and
+      analyses is empty; undetermined otherwise. Derived rather than extracted so it cannot
+      contradict the outcomes it summarises.
   Study.publication_year:
-    transform: api_lookup
-    notes: 'Publication year for the record''s PMID, from the E-utilities API. Not extracted: a bibliographic
-      fact the API states is not one a model should be asked to read off the page.'
+    transform: copy
+    source_artifact: neuroimaging-paper-parse/ParsedPaper
+    source_field: Bibliography.publication_year
+    notes: >-
+      Publication year, copied from the parsed paper. Not extracted: a bibliographic fact
+      the metadata lookup states is not one a model should be asked to read off the page.
   Study.language:
-    transform: api_lookup
-    notes: 'Article languages for the record''s PMID, from the same E-utilities call that fills
-      `study_type`. Not extracted: what language an article is indexed in is a bibliographic fact
-      the API states, and the text a reader is handed is in one language whatever that fact says.'
+    transform: copy
+    source_artifact: neuroimaging-paper-parse/ParsedPaper
+    source_field: Bibliography.language
+    notes: >-
+      Article languages, copied from the parsed paper. Not extracted: what language an
+      article is indexed in is a bibliographic fact the metadata lookup states, and the text
+      a reader is handed is in one language whatever that fact says.
   Study.study_type:
-    transform: api_lookup
-    notes: 'PubMed publication types for the record''s PMID, from the E-utilities API, stored verbatim
-      and multivalued. Not extracted: the LLM would be guessing a bibliographic fact the API states,
-      and the value gates extraction rather than following it -- a record whose types include `Meta-Analysis`
-      is skipped before any text is read.'
+    transform: copy
+    source_artifact: neuroimaging-paper-parse/ParsedPaper
+    source_field: Bibliography.publication_types
+    notes: >-
+      PubMed publication types, copied verbatim from the parsed paper and multivalued. Not
+      extracted: the LLM would be guessing a bibliographic fact the metadata lookup states,
+      and the value gates extraction rather than following it -- a paper whose
+      ParsedPaper.is_meta_analysis is true is skipped before any text is read.
   Study.title:
-    transform: api_lookup
-    notes: 'Article title for the record''s PMID, from the E-utilities API. Not extracted: a bibliographic
-      fact the API states is not one a model should be asked to read off the page.'
+    transform: copy
+    source_artifact: neuroimaging-paper-parse/ParsedPaper
+    source_field: Bibliography.title
+    notes: >-
+      Article title, copied from the parsed paper. Not extracted: a bibliographic fact the
+      metadata lookup states is not one a model should be asked to read off the page.
   Group.is_healthy:
     transform: derive
     source_representation: sibling_field

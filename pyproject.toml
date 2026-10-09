@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "study-schema"
+version = "0.1.0"
+description = "The contracts between the neurostuff pipeline's repositories, as pydantic models, JSON Schemas and file layouts generated from LinkML"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["pydantic>=2.6"]
+
+[project.optional-dependencies]
+# pyarty must carry pydantic payload support (File[Model]); main does once that change lands.
+layouts = ["pyarty @ git+https://github.com/jdkent/pyarty.git@main"]
+parquet = ["pyarrow>=14"]
+generate = ["linkml>=1.12"]
+test = ["pytest>=7"]
+
+[project.urls]
+Source = "https://github.com/neurostuff/study_schema"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"study_schema" = ["py.typed"]
+"study_schema.jsonschema" = ["*.schema.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
