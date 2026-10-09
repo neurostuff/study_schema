@@ -172,7 +172,7 @@ classes:
       source_table_analysis:
         range: ExtractedString
         description: |-
-          The key the table parse gave the row group this analysis's results were read from, as `<table id>#<ordinal within that table>`.
+          The key of the coordinate-parse analysis this analysis's results were read from: `ParsedAnalysis.key` in neuroimaging-paper-parse, `<table id>#<h>` for a table's row group or `text#<h>` for coordinates read from the text, where `h` hashes the cells or character spans its points came from. Derived from cells, not position, so a re-parse that groups the same cells reaches the same key. When pondie revised the parse, the key is the revision's.
           This schema stores no coordinates, so reaching an analysis's foci means joining through the parse, and `tables` alone cannot do it: a table usually reports several contrasts and several analyses usually cite the same table. This key is what makes the join exact.
           Copy it from the bracketed key the stage-1 listing prints beside each parsed analysis. One key and not a list, because one analysis is read from one row group; an analysis whose results span two tables cites both in `tables` and names here the row group that defined it.
       coordinate_space:
@@ -735,9 +735,11 @@ classes:
         range: string
         required: true
         description: >-
-          The key the parse gave this set: `<table id>#<ordinal>` for a table's row group,
-          the same key `Analysis.source_table_analysis` names, or `text#<ordinal>` for a run
-          of sentences.
+          The key the coordinate parse gave this set, `ParsedAnalysis.key` in neuroimaging-paper-parse:
+          `<table id>#<h>` for a table's row group, the same key `Analysis.source_table_analysis`
+          names, or `text#<h>` for a run of sentences. `h` hashes the cells or character spans
+          the set's points were read from, so the key survives a re-parse that groups the
+          same points.
       role:
         range: ExtractedCoordinateRole
         description: What these coordinates are for.

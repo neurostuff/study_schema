@@ -210,10 +210,9 @@ What each side may rely on:
 
 Not done yet:
 - Neither the workflow nor pondie writes or reads these artifacts.
-- `Analysis.source_table_analysis` and `CoordinateSet.id` in the storage schema still
-  describe the positional `<table id>#<ordinal>` key. They change with the generated
-  extraction tree, in pondie.
-- pondie spells text keys `prose#`; this schema and storage spell them `text#`.
+- `Analysis.source_table_analysis` and `CoordinateSet.id` in storage and extraction now
+  describe the cell-derived key, but pondie still mints the positional
+  `<table id>#<ordinal>` key and spells text keys `prose#` rather than `text#`.
 
 ## Tests
 

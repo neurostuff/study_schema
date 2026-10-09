@@ -519,8 +519,9 @@ tables triage passed but that hold no coordinates at all; the genuine mixed set 
 listed as a row of its own connectivity results -- is 1.3% of sets, about 0.7% of points.
 
 **A mixed set takes its dominant role, and that error is accepted.** The sets are the table
-parse's groups, made before any role is assigned and keyed by ordinal, so splitting one
-would mean renumbering or appending keys the parse never made. The cost of not splitting is
+parse's groups, made before any role is assigned and keyed by the cells they cover, so
+splitting one means minting keys the parse never made -- which only a pondie revision of
+the parse does, with a `split` verdict. The cost of not splitting is
 bounded and one-directional: a seed recorded as one more point of the result set it was
 printed in. No result is lost. The sets that carry it have a recognisable signature -- a
 connectivity result whose analysis names a seed -- so they can be found and split later
