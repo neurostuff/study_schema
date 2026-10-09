@@ -215,14 +215,14 @@ deviations:
         what says so. Without it the two halves look like independent findings, and a
         meta-analysis that counts both counts one sample twice.
 
-  - id: language-is-filled-from-pubmed-onto-the-record
+  - id: language-is-copied-from-the-parsed-paper-onto-the-record
     operation: add_slot
     class: study.Study
     slot: language
     why: >-
-      The same case as `study_type`, filled by the same call: storage marks it
-      `deterministic` so the projection drops it, and the code that fills it runs on the
-      extraction side. At least six of the benchmark's sixteen meta-analyses state "English
+      The same case as `study_type`, copied from the same place: storage marks it
+      `deterministic` so the projection drops it, and the value is copied onto the record on
+      the extraction side. At least six of the benchmark's sixteen meta-analyses state "English
       language" as an inclusion criterion and no slot held it, so the criterion could not be
       written at all. Measured over 1,804 records the field excludes one paper, which is the
       point: a criterion that is stated should be expressible even where it is nearly inert,
@@ -231,18 +231,18 @@ deviations:
       range: string
       multivalued: true
       description: >-
-        Languages of this article, as the E-utilities API reports them -- PubMed's
-        three-letter codes, `eng` and the rest. Filled by `pondie.extraction.pubmed`
-        alongside `study_type`, not read off the paper.
+        Languages of this article, copied from the parsed paper's `Bibliography.language`
+        alongside `study_type`, not read off the paper: three-letter codes, `eng` and the
+        rest.
 
-  - id: publication-type-is-filled-from-pubmed-onto-the-record
+  - id: publication-type-is-copied-from-the-parsed-paper-onto-the-record
     operation: add_slot
     class: study.Study
     slot: study_type
     why: >-
       Storage marks this `deterministic`, so the projection drops it, and the same argument
-      as `mirror_of` applies: the code that fills it runs on the extraction side, not at
-      ingestion, so the slot has to exist in the extraction record even though no pass
+      as `mirror_of` applies: the value is copied onto the record on the extraction side, not
+      at ingestion, so the slot has to exist in the extraction record even though no pass
       extracts it. Measured against the queries the benchmark's own meta-analyses ran, six
       of sixteen exclude by publication type -- "editorial letters, case-reports, systematic
       reviews, meta-analyses" (sleep deprivation), "systematic reviews or meta-analyses"
@@ -256,10 +256,9 @@ deviations:
       range: string
       multivalued: true
       description: >-
-        PubMed publication types for this record, verbatim as the E-utilities API returns
-        them. Filled by `pondie.extraction.pubmed`, not read off the paper: it is what the
-        indexers said about the article, which is what a publication-type exclusion asks
-        about.
+        PubMed publication types for this record, verbatim, copied from the parsed paper's
+        `Bibliography.publication_types`, not read off the paper: it is what the indexers
+        said about the article, which is what a publication-type exclusion asks about.
 
   - id: is-healthy-is-derived-onto-the-record
     operation: add_slot
