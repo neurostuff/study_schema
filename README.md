@@ -214,14 +214,22 @@ What each side may rely on:
   found: coordinates, contrasts listed without coordinates, no coordinates at all, or not
   read (triage, a person). `text_sweep` says whether the search of the text was complete.
   An analysis with no points is a contrast the paper names but prints no coordinates for.
-  pondie adds what the parse could not see -- a null stated only in prose, a figure-only
-  result -- with an `add` verdict in a revision, so every analysis the record describes
-  has a parse key.
+  pondie extracts a paper when its parse has coordinates or contrasts listed without them;
+  a paper whose nulls are stated only in prose is not sent, for cost. Within an extracted
+  paper, pondie adds what the parse could not see -- a null stated only in prose, a
+  figure-only result -- with an `add` verdict in a revision, so every analysis the record
+  describes has a parse key.
 - **A study with no analyses, or only null ones, is described, not dropped.** The record
   says which with `Study.result_reporting` (`analyses_reported`, `no_analyses_reported`,
   `analyses_reported_elsewhere`) and each `Analysis.outcome`; `Study.outcome_summary` is
   derived from them (`some_significant_effects`, `only_null_effects`, `no_analyses`,
   `undetermined`).
+- **Null analyses reach the meta-analysis.** An analysis with no coordinates is carried
+  into the studyset with its outcome, not dropped for lacking points, so the estimators
+  whose result depends on how many studies found nothing (MKDAChi2, CBMR) can count them.
+- **Retracted papers are marked and excluded by default.** `Bibliography.corrections`
+  carries the retraction notice; a studyset leaves the paper out unless a filter asks for
+  it.
 
 Not done yet:
 - Neither the workflow nor pondie writes or reads these artifacts.

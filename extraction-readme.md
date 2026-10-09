@@ -58,7 +58,11 @@ empty `analyses` list without that field is a failed extraction, not a finding.
 A paper whose analyses all found nothing is the opposite case and must not be confused with
 it: `result_reporting: analyses_reported`, one `Analysis` per tested effect with
 `outcome: no_significant_effect`, and no coordinates because none survived. Such a paper
-reaches extraction even though its parse holds no points.
+reaches extraction even though its parse holds no points, provided its parse lists the
+contrasts: a paper is extracted when its parse has coordinates or contrasts listed without
+them (`TableReading.reading: contrasts_without_coordinates`). A paper whose nulls are stated
+only in prose is not extracted; that loss is accepted for cost. Nulls found incidentally in
+an extracted paper are still recorded, through an `add` verdict.
 
 ---
 

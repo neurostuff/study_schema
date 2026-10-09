@@ -127,8 +127,9 @@ classes:
         inlined_as_list: true
         description: >-
           Notices attached to the paper -- errata, retractions, expressions of concern -- as
-          the indexer lists them. A retracted paper is still parsed; whether it enters a
-          meta-analysis is a filter's decision, and the filter needs this to make it.
+          the indexer lists them. A retracted paper is still parsed and stored, marked by
+          its `retraction` notice, and left out of studysets by default; a filter can ask for
+          it explicitly.
       provider:
         range: string
         description: The metadata service the facts came from, such as pubmed or europepmc.
