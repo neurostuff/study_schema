@@ -256,6 +256,23 @@ classes:
     description: >-
       pondie's verdict on one analysis of the parse a revision revises, reached while
       extracting the whole record. The verdict overrides the original's proposal.
+
+      What a verdict does to what is stored against the analysis -- claims, their
+      evidence, and users' votes on them:
+
+      - accept, relabel: nothing moves. The key is unchanged, so everything stored against
+        it applies to the revision as it stands.
+      - split: everything is copied to each analysis in `replaced_by`.
+      - merge: everything stored against each merged analysis is copied to the one
+        analysis they merge into. Two copies of the same field with the same value become
+        one claim; with different values they stay competing claims, resolved like any
+        other.
+      - omit: nothing is copied.
+
+      Every copy records the key and parse it was copied from, so a reviewer can tell a
+      copied claim from one made against the revision. The revised parse and everything
+      stored against it are kept, unchanged, as history: superseded rather than deleted,
+      and left out of projections and studysets.
     attributes:
       key:
         range: string
