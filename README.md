@@ -1,9 +1,11 @@
 # Schemas
 
-This repository is the schema and nothing else: LinkML YAML, and the prose that says how to
-read a paper into it. There is no Python here.
+This repository is the schema: LinkML YAML, and the prose that says how to read a paper into
+it. The only Python here is generated from that YAML -- the `study-schema` package, which
+hands the contracts to every repository that produces or consumes them (see
+[The contracts as a package](#the-contracts-as-a-package)).
 
-Everything that *reads* the schema lives in
+Everything else that *reads* the schema lives in
 [pondie](https://github.com/neurostuff/pondie) — the generator, the checks this README
 runs, the extraction pipeline, and the three modules that define what a record means
 (`schema_utils`, `text_index`, `table_parse`). pondie carries this repository as a
@@ -248,10 +250,85 @@ Not done yet:
   describe the cell-derived key, but pondie still mints the positional
   `<table id>#<ordinal>` key and spells text keys `prose#` rather than `text#`.
 
+## The contracts as a package
+
+Four artifacts cross a repository boundary, and each has one definition here. The
+`study-schema` Python package carries them as pydantic models and JSON Schemas generated from
+the YAML, so a producer and a consumer cannot hold different copies of a contract:
+
+| Contract | Written by | Read by | Model | JSON Schema |
+|---|---|---|---|---|
+| Parsed paper | ingestion | pondie, the ingester | `study_schema.models.paper_parse.ParsedPaper` | `parsed-paper` |
+| Coordinate parse, original or revision | ingestion; pondie for a revision | pondie, the ingester | `study_schema.models.paper_parse.CoordinateParse` | `coordinate-parse` |
+| Extraction record | pondie | the ingester | `study_schema.models.extraction.Study` | `extraction-record` |
+| Storage study | the ingester | neurostore | `study_schema.models.storage.Study` | `storage-study` |
+
+The studyset neurostore hands compose-runner and NiMARE is NIMADS, which neurostore's OpenAPI
+already specifies; it is not repeated here.
+
+```bash
+pip install "study-schema @ git+https://github.com/neurostuff/study_schema"            # models + JSON Schema
+pip install "study-schema[layouts] @ git+https://github.com/neurostuff/study_schema"   # + file layouts
+```
+
+```python
+from study_schema.models.paper_parse import CoordinateParse
+parse = CoordinateParse.model_validate_json(path.read_bytes())
+```
+
+Every model forbids fields its schema does not declare, so a file written against another
+version fails where it is read, naming the field, instead of losing what the reader does not
+recognise. Each model module records the schema version it was generated from as `version`,
+and every paper-parse artifact states the version it was written against in its header.
+
+**Where the files sit.** `study_schema.layouts` declares the file layout of the two trees the
+contracts travel in, as [pyarty](https://github.com/jdkent/pyarty) bundles that read straight
+into the models and write back byte for byte:
+
+    <corpus>/<study_id>/parse/parsed_paper.json        ParsedPaper           ingestion writes
+    <corpus>/<study_id>/parse/coordinate_parse.json    CoordinateParse       ingestion writes
+    <run>/records/<study_id>.extraction.json           extraction Study      pondie writes
+    <run>/revisions/<study_id>.coordinate_parse.json   CoordinateParse       pondie writes
+
+Only those files are the contract; a read ignores everything else in either tree, so
+ingestion's own `stage1/` and `processed/` files and pondie's payloads stay theirs to change.
+A revision lives with the run that made it, not in the corpus: a reader never writes its
+inputs. The layouts need a pyarty that reads pydantic payloads (`File[Model]`).
+
+**What one file cannot say.** A model checks a file; `check_paper`, `check_revision` and
+`check_run` check how files agree -- a parse addresses the same text as its paper, every key is
+the one its cells or spans derive, and a revision gives a verdict for every analysis it
+revises and accounts for every analysis it introduces. `study_schema.keys` is the key rule
+itself, so ingestion and pondie mint keys with the same code rather than two copies of a
+sentence.
+
+**Examples.** `examples/` holds one paper and one run: a table whose ingestion parse is a
+single mixed-sign analysis, and pondie's revision that splits it by sign and adds the null
+result the text states. The tests read them through every model, JSON Schema and layout, and
+the checks must find nothing wrong with them.
+
+**Regenerating.** The generated files are committed, so installing the package needs no
+LinkML. After changing the YAML:
+
+```bash
+pip install -e ".[generate,layouts,test]" jsonschema
+python tools/generate_models.py           # rewrite src/study_schema/{models,jsonschema}
+python tools/generate_models.py --check   # what CI runs: fails if they are out of date
+pytest
+```
+
+One change is made on the way, to the extraction schema only. Its cross-references --
+`Group.arm`, `Analysis.measure` -- are declared `inlined: false` and hold the target's
+`local_id`, but `local_id` is not marked `identifier: true`, so LinkML cannot resolve them and
+every generator inlines the target instead. The generator marks `local_id` as each class's
+identifier, which makes those slots the plain string references records hold. The fix belongs
+in `pondie.schema.generate`'s projection of `id` to `local_id`; until it lands there,
+`tools/generate_models.py` is where it is made.
+
 ## Tests
 
-This repository contains the LinkML schema and its documentation, not Python code. Everything
-that reads it—the generator, the checks above, the
+The generated package has its own suite here (`pytest`, above). Everything else that reads
+the schema—the extraction generator, the checks above, the
 extraction pipeline, and the modules that define what a record means (`schema_utils`,
 `text_index`, `table_parse`) — lives in
 [pondie](https://github.com/neurostuff/pondie), which carries this repository as a
