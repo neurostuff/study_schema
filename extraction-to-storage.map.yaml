@@ -141,6 +141,23 @@ derivations:
     notes: >-
       Journal title, copied from the parsed paper. Not extracted: a bibliographic fact the
       metadata lookup states is not one a model should be asked to read off the page.
+  Task.paradigm_category:
+    transform: derive
+    source_representation: corpus
+    source_field: Task.paradigm
+    notes: >-
+      Set by pondie's task normalization over the whole corpus, not per record: the stem in
+      Task.paradigm when variants of it occur, the qualified Task.name when that variant is
+      the only form seen, refined by the lineage Task.reference_ids traces. Cognitive Atlas
+      matches are suggestions filtered against the corpus.
+  Task.reference_ids:
+    transform: derive
+    source_representation: ingestion_artifact
+    source_field: Task.references
+    notes: >-
+      Each in-text citation in Task.references matched to an entry of the parsed paper's
+      reference list (neuroimaging-paper-parse ParsedPaper.references) and recorded as that
+      entry's DOI or PMID. A citation that matches no entry is left out, not guessed.
   Study.outcome_summary:
     transform: derive
     source_representation: sibling_field

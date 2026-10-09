@@ -76,6 +76,14 @@ classes:
           Supplementary material the paper links to, and whether it was fetched. A result
           the text cites to a supplement that was not fetched is reported elsewhere, not
           missing.
+      references:
+        range: Reference
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The paper's reference list, in order. What resolves an in-text citation -- an
+          author-year or a bracketed number -- to the work it cites, so a task can be traced
+          to the paper that introduced it (storage `Task.reference_ids`).
       tables:
         range: ParsedTable
         multivalued: true
@@ -133,6 +141,27 @@ classes:
       provider:
         range: string
         description: The metadata service the facts came from, such as pubmed or europepmc.
+
+  Reference:
+    description: One entry of a paper's reference list.
+    attributes:
+      label:
+        range: string
+        description: >-
+          How the text cites it: the number of a numbered style ("12"), or the author-year
+          key of an author-year style ("Stroop 1935").
+      text:
+        range: string
+        required: true
+        description: The entry as printed.
+      doi:
+        range: string
+      pmid:
+        range: string
+      title:
+        range: string
+      year:
+        range: integer
 
   Correction:
     description: One notice attached to a paper.

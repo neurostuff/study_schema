@@ -168,8 +168,8 @@ classes:
       paradigm:
         range: ExtractedString
         description: |-
-          The paradigm this task is a version of, in the source's words, with the qualifiers that only say how this version varies taken off: `Stroop task` for an emotional Stroop task, `flanker task` for an auditory flanker task, `n-back task` for a food-picture n-back. The same as `name` when nothing qualifies it.
-          A named paradigm keeps its name whole -- the monetary incentive delay task, the Iowa gambling task -- because the qualifier there is part of what the procedure is, not a variant of a more general one. Task normalization groups tasks on this field, so a qualifier no longer separates two tasks running one paradigm.
+          The name with every qualifier that says how this version varies taken off and moved to its own field: `Stroop task` for an emotional Stroop task, `flanker task` for an auditory flanker task, `n-back task` for a food-picture n-back, `incentive delay task` for a monetary incentive delay task. The same as `name` when nothing qualifies it.
+          This is the extractor's split, made the same way in every paper. Whether the stem or the qualified name is the paradigm is not a fact one paper can state; it is decided across the corpus, in `paradigm_category`.
       variant_qualifiers:
         range: TaskQualifier
         multivalued: true

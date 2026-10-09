@@ -194,17 +194,19 @@ flanker task, a *food-picture* n-back. The variant is usually a feature of the s
 it must not make two tasks running one paradigm look like different paradigms. So:
 
 - `Task.name` keeps the name as printed.
-- `Task.paradigm` is the paradigm with those qualifiers taken off (`Stroop task`,
-  `flanker task`, `n-back task`); it equals `name` when nothing qualifies it.
+- `Task.paradigm` is the name with every variant qualifier taken off (`Stroop task`,
+  `flanker task`, `n-back task`, `incentive delay task`); it equals `name` when nothing
+  qualifies it.
 - `Task.variant_qualifiers` lists each word taken off with its axis -- `stimulus_content`,
   `stimulus_modality`, `response_modality`, `design`, `adaptation` -- and the same fact is
-  stated in its own field: `emotional words` in `Task.stimulus_content` (or the conditions'
-  `stimulus_content` where it differs between them), `auditory` in
+  moved into its own field: `emotional words` into `Task.stimulus_content` (or the
+  conditions' `stimulus_content` where it differs between them), `auditory` into
   `Task.stimulus_modality`.
-- A named paradigm keeps its name whole. The monetary incentive delay task and the Iowa
-  gambling task are not a "delay task" and a "gambling task" varied by their stimuli; the
-  qualifier is part of the procedure. When unsure, keep the name whole: a qualifier left
-  on costs one grouping, a paradigm wrongly stripped merges two.
+- Split every name the same way, named paradigms included. Whether `incentive delay task`
+  or `monetary incentive delay task` is the paradigm is not a fact one paper states: task
+  normalization decides it across the corpus (`Task.paradigm_category`), from which
+  variants appear and which papers the tasks cite. The extractor's job is a consistent
+  split with evidence; the corpus's job is the call.
 
 ### An entity is declared once and referenced everywhere
 

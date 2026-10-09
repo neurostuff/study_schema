@@ -40,15 +40,35 @@ classes:
         in_subset: [mvp, model_extracted]
         range: string
         description: >-
-          The paradigm this task is a version of, in the source's words, with the
-          qualifiers that only say how this version varies taken off: `Stroop task` for an
-          emotional Stroop task, `flanker task` for an auditory flanker task, `n-back task`
-          for a food-picture n-back. The same as `name` when nothing qualifies it.
+          The name with every qualifier that says how this version varies taken off and
+          moved to its own field: `Stroop task` for an emotional Stroop task, `flanker task`
+          for an auditory flanker task, `n-back task` for a food-picture n-back,
+          `incentive delay task` for a monetary incentive delay task. The same as `name`
+          when nothing qualifies it.
 
-          A named paradigm keeps its name whole -- the monetary incentive delay task, the
-          Iowa gambling task -- because the qualifier there is part of what the procedure
-          is, not a variant of a more general one. Task normalization groups tasks on this
-          field, so a qualifier no longer separates two tasks running one paradigm.
+          This is the extractor's split, made the same way in every paper. Whether the stem
+          or the qualified name is the paradigm is not a fact one paper can state; it is
+          decided across the corpus, in `paradigm_category`.
+      paradigm_category:
+        in_subset: [mvp, deterministic]
+        range: string
+        description: >-
+          The paradigm this task is grouped under, decided by task normalization across the
+          corpus rather than read from one paper. The stem in `paradigm` when the corpus
+          shows it varied -- `Stroop task` once an emotional, a counting or an auditory
+          Stroop appears beside it -- and the qualified name when that variant is the only
+          form ever seen. Citations sharpen the call: tasks whose `reference_ids` lead back
+          to the same originating paper belong to one lineage. An outside vocabulary such as
+          the Cognitive Atlas is a noisy suggestion, filtered against the corpus, never the
+          authority on which variants are paradigms.
+      reference_ids:
+        in_subset: [mvp, deterministic]
+        range: string
+        multivalued: true
+        description: >-
+          `references` resolved to the works they cite, as DOIs or PMIDs, through the
+          parsed paper's reference list. What links a task to the paper that introduced it
+          and to the adaptations that cite that paper, so a task's lineage can be followed.
       variant_qualifiers:
         in_subset: [mvp, model_extracted]
         range: TaskQualifier
