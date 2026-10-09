@@ -81,9 +81,18 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: >-
-          The paper's reference list, in order. What resolves an in-text citation -- an
-          author-year or a bracketed number -- to the work it cites, so a task can be traced
-          to the paper that introduced it (storage `Task.reference_ids`).
+          The paper's reference list, in order. Usually fetched from an API by the paper's
+          identifiers rather than parsed from the text (`Reference.provider` says which), so
+          it is complete and carries DOIs even when the text's list is badly extracted.
+      citations:
+        range: Citation
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Every in-text citation, where it sits in the text and which reference it points
+          to. The link from a sentence to a work, which the reference list alone cannot
+          give: what resolves the citations a task's description makes (storage
+          `Task.reference_ids`) and traces a task to the paper that introduced it.
       tables:
         range: ParsedTable
         multivalued: true
@@ -145,6 +154,22 @@ classes:
   Reference:
     description: One entry of a paper's reference list.
     attributes:
+      id:
+        identifier: true
+        range: string
+        required: true
+        description: >-
+          Stable within the paper: the source's own id where it has one (a JATS `ref` id such
+          as `B12`), else `ref<position>`.
+      position:
+        range: integer
+        minimum_value: 1
+        description: 1-based order in the list, which a numbered citation style cites by.
+      provider:
+        any_of:
+          - range: ReferenceProvider
+          - range: string
+        description: Where the entry came from.
       label:
         range: string
         description: >-
@@ -162,6 +187,31 @@ classes:
         range: string
       year:
         range: integer
+
+  Citation:
+    description: >-
+      One in-text citation and the reference entries it names. A grouped citation ("[3-5]",
+      "(Smith, 2001; Jones, 2003)") is one Citation with several references.
+    attributes:
+      text_span:
+        range: TextSpan
+        inlined: true
+        required: true
+        description: The citation marker in the text.
+      references:
+        range: Reference
+        multivalued: true
+        inlined: false
+        description: The entries it names, by `Reference.id`. Empty when it could not be aligned.
+      method:
+        range: CitationAlignment
+        required: true
+        description: How the marker was tied to its entries -- what its reliability rests on.
+      confidence:
+        range: float
+        minimum_value: 0
+        maximum_value: 1
+        description: For a heuristic alignment, how sure; absent for an exact one.
 
   Correction:
     description: One notice attached to a paper.

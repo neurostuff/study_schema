@@ -155,9 +155,12 @@ derivations:
     source_representation: ingestion_artifact
     source_field: Task.references
     notes: >-
-      Each in-text citation in Task.references matched to an entry of the parsed paper's
-      reference list (neuroimaging-paper-parse ParsedPaper.references) and recorded as that
-      entry's DOI or PMID. A citation that matches no entry is left out, not guessed.
+      Each citation in Task.references found among the parsed paper's citations
+      (neuroimaging-paper-parse ParsedPaper.citations) by overlapping the task's evidence
+      spans, and recorded as the DOI or PMID of the entries it is aligned to in
+      ParsedPaper.references. Exact (xref) alignments are used as they are; heuristic ones
+      only above a confidence threshold. A citation aligned to no entry is left out, not
+      guessed.
   Study.outcome_summary:
     transform: derive
     source_representation: sibling_field

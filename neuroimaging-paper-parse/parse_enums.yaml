@@ -268,3 +268,32 @@ enums:
       permutation:
       small_volume:
         description: A correction within a region, such as SPM's small-volume correction.
+
+  ReferenceProvider:
+    description: Where a reference-list entry came from.
+    permissible_values:
+      europepmc:
+        description: The Europe PMC references endpoint.
+      crossref:
+      semantic_scholar:
+      pubmed:
+      source_xml:
+        description: The downloaded full text's own reference list, such as JATS `ref-list`.
+      parsed_text:
+        description: Parsed from plain text, the least reliable.
+
+  CitationAlignment:
+    description: How an in-text citation was tied to its reference entries.
+    permissible_values:
+      xref:
+        description: >-
+          Exact: the source marks the citation with the entry's id, as JATS `xref
+          ref-type="bibr"` and Elsevier cross-references do.
+      numbered:
+        description: A bracketed or superscript number read as a list position.
+      author_year:
+        description: >-
+          An author-year marker matched to an entry by first author's surname and year,
+          with a letter suffix ("2001a") breaking ties.
+      unaligned:
+        description: A citation marker found but tied to no entry.
