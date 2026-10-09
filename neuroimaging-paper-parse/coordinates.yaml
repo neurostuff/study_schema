@@ -164,14 +164,43 @@ classes:
           What the points are for. Only a `result` is an analysis with a statistic in the
           extraction record; an `anchor` -- a region of interest, a seed, a stimulation
           target -- becomes a CoordinateSet there, and never enters a studyset as an
-          analysis. The ingestion workflow's prose roles map as result → result, roi →
-          anchor with anchor_kind roi, seed → anchor with anchor_kind seed, and target →
-          anchor with the anchor_kind its passage supports.
+          analysis.
+
+          Decided by the ingestion workflow's `roles` stage, a classifier over each set
+          and its context (`role_source` names it). Where it is not confident, the
+          proposal stands: `result` for a table set, and for a text set the prose model's
+          role, mapped as result → result, roi → anchor/roi, seed → anchor/seed, target →
+          anchor/stimulation_target, prior_study → reference, figure → display.
       anchor_kind:
         any_of:
           - range: AnchorKind
           - range: string
         description: For an `anchor`, what it defines.
+      from_prior_study:
+        range: boolean
+        description: >-
+          The coordinates come from another publication rather than from this study: a
+          peak quoted for comparison (always true for `role: reference`), or another
+          study's peak taken as this study's ROI or seed. Separate from the role, because
+          a borrowed seed is still the seed this study's analysis used. False when the
+          study defined them itself, including an ROI built from its own earlier result.
+      prior_study_evidence:
+        range: TextSpan
+        multivalued: true
+        inlined_as_list: true
+        description: The citation or sentence showing the coordinates come from another publication.
+      role_confidence:
+        range: float
+        minimum_value: 0
+        maximum_value: 1
+        description: >-
+          The classifier's probability for `role` (and `anchor_kind`). Absent when the
+          proposal stood because no classifier ran.
+      role_source:
+        range: string
+        description: >-
+          What decided the role: `proposal` when the proposal stood, otherwise the
+          classifier's name and version, such as `set-role-encoder@2026-10-09`.
       split:
         range: SignSplit
         inlined: true
