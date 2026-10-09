@@ -187,6 +187,25 @@ eight and cannot be silently ambiguous, but it does ask the extractor to make a 
 previously made by omission. If that turns out to extract worse, it is candidate 2 in
 [extraction-deviations.yaml](extraction-deviations.yaml).
 
+### A task's name is split into its paradigm and the ways it varies
+
+A task name often joins a paradigm to a variant: an *emotional* Stroop task, an *auditory*
+flanker task, a *food-picture* n-back. The variant is usually a feature of the stimuli, and
+it must not make two tasks running one paradigm look like different paradigms. So:
+
+- `Task.name` keeps the name as printed.
+- `Task.paradigm` is the paradigm with those qualifiers taken off (`Stroop task`,
+  `flanker task`, `n-back task`); it equals `name` when nothing qualifies it.
+- `Task.variant_qualifiers` lists each word taken off with its axis -- `stimulus_content`,
+  `stimulus_modality`, `response_modality`, `design`, `adaptation` -- and the same fact is
+  stated in its own field: `emotional words` in `Task.stimulus_content` (or the conditions'
+  `stimulus_content` where it differs between them), `auditory` in
+  `Task.stimulus_modality`.
+- A named paradigm keeps its name whole. The monetary incentive delay task and the Iowa
+  gambling task are not a "delay task" and a "gambling task" varied by their stimuli; the
+  qualifier is part of the procedure. When unsure, keep the name whole: a qualifier left
+  on costs one grouping, a paradigm wrongly stripped merges two.
+
 ### An entity is declared once and referenced everywhere
 
 A brain region the study delimited is one `Region` on `Study.regions`, however many analyses
