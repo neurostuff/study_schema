@@ -100,7 +100,7 @@ The projection is mechanical, and the whole of it is:
 |---|---|
 | `in_subset: [model_extracted]` | kept |
 | `in_subset: [deterministic]` | dropped — code fills it, so there is nothing to read off the page |
-| `id` (`identifier: true`) | `local_id`, a plain string; storage mints its own at ingestion |
+| `id` (`identifier: true`) | `local_id`, a plain string and still the class's `identifier`; storage mints its own id at ingestion |
 | `range: string` | `ExtractedString` |
 | `range: integer` / `float` / `boolean` | `ExtractedInteger` / `ExtractedNumber` / `ExtractedBoolean` |
 | `range: <Enum>` | `Extracted<Enum>`, a generated wrapper whose `value` is that same closed vocabulary |
@@ -316,14 +316,6 @@ python tools/generate_models.py           # rewrite src/study_schema/{models,jso
 python tools/generate_models.py --check   # what CI runs: fails if they are out of date
 pytest
 ```
-
-One change is made on the way, to the extraction schema only. Its cross-references --
-`Group.arm`, `Analysis.measure` -- are declared `inlined: false` and hold the target's
-`local_id`, but `local_id` is not marked `identifier: true`, so LinkML cannot resolve them and
-every generator inlines the target instead. The generator marks `local_id` as each class's
-identifier, which makes those slots the plain string references records hold. The fix belongs
-in `pondie.schema.generate`'s projection of `id` to `local_id`; until it lands there,
-`tools/generate_models.py` is where it is made.
 
 ## Tests
 

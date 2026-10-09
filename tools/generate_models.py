@@ -6,16 +6,6 @@ consumer installs the package without LinkML and CI can tell when the two disagr
 
     python tools/generate_models.py           # rewrite the generated files
     python tools/generate_models.py --check   # exit 1 if any is out of date
-
-One change is made on the way, to the extraction schema only, and it is the schema's own
-stated intent. A slot such as `Group.arm` is declared `inlined: false`, which the README reads
-as "resolved through the target's `local_id`" -- but LinkML can only resolve a reference
-through a slot marked `identifier: true`, and `local_id` is not marked. Left alone, every
-generator inlines the target, so the models demand a nested `Arm` where a record holds the
-string `"arm-social-support"`. Here `local_id` is marked as the identifier of each class that
-has one, which turns those slots into the plain string references the records hold. The fix
-belongs upstream, in `pondie.schema.generate`'s projection of `id` to `local_id`; until it
-lands there, this is the only place it is made.
 """
 
 from __future__ import annotations
@@ -37,7 +27,6 @@ class Contract:
     schema: str
     #: JSON Schema file name -> top-level class.
     roots: dict[str, str]
-    mark_local_ids: bool = False
 
 
 CONTRACTS = (
@@ -53,7 +42,6 @@ CONTRACTS = (
         module="extraction",
         schema="neuroimaging-study-extraction.yaml",
         roots={"extraction-record": "Study"},
-        mark_local_ids=True,
     ),
     Contract(
         module="storage",
@@ -75,12 +63,6 @@ def _view(contract: Contract):
 
     view = SchemaView(str(ROOT / contract.schema))
     view.merge_imports()
-    if contract.mark_local_ids:
-        for cls in view.schema.classes.values():
-            attribute = cls.attributes.get("local_id")
-            if attribute is not None:
-                attribute.identifier = True
-    view.set_modified()
     return view
 
 

@@ -33,6 +33,7 @@ classes:
       Create one Analysis for each distinct tested effect. Separate Analyses are required when normalized direction, participant-group comparison, method, the pattern of `effect.cells`, seed or connectivity model, decoded variable, component identity, or spatial_scope differ, and when an omnibus effect and its directional post-hoc contrast are both reported. ROI definitions, acquisition summaries, descriptive sample tables, and masks without inferential effects are not Analyses. Nor is a map reported with no inferential test at all -- an ICA or PCA component map presented descriptively, a connectivity matrix given without a test -- there being nothing for such a map to be the effect of.
     attributes:
       local_id:
+        identifier: true
         range: string
         required: true
       name:
@@ -268,6 +269,7 @@ classes:
       Not a property of the thresholding scheme: one correction scheme routinely covers several measures, and one measure is often tested under several schemes. See storage-schema-design-notes.md for the reasoning behind this shape.
     attributes:
       local_id:
+        identifier: true
         range: string
         required: true
         description: Stable identifier used by Analysis foreign-key references.
@@ -374,6 +376,7 @@ classes:
       modeling. This can be expanded with COBIDAS.
     attributes:
       local_id:
+        identifier: true
         range: string
         required: true
         description: Stable identifier used by Analysis foreign-key references.
@@ -411,6 +414,7 @@ classes:
       Sharing one record across matrices corrupts the derived adjustment set. The adjustment set is the model's terms minus the terms named by its cells. If several matrices share one record, they claim adjustments that their original models never made, and the record cannot expose the error.
     attributes:
       local_id:
+        identifier: true
         range: string
         required: true
         description: Stable identifier used by Analysis foreign-key references.
@@ -493,6 +497,7 @@ classes:
       A term is something the measure was regressed *on*. The quantity being modelled is `Analysis.measure` and never a term of the model that models it. A table laid out with one row-block per measured parameter -- four diffusion parameters, three frequency bands -- is reporting one analysis per parameter over one measure each, not one analysis over a factor whose levels are the parameters.
     attributes:
       local_id:
+        identifier: true
         range: string
         required: true
         description: >-
@@ -630,6 +635,7 @@ classes:
       Inference attaches to the analysis, not to the fit: one model estimated once is often thresholded several ways -- an ROI test Bonferroni-corrected over four regions and a searchlight over the same fit corrected by FDR. See storage-schema-design-notes.md for the reasoning behind this shape.
     attributes:
       local_id:
+        identifier: true
         range: string
         required: true
         description: Stable identifier used by Analysis foreign-key references.
@@ -698,6 +704,7 @@ classes:
       representation and be linked with source_path.
     attributes:
       local_id:
+        identifier: true
         range: string
         required: true
         description: Stable table identifier used by Analysis foreign-key references.
@@ -732,6 +739,7 @@ classes:
       A set has one role: its dominant one. The groups come from the table parse, which splits a table by what was tested rather than by what each row is for, so a set can mix roles -- a connectivity results table that lists its own seed as a row. Such a set keeps the role of most of its points, and the odd point takes that role with it. This is a known error, about 1.3% of sets, accepted rather than splitting the parse's groups.
     attributes:
       local_id:
+        identifier: true
         range: string
         required: true
         description: >-
