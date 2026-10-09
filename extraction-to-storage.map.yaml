@@ -141,6 +141,16 @@ derivations:
     notes: >-
       Journal title, copied from the parsed paper. Not extracted: a bibliographic fact the
       metadata lookup states is not one a model should be asked to read off the page.
+  Study.outcome_summary:
+    transform: derive
+    source_representation: sibling_field
+    source_field: Analysis.outcome
+    notes: >-
+      From Study.result_reporting and every Analysis.outcome: some_significant_effects when
+      any analysis found an effect; only_null_effects when every analysis was tested and
+      found nothing; no_analyses when result_reporting says the paper reports none here and
+      analyses is empty; undetermined otherwise. Derived rather than extracted so it cannot
+      contradict the outcomes it summarises.
   Study.publication_year:
     transform: copy
     source_artifact: neuroimaging-paper-parse/ParsedPaper

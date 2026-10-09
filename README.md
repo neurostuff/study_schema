@@ -183,10 +183,12 @@ What each side may rely on:
   `authors`, `doi`, `journal`, `publication_year`, `language` and `study_type` from
   `ParsedPaper.bibliography` and the header's identifiers (`transform: copy` in
   `extraction-to-storage.map.yaml`), and skips a paper whose `is_meta_analysis` is true.
-- **Keys come from cells, not positions.** A table analysis is `<table_id>#<h>`, where `h`
-  hashes the sorted `row:column_group` references of its points (`ParsedAnalysis.key` gives
-  the recipe). A re-run that groups the same cells reaches the same key, and claims stored
-  against it carry over.
+- **Keys come from where an analysis was read, not its position.** A table analysis is
+  `<table_id>#<h>`, where `h` hashes the sorted `row:column_group` references of its
+  `cells`; a text or figure analysis is `text#<h>` or `figure#<h>` over its spans
+  (`ParsedAnalysis.key` gives the recipe). Cells include rows that name a contrast without
+  coordinates, so a contrast a table lists as "n.s." has a key of its own. A re-run that
+  reads the same cells reaches the same key, and claims stored against it carry over.
 - **A sign split is declared.** Both halves carry `split{group, direction, rule,
   primary}`. Points with no directional statistic join the positive half and are tagged
   `sign: unsigned`. pondie extracts the primary and derives the other half, which carries
@@ -207,6 +209,19 @@ What each side may rely on:
   extracted against.
 - **Nothing is edited in place.** A parse is never rewritten by its reader; disagreement
   is a revision.
+- **Absence is stated, never inferred.** A paper the parse ran on always has a
+  `CoordinateParse`, even with no analyses, and `tables` says what reading each table
+  found: coordinates, contrasts listed without coordinates, no coordinates at all, or not
+  read (triage, a person). `text_sweep` says whether the search of the text was complete.
+  An analysis with no points is a contrast the paper names but prints no coordinates for.
+  pondie adds what the parse could not see -- a null stated only in prose, a figure-only
+  result -- with an `add` verdict in a revision, so every analysis the record describes
+  has a parse key.
+- **A study with no analyses, or only null ones, is described, not dropped.** The record
+  says which with `Study.result_reporting` (`analyses_reported`, `no_analyses_reported`,
+  `analyses_reported_elsewhere`) and each `Analysis.outcome`; `Study.outcome_summary` is
+  derived from them (`some_significant_effects`, `only_null_effects`, `no_analyses`,
+  `undetermined`).
 
 Not done yet:
 - Neither the workflow nor pondie writes or reads these artifacts.

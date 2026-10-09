@@ -60,13 +60,31 @@ classes:
         multivalued: true
         inlined_as_list: true
         required: true
+        description: >-
+          May be empty: the parse ran and found no analysis. A paper the parse never ran on
+          has no CoordinateParse at all, so the two are never confused, and `tables` says what
+          reading each table found.
+      tables:
+        range: TableReading
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          One entry per table of the parsed paper: what reading it for coordinates found, or
+          why it was not read. A table with no entry was not considered.
+      text_sweep:
+        range: TextSweep
+        inlined: true
+        description: >-
+          How much of the text was searched for coordinates outside tables. Absent when the
+          text was not searched.
       verdicts:
         range: AnalysisVerdict
         multivalued: true
         inlined_as_list: true
         description: >-
           On a revision only: one verdict for every analysis of the revised parse, so
-          nothing in it is silently dropped. An original parse has none.
+          nothing in it is silently dropped, and an `add` verdict for every analysis the
+          revision introduces that the revised parse lacked. An original parse has none.
 
   ParsedAnalysis:
     description: >-
@@ -82,20 +100,36 @@ classes:
         range: string
         required: true
         description: >-
-          The analysis's identity, derived from the cells its points were read from, so it
-          survives re-runs, reordering and deduplication: a re-run that groups the same
-          cells reaches the same key.
+          The analysis's identity, derived from where it was read, so it survives re-runs,
+          reordering and deduplication: a re-run that reads the same place reaches the same
+          key. It is derived from `cells` or `text_spans`, never from `points`, so an analysis
+          with no points -- a contrast a table lists as "n.s." -- still has a key of its own.
 
-          For a table analysis, `<table_id>#<h>`. Build `<row>:<column_group>` for each
-          point, drop duplicates, sort by row and then column group, and join with commas;
+          For a table analysis, `<table_id>#<h>`. Write `<row>:<column_group>` for each of
+          `cells`, drop duplicates, sort by row and then column group, and join with commas;
           `h` is the first 12 hex characters of the sha1 of that string's UTF-8 bytes.
 
-          For a text analysis, `text#<h>`, built the same way from each point's
-          `<start_char>-<end_char>`.
+          For a text or figure analysis, `text#<h>` or `figure#<h>`, built the same way from
+          each of `text_spans` as `<start_char>-<end_char>`.
 
           This key is what the extraction record's `Analysis.source_table_analysis` and
           `CoordinateSet.id` name, and what neurostore stores as `Analysis.source_id`. Two
-          analyses of one parse never cover the same cells.
+          analyses of one parse never cover the same cells or spans, so never share a key.
+      cells:
+        range: CellRef
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          For a table analysis, every cell it was read from: each point's row and column
+          group, and the rows that name the contrast without coordinates. Required for
+          `origin: table`; every point's row and column group is among them.
+      text_spans:
+        range: TextSpan
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          For a text or figure analysis, the sentences or legend it was read from: those
+          holding its coordinates, or the one stating a result that has none.
       origin:
         range: CoordinateOrigin
         required: true
@@ -154,7 +188,59 @@ classes:
         range: ParsedPoint
         multivalued: true
         inlined_as_list: true
+        description: >-
+          Empty when the paper names the analysis but reports no coordinates for it -- most
+          often because nothing survived the threshold. Whether it found an effect is the
+          extraction record's `Analysis.outcome`; an empty list here only says that no
+          coordinates were printed.
+
+  CellRef:
+    description: One table cell an analysis was read from, by row and column group.
+    attributes:
+      row:
+        range: integer
         required: true
+        minimum_value: 0
+        description: The TableRow's `row`.
+      column_group:
+        range: integer
+        required: true
+        minimum_value: 0
+        description: As on ParsedPoint; 0 in a table with one block of coordinate columns.
+
+  TableReading:
+    description: What reading one table for coordinates found.
+    attributes:
+      table_id:
+        range: string
+        required: true
+      reading:
+        range: TableReadingKind
+        required: true
+      reason:
+        range: string
+        description: For a table not read, why; for an excluded one, who excluded it.
+
+  TextSweep:
+    description: >-
+      How much of the text was searched for coordinates outside tables, so a reader can tell
+      a complete search that found nothing from one cut short.
+    attributes:
+      passages_found:
+        range: integer
+        minimum_value: 0
+        description: Passages that looked like they hold coordinates.
+      passages_read:
+        range: integer
+        minimum_value: 0
+        description: Of those, how many were read; fewer when a cap cut the search short.
+      truncated:
+        range: boolean
+        required: true
+      points_dropped_as_table_restatements:
+        range: integer
+        minimum_value: 0
+        description: Points found in the text but dropped because a table already reports them.
 
   SignSplit:
     description: >-
@@ -268,6 +354,7 @@ classes:
         one claim; with different values they stay competing claims, resolved like any
         other.
       - omit: nothing is copied.
+      - add: nothing to copy; the analysis is new.
 
       Every copy records the key and parse it was copied from, so a reviewer can tell a
       copied claim from one made against the revision. The revised parse and everything
@@ -277,7 +364,9 @@ classes:
       key:
         range: string
         required: true
-        description: The revised parse's analysis key.
+        description: >-
+          The revised parse's analysis key; for `add`, the new analysis's key in this
+          revision.
       verdict:
         range: AuditVerdict
         required: true

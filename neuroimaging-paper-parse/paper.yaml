@@ -35,6 +35,12 @@ classes:
           - range: DocumentSource
           - range: string
         required: true
+      source_reason:
+        range: string
+        description: >-
+          Why this source's text was chosen over the others downloaded, such as "most tables"
+          or "first in download order". Every stage reads this one text, so the choice is
+          made once and recorded.
       text_path:
         range: string
         required: true
@@ -62,6 +68,14 @@ classes:
         range: Section
         multivalued: true
         inlined_as_list: true
+      supplements:
+        range: Supplement
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Supplementary material the paper links to, and whether it was fetched. A result
+          the text cites to a supplement that was not fetched is reported elsewhere, not
+          missing.
       tables:
         range: ParsedTable
         multivalued: true
@@ -105,9 +119,46 @@ classes:
         multivalued: true
       license:
         range: string
+      open_access:
+        range: boolean
+      corrections:
+        range: Correction
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Notices attached to the paper -- errata, retractions, expressions of concern -- as
+          the indexer lists them. A retracted paper is still parsed; whether it enters a
+          meta-analysis is a filter's decision, and the filter needs this to make it.
       provider:
         range: string
         description: The metadata service the facts came from, such as pubmed or europepmc.
+
+  Correction:
+    description: One notice attached to a paper.
+    attributes:
+      kind:
+        any_of:
+          - range: CorrectionKind
+          - range: string
+        required: true
+      pmid:
+        range: string
+      doi:
+        range: string
+
+  Supplement:
+    description: One item of supplementary material.
+    attributes:
+      label:
+        range: string
+      url:
+        range: string
+      fetched:
+        range: boolean
+        required: true
+      path:
+        range: string
+        description: Where the fetched file is, relative to the bundle directory.
 
   Section:
     description: A span of the text and what it is.
@@ -204,4 +255,11 @@ classes:
       route:
         range: string
       located_by:
+        range: string
+      excluded_by_hand:
+        range: boolean
+        description: >-
+          A person marked the table as not holding coordinates. Overrides `passes`, and no
+          consumer reads coordinates from it.
+      exclusion_reason:
         range: string

@@ -195,7 +195,29 @@ classes:
         range: Analysis
         multivalued: true
         inlined_as_list: true
-        description: Distinct analyses or inferential tests reported by the study.
+        description: >-
+          Distinct analyses or inferential tests reported by the study, including those that
+          found nothing (`Analysis.outcome: no_significant_effect`) and those reported without
+          coordinates. Whether an empty list means the paper reports none is
+          `result_reporting`'s to say, not the list's.
+      result_reporting:
+        in_subset: [mvp, model_extracted]
+        range: ResultReporting
+        description: >-
+          Whether the paper reports inferential analyses of its own. An empty `analyses` list
+          is otherwise ambiguous: a methods or data paper that tests nothing and a paper the
+          extractor read badly look the same. With this set, `no_analyses_reported` asserts
+          the emptiness, with the sentences that show it as evidence.
+
+          Says nothing about whether the analyses found anything; that is each
+          `Analysis.outcome`, summarised in `outcome_summary`.
+      outcome_summary:
+        in_subset: [mvp, deterministic]
+        range: OutcomeSummary
+        description: >-
+          What the study's analyses found, taken together: derived from `result_reporting`
+          and every `Analysis.outcome`, so a study whose every analysis is null can be found
+          and described as such rather than vanishing with its missing coordinates.
       tables:
         in_subset: [mvp, model_extracted]
         range: Table
@@ -230,6 +252,51 @@ classes:
         description: Optional landing-page, repository, or direct-access URL for the dataset.
 
 enums:
+
+  ResultReporting:
+    in_subset: [mvp, model_extracted]
+    description: Whether a paper reports inferential analyses of its own.
+    permissible_values:
+      analyses_reported:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          The paper reports at least one inferential test of its own. `analyses` lists them,
+          null and coordinate-free ones included.
+      no_analyses_reported:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          The paper reports no inferential test of its own: a methods, protocol, data, or
+          purely descriptive paper, a review, a commentary. `analyses` is empty by assertion.
+      analyses_reported_elsewhere:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          The paper's tests exist but are not in the text read: deferred to a companion
+          paper, or to a supplement that was not available. `analyses` lists only what the
+          text itself reports.
+
+  OutcomeSummary:
+    in_subset: [mvp, deterministic]
+    description: What a study's analyses found, taken together.
+    permissible_values:
+      some_significant_effects:
+        in_subset: [mvp, deterministic]
+        description: >-
+          At least one analysis has `outcome: significant_effect`.
+      only_null_effects:
+        in_subset: [mvp, deterministic]
+        description: >-
+          Every analysis has `outcome: no_significant_effect`. The study tested and found
+          nothing; it has no coordinates for that reason, not for want of extraction.
+      no_analyses:
+        in_subset: [mvp, deterministic]
+        description: >-
+          `result_reporting` is `no_analyses_reported` or `analyses_reported_elsewhere`, and
+          `analyses` is empty.
+      undetermined:
+        in_subset: [mvp, deterministic]
+        description: >-
+          No analysis reports a significant effect and at least one outcome was not reported,
+          or `result_reporting` was not reported.
 
   StudyType:
     in_subset: [mvp, deterministic]

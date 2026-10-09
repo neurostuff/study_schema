@@ -24,6 +24,23 @@ imports:
   - region
   - acquisition
   - analysis
+enums:
+  ResultReporting:
+    description: Whether a paper reports inferential analyses of its own.
+    permissible_values:
+      analyses_reported:
+        description: >-
+          The paper reports at least one inferential test of its own. `analyses` lists them,
+          null and coordinate-free ones included.
+      no_analyses_reported:
+        description: >-
+          The paper reports no inferential test of its own: a methods, protocol, data, or
+          purely descriptive paper, a review, a commentary. `analyses` is empty by assertion.
+      analyses_reported_elsewhere:
+        description: >-
+          The paper's tests exist but are not in the text read: deferred to a companion paper,
+          or to a supplement that was not available. `analyses` lists only what the text itself
+          reports.
 classes:
   Study:
     tree_root: true
@@ -126,7 +143,16 @@ classes:
         range: Analysis
         multivalued: true
         inlined_as_list: true
-        description: Distinct analyses or inferential tests reported by the study.
+        description: >-
+          Distinct analyses or inferential tests reported by the study, including those that
+          found nothing (`Analysis.outcome: no_significant_effect`) and those reported without
+          coordinates. Whether an empty list means the paper reports none is `result_reporting`'s
+          to say, not the list's.
+      result_reporting:
+        range: ExtractedResultReporting
+        description: |-
+          Whether the paper reports inferential analyses of its own. An empty `analyses` list is otherwise ambiguous: a methods or data paper that tests nothing and a paper the extractor read badly look the same. With this set, `no_analyses_reported` asserts the emptiness, with the sentences that show it as evidence.
+          Says nothing about whether the analyses found anything; that is each `Analysis.outcome`, summarised in `outcome_summary`.
       tables:
         range: Table
         multivalued: true
@@ -168,6 +194,12 @@ classes:
       url:
         range: ExtractedString
         description: Optional landing-page, repository, or direct-access URL for the dataset.
+  ExtractedResultReporting:
+    is_a: ExtractedValue
+    description: An ExtractedValue whose value is ResultReporting.
+    slot_usage:
+      value:
+        range: ResultReporting
   ExtractionMetadata:
     description: Pipeline provenance stamped onto the extraction record at generation time.
     attributes:

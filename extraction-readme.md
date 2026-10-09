@@ -51,8 +51,14 @@ title gate, and re-run the type gate later once indexing catches up.
 PubMed also returns funding types — `Research Support, Non-U.S. Gov't` was on 174 of 300
 sampled records. They are stored verbatim and carry no design information. `Systematic Review`,
 `Review`, `Editorial`, `Letter`, and `Comment` describe papers with no analyses of their own;
-they are not currently gated, but a paper of those types will simply yield no `Analysis`
-records.
+they are not currently gated. A paper of those types yields no `Analysis` records and says
+so: `Study.result_reporting: no_analyses_reported`, with the sentences that show it. An
+empty `analyses` list without that field is a failed extraction, not a finding.
+
+A paper whose analyses all found nothing is the opposite case and must not be confused with
+it: `result_reporting: analyses_reported`, one `Analysis` per tested effect with
+`outcome: no_significant_effect`, and no coordinates because none survived. Such a paper
+reaches extraction even though its parse holds no points.
 
 ---
 

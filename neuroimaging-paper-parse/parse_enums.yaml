@@ -75,6 +75,10 @@ enums:
         description: Rows of a table in `ParsedPaper.tables`.
       text:
         description: Sentences of the text, outside any table.
+      figure:
+        description: >-
+          A result shown only in a figure, located by its legend or the sentence citing it.
+          Its points are whatever the legend or the image states, often none.
 
   ReportedSpace:
     description: >-
@@ -180,6 +184,11 @@ enums:
         description: >-
           Not an analysis at all: a demographics table, a duplicate, coordinates quoted from
           another study. No replacement.
+      add:
+        description: >-
+          An analysis the revised parse did not have, found while extracting the record: a
+          null result stated in the text, a result shown only in a figure, a contrast reported
+          without coordinates. `key` names the new analysis; it revises nothing.
 
   ClusterMeasure:
     description: The unit of a reported cluster size.
@@ -188,3 +197,30 @@ enums:
       mm3:
       cm3:
       other:
+
+  TableReadingKind:
+    description: What reading a table for coordinates found.
+    permissible_values:
+      coordinates:
+        description: Analyses with points were read from it.
+      contrasts_without_coordinates:
+        description: >-
+          It lists tested contrasts but reports no coordinates for them -- rows reading
+          "n.s." or "none". Its analyses are in `analyses` with cells and no points.
+      no_coordinates:
+        description: >-
+          It holds no coordinates and lists no contrasts: demographics, behaviour,
+          acquisition parameters. No analysis was read from it.
+      rejected_by_triage:
+        description: Triage judged it not worth reading, so it was not read.
+      excluded_by_hand:
+        description: A person marked it as not a coordinate table, so it was not read.
+
+  CorrectionKind:
+    description: A notice attached to a paper by its publisher or indexer.
+    permissible_values:
+      erratum:
+      retraction:
+      expression_of_concern:
+      comment:
+      update:
