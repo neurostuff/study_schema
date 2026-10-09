@@ -1,0 +1,117 @@
+id: https://neurostuff.org/schemas/neuroimaging-paper-parse/header
+name: neuroimaging-paper-parse-header
+title: Neuroimaging Paper Parse Header Module
+description: >-
+  The header every parse artifact carries: which paper, which producer, and exactly which
+  inputs it read. A consumer that holds two artifacts can tell from their headers alone
+  whether one was made from the other.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  parse: https://neurostuff.org/schemas/neuroimaging-paper-parse/
+imports:
+  - linkml:types
+  - parse_enums
+default_prefix: parse
+default_range: string
+
+classes:
+
+  ArtifactHeader:
+    description: Who made an artifact, from what, for which paper.
+    attributes:
+      artifact_kind:
+        range: ArtifactKind
+        required: true
+      schema_version:
+        range: string
+        required: true
+        description: The version of this schema the artifact validates against.
+      article_id:
+        range: string
+        required: true
+        description: >-
+          The ingestion catalog's key for the paper. Minted once, at download, and never
+          recomputed from the identifiers below.
+      identifiers:
+        range: ArticleIdentifiers
+        inlined: true
+        required: true
+      producer:
+        range: Producer
+        inlined: true
+        required: true
+      inputs:
+        range: InputRef
+        multivalued: true
+        inlined_as_list: true
+        description: Every artifact this one was made from, by fingerprint.
+      created_at:
+        range: datetime
+
+  ArticleIdentifiers:
+    description: >-
+      Every identifier known for the paper when the artifact was written. Carried whole, so
+      no consumer has to choose between them or look one up.
+    attributes:
+      pmid:
+        range: string
+      pmcid:
+        range: string
+      doi:
+        range: string
+      neurostore_base_study_id:
+        range: string
+        description: Set once the paper has been uploaded; neurostore's BaseStudy id.
+
+  Producer:
+    description: The program and stage that wrote an artifact.
+    attributes:
+      name:
+        range: string
+        required: true
+        description: ns-pond-ingestion-workflow or pondie.
+      version:
+        range: string
+        required: true
+      stage:
+        range: string
+        description: The stage within the producer, such as extract, space or audit.
+      model:
+        range: string
+        description: The language model a stage called, if any.
+      prompt_version:
+        range: string
+
+  InputRef:
+    description: One artifact another was made from.
+    attributes:
+      artifact_kind:
+        range: string
+        required: true
+        description: >-
+          A parse ArtifactKind, or the name of another artifact kind such as an extraction
+          record or a downloaded file.
+      fingerprint:
+        range: string
+        required: true
+        description: >-
+          The input's identity: `text_sha256` for a parsed paper, `parse_id` for a
+          coordinate parse, a sha256 otherwise.
+      producer_version:
+        range: string
+
+  TextSpan:
+    description: A range of the parsed paper's text, by character offset.
+    attributes:
+      start_char:
+        range: integer
+        required: true
+        minimum_value: 0
+      end_char:
+        range: integer
+        required: true
+        minimum_value: 0
+        description: Exclusive.
+      text:
+        range: string
+        description: The characters in the range, kept so a reader can check the offsets.

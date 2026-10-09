@@ -1,0 +1,190 @@
+id: https://neurostuff.org/schemas/neuroimaging-paper-parse/parse_enums
+name: neuroimaging-paper-parse-enums
+title: Neuroimaging Paper Parse Vocabularies
+description: >-
+  The vocabularies of the parsed paper and the coordinate parse. Coordinate roles and
+  anchor kinds are not here: they are the storage schema's `CoordinateRole` and
+  `AnchorKind`, imported, so that the parse's proposal and the record's verdict are written
+  in the same words.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  parse: https://neurostuff.org/schemas/neuroimaging-paper-parse/
+imports:
+  - linkml:types
+default_prefix: parse
+default_range: string
+
+enums:
+
+  ArtifactKind:
+    description: Which of the two parse artifacts a header belongs to.
+    permissible_values:
+      parsed_paper:
+        description: Contract C2, a ParsedPaper.
+      coordinate_parse:
+        description: Contract C3, a CoordinateParse, original or revision.
+
+  DocumentSource:
+    description: >-
+      Where the parsed text came from. Open vocabulary: a new source is added here when it
+      is added to the download order, not discovered by a consumer.
+    permissible_values:
+      pmc:
+        description: PubMed Central OA web service.
+      europepmc:
+        description: Europe PMC full-text XML.
+      pubget:
+        description: pubget's PMC download and parse.
+      elsevier:
+        description: Elsevier full-text API.
+      ace:
+        description: ACE HTML scraping.
+      pdf:
+        description: A PDF converted to text.
+
+  SectionKind:
+    description: What a span of the text is.
+    permissible_values:
+      title:
+      abstract:
+      introduction:
+      methods:
+      results:
+      discussion:
+      figure_legend:
+      table:
+        description: A table's rows, inlined into the text.
+      supplement:
+      references:
+      other:
+
+  MetaAnalysisBasis:
+    description: What `ParsedPaper.is_meta_analysis` was decided from.
+    permissible_values:
+      publication_type:
+        description: A PubMed publication type such as Meta-Analysis or Systematic Review.
+      title:
+        description: The title, when no publication type says so.
+      publication_type_and_title:
+        description: Both agree.
+
+  CoordinateOrigin:
+    description: Where a parsed analysis's points were read from.
+    permissible_values:
+      table:
+        description: Rows of a table in `ParsedPaper.tables`.
+      text:
+        description: Sentences of the text, outside any table.
+
+  ReportedSpace:
+    description: >-
+      The coordinate space a point is in, normalized to the values NiMARE transforms between.
+      What the paper printed stays in `space_as_printed`.
+    permissible_values:
+      MNI:
+        description: Any MNI template (MNI152, MNI305, ICBM152, SPM's MNI).
+      TAL:
+        description: Talairach space, including Talairach-transformed MNI coordinates the paper reports as Talairach.
+      other:
+        description: A stated space that is neither, such as a native, surface, or non-human template space.
+      unknown:
+        description: >-
+          No space could be read. Never defaulted to MNI: a rat study stored as MNI is a
+          wrong coordinate, and an unknown one is an honest gap.
+
+  SpaceBasis:
+    description: Where a space was read from, most specific first.
+    permissible_values:
+      point:
+        description: The row or sentence holding the point.
+      table_header:
+      caption:
+      footer:
+      methods:
+      results:
+      extractor:
+        description: The download source's own structured guess.
+
+  StatisticKind:
+    description: >-
+      The kind of a value reported at a point. One vocabulary for the parse, the extraction
+      record's `Statistic.family`, and neurostore's `PointValue.kind`. The ingestion
+      workflow's letters map one to one: T, Z, F, D, G, R, B, P.
+    permissible_values:
+      t:
+        description: Student's t. Ingestion letter T.
+      z:
+        description: A z score. Ingestion letter Z.
+      f:
+        description: An F statistic. Ingestion letter F. Not directional.
+      chi_square:
+        description: Not directional.
+      d:
+        description: Cohen's d. Ingestion letter D.
+      g:
+        description: Hedges' g. Ingestion letter G.
+      r:
+        description: A correlation coefficient. Ingestion letter R.
+      beta:
+        description: A regression coefficient or parameter estimate. Ingestion letter B.
+      p:
+        description: >-
+          A p value. Ingestion letter P. A significance level, not a statistic: never
+          directional, and never the basis of a sign split.
+      other:
+        description: A kind the paper names and this list does not; `kind_as_printed` keeps the wording.
+
+  PointSign:
+    description: The sign of a point's directional statistic.
+    permissible_values:
+      positive:
+        description: A directional statistic greater than or equal to zero.
+      negative:
+        description: A directional statistic below zero.
+      unsigned:
+        description: >-
+          No directional statistic at the point -- a blank cell, a p value only, an F. In an
+          analysis that was split by sign the point joins the positive half and keeps this
+          tag, so the placement stays visible and a filter can drop it.
+
+  SplitDirection:
+    description: Which half of a sign split an analysis is.
+    permissible_values:
+      positive:
+      negative:
+
+  SplitRule:
+    description: The deterministic rule that split an analysis.
+    permissible_values:
+      sign_of_directional_statistic:
+        description: >-
+          Points with a negative directional statistic form the negative half; every other
+          point, unsigned ones included, forms the positive half.
+
+  AuditVerdict:
+    description: pondie's verdict on one analysis of the parse it revises.
+    permissible_values:
+      accept:
+        description: The analysis stands as proposed. Its key is unchanged.
+      relabel:
+        description: >-
+          The same points, in a different role: an analysis proposed as a result that is a
+          region of interest, a seed, a stimulation target. Its key is unchanged.
+      split:
+        description: The points belong to more than one analysis. The replacements have new keys.
+      merge:
+        description: >-
+          The points belong with another analysis's. The merged analysis has a new key, and
+          every analysis merged into it carries this verdict.
+      omit:
+        description: >-
+          Not an analysis at all: a demographics table, a duplicate, coordinates quoted from
+          another study. No replacement.
+
+  ClusterMeasure:
+    description: The unit of a reported cluster size.
+    permissible_values:
+      voxels:
+      mm3:
+      cm3:
+      other:

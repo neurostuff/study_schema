@@ -159,6 +159,59 @@ loud. Opening a closed vocabulary fails at ingestion. Closing an open one works 
 quietly costs you something: an open vocabulary is where the paper's own wording is worth
 keeping, since an answer the vocabulary has no slot for is the evidence it is short a value.
 
+## The paper-parse schema
+
+`neuroimaging-paper-parse.yaml` and `neuroimaging-paper-parse/` hold the two artifacts the
+ingestion workflow hands downstream, as contracts both sides validate against:
+
+| Contract | Class | Producer | Consumers |
+|---|---|---|---|
+| C2 | `ParsedPaper`: the text every offset addresses, tables row by row, bibliography, `is_meta_analysis` | ns-pond-ingestion-workflow (extract, metadata, triage) | the workflow's coordinate stages, pondie, neurostore |
+| C3 | `CoordinateParse`: points grouped into keyed analyses, with roles and sign splits | ns-pond-ingestion-workflow (analyses, resolve, space); pondie for a revision | pondie, neurostore |
+
+They live here rather than as a NIMADS extension because the extraction and storage
+records point into them: evidence spans address `ParsedPaper.text_sha256`, and
+`Analysis.source_table_analysis` names a C3 key. NIMADS stays the meta-analysis
+interchange. A `ParsedPoint`'s `coordinates`, `space` and `values` carry NIMADS's names and
+meaning, so projecting a parse onto a studyset is a field copy.
+
+What each side may rely on:
+
+- **One shape for every source.** PMC, Europe PMC, pubget, Elsevier, ACE and PDF all emit
+  a `ParsedPaper`, so a consumer never branches on where a paper came from.
+- **Bibliography is copied, never extracted.** pondie fills the record's `Study.title`,
+  `authors`, `doi`, `journal`, `publication_year`, `language` and `study_type` from
+  `ParsedPaper.bibliography` and the header's identifiers (`transform: copy` in
+  `extraction-to-storage.map.yaml`), and skips a paper whose `is_meta_analysis` is true.
+- **Keys come from cells, not positions.** A table analysis is `<table_id>#<h>`, where `h`
+  hashes the sorted `row:column_group` references of its points (`ParsedAnalysis.key` gives
+  the recipe). A re-run that groups the same cells reaches the same key, and claims stored
+  against it carry over.
+- **A sign split is declared.** Both halves carry `split{group, direction, rule,
+  primary}`. Points with no directional statistic join the positive half and are tagged
+  `sign: unsigned`. pondie extracts the primary and derives the other half, which carries
+  `mirror_of`.
+- **Grouping and role are proposals; pondie's verdict overrides them.** When pondie
+  disagrees, it writes a revision: a complete `CoordinateParse` with `revision_of` set and
+  one `AnalysisVerdict` per original analysis (accept, relabel, split, merge, omit, each
+  with a reason and evidence). Accepted and relabelled analyses keep their keys. Region,
+  seed and target sets are relabelled `anchor` and become CoordinateSets in the record,
+  not Analyses with statistics.
+- **Uploads are asymmetric.** neurostore accepts a parse alone, a parse with a record, a
+  record alone against a parse already stored (every verdict accept), or a revision with a
+  record. A revision is stored as a new version of the paper's analyses
+  and supersedes the parse it revises; the record always names the `parse_id` it was
+  extracted against.
+- **Nothing is edited in place.** A parse is never rewritten by its reader; disagreement
+  is a revision.
+
+Not done yet:
+- Neither the workflow nor pondie writes or reads these artifacts.
+- `Analysis.source_table_analysis` and `CoordinateSet.id` in the storage schema still
+  describe the positional `<table id>#<ordinal>` key. They change with the generated
+  extraction tree, in pondie.
+- pondie spells text keys `prose#`; this schema and storage spell them `text#`.
+
 ## Tests
 
 This repository contains the LinkML schema and its documentation, not Python code. Everything

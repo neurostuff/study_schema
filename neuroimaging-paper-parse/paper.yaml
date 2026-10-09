@@ -1,0 +1,207 @@
+id: https://neurostuff.org/schemas/neuroimaging-paper-parse/paper
+name: neuroimaging-paper-parse-paper
+title: Neuroimaging Paper Parse Paper Module
+description: >-
+  Contract C2: a downloaded paper, parsed. Written once by the ingestion workflow; read by
+  its own coordinate stages and by pondie, neither of which writes it.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  parse: https://neurostuff.org/schemas/neuroimaging-paper-parse/
+imports:
+  - linkml:types
+  - parse_enums
+  - header
+default_prefix: parse
+default_range: string
+
+classes:
+
+  ParsedPaper:
+    description: >-
+      One paper as text, tables and bibliographic facts. The same shape for every download
+      source.
+
+      The text is the only offset space. Every evidence span an extraction record cites,
+      every table row's position and every text-read point addresses `text_sha256`'s
+      characters, so a span can be checked by slicing the text, and a span made against a
+      different text is detectably wrong.
+    attributes:
+      header:
+        range: ArtifactHeader
+        inlined: true
+        required: true
+      source:
+        any_of:
+          - range: DocumentSource
+          - range: string
+        required: true
+      text_path:
+        range: string
+        required: true
+        description: The text file's path, relative to the paper's bundle directory.
+      text_sha256:
+        range: string
+        required: true
+        description: sha256 of the text file's UTF-8 bytes. This artifact's fingerprint.
+      text_length:
+        range: integer
+        minimum_value: 0
+      bibliography:
+        range: Bibliography
+        inlined: true
+        required: true
+      is_meta_analysis:
+        range: boolean
+        required: true
+        description: >-
+          Whether the paper is itself a meta-analysis or review, decided here once. Every
+          consumer reads this field; none applies its own test.
+      is_meta_analysis_basis:
+        range: MetaAnalysisBasis
+      sections:
+        range: Section
+        multivalued: true
+        inlined_as_list: true
+      tables:
+        range: ParsedTable
+        multivalued: true
+        inlined_as_list: true
+
+  Bibliography:
+    description: >-
+      The paper's bibliographic facts, as the metadata lookup returned them. Downstream they
+      are copied, never extracted: pondie fills the record's Study.title, authors, doi,
+      journal, publication_year, language and study_type from here, and neurostore fills
+      BaseStudy from here.
+    attributes:
+      title:
+        range: string
+        required: true
+      authors:
+        range: string
+        multivalued: true
+        description: Author names in published order.
+      journal:
+        range: string
+      publication_year:
+        range: integer
+      volume:
+        range: string
+      issue:
+        range: string
+      pages:
+        range: string
+      abstract:
+        range: string
+      language:
+        range: string
+        multivalued: true
+      publication_types:
+        range: string
+        multivalued: true
+        description: PubMed publication types, verbatim. The storage schema's Study.study_type.
+      keywords:
+        range: string
+        multivalued: true
+      license:
+        range: string
+      provider:
+        range: string
+        description: The metadata service the facts came from, such as pubmed or europepmc.
+
+  Section:
+    description: A span of the text and what it is.
+    attributes:
+      kind:
+        any_of:
+          - range: SectionKind
+          - range: string
+        required: true
+      heading:
+        range: string
+        description: The heading as printed.
+      start_char:
+        range: integer
+        required: true
+        minimum_value: 0
+      end_char:
+        range: integer
+        required: true
+        minimum_value: 0
+
+  ParsedTable:
+    description: A table of the paper, cell by cell.
+    attributes:
+      table_id:
+        identifier: true
+        range: string
+        required: true
+        description: >-
+          The table's key, as the source's parser names it. Stable for the life of the
+          parsed paper and used unchanged by every consumer: the coordinate parse's keys,
+          the record's Table.id, neurostore's Table.t_id. Never renumbered from the printed
+          label and never sanitized differently on disk.
+      label:
+        range: string
+        description: The printed label, such as Table 2 or Supplementary Table S4.
+      number:
+        range: string
+      caption:
+        range: string
+      footer:
+        range: string
+      raw_path:
+        range: string
+        description: The source's raw table file, relative to the bundle directory.
+      column_headings:
+        range: string
+        multivalued: true
+      rows:
+        range: TableRow
+        multivalued: true
+        inlined_as_list: true
+        description: The body rows, in printed order.
+      text_span:
+        range: TextSpan
+        inlined: true
+        description: Where the table's rows are inlined in the text, when the source inlines them.
+      coordinate_space_hint:
+        range: ReportedSpace
+        description: >-
+          The source parser's own guess at the table's space. A hint for the coordinate
+          stages, not an answer: the space a point is stored in is the coordinate parse's.
+      triage:
+        range: TableTriage
+        inlined: true
+
+  TableRow:
+    description: One body row of a table.
+    attributes:
+      row:
+        range: integer
+        required: true
+        minimum_value: 0
+        description: >-
+          The row's index among the table's body rows, from 0. What a coordinate parse's
+          point cites, and so part of every analysis key.
+      cells:
+        range: string
+        multivalued: true
+        description: The row's cells, as printed, in column order.
+      text_span:
+        range: TextSpan
+        inlined: true
+        description: Where the row sits in the text, when the table is inlined there.
+
+  TableTriage:
+    description: Whether a table is worth reading for coordinates, and why.
+    attributes:
+      passes:
+        range: boolean
+        required: true
+      score:
+        range: float
+      route:
+        range: string
+      located_by:
+        range: string

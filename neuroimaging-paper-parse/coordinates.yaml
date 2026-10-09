@@ -1,0 +1,285 @@
+id: https://neurostuff.org/schemas/neuroimaging-paper-parse/coordinates
+name: neuroimaging-paper-parse-coordinates
+title: Neuroimaging Paper Parse Coordinates Module
+description: >-
+  Contract C3: a paper's reported coordinates, grouped into analyses, each analysis keyed
+  by the cells it was read from.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  parse: https://neurostuff.org/schemas/neuroimaging-paper-parse/
+imports:
+  - linkml:types
+  - parse_enums
+  - header
+  - ../neuroimaging-study-storage/analysis_enums
+default_prefix: parse
+default_range: string
+
+classes:
+
+  CoordinateParse:
+    description: >-
+      Every coordinate a paper reports, grouped into analyses. An original parse is
+      written by the ingestion workflow; a revision is written by pondie when its audit
+      disagrees with the original.
+
+      A parse is never edited after it is written. A reader that disagrees with it writes a
+      revision instead, and the revision is a complete parse on its own: neurostore can
+      store it as a new version of the paper's analyses without consulting the parse it
+      revises.
+
+      Analyses that pondie accepts or relabels keep their keys, because their cells are
+      unchanged, so claims made against them carry over to the revision untouched. Only a
+      split, a merge or an omission changes which keys exist.
+    attributes:
+      header:
+        range: ArtifactHeader
+        inlined: true
+        required: true
+        description: >-
+          `inputs` names the parsed paper by `text_sha256`, and for a revision also the
+          parse it revises by `parse_id`.
+      parse_id:
+        range: string
+        required: true
+        description: >-
+          This parse's identity, the fingerprint every later artifact cites. Unique per
+          paper; a sha256 of the canonical JSON of `analyses` is recommended, so two
+          producers that reach the same analyses reach the same id.
+      text_sha256:
+        range: string
+        required: true
+        description: The parsed paper's fingerprint. Every point's cells and spans address it.
+      revision_of:
+        range: string
+        description: >-
+          The `parse_id` of the parse this one revises. Absent on an original parse, which
+          is how a reader tells the two apart.
+      analyses:
+        range: ParsedAnalysis
+        multivalued: true
+        inlined_as_list: true
+        required: true
+      verdicts:
+        range: AnalysisVerdict
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          On a revision only: one verdict for every analysis of the revised parse, so
+          nothing in it is silently dropped. An original parse has none.
+
+  ParsedAnalysis:
+    description: >-
+      The points a paper reports together for one tested effect, or for one non-result
+      purpose such as the regions of interest an analysis used.
+
+      In an original parse, both the grouping and the role are the ingestion workflow's
+      proposal, made from a table and its caption. pondie confirms or overrides them with
+      the whole paper in view.
+    attributes:
+      key:
+        identifier: true
+        range: string
+        required: true
+        description: >-
+          The analysis's identity, derived from the cells its points were read from, so it
+          survives re-runs, reordering and deduplication: a re-run that groups the same
+          cells reaches the same key.
+
+          For a table analysis, `<table_id>#<h>`. Build `<row>:<column_group>` for each
+          point, drop duplicates, sort by row and then column group, and join with commas;
+          `h` is the first 12 hex characters of the sha1 of that string's UTF-8 bytes.
+
+          For a text analysis, `text#<h>`, built the same way from each point's
+          `<start_char>-<end_char>`.
+
+          This key is what the extraction record's `Analysis.source_table_analysis` and
+          `CoordinateSet.id` name, and what neurostore stores as `Analysis.source_id`. Two
+          analyses of one parse never cover the same cells.
+      origin:
+        range: CoordinateOrigin
+        required: true
+      table_id:
+        range: string
+        description: The ParsedTable the points were read from. Present exactly when `origin` is `table`.
+      name:
+        range: string
+        required: true
+        description: The analysis's label, as printed where the paper prints one.
+      name_is_printed:
+        range: boolean
+        description: >-
+          False when the producer composed the name because the paper printed none, so a
+          reader never mistakes a placeholder for the paper's wording.
+      description:
+        range: string
+      coordinate_space:
+        range: ReportedSpace
+        required: true
+        description: The space of the analysis's points. A point states its own only when it differs.
+      space_as_printed:
+        range: string
+      space_basis:
+        range: SpaceBasis
+      role:
+        any_of:
+          - range: CoordinateRole
+          - range: string
+        required: true
+        description: >-
+          What the points are for. Only a `result` is an analysis with a statistic in the
+          extraction record; an `anchor` -- a region of interest, a seed, a stimulation
+          target -- becomes a CoordinateSet there, and never enters a studyset as an
+          analysis. The ingestion workflow's prose roles map as result → result, roi →
+          anchor with anchor_kind roi, seed → anchor with anchor_kind seed, and target →
+          anchor with the anchor_kind its passage supports.
+      anchor_kind:
+        any_of:
+          - range: AnchorKind
+          - range: string
+        description: For an `anchor`, what it defines.
+      split:
+        range: SignSplit
+        inlined: true
+        description: >-
+          Present on both halves of an analysis split by sign, and only there. The split
+          is declared here and nowhere else: a reader never infers it from a name.
+      derived_from:
+        range: string
+        multivalued: true
+        description: >-
+          On a revision, the keys of the revised parse's analyses this one was made from by
+          a split or a merge. Absent on an analysis carried over unchanged.
+      points:
+        range: ParsedPoint
+        multivalued: true
+        inlined_as_list: true
+        required: true
+
+  SignSplit:
+    description: >-
+      One half of an analysis the producer split by the sign of its directional statistic.
+      The two halves share `group`; the positive half is the primary.
+
+      pondie extracts the primary half and derives the other half's record from it by
+      flipping the direction of its cells, so the two never disagree and the reversed half
+      costs no extraction. The derived record carries `mirror_of`, which keeps a
+      meta-analysis from counting one contrast twice.
+    attributes:
+      group:
+        range: string
+        required: true
+        description: Shared by the two halves. The key of the primary half is recommended.
+      direction:
+        range: SplitDirection
+        required: true
+      rule:
+        range: SplitRule
+        required: true
+      primary:
+        range: boolean
+        required: true
+        description: True on the positive half.
+
+  ParsedPoint:
+    description: >-
+      One reported coordinate. `coordinates`, `space` and `values` are NIMADS's point fields
+      with NIMADS's meaning, so the projection to a studyset copies them; everything else
+      is the parse's own.
+    attributes:
+      coordinates:
+        range: float
+        multivalued: true
+        required: true
+        minimum_cardinality: 3
+        maximum_cardinality: 3
+        description: x, y, z in millimetres.
+      space:
+        range: ReportedSpace
+        description: Only when it differs from the analysis's `coordinate_space`.
+      row:
+        range: integer
+        minimum_value: 0
+        description: For a table point, the TableRow it was read from.
+      column_group:
+        range: integer
+        minimum_value: 0
+        description: >-
+          For a table point, which block of coordinate columns it was read from, numbered
+          from 0 left to right. 0 in a table with one block. Two contrasts printed side by
+          side share rows and differ here.
+      text_span:
+        range: TextSpan
+        inlined: true
+        description: For a text point, the characters it was read from.
+      values:
+        range: PointValue
+        multivalued: true
+        inlined_as_list: true
+      sign:
+        range: PointSign
+        required: true
+        description: >-
+          Set by code from the directional statistic in `values`, whatever a model said.
+          neurostore stores `negative` as Point.deactivation.
+      cluster_size:
+        range: float
+        minimum_value: 0
+      cluster_measure:
+        range: ClusterMeasure
+      is_subpeak:
+        range: boolean
+      is_seed:
+        range: boolean
+        description: >-
+          A seed printed as a row of a results table. Kept at the point because the
+          analysis around it is still a result.
+      label:
+        range: string
+        description: The region name printed beside the point.
+
+  PointValue:
+    description: A value reported at a point. NIMADS's point value.
+    attributes:
+      kind:
+        any_of:
+          - range: StatisticKind
+          - range: string
+        required: true
+      kind_as_printed:
+        range: string
+      value:
+        range: float
+        required: true
+
+  AnalysisVerdict:
+    description: >-
+      pondie's verdict on one analysis of the parse a revision revises, reached while
+      extracting the whole record. The verdict overrides the original's proposal.
+    attributes:
+      key:
+        range: string
+        required: true
+        description: The revised parse's analysis key.
+      verdict:
+        range: AuditVerdict
+        required: true
+      replaced_by:
+        range: string
+        multivalued: true
+        description: >-
+          The keys in this revision that take the analysis's place: itself for accept and
+          relabel, the replacements for split and merge, none for omit.
+      role:
+        any_of:
+          - range: CoordinateRole
+          - range: string
+        description: For relabel, the role the points have instead.
+      reason:
+        range: string
+        required: true
+      evidence:
+        range: TextSpan
+        multivalued: true
+        inlined_as_list: true
+        description: The sentences of the paper the verdict rests on.
