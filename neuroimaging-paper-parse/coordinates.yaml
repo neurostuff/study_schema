@@ -360,7 +360,10 @@ classes:
         required: true
         description: >-
           Set by code from the directional statistic in `values`, whatever a model said.
-          neurostore stores `negative` as Point.deactivation.
+          It decides the sign split and nothing else: the negative points of a set are
+          their own analysis, the inverse contrast, declared by `split`. There is no
+          point-level deactivation flag, and the parse never writes neurostore's
+          Point.deactivation.
       cluster_size:
         range: float
         minimum_value: 0
@@ -368,11 +371,6 @@ classes:
         range: ClusterMeasure
       is_subpeak:
         range: boolean
-      is_seed:
-        range: boolean
-        description: >-
-          A seed printed as a row of a results table. Kept at the point because the
-          analysis around it is still a result.
       label:
         range: string
         description: The region name printed beside the point.
