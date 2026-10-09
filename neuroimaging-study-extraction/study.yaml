@@ -175,17 +175,16 @@ classes:
         range: string
         multivalued: true
         description: >-
-          Languages of this article, as the E-utilities API reports them -- PubMed's three-letter
-          codes, `eng` and the rest. Filled by `pondie.extraction.pubmed` alongside `study_type`,
-          not read off the paper.
+          Languages of this article, copied from the parsed paper's `Bibliography.language`
+          alongside `study_type`, not read off the paper: three-letter codes, `eng` and the
+          rest.
       study_type:
         range: string
         multivalued: true
         description: >-
-          PubMed publication types for this record, verbatim as the E-utilities API returns
-          them. Filled by `pondie.extraction.pubmed`, not read off the paper: it is what the
-          indexers said about the article, which is what a publication-type exclusion asks
-          about.
+          PubMed publication types for this record, verbatim, copied from the parsed paper's
+          `Bibliography.publication_types`, not read off the paper: it is what the indexers
+          said about the article, which is what a publication-type exclusion asks about.
   ExternalDataset:
     description: A named external dataset, with an optional public location.
     attributes:

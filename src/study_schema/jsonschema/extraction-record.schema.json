@@ -6793,7 +6793,7 @@
           ]
         },
         "language": {
-          "description": "Languages of this article, as the E-utilities API reports them -- PubMed's three-letter codes, `eng` and the rest. Filled by `pondie.extraction.pubmed` alongside `study_type`, not read off the paper.",
+          "description": "Languages of this article, copied from the parsed paper's `Bibliography.language` alongside `study_type`, not read off the paper: three-letter codes, `eng` and the rest.",
           "items": {
             "type": "string"
           },
@@ -6858,7 +6858,7 @@
           "description": "Whether the paper reports inferential analyses of its own. An empty `analyses` list is otherwise ambiguous: a methods or data paper that tests nothing and a paper the extractor read badly look the same. With this set, `no_analyses_reported` asserts the emptiness, with the sentences that show it as evidence.\nSays nothing about whether the analyses found anything; that is each `Analysis.outcome`, summarised in `outcome_summary`."
         },
         "study_type": {
-          "description": "PubMed publication types for this record, verbatim as the E-utilities API returns them. Filled by `pondie.extraction.pubmed`, not read off the paper: it is what the indexers said about the article, which is what a publication-type exclusion asks about.",
+          "description": "PubMed publication types for this record, verbatim, copied from the parsed paper's `Bibliography.publication_types`, not read off the paper: it is what the indexers said about the article, which is what a publication-type exclusion asks about.",
           "items": {
             "type": "string"
           },
@@ -7521,7 +7521,7 @@
       ]
     },
     "language": {
-      "description": "Languages of this article, as the E-utilities API reports them -- PubMed's three-letter codes, `eng` and the rest. Filled by `pondie.extraction.pubmed` alongside `study_type`, not read off the paper.",
+      "description": "Languages of this article, copied from the parsed paper's `Bibliography.language` alongside `study_type`, not read off the paper: three-letter codes, `eng` and the rest.",
       "items": {
         "type": "string"
       },
@@ -7586,7 +7586,7 @@
       "description": "Whether the paper reports inferential analyses of its own. An empty `analyses` list is otherwise ambiguous: a methods or data paper that tests nothing and a paper the extractor read badly look the same. With this set, `no_analyses_reported` asserts the emptiness, with the sentences that show it as evidence.\nSays nothing about whether the analyses found anything; that is each `Analysis.outcome`, summarised in `outcome_summary`."
     },
     "study_type": {
-      "description": "PubMed publication types for this record, verbatim as the E-utilities API returns them. Filled by `pondie.extraction.pubmed`, not read off the paper: it is what the indexers said about the article, which is what a publication-type exclusion asks about.",
+      "description": "PubMed publication types for this record, verbatim, copied from the parsed paper's `Bibliography.publication_types`, not read off the paper: it is what the indexers said about the article, which is what a publication-type exclusion asks about.",
       "items": {
         "type": "string"
       },
