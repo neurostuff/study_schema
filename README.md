@@ -307,11 +307,37 @@ single mixed-sign analysis, and pondie's revision that splits it by sign and add
 result the text states. The tests read them through every model, JSON Schema and layout, and
 the checks must find nothing wrong with them.
 
+**Storing coordinates.** The models say what a parse means, not how a corpus of them is
+kept. `study_schema.parquet` stores coordinate parses as three Parquet tables -- `parses`,
+`analyses`, `points` -- whose columns are derived from the generated models, so a schema change
+reaches them on regeneration and `read(write(parses)) == parses` holds (the tests check it).
+The points table uses NIMADS's names where they mean the same thing, and neurostore's `Point`
+columns for what NIMADS leaves out:
+
+| NIMADS / neurostore `Point` | `points.parquet` | `ParsedPoint` |
+|---|---|---|
+| `coordinates` [x, y, z] | `x`, `y`, `z` | `coordinates` |
+| `space` | `space` | `space` |
+| `values` [{kind, value}] | `values` [{kind, value, level, correction, kind_as_printed}] | `values` |
+| `subpeak` | `subpeak` | `is_subpeak` |
+| `cluster_size` | `cluster_size` | `cluster_size` |
+| `cluster_measurement_unit` | `cluster_measurement_unit` | `cluster_measure` |
+| `order` | `order` | position in `points` |
+| `analysis` | `analysis_key` | `ParsedAnalysis.key` |
+
+An analysis keeps NIMADS's `name` and `description`, and `analyses.point_count` is 0 for a
+null result, so null analyses can be counted without reading a point. Over 5,000 synthetic
+parses whose points are the real coordinates of NiMARE's Laird studyset (338,276 points,
+with generated rows, t values and labels), indented JSON took 285 MB, minified JSON with
+zstd 8.7 MB, and the Parquet tables 3.1 MB -- 9 bytes a point -- and reading every point's
+study, analysis and x, y, z takes 0.02 s. JSON stays the format files are handed over in;
+Parquet is for keeping and querying many of them.
+
 **Regenerating.** The generated files are committed, so installing the package needs no
 LinkML. After changing the YAML:
 
 ```bash
-pip install -e ".[generate,layouts,test]" jsonschema
+pip install -e ".[generate,layouts,parquet,test]" jsonschema
 python tools/generate_models.py           # rewrite src/study_schema/{models,jsonschema}
 python tools/generate_models.py --check   # what CI runs: fails if they are out of date
 pytest

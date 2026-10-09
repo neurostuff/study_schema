@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install
-        run: pip install ".[test,generate,layouts]" jsonschema
+        run: pip install ".[test,generate,layouts,parquet]" jsonschema
       - name: Generated models and JSON Schemas match the YAML
         run: python tools/generate_models.py --check
       - name: Tests
