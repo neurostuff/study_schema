@@ -227,6 +227,17 @@ What each side may rely on:
 - **Null analyses reach the meta-analysis.** An analysis with no coordinates is carried
   into the studyset with its outcome, not dropped for lacking points, so the estimators
   whose result depends on how many studies found nothing (MKDAChi2, CBMR) can count them.
+- **One analysis is one test, with every value that describes it.** A point carries the
+  test statistic and its companions -- p values with their correction, the cluster's p --
+  in `values`, each with a `level` (peak or cluster). A different test is a different
+  analysis, even on the same rows: an omnibus F and its directional post-hoc t are two.
+  `thresholds` holds every level the paper states (a voxel height and a cluster
+  correction together), so pondie copies them into InferenceSettings rather than
+  re-reading them. Where storage's single `multiple_comparison_method` cannot hold two
+  levels, the parse keeps both.
+- **Roles are classified, not proposed.** The `roles` stage sets `role`, `anchor_kind`,
+  `from_prior_study` (a flag beside the role, not a role), `role_confidence` and
+  `role_source`; below its confidence threshold the proposal stands.
 - **Retracted papers are marked and excluded by default.** `Bibliography.corrections`
   carries the retraction notice; a studyset leaves the paper out unless a filter asks for
   it.

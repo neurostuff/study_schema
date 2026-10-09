@@ -213,6 +213,30 @@ classes:
         description: >-
           On a revision, the keys of the revised parse's analyses this one was made from by
           a split or a merge. Absent on an analysis carried over unchanged.
+      statistic:
+        any_of:
+          - range: StatisticKind
+          - range: string
+        description: >-
+          The test statistic of this analysis's one test -- t, z, F, chi_square -- whatever
+          the columns call it. One analysis is one test. Every value at a point that
+          describes the same test belongs to that point: the statistic, its p value
+          (uncorrected and corrected), an effect size, the cluster's p. A different test
+          is a different analysis, even on the same rows: an omnibus F and the directional
+          post-hoc t that follows it are two analyses, told apart by `column_group` when
+          one table prints both.
+      statistic_df:
+        range: string
+        description: Degrees of freedom as printed, such as "1, 38" or "27".
+      thresholds:
+        range: Threshold
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The thresholds the analysis's results survived, at every level the paper states:
+          most often a voxel-level height ("p < .001 uncorrected") together with a
+          cluster-level correction ("FWE p < .05"), which one method cannot express. Read
+          from the caption, footer or Methods; each threshold cites where.
       points:
         range: ParsedPoint
         multivalued: true
@@ -366,6 +390,46 @@ classes:
       value:
         range: float
         required: true
+      level:
+        range: ValueLevel
+        description: >-
+          Whether the value describes the peak or the cluster the peak belongs to. A
+          cluster-level p printed on the peak's row is the cluster's.
+      correction:
+        any_of:
+          - range: CorrectionMethod
+          - range: string
+        description: For a p value, the correction it is under; absent for a statistic or effect size.
+
+  Threshold:
+    description: >-
+      One threshold an analysis's results survived. Maps onto the storage schema's
+      InferenceSettings: a `height` threshold is height_threshold_value and _type, a
+      `cluster_extent` is cluster_extent_threshold, a `cluster_level` is
+      clusterwise_threshold_value, `tfce` sets tfce_used; `correction` is
+      multiple_comparison_method at that level.
+    attributes:
+      level:
+        range: ThresholdLevel
+        required: true
+      quantity:
+        range: ThresholdQuantity
+        required: true
+        description: What `value` is measured in.
+      value:
+        range: float
+        description: Absent when the paper names the correction but not the number.
+      correction:
+        any_of:
+          - range: CorrectionMethod
+          - range: string
+      scope_as_printed:
+        range: string
+        description: What the correction ran over, as printed, such as "whole brain" or "within the amygdala mask".
+      text_span:
+        range: TextSpan
+        inlined: true
+        description: Where the threshold was read.
 
   AnalysisVerdict:
     description: >-

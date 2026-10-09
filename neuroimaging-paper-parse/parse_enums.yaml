@@ -224,3 +224,47 @@ enums:
       expression_of_concern:
       comment:
       update:
+
+  ThresholdLevel:
+    description: The level a threshold applies at.
+    permissible_values:
+      height:
+        description: Voxel- or vertex-wise, the cluster-forming threshold.
+      cluster_extent:
+        description: A minimum cluster size.
+      cluster_level:
+        description: A cluster-wise corrected p.
+      peak_level:
+        description: A peak-wise corrected p, applied after a height threshold.
+      tfce:
+        description: Threshold-free cluster enhancement.
+
+  ThresholdQuantity:
+    description: What a threshold's value is.
+    permissible_values:
+      p:
+      t:
+      z:
+      f:
+      voxels:
+      mm3:
+
+  ValueLevel:
+    description: What a value at a point describes.
+    permissible_values:
+      peak:
+      cluster:
+
+  CorrectionMethod:
+    description: How a p value or threshold was corrected for multiple comparisons.
+    permissible_values:
+      uncorrected:
+      fwe:
+        description: Family-wise error, by random field theory unless stated otherwise.
+      fdr:
+      bonferroni:
+      monte_carlo:
+        description: Simulated cluster-size correction, such as 3dClustSim or AlphaSim.
+      permutation:
+      small_volume:
+        description: A correction within a region, such as SPM's small-volume correction.
