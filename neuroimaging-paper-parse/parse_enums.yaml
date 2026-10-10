@@ -114,10 +114,12 @@ enums:
       record's `Statistic.family`, and neurostore's `PointValue.kind`. The ingestion
       workflow's letters map one to one: T, Z, F, D, G, R, B, P.
 
-      The kinds annotated `directional` (t, z, d, g, r, beta) are signed: the sign of a value gives the point's
-      side, negative below zero and positive otherwise. A point with no directional value
-      is unsigned (a blank cell, a p value only, an F). The parse stores no sign of its own;
-      readers derive it from `values` with `study_schema.statistics`.
+      A point with a value below zero is negative whatever the kind: p, F and chi-square are
+      never negative, so a negative one means the column is signed or mislabelled. Otherwise
+      a value of a kind annotated `directional` (t, z, d, g, r, beta), or of no or an unknown
+      kind, makes the point positive, and a point whose values are all p, F or chi-square, or
+      that has none, is unsigned. The parse stores no sign of its own; readers derive it
+      from `values` with `study_schema.statistics`.
     permissible_values:
       t:
         description: Student's t. Ingestion letter T.
@@ -165,8 +167,8 @@ enums:
     permissible_values:
       sign_of_directional_statistic:
         description: >-
-          Points with a negative directional statistic form the negative half; every other
-          point, unsigned ones included, forms the positive half. An unsigned point's side is
+          Points with a negative value form the negative half; every other point, unsigned
+          ones included, forms the positive half. An unsigned point's side is
           the half it was placed in.
 
   AuditVerdict:

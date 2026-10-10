@@ -298,7 +298,7 @@ classes:
 
   SignSplit:
     description: >-
-      One half of an analysis the producer split by the sign of its directional statistic.
+      One half of an analysis the producer split by the sign of its points (see StatisticKind).
       The two halves share `group`; the positive half is the primary.
 
       pondie extracts the primary half and derives the other half's record from it by
@@ -306,8 +306,8 @@ classes:
       costs no extraction. The derived record carries `mirror_of`, which keeps a
       meta-analysis from counting one contrast twice.
 
-      The direction lives on the analysis, not its points: an unsigned point (no
-      directional value) in a split analysis is on that analysis's side.
+      The direction lives on the analysis, not its points: an unsigned point (only p, F or
+      chi-square values, or none) in a split analysis is on that analysis's side.
     attributes:
       group:
         range: string
@@ -360,9 +360,10 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: >-
-          The values at the point. They are the only record of its sign: a directional
-          value's sign gives its side, and a point with none is unsigned and takes the side
-          of its analysis's `split` half. The negative points of a set are their own
+          The values at the point. They are the only record of its sign (StatisticKind
+          gives the rule): a negative value makes it negative, and a point with only p, F or
+          chi-square values, or none, is unsigned and takes the side of its analysis's
+          `split` half. The negative points of a set are their own
           analysis, the inverse contrast, declared by `split`; a consumer records that
           direction on the contrast's conditions (negative weights), not per point. There is
           no point-level deactivation flag, and the parse never writes neurostore's

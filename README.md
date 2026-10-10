@@ -192,8 +192,8 @@ What each side may rely on:
   coordinates, so a contrast a table lists as "n.s." has a key of its own. A re-run that
   reads the same cells reaches the same key, and claims stored against it carry over.
 - **A sign split is declared.** Both halves carry `split{group, direction, rule,
-  primary}`. Points with no directional statistic join the positive half and are tagged
-  `sign: unsigned`. pondie extracts the primary and derives the other half, which carries
+  primary}`. Points with a negative value, of any kind, form the negative half. Points with only
+  p, F or chi-square values, or none, are unsigned and join the positive half. pondie extracts the primary and derives the other half, which carries
   `mirror_of`.
 - **Grouping and role are proposals; pondie's verdict overrides them.** When pondie
   disagrees, it writes a revision: a complete `CoordinateParse` with `revision_of` set and
