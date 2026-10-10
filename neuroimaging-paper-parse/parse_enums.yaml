@@ -116,7 +116,7 @@ enums:
 
       Which side of a sign split a point is on follows from its values:
 
-      - A negative value is always on the negative side, whatever its kind. A negative p, F
+      - A negative value is always on the inverse side, whatever its kind. A negative p, F
         or chi-square means the column is signed or mislabelled.
       - Only p, F and chi-square are non-directional. Every other kind is directional,
         `other` included.
@@ -163,19 +163,23 @@ enums:
           A kind the paper names and this list does not; `kind_as_printed` keeps the wording.
           Directional: it splits by the value's sign.
 
-  SplitDirection:
+  SplitHalf:
     description: Which half of a sign split an analysis is.
     permissible_values:
-      positive:
-      negative:
+      original:
+        description: The analysis as named.
+      inverse:
+        description: >-
+          The reversed contrast of the original. A consumer records it as the original's
+          conditions with their weights negated.
 
   SplitRule:
     description: The deterministic rule that split an analysis.
     permissible_values:
       sign_of_directional_statistic:
         description: >-
-          Points with a negative value form the negative half; every other point, unsigned
-          ones included, forms the positive half. An unsigned point's side is
+          Points with a negative value form the inverse half; every other point, unsigned
+          ones included, forms the original half. An unsigned point's side is
           the half it was placed in.
 
   AuditVerdict:

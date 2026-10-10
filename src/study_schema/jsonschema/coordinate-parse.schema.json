@@ -1198,7 +1198,7 @@
           "description": "For a text point, the characters it was read from."
         },
         "values": {
-          "description": "The values at the point. They are the only record of its sign (StatisticKind gives the rule): a negative value makes it negative, and a point with only p, F or chi-square values, or none, is unsigned and takes the side of its analysis's `split` half. The negative points of a set are their own analysis, the inverse contrast, declared by `split`; a consumer records that direction on the contrast's conditions (negative weights), not per point. There is no point-level deactivation flag, and the parse never writes neurostore's Point.deactivation.",
+          "description": "The values at the point. They are the only record of its sign (StatisticKind gives the rule): a negative value makes it negative, and a point with only p, F or chi-square values, or none, is unsigned and takes the side of its analysis's `split` half. The negative points of a set are their own analysis, the inverse half, declared by `split`; a consumer records the inverse on the contrast's conditions (negated weights), not per point. There is no point-level deactivation flag, and the parse never writes neurostore's Point.deactivation.",
           "items": {
             "$ref": "#/$defs/PointValue"
           },
@@ -1617,28 +1617,25 @@
     },
     "SignSplit": {
       "additionalProperties": false,
-      "description": "One half of an analysis the producer split by the sign of its points (see StatisticKind). The two halves share `group`; the positive half is the primary.\npondie extracts the primary half and derives the other half's record from it by flipping the direction of its cells, so the two never disagree and the reversed half costs no extraction. The derived record carries `mirror_of`, which keeps a meta-analysis from counting one contrast twice.\nThe direction lives on the analysis, not its points: an unsigned point (only p, F or chi-square values, or none) in a split analysis is on that analysis's side.",
+      "description": "One half of an analysis the producer split by the sign of its points (see StatisticKind). The original half is the analysis as named, with the points whose values are positive or unsigned; the inverse half is the reversed contrast, with the points whose values are negative. Positive and negative describe statistic values only, never a half: a table of decreases has decreases in its original half.\npondie extracts the original half and derives the inverse half's record from it by flipping the direction of its cells, so the two never disagree and the inverse half costs no extraction. The derived record carries `mirror_of`, which keeps a meta-analysis from counting one contrast twice.\nThe half lives on the analysis, not its points: an unsigned point (only p, F or chi-square values, or none) in a split analysis is on that analysis's side.",
       "properties": {
-        "direction": {
-          "$ref": "#/$defs/SplitDirection"
+        "half": {
+          "$ref": "#/$defs/SplitHalf"
         },
-        "group": {
-          "description": "Shared by the two halves. The key of the primary half is recommended.",
-          "type": "string"
-        },
-        "primary": {
-          "description": "True on the positive half.",
-          "type": "boolean"
+        "original_analysis": {
+          "description": "On the inverse half, the `key` of the original analysis (the other half of this split) in the same parse. Absent on the original half, and on an inverse half whose original is not in the parse.",
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "rule": {
           "$ref": "#/$defs/SplitRule"
         }
       },
       "required": [
-        "group",
-        "direction",
-        "rule",
-        "primary"
+        "half",
+        "rule"
       ],
       "title": "SignSplit",
       "type": "object"
@@ -1678,13 +1675,13 @@
       "title": "SpatialUnit",
       "type": "string"
     },
-    "SplitDirection": {
+    "SplitHalf": {
       "description": "Which half of a sign split an analysis is.",
       "enum": [
-        "positive",
-        "negative"
+        "original",
+        "inverse"
       ],
-      "title": "SplitDirection",
+      "title": "SplitHalf",
       "type": "string"
     },
     "SplitRule": {
@@ -1710,7 +1707,7 @@
       "type": "string"
     },
     "StatisticKind": {
-      "description": "The kind of a value reported at a point. One vocabulary for the parse, the extraction record's `Statistic.family`, and neurostore's `PointValue.kind`. The ingestion workflow's letters map one to one: T, Z, F, D, G, R, B, P.\nWhich side of a sign split a point is on follows from its values:\n- A negative value is always on the negative side, whatever its kind. A negative p, F\n  or chi-square means the column is signed or mislabelled.\n- Only p, F and chi-square are non-directional. Every other kind is directional,\n  `other` included.\n- A missing or unknown kind splits by the value's sign, like a directional kind. - A point whose values are all p, F or chi-square, or that has none, is unsigned.\nThe parse stores no sign of its own; readers derive it from `values` with `study_schema.statistics`.",
+      "description": "The kind of a value reported at a point. One vocabulary for the parse, the extraction record's `Statistic.family`, and neurostore's `PointValue.kind`. The ingestion workflow's letters map one to one: T, Z, F, D, G, R, B, P.\nWhich side of a sign split a point is on follows from its values:\n- A negative value is always on the inverse side, whatever its kind. A negative p, F\n  or chi-square means the column is signed or mislabelled.\n- Only p, F and chi-square are non-directional. Every other kind is directional,\n  `other` included.\n- A missing or unknown kind splits by the value's sign, like a directional kind. - A point whose values are all p, F or chi-square, or that has none, is unsigned.\nThe parse stores no sign of its own; readers derive it from `values` with `study_schema.statistics`.",
       "enum": [
         "t",
         "z",
