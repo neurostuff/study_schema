@@ -172,7 +172,7 @@ class CoordinateOrigin(str, Enum):
 
 class ReportedSpace(str, Enum):
     """
-    The coordinate space a point is in, normalized to the values NiMARE transforms between. What the paper printed stays in `space_as_printed`.
+    The coordinate space a point is in, normalized to the values NiMARE transforms between by `study_schema.spaces.normalize_space`. Absent when no space is stated, or when the wording names both MNI and TAL; never defaulted to MNI: a rat study stored as MNI is a wrong coordinate, and a missing one is an honest gap. What the paper printed stays in `space_as_printed`.
     """
     MNI = "MNI"
     """
@@ -182,13 +182,9 @@ class ReportedSpace(str, Enum):
     """
     Talairach space, including Talairach-transformed MNI coordinates the paper reports as Talairach.
     """
-    other = "other"
+    OTHER = "OTHER"
     """
     A stated space that is neither, such as a native, surface, or non-human template space.
-    """
-    unknown = "unknown"
-    """
-    No space could be read. Never defaulted to MNI: a rat study stored as MNI is a wrong coordinate, and an unknown one is an honest gap.
     """
 
 
@@ -1503,7 +1499,7 @@ This key is what the extraction record's `Analysis.source_table_analysis` and `C
     name: str = Field(default=..., description="""The analysis's label, as printed where the paper prints one.""")
     name_is_printed: Optional[bool] = Field(default=None, description="""False when the producer composed the name because the paper printed none, so a reader never mistakes a placeholder for the paper's wording.""")
     description: Optional[str] = Field(default=None)
-    coordinate_space: ReportedSpace = Field(default=..., description="""The space of the analysis's points. A point states its own only when it differs.""")
+    coordinate_space: Optional[ReportedSpace] = Field(default=None, description="""The space of the analysis's points; absent when the paper states none. A point states its own only when it differs.""")
     space_as_printed: Optional[str] = Field(default=None)
     space_basis: Optional[SpaceBasis] = Field(default=None)
     role: Union[CoordinateRole, str] = Field(default=..., description="""What the points are for. Only a `result` is an analysis with a statistic in the extraction record; an `anchor` -- a region of interest, a seed, a stimulation target -- becomes a CoordinateSet there, and never enters a studyset as an analysis.

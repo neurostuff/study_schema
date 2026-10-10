@@ -242,6 +242,9 @@ derivations:
 # Keyed by field because there is no vocabulary to key on, and checked against nothing for
 # the same reason: an unmatched value is already storable.
 free_text_normalizations:
+  # The template as reported (MNI152 vs MNI305, fsaverage), kept for queryability. It is
+  # not the point's space: that is the family study_schema.spaces.normalize_space folds
+  # any of these to (MNI, TAL, OTHER or none), which is what NiMARE transforms by.
   Analysis.coordinate_space:
     MNI: MNI152
     MNI space: MNI152
