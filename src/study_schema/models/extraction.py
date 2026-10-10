@@ -1319,7 +1319,7 @@ class TablePurpose(str, Enum):
 
 class CoordinateRole(str, Enum):
     """
-    What a set of reported coordinates is for. A paper prints coordinates for five reasons, and only the first is a finding; the rest locate something the study used, measured with, quoted, or showed. Open vocabulary: write the source's own wording when nothing here fits.
+    What a set of reported coordinates is for. A paper prints coordinates for six reasons, and only the first is a finding; the rest locate something the study used, measured with, quoted, or showed. Open vocabulary: write the source's own wording when nothing here fits.
     """
     result = "result"
     """
@@ -1340,6 +1340,10 @@ class CoordinateRole(str, Enum):
     display = "display"
     """
     A location used only to show a figure: a slice position, crosshairs, an example voxel. Found in text, almost never in tables.
+    """
+    other = "other"
+    """
+    A real brain coordinate in the paper that is not a result, anchor, localization, reference or display: a simulated source position or lesion centre, a worked-example voxel of an atlas. Numbers that are not brain coordinates (lattice points, phantom or rodent bregma positions, orientation vectors) are not coordinates at all and are left out of the parse, not given this role.
     """
 
 
