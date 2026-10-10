@@ -128,8 +128,8 @@ with a different shape. The generator refuses an entry that does not say what it
 ## Keeping extraction and storage in step
 
 The extraction schema is a projection, so `extraction-to-storage.map.yaml` is an
-identity map. It holds 23 derivations and 5 free-text tables; everything else is the field
-of the same name on the same class, with `.value` unwrapped.
+identity map. It holds 35 derivations, 5 free-text tables and 1 conditional field;
+everything else is the field of the same name on the same class, with `.value` unwrapped.
 
 ```bash
 python3 -m pondie.schema.checks.extraction_to_storage_map

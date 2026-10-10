@@ -25,7 +25,7 @@
 # They were deleted rather than kept as a fallback; `git log` has them if a fallback turns
 # out to be wanted.
 #
-# Only two things need writing down, and they are the two sections of this file.
+# Only three things need writing down, and they are the three sections of this file.
 #
 # derivations
 #   Storage fields no extraction field feeds, because code fills them: a bibliographic
@@ -40,6 +40,10 @@
 #   `ModelEstimation.stage` and friends. There is no vocabulary to project and nothing
 #   makes their wording consistent, so a table still earns its place. It normalizes for
 #   queryability rather than for validity: an unmatched value is already storable.
+#
+# conditional_fields
+#   Extraction fields copied by identity only when a condition on the rest of the record
+#   holds, and otherwise stored as null with the extracted value kept as a claim.
 #
 # Nothing else. A shape difference between the schemas would have to be written here too,
 # but there are none: extraction-deviations.yaml is where one would be declared, and it
@@ -166,9 +170,11 @@ derivations:
     source_representation: sibling_field
     source_field: Analysis.outcome
     notes: >-
-      From Study.result_reporting and every Analysis.outcome: some_significant_effects when
-      any analysis found an effect; only_null_effects when every analysis was tested and
-      found nothing; no_analyses when result_reporting says the paper reports none here and
+      From Study.result_reporting and the Analysis.outcome of every result analysis (one
+      whose coordinate set's role is result or not yet assigned; see conditional_fields):
+      some_significant_effects when any of them found an effect; only_null_effects when
+      every one was tested and found nothing, so an ROI or seed set cannot make a study
+      null; no_analyses when result_reporting says the paper reports none here and
       analyses is empty; undetermined otherwise. Derived rather than extracted so it cannot
       contradict the outcomes it summarises.
   Study.publication_year:
@@ -237,6 +243,21 @@ derivations:
     transform: generate
   Timepoint.id:
     transform: generate
+
+# Fields stored only when a condition holds. Otherwise the storage field is null and the
+# extracted value is kept as a claim on the field, with the condition as its reason, so it
+# is applied if the condition later holds and stays a recorded disagreement if it does not.
+conditional_fields:
+  Analysis.outcome:
+    condition: >-
+      The role of the analysis's coordinate set (CoordinateSet.role, joined through
+      CoordinateSet.analysis or Analysis.source_table_analysis) is result, or no role has
+      been assigned.
+    notes: >-
+      An anchor (roi, seed, stimulation target, node), reference, display, localization or
+      other set was not tested in this study, so it has no outcome. A reported outcome for
+      one is evidence that the role or the record is wrong, not an outcome to store. If the
+      role later becomes result, the claimed outcome is applied.
 
 # Source wording -> a consistent value, for the five fields storage keeps as free text.
 # Keyed by field because there is no vocabulary to key on, and checked against nothing for
