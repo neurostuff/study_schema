@@ -82,19 +82,18 @@ enums:
 
   ReportedSpace:
     description: >-
-      The coordinate space a point is in, normalized to the values NiMARE transforms between.
-      What the paper printed stays in `space_as_printed`.
+      The coordinate space a point is in, normalized to the values NiMARE transforms between
+      by `study_schema.spaces.normalize_space`. Absent when no space is stated, or when the
+      wording names both MNI and TAL; never defaulted to MNI: a rat study stored as MNI is
+      a wrong coordinate, and a missing one is an honest gap. What the paper printed stays
+      in `space_as_printed`.
     permissible_values:
       MNI:
         description: Any MNI template (MNI152, MNI305, ICBM152, SPM's MNI).
       TAL:
         description: Talairach space, including Talairach-transformed MNI coordinates the paper reports as Talairach.
-      other:
+      OTHER:
         description: A stated space that is neither, such as a native, surface, or non-human template space.
-      unknown:
-        description: >-
-          No space could be read. Never defaulted to MNI: a rat study stored as MNI is a
-          wrong coordinate, and an unknown one is an honest gap.
 
   SpaceBasis:
     description: Where a space was read from, most specific first.

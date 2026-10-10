@@ -816,8 +816,15 @@
           ]
         },
         "coordinate_space": {
-          "$ref": "#/$defs/ReportedSpace",
-          "description": "The space of the analysis's points. A point states its own only when it differs."
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReportedSpace"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The space of the analysis's points; absent when the paper states none. A point states its own only when it differs."
         },
         "derived_from": {
           "description": "On a revision, the keys of the revised parse's analyses this one was made from by a split or a merge. Absent on an analysis carried over unchanged.",
@@ -987,7 +994,6 @@
         "key",
         "origin",
         "name",
-        "coordinate_space",
         "role"
       ],
       "title": "ParsedAnalysis",
@@ -1531,12 +1537,11 @@
       "type": "string"
     },
     "ReportedSpace": {
-      "description": "The coordinate space a point is in, normalized to the values NiMARE transforms between. What the paper printed stays in `space_as_printed`.",
+      "description": "The coordinate space a point is in, normalized to the values NiMARE transforms between by `study_schema.spaces.normalize_space`. Absent when no space is stated, or when the wording names both MNI and TAL; never defaulted to MNI: a rat study stored as MNI is a wrong coordinate, and a missing one is an honest gap. What the paper printed stays in `space_as_printed`.",
       "enum": [
         "MNI",
         "TAL",
-        "other",
-        "unknown"
+        "OTHER"
       ],
       "title": "ReportedSpace",
       "type": "string"

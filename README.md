@@ -301,6 +301,9 @@ the one its cells or spans derive, and a revision gives a verdict for every anal
 revises and accounts for every analysis it introduces. `study_schema.keys` is the key rule
 itself, so ingestion and pondie mint keys with the same code rather than two copies of a
 sentence.
+`study_schema.spaces.normalize_space` is the same for coordinate spaces: it folds any stated
+space to `ReportedSpace`'s `MNI`, `TAL` or `OTHER`, or to none when nothing (or both) is stated,
+so ingestion, pondie and neurostore read "Talairach & Tournoux 1988" the same way.
 
 **Examples.** `examples/` holds one paper and one run: a table whose ingestion parse is a
 single mixed-sign analysis, and pondie's revision that splits it by sign and adds the null
