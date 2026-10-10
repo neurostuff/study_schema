@@ -32,11 +32,15 @@ def _digest(locator: str) -> str:
 
 
 _ZERO_WIDTH = re.compile("[\u200b\u200c\u200d\u2060\ufeff]")
-_DASHES = str.maketrans({"\u2013": "-", "\u2014": "-"})
+_DASHES = {
+    ord(c): "-"
+    for c in map(chr, range(0x110000))
+    if unicodedata.category(c) == "Pd" or c == "\u2212"
+}
 
 
 def normalize_name(name: str) -> str:
-    """NFKC, casefold, en and em dashes to '-', zero-width characters dropped, whitespace collapsed."""
+    """NFKC, casefold, every dash (Unicode Pd, and U+2212 minus) to '-', zero-width characters dropped, whitespace collapsed."""
     text = unicodedata.normalize("NFKC", name).casefold().translate(_DASHES)
     return " ".join(_ZERO_WIDTH.sub("", text).split())
 

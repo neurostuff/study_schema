@@ -94,6 +94,9 @@ def test_name_variants_share_a_key():
     assert span_key("text", spans, "PO > S\u200bil") == base
     assert span_key("figure", spans, "A \u2013 B") == span_key("figure", spans, "a - b")
     assert span_key("figure", spans, "A \u2014 B") == span_key("figure", spans, "a-b".replace("-", " - "))
+    for dash in ("\u2212", "\u2010", "\u2011"):
+        assert span_key("text", spans, f"PO {dash} Sil") == span_key("text", spans, "PO - Sil")
+        assert normalize_name(f"A{dash}B") == "a-b"
     assert normalize_name("\uff21\u2003\u2013\u2003B") == "a - b"
 
 
