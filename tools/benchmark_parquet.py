@@ -39,7 +39,7 @@ def parse(i):
                     cluster_size=random.choice([None, random.randint(10,900)]), cluster_measure="voxels", is_subpeak=random.random()<0.2,
                     label=random.choice(regions), text_span=pp.TextSpan(start_char=1000+row*40, end_char=1030+row*40)))
                 cells.append((row,0)); row+=1
-            analyses.append(pp.ParsedAnalysis(key=table_key(tid,cells), cells=[pp.CellRef(row=r,column_group=c) for r,c in cells],
+            analyses.append(pp.ParsedAnalysis(key=table_key(tid,cells,f"Condition {a} > Baseline"), cells=[pp.CellRef(row=r,column_group=c) for r,c in cells],
                 origin="table", table_id=tid, name=f"Condition {a} > Baseline", name_is_printed=True, coordinate_space="MNI",
                 role="result", statistic="t", thresholds=[pp.Threshold(level="height", quantity="p", value=0.001, correction="uncorrected")], points=pts))
     hdr = pp.ArtifactHeader(artifact_kind="coordinate_parse", schema_version=pp.version, article_id=f"art-{i:06d}",

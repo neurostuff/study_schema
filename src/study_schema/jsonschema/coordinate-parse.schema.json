@@ -445,6 +445,16 @@
           "$ref": "#/$defs/ArtifactHeader",
           "description": "`inputs` names the parsed paper by `text_sha256`, and for a revision also the parse it revises by `parse_id`."
         },
+        "omitted_analyses": {
+          "description": "Text or figure analyses the producer read and left out of `analyses`, each with the reason. A table's omissions are in `tables`. Absent when nothing was left out.",
+          "items": {
+            "$ref": "#/$defs/OmittedAnalysis"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
         "parse_id": {
           "description": "This parse's identity, the fingerprint every later artifact cites. Unique per paper; a sha256 of the canonical JSON of `analyses` is recommended, so two producers that reach the same analyses reach the same id.",
           "type": "string"
@@ -788,6 +798,36 @@
       "title": "NullHypothesis",
       "type": "string"
     },
+    "OmittedAnalysis": {
+      "additionalProperties": false,
+      "description": "A text or figure analysis the producer read but did not keep, the text counterpart of a `TableReading` with a reason.",
+      "properties": {
+        "name": {
+          "description": "The analysis's label as the producer read it.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Why it was left out, for example that it repeats a kept analysis (same spans and same normalized name) or that its passage is not in the text.",
+          "type": "string"
+        },
+        "text_spans": {
+          "description": "The sentences it was read from, when it was located.",
+          "items": {
+            "$ref": "#/$defs/TextSpan"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "reason"
+      ],
+      "title": "OmittedAnalysis",
+      "type": "object"
+    },
     "ParsedAnalysis": {
       "additionalProperties": false,
       "description": "The points a paper reports together for one tested effect, or for one non-result purpose such as the regions of interest an analysis used.\nIn an original parse, both the grouping and the role are the ingestion workflow's proposal, made from a table and its caption. pondie confirms or overrides them with the whole paper in view.",
@@ -851,7 +891,7 @@
           ]
         },
         "key": {
-          "description": "The analysis's identity, derived from where it was read, so it survives re-runs, reordering and deduplication: a re-run that reads the same place reaches the same key. It is derived from `cells` or `text_spans`, never from `points`, so an analysis with no points -- a contrast a table lists as \"n.s.\" -- still has a key of its own.\nFor a table analysis, `<table_id>#<h>`. Write `<row>:<column_group>` for each of `cells`, drop duplicates, sort by row and then column group, and join with commas; `h` is the first 12 hex characters of the sha1 of that string's UTF-8 bytes.\nFor a text or figure analysis, `text#<h>` or `figure#<h>`, built the same way from each of `text_spans` as `<start_char>-<end_char>`.\nThis key is what the extraction record's `Analysis.source_table_analysis` and `CoordinateSet.id` name, and what neurostore stores as `Analysis.source_id`. Two analyses of one parse never cover the same cells or spans, so never share a key.",
+          "description": "The analysis's identity, derived from where it was read, so it survives re-runs, reordering and deduplication: a re-run that reads the same place reaches the same key. It is derived from `cells` or `text_spans`, never from `points`, so an analysis with no points -- a contrast a table lists as \"n.s.\" -- still has a key of its own.\nFor a table analysis, `<table_id>#<h>`. Write `<row>:<column_group>` for each of `cells`, drop duplicates, sort by row and then column group, and join with commas; then append `|` and the analysis's `name` normalized (see below). `h` is the first 12 hex characters of the sha1 of that string's UTF-8 bytes.\nFor a text or figure analysis, `text#<h>` or `figure#<h>`, built the same way from each of `text_spans` as `<start_char>-<end_char>`, then `|` and the analysis's `name` normalized (Unicode NFKC, casefolded, every dash (Unicode Pd and U+2212 minus) as `-`, zero-width characters and all whitespace dropped, so `PO > Sil` and `PO>Sil` are one name). One sentence, or one set of rows, can name several analyses, so the name is part of every key. A key follows the name: a re-extraction that renames an analysis mints a new key.\nThis key is what the extraction record's `Analysis.source_table_analysis` and `CoordinateSet.id` name, and what neurostore stores as `Analysis.source_id`. Two analyses of one parse never cover the same cells or spans under one normalized name, so never share a key.",
           "type": "string"
         },
         "name": {
@@ -2084,6 +2124,16 @@
     "header": {
       "$ref": "#/$defs/ArtifactHeader",
       "description": "`inputs` names the parsed paper by `text_sha256`, and for a revision also the parse it revises by `parse_id`."
+    },
+    "omitted_analyses": {
+      "description": "Text or figure analyses the producer read and left out of `analyses`, each with the reason. A table's omissions are in `tables`. Absent when nothing was left out.",
+      "items": {
+        "$ref": "#/$defs/OmittedAnalysis"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
     },
     "parse_id": {
       "description": "This parse's identity, the fingerprint every later artifact cites. Unique per paper; a sha256 of the canonical JSON of `analyses` is recommended, so two producers that reach the same analyses reach the same id.",

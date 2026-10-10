@@ -1478,6 +1478,7 @@ class CoordinateParse(ConfiguredBaseModel):
     revision_of: Optional[str] = Field(default=None, description="""The `parse_id` of the parse this one revises. Absent on an original parse, which is how a reader tells the two apart.""")
     analyses: list[ParsedAnalysis] = Field(default=..., description="""May be empty: the parse ran and found no analysis. A paper the parse never ran on has no CoordinateParse at all, so the two are never confused, and `tables` says what reading each table found.""")
     tables: Optional[list[TableReading]] = Field(default=None, description="""One entry per table of the parsed paper: what reading it for coordinates found, or why it was not read. A table with no entry was not considered.""")
+    omitted_analyses: Optional[list[OmittedAnalysis]] = Field(default=None, description="""Text or figure analyses the producer read and left out of `analyses`, each with the reason. A table's omissions are in `tables`. Absent when nothing was left out.""")
     text_sweep: Optional[TextSweep] = Field(default=None, description="""How much of the text was searched for coordinates outside tables. Absent when the text was not searched.""")
     verdicts: Optional[list[AnalysisVerdict]] = Field(default=None, description="""On a revision only: one verdict for every analysis of the revised parse, so nothing in it is silently dropped, and an `add` verdict for every analysis the revision introduces that the revised parse lacked. An original parse has none.""")
 
@@ -1488,9 +1489,9 @@ class ParsedAnalysis(ConfiguredBaseModel):
     In an original parse, both the grouping and the role are the ingestion workflow's proposal, made from a table and its caption. pondie confirms or overrides them with the whole paper in view.
     """
     key: str = Field(default=..., description="""The analysis's identity, derived from where it was read, so it survives re-runs, reordering and deduplication: a re-run that reads the same place reaches the same key. It is derived from `cells` or `text_spans`, never from `points`, so an analysis with no points -- a contrast a table lists as \"n.s.\" -- still has a key of its own.
-For a table analysis, `<table_id>#<h>`. Write `<row>:<column_group>` for each of `cells`, drop duplicates, sort by row and then column group, and join with commas; `h` is the first 12 hex characters of the sha1 of that string's UTF-8 bytes.
-For a text or figure analysis, `text#<h>` or `figure#<h>`, built the same way from each of `text_spans` as `<start_char>-<end_char>`.
-This key is what the extraction record's `Analysis.source_table_analysis` and `CoordinateSet.id` name, and what neurostore stores as `Analysis.source_id`. Two analyses of one parse never cover the same cells or spans, so never share a key.""")
+For a table analysis, `<table_id>#<h>`. Write `<row>:<column_group>` for each of `cells`, drop duplicates, sort by row and then column group, and join with commas; then append `|` and the analysis's `name` normalized (see below). `h` is the first 12 hex characters of the sha1 of that string's UTF-8 bytes.
+For a text or figure analysis, `text#<h>` or `figure#<h>`, built the same way from each of `text_spans` as `<start_char>-<end_char>`, then `|` and the analysis's `name` normalized (Unicode NFKC, casefolded, every dash (Unicode Pd and U+2212 minus) as `-`, zero-width characters and all whitespace dropped, so `PO > Sil` and `PO>Sil` are one name). One sentence, or one set of rows, can name several analyses, so the name is part of every key. A key follows the name: a re-extraction that renames an analysis mints a new key.
+This key is what the extraction record's `Analysis.source_table_analysis` and `CoordinateSet.id` name, and what neurostore stores as `Analysis.source_id`. Two analyses of one parse never cover the same cells or spans under one normalized name, so never share a key.""")
     cells: Optional[list[CellRef]] = Field(default=None, description="""For a table analysis, every cell it was read from: each point's row and column group, and the rows that name the contrast without coordinates. Required for `origin: table`; every point's row and column group is among them.""")
     text_spans: Optional[list[TextSpan]] = Field(default=None, description="""For a text or figure analysis, the sentences or legend it was read from: those holding its coordinates, or the one stating a result that has none.""")
     origin: CoordinateOrigin = Field(default=...)
@@ -1533,6 +1534,15 @@ class TableReading(ConfiguredBaseModel):
     table_id: str = Field(default=...)
     reading: TableReadingKind = Field(default=...)
     reason: Optional[str] = Field(default=None, description="""For a table not read, why; for an excluded one, who excluded it.""")
+
+
+class OmittedAnalysis(ConfiguredBaseModel):
+    """
+    A text or figure analysis the producer read but did not keep, the text counterpart of a `TableReading` with a reason.
+    """
+    name: str = Field(default=..., description="""The analysis's label as the producer read it.""")
+    text_spans: Optional[list[TextSpan]] = Field(default=None, description="""The sentences it was read from, when it was located.""")
+    reason: str = Field(default=..., description="""Why it was left out, for example that it repeats a kept analysis (same spans and same normalized name) or that its passage is not in the text.""")
 
 
 class TextSweep(ConfiguredBaseModel):
@@ -1637,6 +1647,7 @@ CoordinateParse.model_rebuild()
 ParsedAnalysis.model_rebuild()
 CellRef.model_rebuild()
 TableReading.model_rebuild()
+OmittedAnalysis.model_rebuild()
 TextSweep.model_rebuild()
 SignSplit.model_rebuild()
 ParsedPoint.model_rebuild()
