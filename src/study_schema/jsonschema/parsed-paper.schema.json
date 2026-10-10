@@ -934,12 +934,9 @@
             },
             {
               "type": "string"
-            },
-            {
-              "type": "null"
             }
           ],
-          "description": "What the points are for; null until the roles stage classifies the set. Only a `result` is an analysis with a statistic in the extraction record; an `anchor` -- a region of interest, a seed, a stimulation target -- becomes a CoordinateSet there, and never enters a studyset as an analysis.\nThe ingestion workflow's `roles` stage decides the role. It is a classifier that reads each set and its context; `role_source` names it.\nWhen the classifier is not confident, the proposed role stands. A table set is a `result`. A text set keeps the role the prose stage recorded in these fields (`role`, `anchor_kind`, `from_prior_study`).\nNumbers that are not brain coordinates, such as channel numbers or lattice points, get no role. They are not a coordinate set."
+          "description": "What the points are for. Only a `result` is an analysis with a statistic in the extraction record; an `anchor` -- a region of interest, a seed, a stimulation target -- becomes a CoordinateSet there, and never enters a studyset as an analysis.\nThe ingestion workflow's `roles` stage decides the role. It is a classifier that reads each set and its context; `role_source` names it.\nWhen the classifier is not confident, the proposed role stands. A table set is a `result`. A text set keeps the role the prose stage recorded in these fields (`role`, `anchor_kind`, `from_prior_study`).\nNumbers that are not brain coordinates, such as channel numbers or lattice points, get no role. They are not a coordinate set."
         },
         "role_confidence": {
           "description": "The classifier's probability for `role` (and `anchor_kind`). Absent when the proposal stood because no classifier ran.",
@@ -1036,7 +1033,8 @@
       "required": [
         "key",
         "origin",
-        "name"
+        "name",
+        "role"
       ],
       "title": "ParsedAnalysis",
       "type": "object"
