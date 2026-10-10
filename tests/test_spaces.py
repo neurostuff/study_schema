@@ -33,8 +33,18 @@ from study_schema.spaces import SPACES, normalize_space
         ("+tlrc", "TAL"),
         ("TT_N27", "TAL"),
         ("T88", "TAL"),
+        ("Tailarach", "TAL"),
+        ("Tailairach", "TAL"),
+        ("Tournaux", "TAL"),
+        ("Talariach", "TAL"),
+        # Words near a TAL name but more than 2 edits away, or under 6 letters.
+        ("tailored", "OTHER"),
+        ("Tournier", "OTHER"),
+        ("Talbot", "OTHER"),
+        ("Taiwan", "OTHER"),
         # Names both spaces: which one the numbers are in is not decidable.
         ("MNI converted to Talairach", None),
+        ("MNI converted to Tailarach", None),
         ("mni2tal", None),
         ("tal2mni", None),
         ("tal2icbm", None),

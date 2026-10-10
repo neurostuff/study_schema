@@ -60,6 +60,12 @@ RULES = (
     ),
 )
 
+#: Misspellings of these count as TAL: a token of 6+ letters within 2 edits of one. MNI is
+#: not fuzzed; at three letters, two edits reach "min", "mri" and "mnl".
+TAL_NAMES = ("talairach", "tournoux")
+MISSPELLING_MIN_LETTERS = 6
+MISSPELLING_MAX_EDITS = 2
+
 #: Strings that say no space was stated; they normalize to None, like a blank.
 NOT_STATED = re.compile(
     r"^\s*(?:unknown(?:\s+space)?|not\s+(?:reported|stated|specified|applicable|available)|"
@@ -68,13 +74,31 @@ NOT_STATED = re.compile(
 )
 
 
+def _edits(a: str, b: str) -> int:
+    """Levenshtein distance."""
+    row = list(range(len(b) + 1))
+    for i, ca in enumerate(a, 1):
+        prev, row[0] = row[0], i
+        for j, cb in enumerate(b, 1):
+            prev, row[j] = row[j], min(row[j] + 1, row[j - 1] + 1, prev + (ca != cb))
+    return row[-1]
+
+
+def _misspells_tal(text: str) -> bool:
+    return any(
+        len(token) >= MISSPELLING_MIN_LETTERS
+        and any(_edits(token, name) <= MISSPELLING_MAX_EDITS for name in TAL_NAMES)
+        for token in re.findall(r"[a-z]+", text.lower())
+    )
+
+
 def normalize_space(value: object) -> Optional[Space]:
     """Fold a stated space to ``"MNI"``, ``"TAL"``, ``"OTHER"`` or None.
 
     - Missing or blank input returns None.
     - "unknown", "not reported", "n.a.", "?" and the like return None.
     - A spelling of MNI or TAL ("MNI152 2mm", "Talairach & Tournoux 1988")
-      returns that space.
+      returns that space; a misspelling of Talairach or Tournoux ("Tailarach") counts.
     - A string naming both ("MNI converted to Talairach", "mni2tal", "tal2mni")
       returns None: which space the numbers are in is not decidable.
     - Anything else returns ``"OTHER"``.
@@ -85,6 +109,9 @@ def normalize_space(value: object) -> Optional[Space]:
     if not text or NOT_STATED.match(text):
         return None
     hits = [space for space, pattern in RULES if pattern.search(text)]
+    if TAL not in hits and _misspells_tal(text):
+        hits.append(TAL)
+        hits.sort(key=SPACES.index)
     if MNI in hits and TAL in hits:
         return None
     return hits[0] if hits else OTHER
