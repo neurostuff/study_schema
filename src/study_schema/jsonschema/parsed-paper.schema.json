@@ -889,7 +889,7 @@
               "type": "string"
             }
           ],
-          "description": "What the points are for. Only a `result` is an analysis with a statistic in the extraction record; an `anchor` -- a region of interest, a seed, a stimulation target -- becomes a CoordinateSet there, and never enters a studyset as an analysis.\nDecided by the ingestion workflow's `roles` stage, a classifier over each set and its context (`role_source` names it). Where it is not confident, the proposal stands: `result` for a table set, and for a text set the prose model's role, mapped as result → result, roi → anchor/roi, seed → anchor/seed, target → anchor/stimulation_target, prior_study → reference, figure → display."
+          "description": "What the points are for. Only a `result` is an analysis with a statistic in the extraction record; an `anchor` -- a region of interest, a seed, a stimulation target -- becomes a CoordinateSet there, and never enters a studyset as an analysis.\nDecided by the ingestion workflow's `roles` stage, a classifier over each set and its context (`role_source` names it). Where it is not confident, the proposal stands: `result` for a table set, and for a text set the role the prose stage recorded, already in these fields (`role`, `anchor_kind`, `from_prior_study`). Numbers that are not brain coordinates (channel numbers, lattice points) get no role and are not a coordinate set."
         },
         "role_confidence": {
           "description": "The classifier's probability for `role` (and `anchor_kind`). Absent when the proposal stood because no classifier ran.",

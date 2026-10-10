@@ -168,9 +168,10 @@ classes:
 
           Decided by the ingestion workflow's `roles` stage, a classifier over each set
           and its context (`role_source` names it). Where it is not confident, the
-          proposal stands: `result` for a table set, and for a text set the prose model's
-          role, mapped as result → result, roi → anchor/roi, seed → anchor/seed, target →
-          anchor/stimulation_target, prior_study → reference, figure → display.
+          proposal stands: `result` for a table set, and for a text set the role the
+          prose stage recorded, already in these fields (`role`, `anchor_kind`,
+          `from_prior_study`). Numbers that are not brain coordinates (channel numbers,
+          lattice points) get no role and are not a coordinate set.
       anchor_kind:
         any_of:
           - range: AnchorKind
