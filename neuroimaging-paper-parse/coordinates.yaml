@@ -114,17 +114,19 @@ classes:
 
           For a table analysis, `<table_id>#<h>`. Write `<row>:<column_group>` for each of
           `cells`, drop duplicates, sort by row and then column group, and join with commas;
-          `h` is the first 12 hex characters of the sha1 of that string's UTF-8 bytes.
+          then append `|` and the analysis's `name` normalized (see below). `h` is the first 12
+          hex characters of the sha1 of that string's UTF-8 bytes.
 
           For a text or figure analysis, `text#<h>` or `figure#<h>`, built the same way from
-          each of `text_spans` as `<start_char>-<end_char>`, then append `|` and the analysis's
+          each of `text_spans` as `<start_char>-<end_char>`, then `|` and the analysis's
           `name` normalized (Unicode NFKC, casefolded, every dash (Unicode Pd and U+2212 minus) as `-`, zero-width
-          characters dropped, whitespace collapsed and stripped). One sentence can name several
-          analyses, so the name is part of the key.
+          characters dropped, whitespace collapsed and stripped). One sentence, or one set of
+          rows, can name several analyses, so the name is part of every key. A key follows the name:
+          a re-extraction that renames an analysis mints a new key.
 
           This key is what the extraction record's `Analysis.source_table_analysis` and
           `CoordinateSet.id` name, and what neurostore stores as `Analysis.source_id`. Two
-          analyses of one parse never cover the same cells, or the same spans under one normalized
+          analyses of one parse never cover the same cells or spans under one normalized
           name, so never share a key.
       cells:
         range: CellRef

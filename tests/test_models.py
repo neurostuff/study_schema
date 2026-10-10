@@ -57,10 +57,10 @@ def test_unknown_json_schema():
 
 def test_key_rule():
     # sha1("0:0,1:0")[:12], computed by hand from the rule in coordinates.yaml
-    assert table_key("tbl1", [(1, 0), (0, 0), (1, 0)]) == "tbl1#" + __import__("hashlib").sha1(b"0:0,1:0").hexdigest()[:12]
+    assert table_key("tbl1", [(1, 0), (0, 0), (1, 0)], "A") == "tbl1#" + __import__("hashlib").sha1(b"0:0,1:0|a").hexdigest()[:12]
     assert span_key("text", [(5, 9)], "x").startswith("text#")
     with pytest.raises(ValueError):
-        table_key("tbl1", [])
+        table_key("tbl1", [], "A")
     with pytest.raises(ValueError):
         span_key("table", [(0, 1)], "x")
 
@@ -69,7 +69,7 @@ def test_keys_hash_their_locators():
     sha1 = __import__("hashlib").sha1
     assert cell_locator([(4, 0), (3, 0), (4, 0)]) == "3:0,4:0"
     assert span_locator([(1288, 1300), (1200, 1288)]) == "1200-1288,1288-1300"
-    assert table_key("tbl2", [(4, 0), (3, 0)]) == "tbl2#" + sha1(b"3:0,4:0").hexdigest()[:12]
+    assert table_key("tbl2", [(4, 0), (3, 0)], "PO > Sil") == "tbl2#" + sha1(b"3:0,4:0|po > sil").hexdigest()[:12]
     assert span_key("text", [(5, 9)], "PO > Sil") == "text#" + sha1(b"5-9|po > sil").hexdigest()[:12]
     assert cell_locator([]) == span_locator([]) == ""
 
@@ -100,7 +100,14 @@ def test_name_variants_share_a_key():
     assert normalize_name("\uff21\u2003\u2013\u2003B") == "a - b"
 
 
+def test_table_key_carries_the_name():
+    cells = [(3, 0), (4, 0)]
+    assert table_key("t", cells, "PO > Sil") != table_key("t", cells, "PC > Sil")
+    assert table_key("t", cells, "PO > Sil") == table_key("t", cells, "po \u2212 sil".replace("\u2212", ">"))
+    assert table_key("t", cells, "A \u2013 B") == table_key("t", cells, "a \u2212 b") == table_key("t", cells, "A - B")
+
+
 def test_table_keys_are_fixed():
-    assert table_key("tbl1", [(0, 0), (1, 0)]) == "tbl1#fecf37c3fb55"
-    assert table_key("tbl2", [(3, 0), (4, 0)]) == "tbl2#1d57acd32200"
-    assert table_key("t3", [(7, 2)]) == "t3#44fe94498ac4"
+    assert table_key("tbl1", [(0, 0), (1, 0)], "PO > Sil") == "tbl1#77257ae9636b"
+    assert table_key("tbl2", [(3, 0), (4, 0)], "PO > Sil") == "tbl2#df4614907e53"
+    assert table_key("t3", [(7, 2)], "PO > Sil") == "t3#f98b40523809"
