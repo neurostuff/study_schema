@@ -1199,15 +1199,15 @@ class TablePurpose(str, Enum):
 
 class CoordinateRole(str, Enum):
     """
-    What a set of reported coordinates is for. A paper prints coordinates for six reasons, and only the first is a finding; the rest locate something the study used, measured with, quoted, or showed. Open vocabulary: write the source's own wording when nothing here fits.
+    What a set of reported coordinates is, by what it is to the study and not by where the paper prints it. A coordinate that appears in a figure takes the role of what it is: peaks the study found are results even when a figure shows them. Open vocabulary: write the source's own wording when nothing here fits.
     """
     result = "result"
     """
-    A finding of this study: the peaks, clusters, local maxima or centres of gravity of a tested effect. `result_kind` says what kind of analysis produced it.
+    A finding of this study: the peaks, clusters, local maxima or centres of gravity of a tested effect, whether listed in a table or shown in a figure (the "patients > controls" and "adults > children" peaks drawn on a brain). `result_kind` says what kind of analysis produced it.
     """
     anchor = "anchor"
     """
-    A location that defines an analysis rather than resulting from one: a region of interest, a connectivity seed, a stimulation target, a network node. `anchor_kind` says which.
+    A location that defines an analysis rather than resulting from one: a region of interest, a connectivity seed, a stimulation target such as an rTMS site, a network node. `anchor_kind` says which.
     """
     localization = "localization"
     """
@@ -1215,15 +1215,11 @@ class CoordinateRole(str, Enum):
     """
     reference = "reference"
     """
-    Coordinates quoted from other studies for comparison. A cited location used to place a region of interest is an `anchor`, not a reference.
-    """
-    display = "display"
-    """
-    A location used only to show a figure: a slice position, crosshairs, an example voxel. Found in text, almost never in tables.
+    Coordinates from other studies, quoted for comparison or marked on a figure: the crosshairs at a dACC peak from a prior paper, the visual word form area from Cohen et al. A cited location used to place a region of interest is an `anchor`, not a reference.
     """
     other = "other"
     """
-    A real brain coordinate in the paper that is not a result, anchor, localization, reference or display: a simulated source position or lesion centre, a worked-example voxel of an atlas. Numbers that are not brain coordinates (lattice points, phantom or rodent bregma positions, orientation vectors) are not coordinates at all and are left out of the parse, not given this role.
+    A real brain coordinate in the paper that is none of the above: slice positions given only to show a figure with no finding at them, a simulated source position or lesion centre, a worked-example voxel of an atlas. Numbers that are not brain coordinates (lattice points, phantom or rodent bregma positions, orientation vectors) are not coordinates at all and are left out of the parse, not given this role.
     """
 
 

@@ -528,10 +528,13 @@ connectivity result whose analysis names a seed -- so they can be found and spli
 without redoing anything else.
 
 **The five roles.** `result` (with `result_kind`), `anchor` (with `anchor_kind`),
-`localization`, `reference` and `display`, from neurostuff/ns-pond-ingestion-workflow#3.
-In tables, 91% of points are results and the rest anchors; `display` did not occur in 250
-tables and belongs to text, where figure legends give slice and crosshair positions (17 of
-653 points). `localization` and `reference` occurred only in text in this sample (7 and 36
+`localization`, `reference` and `other`, from neurostuff/ns-pond-ingestion-workflow#3.
+The first draft also had `display` for coordinates given only to show a figure. It was
+removed: results are often displayed, so it did not cut along what a coordinate is. Peaks
+of this study shown in a figure are `result`, crosshairs at a prior study's coordinates
+are `reference`, an rTMS target is an `anchor`, and slice positions with no finding are
+`other`. In tables, 91% of points are results and the rest anchors.
+`localization` and `reference` occurred only in text in this sample (7 and 36
 points); `TablePurpose.prior_literature_coordinates` already covers the tables that hold
 references. The one gap found was the centre of an artificial lesion used to test a method,
 which none of the roles names; it is left to the open vocabulary.
