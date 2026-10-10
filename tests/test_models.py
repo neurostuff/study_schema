@@ -24,6 +24,16 @@ def test_examples_validate(example_paths):
     assert paper.text_sha256 == original.text_sha256 == revision.text_sha256
 
 
+def test_an_analysis_may_have_no_role_yet(example_paths):
+    data = load(example_paths["coordinate_parse"])
+    del data["analyses"][0]["role"]
+    assert CoordinateParse.model_validate(data).analyses[0].role is None
+    data["analyses"][0]["role"] = None
+    assert CoordinateParse.model_validate(data).analyses[0].role is None
+    validator = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
+    validator.validate(data, jsonschema.load("coordinate-parse"))
+
+
 def test_an_undeclared_field_is_refused(example_paths):
     data = load(example_paths["coordinate_parse"])
     data["analyses"][0]["is_deactivation"] = False  # retired in 0.5.0

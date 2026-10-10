@@ -1498,7 +1498,7 @@ This key is what the extraction record's `Analysis.source_table_analysis` and `C
     coordinate_space: Optional[ReportedSpace] = Field(default=None, description="""The space of the analysis's points; absent when the paper states none. A point states its own only when it differs.""")
     space_as_printed: Optional[str] = Field(default=None)
     space_basis: Optional[SpaceBasis] = Field(default=None)
-    role: Union[CoordinateRole, str] = Field(default=..., description="""What the points are for. Only a `result` is an analysis with a statistic in the extraction record; an `anchor` -- a region of interest, a seed, a stimulation target -- becomes a CoordinateSet there, and never enters a studyset as an analysis.
+    role: Optional[Union[CoordinateRole, str]] = Field(default=None, description="""What the points are for; null until the roles stage classifies the set. Only a `result` is an analysis with a statistic in the extraction record; an `anchor` -- a region of interest, a seed, a stimulation target -- becomes a CoordinateSet there, and never enters a studyset as an analysis.
 The ingestion workflow's `roles` stage decides the role. It is a classifier that reads each set and its context; `role_source` names it.
 When the classifier is not confident, the proposed role stands. A table set is a `result`. A text set keeps the role the prose stage recorded in these fields (`role`, `anchor_kind`, `from_prior_study`).
 Numbers that are not brain coordinates, such as channel numbers or lattice points, get no role. They are not a coordinate set.""")
