@@ -11,7 +11,7 @@ three producers, one rule, here.
     key_for(analysis)                         -> the key its cells or spans give
     cell_locator([(4, 0), (3, 0)])            -> "3:0,4:0", the string a table key hashes
     span_locator([(1200, 1288)])              -> "1200-1288", the spans part of a span key's hash
-    normalize_name("PO \u2013  Sil")           -> "po - sil", the name part of a span key's hash
+    normalize_name("PO \u2013  Sil")           -> "po-sil", the name part of a span key's hash
 
 Use the locators when a hash must cover the same cells or spans a key does (neurostore's
 entity hashes), so the canonical form lives here once.
@@ -40,9 +40,13 @@ _DASHES = {
 
 
 def normalize_name(name: str) -> str:
-    """NFKC, casefold, every dash (Unicode Pd, and U+2212 minus) to '-', zero-width characters dropped, whitespace collapsed."""
+    """NFKC, casefold, every dash (Unicode Pd, and U+2212 minus) to '-', zero-width characters and all whitespace dropped.
+
+    Whitespace is removed rather than collapsed because names that differ only in spacing
+    never denote different analyses: two reads of one sentence give `PO > Sil` and `PO>Sil`.
+    """
     text = unicodedata.normalize("NFKC", name).casefold().translate(_DASHES)
-    return " ".join(_ZERO_WIDTH.sub("", text).split())
+    return "".join(_ZERO_WIDTH.sub("", text).split())
 
 
 def cell_locator(cells: Iterable[tuple[int, int]]) -> str:

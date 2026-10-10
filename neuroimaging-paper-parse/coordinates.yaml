@@ -120,7 +120,7 @@ classes:
           For a text or figure analysis, `text#<h>` or `figure#<h>`, built the same way from
           each of `text_spans` as `<start_char>-<end_char>`, then `|` and the analysis's
           `name` normalized (Unicode NFKC, casefolded, every dash (Unicode Pd and U+2212 minus) as `-`, zero-width
-          characters dropped, whitespace collapsed and stripped). One sentence, or one set of
+          characters and all whitespace dropped, so `PO > Sil` and `PO>Sil` are one name). One sentence, or one set of
           rows, can name several analyses, so the name is part of every key. A key follows the name:
           a re-extraction that renames an analysis mints a new key.
 
