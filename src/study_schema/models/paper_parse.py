@@ -210,7 +210,13 @@ class SpaceBasis(str, Enum):
 class StatisticKind(str, Enum):
     """
     The kind of a value reported at a point. One vocabulary for the parse, the extraction record's `Statistic.family`, and neurostore's `PointValue.kind`. The ingestion workflow's letters map one to one: T, Z, F, D, G, R, B, P.
-A point with a value below zero is negative whatever the kind: p, F and chi-square are never negative, so a negative one means the column is signed or mislabelled. Otherwise a value of a kind annotated `directional` (t, z, d, g, r, beta), or of no or an unknown kind, makes the point positive, and a point whose values are all p, F or chi-square, or that has none, is unsigned. The parse stores no sign of its own; readers derive it from `values` with `study_schema.statistics`.
+Which side of a sign split a point is on follows from its values:
+- A negative value is always on the negative side, whatever its kind. A negative p, F
+  or chi-square means the column is signed or mislabelled.
+- Only p, F and chi-square are non-directional. Every other kind is directional,
+  `other` included.
+- A missing or unknown kind splits by the value's sign, like a directional kind. - A point whose values are all p, F or chi-square, or that has none, is unsigned.
+The parse stores no sign of its own; readers derive it from `values` with `study_schema.statistics`.
     """
     t = "t"
     """
@@ -250,7 +256,7 @@ A point with a value below zero is negative whatever the kind: p, F and chi-squa
     """
     other = "other"
     """
-    A kind the paper names and this list does not; `kind_as_printed` keeps the wording.
+    A kind the paper names and this list does not; `kind_as_printed` keeps the wording. Directional: it splits by the value's sign.
     """
 
 
