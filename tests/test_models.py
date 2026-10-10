@@ -5,7 +5,7 @@ from pydantic import ValidationError
 
 from conftest import load
 from study_schema import jsonschema
-from study_schema.keys import key_for, span_key, table_key
+from study_schema.keys import cell_locator, key_for, span_key, span_locator, table_key
 from study_schema.models import extraction, paper_parse, storage
 from study_schema.models.paper_parse import CoordinateParse, ParsedPaper
 
@@ -63,6 +63,15 @@ def test_key_rule():
         table_key("tbl1", [])
     with pytest.raises(ValueError):
         span_key("table", [(0, 1)])
+
+
+def test_keys_hash_their_locators():
+    sha1 = __import__("hashlib").sha1
+    assert cell_locator([(4, 0), (3, 0), (4, 0)]) == "3:0,4:0"
+    assert span_locator([(1288, 1300), (1200, 1288)]) == "1200-1288,1288-1300"
+    assert table_key("tbl2", [(4, 0), (3, 0)]) == "tbl2#" + sha1(b"3:0,4:0").hexdigest()[:12]
+    assert span_key("text", [(5, 9)]) == "text#" + sha1(b"5-9").hexdigest()[:12]
+    assert cell_locator([]) == span_locator([]) == ""
 
 
 def test_example_keys_are_derived(example_paths):
