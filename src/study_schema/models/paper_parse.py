@@ -32,7 +32,7 @@ from pydantic import (
 
 
 metamodel_version = "1.12.0"
-version = "0.5.0"
+version = "0.6.0"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -210,6 +210,13 @@ class SpaceBasis(str, Enum):
 class StatisticKind(str, Enum):
     """
     The kind of a value reported at a point. One vocabulary for the parse, the extraction record's `Statistic.family`, and neurostore's `PointValue.kind`. The ingestion workflow's letters map one to one: T, Z, F, D, G, R, B, P.
+Which side of a sign split a point is on follows from its values:
+- A negative value is always on the negative side, whatever its kind. A negative p, F
+  or chi-square means the column is signed or mislabelled.
+- Only p, F and chi-square are non-directional. Every other kind is directional,
+  `other` included.
+- A missing or unknown kind splits by the value's sign, like a directional kind. - A point whose values are all p, F or chi-square, or that has none, is unsigned.
+The parse stores no sign of its own; readers derive it from `values` with `study_schema.statistics`.
     """
     t = "t"
     """
@@ -249,25 +256,7 @@ class StatisticKind(str, Enum):
     """
     other = "other"
     """
-    A kind the paper names and this list does not; `kind_as_printed` keeps the wording.
-    """
-
-
-class PointSign(str, Enum):
-    """
-    The sign of a point's directional statistic.
-    """
-    positive = "positive"
-    """
-    A directional statistic greater than or equal to zero.
-    """
-    negative = "negative"
-    """
-    A directional statistic below zero.
-    """
-    unsigned = "unsigned"
-    """
-    No directional statistic at the point -- a blank cell, a p value only, an F. In an analysis that was split by sign the point joins the positive half and keeps this tag, so the placement stays visible and a filter can drop it.
+    A kind the paper names and this list does not; `kind_as_printed` keeps the wording. Directional: it splits by the value's sign.
     """
 
 
@@ -285,7 +274,7 @@ class SplitRule(str, Enum):
     """
     sign_of_directional_statistic = "sign_of_directional_statistic"
     """
-    Points with a negative directional statistic form the negative half; every other point, unsigned ones included, forms the positive half.
+    Points with a negative value form the negative half; every other point, unsigned ones included, forms the positive half. An unsigned point's side is the half it was placed in.
     """
 
 
@@ -1546,8 +1535,9 @@ class TextSweep(ConfiguredBaseModel):
 
 class SignSplit(ConfiguredBaseModel):
     """
-    One half of an analysis the producer split by the sign of its directional statistic. The two halves share `group`; the positive half is the primary.
+    One half of an analysis the producer split by the sign of its points (see StatisticKind). The two halves share `group`; the positive half is the primary.
     pondie extracts the primary half and derives the other half's record from it by flipping the direction of its cells, so the two never disagree and the reversed half costs no extraction. The derived record carries `mirror_of`, which keeps a meta-analysis from counting one contrast twice.
+    The direction lives on the analysis, not its points: an unsigned point (only p, F or chi-square values, or none) in a split analysis is on that analysis's side.
     """
     group: str = Field(default=..., description="""Shared by the two halves. The key of the primary half is recommended.""")
     direction: SplitDirection = Field(default=...)
@@ -1564,8 +1554,7 @@ class ParsedPoint(ConfiguredBaseModel):
     row: Optional[int] = Field(default=None, description="""For a table point, the TableRow it was read from.""", ge=0)
     column_group: Optional[int] = Field(default=None, description="""For a table point, which block of coordinate columns it was read from, numbered from 0 left to right. 0 in a table with one block. Two contrasts printed side by side share rows and differ here.""", ge=0)
     text_span: Optional[TextSpan] = Field(default=None, description="""For a text point, the characters it was read from.""")
-    values: Optional[list[PointValue]] = Field(default=None)
-    sign: PointSign = Field(default=..., description="""Set by code from the directional statistic in `values`, whatever a model said. It decides the sign split and nothing else: the negative points of a set are their own analysis, the inverse contrast, declared by `split`. There is no point-level deactivation flag, and the parse never writes neurostore's Point.deactivation.""")
+    values: Optional[list[PointValue]] = Field(default=None, description="""The values at the point. They are the only record of its sign (StatisticKind gives the rule): a negative value makes it negative, and a point with only p, F or chi-square values, or none, is unsigned and takes the side of its analysis's `split` half. The negative points of a set are their own analysis, the inverse contrast, declared by `split`; a consumer records that direction on the contrast's conditions (negative weights), not per point. There is no point-level deactivation flag, and the parse never writes neurostore's Point.deactivation.""")
     cluster_size: Optional[float] = Field(default=None, ge=0)
     cluster_measure: Optional[ClusterMeasure] = Field(default=None)
     is_subpeak: Optional[bool] = Field(default=None)

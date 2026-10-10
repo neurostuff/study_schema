@@ -1174,10 +1174,6 @@
             "null"
           ]
         },
-        "sign": {
-          "$ref": "#/$defs/PointSign",
-          "description": "Set by code from the directional statistic in `values`, whatever a model said. It decides the sign split and nothing else: the negative points of a set are their own analysis, the inverse contrast, declared by `split`. There is no point-level deactivation flag, and the parse never writes neurostore's Point.deactivation."
-        },
         "space": {
           "anyOf": [
             {
@@ -1201,6 +1197,7 @@
           "description": "For a text point, the characters it was read from."
         },
         "values": {
+          "description": "The values at the point. They are the only record of its sign (StatisticKind gives the rule): a negative value makes it negative, and a point with only p, F or chi-square values, or none, is unsigned and takes the side of its analysis's `split` half. The negative points of a set are their own analysis, the inverse contrast, declared by `split`; a consumer records that direction on the contrast's conditions (negative weights), not per point. There is no point-level deactivation flag, and the parse never writes neurostore's Point.deactivation.",
           "items": {
             "$ref": "#/$defs/PointValue"
           },
@@ -1211,8 +1208,7 @@
         }
       },
       "required": [
-        "coordinates",
-        "sign"
+        "coordinates"
       ],
       "title": "ParsedPoint",
       "type": "object"
@@ -1323,16 +1319,6 @@
         "not_applicable"
       ],
       "title": "PerformanceRelation",
-      "type": "string"
-    },
-    "PointSign": {
-      "description": "The sign of a point's directional statistic.",
-      "enum": [
-        "positive",
-        "negative",
-        "unsigned"
-      ],
-      "title": "PointSign",
       "type": "string"
     },
     "PointValue": {
@@ -1630,7 +1616,7 @@
     },
     "SignSplit": {
       "additionalProperties": false,
-      "description": "One half of an analysis the producer split by the sign of its directional statistic. The two halves share `group`; the positive half is the primary.\npondie extracts the primary half and derives the other half's record from it by flipping the direction of its cells, so the two never disagree and the reversed half costs no extraction. The derived record carries `mirror_of`, which keeps a meta-analysis from counting one contrast twice.",
+      "description": "One half of an analysis the producer split by the sign of its points (see StatisticKind). The two halves share `group`; the positive half is the primary.\npondie extracts the primary half and derives the other half's record from it by flipping the direction of its cells, so the two never disagree and the reversed half costs no extraction. The derived record carries `mirror_of`, which keeps a meta-analysis from counting one contrast twice.\nThe direction lives on the analysis, not its points: an unsigned point (only p, F or chi-square values, or none) in a split analysis is on that analysis's side.",
       "properties": {
         "direction": {
           "$ref": "#/$defs/SplitDirection"
@@ -1723,7 +1709,7 @@
       "type": "string"
     },
     "StatisticKind": {
-      "description": "The kind of a value reported at a point. One vocabulary for the parse, the extraction record's `Statistic.family`, and neurostore's `PointValue.kind`. The ingestion workflow's letters map one to one: T, Z, F, D, G, R, B, P.",
+      "description": "The kind of a value reported at a point. One vocabulary for the parse, the extraction record's `Statistic.family`, and neurostore's `PointValue.kind`. The ingestion workflow's letters map one to one: T, Z, F, D, G, R, B, P.\nWhich side of a sign split a point is on follows from its values:\n- A negative value is always on the negative side, whatever its kind. A negative p, F\n  or chi-square means the column is signed or mislabelled.\n- Only p, F and chi-square are non-directional. Every other kind is directional,\n  `other` included.\n- A missing or unknown kind splits by the value's sign, like a directional kind. - A point whose values are all p, F or chi-square, or that has none, is unsigned.\nThe parse stores no sign of its own; readers derive it from `values` with `study_schema.statistics`.",
       "enum": [
         "t",
         "z",
@@ -2156,5 +2142,5 @@
   ],
   "title": "neuroimaging-paper-parse",
   "type": "object",
-  "version": "0.5.0"
+  "version": "0.6.0"
 }

@@ -113,42 +113,55 @@ enums:
       The kind of a value reported at a point. One vocabulary for the parse, the extraction
       record's `Statistic.family`, and neurostore's `PointValue.kind`. The ingestion
       workflow's letters map one to one: T, Z, F, D, G, R, B, P.
+
+      Which side of a sign split a point is on follows from its values:
+
+      - A negative value is always on the negative side, whatever its kind. A negative p, F
+        or chi-square means the column is signed or mislabelled.
+      - Only p, F and chi-square are non-directional. Every other kind is directional,
+        `other` included.
+      - A missing or unknown kind splits by the value's sign, like a directional kind.
+      - A point whose values are all p, F or chi-square, or that has none, is unsigned.
+
+      The parse stores no sign of its own; readers derive it from `values` with
+      `study_schema.statistics`.
     permissible_values:
       t:
         description: Student's t. Ingestion letter T.
+        annotations:
+          directional: true
       z:
         description: A z score. Ingestion letter Z.
+        annotations:
+          directional: true
       f:
         description: An F statistic. Ingestion letter F. Not directional.
       chi_square:
         description: Not directional.
       d:
         description: Cohen's d. Ingestion letter D.
+        annotations:
+          directional: true
       g:
         description: Hedges' g. Ingestion letter G.
+        annotations:
+          directional: true
       r:
         description: A correlation coefficient. Ingestion letter R.
+        annotations:
+          directional: true
       beta:
         description: A regression coefficient or parameter estimate. Ingestion letter B.
+        annotations:
+          directional: true
       p:
         description: >-
           A p value. Ingestion letter P. A significance level, not a statistic: never
           directional, and never the basis of a sign split.
       other:
-        description: A kind the paper names and this list does not; `kind_as_printed` keeps the wording.
-
-  PointSign:
-    description: The sign of a point's directional statistic.
-    permissible_values:
-      positive:
-        description: A directional statistic greater than or equal to zero.
-      negative:
-        description: A directional statistic below zero.
-      unsigned:
         description: >-
-          No directional statistic at the point -- a blank cell, a p value only, an F. In an
-          analysis that was split by sign the point joins the positive half and keeps this
-          tag, so the placement stays visible and a filter can drop it.
+          A kind the paper names and this list does not; `kind_as_printed` keeps the wording.
+          Directional: it splits by the value's sign.
 
   SplitDirection:
     description: Which half of a sign split an analysis is.
@@ -161,8 +174,9 @@ enums:
     permissible_values:
       sign_of_directional_statistic:
         description: >-
-          Points with a negative directional statistic form the negative half; every other
-          point, unsigned ones included, forms the positive half.
+          Points with a negative value form the negative half; every other point, unsigned
+          ones included, forms the positive half. An unsigned point's side is
+          the half it was placed in.
 
   AuditVerdict:
     description: pondie's verdict on one analysis of the parse it revises.
