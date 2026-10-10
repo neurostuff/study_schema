@@ -5,7 +5,7 @@ from pydantic import ValidationError
 
 from conftest import load
 from study_schema import jsonschema
-from study_schema.keys import cell_locator, key_for, span_key, span_locator, table_key
+from study_schema.keys import cell_locator, key_for, normalize_name, span_key, span_locator, table_key
 from study_schema.models import extraction, paper_parse, storage
 from study_schema.models.paper_parse import CoordinateParse, ParsedPaper
 
@@ -58,11 +58,11 @@ def test_unknown_json_schema():
 def test_key_rule():
     # sha1("0:0,1:0")[:12], computed by hand from the rule in coordinates.yaml
     assert table_key("tbl1", [(1, 0), (0, 0), (1, 0)]) == "tbl1#" + __import__("hashlib").sha1(b"0:0,1:0").hexdigest()[:12]
-    assert span_key("text", [(5, 9)]).startswith("text#")
+    assert span_key("text", [(5, 9)], "x").startswith("text#")
     with pytest.raises(ValueError):
         table_key("tbl1", [])
     with pytest.raises(ValueError):
-        span_key("table", [(0, 1)])
+        span_key("table", [(0, 1)], "x")
 
 
 def test_keys_hash_their_locators():
@@ -70,7 +70,7 @@ def test_keys_hash_their_locators():
     assert cell_locator([(4, 0), (3, 0), (4, 0)]) == "3:0,4:0"
     assert span_locator([(1288, 1300), (1200, 1288)]) == "1200-1288,1288-1300"
     assert table_key("tbl2", [(4, 0), (3, 0)]) == "tbl2#" + sha1(b"3:0,4:0").hexdigest()[:12]
-    assert span_key("text", [(5, 9)]) == "text#" + sha1(b"5-9").hexdigest()[:12]
+    assert span_key("text", [(5, 9)], "PO > Sil") == "text#" + sha1(b"5-9|po > sil").hexdigest()[:12]
     assert cell_locator([]) == span_locator([]) == ""
 
 
@@ -79,3 +79,25 @@ def test_example_keys_are_derived(example_paths):
         parse = CoordinateParse.model_validate(load(example_paths[which]))
         for analysis in parse.analyses:
             assert key_for(analysis) == analysis.key
+
+
+def test_one_sentence_two_names_two_keys():
+    spans = [(100, 180)]
+    assert span_key("text", spans, "PO > Sil") != span_key("text", spans, "PC > Sil")
+    assert span_key("text", spans, "PO > Sil") == span_key("text", list(spans), "PO > Sil")
+
+
+def test_name_variants_share_a_key():
+    spans = [(100, 180)]
+    base = span_key("text", spans, "PO > Sil")
+    assert span_key("text", spans, "po  >\tSIL ") == base
+    assert span_key("text", spans, "PO > S\u200bil") == base
+    assert span_key("figure", spans, "A \u2013 B") == span_key("figure", spans, "a - b")
+    assert span_key("figure", spans, "A \u2014 B") == span_key("figure", spans, "a-b".replace("-", " - "))
+    assert normalize_name("\uff21\u2003\u2013\u2003B") == "a - b"
+
+
+def test_table_keys_are_fixed():
+    assert table_key("tbl1", [(0, 0), (1, 0)]) == "tbl1#fecf37c3fb55"
+    assert table_key("tbl2", [(3, 0), (4, 0)]) == "tbl2#1d57acd32200"
+    assert table_key("t3", [(7, 2)]) == "t3#44fe94498ac4"

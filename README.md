@@ -188,6 +188,7 @@ What each side may rely on:
 - **Keys come from where an analysis was read, not its position.** A table analysis is
   `<table_id>#<h>`, where `h` hashes the sorted `row:column_group` references of its
   `cells`; a text or figure analysis is `text#<h>` or `figure#<h>` over its spans
+  and its normalized name, since one sentence can name several analyses
   (`ParsedAnalysis.key` gives the recipe). Cells include rows that name a contrast without
   coordinates, so a contrast a table lists as "n.s." has a key of its own. A re-run that
   reads the same cells reaches the same key, and claims stored against it carry over.
