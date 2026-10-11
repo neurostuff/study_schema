@@ -290,11 +290,11 @@ class AuditVerdict(str, Enum):
     """
     accept = "accept"
     """
-    The analysis stands as proposed. Its key is unchanged.
+    Confirms the classifier's role for the analysis. Its key is unchanged.
     """
     relabel = "relabel"
     """
-    The same points, in a different role: an analysis proposed as a result that is a region of interest, a seed, a stimulation target. Its key is unchanged.
+    A reviewed correction of the classifier's role, which overrides it: the same points in a different role, such as a region of interest, a seed, a stimulation target where the classifier said result. Its key is unchanged.
     """
     split = "split"
     """
