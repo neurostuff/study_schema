@@ -25,7 +25,7 @@
     },
     "AnalysisVerdict": {
       "additionalProperties": false,
-      "description": "pondie's verdict on one analysis of the parse a revision revises, reached while extracting the whole record. The verdict overrides the original's proposal.\nWhat a verdict does to what is stored against the analysis -- claims, their evidence, and users' votes on them:\n- accept, relabel: nothing moves. The key is unchanged, so everything stored against\n  it applies to the revision as it stands.\n- split: everything is copied to each analysis in `replaced_by`. - merge: everything stored against each merged analysis is copied to the one\n  analysis they merge into. Two copies of the same field with the same value become\n  one claim; with different values they stay competing claims, resolved like any\n  other.\n- omit: nothing is copied. - add: nothing to copy; the analysis is new.\nEvery copy records the key and parse it was copied from, so a reviewer can tell a copied claim from one made against the revision. The revised parse and everything stored against it are kept, unchanged, as history: superseded rather than deleted, and left out of projections and studysets.",
+      "description": "pondie's verdict on one analysis of the parse a revision revises, reached while extracting the whole record. The verdict overrides the original's proposal, grouping and role alike.\nWhat a verdict does to what is stored against the analysis -- claims, their evidence, and users' votes on them:\n- accept, relabel: nothing moves. The key is unchanged, so everything stored against\n  it applies to the revision as it stands.\n- split: everything is copied to each analysis in `replaced_by`. - merge: everything stored against each merged analysis is copied to the one\n  analysis they merge into. Two copies of the same field with the same value become\n  one claim; with different values they stay competing claims, resolved like any\n  other.\n- omit: nothing is copied. - add: nothing to copy; the analysis is new.\nEvery copy records the key and parse it was copied from, so a reviewer can tell a copied claim from one made against the revision. The revised parse and everything stored against it are kept, unchanged, as history: superseded rather than deleted, and left out of projections and studysets.",
       "properties": {
         "evidence": {
           "description": "The sentences of the paper the verdict rests on.",
@@ -829,7 +829,7 @@
     },
     "ParsedAnalysis": {
       "additionalProperties": false,
-      "description": "The points a paper reports together for one tested effect, or for one non-result purpose such as the regions of interest an analysis used.\nIn an original parse, both the grouping and the role are the ingestion workflow's proposal, made from a table and its caption. pondie confirms or overrides them with the whole paper in view.",
+      "description": "The points a paper reports together for one tested effect, or for one non-result purpose such as the regions of interest an analysis used.\nIn an original parse, the grouping is the ingestion workflow's proposal, made from a table and its caption. pondie confirms or overrides it with the whole paper in view. The role is required and is set in the ingestion workflow by the `roles` classifier stage, after the analyses are identified. It is also the ingestion workflow's proposal: pondie's accept confirms it, and a relabel overrides it with a reviewed correction that wins.",
       "properties": {
         "anchor_kind": {
           "anyOf": [
@@ -936,10 +936,10 @@
               "type": "string"
             }
           ],
-          "description": "What the points are for. Only a `result` is an analysis with a statistic in the extraction record; an `anchor` -- a region of interest, a seed, a stimulation target -- becomes a CoordinateSet there, and never enters a studyset as an analysis.\nThe ingestion workflow's `roles` stage decides the role. It is a classifier that reads each set and its context; `role_source` names it.\nWhen the classifier is not confident, the proposed role stands. A table set is a `result`. A text set keeps the role the prose stage recorded in these fields (`role`, `anchor_kind`, `from_prior_study`).\nNumbers that are not brain coordinates, such as channel numbers or lattice points, get no role. They are not a coordinate set."
+          "description": "What the points are for. Only a `result` is an analysis with a statistic in the extraction record; an `anchor` -- a region of interest, a seed, a stimulation target -- becomes a CoordinateSet there, and never enters a studyset as an analysis.\nRequired. Set in the ingestion workflow by the `roles` classifier stage, after the analyses are identified: a classifier that reads each set and its context, named by `role_source`. It is the ingestion workflow's proposal, which pondie audits: accept confirms it, and relabel overrides it with a reviewed correction that wins. The extractors never propose a role, and nothing supplies a default.\nNumbers that are not brain coordinates, such as channel numbers or lattice points, get no role. They are not a coordinate set."
         },
         "role_confidence": {
-          "description": "The classifier's probability for `role` (and `anchor_kind`). Absent when the proposal stood because no classifier ran.",
+          "description": "The classifier's probability for `role` (and `anchor_kind`).",
           "maximum": 1,
           "minimum": 0,
           "type": [
@@ -948,7 +948,7 @@
           ]
         },
         "role_source": {
-          "description": "What decided the role: `proposal` when the proposal stood, otherwise the classifier's name and version, such as `set-role-encoder@2026-10-09`.",
+          "description": "The classifier that set the role, by name and version, such as `set-role-encoder@2026-10-09`.",
           "type": [
             "string",
             "null"

@@ -198,7 +198,7 @@ What each side may rely on:
   the inverse half. Points with only p, F or chi-square values, or none, are unsigned and join
   the original half. pondie extracts the original and derives the inverse, which carries
   `mirror_of`.
-- **Grouping and role are proposals; pondie's verdict overrides them.** When pondie
+- **Grouping is a proposal; pondie's verdict overrides it.** When pondie
   disagrees, it writes a revision: a complete `CoordinateParse` with `revision_of` set and
   one `AnalysisVerdict` per original analysis (accept, relabel, split, merge, omit, each
   with a reason and evidence). Accepted and relabelled analyses keep their keys. A split
@@ -240,9 +240,12 @@ What each side may rely on:
   correction together), so pondie copies them into InferenceSettings rather than
   re-reading them. Where storage's single `multiple_comparison_method` cannot hold two
   levels, the parse keeps both.
-- **Roles are classified, not proposed.** The `roles` stage sets `role`, `anchor_kind`,
-  `from_prior_study` (a flag beside the role, not a role), `role_confidence` and
-  `role_source`; below its confidence threshold the proposal stands.
+- **Roles are set by the ingestion workflow and audited by pondie.** The `roles` classifier
+  stage sets `role`, `anchor_kind`, `from_prior_study` (a flag beside the role, not a
+  role), `role_confidence` and `role_source`. Role is required and set there, after
+  analysis identification. It is the ingestion workflow's proposal: pondie's accept
+  confirms it and relabel overrides it with a reviewed correction that wins. The extractors
+  never propose a role.
 - **Retracted papers are marked and excluded by default.** `Bibliography.corrections`
   carries the retraction notice; a studyset leaves the paper out unless a filter asks for
   it.

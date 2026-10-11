@@ -4,7 +4,7 @@ title: Neuroimaging Paper Parse Vocabularies
 description: >-
   The vocabularies of the parsed paper and the coordinate parse. Coordinate roles and
   anchor kinds are not here: they are the storage schema's `CoordinateRole` and
-  `AnchorKind`, imported, so that the parse's proposal and the record's verdict are written
+  `AnchorKind`, imported, so that the parse's role and the record's role are written
   in the same words.
 prefixes:
   linkml: https://w3id.org/linkml/
@@ -186,11 +186,12 @@ enums:
     description: pondie's verdict on one analysis of the parse it revises.
     permissible_values:
       accept:
-        description: The analysis stands as proposed. Its key is unchanged.
+        description: Confirms the ingestion workflow's proposed role for the analysis. Its key is unchanged.
       relabel:
         description: >-
-          The same points, in a different role: an analysis proposed as a result that is a
-          region of interest, a seed, a stimulation target. Its key is unchanged.
+          A reviewed correction of the ingestion workflow's proposed role, which wins: the same points
+          in a different role, such as a region of interest, a seed, a stimulation target
+          where the proposal said result. Its key is unchanged.
       split:
         description: The points belong to more than one analysis. The replacements have new keys.
       merge:
