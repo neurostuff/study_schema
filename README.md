@@ -205,8 +205,8 @@ What each side may rely on:
   or merge copies the claims and votes stored against the old keys to their replacements,
   each copy noting where it came from; the revised version is kept unchanged as history
   and left out of projections (`AnalysisVerdict` gives the rules). Region,
-  seed and target sets are relabelled `anchor` and become CoordinateSets in the record,
-  not Analyses with statistics.
+  seed and target sets given only as definitions are relabelled `anchor` and become
+  CoordinateSets in the record, not Analyses with statistics.
 - **Uploads are asymmetric.** neurostore accepts a parse alone, a parse with a record, a
   record alone against a parse already stored (every verdict accept), or a revision with a
   record. A revision is stored as a new version of the paper's analyses

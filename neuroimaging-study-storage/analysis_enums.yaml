@@ -957,21 +957,30 @@ enums:
           (the "patients > controls" and "adults > children" peaks drawn on a brain). A
           coordinate reported with its statistics is a result even when the paper then
           uses it as a region of interest or seed, and so is a peak from the authors'
-          own earlier study or dataset given with its statistics. The slice and
-          crosshair positions of a figure are results, even when no peak or statistic is
-          stated at them, unless the paper attributes them to another study: crosshairs
-          marking another paper's coordinate are a `reference`. In MEG or EEG, the peak
-          of a tested effect in source space is a result; fNIRS channels reported with
-          statistics for a significant effect are results. `result_kind` says what kind
-          of analysis produced it.
+          own earlier study or dataset given with its statistics. A region of interest
+          or seed whose coordinates are reported together with the statistics of the
+          effect measured in it is a result, whether this study defined it or took it
+          from another source, because the ROI analysis is the finding: an ROI from
+          Supekar et al. (2013) reported with a connectivity correlation, functional
+          ROIs at Neurosynth meta-analysis peaks reported with percent signal change and
+          ICC, a vmPFC 8 mm sphere centred at -6, 50, 1 that "shows increased coupling
+          ... p < 0.001". A set that mixes this study's peaks with a cited peak is a
+          result. The slice and crosshair positions of a figure are results, even when
+          no peak or statistic is stated at them, unless the paper attributes them to
+          another study: crosshairs marking another paper's coordinate are a
+          `reference`. In MEG or EEG, the peak of a tested effect in source space is a
+          result; fNIRS channels reported with statistics for a significant effect are
+          results. `result_kind` says what kind of analysis produced it.
       anchor:
         in_subset: [mvp, model_extracted]
         description: >-
           A location that defines an analysis rather than resulting from one: a region
           of interest, a connectivity seed, a stimulation target such as an rTMS site, a
-          network node. `anchor_kind` says which. A peak given without statistics as the
-          definition of a region of interest or seed ("a 6 mm sphere centred on the
-          peak") is an anchor; the same peak reported with its statistics is a `result`.
+          network node. `anchor_kind` says which. An ROI, seed or sphere given only as a
+          definition, with no statistics reported with its coordinates, is an anchor,
+          including one placed at a cited location or at a peak ("a 6 mm sphere centred
+          on the peak"). The same coordinates reported with the statistics of the effect
+          measured there are a `result`.
       localization:
         in_subset: [mvp, model_extracted]
         description: >-
@@ -988,8 +997,9 @@ enums:
           crosshairs marking a dACC peak from a prior paper, the visual word form area
           from Cohen et al. A peak from the authors' own earlier study or dataset is a
           reference when it is given without statistics and a `result` when it is given
-          with them. A cited location used to place a region of interest is an `anchor`,
-          not a reference.
+          with them. A cited location used to place a region of interest is not a
+          reference: it is an `anchor` when only the definition is given, and a `result`
+          when the ROI is reported with the statistics of the effect measured in it.
       other:
         in_subset: [mvp, model_extracted]
         description: >-
