@@ -883,7 +883,7 @@
           ]
         },
         "from_prior_study": {
-          "description": "The coordinates come from another publication rather than from this study: a peak quoted for comparison (always true for `role: reference`), or another study's peak taken as this study's ROI or seed. Separate from the role, because a borrowed seed is still the seed this study's analysis used. False when the study defined them itself, including an ROI built from its own earlier result.",
+          "description": "The coordinates come from another publication rather than from this study: a peak quoted for comparison (always true for `role: reference`), another study's peak taken as this study's ROI or seed, or a peak from the authors' own earlier publication given with its statistics, which is `role: result` with this flag true so that a meta-analysis can avoid counting the earlier study twice. Separate from the role, because a borrowed seed is still the seed this study's analysis used. False when the study defined them itself, including an ROI built from its own earlier result, meaning an earlier analysis in this same paper such as a localizer.",
           "type": [
             "boolean",
             "null"

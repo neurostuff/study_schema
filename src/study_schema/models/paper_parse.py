@@ -1203,7 +1203,7 @@ class CoordinateRole(str, Enum):
     """
     result = "result"
     """
-    A finding of this study: the peaks, clusters, local maxima or centres of gravity of a tested effect, whether listed in a table or shown in a figure (the "patients > controls" and "adults > children" peaks drawn on a brain). A coordinate reported with its statistics is a result even when the paper then uses it as a region of interest or seed, and so is a peak from the authors' own earlier study or dataset given with its statistics. The slice and crosshair positions of a figure are results, even when no peak or statistic is stated at them. In MEG or EEG, the peak of a tested effect in source space is a result; fNIRS channels reported with statistics for a significant effect are results. `result_kind` says what kind of analysis produced it.
+    A finding of this study: the peaks, clusters, local maxima or centres of gravity of a tested effect, whether listed in a table or shown in a figure (the "patients > controls" and "adults > children" peaks drawn on a brain). A coordinate reported with its statistics is a result even when the paper then uses it as a region of interest or seed, and so is a peak from the authors' own earlier study or dataset given with its statistics. The slice and crosshair positions of a figure are results, even when no peak or statistic is stated at them, unless the paper attributes them to another study: crosshairs marking another paper's coordinate are a `reference`. In MEG or EEG, the peak of a tested effect in source space is a result; fNIRS channels reported with statistics for a significant effect are results. `result_kind` says what kind of analysis produced it.
     """
     anchor = "anchor"
     """
@@ -1215,7 +1215,7 @@ class CoordinateRole(str, Enum):
     """
     reference = "reference"
     """
-    Coordinates from other studies, quoted for comparison or marked on a figure: a dACC peak from a prior paper, the visual word form area from Cohen et al. A peak from the authors' own earlier study or dataset is a reference when it is given without statistics and a `result` when it is given with them. A cited location used to place a region of interest is an `anchor`, not a reference.
+    Coordinates from other studies, quoted for comparison or marked on a figure: crosshairs marking a dACC peak from a prior paper, the visual word form area from Cohen et al. A peak from the authors' own earlier study or dataset is a reference when it is given without statistics and a `result` when it is given with them. A cited location used to place a region of interest is an `anchor`, not a reference.
     """
     other = "other"
     """
@@ -1502,7 +1502,7 @@ This key is what the extraction record's `Analysis.source_table_analysis` and `C
 Required. Set in the ingestion workflow by the `roles` classifier stage, after the analyses are identified: a classifier that reads each set and its context, named by `role_source`. It is the ingestion workflow's proposal, which pondie audits: accept confirms it, and relabel overrides it with a reviewed correction that wins. The extractors never propose a role, and nothing supplies a default.
 Numbers that are not brain coordinates, such as channel numbers or lattice points, get no role. They are not a coordinate set.""")
     anchor_kind: Optional[Union[AnchorKind, str]] = Field(default=None, description="""For an `anchor`, what it defines.""")
-    from_prior_study: Optional[bool] = Field(default=None, description="""The coordinates come from another publication rather than from this study: a peak quoted for comparison (always true for `role: reference`), or another study's peak taken as this study's ROI or seed. Separate from the role, because a borrowed seed is still the seed this study's analysis used. False when the study defined them itself, including an ROI built from its own earlier result.""")
+    from_prior_study: Optional[bool] = Field(default=None, description="""The coordinates come from another publication rather than from this study: a peak quoted for comparison (always true for `role: reference`), another study's peak taken as this study's ROI or seed, or a peak from the authors' own earlier publication given with its statistics, which is `role: result` with this flag true so that a meta-analysis can avoid counting the earlier study twice. Separate from the role, because a borrowed seed is still the seed this study's analysis used. False when the study defined them itself, including an ROI built from its own earlier result, meaning an earlier analysis in this same paper such as a localizer.""")
     prior_study_evidence: Optional[list[TextSpan]] = Field(default=None, description="""The citation or sentence showing the coordinates come from another publication.""")
     role_confidence: Optional[float] = Field(default=None, description="""The classifier's probability for `role` (and `anchor_kind`).""", ge=0, le=1)
     role_source: Optional[str] = Field(default=None, description="""The classifier that set the role, by name and version, such as `set-role-encoder@2026-10-09`.""")

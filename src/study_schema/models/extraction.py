@@ -1323,7 +1323,7 @@ class CoordinateRole(str, Enum):
     """
     result = "result"
     """
-    A finding of this study: the peaks, clusters, local maxima or centres of gravity of a tested effect, whether listed in a table or shown in a figure (the "patients > controls" and "adults > children" peaks drawn on a brain). A coordinate reported with its statistics is a result even when the paper then uses it as a region of interest or seed, and so is a peak from the authors' own earlier study or dataset given with its statistics. The slice and crosshair positions of a figure are results, even when no peak or statistic is stated at them. In MEG or EEG, the peak of a tested effect in source space is a result; fNIRS channels reported with statistics for a significant effect are results. `result_kind` says what kind of analysis produced it.
+    A finding of this study: the peaks, clusters, local maxima or centres of gravity of a tested effect, whether listed in a table or shown in a figure (the "patients > controls" and "adults > children" peaks drawn on a brain). A coordinate reported with its statistics is a result even when the paper then uses it as a region of interest or seed, and so is a peak from the authors' own earlier study or dataset given with its statistics. The slice and crosshair positions of a figure are results, even when no peak or statistic is stated at them, unless the paper attributes them to another study: crosshairs marking another paper's coordinate are a `reference`. In MEG or EEG, the peak of a tested effect in source space is a result; fNIRS channels reported with statistics for a significant effect are results. `result_kind` says what kind of analysis produced it.
     """
     anchor = "anchor"
     """
@@ -1335,7 +1335,7 @@ class CoordinateRole(str, Enum):
     """
     reference = "reference"
     """
-    Coordinates from other studies, quoted for comparison or marked on a figure: a dACC peak from a prior paper, the visual word form area from Cohen et al. A peak from the authors' own earlier study or dataset is a reference when it is given without statistics and a `result` when it is given with them. A cited location used to place a region of interest is an `anchor`, not a reference.
+    Coordinates from other studies, quoted for comparison or marked on a figure: crosshairs marking a dACC peak from a prior paper, the visual word form area from Cohen et al. A peak from the authors' own earlier study or dataset is a reference when it is given without statistics and a `result` when it is given with them. A cited location used to place a region of interest is an `anchor`, not a reference.
     """
     other = "other"
     """
