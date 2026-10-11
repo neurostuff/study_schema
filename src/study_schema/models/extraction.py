@@ -1319,27 +1319,27 @@ class TablePurpose(str, Enum):
 
 class CoordinateRole(str, Enum):
     """
-    What a set of reported coordinates is, by what it is to the study and not by where the paper prints it. A coordinate that appears in a figure takes the role of what it is: peaks the study found are results even when a figure shows them. Open vocabulary: write the source's own wording when nothing here fits.
+    What a set of reported coordinates is, by what it is to the study and not by where the paper prints it. A coordinate that appears in a figure takes the role of what it is: peaks the study found are results even when a figure shows them. The role is judged for the coordinate-based meta-analysis these coordinates feed. When a set could be a `result` or another role, it is a `result`: a result missed costs the meta-analysis more than a non-result kept. Open vocabulary: write the source's own wording when nothing here fits.
     """
     result = "result"
     """
-    A finding of this study: the peaks, clusters, local maxima or centres of gravity of a tested effect, whether listed in a table or shown in a figure (the "patients > controls" and "adults > children" peaks drawn on a brain). `result_kind` says what kind of analysis produced it.
+    A finding of this study: the peaks, clusters, local maxima or centres of gravity of a tested effect, whether listed in a table or shown in a figure (the "patients > controls" and "adults > children" peaks drawn on a brain). A coordinate reported with its statistics is a result even when the paper then uses it as a region of interest or seed, and so is a peak from the authors' own earlier study or dataset given with its statistics. The slice and crosshair positions of a figure are results, even when no peak or statistic is stated at them. In MEG or EEG, the peak of a tested effect in source space is a result; fNIRS channels reported with statistics for a significant effect are results. `result_kind` says what kind of analysis produced it.
     """
     anchor = "anchor"
     """
-    A location that defines an analysis rather than resulting from one: a region of interest, a connectivity seed, a stimulation target such as an rTMS site, a network node. `anchor_kind` says which.
+    A location that defines an analysis rather than resulting from one: a region of interest, a connectivity seed, a stimulation target such as an rTMS site, a network node. `anchor_kind` says which. A peak given without statistics as the definition of a region of interest or seed ("a 6 mm sphere centred on the peak") is an anchor; the same peak reported with its statistics is a `result`.
     """
     localization = "localization"
     """
-    Where a sensor, electrode, fiducial, intracranial contact, dipole or anatomical landmark is. Metadata about a measurement, not a finding.
+    Where a sensor, electrode, fiducial, intracranial contact, dipole or anatomical landmark is. Metadata about a measurement, not a finding. MEG and EEG dipole or source fits are localizations, including fits made per subject: an EEG meta-analysis could count them as results, which is why the modality stays recorded, but this role is judged for a coordinate-based meta-analysis. The peak of a tested effect in source space is a `result`.
     """
     reference = "reference"
     """
-    Coordinates from other studies, quoted for comparison or marked on a figure: the crosshairs at a dACC peak from a prior paper, the visual word form area from Cohen et al. A cited location used to place a region of interest is an `anchor`, not a reference.
+    Coordinates from other studies, quoted for comparison or marked on a figure: a dACC peak from a prior paper, the visual word form area from Cohen et al. A peak from the authors' own earlier study or dataset is a reference when it is given without statistics and a `result` when it is given with them. A cited location used to place a region of interest is an `anchor`, not a reference.
     """
     other = "other"
     """
-    A real brain coordinate in the paper that is none of the above: slice positions given only to show a figure with no finding at them, a simulated source position or lesion centre, a worked-example voxel of an atlas. Numbers that are not brain coordinates (lattice points, phantom or rodent bregma positions, orientation vectors) are not coordinates at all and are left out of the parse, not given this role.
+    A real brain coordinate in the paper that is none of the above: a simulated source position or lesion centre, a worked-example voxel of an atlas. Numbers that are not brain coordinates (lattice points, phantom or rodent bregma positions, orientation vectors) are not coordinates at all and are left out of the parse, not given this role.
     """
 
 
