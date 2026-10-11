@@ -240,10 +240,12 @@ What each side may rely on:
   correction together), so pondie copies them into InferenceSettings rather than
   re-reading them. Where storage's single `multiple_comparison_method` cannot hold two
   levels, the parse keeps both.
-- **Roles are classified, not proposed.** The `roles` stage sets `role`, `anchor_kind`,
-  `from_prior_study` (a flag beside the role, not a role), `role_confidence` and
-  `role_source`. Role is required and set only there, after analysis identification;
-  the extractors never propose one.
+- **Roles are set by the ingestion workflow and audited by pondie.** The `roles` classifier
+  stage sets `role`, `anchor_kind`, `from_prior_study` (a flag beside the role, not a
+  role), `role_confidence` and `role_source`. Role is required and set there, after
+  analysis identification. It is the ingestion workflow's proposal: pondie's accept
+  confirms it and relabel overrides it with a reviewed correction that wins. The extractors
+  never propose a role.
 - **Retracted papers are marked and excluded by default.** `Bibliography.corrections`
   carries the retraction notice; a studyset leaves the paper out unless a filter asks for
   it.

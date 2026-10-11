@@ -100,8 +100,10 @@ classes:
 
       In an original parse, the grouping is the ingestion workflow's proposal, made from a
       table and its caption. pondie confirms or overrides it with the whole paper in view.
-      The role is not a proposal: the `roles` stage sets it, after the analyses are
-      identified.
+      The role is required and is set in the ingestion workflow by the `roles` classifier
+      stage, after the analyses are identified. It is also the ingestion workflow's
+      proposal: pondie's accept confirms it, and a relabel overrides it with a reviewed
+      correction that wins.
     attributes:
       key:
         identifier: true
@@ -181,10 +183,11 @@ classes:
           target -- becomes a CoordinateSet there, and never enters a studyset as an
           analysis.
 
-          Required. Only the ingestion workflow's `roles` stage sets it, after the analyses
-          are identified: a classifier that reads each set and its context, named by
-          `role_source`. The stages that identify analyses do not propose a role, and
-          nothing supplies a default.
+          Required. Set in the ingestion workflow by the `roles` classifier stage, after the
+          analyses are identified: a classifier that reads each set and its context, named by
+          `role_source`. It is the ingestion workflow's proposal, which pondie audits: accept
+          confirms it, and relabel overrides it with a reviewed correction that wins. The
+          extractors never propose a role, and nothing supplies a default.
 
           Numbers that are not brain coordinates, such as channel numbers or lattice
           points, get no role. They are not a coordinate set.
@@ -473,7 +476,7 @@ classes:
   AnalysisVerdict:
     description: >-
       pondie's verdict on one analysis of the parse a revision revises, reached while
-      extracting the whole record. The verdict overrides the original's proposal.
+      extracting the whole record. The verdict overrides the original's proposal, grouping and role alike.
 
       What a verdict does to what is stored against the analysis -- claims, their
       evidence, and users' votes on them:

@@ -290,11 +290,11 @@ class AuditVerdict(str, Enum):
     """
     accept = "accept"
     """
-    Confirms the classifier's role for the analysis. Its key is unchanged.
+    Confirms the ingestion workflow's proposed role for the analysis. Its key is unchanged.
     """
     relabel = "relabel"
     """
-    A reviewed correction of the classifier's role, which overrides it: the same points in a different role, such as a region of interest, a seed, a stimulation target where the classifier said result. Its key is unchanged.
+    A reviewed correction of the ingestion workflow's proposed role, which wins: the same points in a different role, such as a region of interest, a seed, a stimulation target where the proposal said result. Its key is unchanged.
     """
     split = "split"
     """
@@ -1482,7 +1482,7 @@ class CoordinateParse(ConfiguredBaseModel):
 class ParsedAnalysis(ConfiguredBaseModel):
     """
     The points a paper reports together for one tested effect, or for one non-result purpose such as the regions of interest an analysis used.
-    In an original parse, the grouping is the ingestion workflow's proposal, made from a table and its caption. pondie confirms or overrides it with the whole paper in view. The role is not a proposal: the `roles` stage sets it, after the analyses are identified.
+    In an original parse, the grouping is the ingestion workflow's proposal, made from a table and its caption. pondie confirms or overrides it with the whole paper in view. The role is required and is set in the ingestion workflow by the `roles` classifier stage, after the analyses are identified. It is also the ingestion workflow's proposal: pondie's accept confirms it, and a relabel overrides it with a reviewed correction that wins.
     """
     key: str = Field(default=..., description="""The analysis's identity, derived from where it was read, so it survives re-runs, reordering and deduplication: a re-run that reads the same place reaches the same key. It is derived from `cells` or `text_spans`, never from `points`, so an analysis with no points -- a contrast a table lists as \"n.s.\" -- still has a key of its own.
 For a table analysis, `<table_id>#<h>`. Write `<row>:<column_group>` for each of `cells`, drop duplicates, sort by row and then column group, and join with commas; then append `|` and the analysis's `name` normalized (see below). `h` is the first 12 hex characters of the sha1 of that string's UTF-8 bytes.
@@ -1499,7 +1499,7 @@ This key is what the extraction record's `Analysis.source_table_analysis` and `C
     space_as_printed: Optional[str] = Field(default=None)
     space_basis: Optional[SpaceBasis] = Field(default=None)
     role: Union[CoordinateRole, str] = Field(default=..., description="""What the points are for. Only a `result` is an analysis with a statistic in the extraction record; an `anchor` -- a region of interest, a seed, a stimulation target -- becomes a CoordinateSet there, and never enters a studyset as an analysis.
-Required. Only the ingestion workflow's `roles` stage sets it, after the analyses are identified: a classifier that reads each set and its context, named by `role_source`. The stages that identify analyses do not propose a role, and nothing supplies a default.
+Required. Set in the ingestion workflow by the `roles` classifier stage, after the analyses are identified: a classifier that reads each set and its context, named by `role_source`. It is the ingestion workflow's proposal, which pondie audits: accept confirms it, and relabel overrides it with a reviewed correction that wins. The extractors never propose a role, and nothing supplies a default.
 Numbers that are not brain coordinates, such as channel numbers or lattice points, get no role. They are not a coordinate set.""")
     anchor_kind: Optional[Union[AnchorKind, str]] = Field(default=None, description="""For an `anchor`, what it defines.""")
     from_prior_study: Optional[bool] = Field(default=None, description="""The coordinates come from another publication rather than from this study: a peak quoted for comparison (always true for `role: reference`), or another study's peak taken as this study's ROI or seed. Separate from the role, because a borrowed seed is still the seed this study's analysis used. False when the study defined them itself, including an ROI built from its own earlier result.""")
@@ -1602,7 +1602,7 @@ class Threshold(ConfiguredBaseModel):
 
 class AnalysisVerdict(ConfiguredBaseModel):
     """
-    pondie's verdict on one analysis of the parse a revision revises, reached while extracting the whole record. The verdict overrides the original's proposal.
+    pondie's verdict on one analysis of the parse a revision revises, reached while extracting the whole record. The verdict overrides the original's proposal, grouping and role alike.
     What a verdict does to what is stored against the analysis -- claims, their evidence, and users' votes on them:
     - accept, relabel: nothing moves. The key is unchanged, so everything stored against
       it applies to the revision as it stands.
