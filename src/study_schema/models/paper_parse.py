@@ -1482,7 +1482,7 @@ class CoordinateParse(ConfiguredBaseModel):
 class ParsedAnalysis(ConfiguredBaseModel):
     """
     The points a paper reports together for one tested effect, or for one non-result purpose such as the regions of interest an analysis used.
-    In an original parse, both the grouping and the role are the ingestion workflow's proposal, made from a table and its caption. pondie confirms or overrides them with the whole paper in view.
+    In an original parse, the grouping is the ingestion workflow's proposal, made from a table and its caption. pondie confirms or overrides it with the whole paper in view. The role is not a proposal: the `roles` stage sets it, after the analyses are identified.
     """
     key: str = Field(default=..., description="""The analysis's identity, derived from where it was read, so it survives re-runs, reordering and deduplication: a re-run that reads the same place reaches the same key. It is derived from `cells` or `text_spans`, never from `points`, so an analysis with no points -- a contrast a table lists as \"n.s.\" -- still has a key of its own.
 For a table analysis, `<table_id>#<h>`. Write `<row>:<column_group>` for each of `cells`, drop duplicates, sort by row and then column group, and join with commas; then append `|` and the analysis's `name` normalized (see below). `h` is the first 12 hex characters of the sha1 of that string's UTF-8 bytes.
@@ -1499,14 +1499,13 @@ This key is what the extraction record's `Analysis.source_table_analysis` and `C
     space_as_printed: Optional[str] = Field(default=None)
     space_basis: Optional[SpaceBasis] = Field(default=None)
     role: Union[CoordinateRole, str] = Field(default=..., description="""What the points are for. Only a `result` is an analysis with a statistic in the extraction record; an `anchor` -- a region of interest, a seed, a stimulation target -- becomes a CoordinateSet there, and never enters a studyset as an analysis.
-The ingestion workflow's `roles` stage decides the role. It is a classifier that reads each set and its context; `role_source` names it.
-When the classifier is not confident, the proposed role stands. A table set is a `result`. A text set keeps the role the prose stage recorded in these fields (`role`, `anchor_kind`, `from_prior_study`).
+Required. Only the ingestion workflow's `roles` stage sets it, after the analyses are identified: a classifier that reads each set and its context, named by `role_source`. The stages that identify analyses do not propose a role, and nothing supplies a default.
 Numbers that are not brain coordinates, such as channel numbers or lattice points, get no role. They are not a coordinate set.""")
     anchor_kind: Optional[Union[AnchorKind, str]] = Field(default=None, description="""For an `anchor`, what it defines.""")
     from_prior_study: Optional[bool] = Field(default=None, description="""The coordinates come from another publication rather than from this study: a peak quoted for comparison (always true for `role: reference`), or another study's peak taken as this study's ROI or seed. Separate from the role, because a borrowed seed is still the seed this study's analysis used. False when the study defined them itself, including an ROI built from its own earlier result.""")
     prior_study_evidence: Optional[list[TextSpan]] = Field(default=None, description="""The citation or sentence showing the coordinates come from another publication.""")
-    role_confidence: Optional[float] = Field(default=None, description="""The classifier's probability for `role` (and `anchor_kind`). Absent when the proposal stood because no classifier ran.""", ge=0, le=1)
-    role_source: Optional[str] = Field(default=None, description="""What decided the role: `proposal` when the proposal stood, otherwise the classifier's name and version, such as `set-role-encoder@2026-10-09`.""")
+    role_confidence: Optional[float] = Field(default=None, description="""The classifier's probability for `role` (and `anchor_kind`).""", ge=0, le=1)
+    role_source: Optional[str] = Field(default=None, description="""The classifier that set the role, by name and version, such as `set-role-encoder@2026-10-09`.""")
     split: Optional[SignSplit] = Field(default=None, description="""Present on both halves of an analysis split by sign, and only there. The split is declared here and nowhere else: a reader never infers it from a name.""")
     derived_from: Optional[list[str]] = Field(default=None, description="""On a revision, the keys of the revised parse's analyses this one was made from by a split or a merge. Absent on an analysis carried over unchanged.""")
     statistic: Optional[Union[StatisticKind, str]] = Field(default=None, description="""The test statistic of this analysis's one test -- t, z, F, chi_square -- whatever the columns call it. One analysis is one test. Every value at a point that describes the same test belongs to that point: the statistic, its p value (uncorrected and corrected), an effect size, the cluster's p. A different test is a different analysis, even on the same rows: an omnibus F and the directional post-hoc t that follows it are two analyses, told apart by `column_group` when one table prints both.""")

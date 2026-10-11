@@ -98,9 +98,10 @@ classes:
       The points a paper reports together for one tested effect, or for one non-result
       purpose such as the regions of interest an analysis used.
 
-      In an original parse, both the grouping and the role are the ingestion workflow's
-      proposal, made from a table and its caption. pondie confirms or overrides them with
-      the whole paper in view.
+      In an original parse, the grouping is the ingestion workflow's proposal, made from a
+      table and its caption. pondie confirms or overrides it with the whole paper in view.
+      The role is not a proposal: the `roles` stage sets it, after the analyses are
+      identified.
     attributes:
       key:
         identifier: true
@@ -180,12 +181,10 @@ classes:
           target -- becomes a CoordinateSet there, and never enters a studyset as an
           analysis.
 
-          The ingestion workflow's `roles` stage decides the role. It is a classifier that
-          reads each set and its context; `role_source` names it.
-
-          When the classifier is not confident, the proposed role stands. A table set is a
-          `result`. A text set keeps the role the prose stage recorded in these fields
-          (`role`, `anchor_kind`, `from_prior_study`).
+          Required. Only the ingestion workflow's `roles` stage sets it, after the analyses
+          are identified: a classifier that reads each set and its context, named by
+          `role_source`. The stages that identify analyses do not propose a role, and
+          nothing supplies a default.
 
           Numbers that are not brain coordinates, such as channel numbers or lattice
           points, get no role. They are not a coordinate set.
@@ -212,13 +211,12 @@ classes:
         minimum_value: 0
         maximum_value: 1
         description: >-
-          The classifier's probability for `role` (and `anchor_kind`). Absent when the
-          proposal stood because no classifier ran.
+          The classifier's probability for `role` (and `anchor_kind`).
       role_source:
         range: string
         description: >-
-          What decided the role: `proposal` when the proposal stood, otherwise the
-          classifier's name and version, such as `set-role-encoder@2026-10-09`.
+          The classifier that set the role, by name and version, such as
+          `set-role-encoder@2026-10-09`.
       split:
         range: SignSplit
         inlined: true
