@@ -280,7 +280,7 @@ class SplitRule(str, Enum):
     """
     sign_of_directional_statistic = "sign_of_directional_statistic"
     """
-    Points with a negative value form the inverse half; every other point, unsigned ones included, forms the original half. An unsigned point's side is the half it was placed in.
+    Points with a negative value form the inverse half, with their directional statistic values negated so they read positive; every other point, unsigned ones included, forms the original half. An unsigned point's side is the half it was placed in, and its p, F or chi-square values stay as printed.
     """
 
 
@@ -1552,7 +1552,8 @@ class TextSweep(ConfiguredBaseModel):
 
 class SignSplit(ConfiguredBaseModel):
     """
-    One half of an analysis the producer split by the sign of its points (see StatisticKind). The original half is the analysis as named, with the points whose values are positive or unsigned; the inverse half is the reversed contrast, with the points whose values are negative. Positive and negative describe statistic values only, never a half: a table of decreases has decreases in its original half.
+    One half of an analysis the producer split by the sign of its points (see StatisticKind). The original half is the analysis as named and holds the points whose printed values are positive or unsigned. The inverse half is the reversed contrast and holds the points printed negative, whose directional statistic values are negated so they read positive. p, F and chi-square are unsigned and stay as printed, except a value printed negative, which counts as signed and is negated like any other.
+    `half: inverse` with `original_analysis` (the original's `key`) records the inversion. The inverse half is named by the derived reversed contrast where one can be derived, otherwise \"X (inverse)\" for the original's name X. Direction lives on the condition weights, not on points: the inverse's weights are the original's, negated. Positive and negative describe statistic values only, never a half: a table of decreases has decreases in its original half.
     pondie extracts the original half and derives the inverse half's record from it by flipping the direction of its cells, so the two never disagree and the inverse half costs no extraction. The derived record carries `mirror_of`, which keeps a meta-analysis from counting one contrast twice.
     The half lives on the analysis, not its points: an unsigned point (only p, F or chi-square values, or none) in a split analysis is on that analysis's side.
     """
@@ -1570,7 +1571,7 @@ class ParsedPoint(ConfiguredBaseModel):
     row: Optional[int] = Field(default=None, description="""For a table point, the TableRow it was read from.""", ge=0)
     column_group: Optional[int] = Field(default=None, description="""For a table point, which block of coordinate columns it was read from, numbered from 0 left to right. 0 in a table with one block. Two contrasts printed side by side share rows and differ here.""", ge=0)
     text_span: Optional[TextSpan] = Field(default=None, description="""For a text point, the characters it was read from.""")
-    values: Optional[list[PointValue]] = Field(default=None, description="""The values at the point. They are the only record of its sign (StatisticKind gives the rule): a negative value makes it negative, and a point with only p, F or chi-square values, or none, is unsigned and takes the side of its analysis's `split` half. The negative points of a set are their own analysis, the inverse half, declared by `split`; a consumer records the inverse on the contrast's conditions (negated weights), not per point. There is no point-level deactivation flag, and the parse never writes neurostore's Point.deactivation.""")
+    values: Optional[list[PointValue]] = Field(default=None, description="""The values at the point. They are the only record of its sign (StatisticKind gives the rule): a negative value makes it negative, and a point with only p, F or chi-square values, or none, is unsigned and takes the side of its analysis's `split` half. On the inverse half the directional statistic values are negated so they read positive; p, F and chi-square stay as printed. `split` declares the inverse half, and a consumer records the inverse on the contrast's conditions (negated weights), not per point. There is no point-level deactivation flag, and the parse never writes neurostore's Point.deactivation.""")
     cluster_size: Optional[float] = Field(default=None, ge=0)
     cluster_measure: Optional[ClusterMeasure] = Field(default=None)
     is_subpeak: Optional[bool] = Field(default=None)
