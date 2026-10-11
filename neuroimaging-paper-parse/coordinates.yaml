@@ -338,10 +338,17 @@ classes:
   SignSplit:
     description: >-
       One half of an analysis the producer split by the sign of its points (see StatisticKind).
-      The original half is the analysis as named, with the points whose values are positive
-      or unsigned; the inverse half is the reversed contrast, with the points whose values
-      are negative. Positive and negative describe statistic values only, never a half: a
-      table of decreases has decreases in its original half.
+      The original half is the analysis as named, with its points as printed. The inverse
+      half is the reversed contrast: its directional statistic values are negated so they
+      read positive. p, F and chi-square are unsigned and stay as printed, except a value
+      printed negative, which counts as signed and is negated like any other.
+
+      `half: inverse` with `original_analysis` (the original's `key`) records the
+      inversion. The inverse half is named by the derived reversed contrast where one can
+      be derived, otherwise "X (inverse)" for the original's name X. Direction lives on the
+      condition weights, not on points: the inverse's weights are the original's, negated.
+      Positive and negative describe statistic values only, never a half: a table of
+      decreases has decreases in its original half.
 
       pondie extracts the original half and derives the inverse half's record from it by
       flipping the direction of its cells, so the two never disagree and the inverse half
@@ -400,14 +407,14 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: >-
-          The values at the point. They are the only record of its sign (StatisticKind
-          gives the rule): a negative value makes it negative, and a point with only p, F or
-          chi-square values, or none, is unsigned and takes the side of its analysis's
-          `split` half. The negative points of a set are their own
-          analysis, the inverse half, declared by `split`; a consumer records the
-          inverse on the contrast's conditions (negated weights), not per point. There is
-          no point-level deactivation flag, and the parse never writes neurostore's
-          Point.deactivation.
+          The values at the point. They are the only record of its sign (StatisticKind gives
+          the rule): a negative value makes it negative, and a point with only p, F or
+          chi-square values, or none, is unsigned and takes the side of its analysis's `split`
+          half. On the inverse half the directional statistic values are negated so they read
+          positive; p, F and chi-square stay as printed. `split` declares the inverse half,
+          and a consumer records the inverse on the contrast's conditions (negated weights),
+          not per point. There is no point-level deactivation flag, and the parse never
+          writes neurostore's Point.deactivation.
       cluster_size:
         range: float
         minimum_value: 0
