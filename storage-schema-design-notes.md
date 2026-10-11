@@ -532,8 +532,8 @@ without redoing anything else.
 The first draft also had `display` for coordinates given only to show a figure. It was
 removed: results are often displayed, so it did not cut along what a coordinate is. Peaks
 of this study shown in a figure are `result`, crosshairs at a prior study's coordinates
-are `reference`, an rTMS target is an `anchor`, and slice positions with no finding are
-`other`. In tables, 91% of points are results and the rest anchors.
+are `reference`, an rTMS target is an `anchor`, and a figure's slice positions are
+`result` even with no finding stated at them. In tables, 91% of points are results and the rest anchors.
 `localization` and `reference` occurred only in text in this sample (7 and 36
 points); `TablePurpose.prior_literature_coordinates` already covers the tables that hold
 references. The one gap found was the centre of an artificial lesion used to test a method,
