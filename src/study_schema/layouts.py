@@ -230,7 +230,7 @@ def check_run(run: Run, corpus_root: Path) -> dict[str, list[str]]:
 
 
 def _check_keys(parse: CoordinateParse, what: str) -> list[str]:
-    """Keys unique, and each the one its own cells or spans derive."""
+    """Keys unique, and each the one its own name, space and points derive."""
     seen: set[str] = set()
     problems = []
     for analysis in parse.analyses:
@@ -238,8 +238,6 @@ def _check_keys(parse: CoordinateParse, what: str) -> list[str]:
             problems.append(f"{what} has two analyses keyed {analysis.key}")
         seen.add(analysis.key)
         derived = key_for(analysis)
-        if derived is None:
-            problems.append(f"{analysis.key} has no cells or spans to derive a key from")
-        elif derived != analysis.key:
-            problems.append(f"{analysis.key} is not the key its cells give: {derived}")
+        if derived != analysis.key:
+            problems.append(f"{analysis.key} is not the key its content gives: {derived}")
     return problems

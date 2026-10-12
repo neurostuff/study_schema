@@ -3,7 +3,7 @@ name: neuroimaging-paper-parse-coordinates
 title: Neuroimaging Paper Parse Coordinates Module
 description: >-
   Contract C3: a paper's reported coordinates, grouped into analyses, each analysis keyed
-  by the cells it was read from.
+  by its name, space and points.
 prefixes:
   linkml: https://w3id.org/linkml/
   parse: https://neurostuff.org/schemas/neuroimaging-paper-parse/
@@ -28,9 +28,9 @@ classes:
       store it as a new version of the paper's analyses without consulting the parse it
       revises.
 
-      Analyses that pondie accepts or relabels keep their keys, because their cells are
-      unchanged, so claims made against them carry over to the revision untouched. Only a
-      split, a merge or an omission changes which keys exist.
+      Analyses that pondie accepts or relabels keep their keys, because their name, space
+      and points are unchanged, so claims made against them carry over to the revision
+      untouched. Only a split, a merge or an omission changes which keys exist.
     attributes:
       header:
         range: ArtifactHeader
@@ -110,27 +110,35 @@ classes:
         range: string
         required: true
         description: >-
-          The analysis's identity, derived from where it was read, so it survives re-runs,
-          reordering and deduplication: a re-run that reads the same place reaches the same
-          key. It is derived from `cells` or `text_spans`, never from `points`, so an analysis
-          with no points -- a contrast a table lists as "n.s." -- still has a key of its own.
+          The analysis's identity, derived from what was extracted -- its `name`,
+          `coordinate_space` and `points` -- never from where it was read, so the same
+          analysis read from two sources (a table and its HTML copy, a table and the
+          sentence restating it) reaches the same key, and a re-run that extracts the same
+          content reaches it again. A rename or a changed point is a new key. The name is
+          part of the key because differently named analyses can print identical points.
 
-          For a table analysis, `<table_id>#<h>`. Write `<row>:<column_group>` for each of
-          `cells`, drop duplicates, sort by row and then column group, and join with commas;
-          then append `|` and the analysis's `name` normalized (see below). `h` is the first 12
-          hex characters of the sha1 of that string's UTF-8 bytes.
+          `analysis#<h>`, where `h` is the first 16 hex characters of the sha256 of the UTF-8
+          bytes of the compact JSON array `[<name>, <space>, [<point>, ...]]` (no whitespace,
+          non-ASCII characters unescaped). `<name>` is
+          `name` normalized: Unicode NFKC, casefolded, every dash (Unicode Pd and U+2212
+          minus) as `-`, zero-width characters and all whitespace dropped, so `PO > Sil` and
+          `PO>Sil` are one name. `<space>` is `coordinate_space`, or `""` when absent.
 
-          For a text or figure analysis, `text#<h>` or `figure#<h>`, built the same way from
-          each of `text_spans` as `<start_char>-<end_char>`, then `|` and the analysis's
-          `name` normalized (Unicode NFKC, casefolded, every dash (Unicode Pd and U+2212 minus) as `-`, zero-width
-          characters and all whitespace dropped, so `PO > Sil` and `PO>Sil` are one name). One sentence, or one set of
-          rows, can name several analyses, so the name is part of every key. A key follows the name:
-          a re-extraction that renames an analysis mints a new key.
+          Each `<point>` is `[<x>, <y>, <z>, <space>, [[<kind>, <value>], ...]]`: the
+          coordinates rounded to 0.01 mm and written with two decimals (`"-4.00"`); the
+          point's own `space` when it differs from the analysis's, else `""`; and each of its
+          `values` as its `kind` and its value written to 6 significant digits (`"5.8"`,
+          `"3.2e-12"`). Negative zero is written as zero. Each point's values, and then the
+          points, are sorted by their own compact JSON, in code point order.
+
+          An analysis with no points -- a contrast a table lists as "n.s." -- hashes its name
+          and space alone. The two halves of a sign split hold different points under
+          different names, so each has its own key. `study_schema.keys.analysis_key`
+          computes it.
 
           This key is what the extraction record's `Analysis.source_table_analysis` and
           `CoordinateSet.id` name, and what neurostore stores as `Analysis.source_id`. Two
-          analyses of one parse never cover the same cells or spans under one normalized
-          name, so never share a key.
+          analyses of one parse never share a name, space and points, so never share a key.
       cells:
         range: CellRef
         multivalued: true
@@ -315,8 +323,8 @@ classes:
         range: string
         required: true
         description: >-
-          Why it was left out, for example that it repeats a kept analysis (same spans and
-          same normalized name) or that its passage is not in the text.
+          Why it was left out, for example that it repeats a kept analysis (the same key) or
+          that its passage is not in the text.
 
   TextSweep:
     description: >-

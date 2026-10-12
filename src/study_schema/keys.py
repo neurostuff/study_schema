@@ -1,41 +1,39 @@
 """Analysis keys, computed one way for everyone who mints or checks one.
 
-`ParsedAnalysis.key` is derived from where an analysis was read, never from its points, so
-a re-run that reads the same place reaches the same key and an "n.s." contrast with no
-points still has one. Ingestion mints keys, pondie mints them for the analyses a revision
-adds or the replacements of a split, and the ingester stores them as `Analysis.source_id`:
-three producers, one rule, here.
+`ParsedAnalysis.key` is derived from what was extracted -- the analysis's name, its space
+and its points -- never from where it was read, so the same analysis read from two sources
+(a table and its HTML copy, a table and the sentence restating it) reaches the same key.
+Ingestion mints keys, pondie mints them for the analyses a revision adds or the
+replacements of a split, and the ingester stores them as `Analysis.source_id`: three
+producers, one rule, here.
 
-    table_key("tbl2", [(3, 0), (4, 0)], "PO > Sil") -> "tbl2#<12 hex>"
-    span_key("text", [(1200, 1288)], "PO > Sil") -> "text#<12 hex>"
-    key_for(analysis)                         -> the key its cells or spans give
-    cell_locator([(4, 0), (3, 0)])            -> "3:0,4:0", the string a table key hashes
-    span_locator([(1200, 1288)])              -> "1200-1288", the spans part of a span key's hash
-    normalize_name("PO \u2013  Sil")           -> "po-sil", the name part of a span key's hash
+    analysis_key("PO > Sil", "MNI", points)   -> "analysis#<16 hex>"
+    key_for(analysis)                         -> the key its name, space and points give
+    normalize_name("PO \u2013  Sil")           -> "po-sil", the name part of the key
 
-Use the locators when a hash must cover the same cells or spans a key does (neurostore's
-entity hashes), so the canonical form lives here once.
+The key hashes the compact JSON `[<normalized name>, <space>, [<point>, ...]]`, each point
+`[<x>, <y>, <z>, <its own space>, [[<kind>, <value>], ...]]` with its numbers written as
+strings, values and points sorted by their JSON; `ParsedAnalysis.key` in coordinates.yaml
+spells out every step. 16 hex characters (64 bits) keep a collision among one paper's
+analyses out of reach.
 """
 
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 import unicodedata
 from typing import Iterable, Optional
 
-__all__ = ["cell_locator", "key_for", "normalize_name", "span_key", "span_locator", "table_key"]
+__all__ = ["analysis_key", "key_for", "normalize_name"]
 
 
-def _digest(locator: str) -> str:
-    return hashlib.sha1(locator.encode("utf-8")).hexdigest()[:12]
-
-
-_ZERO_WIDTH = re.compile("[\u200b\u200c\u200d\u2060\ufeff]")
+_ZERO_WIDTH = re.compile("[​‌‍⁠﻿]")
 _DASHES = {
     ord(c): "-"
     for c in map(chr, range(0x110000))
-    if unicodedata.category(c) == "Pd" or c == "\u2212"
+    if unicodedata.category(c) == "Pd" or c == "−"
 }
 
 
@@ -49,48 +47,33 @@ def normalize_name(name: str) -> str:
     return "".join(_ZERO_WIDTH.sub("", text).split())
 
 
-def cell_locator(cells: Iterable[tuple[int, int]]) -> str:
-    """Each cell's `<row>:<column_group>`, deduplicated, sorted and comma-joined; '' for none."""
-    unique = sorted({(int(row), int(group)) for row, group in cells})
-    return ",".join(f"{row}:{group}" for row, group in unique)
+def _json(value) -> str:
+    return json.dumps(value, separators=(",", ":"), ensure_ascii=False)
 
 
-def span_locator(spans: Iterable[tuple[int, int]]) -> str:
-    """Each span's `<start_char>-<end_char>`, deduplicated, sorted and comma-joined; '' for none."""
-    unique = sorted({(int(start), int(end)) for start, end in spans})
-    return ",".join(f"{start}-{end}" for start, end in unique)
+def _point(point, space: str) -> list:
+    # Papers print millimetres to at most two decimals, so 0.01 mm keeps every printed
+    # coordinate apart while absorbing float noise from parsing and unit conversion.
+    xyz = [f"{round(c, 2) + 0.0:.2f}" for c in point.coordinates]
+    own_space = point.space if point.space and point.space != space else ""
+    # Six significant digits keep every printed digit of a statistic or a p value
+    # (p = 3.2e-12 stays apart from 3.3e-12) and drop binary float noise.
+    values = sorted(([v.kind, f"{v.value + 0.0:.6g}"] for v in point.values or ()), key=_json)
+    return [*xyz, own_space, values]
 
 
-def table_key(table_id: str, cells: Iterable[tuple[int, int]], name: str) -> str:
-    """`<table_id>#<h>`, `h` the first 12 hex of the sha1 of `<cell_locator>|<normalized name>`.
+def analysis_key(name: str, space: Optional[str], points: Iterable) -> str:
+    """`analysis#<16 hex>` over the normalized name, the space and the sorted points.
 
-    The name is part of the key because two contrasts can be read from the same rows.
+    `points` are `ParsedPoint`s, or anything with their `coordinates`, `space` and
+    `values` (each with `kind` and `value`). The name is part of the key because
+    differently named analyses can print identical points.
     """
-    locator = cell_locator(cells)
-    if not locator:
-        raise ValueError(f"a table analysis of {table_id} needs at least one cell")
-    return f"{table_id}#{_digest(f'{locator}|{normalize_name(name)}')}"
+    space = space or ""
+    canonical = [normalize_name(name), space, sorted((_point(p, space) for p in points), key=_json)]
+    return "analysis#" + hashlib.sha256(_json(canonical).encode("utf-8")).hexdigest()[:16]
 
 
-def span_key(origin: str, spans: Iterable[tuple[int, int]], name: str) -> str:
-    """`text#<h>` or `figure#<h>`, `h` the first 12 hex of the sha1 of `<span_locator>|<normalized name>`.
-
-    The name is part of the key because one sentence can state several analyses.
-    """
-    if origin not in ("text", "figure"):
-        raise ValueError(f"span keys are for text and figure analyses, not {origin!r}")
-    locator = span_locator(spans)
-    if not locator:
-        raise ValueError(f"a {origin} analysis needs at least one span")
-    return f"{origin}#{_digest(f'{locator}|{normalize_name(name)}')}"
-
-
-def key_for(analysis) -> Optional[str]:
-    """The key a `ParsedAnalysis`'s own cells or spans give it; None if it has neither."""
-    if analysis.origin == "table":
-        if not analysis.table_id or not analysis.cells:
-            return None
-        return table_key(analysis.table_id, ((c.row, c.column_group) for c in analysis.cells), analysis.name)
-    if not analysis.text_spans:
-        return None
-    return span_key(analysis.origin, ((s.start_char, s.end_char) for s in analysis.text_spans), analysis.name)
+def key_for(analysis) -> str:
+    """The key a `ParsedAnalysis`'s own name, space and points give it."""
+    return analysis_key(analysis.name, analysis.coordinate_space, analysis.points or ())

@@ -432,7 +432,7 @@
     },
     "CoordinateParse": {
       "additionalProperties": false,
-      "description": "Every coordinate a paper reports, grouped into analyses. An original parse is written by the ingestion workflow; a revision is written by pondie when its audit disagrees with the original.\nA parse is never edited after it is written. A reader that disagrees with it writes a revision instead, and the revision is a complete parse on its own: neurostore can store it as a new version of the paper's analyses without consulting the parse it revises.\nAnalyses that pondie accepts or relabels keep their keys, because their cells are unchanged, so claims made against them carry over to the revision untouched. Only a split, a merge or an omission changes which keys exist.",
+      "description": "Every coordinate a paper reports, grouped into analyses. An original parse is written by the ingestion workflow; a revision is written by pondie when its audit disagrees with the original.\nA parse is never edited after it is written. A reader that disagrees with it writes a revision instead, and the revision is a complete parse on its own: neurostore can store it as a new version of the paper's analyses without consulting the parse it revises.\nAnalyses that pondie accepts or relabels keep their keys, because their name, space and points are unchanged, so claims made against them carry over to the revision untouched. Only a split, a merge or an omission changes which keys exist.",
       "properties": {
         "analyses": {
           "description": "May be empty: the parse ran and found no analysis. A paper the parse never ran on has no CoordinateParse at all, so the two are never confused, and `tables` says what reading each table found.",
@@ -806,7 +806,7 @@
           "type": "string"
         },
         "reason": {
-          "description": "Why it was left out, for example that it repeats a kept analysis (same spans and same normalized name) or that its passage is not in the text.",
+          "description": "Why it was left out, for example that it repeats a kept analysis (the same key) or that its passage is not in the text.",
           "type": "string"
         },
         "text_spans": {
@@ -890,7 +890,7 @@
           ]
         },
         "key": {
-          "description": "The analysis's identity, derived from where it was read, so it survives re-runs, reordering and deduplication: a re-run that reads the same place reaches the same key. It is derived from `cells` or `text_spans`, never from `points`, so an analysis with no points -- a contrast a table lists as \"n.s.\" -- still has a key of its own.\nFor a table analysis, `<table_id>#<h>`. Write `<row>:<column_group>` for each of `cells`, drop duplicates, sort by row and then column group, and join with commas; then append `|` and the analysis's `name` normalized (see below). `h` is the first 12 hex characters of the sha1 of that string's UTF-8 bytes.\nFor a text or figure analysis, `text#<h>` or `figure#<h>`, built the same way from each of `text_spans` as `<start_char>-<end_char>`, then `|` and the analysis's `name` normalized (Unicode NFKC, casefolded, every dash (Unicode Pd and U+2212 minus) as `-`, zero-width characters and all whitespace dropped, so `PO > Sil` and `PO>Sil` are one name). One sentence, or one set of rows, can name several analyses, so the name is part of every key. A key follows the name: a re-extraction that renames an analysis mints a new key.\nThis key is what the extraction record's `Analysis.source_table_analysis` and `CoordinateSet.id` name, and what neurostore stores as `Analysis.source_id`. Two analyses of one parse never cover the same cells or spans under one normalized name, so never share a key.",
+          "description": "The analysis's identity, derived from what was extracted -- its `name`, `coordinate_space` and `points` -- never from where it was read, so the same analysis read from two sources (a table and its HTML copy, a table and the sentence restating it) reaches the same key, and a re-run that extracts the same content reaches it again. A rename or a changed point is a new key. The name is part of the key because differently named analyses can print identical points.\n`analysis#<h>`, where `h` is the first 16 hex characters of the sha256 of the UTF-8 bytes of the compact JSON array `[<name>, <space>, [<point>, ...]]` (no whitespace, non-ASCII characters unescaped). `<name>` is `name` normalized: Unicode NFKC, casefolded, every dash (Unicode Pd and U+2212 minus) as `-`, zero-width characters and all whitespace dropped, so `PO > Sil` and `PO>Sil` are one name. `<space>` is `coordinate_space`, or `\"\"` when absent.\nEach `<point>` is `[<x>, <y>, <z>, <space>, [[<kind>, <value>], ...]]`: the coordinates rounded to 0.01 mm and written with two decimals (`\"-4.00\"`); the point's own `space` when it differs from the analysis's, else `\"\"`; and each of its `values` as its `kind` and its value written to 6 significant digits (`\"5.8\"`, `\"3.2e-12\"`). Negative zero is written as zero. Each point's values, and then the points, are sorted by their own compact JSON, in code point order.\nAn analysis with no points -- a contrast a table lists as \"n.s.\" -- hashes its name and space alone. The two halves of a sign split hold different points under different names, so each has its own key. `study_schema.keys.analysis_key` computes it.\nThis key is what the extraction record's `Analysis.source_table_analysis` and `CoordinateSet.id` name, and what neurostore stores as `Analysis.source_id`. Two analyses of one parse never share a name, space and points, so never share a key.",
           "type": "string"
         },
         "name": {
@@ -1320,7 +1320,7 @@
           ]
         },
         "table_id": {
-          "description": "The table's key, as the source's parser names it. Stable for the life of the parsed paper and used unchanged by every consumer: the coordinate parse's keys, the record's Table.id, neurostore's Table.t_id. Never renumbered from the printed label and never sanitized differently on disk.",
+          "description": "The table's key, as the source's parser names it. Stable for the life of the parsed paper and used unchanged by every consumer: the coordinate parse's `table_id`s, the record's Table.id, neurostore's Table.t_id. Never renumbered from the printed label and never sanitized differently on disk.",
           "type": "string"
         },
         "text_span": {
@@ -1863,7 +1863,7 @@
           ]
         },
         "row": {
-          "description": "The row's index among the table's body rows, from 0. What a coordinate parse's point cites, and so part of every analysis key.",
+          "description": "The row's index among the table's body rows, from 0. What a coordinate parse's point cites.",
           "minimum": 0,
           "type": "integer"
         },

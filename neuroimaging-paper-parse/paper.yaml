@@ -269,8 +269,8 @@ classes:
         required: true
         description: >-
           The table's key, as the source's parser names it. Stable for the life of the
-          parsed paper and used unchanged by every consumer: the coordinate parse's keys,
-          the record's Table.id, neurostore's Table.t_id. Never renumbered from the printed
+          parsed paper and used unchanged by every consumer: the coordinate parse's
+          `table_id`s, the record's Table.id, neurostore's Table.t_id. Never renumbered from the printed
           label and never sanitized differently on disk.
       label:
         range: string
@@ -314,7 +314,7 @@ classes:
         minimum_value: 0
         description: >-
           The row's index among the table's body rows, from 0. What a coordinate parse's
-          point cites, and so part of every analysis key.
+          point cites.
       cells:
         range: string
         multivalued: true

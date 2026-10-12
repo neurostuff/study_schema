@@ -5,7 +5,7 @@ from pydantic import ValidationError
 
 from conftest import load
 from study_schema import jsonschema
-from study_schema.keys import cell_locator, key_for, normalize_name, span_key, span_locator, table_key
+from study_schema.keys import analysis_key, key_for, normalize_name
 from study_schema.models import extraction, paper_parse, storage
 from study_schema.models.paper_parse import CoordinateParse, ParsedPaper
 
@@ -55,23 +55,33 @@ def test_unknown_json_schema():
         jsonschema.load("studyset")
 
 
+def _point(x, y, z, *values, space=None, **where):
+    return {"coordinates": [x, y, z], "space": space, "values": [{"kind": k, "value": v} for k, v in values], **where}
+
+
+def _analysis(name, points, space="MNI", **where):
+    return paper_parse.ParsedAnalysis.model_validate(
+        {"key": "unset", "origin": "table", "table_id": "tbl1", "name": name, "role": "result",
+         "coordinate_space": space, "points": points, **where}
+    )
+
+
+GAIN = [_point(12, 10, -6, ("t", 5.8), ("p", 0.0001)), _point(34, 22, 2, ("t", 4.9))]
+
+
 def test_key_rule():
-    # sha1("0:0,1:0")[:12], computed by hand from the rule in coordinates.yaml
-    assert table_key("tbl1", [(1, 0), (0, 0), (1, 0)], "A") == "tbl1#" + __import__("hashlib").sha1(b"0:0,1:0|a").hexdigest()[:12]
-    assert span_key("text", [(5, 9)], "x").startswith("text#")
-    with pytest.raises(ValueError):
-        table_key("tbl1", [], "A")
-    with pytest.raises(ValueError):
-        span_key("table", [(0, 1)], "x")
+    # The canonical form written out by hand from the rule in coordinates.yaml.
+    canonical = '["po>sil","MNI",[["-4.00","10.25","2.50","",[["p","3.2e-12"],["t","5.8"]]],["12.00","0.00","0.00","TAL",[]]]]'
+    expected = "analysis#" + __import__("hashlib").sha256(canonical.encode()).hexdigest()[:16]
+    points = [_point(12, -0.0, 0.004, space="TAL"), _point(-4, 10.25, 2.5, ("t", 5.8), ("p", 3.2e-12))]
+    assert key_for(_analysis("PO > Sil", points)) == expected
+    assert analysis_key("PO > Sil", "MNI", _analysis("x", points).points) == expected
 
 
-def test_keys_hash_their_locators():
-    sha1 = __import__("hashlib").sha1
-    assert cell_locator([(4, 0), (3, 0), (4, 0)]) == "3:0,4:0"
-    assert span_locator([(1288, 1300), (1200, 1288)]) == "1200-1288,1288-1300"
-    assert table_key("tbl2", [(4, 0), (3, 0)], "PO > Sil") == "tbl2#" + sha1(b"3:0,4:0|po>sil").hexdigest()[:12]
-    assert span_key("text", [(5, 9)], "PO > Sil") == "text#" + sha1(b"5-9|po>sil").hexdigest()[:12]
-    assert cell_locator([]) == span_locator([]) == ""
+def test_keys_are_fixed():
+    assert key_for(_analysis("Gain > Neutral", GAIN)) == "analysis#6d50d24d17f8bc7a"
+    assert key_for(_analysis("Gain > Neutral", [])) == "analysis#f90716ec7b6e2688"
+    assert key_for(_analysis("Gain > Neutral", [], space=None)) == "analysis#c54b9336230e6424"
 
 
 def test_example_keys_are_derived(example_paths):
@@ -81,41 +91,91 @@ def test_example_keys_are_derived(example_paths):
             assert key_for(analysis) == analysis.key
 
 
-def test_one_sentence_two_names_two_keys():
-    spans = [(100, 180)]
-    assert span_key("text", spans, "PO > Sil") != span_key("text", spans, "PC > Sil")
-    assert span_key("text", spans, "PO > Sil") == span_key("text", list(spans), "PO > Sil")
+def test_where_an_analysis_was_read_is_not_in_its_key():
+    table = _analysis(
+        "Gain > Neutral",
+        [_point(12, 10, -6, ("t", 5.8), ("p", 0.0001), row=0, column_group=0), _point(34, 22, 2, ("t", 4.9), row=1, column_group=0)],
+        cells=[{"row": 0, "column_group": 0}, {"row": 1, "column_group": 0}],
+    )
+    html_copy = _analysis(
+        "Gain > Neutral",
+        [_point(12, 10, -6, ("t", 5.8), ("p", 0.0001), row=3, column_group=1), _point(34, 22, 2, ("t", 4.9), row=4, column_group=1)],
+        table_id="html-table-1",
+        cells=[{"row": 3, "column_group": 1}, {"row": 4, "column_group": 1}],
+    )
+    span = {"start_char": 1200, "end_char": 1288}
+    text = _analysis(
+        "Gain > Neutral",
+        [_point(12, 10, -6, ("t", 5.8), ("p", 0.0001), text_span=span), _point(34, 22, 2, ("t", 4.9), text_span=span)],
+        origin="text",
+        table_id=None,
+        text_spans=[span],
+    )
+    assert key_for(table) == key_for(html_copy) == key_for(text) == key_for(_analysis("Gain > Neutral", GAIN))
+
+
+def test_point_and_value_order_do_not_matter():
+    shuffled = [_point(34, 22, 2, ("t", 4.9)), _point(12, 10, -6, ("p", 0.0001), ("t", 5.8))]
+    assert key_for(_analysis("Gain > Neutral", shuffled)) == key_for(_analysis("Gain > Neutral", GAIN))
+
+
+def test_float_noise_and_a_restated_space_do_not_change_the_key():
+    noisy = [_point(12.000000001, 10, -6, ("t", 5.8000000001), ("p", 0.0001), space="MNI"), _point(34, 22, 2.0, ("t", 4.9))]
+    assert key_for(_analysis("Gain > Neutral", noisy)) == key_for(_analysis("Gain > Neutral", GAIN))
+    assert key_for(_analysis("A", [_point(0.0, 0, 0)])) == key_for(_analysis("A", [_point(-0.0, 0, 0)]))
+
+
+def test_any_change_of_content_is_a_new_key():
+    base = key_for(_analysis("Gain > Neutral", GAIN))
+    moved = [_point(12, 10, -8, ("t", 5.8), ("p", 0.0001)), GAIN[1]]
+    other_kind = [_point(12, 10, -6, ("z", 5.8), ("p", 0.0001)), GAIN[1]]
+    other_value = [_point(12, 10, -6, ("t", 5.9), ("p", 0.0001)), GAIN[1]]
+    own_space = [_point(12, 10, -6, ("t", 5.8), ("p", 0.0001), space="TAL"), GAIN[1]]
+    changed = [
+        key_for(_analysis("Loss > Neutral", GAIN)),
+        key_for(_analysis("Gain > Neutral", moved)),
+        key_for(_analysis("Gain > Neutral", other_kind)),
+        key_for(_analysis("Gain > Neutral", other_value)),
+        key_for(_analysis("Gain > Neutral", GAIN, space="TAL")),
+        key_for(_analysis("Gain > Neutral", own_space)),
+        key_for(_analysis("Gain > Neutral", GAIN[:1])),
+    ]
+    assert base not in changed and len(set(changed)) == len(changed)
+
+
+def test_an_analysis_with_no_points_is_keyed_by_name_and_space():
+    canonical = '["gain>neutral","MNI",[]]'
+    assert key_for(_analysis("Gain > Neutral", [])) == "analysis#" + __import__("hashlib").sha256(canonical.encode()).hexdigest()[:16]
+    assert key_for(_analysis("Gain > Neutral", [])) != key_for(_analysis("Gain > Neutral", [], space="TAL"))
+    assert key_for(_analysis("Gain > Neutral", [])) != key_for(_analysis("Gain > Neutral", [], space=None))
+    assert key_for(_analysis("Gain > Neutral", [])) != key_for(_analysis("Loss > Neutral", []))
+
+
+def test_the_halves_of_a_sign_split_have_their_own_keys():
+    original = _analysis("Gain > Neutral", GAIN, split={"half": "original", "rule": "sign_of_directional_statistic"})
+    # The inverse half's printed negatives are negated so they read positive.
+    inverse_points = [_point(-4, -48, 28, ("t", 4.4)), _point(-44, -64, 30, ("t", 4.1))]
+    inverse = _analysis("Neutral > Gain", inverse_points, split={"half": "inverse", "rule": "sign_of_directional_statistic"})
+    printed = [_point(-4, -48, 28, ("t", -4.4)), _point(-44, -64, 30, ("t", -4.1))]
+    keys = {key_for(original), key_for(inverse), key_for(_analysis("Neutral > Gain", printed)), key_for(_analysis("Gain > Neutral", inverse_points))}
+    assert len(keys) == 4
 
 
 def test_name_variants_share_a_key():
-    spans = [(100, 180)]
-    base = span_key("text", spans, "PO > Sil")
-    assert span_key("text", spans, "po  >\tSIL ") == base
-    assert span_key("text", spans, "PO > S\u200bil") == base
-    assert span_key("figure", spans, "A \u2013 B") == span_key("figure", spans, "a - b")
-    assert span_key("figure", spans, "A \u2014 B") == span_key("figure", spans, "a-b".replace("-", " - "))
+    base = analysis_key("PO > Sil", "MNI", [])
+    assert analysis_key("po  >\tSIL ", "MNI", []) == base
+    assert analysis_key("PO > S\u200bil", "MNI", []) == base
+    assert analysis_key("A \u2013 B", "MNI", []) == analysis_key("a - b", "MNI", [])
+    assert analysis_key("A \u2014 B", "MNI", []) == analysis_key("a-b".replace("-", " - "), "MNI", [])
     for dash in ("\u2212", "\u2010", "\u2011"):
-        assert span_key("text", spans, f"PO {dash} Sil") == span_key("text", spans, "PO - Sil")
+        assert analysis_key(f"PO {dash} Sil", "MNI", []) == analysis_key("PO - Sil", "MNI", [])
         assert normalize_name(f"A{dash}B") == "a-b"
     assert normalize_name("\uff21\u2003\u2013\u2003B") == "a-b"
 
 
 def test_names_differing_only_in_whitespace_share_a_key():
-    spans = [(1200, 1288)]
+    points = _analysis("x", GAIN).points
     assert normalize_name("PO > Sil") == normalize_name("PO>Sil") == "po>sil"
-    assert span_key("text", spans, "PO > Sil") == span_key("text", spans, "PO>Sil")
-    assert table_key("t", [(3, 0)], "PO > Sil") == table_key("t", [(3, 0)], " PO>\u00a0Sil")
-    assert span_key("text", spans, "PO > Sil") != span_key("text", spans, "PO < Sil")
-
-
-def test_table_key_carries_the_name():
-    cells = [(3, 0), (4, 0)]
-    assert table_key("t", cells, "PO > Sil") != table_key("t", cells, "PC > Sil")
-    assert table_key("t", cells, "PO > Sil") == table_key("t", cells, "po \u2212 sil".replace("\u2212", ">"))
-    assert table_key("t", cells, "A \u2013 B") == table_key("t", cells, "a \u2212 b") == table_key("t", cells, "A - B")
-
-
-def test_table_keys_are_fixed():
-    assert table_key("tbl1", [(0, 0), (1, 0)], "PO > Sil") == "tbl1#3115db5b9c60"
-    assert table_key("tbl2", [(3, 0), (4, 0)], "PO > Sil") == "tbl2#0635c18b082d"
-    assert table_key("t3", [(7, 2)], "PO > Sil") == "t3#755050223603"
+    assert analysis_key("PO > Sil", "MNI", points) == analysis_key(" PO>\u00a0Sil", "MNI", points)
+    assert analysis_key("PO > Sil", "MNI", points) != analysis_key("PO < Sil", "MNI", points)
+    assert analysis_key("PO > Sil", "MNI", points) != analysis_key("PC > Sil", "MNI", points)

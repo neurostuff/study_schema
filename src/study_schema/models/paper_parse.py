@@ -1428,7 +1428,7 @@ class ParsedTable(ConfiguredBaseModel):
     """
     A table of the paper, cell by cell.
     """
-    table_id: str = Field(default=..., description="""The table's key, as the source's parser names it. Stable for the life of the parsed paper and used unchanged by every consumer: the coordinate parse's keys, the record's Table.id, neurostore's Table.t_id. Never renumbered from the printed label and never sanitized differently on disk.""")
+    table_id: str = Field(default=..., description="""The table's key, as the source's parser names it. Stable for the life of the parsed paper and used unchanged by every consumer: the coordinate parse's `table_id`s, the record's Table.id, neurostore's Table.t_id. Never renumbered from the printed label and never sanitized differently on disk.""")
     label: Optional[str] = Field(default=None, description="""The printed label, such as Table 2 or Supplementary Table S4.""")
     number: Optional[str] = Field(default=None)
     caption: Optional[str] = Field(default=None)
@@ -1445,7 +1445,7 @@ class TableRow(ConfiguredBaseModel):
     """
     One body row of a table.
     """
-    row: int = Field(default=..., description="""The row's index among the table's body rows, from 0. What a coordinate parse's point cites, and so part of every analysis key.""", ge=0)
+    row: int = Field(default=..., description="""The row's index among the table's body rows, from 0. What a coordinate parse's point cites.""", ge=0)
     cells: Optional[list[str]] = Field(default=None, description="""The row's cells, as printed, in column order.""")
     text_span: Optional[TextSpan] = Field(default=None, description="""Where the row sits in the text, when the table is inlined there.""")
 
@@ -1466,7 +1466,7 @@ class CoordinateParse(ConfiguredBaseModel):
     """
     Every coordinate a paper reports, grouped into analyses. An original parse is written by the ingestion workflow; a revision is written by pondie when its audit disagrees with the original.
     A parse is never edited after it is written. A reader that disagrees with it writes a revision instead, and the revision is a complete parse on its own: neurostore can store it as a new version of the paper's analyses without consulting the parse it revises.
-    Analyses that pondie accepts or relabels keep their keys, because their cells are unchanged, so claims made against them carry over to the revision untouched. Only a split, a merge or an omission changes which keys exist.
+    Analyses that pondie accepts or relabels keep their keys, because their name, space and points are unchanged, so claims made against them carry over to the revision untouched. Only a split, a merge or an omission changes which keys exist.
     """
     header: ArtifactHeader = Field(default=..., description="""`inputs` names the parsed paper by `text_sha256`, and for a revision also the parse it revises by `parse_id`.""")
     parse_id: str = Field(default=..., description="""This parse's identity, the fingerprint every later artifact cites. Unique per paper; a sha256 of the canonical JSON of `analyses` is recommended, so two producers that reach the same analyses reach the same id.""")
@@ -1484,10 +1484,11 @@ class ParsedAnalysis(ConfiguredBaseModel):
     The points a paper reports together for one tested effect, or for one non-result purpose such as the regions of interest an analysis used.
     In an original parse, the grouping is the ingestion workflow's proposal, made from a table and its caption. pondie confirms or overrides it with the whole paper in view. The role is required and is set in the ingestion workflow by the `roles` classifier stage, after the analyses are identified. It is also the ingestion workflow's proposal: pondie's accept confirms it, and a relabel overrides it with a reviewed correction that wins.
     """
-    key: str = Field(default=..., description="""The analysis's identity, derived from where it was read, so it survives re-runs, reordering and deduplication: a re-run that reads the same place reaches the same key. It is derived from `cells` or `text_spans`, never from `points`, so an analysis with no points -- a contrast a table lists as \"n.s.\" -- still has a key of its own.
-For a table analysis, `<table_id>#<h>`. Write `<row>:<column_group>` for each of `cells`, drop duplicates, sort by row and then column group, and join with commas; then append `|` and the analysis's `name` normalized (see below). `h` is the first 12 hex characters of the sha1 of that string's UTF-8 bytes.
-For a text or figure analysis, `text#<h>` or `figure#<h>`, built the same way from each of `text_spans` as `<start_char>-<end_char>`, then `|` and the analysis's `name` normalized (Unicode NFKC, casefolded, every dash (Unicode Pd and U+2212 minus) as `-`, zero-width characters and all whitespace dropped, so `PO > Sil` and `PO>Sil` are one name). One sentence, or one set of rows, can name several analyses, so the name is part of every key. A key follows the name: a re-extraction that renames an analysis mints a new key.
-This key is what the extraction record's `Analysis.source_table_analysis` and `CoordinateSet.id` name, and what neurostore stores as `Analysis.source_id`. Two analyses of one parse never cover the same cells or spans under one normalized name, so never share a key.""")
+    key: str = Field(default=..., description="""The analysis's identity, derived from what was extracted -- its `name`, `coordinate_space` and `points` -- never from where it was read, so the same analysis read from two sources (a table and its HTML copy, a table and the sentence restating it) reaches the same key, and a re-run that extracts the same content reaches it again. A rename or a changed point is a new key. The name is part of the key because differently named analyses can print identical points.
+`analysis#<h>`, where `h` is the first 16 hex characters of the sha256 of the UTF-8 bytes of the compact JSON array `[<name>, <space>, [<point>, ...]]` (no whitespace, non-ASCII characters unescaped). `<name>` is `name` normalized: Unicode NFKC, casefolded, every dash (Unicode Pd and U+2212 minus) as `-`, zero-width characters and all whitespace dropped, so `PO > Sil` and `PO>Sil` are one name. `<space>` is `coordinate_space`, or `\"\"` when absent.
+Each `<point>` is `[<x>, <y>, <z>, <space>, [[<kind>, <value>], ...]]`: the coordinates rounded to 0.01 mm and written with two decimals (`\"-4.00\"`); the point's own `space` when it differs from the analysis's, else `\"\"`; and each of its `values` as its `kind` and its value written to 6 significant digits (`\"5.8\"`, `\"3.2e-12\"`). Negative zero is written as zero. Each point's values, and then the points, are sorted by their own compact JSON, in code point order.
+An analysis with no points -- a contrast a table lists as \"n.s.\" -- hashes its name and space alone. The two halves of a sign split hold different points under different names, so each has its own key. `study_schema.keys.analysis_key` computes it.
+This key is what the extraction record's `Analysis.source_table_analysis` and `CoordinateSet.id` name, and what neurostore stores as `Analysis.source_id`. Two analyses of one parse never share a name, space and points, so never share a key.""")
     cells: Optional[list[CellRef]] = Field(default=None, description="""For a table analysis, every cell it was read from: each point's row and column group, and the rows that name the contrast without coordinates. Required for `origin: table`; every point's row and column group is among them.""")
     text_spans: Optional[list[TextSpan]] = Field(default=None, description="""For a text or figure analysis, the sentences or legend it was read from: those holding its coordinates, or the one stating a result that has none.""")
     origin: CoordinateOrigin = Field(default=...)
@@ -1537,7 +1538,7 @@ class OmittedAnalysis(ConfiguredBaseModel):
     """
     name: str = Field(default=..., description="""The analysis's label as the producer read it.""")
     text_spans: Optional[list[TextSpan]] = Field(default=None, description="""The sentences it was read from, when it was located.""")
-    reason: str = Field(default=..., description="""Why it was left out, for example that it repeats a kept analysis (same spans and same normalized name) or that its passage is not in the text.""")
+    reason: str = Field(default=..., description="""Why it was left out, for example that it repeats a kept analysis (the same key) or that its passage is not in the text.""")
 
 
 class TextSweep(ConfiguredBaseModel):

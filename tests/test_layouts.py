@@ -73,10 +73,10 @@ def test_a_wrong_revision_of_is_caught():
     assert any("revision_of" in p for p in check_revision(original, revision))
 
 
-def test_a_key_that_does_not_match_its_cells_is_caught():
+def test_a_key_that_does_not_match_its_content_is_caught():
     paper = PaperParse.read(EXAMPLES / "corpus" / STUDY / "parse")
-    paper.coordinate_parse.analyses[0].key = "tbl1#000000000000"
-    assert any("not the key its cells give" in p for p in check_paper(paper))
+    paper.coordinate_parse.analyses[0].key = "analysis#0000000000000000"
+    assert any("not the key its content gives" in p for p in check_paper(paper))
 
 
 def test_a_different_text_is_caught(tmp_path):
