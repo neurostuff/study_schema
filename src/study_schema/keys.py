@@ -29,11 +29,11 @@ from typing import Iterable, Optional
 __all__ = ["analysis_key", "key_for", "normalize_name"]
 
 
-_ZERO_WIDTH = re.compile("[​‌‍⁠﻿]")
+_ZERO_WIDTH = re.compile("[\u200b\u200c\u200d\u2060\ufeff]")
 _DASHES = {
     ord(c): "-"
     for c in map(chr, range(0x110000))
-    if unicodedata.category(c) == "Pd" or c == "−"
+    if unicodedata.category(c) == "Pd" or c == "\u2212"
 }
 
 
