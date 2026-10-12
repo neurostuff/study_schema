@@ -185,13 +185,13 @@ What each side may rely on:
   `authors`, `doi`, `journal`, `publication_year`, `language` and `study_type` from
   `ParsedPaper.bibliography` and the header's identifiers (`transform: copy` in
   `extraction-to-storage.map.yaml`), and skips a paper whose `is_meta_analysis` is true.
-- **Keys come from where an analysis was read, not its position.** A table analysis is
-  `<table_id>#<h>`, where `h` hashes the sorted `row:column_group` references of its
-  `cells` and its normalized name; a text or figure analysis is `text#<h>` or `figure#<h>` over its spans
-  and its normalized name, since one sentence or set of rows can name several analyses
-  (`ParsedAnalysis.key` gives the recipe). Cells include rows that name a contrast without
-  coordinates, so a contrast a table lists as "n.s." has a key of its own. A re-run that
-  reads the same cells reaches the same key, and claims stored against it carry over.
+- **Keys come from what was extracted, not where it was read.** An analysis is
+  `analysis#<h>`, where `h` hashes its normalized name, its space and its sorted points
+  (coordinates and values); `ParsedAnalysis.key` gives the recipe. The same analysis read
+  from two sources, such as a table and its HTML copy, reaches one key; differently named
+  analyses with identical points keep two. A contrast a table lists as "n.s." hashes its
+  name and space alone. A re-run that extracts the same content reaches the same key, and
+  claims stored against it carry over; a rename or a changed point is a new key.
 - **A sign split is declared.** Both halves carry `split{half, rule}`, `half` being
   `original` (the analysis as named) or `inverse` (the reversed contrast); the inverse half's
   `original_analysis` is the original's key. Points with a negative value, of any kind, form
@@ -253,8 +253,8 @@ What each side may rely on:
 Not done yet:
 - Neither the workflow nor pondie writes or reads these artifacts.
 - `Analysis.source_table_analysis` and `CoordinateSet.id` in storage and extraction now
-  describe the cell-derived key, but pondie still mints the positional
-  `<table id>#<ordinal>` key and spells text keys `prose#` rather than `text#`.
+  describe the content key, but pondie still mints the positional `<table id>#<ordinal>`
+  key and spells text keys `prose#`.
 
 ## The contracts as a package
 
@@ -303,7 +303,7 @@ inputs. The layouts need a pyarty that reads pydantic payloads (`File[Model]`).
 
 **What one file cannot say.** A model checks a file; `check_paper`, `check_revision` and
 `check_run` check how files agree -- a parse addresses the same text as its paper, every key is
-the one its cells or spans derive, and a revision gives a verdict for every analysis it
+the one its name, space and points derive, and a revision gives a verdict for every analysis it
 revises and accounts for every analysis it introduces. `study_schema.keys` is the key rule
 itself, so ingestion and pondie mint keys with the same code rather than two copies of a
 sentence.

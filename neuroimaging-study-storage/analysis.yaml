@@ -232,11 +232,10 @@ classes:
         range: string
         description: >-
           The key of the coordinate-parse analysis this analysis's results were read from:
-          `ParsedAnalysis.key` in neuroimaging-paper-parse, `<table id>#<h>` for a table's
-          row group or `text#<h>` for coordinates read from the text, where `h` hashes the
-          cells or character spans its points came from. Derived from cells, not position,
-          so a re-parse that groups the same cells reaches the same key. When pondie revised
-          the parse, the key is the revision's.
+          `ParsedAnalysis.key` in neuroimaging-paper-parse, `analysis#<h>`, where `h` hashes
+          the parse analysis's name, space and points. Derived from what was extracted, not
+          where it was read, so a re-parse that extracts the same analysis reaches the same
+          key. When pondie revised the parse, the key is the revision's.
 
           This schema stores no coordinates, so reaching an analysis's foci means joining
           through the parse, and `tables` alone cannot do it: a table usually reports
@@ -1310,10 +1309,9 @@ classes:
         required: true
         description: >-
           The key the coordinate parse gave this set, `ParsedAnalysis.key` in
-          neuroimaging-paper-parse: `<table id>#<h>` for a table's row group, the same key
-          `Analysis.source_table_analysis` names, or `text#<h>` for a run of sentences.
-          `h` hashes the cells or character spans the set's points were read from, so the
-          key survives a re-parse that groups the same points.
+          neuroimaging-paper-parse: `analysis#<h>`, the same key
+          `Analysis.source_table_analysis` names, where `h` hashes the set's name, space and
+          points, so the key survives a re-parse that extracts the same set.
       table:
         in_subset: [mvp, deterministic]
         range: Table
