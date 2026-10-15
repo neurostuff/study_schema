@@ -35,7 +35,8 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Device"
         },
         "id": {
           "type": "string"
@@ -146,7 +147,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Acquisition"
         },
         "assessments": {
           "description": "Assessments whose measurements were used in or selected the sample for this analysis.",
@@ -156,7 +158,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Assessment"
         },
         "coordinate_space": {
           "description": "Coordinate reference space or template the spatial results are reported in, such as MNI152 or Talairach. **The authoritative of the two places this can live**: where this and a `Table.coordinate_space` disagree, this one is the analysis's space, since a table can be parsed as one space while the analysis it reports states another.\nBoth may be filled, and usually are: the table parser fills the tables and the same parse supplies this when every table behind the analysis agrees, leaving the model to answer only where they do not. Never inferred from the model's `spatial_unit` -- an analysis on a surface reports a surface template.",
@@ -173,7 +176,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Region"
         },
         "definition": {
           "description": "Precise statement of the tested effect in the source's own words, minimally cleaned. Always source-grounded. For an interaction it must state the direction of the interaction as the source states it; for an ordered contrast it must keep the ordering that the cell directions cannot express.",
@@ -227,7 +231,8 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "InferenceSettings"
         },
         "interpretations": {
           "description": "The source's own statement of what this analysis found and what it means, typically in Results and Discussion, verbatim or minimally cleaned. Always source-grounded, and the counterpart of `definition`: that field is the Methods-side statement of what was tested, this one is the Results/Discussion-side statement of what came of it.",
@@ -241,18 +246,21 @@
         },
         "measure": {
           "description": "The scientific quantity of the map, by identifier, independent of the statistic used to test it. Analyses of one quantity reference one record; an analysis of a different quantity takes its own. Required: a paper vague about what it measured still takes a record, with `source_label` as given and `extraction_status: not_reported` elsewhere.",
-          "type": "string"
+          "type": "string",
+          "x-reference": "Measure"
         },
         "mirror_of": {
           "description": "Present only on an analysis the builder derived by reversing another one, and naming the analysis it reverses.\nA results table with both signs in one column reports one contrast read two ways. The paper's prose describes one direction, so only that half is extracted and the other is rebuilt arithmetically -- same cells, directions flipped. This slot is what says so. Without it the two halves look like independent findings, and a meta-analysis that counts both counts one sample twice.",
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Analysis"
         },
         "model_estimation": {
           "description": "The model this analysis's contrast was taken from: its family, estimator, stage, software, and the terms it was specified with. What was selected out of those terms is `effect`. Required: a paper that describes a contrast and never names an estimator still takes a record, with the terms it does state and `extraction_status: not_reported` elsewhere. Analyses sharing one design reference one record; an analysis specified or estimated differently takes its own.",
-          "type": "string"
+          "type": "string",
+          "x-reference": "ModelEstimation"
         },
         "model_representation_notes": {
           "description": "Model components that could not be represented or were represented only approximately, for an analysis whose method is otherwise first-class. Examples include random slopes, latent variables, dynamic connectivity, and dependencies between terms. An analysis whose method has no stable structured decomposition at all takes NotStructurableDetails instead.",
@@ -295,7 +303,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Region"
         },
         "source_table_analysis": {
           "description": "The key of the coordinate-parse analysis this analysis's results were read from: `ParsedAnalysis.key` in neuroimaging-paper-parse, `analysis#<h>`, where `h` hashes the parse analysis's name, space and points. Derived from what was extracted, not where it was read, so a re-parse that extracts the same analysis reaches the same key. When pondie revised the parse, the key is the revision's.\nThis schema stores no coordinates, so reaching an analysis's foci means joining through the parse, and `tables` alone cannot do it: a table usually reports several contrasts and several analyses usually cite the same table. This key is what makes the join exact.\nCopy it from the bracketed key the stage-1 listing prints beside each parsed analysis. One key and not a list, because one analysis is read from one row group; an analysis whose results span two tables cites both in `tables` and names here the row group that defined it.",
@@ -333,7 +342,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Table"
         },
         "tasks": {
           "description": "The participant paradigms that contextualize this analysis. An analysis can span paradigms, as a cross-task conjunction or a localizer-plus-main-task analysis does.\nA resting-state analysis names its Task here like any other: the resting-state protocol is a paradigm, and a Task record exists for it. What leaves this empty is an analysis with no paradigm at all -- morphometry, diffusion, a static PET scan -- which is linked through `acquisitions` instead.",
@@ -343,7 +353,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Task"
         }
       },
       "required": [
@@ -385,7 +396,8 @@
       "properties": {
         "group": {
           "description": "The cohort this entry refers to, by identifier. The cohort's own properties are on the Group record.",
-          "type": "string"
+          "type": "string",
+          "x-reference": "Group"
         },
         "n": {
           "description": "Number of participants from this cohort included in this analysis. This is where a cohort's analysed size lives -- Group carries the recruitment funnel down to acquisition and nothing past it -- so populate it whenever the source gives a number, and expect it to be smaller than the acquired count when an analysis drops participants for motion or missing data.",
@@ -641,7 +653,8 @@
         },
         "term": {
           "description": "The model term this cell belongs to, by identifier. It must be one of the terms of the ModelEstimation the containing Analysis references, or of a stage that model reaches through `inputs_from` -- a group contrast of a first-level condition, or of a seed's time series, is a cell on that stage's term rather than on a copy of it.",
-          "type": "string"
+          "type": "string",
+          "x-reference": "ModelTerm"
         }
       },
       "required": [
@@ -873,7 +886,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Region"
         },
         "target_regions": {
           "description": "Target regions, by identifier. Empty for a seed-to-whole-brain analysis.",
@@ -883,7 +897,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Region"
         }
       },
       "required": [
@@ -913,14 +928,16 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Region"
         },
         "target_region": {
           "description": "Target region of the edge, by identifier.",
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Region"
         }
       },
       "title": "ConnectivityEdge",
@@ -962,7 +979,8 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Analysis"
         },
         "anchor_kind": {
           "anyOf": [
@@ -997,7 +1015,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Region"
         },
         "result_kind": {
           "anyOf": [
@@ -1032,7 +1051,8 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Table"
         },
         "text_excerpt": {
           "description": "For a set read from the text, the sentences it was read from: the sentence holding the coordinates and its neighbours, extended past any neighbour that also holds coordinates.",
@@ -1057,7 +1077,8 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Condition"
         },
         "label": {
           "description": "The class label as the source names it, such as `faces` or `left hand`.",
@@ -1230,7 +1251,8 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Device"
         },
         "eeg_channel_count": {
           "description": "Number of simultaneously recorded EEG channels.",
@@ -1438,7 +1460,8 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Device"
         },
         "id": {
           "type": "string"
@@ -1548,7 +1571,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Arm"
         },
         "conditions": {
           "description": "The conditions carrying this level, by identifier.",
@@ -1558,7 +1582,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Condition"
         },
         "groups": {
           "description": "The participant cohorts carrying this level, by identifier.",
@@ -1568,7 +1593,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Group"
         },
         "level": {
           "description": "The level's label, as the source words it. Unique within its term: a level appearing twice is one level recorded twice.",
@@ -1590,7 +1616,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Region"
         },
         "timepoints": {
           "description": "The occasions carrying this level, by identifier. A factor whose levels are baseline, week 6 or follow-up ranges over occasions and fills this: left empty, the level stands on its label alone and no query can tell which scan preceded the intervention.",
@@ -1600,7 +1627,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Timepoint"
         }
       },
       "required": [
@@ -1703,7 +1731,8 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Arm"
         },
         "clinical_characteristics": {
           "description": "Disease duration, severity, treatment status, or other clinically relevant summaries.",
@@ -1735,7 +1764,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Assessment"
         },
         "diagnostic_system": {
           "description": "Classification system and edition under which this group's `medical_condition` was diagnosed, such as DSM-5 or ICD-10. An edition that appears only inside an instrument's title does not establish it: \"SCID for DSM-IV Axis II Disorders\", administered to screen comorbidities, says nothing about the system used to diagnose the condition that defines the group.",
@@ -2059,7 +2089,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Region"
         },
         "correction_scope": {
           "anyOf": [
@@ -2272,7 +2303,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Assessment"
         },
         "second_block_detail": {
           "description": "What each non-assessment block held, in the source's words: the seed regions of a seed decomposition, the modalities of a fusion (\"ALFF, FA, grey matter\"), the genotype array of a parallel ICA (\"367 SNPs\"). Free text because the range of things that form a second block is open, and a SNP array is neither an `Assessment` nor an `Acquisition` of this study.",
@@ -2364,7 +2396,8 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Device"
         },
         "echo_time_seconds": {
           "description": "Echo time in seconds, as a list of one value per echo. A multi-echo sequence has several; a single-echo one has a list of length one.",
@@ -2574,7 +2607,8 @@
       "properties": {
         "mediator": {
           "description": "The intervening term, by identifier. It must be a term of the ModelEstimation the containing Analysis names, or of a stage that model reaches through `inputs_from`.",
-          "type": "string"
+          "type": "string",
+          "x-reference": "ModelTerm"
         },
         "path": {
           "$ref": "#/$defs/EffectPath",
@@ -2635,7 +2669,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "ModelEstimation"
         },
         "model_family": {
           "anyOf": [
@@ -2667,7 +2702,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Preprocessing"
         },
         "software": {
           "description": "Statistical software name, version, and relevant implementation details.",
@@ -2735,7 +2771,8 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Assessment"
         },
         "functional_form": {
           "anyOf": [
@@ -2763,7 +2800,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "ModelTerm"
         },
         "levels": {
           "description": "The levels of a categorical term, and for each the entities carrying it. This is the whole of what a factor is: its level vocabulary, and which cohort, condition, occasion, or arm occupies each cell. Record a level the source names even when no reported contrast uses it -- a three-level factor contrasted at two levels is still a three-level factor. Empty for a continuous term.",
@@ -2784,7 +2822,8 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Region"
         },
         "source_definition": {
           "description": "The source's own definition of the term, and the origin of a continuous term that no Assessment supplies, such as age, dose, a motion parameter, cardiac phase, or scanner drift.\n**Required for a derived column, whatever its `assessment` says.** A change score names its instrument in `assessment` and its derivation here, in the source's own words and including the occasions it spans -- \"percent reduction in BDI, (post-pre)/pre, from baseline to post-treatment\". Nothing else can carry those occasions: `FactorLevel.timepoints` names the occasions a factor *compares*, and a derived column has no levels to hang them on, so where a study has several post-intervention occasions this is the only thing separating a change to the endpoint from a change to a later follow-up.\nNot the shape of the fitted relationship, which is `functional_form`: a percent change entered linearly is a linear term computed from a difference, so recording the construction as the form would lose whether the fit was linear or quadratic. A transform *of the measure* the vocabulary cannot name still goes in functional_form.",
@@ -2951,7 +2990,8 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Device"
         },
         "id": {
           "type": "string"
@@ -3034,7 +3074,8 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "x-reference": "Device"
         },
         "id": {
           "type": "string"
@@ -4124,7 +4165,8 @@
           "type": [
             "array",
             "null"
-          ]
+          ],
+          "x-reference": "Acquisition"
         },
         "conditions": {
           "description": "The conditions this task was made of. These are the different states/modes of the task.",

@@ -66,6 +66,28 @@ def _view(contract: Contract):
     return view
 
 
+def _annotate_references(document: dict, view) -> None:
+    """Mark each property that holds another entity's identifier with its target class.
+
+    An entity is a class with an identifier slot; a reference is an induced slot whose range
+    is such a class and which is not inlined.
+    """
+    classes = view.all_classes()
+    entities = {name for name in classes if view.get_identifier_slot(name)}
+    for cls, definition in document["$defs"].items():
+        properties = definition.get("properties")
+        # $defs also holds enums, which are not classes.
+        if not properties or cls not in classes:
+            continue
+        for slot in view.class_induced_slots(cls):
+            if (
+                slot.name in properties
+                and slot.range in entities
+                and not (slot.inlined or slot.inlined_as_list)
+            ):
+                properties[slot.name]["x-reference"] = slot.range
+
+
 def render() -> dict[Path, str]:
     """Every generated file, path -> contents."""
     from linkml.generators.jsonschemagen import JsonSchemaGenerator
@@ -80,8 +102,9 @@ def render() -> dict[Path, str]:
         out[PACKAGE / "models" / f"{contract.module}.py"] = _header(contract) + models
         for name, top in contract.roots.items():
             document = json.loads(
-                JsonSchemaGenerator(_view(contract).schema, top_class=top).serialize()
+                JsonSchemaGenerator(view.schema, top_class=top).serialize()
             )
+            _annotate_references(document, view)
             out[PACKAGE / "jsonschema" / f"{name}.schema.json"] = (
                 json.dumps(document, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
             )
