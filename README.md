@@ -200,12 +200,12 @@ What each side may rely on:
   `mirror_of`.
 - **Grouping is a proposal; pondie's verdict overrides it.** When pondie
   disagrees, it writes a revision: a complete `CoordinateParse` with `revision_of` set and
-  one `AnalysisVerdict` per original analysis (accept, relabel, split, merge, omit, each
-  with a reason and evidence). Accepted and relabelled analyses keep their keys. A split
-  or merge copies the claims and votes stored against the old keys to their replacements,
-  each copy noting where it came from; the revised version is kept unchanged as history
-  and left out of projections (`AnalysisVerdict` gives the rules). Region,
-  seed and target sets given only as definitions are relabelled `anchor` and become
+  one `AnalysisVerdict` per original analysis (accept, relabel, edit, split, merge, omit, each
+  with a reason and evidence). Accepted and relabelled analyses keep their keys. An edit
+  corrects a single analysis's points, so its key changes. An edit, split or merge copies the
+  claims and votes stored against the old keys to their replacements, each copy noting where it came from; the revised version is
+  kept unchanged as history and left out of projections (`AnalysisVerdict` gives the rules).
+  Region, seed and target sets given only as definitions are relabelled `anchor` and become
   CoordinateSets in the record, not Analyses with statistics.
 - **Uploads are asymmetric.** neurostore accepts a parse alone, a parse with a record, a
   record alone against a parse already stored (every verdict accept), or a revision with a

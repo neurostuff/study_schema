@@ -503,6 +503,8 @@ classes:
 
       - accept, relabel: nothing moves. The key is unchanged, so everything stored against
         it applies to the revision as it stands.
+      - edit: everything is copied to the one analysis in `replaced_by`, whose points are
+        the corrected ones.
       - split: everything is copied to each analysis in `replaced_by`.
       - merge: everything stored against each merged analysis is copied to the one
         analysis they merge into. Two copies of the same field with the same value become
@@ -530,7 +532,8 @@ classes:
         multivalued: true
         description: >-
           The keys in this revision that take the analysis's place: itself for accept and
-          relabel, the replacements for split and merge, none for omit.
+          relabel, the one corrected analysis for edit, the replacements for split and merge,
+          none for omit.
       role:
         any_of:
           - range: CoordinateRole
