@@ -194,6 +194,13 @@ def check_revision(original: CoordinateParse, revision: CoordinateParse) -> list
         if verdict.key in judged:
             problems.append(f"{verdict.key} has more than one verdict")
         judged.add(verdict.key)
+        if verdict.verdict == "edit" and len(verdict.replaced_by or []) != 1:
+            problems.append(f"edit {verdict.key}: replaced_by must name exactly one key")
+        if verdict.verdict == "edit" and verdict.replaced_by == [verdict.key]:
+            problems.append(
+                f"edit {verdict.key}: replaced_by names the analysis itself; "
+                "unchanged content is an accept"
+            )
         for key in verdict.replaced_by or []:
             if key not in after:
                 problems.append(

@@ -179,3 +179,24 @@ def test_names_differing_only_in_whitespace_share_a_key():
     assert analysis_key("PO > Sil", "MNI", points) == analysis_key(" PO>\u00a0Sil", "MNI", points)
     assert analysis_key("PO > Sil", "MNI", points) != analysis_key("PO < Sil", "MNI", points)
     assert analysis_key("PO > Sil", "MNI", points) != analysis_key("PC > Sil", "MNI", points)
+
+
+def _with_edit_verdict(example_paths):
+    data = load(example_paths["revision"])
+    [split] = [v for v in data["verdicts"] if v["verdict"] == "split"]
+    data["verdicts"] = [
+        {
+            "key": split["key"],
+            "verdict": "edit",
+            "replaced_by": split["replaced_by"][:1],
+            "reason": "A minus sign was dropped from one point of the analysis.",
+        }
+    ]
+    return data
+
+
+def test_an_edit_verdict_validates(example_paths):
+    data = _with_edit_verdict(example_paths)
+    assert CoordinateParse.model_validate(data).verdicts[0].verdict == "edit"
+    real = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
+    real.validate(data, jsonschema.load("coordinate-parse"))

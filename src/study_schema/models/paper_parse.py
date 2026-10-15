@@ -296,6 +296,10 @@ class AuditVerdict(str, Enum):
     """
     A reviewed correction of the ingestion workflow's proposed role, which wins: the same points in a different role, such as a region of interest, a seed, a stimulation target where the proposal said result. Its key is unchanged.
     """
+    edit = "edit"
+    """
+    The same analysis, with its points corrected: a value misread, a sign dropped, a point added to this analysis, removed or moved. Its key changes because its content did. Reordering points is not an edit.
+    """
     split = "split"
     """
     The points belong to more than one analysis. The replacements have new keys.
@@ -1608,6 +1612,8 @@ class AnalysisVerdict(ConfiguredBaseModel):
     What a verdict does to what is stored against the analysis -- claims, their evidence, and users' votes on them:
     - accept, relabel: nothing moves. The key is unchanged, so everything stored against
       it applies to the revision as it stands.
+    - edit: everything is copied to the one analysis in `replaced_by`, whose points are
+      the corrected ones.
     - split: everything is copied to each analysis in `replaced_by`. - merge: everything stored against each merged analysis is copied to the one
       analysis they merge into. Two copies of the same field with the same value become
       one claim; with different values they stay competing claims, resolved like any
@@ -1617,7 +1623,7 @@ class AnalysisVerdict(ConfiguredBaseModel):
     """
     key: str = Field(default=..., description="""The revised parse's analysis key; for `add`, the new analysis's key in this revision.""")
     verdict: AuditVerdict = Field(default=...)
-    replaced_by: Optional[list[str]] = Field(default=None, description="""The keys in this revision that take the analysis's place: itself for accept and relabel, the replacements for split and merge, none for omit.""")
+    replaced_by: Optional[list[str]] = Field(default=None, description="""The keys in this revision that take the analysis's place: itself for accept and relabel, the one corrected analysis for edit, the replacements for split and merge, none for omit.""")
     role: Optional[Union[CoordinateRole, str]] = Field(default=None, description="""For relabel, the role the points have instead.""")
     reason: str = Field(default=...)
     evidence: Optional[list[TextSpan]] = Field(default=None, description="""The sentences of the paper the verdict rests on.""")

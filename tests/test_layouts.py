@@ -84,3 +84,40 @@ def test_a_different_text_is_caught(tmp_path):
     (tmp_path / STUDY / "processed" / "pubget" / "text.txt").write_text("edited")
     paper = PaperParse.read(tmp_path / STUDY / "parse")
     assert any("text_sha256" in p for p in check_paper(paper, tmp_path / STUDY))
+
+
+def test_an_edit_names_exactly_one_replacement():
+    original, revision = _pair()
+    [split] = [v for v in revision.verdicts if v.verdict == "split"]
+    split.verdict = "edit"
+    assert any("edit" in p and "exactly one" in p for p in check_revision(original, revision))
+
+
+@pytest.mark.parametrize("replaced_by", [[], None])
+def test_an_edit_with_no_replacement_is_caught(replaced_by):
+    original, revision = _pair()
+    [split] = [v for v in revision.verdicts if v.verdict == "split"]
+    split.verdict = "edit"
+    split.replaced_by = replaced_by
+    assert any("edit" in p and "exactly one" in p for p in check_revision(original, revision))
+
+
+def test_an_edit_that_names_its_one_replacement_is_accepted():
+    original, revision = _pair()
+    [split] = [v for v in revision.verdicts if v.verdict == "split"]
+    split.verdict = "edit"
+    kept, dropped = split.replaced_by
+    split.replaced_by = [kept]
+    revision.analyses = [a for a in revision.analyses if a.key != dropped]
+    assert check_revision(original, revision) == []
+
+
+def test_an_edit_that_names_its_own_key_is_refused():
+    original, revision = _pair()
+    [split] = [v for v in revision.verdicts if v.verdict == "split"]
+    split.verdict = "edit"
+    split.replaced_by = [split.key]
+    assert (
+        f"edit {split.key}: replaced_by names the analysis itself; unchanged content is an accept"
+        in check_revision(original, revision)
+    )
