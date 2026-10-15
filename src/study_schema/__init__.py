@@ -4,6 +4,7 @@
     study_schema.models.extraction    Study (an extraction record)   pondie -> ingester
     study_schema.models.storage       Study (the storage shape)      ingester -> neurostore
     study_schema.jsonschema           the same contracts as JSON Schema, for non-Python readers
+    study_schema.linkml               the LinkML source, as paths into the installed package
     study_schema.keys                 the analysis key rule
     study_schema.statistics           which statistic kinds are signed; a point's side
     study_schema.layouts              where those files sit on disk (needs the `layouts` extra)

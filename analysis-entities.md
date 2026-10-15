@@ -4,7 +4,7 @@ This document names each object around an `Analysis` and shows its ownership and
 
 This is the map, not the instructions. [representing-models.md](representing-models.md) says how to
 encode a reported result and what to do when a paper resists;
-[neuroimaging-study-storage/](neuroimaging-study-storage/) says what each field is and how to fill
+[neuroimaging-study-storage/](src/study_schema/linkml/neuroimaging-study-storage/) says what each field is and how to fill
 it. Read this first if the class names do not yet mean anything, or if you know the statistics and
 want to know which of these words the schema has borrowed for something narrower.
 
@@ -265,6 +265,6 @@ acquired count when the analysis dropped participants.
 | The four values of `direction`, and the three ways to be non-directional | [§4](representing-models.md#4-the-four-values-of-direction-and-the-three-ways-to-be-non-directional) |
 | Twelve worked records, from a simple contrast to a two-stage model | [§5](representing-models.md#5-worked-models) |
 | A paper that does not divide the world the way the schema does | [§6](representing-models.md#6-when-the-paper-does-not-fit) |
-| What each field is, and how to fill it | [neuroimaging-study-storage/](neuroimaging-study-storage/) |
+| What each field is, and how to fill it | [neuroimaging-study-storage/](src/study_schema/linkml/neuroimaging-study-storage/) |
 | The rest of the record — cohorts, paradigm, acquisitions — taught rather than mapped | [schema-tutorial.md](schema-tutorial.md) |
 | Why the schema is shaped this way | [storage-schema-design-notes.md](storage-schema-design-notes.md) |

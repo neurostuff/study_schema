@@ -12,7 +12,7 @@ runs, the extraction pipeline, and the three modules that define what a record m
 submodule, so a schema change and the code that consumes it are versioned together without
 either being a copy of the other.
 
-`neuroimaging-study-storage.yaml` and the modules under `neuroimaging-study-storage/` are
+The LinkML lives under `src/study_schema/linkml/`. `neuroimaging-study-storage.yaml` and the modules under `neuroimaging-study-storage/` are
 the full storage schema: everything we might ever want to represent. It is the source of
 truth and is never narrowed in place.
 
@@ -282,6 +282,8 @@ from study_schema.models.paper_parse import CoordinateParse
 parse = CoordinateParse.model_validate_json(path.read_bytes())
 ```
 
+**The LinkML itself.** The YAML ships inside the package under `study_schema.linkml`, so a consumer that needs the source reads it from the installed copy rather than from a checkout: `study_schema.linkml.EXTRACTION`, `STORAGE` and `PAPER_PARSE` are `pathlib.Path`s to the three top-level schemas, which import their modules by relative path, and `study_schema.linkml.EXTRACTION.parent` is the directory they sit in. The contract files that pondie checks, `extraction-deviations.yaml` and `extraction-to-storage.map.yaml`, are packaged alongside them. `storage-parameter-priorities.yaml` is reviewer triage data and is not packaged. `tools/generate_models.py` reads the same files, so the copy a consumer holds is the one the committed models were generated from.
+
 **Reference properties.** A string property that holds another entity's `local_id` carries `"x-reference": "<TargetClass>"` on the property itself, beside its `type`; for a multivalued slot that property is the array, not its `items`. The keyword is set from the LinkML induced slots, so `is_a` and `slot_usage` apply, and only where the range class has an identifier and the slot is not inlined. JSON Schema validators ignore it, and `study_schema.jsonschema.references(name)` returns the same relationships as `Reference(cls, slot, target, multivalued)` named tuples, sorted by class and slot.
 
 **Unique keys.** A class with a LinkML `unique_keys` carries `"x-unique-keys": [[slot, ...], ...]` on its definition, its own keys first and then inherited ones with each key's slots in declared order, and `study_schema.jsonschema.unique_keys(name)` returns them as a dict from class to tuples of slot names.
@@ -388,7 +390,7 @@ the priority inventory from here.
 |---|---|
 | [schema-tutorial.md](schema-tutorial.md) | The course: twelve chapters teaching the whole schema — what every entity is for, what each field holds and what it must not be confused with, the rules for filling a record, and the reasoning steps to take when a paper is ambiguous. Start here if you are new to the schema; the documents below are the references it teaches from |
 | [extraction-readme.md](extraction-readme.md) | Rules the schema cannot state: the gates that skip a paper, extraction conventions, validator invariants, mapper responsibilities, and known limits |
-| [extraction-deviations.yaml](extraction-deviations.yaml) | Every way the extraction schema is not a projection of storage. Currently: pipeline provenance, and nothing else. Its trailing comment lists the six shapes the hand-written schema used to have, as candidates to re-test |
+| [extraction-deviations.yaml](src/study_schema/linkml/extraction-deviations.yaml) | Every way the extraction schema is not a projection of storage. Currently: pipeline provenance, and nothing else. Its trailing comment lists the six shapes the hand-written schema used to have, as candidates to re-test |
 | [storage-schema-design-notes.md](storage-schema-design-notes.md) | Why the storage schema is shaped the way it is |
 | [analysis-entities.md](analysis-entities.md) | What each entity around an analysis is called, what owns it, and what points at what: the three layers, a crosswalk from the words papers use, and the joins a synthesis reads a record back out through. Start here before representing-models.md |
 | [representing-models.md](representing-models.md) | How to put a reported analysis into the schema: which facts belong to the model and which to the contrast, where each class's job ends, and what to do when a paper does not divide things the way the schema does. Its YAML fragments and the worked records under `pondie/tests/fixtures/examples/` are checked on every test run |

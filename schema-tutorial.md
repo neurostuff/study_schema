@@ -5,7 +5,7 @@ connect, what each field holds and what it must not be confused with, and how to
 is ambiguous.
 
 This is the teaching document. The schema files under
-[neuroimaging-study-storage/](neuroimaging-study-storage/) are the source of truth for what a field
+[neuroimaging-study-storage/](src/study_schema/linkml/neuroimaging-study-storage/) are the source of truth for what a field
 holds, and they win any disagreement with what follows.
 
 ---
@@ -1795,11 +1795,11 @@ required column leaves out `id`, which every class that has one requires; "Field
 ## Appendix B. Where everything is
 
 **The schema.** `neuroimaging-study-storage.yaml` plus eleven modules under
-[neuroimaging-study-storage/](neuroimaging-study-storage/): `subsets`, `design`, `study`, `group`,
+[neuroimaging-study-storage/](src/study_schema/linkml/neuroimaging-study-storage/): `subsets`, `design`, `study`, `group`,
 `task`, `assessment`, `region`, `acquisition`, `analysis_enums`, `analysis_details`, `analysis`.
 `analysis_enums` holds 27 of the 38 vocabularies, separately so that the analysis and
 analysis-details modules can both bind to them without either importing the other.
-[neuroimaging-study-extraction/](neuroimaging-study-extraction/) is the generated projection and is
+[neuroimaging-study-extraction/](src/study_schema/linkml/neuroimaging-study-extraction/) is the generated projection and is
 never hand-edited.
 
 **The uniqueness rules**, each saying "recorded twice is one thing": `ModelTerm.name` within its

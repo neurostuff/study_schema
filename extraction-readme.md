@@ -185,7 +185,7 @@ The extraction schema used to carry eight sibling slots here and five on `Acquis
 "all eight empty" standing in for mass-univariate. Naming the type is one field instead of
 eight and cannot be silently ambiguous, but it does ask the extractor to make a choice it
 previously made by omission. If that turns out to extract worse, it is candidate 2 in
-[extraction-deviations.yaml](extraction-deviations.yaml).
+[extraction-deviations.yaml](src/study_schema/linkml/extraction-deviations.yaml).
 
 ### A task's name is split into its paradigm and the ways it varies
 
@@ -265,7 +265,7 @@ recorded verbatim and a 23-entry synonym table in the map did the translating.
 Extraction used to spread direction across five per-axis slots, one each for group, condition,
 timepoint, arm and factor, because comparative wording is per axis and that is what an
 extractor can point at. Storage always had the one slot, and now so does extraction. It is
-candidate 3 in [extraction-deviations.yaml](extraction-deviations.yaml) — the biggest of the
+candidate 3 in [extraction-deviations.yaml](src/study_schema/linkml/extraction-deviations.yaml) — the biggest of the
 six, and the one most worth measuring, since the collapse asks the extractor to resolve an
 entity to the model term whose level names it *and* to pick a direction in the same step.
 
@@ -676,7 +676,7 @@ impossible by construction rather than merely documented, and
 copies of the real schemas, because a completeness check that cannot fail is worth nothing.
 
 The shapes that used to need absorbing are listed as candidates at the end of
-[extraction-deviations.yaml](extraction-deviations.yaml). They were not obviously wrong --
+[extraction-deviations.yaml](src/study_schema/linkml/extraction-deviations.yaml). They were not obviously wrong --
 they were chosen because they read more naturally to an extractor -- and the point of
 starting from the projection is to find out which of them actually earn their cost. Adding
 one back is an entry in that file plus a matching entry in the map.
@@ -729,7 +729,7 @@ extraction schema still asks for them.
 
 `ConnectivityEdge.directionality` is `deterministic` without any outside source: the mapper looks
 it up from the containing analysis's `connectivity_method` through `value_map` in
-[extraction-to-storage.map.yaml](extraction-to-storage.map.yaml). Only DCM and Granger causality
+[extraction-to-storage.map.yaml](src/study_schema/linkml/extraction-to-storage.map.yaml). Only DCM and Granger causality
 support a claim about which region influences which, and no wording of the paper changes that, so
 the field is not one to ask a reader for. It is left unset where the method is written as free text,
 since there is nothing to look up — the one case where an edge's directionality is genuinely unknown

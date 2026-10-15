@@ -3,7 +3,7 @@
 How to put a reported analysis into the storage schema, and how to tell which shape it is. This is
 the practical companion to [storage-schema-design-notes.md](storage-schema-design-notes.md), which
 holds the reasoning behind the shape rather than instructions for using it. The schema's field
-definitions are in [neuroimaging-study-storage/](neuroimaging-study-storage/) and say what each
+definitions are in [neuroimaging-study-storage/](src/study_schema/linkml/neuroimaging-study-storage/) and say what each
 field *is*; this says how the classes fit together and what to do when a paper does not divide the
 world the way the schema does. If the class names are not yet familiar,
 [analysis-entities.md](analysis-entities.md) is the map: what each entity is called, what owns it,
