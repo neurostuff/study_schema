@@ -46,4 +46,15 @@ def references(name: str) -> list[Reference]:
     return sorted(rows, key=lambda row: (row.cls, row.slot))
 
 
-__all__ = ["NAMES", "Reference", "load", "references"]
+def unique_keys(name: str) -> dict[str, tuple[tuple[str, ...], ...]]:
+    """The unique keys of each class that declares one, sorted by class; keys are tuples."""
+    return dict(
+        sorted(
+            (cls, tuple(tuple(key) for key in definition["x-unique-keys"]))
+            for cls, definition in load(name)["$defs"].items()
+            if "x-unique-keys" in definition
+        )
+    )
+
+
+__all__ = ["NAMES", "Reference", "load", "references", "unique_keys"]

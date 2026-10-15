@@ -66,6 +66,15 @@ def _view(contract: Contract):
     return view
 
 
+def _class_definitions(document: dict, view):
+    """Each class's `$defs` entry as `(cls, definition)`."""
+    classes = view.all_classes()
+    for cls, definition in document["$defs"].items():
+        # $defs also holds enums, which are not classes.
+        if cls in classes:
+            yield cls, definition
+
+
 def _annotate_references(document: dict, view) -> None:
     """Mark each property that holds another entity's identifier with its target class.
 
@@ -74,10 +83,9 @@ def _annotate_references(document: dict, view) -> None:
     """
     classes = view.all_classes()
     entities = {name for name in classes if view.get_identifier_slot(name)}
-    for cls, definition in document["$defs"].items():
+    for cls, definition in _class_definitions(document, view):
         properties = definition.get("properties")
-        # $defs also holds enums, which are not classes.
-        if not properties or cls not in classes:
+        if not properties:
             continue
         for slot in view.class_induced_slots(cls):
             if (
@@ -86,6 +94,22 @@ def _annotate_references(document: dict, view) -> None:
                 and not (slot.inlined or slot.inlined_as_list)
             ):
                 properties[slot.name]["x-reference"] = slot.range
+
+
+def _annotate_unique_keys(document: dict, view) -> None:
+    """Write each class's unique keys, its own first and then inherited, as `x-unique-keys`.
+
+    A key is a list of slot names in the order the YAML declares them. Keys are deduplicated
+    by name, and the nearest declaration of a name wins, so a subclass's key replaces an
+    ancestor's key of the same name.
+    """
+    for cls, definition in _class_definitions(document, view):
+        keys: dict[str, list[str]] = {}
+        for ancestor in view.class_ancestors(cls):
+            for key in view.get_class(ancestor).unique_keys.values():
+                keys.setdefault(key.unique_key_name, list(key.unique_key_slots))
+        if keys:
+            definition["x-unique-keys"] = list(keys.values())
 
 
 def render() -> dict[Path, str]:
@@ -105,6 +129,7 @@ def render() -> dict[Path, str]:
                 JsonSchemaGenerator(view.schema, top_class=top).serialize()
             )
             _annotate_references(document, view)
+            _annotate_unique_keys(document, view)
             out[PACKAGE / "jsonschema" / f"{name}.schema.json"] = (
                 json.dumps(document, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
             )

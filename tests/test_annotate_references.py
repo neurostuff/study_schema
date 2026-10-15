@@ -1,12 +1,8 @@
 """The generator marks a property as a reference by the rules of its induced LinkML slot."""
 
-import importlib.util
-import json
-import sys
-
 import pytest
 
-from conftest import ROOT
+from conftest import annotated_document
 
 pytest.importorskip("linkml", reason="regeneration needs the `generate` extra")
 
@@ -55,25 +51,8 @@ classes:
 """
 
 
-@pytest.fixture
-def generator():
-    path = ROOT / "tools" / "generate_models.py"
-    spec = importlib.util.spec_from_file_location("generate_models", path)
-    module = importlib.util.module_from_spec(spec)
-    sys.modules["generate_models"] = module
-    spec.loader.exec_module(module)
-    return module
-
-
 def test_annotate_references_follows_the_linkml_rules(tmp_path, generator):
-    from linkml.generators.jsonschemagen import JsonSchemaGenerator
-    from linkml_runtime.utils.schemaview import SchemaView
-
-    path = tmp_path / "tiny.yaml"
-    path.write_text(TINY_SCHEMA, "utf-8")
-    view = SchemaView(str(path))
-    view.merge_imports()
-    document = json.loads(JsonSchemaGenerator(view.schema, top_class="Study").serialize())
+    document, view = annotated_document(tmp_path, TINY_SCHEMA, "Study")
 
     generator._annotate_references(document, view)
 
