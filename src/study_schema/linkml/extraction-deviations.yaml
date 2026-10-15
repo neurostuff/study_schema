@@ -1,7 +1,7 @@
 # extraction-deviations.yaml
 #
 # Everything in the extraction schema that is not a mechanical projection of the storage
-# schema. gen_extraction_schema.py applies this file on top of the projection; nothing
+# schema. pondie.schema.generate applies this file on top of the projection; nothing
 # else may differ, and check_extraction_mirrors_storage.py enforces that.
 #
 # The file has two parts, and the difference between them matters.
@@ -35,7 +35,7 @@ header:
     Immutable, evidence-first structured output from extracting a neuroimaging
     publication.
 
-    This schema is generated from neuroimaging-study-storage by gen_extraction_schema.py.
+    This schema is generated from neuroimaging-study-storage by pondie.schema.generate.
     It has the same classes with the same slots in the same nesting; what differs is that
     every source-derived value is wrapped. An ExtractedValue records whether a value was
     found (extraction_status), the value itself when it was, how it relates to the source

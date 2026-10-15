@@ -2,7 +2,7 @@
 
 Why the storage schema is shaped the way it is: the reasoning behind a decision, the
 alternatives weighed against it, and the measurement that settled it. The field
-definitions themselves are in [neuroimaging-study-storage/](neuroimaging-study-storage/)
+definitions themselves are in [neuroimaging-study-storage/](src/study_schema/linkml/neuroimaging-study-storage/)
 and say what each field *is*; [representing-models.md](representing-models.md) says how to
 use them; [analysis-entities.md](analysis-entities.md) says what owns what. This holds the
 part none of those should carry.
@@ -407,7 +407,7 @@ it is asking for a chance to disagree with the method, and the corpus took the c
 on 2026-08-14, 16 sat on `dcm` and **five of those were marked `undirected`**, which DCM cannot be.
 
 It therefore became a lookup in `derivations.ConnectivityEdge.directionality.value_map` in
-[extraction-to-storage.map.yaml](extraction-to-storage.map.yaml) — two directed values, six
+[extraction-to-storage.map.yaml](src/study_schema/linkml/extraction-to-storage.map.yaml) — two directed values, six
 undirected, one line each.
 
 ### What the derivation cannot do

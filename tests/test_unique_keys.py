@@ -6,7 +6,7 @@ from study_schema import jsonschema as js
 
 # A golden check of the YAML, not a sync with neurostore: these pins are neurostore's
 # DECLARED_KEYS in neurostore.study_schema_tools on its review branch. Each key matches a
-# unique_keys declaration in neuroimaging-study-storage/analysis.yaml, with its slots in
+# unique_keys declaration in src/study_schema/linkml/neuroimaging-study-storage/analysis.yaml, with its slots in
 # declared order.
 NEUROSTORE_DECLARED_KEYS = {
     "Cell": (("term", "level"),),

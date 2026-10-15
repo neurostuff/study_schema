@@ -1,7 +1,6 @@
-from pathlib import Path
-
 import yaml
 
+from study_schema import linkml
 from study_schema.statistics import (
     DIRECTIONAL_KINDS,
     NON_DIRECTIONAL_KINDS,
@@ -9,7 +8,7 @@ from study_schema.statistics import (
     point_side,
 )
 
-ENUMS = Path(__file__).parent.parent / "neuroimaging-paper-parse" / "parse_enums.yaml"
+ENUMS = linkml.EXTRACTION.parent / "neuroimaging-paper-parse" / "parse_enums.yaml"
 
 
 def test_kind_sets_match_the_schema_annotations():
