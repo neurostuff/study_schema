@@ -284,6 +284,8 @@ parse = CoordinateParse.model_validate_json(path.read_bytes())
 
 **Reference properties.** A string property that holds another entity's `local_id` carries `"x-reference": "<TargetClass>"` on the property itself, beside its `type`; for a multivalued slot that property is the array, not its `items`. The keyword is set from the LinkML induced slots, so `is_a` and `slot_usage` apply, and only where the range class has an identifier and the slot is not inlined. JSON Schema validators ignore it, and `study_schema.jsonschema.references(name)` returns the same relationships as `Reference(cls, slot, target, multivalued)` named tuples, sorted by class and slot.
 
+**Unique keys.** A class with a LinkML `unique_keys` carries `"x-unique-keys": [[slot, ...], ...]` on its definition, its own keys first and then inherited ones with each key's slots in declared order, and `study_schema.jsonschema.unique_keys(name)` returns them as a dict from class to tuples of slot names.
+
 Every model forbids fields its schema does not declare, so a file written against another
 version fails where it is read, naming the field, instead of losing what the reader does not
 recognise. Each model module records the schema version it was generated from as `version`,

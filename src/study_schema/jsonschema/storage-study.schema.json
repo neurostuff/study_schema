@@ -412,7 +412,12 @@
         "group"
       ],
       "title": "AnalysisGroup",
-      "type": "object"
+      "type": "object",
+      "x-unique-keys": [
+        [
+          "group"
+        ]
+      ]
     },
     "AnalysisOutcome": {
       "description": "Whether the tested effect produced any finding at the threshold the source applied. Closed: the two are the only answers, and a source that does not say takes `not_reported` rather than a third value.",
@@ -662,7 +667,13 @@
         "direction"
       ],
       "title": "Cell",
-      "type": "object"
+      "type": "object",
+      "x-unique-keys": [
+        [
+          "term",
+          "level"
+        ]
+      ]
     },
     "Condition": {
       "additionalProperties": false,
@@ -1635,7 +1646,12 @@
         "level"
       ],
       "title": "FactorLevel",
-      "type": "object"
+      "type": "object",
+      "x-unique-keys": [
+        [
+          "level"
+        ]
+      ]
     },
     "FunctionalForm": {
       "description": "Shape of a term's relationship to the measure. A squared term with a negative coefficient is an inverted-U relationship, not a negative association, so non-linear and transformed terms must not be reported as linear. Open vocabulary: write the source's own wording in the field when nothing here fits.",
@@ -2864,7 +2880,12 @@
         "type"
       ],
       "title": "ModelTerm",
-      "type": "object"
+      "type": "object",
+      "x-unique-keys": [
+        [
+          "name"
+        ]
+      ]
     },
     "NotStructurableDetails": {
       "additionalProperties": false,
