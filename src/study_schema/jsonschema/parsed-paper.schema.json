@@ -232,13 +232,51 @@
     },
     "Bibliography": {
       "additionalProperties": false,
-      "description": "The paper's bibliographic facts, as the metadata lookup returned them. Downstream they are copied, never extracted: pondie fills the record's Study.title, authors, doi, journal, publication_year, language and study_type from here, and neurostore fills BaseStudy from here.",
+      "description": "The paper's bibliographic facts, as the metadata lookup returned them. Downstream they are copied, never extracted: pondie fills the record's Study.title, authors, doi, journal, publication_year, language, study_type, license and oa_status from here, and neurostore fills BaseStudy from here.",
+      "else": {
+        "properties": {
+          "abstract_provider": {
+            "not": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/MetadataSource"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "abstract": {
+            "anyOf": [
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "required": [
+          "abstract"
+        ]
+      },
       "properties": {
         "abstract": {
           "type": [
             "string",
             "null"
           ]
+        },
+        "abstract_provider": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetadataSource"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The source whose abstract `abstract` is. It may differ from `provider`. The abstract is the publisher's abstract of the version `license` describes, so its licence is `license`."
         },
         "authors": {
           "description": "Author names in published order.",
@@ -291,15 +329,17 @@
           ]
         },
         "license": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "$ref": "#/$defs/License",
+          "description": "The paper's licence: the version of record's, or the latest preprint's while the header's `publication_status` is `preprint`. Not the licence of a copy of another version, which that copy carries."
         },
-        "open_access": {
-          "type": [
-            "boolean",
-            "null"
+        "oa_status": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OaStatus"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "pages": {
@@ -309,11 +349,15 @@
           ]
         },
         "provider": {
-          "description": "The metadata service the facts came from, such as pubmed or europepmc.",
-          "type": [
-            "string",
-            "null"
-          ]
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetadataSource"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The metadata service the facts came from."
         },
         "publication_types": {
           "description": "PubMed publication types, verbatim. The storage schema's Study.study_type.",
@@ -331,6 +375,16 @@
             "null"
           ]
         },
+        "reported_copies": {
+          "description": "Copies of the paper that a source lists and that we do not hold, each with its own licence. Where an open copy is, when `oa_status` says one exists.",
+          "items": {
+            "$ref": "#/$defs/ReportedCopy"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
         "title": {
           "type": "string"
         },
@@ -342,8 +396,23 @@
         }
       },
       "required": [
-        "title"
+        "title",
+        "license"
       ],
+      "then": {
+        "properties": {
+          "abstract_provider": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/MetadataSource"
+              }
+            ]
+          }
+        },
+        "required": [
+          "abstract_provider"
+        ]
+      },
       "title": "Bibliography",
       "type": "object"
     },
@@ -559,6 +628,121 @@
       "title": "CoordinateRole",
       "type": "string"
     },
+    "Copy": {
+      "additionalProperties": false,
+      "description": "One copy of a paper, where it is, which version it is, and its licence.",
+      "else": {
+        "properties": {
+          "preprint_server": {
+            "not": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/PreprintServer"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "route": {
+            "const": "preprint_server"
+          }
+        },
+        "required": [
+          "route"
+        ]
+      },
+      "properties": {
+        "license": {
+          "$ref": "#/$defs/License",
+          "description": "This copy's own licence. A manuscript or preprint can be licensed differently from the version of record."
+        },
+        "preprint_server": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PreprintServer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "route": {
+          "$ref": "#/$defs/CopyRoute"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CopyVersion"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Absent when no source says which version the copy is."
+        }
+      },
+      "required": [
+        "route",
+        "license"
+      ],
+      "then": {
+        "properties": {
+          "preprint_server": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/PreprintServer"
+              }
+            ]
+          }
+        },
+        "required": [
+          "preprint_server"
+        ]
+      },
+      "title": "Copy",
+      "type": "object"
+    },
+    "CopyAccess": {
+      "description": "How we obtained a copy we hold. The `redistribution` annotation says whether the access itself allows passing the copy on: `by_license` leaves that to the copy's licence, `never` forbids it whatever the licence says.",
+      "enum": [
+        "public",
+        "tdm_grant",
+        "unrecorded"
+      ],
+      "title": "CopyAccess",
+      "type": "string"
+    },
+    "CopyRoute": {
+      "description": "Where a copy of a paper is hosted.",
+      "enum": [
+        "pmc",
+        "publisher",
+        "repository",
+        "preprint_server",
+        "unrecorded"
+      ],
+      "title": "CopyRoute",
+      "type": "string"
+    },
+    "CopyVersion": {
+      "description": "Which version of the paper a copy is, in the NISO Journal Article Versions terms. OpenAlex's `publishedVersion`, `acceptedVersion` and `submittedVersion` are `vor`, `am` and `submitted`.",
+      "enum": [
+        "vor",
+        "am",
+        "submitted"
+      ],
+      "title": "CopyVersion",
+      "type": "string"
+    },
     "Correction": {
       "additionalProperties": false,
       "description": "One notice attached to a paper.",
@@ -705,6 +889,93 @@
       "title": "FunctionalForm",
       "type": "string"
     },
+    "HeldCopy": {
+      "additionalProperties": false,
+      "description": "A copy we downloaded.",
+      "else": {
+        "properties": {
+          "preprint_server": {
+            "not": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/PreprintServer"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "route": {
+            "const": "preprint_server"
+          }
+        },
+        "required": [
+          "route"
+        ]
+      },
+      "properties": {
+        "access": {
+          "$ref": "#/$defs/CopyAccess"
+        },
+        "license": {
+          "$ref": "#/$defs/License",
+          "description": "This copy's own licence. A manuscript or preprint can be licensed differently from the version of record."
+        },
+        "preprint_server": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PreprintServer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "route": {
+          "$ref": "#/$defs/CopyRoute"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CopyVersion"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Absent when no source says which version the copy is."
+        }
+      },
+      "required": [
+        "access",
+        "route",
+        "license"
+      ],
+      "then": {
+        "properties": {
+          "preprint_server": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/PreprintServer"
+              }
+            ]
+          }
+        },
+        "required": [
+          "preprint_server"
+        ]
+      },
+      "title": "HeldCopy",
+      "type": "object"
+    },
     "InferenceTarget": {
       "description": "What the connectivity analysis drew inference about. Open vocabulary: write the source's own wording in the field when nothing here fits.",
       "enum": [
@@ -740,6 +1011,125 @@
       ],
       "title": "InputRef",
       "type": "object"
+    },
+    "License": {
+      "additionalProperties": false,
+      "description": "A licence as one source stated it, or all rights reserved assumed because no source stated one.",
+      "else": {
+        "properties": {
+          "code": {
+            "const": "all-rights-reserved"
+          },
+          "stated_as": {
+            "not": {
+              "anyOf": [
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "stated_by": {
+            "not": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/MetadataSource"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "basis": {
+            "const": "stated"
+          }
+        },
+        "required": [
+          "basis"
+        ]
+      },
+      "properties": {
+        "basis": {
+          "$ref": "#/$defs/LicenseBasis"
+        },
+        "code": {
+          "$ref": "#/$defs/LicenseCode"
+        },
+        "stated_as": {
+          "description": "The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stated_by": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetadataSource"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The source whose statement this is."
+        }
+      },
+      "required": [
+        "code",
+        "basis"
+      ],
+      "then": {
+        "properties": {
+          "stated_as": {
+            "anyOf": [
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "stated_by": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/MetadataSource"
+              }
+            ]
+          }
+        },
+        "required": [
+          "stated_by",
+          "stated_as"
+        ]
+      },
+      "title": "License",
+      "type": "object"
+    },
+    "LicenseBasis": {
+      "description": "Whether a source stated the licence.",
+      "enum": [
+        "stated",
+        "assumed"
+      ],
+      "title": "LicenseBasis",
+      "type": "string"
+    },
+    "LicenseCode": {
+      "description": "The terms a licence grants. A value annotated `redistributable` lets the text it covers be passed on verbatim with attribution: every Creative Commons licence, including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows, and NC, because neurostore's use is non-commercial.",
+      "enum": [
+        "cc-by",
+        "cc-by-sa",
+        "cc-by-nc",
+        "cc-by-nc-sa",
+        "cc-by-nd",
+        "cc-by-nc-nd",
+        "cc0",
+        "public-domain",
+        "all-rights-reserved",
+        "other"
+      ],
+      "title": "LicenseCode",
+      "type": "string"
     },
     "MapQuantity": {
       "description": "What the values of a component or latent-variable map represent. Open vocabulary: write the source's own wording in the field when nothing here fits.",
@@ -803,6 +1193,21 @@
       "title": "MetaAnalysisBasis",
       "type": "string"
     },
+    "MetadataSource": {
+      "description": "Who stated a bibliographic fact.",
+      "enum": [
+        "jats",
+        "elsevier",
+        "pmc_cloud",
+        "pubmed",
+        "crossref",
+        "openalex",
+        "semantic_scholar",
+        "europepmc"
+      ],
+      "title": "MetadataSource",
+      "type": "string"
+    },
     "ModelFamily": {
       "description": "Statistical model family used to estimate the effect. Open vocabulary: write the source's own wording in the field when nothing here fits.",
       "enum": [
@@ -832,6 +1237,19 @@
         "conjunction_null"
       ],
       "title": "NullHypothesis",
+      "type": "string"
+    },
+    "OaStatus": {
+      "description": "How a paper is open to read, in OpenAlex's terms (https://help.openalex.org/hc/en-us/articles/24347035046295-Open-Access-OA).",
+      "enum": [
+        "gold",
+        "diamond",
+        "hybrid",
+        "bronze",
+        "green",
+        "closed"
+      ],
+      "title": "OaStatus",
       "type": "string"
     },
     "OmittedAnalysis": {
@@ -1165,6 +1583,10 @@
             "null"
           ]
         },
+        "text_copy": {
+          "$ref": "#/$defs/HeldCopy",
+          "description": "The copy the text was read from. Its licence and access, not the paper's licence, decide whether the text may be passed on."
+        },
         "text_length": {
           "minimum": 0,
           "type": [
@@ -1184,6 +1606,7 @@
       "required": [
         "header",
         "source",
+        "text_copy",
         "text_path",
         "text_sha256",
         "bibliography",
@@ -1664,6 +2087,93 @@
       ],
       "title": "ReferenceProvider",
       "type": "string"
+    },
+    "ReportedCopy": {
+      "additionalProperties": false,
+      "description": "A copy a metadata source lists and we do not hold.",
+      "else": {
+        "properties": {
+          "preprint_server": {
+            "not": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/PreprintServer"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "route": {
+            "const": "preprint_server"
+          }
+        },
+        "required": [
+          "route"
+        ]
+      },
+      "properties": {
+        "license": {
+          "$ref": "#/$defs/License",
+          "description": "This copy's own licence. A manuscript or preprint can be licensed differently from the version of record."
+        },
+        "preprint_server": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PreprintServer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reported_by": {
+          "$ref": "#/$defs/MetadataSource"
+        },
+        "route": {
+          "$ref": "#/$defs/CopyRoute"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CopyVersion"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Absent when no source says which version the copy is."
+        }
+      },
+      "required": [
+        "reported_by",
+        "route",
+        "license"
+      ],
+      "then": {
+        "properties": {
+          "preprint_server": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/PreprintServer"
+              }
+            ]
+          }
+        },
+        "required": [
+          "preprint_server"
+        ]
+      },
+      "title": "ReportedCopy",
+      "type": "object"
     },
     "ReportedSpace": {
       "description": "The coordinate space a point is in, normalized to the values NiMARE transforms between by `study_schema.spaces.normalize_space`. Absent when no space is stated, or when the wording names both MNI and TAL; never defaulted to MNI: a rat study stored as MNI is a wrong coordinate, and a missing one is an honest gap. What the paper printed stays in `space_as_printed`.",
@@ -2301,6 +2811,10 @@
         "null"
       ]
     },
+    "text_copy": {
+      "$ref": "#/$defs/HeldCopy",
+      "description": "The copy the text was read from. Its licence and access, not the paper's licence, decide whether the text may be passed on."
+    },
     "text_length": {
       "minimum": 0,
       "type": [
@@ -2320,6 +2834,7 @@
   "required": [
     "header",
     "source",
+    "text_copy",
     "text_path",
     "text_sha256",
     "bibliography",
@@ -2327,5 +2842,5 @@
   ],
   "title": "neuroimaging-paper-parse",
   "type": "object",
-  "version": "0.7.0"
+  "version": "0.8.0"
 }

@@ -142,6 +142,41 @@ derivations:
     notes: >-
       Stated by the producer of the parsed paper from the identifiers it holds. Not
       extracted: whether a version of record exists is not something the text says.
+  Study.license:
+    transform: copy
+    source_artifact: neuroimaging-paper-parse/ParsedPaper
+    source_field: Bibliography.license
+    notes: >-
+      The paper's licence, as the metadata lookup decided it from the sources' statements.
+      Not extracted: a licence the page prints belongs to the copy the text came from, which
+      may not be the version of record.
+  License.code:
+    transform: copy
+    source_artifact: neuroimaging-paper-parse/ParsedPaper
+    source_field: License.code
+    notes: Copied with Study.license, from the parsed paper's Bibliography.license.
+  License.basis:
+    transform: copy
+    source_artifact: neuroimaging-paper-parse/ParsedPaper
+    source_field: License.basis
+    notes: Copied with Study.license, from the parsed paper's Bibliography.license.
+  License.stated_by:
+    transform: copy
+    source_artifact: neuroimaging-paper-parse/ParsedPaper
+    source_field: License.stated_by
+    notes: Copied with Study.license, from the parsed paper's Bibliography.license.
+  License.stated_as:
+    transform: copy
+    source_artifact: neuroimaging-paper-parse/ParsedPaper
+    source_field: License.stated_as
+    notes: Copied with Study.license, from the parsed paper's Bibliography.license.
+  Study.oa_status:
+    transform: copy
+    source_artifact: neuroimaging-paper-parse/ParsedPaper
+    source_field: Bibliography.oa_status
+    notes: >-
+      Copied from the parsed paper. Not extracted: where free copies exist is not something
+      the text says.
   Study.id:
     transform: generate
     notes: Assigned by the ingestion pipeline; typically DOI-derived (doi:10.../record) or a UUID.

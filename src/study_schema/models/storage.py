@@ -32,7 +32,7 @@ from pydantic import (
 
 
 metamodel_version = "1.12.0"
-version = "0.8.0"
+version = "0.9.0"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -522,6 +522,95 @@ class Modality(str, Enum):
     other = "other"
     """
     A modality none of the above names, such as intracranial EEG, ultrasound, or a physiological recording analysed on its own. OtherModality holds both its label and its parameters.
+    """
+
+
+class LicenseCode(str, Enum):
+    """
+    The terms a licence grants. A value annotated `redistributable` lets the text it covers be passed on verbatim with attribution: every Creative Commons licence, including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows, and NC, because neurostore's use is non-commercial.
+    """
+    cc_by = "cc-by"
+    cc_by_sa = "cc-by-sa"
+    cc_by_nc = "cc-by-nc"
+    cc_by_nc_sa = "cc-by-nc-sa"
+    cc_by_nd = "cc-by-nd"
+    cc_by_nc_nd = "cc-by-nc-nd"
+    cc0 = "cc0"
+    public_domain = "public-domain"
+    all_rights_reserved = "all-rights-reserved"
+    """
+    A copyright statement with no licence, or terms that allow text mining only, such as PubMed Central's `TDM` for an author manuscript.
+    """
+    other = "other"
+    """
+    A stated licence outside this list, such as a publisher's own user licence or OpenAlex's `publisher-specific-oa`; `stated_as` holds it.
+    """
+
+
+class LicenseBasis(str, Enum):
+    """
+    Whether a source stated the licence.
+    """
+    stated = "stated"
+    """
+    A source stated it; `stated_by` says which.
+    """
+    assumed = "assumed"
+    """
+    Every source that could state a licence answered and none did, so all rights are reserved.
+    """
+
+
+class MetadataSource(str, Enum):
+    """
+    Who stated a bibliographic fact.
+    """
+    jats = "jats"
+    """
+    A held copy's JATS XML, such as its `<permissions>`.
+    """
+    elsevier = "elsevier"
+    """
+    A held copy's Elsevier full-text XML, its `coredata`.
+    """
+    pmc_cloud = "pmc_cloud"
+    """
+    PubMed Central's cloud record of a held copy.
+    """
+    pubmed = "pubmed"
+    crossref = "crossref"
+    openalex = "openalex"
+    semantic_scholar = "semantic_scholar"
+    europepmc = "europepmc"
+
+
+class OaStatus(str, Enum):
+    """
+    How a paper is open to read, in OpenAlex's terms (https://help.openalex.org/hc/en-us/articles/24347035046295-Open-Access-OA).
+    """
+    gold = "gold"
+    """
+    Published openly licensed in an open-access journal.
+    """
+    diamond = "diamond"
+    """
+    Gold, in a journal that charges authors no fee.
+    """
+    hybrid = "hybrid"
+    """
+    Published openly licensed in a subscription journal.
+    """
+    bronze = "bronze"
+    """
+    Free to read at the publisher, without an open licence.
+    """
+    green = "green"
+    """
+    Closed at the publisher, with a free copy in a repository.
+    """
+    closed = "closed"
+    """
+    No free copy is known.
     """
 
 
@@ -2005,6 +2094,16 @@ class CoordinateSet(ConfiguredBaseModel):
     description: Optional[str] = Field(default=None, description="""What the set is, in the source's words, when the role alone does not say.""")
 
 
+class License(ConfiguredBaseModel):
+    """
+    A licence as one source stated it, or all rights reserved assumed because no source stated one.
+    """
+    code: LicenseCode = Field(default=...)
+    basis: LicenseBasis = Field(default=...)
+    stated_by: Optional[MetadataSource] = Field(default=None, description="""The source whose statement this is.""")
+    stated_as: Optional[str] = Field(default=None, description="""The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes.""")
+
+
 class Study(ConfiguredBaseModel):
     """
     The publication-level record that contains the groups, tasks, design, acquisitions, preprocessing pipelines, model estimations, analyses, and reported result tables belonging to one study. Conditions belong to the task they are part of, not to the study.
@@ -2020,6 +2119,8 @@ Absent when the paper states no prediction, which is common: never paraphrase an
     journal: Optional[str] = Field(default=None, description="""Journal or other publication venue.""")
     doi: Optional[str] = Field(default=None, description="""Digital Object Identifier of the version of record, without requiring a particular URL form. Never a preprint server's DOI.""")
     publication_status: Optional[PublicationStatus] = Field(default=None, description="""Whether the version of record is known or only the preprint, copied from the parsed paper's header identifiers. `study_type` is independent of it: it keeps PubMed's publication types verbatim, `Preprint` included.""")
+    license: Optional[License] = Field(default=None, description="""The paper's licence, copied from the parsed paper's bibliography: the version of record's, or the preprint's while `publication_status` is `preprint`. Not the licence of the copy the text was read from, which the parsed paper keeps.""")
+    oa_status: Optional[OaStatus] = Field(default=None, description="""How the paper is open to read, copied from the parsed paper's bibliography.""")
     publication_year: Optional[int] = Field(default=None, description="""Year in which the study was first published or made publicly available.""", ge=1600)
     language: Optional[list[str]] = Field(default=None, description="""Languages of the article, as the E-utilities API reports them -- the three-letter codes PubMed assigns, `eng` and the rest. Filled from the same `esummary` call that fills `study_type`, and not read off the paper: the text a reader is given is in one language whatever the article is indexed as.
 At least six of the benchmark's sixteen meta-analyses state \"English language\" as an inclusion criterion, and it was unexpressible. On the 1,804 records measured it excludes exactly one paper, so it buys precision rather than recall; the criterion is stated, so the field states it.""")
@@ -2226,6 +2327,7 @@ InferenceSettings.model_rebuild()
 StatisticalMap.model_rebuild()
 Table.model_rebuild()
 CoordinateSet.model_rebuild()
+License.model_rebuild()
 Study.model_rebuild()
 ExternalDataset.model_rebuild()
 AnalysisDetails.model_rebuild()

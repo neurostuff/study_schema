@@ -14,6 +14,7 @@ imports:
   - region
   - acquisition
   - analysis
+  - license
 default_prefix: neurostudy
 default_range: string
 
@@ -94,6 +95,18 @@ classes:
           Whether the version of record is known or only the preprint, copied from the
           parsed paper's header identifiers. `study_type` is independent of it: it keeps
           PubMed's publication types verbatim, `Preprint` included.
+      license:
+        in_subset: [mvp, deterministic]
+        range: License
+        inlined: true
+        description: >-
+          The paper's licence, copied from the parsed paper's bibliography: the version of
+          record's, or the preprint's while `publication_status` is `preprint`. Not the
+          licence of the copy the text was read from, which the parsed paper keeps.
+      oa_status:
+        in_subset: [mvp, deterministic]
+        range: OaStatus
+        description: How the paper is open to read, copied from the parsed paper's bibliography.
       publication_year:
         in_subset: [mvp, deterministic]
         range: integer

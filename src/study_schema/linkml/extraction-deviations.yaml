@@ -29,7 +29,7 @@ version: 0.1.0
 # record the mapper writes; this one describes what a model read.
 header:
 
-  version: 0.5.0
+  version: 0.6.0
 
   description: >-
     Immutable, evidence-first structured output from extracting a neuroimaging
@@ -385,6 +385,75 @@ deviations:
         PubMed publication types for this record, verbatim, copied from the parsed paper's
         `Bibliography.publication_types`, not read off the paper: it is what the indexers
         said about the article, which is what a publication-type exclusion asks about.
+
+  - id: publication-status-is-copied-from-the-parsed-paper-onto-the-record
+    operation: add_slot
+    class: study.Study
+    slot: publication_status
+    why: >-
+      The same case as `study_type`: storage marks it `deterministic`, so the projection
+      drops it, and pondie copies it onto the record from the parsed paper's header. Storage
+      gained the field without this declaration, so pondie had no slot to write it to.
+    definition:
+      range: string
+      description: >-
+        `published` or `preprint`, copied from the parsed paper's
+        `ArticleIdentifiers.publication_status`, not read off the paper.
+
+  - id: licence-is-copied-from-the-parsed-paper-onto-the-record
+    operation: add_slot
+    class: study.Study
+    slot: license
+    why: >-
+      The same case as `study_type`: storage marks it `deterministic`, so the projection
+      drops it, and pondie copies it onto the record from the parsed paper's bibliography.
+      A licence the page prints belongs to the copy the text came from, which may be an
+      author manuscript under different terms (PMC10518222: a text-mining-only manuscript of
+      a CC BY-NC article), so a model is never asked for it.
+    definition:
+      range: License
+      inlined: true
+      description: >-
+        The paper's licence, copied whole from the parsed paper's `Bibliography.license`,
+        not read off the paper.
+
+  - id: licence-has-a-class-on-the-record
+    operation: add_class
+    module: study
+    class: License
+    why: >-
+      The class `Study.license` holds. The projection drops it, since nothing in it is
+      extracted. Its values are native strings, as `study_type`'s are: the record carries
+      the parsed paper's licence unchanged, and storage's `License` checks the vocabulary
+      when the record is mapped.
+    definition:
+      description: >-
+        A licence as the parsed paper states it. Storage's `License` says what each field
+        means and which values it takes.
+      attributes:
+        code:
+          range: string
+          required: true
+        basis:
+          range: string
+          required: true
+        stated_by:
+          range: string
+        stated_as:
+          range: string
+
+  - id: oa-status-is-copied-from-the-parsed-paper-onto-the-record
+    operation: add_slot
+    class: study.Study
+    slot: oa_status
+    why: >-
+      The same case as `study_type`: storage marks it `deterministic`, so the projection
+      drops it, and pondie copies it onto the record from the parsed paper's bibliography.
+    definition:
+      range: string
+      description: >-
+        How the paper is open to read, copied from the parsed paper's
+        `Bibliography.oa_status`, not read off the paper.
 
   - id: is-healthy-is-derived-onto-the-record
     operation: add_slot

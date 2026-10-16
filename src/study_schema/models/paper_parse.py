@@ -32,7 +32,7 @@ from pydantic import (
 
 
 metamodel_version = "1.12.0"
-version = "0.7.0"
+version = "0.8.0"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -245,6 +245,68 @@ class PreprintServer(str, Enum):
     jmir_preprints = "jmir_preprints"
     """
     JMIR Preprints, DOI prefix 10.2196.
+    """
+
+
+class CopyRoute(str, Enum):
+    """
+    Where a copy of a paper is hosted.
+    """
+    pmc = "pmc"
+    """
+    PubMed Central or Europe PMC.
+    """
+    publisher = "publisher"
+    """
+    The publisher's own site or full-text API.
+    """
+    repository = "repository"
+    """
+    An institutional or subject repository other than PMC.
+    """
+    preprint_server = "preprint_server"
+    """
+    A preprint server; the copy's `preprint_server` names it.
+    """
+    unrecorded = "unrecorded"
+    """
+    Where the copy came from was not recorded, such as a PDF supplied by hand.
+    """
+
+
+class CopyVersion(str, Enum):
+    """
+    Which version of the paper a copy is, in the NISO Journal Article Versions terms. OpenAlex's `publishedVersion`, `acceptedVersion` and `submittedVersion` are `vor`, `am` and `submitted`.
+    """
+    vor = "vor"
+    """
+    The version of record, as the journal published it.
+    """
+    am = "am"
+    """
+    The accepted manuscript, after peer review and before the publisher's typesetting.
+    """
+    submitted = "submitted"
+    """
+    The version submitted to a journal or posted as a preprint, before peer review.
+    """
+
+
+class CopyAccess(str, Enum):
+    """
+    How we obtained a copy we hold. The `redistribution` annotation says whether the access itself allows passing the copy on: `by_license` leaves that to the copy's licence, `never` forbids it whatever the licence says.
+    """
+    public = "public"
+    """
+    Fetched as any reader could fetch it, without our credentials.
+    """
+    tdm_grant = "tdm_grant"
+    """
+    Obtained under terms that permit text mining only: a publisher's full-text API with our key, such as Elsevier's or Wiley's, or a PubMed Central author manuscript whose record says `TDM`.
+    """
+    unrecorded = "unrecorded"
+    """
+    How the copy was obtained was not recorded.
     """
 
 
@@ -607,6 +669,95 @@ class CitationAlignment(str, Enum):
     unaligned = "unaligned"
     """
     A citation marker found but tied to no entry.
+    """
+
+
+class LicenseCode(str, Enum):
+    """
+    The terms a licence grants. A value annotated `redistributable` lets the text it covers be passed on verbatim with attribution: every Creative Commons licence, including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows, and NC, because neurostore's use is non-commercial.
+    """
+    cc_by = "cc-by"
+    cc_by_sa = "cc-by-sa"
+    cc_by_nc = "cc-by-nc"
+    cc_by_nc_sa = "cc-by-nc-sa"
+    cc_by_nd = "cc-by-nd"
+    cc_by_nc_nd = "cc-by-nc-nd"
+    cc0 = "cc0"
+    public_domain = "public-domain"
+    all_rights_reserved = "all-rights-reserved"
+    """
+    A copyright statement with no licence, or terms that allow text mining only, such as PubMed Central's `TDM` for an author manuscript.
+    """
+    other = "other"
+    """
+    A stated licence outside this list, such as a publisher's own user licence or OpenAlex's `publisher-specific-oa`; `stated_as` holds it.
+    """
+
+
+class LicenseBasis(str, Enum):
+    """
+    Whether a source stated the licence.
+    """
+    stated = "stated"
+    """
+    A source stated it; `stated_by` says which.
+    """
+    assumed = "assumed"
+    """
+    Every source that could state a licence answered and none did, so all rights are reserved.
+    """
+
+
+class MetadataSource(str, Enum):
+    """
+    Who stated a bibliographic fact.
+    """
+    jats = "jats"
+    """
+    A held copy's JATS XML, such as its `<permissions>`.
+    """
+    elsevier = "elsevier"
+    """
+    A held copy's Elsevier full-text XML, its `coredata`.
+    """
+    pmc_cloud = "pmc_cloud"
+    """
+    PubMed Central's cloud record of a held copy.
+    """
+    pubmed = "pubmed"
+    crossref = "crossref"
+    openalex = "openalex"
+    semantic_scholar = "semantic_scholar"
+    europepmc = "europepmc"
+
+
+class OaStatus(str, Enum):
+    """
+    How a paper is open to read, in OpenAlex's terms (https://help.openalex.org/hc/en-us/articles/24347035046295-Open-Access-OA).
+    """
+    gold = "gold"
+    """
+    Published openly licensed in an open-access journal.
+    """
+    diamond = "diamond"
+    """
+    Gold, in a journal that charges authors no fee.
+    """
+    hybrid = "hybrid"
+    """
+    Published openly licensed in a subscription journal.
+    """
+    bronze = "bronze"
+    """
+    Free to read at the publisher, without an open licence.
+    """
+    green = "green"
+    """
+    Closed at the publisher, with a free copy in a repository.
+    """
+    closed = "closed"
+    """
+    No free copy is known.
     """
 
 
@@ -1492,6 +1643,16 @@ class TextSpan(ConfiguredBaseModel):
     text: Optional[str] = Field(default=None, description="""The characters in the range, kept so a reader can check the offsets.""")
 
 
+class License(ConfiguredBaseModel):
+    """
+    A licence as one source stated it, or all rights reserved assumed because no source stated one.
+    """
+    code: LicenseCode = Field(default=...)
+    basis: LicenseBasis = Field(default=...)
+    stated_by: Optional[MetadataSource] = Field(default=None, description="""The source whose statement this is.""")
+    stated_as: Optional[str] = Field(default=None, description="""The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes.""")
+
+
 class ParsedPaper(ConfiguredBaseModel):
     """
     One paper as text, tables and bibliographic facts. The same shape for every download source.
@@ -1500,6 +1661,7 @@ class ParsedPaper(ConfiguredBaseModel):
     header: ArtifactHeader = Field(default=...)
     source: Union[DocumentSource, str] = Field(default=...)
     source_reason: Optional[str] = Field(default=None, description="""Why this source's text was chosen over the others downloaded, such as \"most tables\" or \"first in download order\". Every stage reads this one text, so the choice is made once and recorded.""")
+    text_copy: HeldCopy = Field(default=..., description="""The copy the text was read from. Its licence and access, not the paper's licence, decide whether the text may be passed on.""")
     text_path: str = Field(default=..., description="""The text file's path, relative to the paper's bundle directory.""")
     text_sha256: str = Field(default=..., description="""sha256 of the text file's UTF-8 bytes. This artifact's fingerprint.""")
     text_length: Optional[int] = Field(default=None, ge=0)
@@ -1515,7 +1677,7 @@ class ParsedPaper(ConfiguredBaseModel):
 
 class Bibliography(ConfiguredBaseModel):
     """
-    The paper's bibliographic facts, as the metadata lookup returned them. Downstream they are copied, never extracted: pondie fills the record's Study.title, authors, doi, journal, publication_year, language and study_type from here, and neurostore fills BaseStudy from here.
+    The paper's bibliographic facts, as the metadata lookup returned them. Downstream they are copied, never extracted: pondie fills the record's Study.title, authors, doi, journal, publication_year, language, study_type, license and oa_status from here, and neurostore fills BaseStudy from here.
     """
     title: str = Field(default=...)
     authors: Optional[list[str]] = Field(default=None, description="""Author names in published order.""")
@@ -1525,13 +1687,50 @@ class Bibliography(ConfiguredBaseModel):
     issue: Optional[str] = Field(default=None)
     pages: Optional[str] = Field(default=None)
     abstract: Optional[str] = Field(default=None)
+    abstract_provider: Optional[MetadataSource] = Field(default=None, description="""The source whose abstract `abstract` is. It may differ from `provider`. The abstract is the publisher's abstract of the version `license` describes, so its licence is `license`.""")
     language: Optional[list[str]] = Field(default=None)
     publication_types: Optional[list[str]] = Field(default=None, description="""PubMed publication types, verbatim. The storage schema's Study.study_type.""")
     keywords: Optional[list[str]] = Field(default=None)
-    license: Optional[str] = Field(default=None)
-    open_access: Optional[bool] = Field(default=None)
+    license: License = Field(default=..., description="""The paper's licence: the version of record's, or the latest preprint's while the header's `publication_status` is `preprint`. Not the licence of a copy of another version, which that copy carries.""")
+    oa_status: Optional[OaStatus] = Field(default=None)
+    reported_copies: Optional[list[ReportedCopy]] = Field(default=None, description="""Copies of the paper that a source lists and that we do not hold, each with its own licence. Where an open copy is, when `oa_status` says one exists.""")
     corrections: Optional[list[Correction]] = Field(default=None, description="""Notices attached to the paper -- errata, retractions, expressions of concern -- as the indexer lists them. A retracted paper is still parsed and stored, marked by its `retraction` notice, and left out of studysets by default; a filter can ask for it explicitly.""")
-    provider: Optional[str] = Field(default=None, description="""The metadata service the facts came from, such as pubmed or europepmc.""")
+    provider: Optional[MetadataSource] = Field(default=None, description="""The metadata service the facts came from.""")
+
+
+class Copy(ConfiguredBaseModel):
+    """
+    One copy of a paper, where it is, which version it is, and its licence.
+    """
+    route: CopyRoute = Field(default=...)
+    version: Optional[CopyVersion] = Field(default=None, description="""Absent when no source says which version the copy is.""")
+    license: License = Field(default=..., description="""This copy's own licence. A manuscript or preprint can be licensed differently from the version of record.""")
+    url: Optional[str] = Field(default=None)
+    preprint_server: Optional[PreprintServer] = Field(default=None)
+
+
+class HeldCopy(Copy):
+    """
+    A copy we downloaded.
+    """
+    access: CopyAccess = Field(default=...)
+    route: CopyRoute = Field(default=...)
+    version: Optional[CopyVersion] = Field(default=None, description="""Absent when no source says which version the copy is.""")
+    license: License = Field(default=..., description="""This copy's own licence. A manuscript or preprint can be licensed differently from the version of record.""")
+    url: Optional[str] = Field(default=None)
+    preprint_server: Optional[PreprintServer] = Field(default=None)
+
+
+class ReportedCopy(Copy):
+    """
+    A copy a metadata source lists and we do not hold.
+    """
+    reported_by: MetadataSource = Field(default=...)
+    route: CopyRoute = Field(default=...)
+    version: Optional[CopyVersion] = Field(default=None, description="""Absent when no source says which version the copy is.""")
+    license: License = Field(default=..., description="""This copy's own licence. A manuscript or preprint can be licensed differently from the version of record.""")
+    url: Optional[str] = Field(default=None)
+    preprint_server: Optional[PreprintServer] = Field(default=None)
 
 
 class Reference(ConfiguredBaseModel):
@@ -1797,8 +1996,12 @@ PreprintDoi.model_rebuild()
 Producer.model_rebuild()
 InputRef.model_rebuild()
 TextSpan.model_rebuild()
+License.model_rebuild()
 ParsedPaper.model_rebuild()
 Bibliography.model_rebuild()
+Copy.model_rebuild()
+HeldCopy.model_rebuild()
+ReportedCopy.model_rebuild()
 Reference.model_rebuild()
 Citation.model_rebuild()
 Correction.model_rebuild()

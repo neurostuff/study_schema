@@ -2366,6 +2366,125 @@
       "title": "LatentDecompositionDetails",
       "type": "object"
     },
+    "License": {
+      "additionalProperties": false,
+      "description": "A licence as one source stated it, or all rights reserved assumed because no source stated one.",
+      "else": {
+        "properties": {
+          "code": {
+            "const": "all-rights-reserved"
+          },
+          "stated_as": {
+            "not": {
+              "anyOf": [
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "stated_by": {
+            "not": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/MetadataSource"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "basis": {
+            "const": "stated"
+          }
+        },
+        "required": [
+          "basis"
+        ]
+      },
+      "properties": {
+        "basis": {
+          "$ref": "#/$defs/LicenseBasis"
+        },
+        "code": {
+          "$ref": "#/$defs/LicenseCode"
+        },
+        "stated_as": {
+          "description": "The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stated_by": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetadataSource"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The source whose statement this is."
+        }
+      },
+      "required": [
+        "code",
+        "basis"
+      ],
+      "then": {
+        "properties": {
+          "stated_as": {
+            "anyOf": [
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "stated_by": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/MetadataSource"
+              }
+            ]
+          }
+        },
+        "required": [
+          "stated_by",
+          "stated_as"
+        ]
+      },
+      "title": "License",
+      "type": "object"
+    },
+    "LicenseBasis": {
+      "description": "Whether a source stated the licence.",
+      "enum": [
+        "stated",
+        "assumed"
+      ],
+      "title": "LicenseBasis",
+      "type": "string"
+    },
+    "LicenseCode": {
+      "description": "The terms a licence grants. A value annotated `redistributable` lets the text it covers be passed on verbatim with attribution: every Creative Commons licence, including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows, and NC, because neurostore's use is non-commercial.",
+      "enum": [
+        "cc-by",
+        "cc-by-sa",
+        "cc-by-nc",
+        "cc-by-nc-sa",
+        "cc-by-nd",
+        "cc-by-nc-nd",
+        "cc0",
+        "public-domain",
+        "all-rights-reserved",
+        "other"
+      ],
+      "title": "LicenseCode",
+      "type": "string"
+    },
     "MRI": {
       "additionalProperties": false,
       "description": "An MRI acquisition of any kind -- functional, structural, or diffusion, as modality records. Its own attributes are the ones commonly useful for study selection, subgrouping, or sensitivity analyses in coordinate- or image-based meta-analysis.",
@@ -2637,6 +2756,21 @@
       ],
       "title": "Mediation",
       "type": "object"
+    },
+    "MetadataSource": {
+      "description": "Who stated a bibliographic fact.",
+      "enum": [
+        "jats",
+        "elsevier",
+        "pmc_cloud",
+        "pubmed",
+        "crossref",
+        "openalex",
+        "semantic_scholar",
+        "europepmc"
+      ],
+      "title": "MetadataSource",
+      "type": "string"
     },
     "Modality": {
       "description": "Imaging or recording modality of one Acquisition, and through `instantiates` the class in this module holding that modality's parameters. fMRI, sMRI, dMRI, and MRI all instantiate MRI; EEG, fNIRS, and PET instantiate their namesakes; MEG, SPECT, and other instantiate OtherModality. `instantiates` carries a CURIE against this module's own `neurostudy` prefix, so `neurostudy:MRI` resolves to the MRI class below.",
@@ -2939,6 +3073,19 @@
         "conjunction_null"
       ],
       "title": "NullHypothesis",
+      "type": "string"
+    },
+    "OaStatus": {
+      "description": "How a paper is open to read, in OpenAlex's terms (https://help.openalex.org/hc/en-us/articles/24347035046295-Open-Access-OA).",
+      "enum": [
+        "gold",
+        "diamond",
+        "hybrid",
+        "bronze",
+        "green",
+        "closed"
+      ],
+      "title": "OaStatus",
       "type": "string"
     },
     "OtherAnalysisDetails": {
@@ -3854,6 +4001,17 @@
             "null"
           ]
         },
+        "license": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/License"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The paper's licence, copied from the parsed paper's bibliography: the version of record's, or the preprint's while `publication_status` is `preprint`. Not the licence of the copy the text was read from, which the parsed paper keeps."
+        },
         "measures": {
           "description": "The scientific quantities the study measured, used by one or more analyses. Declared here once and referenced by identifier.",
           "items": {
@@ -3873,6 +4031,17 @@
             "array",
             "null"
           ]
+        },
+        "oa_status": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OaStatus"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "How the paper is open to read, copied from the parsed paper's bibliography."
         },
         "outcome_summary": {
           "anyOf": [
@@ -4664,6 +4833,17 @@
         "null"
       ]
     },
+    "license": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/License"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The paper's licence, copied from the parsed paper's bibliography: the version of record's, or the preprint's while `publication_status` is `preprint`. Not the licence of the copy the text was read from, which the parsed paper keeps."
+    },
     "measures": {
       "description": "The scientific quantities the study measured, used by one or more analyses. Declared here once and referenced by identifier.",
       "items": {
@@ -4683,6 +4863,17 @@
         "array",
         "null"
       ]
+    },
+    "oa_status": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/OaStatus"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "How the paper is open to read, copied from the parsed paper's bibliography."
     },
     "outcome_summary": {
       "anyOf": [
@@ -4791,5 +4982,5 @@
   ],
   "title": "neuroimaging-study-storage",
   "type": "object",
-  "version": "0.8.0"
+  "version": "0.9.0"
 }

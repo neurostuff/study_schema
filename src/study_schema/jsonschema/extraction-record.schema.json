@@ -5457,6 +5457,36 @@
       "title": "LatentDecompositionDetails",
       "type": "object"
     },
+    "License": {
+      "additionalProperties": false,
+      "description": "A licence as the parsed paper states it. Storage's `License` says what each field means and which values it takes.",
+      "properties": {
+        "basis": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "stated_as": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stated_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "code",
+        "basis"
+      ],
+      "title": "License",
+      "type": "object"
+    },
     "MRI": {
       "additionalProperties": false,
       "description": "An MRI acquisition of any kind -- functional, structural, or diffusion, as modality records. Its own attributes are the ones commonly useful for study selection, subgrouping, or sensitivity analyses in coordinate- or image-based meta-analysis.",
@@ -6994,6 +7024,17 @@
             "null"
           ]
         },
+        "license": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/License"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The paper's licence, copied whole from the parsed paper's `Bibliography.license`, not read off the paper."
+        },
         "local_id": {
           "description": "Stable identifier for the study record, such as a DOI-based or repository-local identifier.",
           "type": "string"
@@ -7018,6 +7059,13 @@
             "null"
           ]
         },
+        "oa_status": {
+          "description": "How the paper is open to read, copied from the parsed paper's `Bibliography.oa_status`, not read off the paper.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "preprocessings": {
           "description": "Preprocessing pipelines applied before statistical analysis.",
           "items": {
@@ -7025,6 +7073,13 @@
           },
           "type": [
             "array",
+            "null"
+          ]
+        },
+        "publication_status": {
+          "description": "`published` or `preprint`, copied from the parsed paper's `ArticleIdentifiers.publication_status`, not read off the paper.",
+          "type": [
+            "string",
             "null"
           ]
         },
@@ -7755,6 +7810,17 @@
         "null"
       ]
     },
+    "license": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/License"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The paper's licence, copied whole from the parsed paper's `Bibliography.license`, not read off the paper."
+    },
     "local_id": {
       "description": "Stable identifier for the study record, such as a DOI-based or repository-local identifier.",
       "type": "string"
@@ -7779,6 +7845,13 @@
         "null"
       ]
     },
+    "oa_status": {
+      "description": "How the paper is open to read, copied from the parsed paper's `Bibliography.oa_status`, not read off the paper.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "preprocessings": {
       "description": "Preprocessing pipelines applied before statistical analysis.",
       "items": {
@@ -7786,6 +7859,13 @@
       },
       "type": [
         "array",
+        "null"
+      ]
+    },
+    "publication_status": {
+      "description": "`published` or `preprint`, copied from the parsed paper's `ArticleIdentifiers.publication_status`, not read off the paper.",
+      "type": [
+        "string",
         "null"
       ]
     },
@@ -7855,5 +7935,5 @@
   ],
   "title": "neuroimaging-study-extraction",
   "type": "object",
-  "version": "0.5.0"
+  "version": "0.6.0"
 }

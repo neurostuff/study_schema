@@ -11,6 +11,7 @@ imports:
   - linkml:types
   - parse_enums
   - header
+  - ../neuroimaging-study-storage/license
 default_prefix: parse
 default_range: string
 
@@ -41,6 +42,13 @@ classes:
           Why this source's text was chosen over the others downloaded, such as "most tables"
           or "first in download order". Every stage reads this one text, so the choice is
           made once and recorded.
+      text_copy:
+        range: HeldCopy
+        inlined: true
+        required: true
+        description: >-
+          The copy the text was read from. Its licence and access, not the paper's licence,
+          decide whether the text may be passed on.
       text_path:
         range: string
         required: true
@@ -102,8 +110,29 @@ classes:
     description: >-
       The paper's bibliographic facts, as the metadata lookup returned them. Downstream they
       are copied, never extracted: pondie fills the record's Study.title, authors, doi,
-      journal, publication_year, language and study_type from here, and neurostore fills
-      BaseStudy from here.
+      journal, publication_year, language, study_type, license and oa_status from here, and
+      neurostore fills BaseStudy from here.
+    rules:
+      # `any_of` / `none_of` over the range, rather than value_presence alone, so that a
+      # field written as null counts as absent.
+      - description: An abstract, and only an abstract, says which source it came from.
+        open_world: true
+        preconditions:
+          slot_conditions:
+            abstract:
+              any_of:
+                - range: string
+        postconditions:
+          slot_conditions:
+            abstract_provider:
+              value_presence: PRESENT
+              any_of:
+                - range: MetadataSource
+        elseconditions:
+          slot_conditions:
+            abstract_provider:
+              none_of:
+                - range: MetadataSource
     attributes:
       title:
         range: string
@@ -124,6 +153,12 @@ classes:
         range: string
       abstract:
         range: string
+      abstract_provider:
+        range: MetadataSource
+        description: >-
+          The source whose abstract `abstract` is. It may differ from `provider`. The
+          abstract is the publisher's abstract of the version `license` describes, so its
+          licence is `license`.
       language:
         range: string
         multivalued: true
@@ -135,9 +170,22 @@ classes:
         range: string
         multivalued: true
       license:
-        range: string
-      open_access:
-        range: boolean
+        range: License
+        inlined: true
+        required: true
+        description: >-
+          The paper's licence: the version of record's, or the latest preprint's while the
+          header's `publication_status` is `preprint`. Not the licence of a copy of another
+          version, which that copy carries.
+      oa_status:
+        range: OaStatus
+      reported_copies:
+        range: ReportedCopy
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Copies of the paper that a source lists and that we do not hold, each with its
+          own licence. Where an open copy is, when `oa_status` says one exists.
       corrections:
         range: Correction
         multivalued: true
@@ -148,8 +196,64 @@ classes:
           its `retraction` notice, and left out of studysets by default; a filter can ask for
           it explicitly.
       provider:
+        range: MetadataSource
+        description: The metadata service the facts came from.
+
+  Copy:
+    abstract: true
+    description: One copy of a paper, where it is, which version it is, and its licence.
+    rules:
+      - description: A copy on a preprint server, and only such a copy, names the server.
+        open_world: true
+        preconditions:
+          slot_conditions:
+            route:
+              equals_string: preprint_server
+        postconditions:
+          slot_conditions:
+            preprint_server:
+              value_presence: PRESENT
+              any_of:
+                - range: PreprintServer
+        elseconditions:
+          slot_conditions:
+            preprint_server:
+              none_of:
+                - range: PreprintServer
+    attributes:
+      route:
+        range: CopyRoute
+        required: true
+      version:
+        range: CopyVersion
+        description: Absent when no source says which version the copy is.
+      license:
+        range: License
+        inlined: true
+        required: true
+        description: >-
+          This copy's own licence. A manuscript or preprint can be licensed differently from
+          the version of record.
+      url:
         range: string
-        description: The metadata service the facts came from, such as pubmed or europepmc.
+      preprint_server:
+        range: PreprintServer
+
+  HeldCopy:
+    is_a: Copy
+    description: A copy we downloaded.
+    attributes:
+      access:
+        range: CopyAccess
+        required: true
+
+  ReportedCopy:
+    is_a: Copy
+    description: A copy a metadata source lists and we do not hold.
+    attributes:
+      reported_by:
+        range: MetadataSource
+        required: true
 
   Reference:
     description: One entry of a paper's reference list.

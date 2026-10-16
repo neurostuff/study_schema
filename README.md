@@ -186,9 +186,26 @@ What each side may rely on:
   PubMed's and PMC's records of the preprint are kept beside them in `preprint_dois`,
   `preprint_pmid` and `preprint_pmcid`. `publication_status` states which the paper has
   (`published` or `preprint`), and pondie copies it to `Study.publication_status`.
+- **A licence belongs to a copy.** A copy is four facts: where it is hosted (`route`), which
+  version it is (`version`: `vor`, `am`, `submitted`), its own `license`, and, for a copy we
+  hold, how we obtained it (`access`: `public`, `tdm_grant`, `unrecorded`).
+  `ParsedPaper.text_copy` is the copy the text was read from; `Bibliography.reported_copies`
+  are copies a source lists and we do not hold. `Bibliography.license` is the paper's
+  licence: the version of record's, or the preprint's while `publication_status` is
+  `preprint`. A licence is `stated` by a named source, or `assumed` all rights reserved when
+  every source that could state one answered and none did. A text-mining grant is an
+  access, not a licence: a PMC author manuscript under `TDM` terms is `pmc` / `am` /
+  `tdm_grant` with its own all-rights-reserved licence, and the article's CC licence sits
+  in `Bibliography.license` beside it.
+- **Whether a text may be passed on is derived, never stored.**
+  `study_schema.licensing.permits_redistribution(license, access=None)` reads the
+  `redistributable` annotation of `LicenseCode` and the `redistribution` annotation of
+  `CopyAccess`. The text follows its copy, `(text_copy.license, text_copy.access)`; the
+  abstract follows the paper, `(bibliography.license)`, and
+  `Bibliography.abstract_provider` names where the abstract came from.
 - **Bibliography is copied, never extracted.** pondie fills the record's `Study.title`,
-  `authors`, `doi`, `journal`, `publication_year`, `language` and `study_type` from
-  `ParsedPaper.bibliography` and the header's identifiers (`transform: copy` in
+  `authors`, `doi`, `journal`, `publication_year`, `language`, `study_type`, `license` and
+  `oa_status` from `ParsedPaper.bibliography` and the header's identifiers (`transform: copy` in
   `extraction-to-storage.map.yaml`), and skips a paper whose `is_meta_analysis` is true.
 - **Keys come from what was extracted, not where it was read.** An analysis is
   `analysis#<h>`, where `h` hashes its normalized name, its space and its sorted points
@@ -328,7 +345,13 @@ result the text states. The tests read them through every model, JSON Schema and
 the checks must find nothing wrong with them. `examples/identifiers/` holds header
 identifiers for a preprint-only paper and for a published paper with a preprint DOI, and
 under `invalid/` two the models refuse: one without `publication_status`, one with a preprint
-DOI that names no server.
+DOI that names no server. The example paper's text is an open PMC copy. `examples/licenses/`
+holds the copy and bibliography of a text-mining-only PMC manuscript of a CC BY-NC article,
+a preprint-only paper, and a paper nobody states a licence for, and under `invalid/` the
+shapes the models or the JSON Schema refuse, `publisher-tdm` as a licence code among them.
+The JSON Schema enforces the schema's LinkML rules (an assumed licence names no source, an
+abstract names its provider, a copy on a preprint server names the server); the pydantic
+models do not evaluate rules.
 
 **Storing coordinates.** The models say what a parse means, not how a corpus of them is
 kept. `study_schema.parquet` stores coordinate parses as three Parquet tables -- `parses`,

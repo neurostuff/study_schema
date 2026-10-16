@@ -1,0 +1,192 @@
+id: https://neurostuff.org/schemas/neuroimaging-study-storage/license
+name: neuroimaging-study-storage-license
+title: Neuroimaging Study Storage License Module
+description: >-
+  The licence of a paper or of one copy of it, and who stated it. The paper-parse schema
+  imports this module, so a licence is written in the same words in the parsed paper and in
+  the record, and the record copies it unchanged.
+
+  Whether a licence lets a text or an abstract be redistributed is not stored. It is
+  `study_schema.licensing.permits_redistribution`, which reads the `redistributable`
+  annotation of `LicenseCode` here and the `redistribution` annotation of the paper-parse
+  `CopyAccess`, so a change of policy is a release of this package rather than a re-run.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
+imports:
+  - linkml:types
+  - subsets
+default_prefix: neurostudy
+default_range: string
+
+classes:
+
+  License:
+    description: >-
+      A licence as one source stated it, or all rights reserved assumed because no source
+      stated one.
+    rules:
+      # `any_of` / `none_of` over the range, rather than value_presence alone, so that a
+      # field written as null counts as absent.
+      - description: >-
+          A stated licence says who stated it and how. An assumed one is all rights reserved,
+          and nobody stated it.
+        open_world: true
+        preconditions:
+          slot_conditions:
+            basis:
+              equals_string: stated
+        postconditions:
+          slot_conditions:
+            stated_by:
+              value_presence: PRESENT
+              any_of:
+                - range: MetadataSource
+            stated_as:
+              value_presence: PRESENT
+              any_of:
+                - range: string
+        elseconditions:
+          slot_conditions:
+            code:
+              equals_string: all-rights-reserved
+            stated_by:
+              none_of:
+                - range: MetadataSource
+            stated_as:
+              none_of:
+                - range: string
+    attributes:
+      code:
+        in_subset: [mvp, deterministic]
+        range: LicenseCode
+        required: true
+      basis:
+        in_subset: [mvp, deterministic]
+        range: LicenseBasis
+        required: true
+      stated_by:
+        in_subset: [mvp, deterministic]
+        range: MetadataSource
+        description: The source whose statement this is.
+      stated_as:
+        in_subset: [mvp, deterministic]
+        range: string
+        description: >-
+          The statement exactly as the source gave it: a licence URL, a licence name, or a
+          copyright line. What `other` holds, and what attribution quotes.
+
+enums:
+
+  LicenseCode:
+    in_subset: [mvp, deterministic]
+    description: >-
+      The terms a licence grants. A value annotated `redistributable` lets the text it
+      covers be passed on verbatim with attribution: every Creative Commons licence,
+      including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows,
+      and NC, because neurostore's use is non-commercial.
+    permissible_values:
+      cc-by:
+        in_subset: [mvp, deterministic]
+        annotations:
+          redistributable: true
+      cc-by-sa:
+        in_subset: [mvp, deterministic]
+        annotations:
+          redistributable: true
+      cc-by-nc:
+        in_subset: [mvp, deterministic]
+        annotations:
+          redistributable: true
+      cc-by-nc-sa:
+        in_subset: [mvp, deterministic]
+        annotations:
+          redistributable: true
+      cc-by-nd:
+        in_subset: [mvp, deterministic]
+        annotations:
+          redistributable: true
+      cc-by-nc-nd:
+        in_subset: [mvp, deterministic]
+        annotations:
+          redistributable: true
+      cc0:
+        in_subset: [mvp, deterministic]
+        annotations:
+          redistributable: true
+      public-domain:
+        in_subset: [mvp, deterministic]
+        annotations:
+          redistributable: true
+      all-rights-reserved:
+        in_subset: [mvp, deterministic]
+        description: >-
+          A copyright statement with no licence, or terms that allow text mining only, such
+          as PubMed Central's `TDM` for an author manuscript.
+      other:
+        in_subset: [mvp, deterministic]
+        description: >-
+          A stated licence outside this list, such as a publisher's own user licence or
+          OpenAlex's `publisher-specific-oa`; `stated_as` holds it.
+
+  LicenseBasis:
+    in_subset: [mvp, deterministic]
+    description: Whether a source stated the licence.
+    permissible_values:
+      stated:
+        in_subset: [mvp, deterministic]
+        description: A source stated it; `stated_by` says which.
+      assumed:
+        in_subset: [mvp, deterministic]
+        description: >-
+          Every source that could state a licence answered and none did, so all rights are
+          reserved.
+
+  MetadataSource:
+    in_subset: [mvp, deterministic]
+    description: Who stated a bibliographic fact.
+    permissible_values:
+      jats:
+        in_subset: [mvp, deterministic]
+        description: A held copy's JATS XML, such as its `<permissions>`.
+      elsevier:
+        in_subset: [mvp, deterministic]
+        description: A held copy's Elsevier full-text XML, its `coredata`.
+      pmc_cloud:
+        in_subset: [mvp, deterministic]
+        description: PubMed Central's cloud record of a held copy.
+      pubmed:
+        in_subset: [mvp, deterministic]
+      crossref:
+        in_subset: [mvp, deterministic]
+      openalex:
+        in_subset: [mvp, deterministic]
+      semantic_scholar:
+        in_subset: [mvp, deterministic]
+      europepmc:
+        in_subset: [mvp, deterministic]
+
+  OaStatus:
+    in_subset: [mvp, deterministic]
+    description: >-
+      How a paper is open to read, in OpenAlex's terms
+      (https://help.openalex.org/hc/en-us/articles/24347035046295-Open-Access-OA).
+    permissible_values:
+      gold:
+        in_subset: [mvp, deterministic]
+        description: Published openly licensed in an open-access journal.
+      diamond:
+        in_subset: [mvp, deterministic]
+        description: Gold, in a journal that charges authors no fee.
+      hybrid:
+        in_subset: [mvp, deterministic]
+        description: Published openly licensed in a subscription journal.
+      bronze:
+        in_subset: [mvp, deterministic]
+        description: Free to read at the publisher, without an open licence.
+      green:
+        in_subset: [mvp, deterministic]
+        description: Closed at the publisher, with a free copy in a repository.
+      closed:
+        in_subset: [mvp, deterministic]
+        description: No free copy is known.

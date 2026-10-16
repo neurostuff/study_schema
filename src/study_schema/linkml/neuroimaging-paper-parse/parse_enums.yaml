@@ -3,9 +3,9 @@ name: neuroimaging-paper-parse-enums
 title: Neuroimaging Paper Parse Vocabularies
 description: >-
   The vocabularies of the parsed paper and the coordinate parse. Coordinate roles, anchor
-  kinds and publication status are not here: they are the storage schema's
-  `CoordinateRole`, `AnchorKind` and `PublicationStatus`, imported, so that the parse and
-  the record write them in the same words.
+  kinds, publication status and licences are not here: they are the storage schema's
+  `CoordinateRole`, `AnchorKind`, `PublicationStatus` and its licence module's
+  vocabularies, imported, so that the parse and the record write them in the same words.
 prefixes:
   linkml: https://w3id.org/linkml/
   parse: https://neurostuff.org/schemas/neuroimaging-paper-parse/
@@ -112,6 +112,55 @@ enums:
         description: ChemRxiv, DOI prefix 10.26434.
       jmir_preprints:
         description: JMIR Preprints, DOI prefix 10.2196.
+
+  CopyRoute:
+    description: Where a copy of a paper is hosted.
+    permissible_values:
+      pmc:
+        description: PubMed Central or Europe PMC.
+      publisher:
+        description: The publisher's own site or full-text API.
+      repository:
+        description: An institutional or subject repository other than PMC.
+      preprint_server:
+        description: A preprint server; the copy's `preprint_server` names it.
+      unrecorded:
+        description: Where the copy came from was not recorded, such as a PDF supplied by hand.
+
+  CopyVersion:
+    description: >-
+      Which version of the paper a copy is, in the NISO Journal Article Versions terms.
+      OpenAlex's `publishedVersion`, `acceptedVersion` and `submittedVersion` are `vor`,
+      `am` and `submitted`.
+    permissible_values:
+      vor:
+        description: The version of record, as the journal published it.
+      am:
+        description: The accepted manuscript, after peer review and before the publisher's typesetting.
+      submitted:
+        description: The version submitted to a journal or posted as a preprint, before peer review.
+
+  CopyAccess:
+    description: >-
+      How we obtained a copy we hold. The `redistribution` annotation says whether the
+      access itself allows passing the copy on: `by_license` leaves that to the copy's
+      licence, `never` forbids it whatever the licence says.
+    permissible_values:
+      public:
+        description: Fetched as any reader could fetch it, without our credentials.
+        annotations:
+          redistribution: by_license
+      tdm_grant:
+        description: >-
+          Obtained under terms that permit text mining only: a publisher's full-text API
+          with our key, such as Elsevier's or Wiley's, or a PubMed Central author manuscript
+          whose record says `TDM`.
+        annotations:
+          redistribution: never
+      unrecorded:
+        description: How the copy was obtained was not recorded.
+        annotations:
+          redistribution: never
 
   SectionKind:
     description: What a span of the text is.
