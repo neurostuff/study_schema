@@ -674,7 +674,7 @@ class CitationAlignment(str, Enum):
 
 class LicenseCode(str, Enum):
     """
-    The terms a licence grants. A value annotated `redistributable` lets the text it covers be passed on verbatim with attribution: every Creative Commons licence, including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows, and NC, because neurostore's use is non-commercial.
+    The terms a licence grants. A value annotated `redistributable` lets the text it covers be passed on verbatim with attribution: every Creative Commons licence, including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows, and NC, because neurostore's use is non-commercial. That reading of ND and NC is this project's policy, not legal advice, and no lawyer has confirmed it.
     """
     cc_by = "cc-by"
     cc_by_sa = "cc-by-sa"
@@ -690,7 +690,7 @@ class LicenseCode(str, Enum):
     """
     other = "other"
     """
-    A stated licence outside this list, such as a publisher's own user licence or OpenAlex's `publisher-specific-oa`; `stated_as` holds it.
+    A stated licence outside this list, such as a publisher's own user licence or OpenAlex's `publisher-specific-oa`; `stated_as` holds it. Not redistributable, on purpose: Elsevier's open-access user licence is `other`, because its terms are not a CC licence's.
     """
 
 
@@ -1650,7 +1650,20 @@ class License(ConfiguredBaseModel):
     code: LicenseCode = Field(default=...)
     basis: LicenseBasis = Field(default=...)
     stated_by: Optional[MetadataSource] = Field(default=None, description="""The source whose statement this is.""")
-    stated_as: Optional[str] = Field(default=None, description="""The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes.""")
+    stated_as: Optional[str] = Field(default=None, description="""The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes. Never empty: a source that gave no statement did not state a licence.""")
+
+    @field_validator('stated_as')
+    def pattern_stated_as(cls, v):
+        pattern=re.compile(r"\S")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stated_as format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stated_as format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class ParsedPaper(ConfiguredBaseModel):
@@ -1686,7 +1699,7 @@ class Bibliography(ConfiguredBaseModel):
     volume: Optional[str] = Field(default=None)
     issue: Optional[str] = Field(default=None)
     pages: Optional[str] = Field(default=None)
-    abstract: Optional[str] = Field(default=None)
+    abstract: Optional[str] = Field(default=None, description="""Absent (null) when no source gave one; never an empty string.""")
     abstract_provider: Optional[MetadataSource] = Field(default=None, description="""The source whose abstract `abstract` is. It may differ from `provider`. The abstract is the publisher's abstract of the version `license` describes, so its licence is `license`.""")
     language: Optional[list[str]] = Field(default=None)
     publication_types: Optional[list[str]] = Field(default=None, description="""PubMed publication types, verbatim. The storage schema's Study.study_type.""")
@@ -1696,6 +1709,19 @@ class Bibliography(ConfiguredBaseModel):
     reported_copies: Optional[list[ReportedCopy]] = Field(default=None, description="""Copies of the paper that a source lists and that we do not hold, each with its own licence. Where an open copy is, when `oa_status` says one exists.""")
     corrections: Optional[list[Correction]] = Field(default=None, description="""Notices attached to the paper -- errata, retractions, expressions of concern -- as the indexer lists them. A retracted paper is still parsed and stored, marked by its `retraction` notice, and left out of studysets by default; a filter can ask for it explicitly.""")
     provider: Optional[MetadataSource] = Field(default=None, description="""The metadata service the facts came from.""")
+
+    @field_validator('abstract')
+    def pattern_abstract(cls, v):
+        pattern=re.compile(r"\S")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid abstract format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid abstract format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class Copy(ConfiguredBaseModel):

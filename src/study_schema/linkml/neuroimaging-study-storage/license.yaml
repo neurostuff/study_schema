@@ -72,9 +72,11 @@ classes:
       stated_as:
         in_subset: [mvp, deterministic]
         range: string
+        pattern: '\S'
         description: >-
           The statement exactly as the source gave it: a licence URL, a licence name, or a
-          copyright line. What `other` holds, and what attribution quotes.
+          copyright line. What `other` holds, and what attribution quotes. Never empty: a
+          source that gave no statement did not state a licence.
 
 enums:
 
@@ -84,7 +86,8 @@ enums:
       The terms a licence grants. A value annotated `redistributable` lets the text it
       covers be passed on verbatim with attribution: every Creative Commons licence,
       including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows,
-      and NC, because neurostore's use is non-commercial.
+      and NC, because neurostore's use is non-commercial. That reading of ND and NC is this
+      project's policy, not legal advice, and no lawyer has confirmed it.
     permissible_values:
       cc-by:
         in_subset: [mvp, deterministic]
@@ -127,7 +130,9 @@ enums:
         in_subset: [mvp, deterministic]
         description: >-
           A stated licence outside this list, such as a publisher's own user licence or
-          OpenAlex's `publisher-specific-oa`; `stated_as` holds it.
+          OpenAlex's `publisher-specific-oa`; `stated_as` holds it. Not redistributable, on
+          purpose: Elsevier's open-access user licence is `other`, because its terms are not
+          a CC licence's.
 
   LicenseBasis:
     in_subset: [mvp, deterministic]

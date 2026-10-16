@@ -8,7 +8,7 @@ from pydantic import ValidationError
 from conftest import EXAMPLES, load
 from study_schema import jsonschema, linkml
 from study_schema.licensing import (
-    NEVER_REDISTRIBUTED_ACCESS,
+    REDISTRIBUTABLE_ACCESS,
     REDISTRIBUTABLE_LICENSES,
     permits_redistribution,
 )
@@ -30,7 +30,12 @@ INVALID = {
 }
 # LinkML rules: the JSON Schema states them as if/then/else; the pydantic models do not
 # evaluate rules.
-INVALID_BY_RULE = ["assumed_with_stated_by", "abstract_without_provider", "preprint_copy_without_server"]
+INVALID_BY_RULE = [
+    "assumed_with_stated_by",
+    "abstract_without_provider",
+    "preprint_copy_without_server",
+    "server_named_off_a_preprint_server",
+]
 
 CC_BY = {"code": "cc-by", "basis": "stated", "stated_by": "jats", "stated_as": "https://creativecommons.org/licenses/by/4.0/"}
 ARR = {"code": "all-rights-reserved", "basis": "assumed"}
@@ -52,7 +57,7 @@ def test_the_sets_match_the_schema_annotations():
     codes = _values(LINKML / "neuroimaging-study-storage" / "license.yaml", "LicenseCode")
     access = _values(LINKML / "neuroimaging-paper-parse" / "parse_enums.yaml", "CopyAccess")
     assert {c for c, spec in codes.items() if (spec.get("annotations") or {}).get("redistributable")} == REDISTRIBUTABLE_LICENSES
-    assert {a for a, spec in access.items() if spec["annotations"]["redistribution"] == "never"} == NEVER_REDISTRIBUTED_ACCESS
+    assert {a for a, spec in access.items() if spec["annotations"]["redistribution"] == "by_license"} == REDISTRIBUTABLE_ACCESS
     assert {spec["annotations"]["redistribution"] for spec in access.values()} == {"by_license", "never"}
 
 
@@ -79,10 +84,30 @@ def test_permits_redistribution(license, access, expected):
 
 def test_every_code_and_access_is_decided():
     for code in paper_parse.LicenseCode:
-        license = {"code": code.value, "basis": "stated"}
+        license = {**CC_BY, "code": code.value}
         for access in paper_parse.CopyAccess:
             expected = code.value in REDISTRIBUTABLE_LICENSES and access.value == "public"
             assert permits_redistribution(license, access) is expected
+
+
+@pytest.mark.parametrize(
+    "license, access",
+    [
+        (None, None),  # no licence at all
+        (CC_BY, "bogus"),  # an access outside CopyAccess
+        (CC_BY, ""),
+        ({**CC_BY, "code": "cc-by-4.0"}, "public"),  # a code outside LicenseCode
+        ({"code": "cc-by", "basis": "assumed"}, None),  # the rules make an assumed licence ARR
+        ({**CC_BY, "basis": "assumed"}, "public"),
+        ({**CC_BY, "basis": "inferred"}, "public"),
+        ({**CC_BY, "stated_by": None}, "public"),  # stated by nobody
+        ({**CC_BY, "stated_as": ""}, "public"),  # stated in no words
+        ({**CC_BY, "stated_as": "  "}, None),
+        ({"basis": "stated", "stated_by": "jats", "stated_as": "x"}, "public"),  # no code
+    ],
+)
+def test_malformed_input_is_never_permitted(license, access):
+    assert permits_redistribution(license, access) is False
 
 
 @pytest.mark.parametrize("name, expected", VALID.items())
@@ -143,6 +168,45 @@ def test_a_paper_without_its_text_copy_is_refused(example_paths):
         paper_parse.ParsedPaper.model_validate(paper)
     with pytest.raises(validator.ValidationError, match="text_copy"):
         validator.validate(paper, jsonschema.load("parsed-paper"))
+
+
+def test_a_paper_without_a_bibliography_licence_is_refused(example_paths):
+    validator = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
+    paper = load(example_paths["parsed_paper"])
+    del paper["bibliography"]["license"]
+    with pytest.raises(ValidationError, match="license"):
+        paper_parse.ParsedPaper.model_validate(paper)
+    with pytest.raises(validator.ValidationError, match="license"):
+        validator.validate(paper, jsonschema.load("parsed-paper"))
+
+
+@pytest.mark.parametrize(
+    "where, value",
+    [
+        (("bibliography", "abstract"), ""),
+        (("bibliography", "abstract"), " \n"),
+        (("bibliography", "license", "stated_as"), ""),
+        (("text_copy", "license", "stated_as"), "   "),
+    ],
+)
+def test_an_empty_statement_or_abstract_is_refused(where, value, example_paths):
+    # A missing abstract or statement is null or absent, never an empty string.
+    validator = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
+    paper = load(example_paths["parsed_paper"])
+    holder = paper
+    for key in where[:-1]:
+        holder = holder[key]
+    holder[where[-1]] = value
+    if where[-1] == "abstract":
+        paper["bibliography"]["abstract_provider"] = "pubmed"
+    with pytest.raises(ValidationError, match=where[-1]):
+        paper_parse.ParsedPaper.model_validate(paper)
+    with pytest.raises(validator.ValidationError):
+        validator.validate(paper, jsonschema.load("parsed-paper"))
+
+
+def test_the_record_license_has_the_storage_license_fields():
+    assert set(extraction.License.model_fields) == set(storage.License.model_fields)
 
 
 @pytest.mark.parametrize("name", INVALID_BY_RULE)

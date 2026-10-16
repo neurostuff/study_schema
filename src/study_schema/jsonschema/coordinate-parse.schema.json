@@ -262,6 +262,8 @@
       },
       "properties": {
         "abstract": {
+          "description": "Absent (null) when no source gave one; never an empty string.",
+          "pattern": "\\S",
           "type": [
             "string",
             "null"
@@ -1058,7 +1060,8 @@
           "$ref": "#/$defs/LicenseCode"
         },
         "stated_as": {
-          "description": "The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes.",
+          "description": "The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes. Never empty: a source that gave no statement did not state a licence.",
+          "pattern": "\\S",
           "type": [
             "string",
             "null"
@@ -1115,7 +1118,7 @@
       "type": "string"
     },
     "LicenseCode": {
-      "description": "The terms a licence grants. A value annotated `redistributable` lets the text it covers be passed on verbatim with attribution: every Creative Commons licence, including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows, and NC, because neurostore's use is non-commercial.",
+      "description": "The terms a licence grants. A value annotated `redistributable` lets the text it covers be passed on verbatim with attribution: every Creative Commons licence, including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows, and NC, because neurostore's use is non-commercial. That reading of ND and NC is this project's policy, not legal advice, and no lawyer has confirmed it.",
       "enum": [
         "cc-by",
         "cc-by-sa",

@@ -202,7 +202,12 @@ What each side may rely on:
   `redistributable` annotation of `LicenseCode` and the `redistribution` annotation of
   `CopyAccess`. The text follows its copy, `(text_copy.license, text_copy.access)`; the
   abstract follows the paper, `(bibliography.license)`, and
-  `Bibliography.abstract_provider` names where the abstract came from.
+  `Bibliography.abstract_provider` names where the abstract came from. The text call must
+  pass the copy's access. Anything the function does not recognise as permitted -- no
+  licence, an unknown code or access, a redistributable code nobody stated -- is refused.
+  Counting every CC licence as redistributable, NC and ND included, is this project's
+  policy, not legal advice; `other`, which holds Elsevier's open-access user licence, is
+  refused on purpose. A missing abstract or licence statement is null, never `""`.
 - **Bibliography is copied, never extracted.** pondie fills the record's `Study.title`,
   `authors`, `doi`, `journal`, `publication_year`, `language`, `study_type`, `license` and
   `oa_status` from `ParsedPaper.bibliography` and the header's identifiers (`transform: copy` in
@@ -350,8 +355,9 @@ holds the copy and bibliography of a text-mining-only PMC manuscript of a CC BY-
 a preprint-only paper, and a paper nobody states a licence for, and under `invalid/` the
 shapes the models or the JSON Schema refuse, `publisher-tdm` as a licence code among them.
 The JSON Schema enforces the schema's LinkML rules (an assumed licence names no source, an
-abstract names its provider, a copy on a preprint server names the server); the pydantic
-models do not evaluate rules.
+abstract names its provider, a copy names a preprint server exactly when it is on one); the
+pydantic models do not evaluate rules, so a producer and a consumer of a parse validate it
+against `study_schema.jsonschema` at their boundary.
 
 **Storing coordinates.** The models say what a parse means, not how a corpus of them is
 kept. `study_schema.parquet` stores coordinate parses as three Parquet tables -- `parses`,
