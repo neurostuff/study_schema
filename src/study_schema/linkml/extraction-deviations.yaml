@@ -150,12 +150,138 @@ required_additions:
 
   slots:
 
+    # The store's key for an entity across re-runs; storage's `id` stays the store's own and is never extracted.
     study.Study:
       extraction_metadata:
         range: ExtractionMetadata
         required: true
         inlined: true
         description: Provenance for this extraction record.
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    acquisition.Acquisition:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    acquisition.Device:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    analysis.Analysis:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    analysis.Measure:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    analysis.Preprocessing:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    analysis.ModelEstimation:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    analysis.ModelTerm:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    analysis.InferenceSettings:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    analysis.Table:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    analysis.CoordinateSet:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    assessment.Assessment:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    design.Arm:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    design.Timepoint:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    group.Group:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    region.Region:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    task.Task:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
+    task.Condition:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
 
 # Nothing here yet. The projection is the baseline; add entries as data shows a different
 # shape extracts better. Candidates carried over from the hand-written schema that was

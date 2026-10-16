@@ -1540,11 +1540,25 @@ class Arm(ConfiguredBaseModel):
     """
     One thing participants were assigned to receive, or to receive in place of it.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=...)
     name: ExtractedString = Field(default=..., description="""Short arm label as the source states it, for example methylphenidate, sham tDCS, waitlist.""")
     description: Optional[ExtractedString] = Field(default=None, description="""Complete definition of what this arm received.""")
     arm_kind: ExtractedArmKind = Field(default=..., description="""What class of thing this arm received. Required, so an arm whose kind the source leaves unclear still carries the slot, as `extraction_status: not_reported`.""")
     agent: Optional[ExtractedString] = Field(default=None, description="""The drug, agent, or stimulation target this arm received, as the source names it. The name only; dose, unit, route, and schedule are not recorded.""")
+
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class Timepoint(ConfiguredBaseModel):
@@ -1552,11 +1566,25 @@ class Timepoint(ConfiguredBaseModel):
     One occasion on which data were collected, and where it sits relative to the intervention. Declared once on `StudyDesign.timepoints` and referenced by identifier; `FactorLevel.timepoints` is the only slot that references one, so it is the whole of how an occasion reaches a model.
     A study that *compared* occasions did so with a `ModelTerm` whose levels name them, paradigm or no paradigm. An occasion no level references was collected but never modelled: legitimate where the record only describes when follow-up happened, a defect where the analyses report change over time, which `validate_record.py` flags. Names stay in the source's wording; what is normalized is where an occasion sits and in what order.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=...)
     name: ExtractedString = Field(default=..., description="""Short occasion label as the source states it, for example baseline, post-treatment, six-month follow-up.""")
     relation_to_intervention: ExtractedTimepointRelation = Field(default=..., description="""Where this occasion sits relative to the intervention. Required, so an occasion the source does not place still carries the slot, as `extraction_status: not_reported`.""")
     order: Optional[ExtractedInteger] = Field(default=None, description="""Position of this occasion in the study's sequence, counting from 1. Carries the ordering that `relation_to_intervention` cannot when several occasions share a relation -- the earliest `post_intervention` occasion is the study's endpoint, later ones are follow-ups.""")
     time_from_intervention: Optional[ExtractedString] = Field(default=None, description="""Elapsed time between the intervention and this occasion, in the source's own words and units, for example 24 h or six weeks.""")
+
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class ExtractedAllocation(ExtractedValue):
@@ -1618,6 +1646,7 @@ class Group(ConfiguredBaseModel):
     """
     An aggregate participant group and its reported demographics.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=...)
     name: ExtractedString = Field(default=..., description="""Study-local group label, for example healthy controls or patients with Parkinson disease.""")
     description: Optional[ExtractedString] = Field(default=None, description="""Narrative definition of the group and its role in the study.""")
@@ -1666,6 +1695,19 @@ A protocol, preprocessing pipeline or analysis \"described previously\" is a sha
     age_unit_normalized: Optional[ExtractedString] = Field(default=None, description="""`age_unit` folded onto years / months / weeks / gestational_weeks / UNKNOWN by `pondie.normalization.age_unit`, never extracted. The source's own wording stays in `age_unit`.""")
     other_characteristics: Optional[ExtractedStringList] = Field(default=None, description="""Cohort traits moved out of `population_characteristics` because every plausible cohort could carry them. Written by `pondie.normalization.population_characteristics`, never extracted.""")
 
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
+
 
 class CategoryDistribution(ConfiguredBaseModel):
     """
@@ -1705,6 +1747,7 @@ class Task(ConfiguredBaseModel):
     """
     A meaningful participant paradigm, such as a task, resting-state protocol, stimulation, or passive viewing, performed in association with an acquisition. A Task record is required wherever the study models conditions, a resting-state protocol included. Acquisitions with no paradigm do not require one, even in a longitudinal or interventional study: a structural comparison across occasions is carried by the Effect's timepoint terms and linked through Analysis.acquisitions.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=...)
     name: Optional[ExtractedString] = Field(default=None, description="""Short, unique label for the task or paradigm; corresponds conceptually to BIDS TaskName when applicable.""")
     paradigm: Optional[ExtractedString] = Field(default=None, description="""The name with every qualifier that says how this version varies taken off and moved to its own field: `Stroop task` for an emotional Stroop task, `flanker task` for an auditory flanker task, `n-back task` for a food-picture n-back, `incentive delay task` for a monetary incentive delay task. The same as `name` when nothing qualifies it.
@@ -1725,6 +1768,19 @@ Often not stated in those words: a source naming IAPS, NimStim, Ekman faces or f
     response_modality: Optional[ExtractedResponseModalityList] = Field(default=None, description="""How participants responded. Multivalued because a paradigm often collects more than one -- a button press for accuracy and a spoken report afterwards.""")
     performance_measures: Optional[ExtractedStringList] = Field(default=None, description="""Behavioral variables recorded and summaries used to verify task performance.""")
 
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
+
 
 class TaskQualifier(ConfiguredBaseModel):
     """
@@ -1738,6 +1794,7 @@ class Condition(ConfiguredBaseModel):
     """
     A named condition of a task: a modelled state, event type, or baseline that an analysis can contrast against another. Only what happened inside the paradigm -- the occasion the task was run on and the arm it was run under are Timepoints and Arms, and enter an analysis as levels of their own model terms, compared by `Cell`s on the Effect.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=..., description="""Stable identifier.""")
     name: ExtractedString = Field(default=..., description="""Short condition label that distinguishes the condition from other task periods or modeled effects.""")
     stimulus_content: Optional[ExtractedStringList] = Field(default=None, description="""What this condition's stimuli were about -- their category, not the channel (`Task.stimulus_modality`) or the materials (`Task.stimuli`): a cigarette photograph is `cigarettes`. Faces, scenes, words, tones, music, food, money -- examples, not a vocabulary.
@@ -1746,6 +1803,19 @@ Leave unset where the stimulus does not distinguish this condition from the othe
     description: Optional[ExtractedString] = Field(default=None, description="""Complete definition of the condition, including whether it put a demand on the participant. Whether it was a rest, fixation, or control state belongs in `condition_kind`.
 A rest or fixation period inside another paradigm is a Condition of that paradigm's Task. A standalone resting-state run is not: it is its own Task, with one condition or none. The distinction is which paradigm the participant was in, not what they were doing -- a fixation baseline between working-memory blocks belongs to the working-memory Task.
 What a tested effect was measured against is not recorded here: a contrast against this condition gives it a `negative` cell, and a contrast against the unmodelled implicit baseline has no second cell.""")
+
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class ExtractedTaskVariantAxis(ExtractedValue):
@@ -1807,16 +1877,31 @@ class Assessment(ConfiguredBaseModel):
     """
     A behavioral, cognitive, biological, clinical, or questionnaire-based instrument or procedure that produces participant-level measurements independently of the neuroimaging acquisition or experimental conditions.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=..., description="""Stable identifier.""")
     name: ExtractedString = Field(default=..., description="""Name of the assessment, such as Digit Span, MMSE, or BDI.""")
     description: Optional[ExtractedString] = Field(default=None, description="""Description of the assessment and the measurements it produced, including the purpose the source gives for administering it -- establishing a group's diagnosis, screening a comorbidity, grading severity, characterizing everyone. That purpose is what decides whether a group may name this assessment as its `diagnostic_instrument`, and it is often the only sentence distinguishing the two.""")
     assessment_type: Optional[ExtractedString] = Field(default=None, description="""Broad type, such as cognitive test, clinical scale, diagnostic interview, questionnaire, behavioral task, physiological measure, or a biospecimen assay such as salivary cortisol or a plasma marker. Free text rather than a vocabulary: create a category if none of these fit.""")
+
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class Region(ConfiguredBaseModel):
     """
     A brain region the study delimited and used: a connectivity seed or target, the search space an analysis was restricted to, a level of a factor comparing regions, or the signal a model term carries. Declared once and referenced from each, because the same seed written separately in each place is three spellings nothing can join.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=..., description="""Stable identifier.""")
     name: ExtractedString = Field(default=..., description="""The region as the source names it -- aSCC, left dlPFC parcel, salience network. Its own words: normalization to an anatomical vocabulary happens downstream and needs the original to map from.""")
     definition_method: ExtractedRegionDefinition = Field(default=..., description="""How the region was delimited, which is a statement about independence: one drawn from the study's own prior contrast is not independent of an effect tested inside it. Per region, since one analysis may use an atlas mask and a functional ROI at once. Required, so a source that does not say still carries the slot, as `extraction_status: not_reported`. Open vocabulary: write the source's own wording in the field when nothing here fits, because the value is required and a closed range discards the whole region rather than the one unrecognised word.
@@ -1825,6 +1910,19 @@ Two values are routinely confused and the difference is the entire point of the 
     region_type: Optional[ExtractedRegionType] = Field(default=None, description="""What kind of thing the region is, which `definition_method` does not settle: an atlas parcel and an anatomical structure can both come from an atlas, and a network is neither.""")
     atlas: Optional[ExtractedString] = Field(default=None, description="""The atlas, parcellation or template it came from, as named -- AAL, WFU_Pickatlas, Schaefer 400 -- with version or parcel index when given. `definition_method: atlas` records that one was used, not which, which is not enough to pool two studies.""")
     description: Optional[ExtractedString] = Field(default=None, description="""How the source defines the region, including any geometry it states: \"8 mm spheres centered at [0 36 -6]\". Definitional coordinates have no structured slot and belong here, where the evidence span makes them checkable; result coordinates reach the record through the table parser instead.""")
+
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class ExtractedRegionDefinition(ExtractedValue):
@@ -1853,6 +1951,7 @@ class Acquisition(ConfiguredBaseModel):
     """
     A modality-agnostic protocol used to acquire neuroimaging or associated physiological data, holding only what every modality has in common. One Acquisition carries one modality: simultaneous recordings such as EEG+fMRI are separate Acquisition records that a Task lists together. Everything modality-specific lives in the class the Modality value instantiates -- MRI, EEG, FNIRS, PET, or OtherModality.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=...)
     acquisition_type: Literal["Acquisition"] = Field(default="Acquisition", description="""The concrete subclass this record instantiates. Derived by the mapper from the modality value's `instantiates`, never extracted.""")
     modality: ExtractedModality = Field(default=..., description="""Imaging or recording modality. A value in the Modality vocabulary also names the class holding this acquisition's modality-specific parameters, through that value's `instantiates`.
@@ -1862,6 +1961,19 @@ Open vocabulary: write the source's own wording in the field when nothing here f
     brain_coverage: Optional[ExtractedBrainCoverage] = Field(default=None, description="""How much of the brain the acquired volume contained. This is the extent the SCANNER sampled, and it is a third axis distinct from the two the schema already carries: `Analysis.spatial_scope` is what the analysis tested, and `InferenceSettings.correction_scope` with `search_volume` is where multiple comparisons were controlled. A voxelwise analysis over a volume that clipped the cerebellum is `whole_brain` in scope and `partial` here, and an ROI analysis of a whole-head acquisition is the reverse. Never infer this from either of those.
 It describes the volume behind the REPORTED results. A scan that clipped a structure in participants who were then excluded is `whole_brain`, because the analysed volume was not clipped; calling it `partial` would say the opposite of what the results rest on.
 A field of view or slice prescription in millimetres is not by itself a statement of coverage. Where only the geometry is given, the value is an inference and `value_source` records it as one. Which structure a partial volume missed is not a field of its own -- the evidence span carries that detail.""")
+
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class MRI(Acquisition):
@@ -1875,6 +1987,7 @@ class MRI(Acquisition):
     echo_time_seconds: Optional[ExtractedNumberList] = Field(default=None, description="""Echo time in seconds, as a list of one value per echo. A multi-echo sequence has several; a single-echo one has a list of length one.""")
     acquisition_voxel_size_mm: Optional[ExtractedNumberList] = Field(default=None, description="""Original acquisition voxel size [x, y, z] in millimeters, before interpolation or resampling.""")
     number_of_volumes: Optional[ExtractedInteger] = Field(default=None, description="""Number of acquired volumes contributing to the recording, when reported; a proxy for scan length and temporal sampling in functional acquisitions.""")
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=...)
     acquisition_type: Literal["MRI"] = Field(default="MRI", description="""The concrete subclass this record instantiates. Derived by the mapper from the modality value's `instantiates`, never extracted.""")
     modality: ExtractedModality = Field(default=..., description="""Imaging or recording modality. A value in the Modality vocabulary also names the class holding this acquisition's modality-specific parameters, through that value's `instantiates`.
@@ -1884,6 +1997,19 @@ Open vocabulary: write the source's own wording in the field when nothing here f
     brain_coverage: Optional[ExtractedBrainCoverage] = Field(default=None, description="""How much of the brain the acquired volume contained. This is the extent the SCANNER sampled, and it is a third axis distinct from the two the schema already carries: `Analysis.spatial_scope` is what the analysis tested, and `InferenceSettings.correction_scope` with `search_volume` is where multiple comparisons were controlled. A voxelwise analysis over a volume that clipped the cerebellum is `whole_brain` in scope and `partial` here, and an ROI analysis of a whole-head acquisition is the reverse. Never infer this from either of those.
 It describes the volume behind the REPORTED results. A scan that clipped a structure in participants who were then excluded is `whole_brain`, because the analysed volume was not clipped; calling it `partial` would say the opposite of what the results rest on.
 A field of view or slice prescription in millimetres is not by itself a statement of coverage. Where only the geometry is given, the value is an inference and `value_source` records it as one. Which structure a partial volume missed is not a field of its own -- the evidence span carries that detail.""")
+
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class EEG(Acquisition):
@@ -1895,6 +2021,7 @@ class EEG(Acquisition):
     eeg_placement_scheme: Optional[ExtractedString] = Field(default=None, description="""Electrode placement system, such as the 10-20 or 10-10 system.""")
     recording_type: Optional[ExtractedString] = Field(default=None, description="""Recording organization, such as continuous, discontinuous, or epoched.""")
     eeg_channel_count: Optional[ExtractedInteger] = Field(default=None, description="""Number of simultaneously recorded EEG channels.""")
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=...)
     acquisition_type: Literal["EEG"] = Field(default="EEG", description="""The concrete subclass this record instantiates. Derived by the mapper from the modality value's `instantiates`, never extracted.""")
     modality: ExtractedModality = Field(default=..., description="""Imaging or recording modality. A value in the Modality vocabulary also names the class holding this acquisition's modality-specific parameters, through that value's `instantiates`.
@@ -1904,6 +2031,19 @@ Open vocabulary: write the source's own wording in the field when nothing here f
     brain_coverage: Optional[ExtractedBrainCoverage] = Field(default=None, description="""How much of the brain the acquired volume contained. This is the extent the SCANNER sampled, and it is a third axis distinct from the two the schema already carries: `Analysis.spatial_scope` is what the analysis tested, and `InferenceSettings.correction_scope` with `search_volume` is where multiple comparisons were controlled. A voxelwise analysis over a volume that clipped the cerebellum is `whole_brain` in scope and `partial` here, and an ROI analysis of a whole-head acquisition is the reverse. Never infer this from either of those.
 It describes the volume behind the REPORTED results. A scan that clipped a structure in participants who were then excluded is `whole_brain`, because the analysed volume was not clipped; calling it `partial` would say the opposite of what the results rest on.
 A field of view or slice prescription in millimetres is not by itself a statement of coverage. Where only the geometry is given, the value is an inference and `value_source` records it as one. Which structure a partial volume missed is not a field of its own -- the evidence span carries that detail.""")
+
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class FNIRS(Acquisition):
@@ -1918,6 +2058,7 @@ class FNIRS(Acquisition):
     source_detector_distances_mm: Optional[ExtractedNumberList] = Field(default=None, description="""Reported source-detector separations in millimeters.""")
     nirs_placement_scheme: Optional[ExtractedStringList] = Field(default=None, description="""Standard placement system or listed optode positions, such as 10-20, Cz, or Pz.""")
     recorded_signal_types: Optional[ExtractedStringList] = Field(default=None, description="""Raw or derived channel signal types, such as continuous-wave amplitude, optical density, oxygenated hemoglobin, or deoxygenated hemoglobin.""")
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=...)
     acquisition_type: Literal["FNIRS"] = Field(default="FNIRS", description="""The concrete subclass this record instantiates. Derived by the mapper from the modality value's `instantiates`, never extracted.""")
     modality: ExtractedModality = Field(default=..., description="""Imaging or recording modality. A value in the Modality vocabulary also names the class holding this acquisition's modality-specific parameters, through that value's `instantiates`.
@@ -1927,6 +2068,19 @@ Open vocabulary: write the source's own wording in the field when nothing here f
     brain_coverage: Optional[ExtractedBrainCoverage] = Field(default=None, description="""How much of the brain the acquired volume contained. This is the extent the SCANNER sampled, and it is a third axis distinct from the two the schema already carries: `Analysis.spatial_scope` is what the analysis tested, and `InferenceSettings.correction_scope` with `search_volume` is where multiple comparisons were controlled. A voxelwise analysis over a volume that clipped the cerebellum is `whole_brain` in scope and `partial` here, and an ROI analysis of a whole-head acquisition is the reverse. Never infer this from either of those.
 It describes the volume behind the REPORTED results. A scan that clipped a structure in participants who were then excluded is `whole_brain`, because the analysed volume was not clipped; calling it `partial` would say the opposite of what the results rest on.
 A field of view or slice prescription in millimetres is not by itself a statement of coverage. Where only the geometry is given, the value is an inference and `value_source` records it as one. Which structure a partial volume missed is not a field of its own -- the evidence span carries that detail.""")
+
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class PET(Acquisition):
@@ -1941,6 +2095,7 @@ class PET(Acquisition):
     uptake_time_seconds: Optional[ExtractedNumber] = Field(default=None, description="""Interval from tracer administration to the start of the analyzed scan window, in seconds.""")
     reconstructed_voxel_size_mm: Optional[ExtractedNumberList] = Field(default=None, description="""Reconstructed PET voxel size [x, y, z] in millimeters.""")
     spatial_resolution_mm: Optional[ExtractedNumberList] = Field(default=None, description="""Reported reconstructed spatial resolution, such as FWHM dimensions, in millimeters.""")
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=...)
     acquisition_type: Literal["PET"] = Field(default="PET", description="""The concrete subclass this record instantiates. Derived by the mapper from the modality value's `instantiates`, never extracted.""")
     modality: ExtractedModality = Field(default=..., description="""Imaging or recording modality. A value in the Modality vocabulary also names the class holding this acquisition's modality-specific parameters, through that value's `instantiates`.
@@ -1951,6 +2106,19 @@ Open vocabulary: write the source's own wording in the field when nothing here f
 It describes the volume behind the REPORTED results. A scan that clipped a structure in participants who were then excluded is `whole_brain`, because the analysed volume was not clipped; calling it `partial` would say the opposite of what the results rest on.
 A field of view or slice prescription in millimetres is not by itself a statement of coverage. Where only the geometry is given, the value is an inference and `value_source` records it as one. Which structure a partial volume missed is not a field of its own -- the evidence span carries that detail.""")
 
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
+
 
 class OtherModality(Acquisition):
     """
@@ -1958,6 +2126,7 @@ class OtherModality(Acquisition):
     """
     modality_label: ExtractedString = Field(default=..., description="""The source's own name for the modality or recording technique, verbatim. Always populated, since the Modality vocabulary is coarser than what a source reports.""")
     reason_no_modality_class_used: Optional[ExtractedString] = Field(default=None, description="""Why this is not an MRI, EEG, FNIRS, or PET record.""")
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=...)
     acquisition_type: Literal["OtherModality"] = Field(default="OtherModality", description="""The concrete subclass this record instantiates. Derived by the mapper from the modality value's `instantiates`, never extracted.""")
     modality: ExtractedModality = Field(default=..., description="""Imaging or recording modality. A value in the Modality vocabulary also names the class holding this acquisition's modality-specific parameters, through that value's `instantiates`.
@@ -1968,15 +2137,42 @@ Open vocabulary: write the source's own wording in the field when nothing here f
 It describes the volume behind the REPORTED results. A scan that clipped a structure in participants who were then excluded is `whole_brain`, because the analysed volume was not clipped; calling it `partial` would say the opposite of what the results rest on.
 A field of view or slice prescription in millimetres is not by itself a statement of coverage. Where only the geometry is given, the value is an inference and `value_source` records it as one. Which structure a partial volume missed is not a field of its own -- the evidence span carries that detail.""")
 
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
+
 
 class Device(ConfiguredBaseModel):
     """
     The scanner, amplifier, or recording system an acquisition was made on, split into the two parts a source reliably reports. Either part can be missing: papers name a model with no manufacturer as often as the reverse.
     One record is one physical machine, referenced by every acquisition made on it: a study that collected functional, structural and diffusion scans in one session has three Acquisitions and one Device. Two records mean the study says it used two machines -- a second site, or a rescan on different hardware -- which is a claim about the data and not a way of recording that two sequences differed.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=..., description="""Stable identifier used by Acquisition foreign-key references.""")
     manufacturer: Optional[ExtractedString] = Field(default=None, description="""Company that made the device, as reported, such as Siemens, GE, Philips, Brain Products, or NIRx.""")
     model: Optional[ExtractedString] = Field(default=None, description="""Model or product name of the device, as reported, such as Prisma, Signa, Achieva, or actiCHamp.""")
+
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class ExtractedBrainCoverage(ExtractedValue):
@@ -2006,6 +2202,7 @@ class Analysis(ConfiguredBaseModel):
     A distinct reported inferential map or tested effect, linking its source acquisitions, sample, paradigm context, tested effect, preprocessing, model estimation, inference settings, and source result tables.
     Create one Analysis for each distinct tested effect. Separate Analyses are required when normalized direction, participant-group comparison, method, the pattern of `effect.cells`, seed or connectivity model, decoded variable, component identity, or spatial_scope differ, and when an omnibus effect and its directional post-hoc contrast are both reported. ROI definitions, acquisition summaries, descriptive sample tables, and masks without inferential effects are not Analyses. Nor is a map reported with no inferential test at all -- an ICA or PCA component map presented descriptively, a connectivity matrix given without a test -- there being nothing for such a map to be the effect of.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=...)
     name: ExtractedString = Field(default=..., description="""Study-local label for the analysis or inferential result, in the source's words.""")
     definition: ExtractedString = Field(default=..., description="""Precise statement of the tested effect in the source's own words, minimally cleaned. Always source-grounded. For an interaction it must state the direction of the interaction as the source states it; for an ordered contrast it must keep the ordering that the cell directions cannot express.""")
@@ -2036,6 +2233,19 @@ Both may be filled, and usually are: the table parser fills the tables and the s
     model_representation_notes: Optional[ExtractedString] = Field(default=None, description="""Model components that could not be represented or were represented only approximately, for an analysis whose method is otherwise first-class. Examples include random slopes, latent variables, dynamic connectivity, and dependencies between terms. An analysis whose method has no stable structured decomposition at all takes NotStructurableDetails instead.""")
     mirror_of: Optional[str] = Field(default=None, description="""Present only on an analysis the builder derived by reversing another one, and naming the analysis it reverses.
 A results table with both signs in one column reports one contrast read two ways. The paper's prose describes one direction, so only that half is extracted and the other is rebuilt arithmetically -- same cells, directions flipped. This slot is what says so. Without it the two halves look like independent findings, and a meta-analysis that counts both counts one sample twice.""")
+
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class Effect(ConfiguredBaseModel):
@@ -2073,12 +2283,26 @@ class Measure(ConfiguredBaseModel):
     One record may be referenced by several Analyses, so every field must hold for all of them; an analysis of a different quantity takes its own record. The test is mechanical: two analyses share a record when `family`, `type`, `specific_metric` and `unit` all match. A study measures one or two quantities and tests them many ways, so sharing is the common case -- eight analyses of one connectivity measure are one record, not eight.
     Not a property of the thresholding scheme: one correction scheme routinely covers several measures, and one measure is often tested under several schemes. See storage-schema-design-notes.md for the reasoning behind this shape.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=..., description="""Stable identifier used by Analysis foreign-key references.""")
     family: ExtractedMeasureFamily = Field(default=..., description="""Broad imaging or signal family, for coarse filtering.""")
     type: ExtractedMeasureType = Field(default=..., description="""Normalized quantity, for cross-study queries.""")
     source_label: Optional[ExtractedString] = Field(default=None, description="""The paper's own term for the measure. Unset only when the source does not identify the measure.""")
     specific_metric: Optional[ExtractedString] = Field(default=None, description="""Named metric when type is intentionally broad, such as fractional anisotropy, ALFF, fALFF, or a specific tracer binding potential.""")
     unit: Optional[ExtractedString] = Field(default=None, description="""The unit the measure is reported in, when the source gives one and it carries information -- mm for a thickness, mL for a volume. Omitted for a unitless quantity such as a correlation or a normalized index.""")
+
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class Mediation(ConfiguredBaseModel):
@@ -2115,11 +2339,25 @@ class Preprocessing(ConfiguredBaseModel):
     """
     An ordered preprocessing pipeline applied to acquired data before or as part of statistical modeling. This can be expanded with COBIDAS.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=..., description="""Stable identifier used by Analysis foreign-key references.""")
     description: Optional[ExtractedString] = Field(default=None, description="""Narrative overview of the pipeline, its inputs, outputs, and intended purpose.""")
     software: Optional[ExtractedStringList] = Field(default=None, description="""Software packages or methods used, including version and revision identifiers.""")
     steps: Optional[ExtractedStringList] = Field(default=None, description="""Ordered free-text preprocessing operation names, listed in execution order; examples include slice-timing correction, motion correction, distortion correction, spatial normalization, and smoothing. The smoothing kernel itself is `smoothing_fwhm_mm` rather than a phrase in this list, because it is the one preprocessing parameter a synthesis filters on.""")
     smoothing_fwhm_mm: Optional[ExtractedNumberList] = Field(default=None, description="""Full width at half maximum of the applied spatial smoothing kernel, in millimetres: a list of one value for an isotropic kernel and of three for an anisotropic [x, y, z] one. Record 0 when the source states that no smoothing was applied.""")
+
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class ModelEstimation(ConfiguredBaseModel):
@@ -2130,6 +2368,7 @@ class ModelEstimation(ConfiguredBaseModel):
     The test for whether two analyses share a record is mechanical: list the columns each was fitted with. A different dependent variable, a different covariate set, or a different subset of participants means a different design matrix and therefore a separate record, even when family, estimator and software are identical. Two BPM regressions of the same measure on the same regressor, one over the patients and one over patients and controls pooled, are two records.
     Sharing one record across matrices corrupts the derived adjustment set. The adjustment set is the model's terms minus the terms named by its cells. If several matrices share one record, they claim adjustments that their original models never made, and the record cannot expose the error.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=..., description="""Stable identifier used by Analysis foreign-key references.""")
     model_family: ExtractedModelFamily = Field(default=..., description="""Normalized statistical model family, which is the queryable form. Required, so a paper that never says still carries the slot, as `extraction_status: not_reported`. A method the vocabulary cannot name -- ICA, representational similarity, a decoder -- is written here as free text; the Analysis.details subclass also identifies the method.""")
     model_type: ExtractedString = Field(default=..., description="""The source's own wording for the model, minimally cleaned, such as mass- univariate GLM, meta-analysis, multivariate, predictive model, ICA, or representational similarity analysis.""")
@@ -2152,6 +2391,19 @@ Record every term the source states, including ones no reported contrast tests, 
 May be empty, and legitimately is for a stage that fits only an intercept: a one-sample group test over first-level contrast images has no column of its own. Do not invent an intercept term to fill it.
 Analyses whose design matrices differ take their own records rather than sharing one.""")
 
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
+
 
 class ModelTerm(ConfiguredBaseModel):
     """
@@ -2159,6 +2411,7 @@ class ModelTerm(ConfiguredBaseModel):
 
     A term is something the measure was regressed *on*. The quantity being modelled is `Analysis.measure` and never a term of the model that models it. A table laid out with one row-block per measured parameter -- four diffusion parameters, three frequency bands -- is reporting one analysis per parameter over one measure each, not one analysis over a factor whose levels are the parameters.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=..., description="""Stable identifier, referenced by an Effect's `cells` and its `mediation.mediator`, and by `interaction_with`.""")
     name: ExtractedString = Field(default=..., description="""Term label, unique within the model: a name appearing twice is one term recorded twice. For a categorical term this is the factor's identity.
 Often a label the source never writes. A paper reporting 1-back, 2-back and 3-back conditions states the levels and states that they vary together, but frequently names no axis; `load` is then a name supplied for a grouping the source does make. That is permitted, within two limits: the levels must be source-stated, and the name must not assert a comparison or a construct the paper does not.""")
@@ -2191,6 +2444,19 @@ A product column declares no `levels` of its own; a signed cell on one with a co
 **Required for a derived column, whatever its `assessment` says.** A change score names its instrument in `assessment` and its derivation here, in the source's own words and including the occasions it spans -- \"percent reduction in BDI, (post-pre)/pre, from baseline to post-treatment\". Nothing else can carry those occasions: `FactorLevel.timepoints` names the occasions a factor *compares*, and a derived column has no levels to hang them on, so where a study has several post-intervention occasions this is the only thing separating a change to the endpoint from a change to a later follow-up.
 Not the shape of the fitted relationship, which is `functional_form`: a percent change entered linearly is a linear term computed from a difference, so recording the construction as the form would lose whether the fit was linear or quadratic. A transform *of the measure* the vocabulary cannot name still goes in functional_form.""")
 
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
+
 
 class FactorLevel(ConfiguredBaseModel):
     """
@@ -2214,6 +2480,7 @@ class InferenceSettings(ConfiguredBaseModel):
     One record may be referenced by several Analyses, so every field must hold for all of them; an analysis thresholded or corrected differently takes its own record. The test is mechanical: two analyses share a record when the threshold, its type, the correction method, the scope corrected over and the alpha are all the same. A paper that states one correction scheme in Methods and applies it throughout has one record.
     Inference attaches to the analysis, not to the fit: one model estimated once is often thresholded several ways -- an ROI test Bonferroni-corrected over four regions and a searchlight over the same fit corrected by FDR. See storage-schema-design-notes.md for the reasoning behind this shape.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=..., description="""Stable identifier used by Analysis foreign-key references.""")
     inference_level: Optional[ExtractedString] = Field(default=None, description="""Level at which inference is made, such as voxel, vertex, cluster, region, network or other.""")
     height_threshold_value: Optional[ExtractedNumber] = Field(default=None, description="""The threshold applied to each element's statistic, before correction and before any cluster-level test. Papers name it for whichever of its two jobs they are describing -- the *voxelwise* (or vertexwise) threshold when elements are tested individually, the *cluster-forming* threshold when surviving elements are grouped into clusters -- and it is one number either way, applied once to the map. Record it once here, whichever word the source uses.
@@ -2234,11 +2501,25 @@ Not the analysis's search space. Naming the correction mask on the analysis inst
     alpha_level: Optional[ExtractedNumber] = Field(default=None, description="""Family-wise, false-discovery, or nominal alpha threshold when reported.""")
     number_of_tests: Optional[ExtractedInteger] = Field(default=None, description="""Number of statistical tests considered by the multiple-comparison procedure.""")
 
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
+
 
 class Table(ConfiguredBaseModel):
     """
     A publication table that supplies coordinates, statistics, or contextual metadata. Raw cell structure and point-level provenance may remain in the repository's coordinate-table representation and be linked with source_path.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=..., description="""Stable table identifier used by Analysis foreign-key references.""")
     table_number: Optional[ExtractedString] = Field(default=None, description="""Printed identifier such as Table 2 or Supplementary Table S4.""")
     title: Optional[ExtractedString] = Field(default=None, description="""Table title, when distinct from the caption.""")
@@ -2250,12 +2531,26 @@ class Table(ConfiguredBaseModel):
 A coordinate table is not an analysis merely by having coordinates in it, and this is the only field that says which it is. Absence means nothing decided: a table deliberately encoded as a non-analysis and one no pass considered are otherwise the same silence, and the coordinates of the first belong on the entity they locate (a Region's description) rather than on a contrast that never produced them.
 A per-table answer, so it cannot be right for a table whose row groups serve different purposes -- results beside the ROIs they were tested in. Each row group states its own role in a `CoordinateSet`.""")
 
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
+
 
 class CoordinateSet(ConfiguredBaseModel):
     """
     A group of coordinates reported together -- a row group of a table, or a run of sentences in the text -- and what it is for. The coordinates stay in the parse, as for tables; this records their role and links them to what they belong to: the analysis a result reports, the regions an anchor locates.
     A set has one role: its dominant one. The groups come from the table parse, which splits a table by what was tested rather than by what each row is for, so a set can mix roles -- a connectivity results table that lists its own seed as a row. Such a set keeps the role of most of its points, and the odd point takes that role with it. This is a known error, about 1.3% of sets, accepted rather than splitting the parse's groups.
     """
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=..., description="""The key the coordinate parse gave this set, `ParsedAnalysis.key` in neuroimaging-paper-parse: `analysis#<h>`, the same key `Analysis.source_table_analysis` names, where `h` hashes the set's name, space and points, so the key survives a re-parse that extracts the same set.""")
     role: Optional[ExtractedCoordinateRole] = Field(default=None, description="""What these coordinates are for.""")
     result_kind: Optional[ExtractedResultKind] = Field(default=None, description="""For a `result`, the kind of analysis that produced it. Absent for every other role.""")
@@ -2264,12 +2559,26 @@ class CoordinateSet(ConfiguredBaseModel):
     regions: Optional[list[str]] = Field(default=None, description="""For an `anchor`, the regions these coordinates locate.""")
     description: Optional[ExtractedString] = Field(default=None, description="""What the set is, in the source's words, when the role alone does not say.""")
 
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
+
 
 class Study(ConfiguredBaseModel):
     """
     The publication-level record that contains the groups, tasks, design, acquisitions, preprocessing pipelines, model estimations, analyses, and reported result tables belonging to one study. Conditions belong to the task they are part of, not to the study.
     """
     extraction_metadata: ExtractionMetadata = Field(default=..., description="""Provenance for this extraction record.""")
+    stable_id: Optional[str] = Field(default=None, description="""UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.""")
     local_id: str = Field(default=..., description="""Stable identifier for the study record, such as a DOI-based or repository-local identifier.""")
     description: Optional[ExtractedString] = Field(default=None, description="""Brief free-text summary of the study aims and scope.""")
     hypothesis: Optional[ExtractedStringList] = Field(default=None, description="""The study's own statement of what it expected to find, quoted from the paper -- usually the closing paragraph of the Introduction, in the form \"we hypothesized that\" or \"we predicted that\". Verbatim but for citation markers, one entry per prediction, so a study stating several gets several.
@@ -2294,6 +2603,19 @@ Says nothing about whether the analyses found anything; that is each `Analysis.o
     external_datasets: Optional[list[ExternalDataset]] = Field(default=None, description="""Named external datasets used, cited, or made available by the study.""")
     language: Optional[list[str]] = Field(default=None, description="""Languages of this article, copied from the parsed paper's `Bibliography.language` alongside `study_type`, not read off the paper: three-letter codes, `eng` and the rest.""")
     study_type: Optional[list[str]] = Field(default=None, description="""PubMed publication types for this record, verbatim, copied from the parsed paper's `Bibliography.publication_types`, not read off the paper: it is what the indexers said about the article, which is what a publication-type exclusion asks about.""")
+
+    @field_validator('stable_id')
+    def pattern_stable_id(cls, v):
+        pattern=re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stable_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stable_id format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class ExternalDataset(ConfiguredBaseModel):

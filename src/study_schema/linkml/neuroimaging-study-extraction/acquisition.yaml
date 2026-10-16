@@ -96,6 +96,12 @@ classes:
       lists together. Everything modality-specific lives in the class the Modality value instantiates
       -- MRI, EEG, FNIRS, PET, or OtherModality.
     attributes:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
       local_id:
         identifier: true
         range: string
@@ -281,6 +287,12 @@ classes:
       The scanner, amplifier, or recording system an acquisition was made on, split into the two parts a source reliably reports. Either part can be missing: papers name a model with no manufacturer as often as the reverse.
       One record is one physical machine, referenced by every acquisition made on it: a study that collected functional, structural and diffusion scans in one session has three Acquisitions and one Device. Two records mean the study says it used two machines -- a second site, or a rescan on different hardware -- which is a claim about the data and not a way of recording that two sequences differed.
     attributes:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
       local_id:
         identifier: true
         range: string
