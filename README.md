@@ -198,13 +198,14 @@ What each side may rely on:
   `tdm_grant` with its own all-rights-reserved licence, and the article's CC licence sits
   in `Bibliography.license` beside it.
 - **Whether a text may be passed on is derived, never stored.**
-  `study_schema.licensing.permits_redistribution(license, access=None)` reads the
-  `redistributable` annotation of `LicenseCode` and the `redistribution` annotation of
-  `CopyAccess`. The text follows its copy, `(text_copy.license, text_copy.access)`; the
-  abstract follows the paper, `(bibliography.license)`, and
-  `Bibliography.abstract_provider` names where the abstract came from. The text call must
-  pass the copy's access. Anything the function does not recognise as permitted -- no
-  licence, an unknown code or access, a redistributable code nobody stated -- is refused.
+  `study_schema.licensing` reads the `redistributable` annotation of `LicenseCode` and the
+  `redistribution` annotation of `CopyAccess`, one function per question. The text follows
+  its copy: `text_may_be_redistributed(text_copy)` takes the held copy, so its access is
+  always weighed. The abstract follows the paper:
+  `abstract_may_be_redistributed(bibliography.license)`, and
+  `Bibliography.abstract_provider` names where the abstract came from. Anything a function
+  does not recognise as permitted -- no licence, an unknown code or access, a
+  redistributable code nobody stated -- is refused.
   Counting every CC licence as redistributable, NC and ND included, is this project's
   policy, not legal advice; `other`, which holds Elsevier's open-access user licence, is
   refused on purpose. A missing abstract or licence statement is null, never `""`.

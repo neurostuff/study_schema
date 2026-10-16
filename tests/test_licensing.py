@@ -10,7 +10,8 @@ from study_schema import jsonschema, linkml
 from study_schema.licensing import (
     REDISTRIBUTABLE_ACCESS,
     REDISTRIBUTABLE_LICENSES,
-    permits_redistribution,
+    abstract_may_be_redistributed,
+    text_may_be_redistributed,
 )
 from study_schema.models import extraction, paper_parse, storage
 
@@ -75,11 +76,20 @@ def test_the_sets_match_the_schema_annotations():
         (ARR, None, False),
     ],
 )
-def test_permits_redistribution(license, access, expected):
-    assert permits_redistribution(license, access) is expected
-    held = paper_parse.HeldCopy.model_validate({"route": "pmc", "license": license, "access": access or "public"})
-    if access is not None:
-        assert permits_redistribution(held.license, held.access) is expected
+def test_redistribution(license, access, expected):
+    if access is None:
+        assert abstract_may_be_redistributed(license) is expected
+        assert abstract_may_be_redistributed(storage.License.model_validate(license)) is expected
+    else:
+        copy = {"route": "pmc", "license": license, "access": access}
+        assert text_may_be_redistributed(copy) is expected
+        assert text_may_be_redistributed(paper_parse.HeldCopy.model_validate(copy)) is expected
+
+
+def test_a_cc_by_copy_obtained_under_a_tdm_grant_is_not_redistributed():
+    copy = paper_parse.HeldCopy.model_validate({"route": "publisher", "version": "vor", "access": "tdm_grant", "license": CC_BY})
+    assert abstract_may_be_redistributed(copy.license)
+    assert not text_may_be_redistributed(copy)
 
 
 def test_every_code_and_access_is_decided():
@@ -87,7 +97,9 @@ def test_every_code_and_access_is_decided():
         license = {**CC_BY, "code": code.value}
         for access in paper_parse.CopyAccess:
             expected = code.value in REDISTRIBUTABLE_LICENSES and access.value == "public"
-            assert permits_redistribution(license, access) is expected
+            copy = {"route": "pmc", "license": license, "access": access}
+            assert text_may_be_redistributed(copy) is expected
+        assert abstract_may_be_redistributed(license) is (code.value in REDISTRIBUTABLE_LICENSES)
 
 
 @pytest.mark.parametrize(
@@ -107,7 +119,22 @@ def test_every_code_and_access_is_decided():
     ],
 )
 def test_malformed_input_is_never_permitted(license, access):
-    assert permits_redistribution(license, access) is False
+    if access is None:
+        assert abstract_may_be_redistributed(license) is False
+    assert text_may_be_redistributed({"route": "pmc", "license": license, "access": access}) is False
+
+
+@pytest.mark.parametrize(
+    "copy",
+    [
+        None,
+        {"route": "pmc", "license": CC_BY},  # a held copy without its access
+        {"route": "pmc", "license": CC_BY, "access": None},
+        {"route": "pmc", "access": "public"},  # without its licence
+    ],
+)
+def test_a_malformed_held_copy_is_never_permitted(copy):
+    assert text_may_be_redistributed(copy) is False
 
 
 @pytest.mark.parametrize("name, expected", VALID.items())
@@ -119,16 +146,16 @@ def test_licence_examples_validate_and_decide(name, expected, example_paths):
     validator.validate(paper, jsonschema.load("parsed-paper"))
     # Written by the models, nulls and all, the file still validates.
     validator.validate(parsed.model_dump(mode="json"), jsonschema.load("parsed-paper"))
-    text = permits_redistribution(parsed.text_copy.license, parsed.text_copy.access)
-    abstract = permits_redistribution(parsed.bibliography.license)
+    text = text_may_be_redistributed(parsed.text_copy)
+    abstract = abstract_may_be_redistributed(parsed.bibliography.license)
     assert (text, abstract) == expected
 
 
 def test_the_open_pmc_example_may_be_passed_on(example_paths):
     paper = paper_parse.ParsedPaper.model_validate(load(example_paths["parsed_paper"]))
     assert (paper.text_copy.route, paper.text_copy.access) == ("pmc", "public")
-    assert permits_redistribution(paper.text_copy.license, paper.text_copy.access)
-    assert permits_redistribution(paper.bibliography.license)
+    assert text_may_be_redistributed(paper.text_copy)
+    assert abstract_may_be_redistributed(paper.bibliography.license)
 
 
 def test_a_tdm_manuscript_keeps_the_articles_own_licence_beside_it():

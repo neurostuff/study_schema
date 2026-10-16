@@ -1,4 +1,4 @@
-"""Whether a licence, and the way a copy was obtained, let us pass a text on.
+"""Whether the text or the abstract of a parsed paper may be passed on.
 
 Nothing in a parsed paper or a record says this; it is derived here from the facts they
 hold. ``REDISTRIBUTABLE_LICENSES`` is the LicenseCode values annotated ``redistributable`` in
@@ -6,18 +6,17 @@ neuroimaging-study-storage/license.yaml, and ``REDISTRIBUTABLE_ACCESS`` the Copy
 annotated ``redistribution: by_license`` in neuroimaging-paper-parse/parse_enums.yaml;
 tests/test_licensing.py keeps them equal.
 
-Two uses:
+Two questions, one function each, so that neither can be asked with the other's facts:
 
-- The parsed text: ``permits_redistribution(paper.text_copy.license, paper.text_copy.access)``.
-  The text call must always pass the copy's access: without it, a copy obtained under a
-  text-mining grant would be judged by its licence alone.
-- The abstract: ``permits_redistribution(paper.bibliography.license)``. The indexers carry the
-  publisher's abstract of the version that licence describes.
+- The parsed text: ``text_may_be_redistributed(paper.text_copy)``. It takes the held copy,
+  so the access it was obtained under is always weighed with its licence.
+- The abstract: ``abstract_may_be_redistributed(paper.bibliography.license)``. The indexers
+  carry the publisher's abstract of the version that licence describes.
 
 The reading is a policy, not legal advice: every CC licence counts as redistributable,
 NC and ND included, and ``other`` never does, so Elsevier's open-access user licence is
-refused on purpose. The JSON Schema is the validator of a parse or record; this function
-assumes nothing it checks, and answers False for anything it does not recognise as
+refused on purpose. The JSON Schema is the validator of a parse or record; these functions
+assume nothing it checks, and answer False for anything they do not recognise as
 permitted.
 """
 
@@ -48,23 +47,41 @@ def _field(license: Any, name: str) -> Any:
     return getattr(license, name, None)
 
 
-def permits_redistribution(license: Any, access: Any = None) -> bool:
-    """True when ``license`` lets the text be passed on and ``access`` does not forbid it.
-
-    ``license`` is a License dict or model. ``access`` is a held copy's CopyAccess, or None
-    for a text we do not hold a copy of, such as an indexer's abstract.
-
-    False, never an error, for anything else: no licence, an unknown code or access, or a
-    redistributable code that is not stated by a named source in a non-empty statement,
-    which the schema's rules forbid (an assumed licence is always all rights reserved).
-    """
+def _license_permits(license: Any) -> bool:
+    """A redistributable code, stated by a named source in a non-empty statement."""
     if license is None or _value(_field(license, "code")) not in REDISTRIBUTABLE_LICENSES:
         return False
     stated_as = _field(license, "stated_as")
-    if (
-        _value(_field(license, "basis")) != "stated"
-        or not _field(license, "stated_by")
-        or not (isinstance(stated_as, str) and stated_as.strip())
-    ):
+    return (
+        _value(_field(license, "basis")) == "stated"
+        and bool(_field(license, "stated_by"))
+        and isinstance(stated_as, str)
+        and bool(stated_as.strip())
+    )
+
+
+def abstract_may_be_redistributed(paper_license: Any) -> bool:
+    """True when the paper's licence (a License dict or model, ``Bibliography.license``)
+    lets its abstract be passed on.
+
+    False, never an error, for anything else: no licence, an unknown code, or a
+    redistributable code that is not stated by a named source in a non-empty statement,
+    which the schema's rules forbid (an assumed licence is always all rights reserved).
+    """
+    return _license_permits(paper_license)
+
+
+def text_may_be_redistributed(held_copy: Any) -> bool:
+    """True when the held copy the text was read from (a HeldCopy dict or model,
+    ``ParsedPaper.text_copy``) may be passed on: its licence permits it and it was
+    obtained publicly.
+
+    False, never an error, for anything else: no copy, a copy without an access or with
+    one outside CopyAccess, or a licence ``abstract_may_be_redistributed`` would refuse.
+    """
+    if held_copy is None:
         return False
-    return access is None or _value(access) in REDISTRIBUTABLE_ACCESS
+    return (
+        _value(_field(held_copy, "access")) in REDISTRIBUTABLE_ACCESS
+        and _license_permits(_field(held_copy, "license"))
+    )
