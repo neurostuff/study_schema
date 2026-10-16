@@ -244,6 +244,14 @@ is the `FactorLevel.level` label pointing at it — `baseline`, `T0`, `week 12`,
 paper writes. What is normalized is placement (`relation_to_intervention`) and sequence
 (`order`), which carry every query an occasion vocabulary would have served.
 
+### An entity's stable_id is minted by the store
+
+Every entity may carry a `stable_id`, a UUID that the store mints the first time the entity
+appears and keeps across re-runs, so a later extraction matches the entity it describes. An
+extractor never sets it and leaves it null. A `local_id` is unique only within one record, so
+it cannot tell the same entity from a new one after a rename or a pipeline re-run; the
+`stable_id` can.
+
 ### Cells carry direction; weights do not
 
 Direction is recorded on the cell, never as a numeric contrast weight. One `Cell` is one level

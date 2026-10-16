@@ -64,6 +64,12 @@ classes:
       a model term carries. Declared once and referenced from each, because the same seed
       written separately in each place is three spellings nothing can join.
     attributes:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
       local_id:
         identifier: true
         range: string

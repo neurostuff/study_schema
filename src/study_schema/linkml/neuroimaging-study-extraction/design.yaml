@@ -190,6 +190,12 @@ classes:
     description: One thing participants were assigned to receive, or to receive in place of
       it.
     attributes:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
       local_id:
         identifier: true
         range: string
@@ -219,6 +225,12 @@ classes:
       One occasion on which data were collected, and where it sits relative to the intervention. Declared once on `StudyDesign.timepoints` and referenced by identifier; `FactorLevel.timepoints` is the only slot that references one, so it is the whole of how an occasion reaches a model.
       A study that *compared* occasions did so with a `ModelTerm` whose levels name them, paradigm or no paradigm. An occasion no level references was collected but never modelled: legitimate where the record only describes when follow-up happened, a defect where the analyses report change over time, which `validate_record.py` flags. Names stay in the source's wording; what is normalized is where an occasion sits and in what order.
     attributes:
+      stable_id:
+        range: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        description: >-
+          UUID minted by the store the first time this entity appears, never by an extractor,
+          and kept across re-runs so a later extraction matches the same entity.
       local_id:
         identifier: true
         range: string

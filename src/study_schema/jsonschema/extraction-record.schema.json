@@ -47,6 +47,14 @@
         "modality": {
           "$ref": "#/$defs/ExtractedModality",
           "description": "Imaging or recording modality. A value in the Modality vocabulary also names the class holding this acquisition's modality-specific parameters, through that value's `instantiates`.\nOpen vocabulary: write the source's own wording in the field when nothing here fits, because the value is required and a closed range would discard the whole acquisition over one unrecognised word. Only a vocabulary value carries an `instantiates`, so an acquisition outside it resolves to the base class until normalization maps the wording back on -- which is why `acquisition_type` is derived rather than extracted, and why an unmapped modality is worth reporting."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -256,6 +264,14 @@
           "$ref": "#/$defs/ExtractedSpatialScope",
           "description": "Spatial domain of the analysis modelled. The spatial_scope refers to what voxels were modelled, not which voxels/brain regions had a correction applied."
         },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "tables": {
           "description": "The source tables reporting results for this analysis.",
           "items": {
@@ -409,6 +425,14 @@
         "name": {
           "$ref": "#/$defs/ExtractedString",
           "description": "Short arm label as the source states it, for example methylphenidate, sham tDCS, waitlist."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -467,6 +491,14 @@
         "name": {
           "$ref": "#/$defs/ExtractedString",
           "description": "Name of the assessment, such as Digit Span, MMSE, or BDI."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -655,6 +687,14 @@
         "name": {
           "$ref": "#/$defs/ExtractedString",
           "description": "Short condition label that distinguishes the condition from other task periods or modeled effects."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "stimulus_content": {
           "anyOf": [
@@ -981,6 +1021,14 @@
             }
           ],
           "description": "What these coordinates are for."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -1134,6 +1182,14 @@
             }
           ],
           "description": "Model or product name of the device, as reported, such as Prisma, Signa, Achieva, or actiCHamp."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -1255,6 +1311,14 @@
             }
           ],
           "description": "Sampling frequency of the recording in hertz."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -4490,6 +4554,14 @@
           ],
           "description": "Reported source-detector separations in millimeters."
         },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "wavelengths_nm": {
           "anyOf": [
             {
@@ -5015,6 +5087,14 @@
         "species": {
           "$ref": "#/$defs/ExtractedSpecies",
           "description": "The species of this cohort."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -5175,6 +5255,14 @@
             }
           ],
           "description": "Reported search volume, mask size, or number of vertices or voxels used for inference."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "tfce_parameters": {
           "anyOf": [
@@ -5493,6 +5581,14 @@
             }
           ],
           "description": "Time between the start of successive acquired volumes, in seconds."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -5566,6 +5662,14 @@
             }
           ],
           "description": "Named metric when type is intentionally broad, such as fractional anisotropy, ALFF, fALFF, or a specific tracer binding potential."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "type": {
           "$ref": "#/$defs/ExtractedMeasureType",
@@ -5762,6 +5866,14 @@
           ],
           "description": "The element this model was fitted over. Distinct from the Analysis's `spatial_scope`, which gives the extent rather than the element: a whole-brain model can be voxelwise or vertexwise, and a model over an ROI can average the region or test its parcels. Record it rather than inferring it from `coordinate_space`.\nA model fitted over a different element is a different model, so a voxelwise GLM and an ROI-mean ANOVA of the same design take two records: no contrast of one can be read off the other's fit."
         },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "stage": {
           "$ref": "#/$defs/ExtractedString",
           "description": "Stage of analysis, in the source's terms: run, session, subject and group are the usual words, and any other the source uses is storable as written. Deliberately left open -- no vocabulary fits every design, and nothing derives anything from it.\nA label, not an ordering. Only `inputs_from` records which stage fed another: two records labelled `group` say nothing about their relationship, and these strings never imply a chain."
@@ -5868,6 +5980,14 @@
             }
           ],
           "description": "The source's own definition of the term, and the origin of a continuous term that no Assessment supplies, such as age, dose, a motion parameter, cardiac phase, or scanner drift.\n**Required for a derived column, whatever its `assessment` says.** A change score names its instrument in `assessment` and its derivation here, in the source's own words and including the occasions it spans -- \"percent reduction in BDI, (post-pre)/pre, from baseline to post-treatment\". Nothing else can carry those occasions: `FactorLevel.timepoints` names the occasions a factor *compares*, and a derived column has no levels to hang them on, so where a study has several post-intervention occasions this is the only thing separating a change to the endpoint from a change to a later follow-up.\nNot the shape of the fitted relationship, which is `functional_form`: a percent change entered linearly is a linear term computed from a difference, so recording the construction as the form would lose whether the fit was linear or quadratic. A transform *of the measure* the vocabulary cannot name still goes in functional_form."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "type": {
           "$ref": "#/$defs/ExtractedTermType",
@@ -6052,6 +6172,14 @@
             }
           ],
           "description": "Why this is not an MRI, EEG, FNIRS, or PET record."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -6165,6 +6293,14 @@
             }
           ],
           "description": "Reported reconstructed spatial resolution, such as FWHM dimensions, in millimeters."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "tracer_name": {
           "anyOf": [
@@ -6363,6 +6499,14 @@
           ],
           "description": "Software packages or methods used, including version and revision identifiers."
         },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "steps": {
           "anyOf": [
             {
@@ -6439,6 +6583,14 @@
             }
           ],
           "description": "What kind of thing the region is, which `definition_method` does not settle: an atlas parcel and an anatomical structure can both come from an atlas, and a network is neither."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -6897,6 +7049,14 @@
           ],
           "description": "Whether the paper reports inferential analyses of its own. An empty `analyses` list is otherwise ambiguous: a methods or data paper that tests nothing and a paper the extractor read badly look the same. With this set, `no_analyses_reported` asserts the emptiness, with the sentences that show it as evidence.\nSays nothing about whether the analyses found anything; that is each `Analysis.outcome`, summarised in `outcome_summary`."
         },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "study_type": {
           "description": "PubMed publication types for this record, verbatim, copied from the parsed paper's `Bibliography.publication_types`, not read off the paper: it is what the indexers said about the article, which is what a publication-type exclusion asks about.",
           "items": {
@@ -7070,6 +7230,14 @@
           ],
           "description": "What this table is for. `reported_effect` when its rows are the foci of a tested effect, which is the common case and which is derived from the analyses that name the table; otherwise what the rows are instead -- region or ROI definitions, atlas parcels, connectivity seeds, the peaks of a decomposition's components, coordinates cited from other papers, a stimulus list, demographics, descriptive statistics with no test.\nA coordinate table is not an analysis merely by having coordinates in it, and this is the only field that says which it is. Absence means nothing decided: a table deliberately encoded as a non-analysis and one no pass considered are otherwise the same silence, and the coordinates of the first belong on the entity they locate (a Region's description) rather than on a contrast that never produced them.\nA per-table answer, so it cannot be right for a table whose row groups serve different purposes -- results beside the ROIs they were tested in. Each row group states its own role in a `CoordinateSet`."
         },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "table_number": {
           "anyOf": [
             {
@@ -7242,6 +7410,14 @@
           ],
           "description": "How participants responded. Multivalued because a paradigm often collects more than one -- a button press for accuracy and a spoken report afterwards."
         },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "stimuli": {
           "anyOf": [
             {
@@ -7358,6 +7534,14 @@
         "relation_to_intervention": {
           "$ref": "#/$defs/ExtractedTimepointRelation",
           "description": "Where this occasion sits relative to the intervention. Required, so an occasion the source does not place still carries the slot, as `extraction_status: not_reported`."
+        },
+        "stable_id": {
+          "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "time_from_intervention": {
           "anyOf": [
@@ -7625,6 +7809,14 @@
         }
       ],
       "description": "Whether the paper reports inferential analyses of its own. An empty `analyses` list is otherwise ambiguous: a methods or data paper that tests nothing and a paper the extractor read badly look the same. With this set, `no_analyses_reported` asserts the emptiness, with the sentences that show it as evidence.\nSays nothing about whether the analyses found anything; that is each `Analysis.outcome`, summarised in `outcome_summary`."
+    },
+    "stable_id": {
+      "description": "UUID minted by the store the first time this entity appears, never by an extractor, and kept across re-runs so a later extraction matches the same entity.",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "study_type": {
       "description": "PubMed publication types for this record, verbatim, copied from the parsed paper's `Bibliography.publication_types`, not read off the paper: it is what the indexers said about the article, which is what a publication-type exclusion asks about.",
