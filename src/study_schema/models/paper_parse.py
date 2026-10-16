@@ -32,7 +32,7 @@ from pydantic import (
 
 
 metamodel_version = "1.12.0"
-version = "0.6.0"
+version = "0.7.0"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -115,6 +115,136 @@ class DocumentSource(str, Enum):
     pdf = "pdf"
     """
     A PDF converted to text.
+    """
+
+
+class PreprintServer(str, Enum):
+    """
+    The preprint server that registered a DOI. A server hosted on the Open Science Framework is named by its provider, which has a DOI prefix of its own. A server is added here when a producer learns to recognise its DOIs.
+    """
+    biorxiv = "biorxiv"
+    """
+    bioRxiv, DOI prefix 10.1101 and, since 2025-11, 10.64898 (openRxiv).
+    """
+    medrxiv = "medrxiv"
+    """
+    medRxiv, DOI prefix 10.1101 and, since 2025-11, 10.64898 (openRxiv).
+    """
+    arxiv = "arxiv"
+    """
+    arXiv, DOI prefix 10.48550, the DOI registered for an arXiv id.
+    """
+    researchsquare = "researchsquare"
+    """
+    Research Square, DOI prefix 10.21203.
+    """
+    osf_preprints = "osf_preprints"
+    """
+    OSF Preprints, DOI prefix 10.31219.
+    """
+    arabixiv = "arabixiv"
+    """
+    Arabixiv (OSF), DOI prefix 10.31221.
+    """
+    metaarxiv = "metaarxiv"
+    """
+    MetaArXiv (OSF), DOI prefix 10.31222.
+    """
+    engrxiv = "engrxiv"
+    """
+    engrXiv (OSF), DOI prefix 10.31224.
+    """
+    focus_archive = "focus_archive"
+    """
+    FocUS Archive (OSF), DOI prefix 10.31225.
+    """
+    frenxiv = "frenxiv"
+    """
+    Frenxiv (OSF), DOI prefix 10.31226.
+    """
+    ina_rxiv = "ina_rxiv"
+    """
+    INA-Rxiv (OSF), DOI prefix 10.31227.
+    """
+    lawarxiv = "lawarxiv"
+    """
+    LawArXiv (OSF), DOI prefix 10.31228.
+    """
+    lis_scholarship_archive = "lis_scholarship_archive"
+    """
+    LIS Scholarship Archive (OSF), DOI prefix 10.31229.
+    """
+    marxiv = "marxiv"
+    """
+    MarXiv (OSF), DOI prefix 10.31230.
+    """
+    mindrxiv = "mindrxiv"
+    """
+    MindRxiv (OSF), DOI prefix 10.31231.
+    """
+    nutrixiv = "nutrixiv"
+    """
+    NutriXiv (OSF), DOI prefix 10.31232.
+    """
+    paleorxiv = "paleorxiv"
+    """
+    PaleorXiv (OSF), DOI prefix 10.31233.
+    """
+    psyarxiv = "psyarxiv"
+    """
+    PsyArXiv (OSF), DOI prefix 10.31234.
+    """
+    socarxiv = "socarxiv"
+    """
+    SocArXiv (OSF), DOI prefix 10.31235.
+    """
+    sportrxiv = "sportrxiv"
+    """
+    SportRxiv (OSF), DOI prefix 10.31236.
+    """
+    africarxiv = "africarxiv"
+    """
+    AfricArXiv (OSF), DOI prefix 10.31730.
+    """
+    mediarxiv = "mediarxiv"
+    """
+    MediArXiv (OSF), DOI prefix 10.33767.
+    """
+    bodoarxiv = "bodoarxiv"
+    """
+    BodoArXiv (OSF), DOI prefix 10.34055.
+    """
+    edarxiv = "edarxiv"
+    """
+    EdArXiv (OSF), DOI prefix 10.35542.
+    """
+    biohackrxiv = "biohackrxiv"
+    """
+    BioHackrXiv (OSF), DOI prefix 10.37044.
+    """
+    ssrn = "ssrn"
+    """
+    SSRN, DOI prefix 10.2139.
+    """
+    preprints_org = "preprints_org"
+    """
+    Preprints.org, DOI prefix 10.20944.
+    """
+    authorea = "authorea"
+    """
+    Authorea, DOI prefix 10.22541.
+    """
+    techrxiv = "techrxiv"
+    """
+    TechRxiv, DOI prefix 10.36227.
+    """
+    chemrxiv = "chemrxiv"
+    """
+    ChemRxiv, DOI prefix 10.26434.
+    """
+    jmir_preprints = "jmir_preprints"
+    """
+    JMIR Preprints, DOI prefix 10.2196.
     """
 
 
@@ -1283,6 +1413,20 @@ class AnchorKind(str, Enum):
     """
 
 
+class PublicationStatus(str, Enum):
+    """
+    Whether a paper's version of record is known, or only its preprint.
+    """
+    published = "published"
+    """
+    A DOI, PubMed record or PMC copy of the version of record is known. The paper may have been a preprint too.
+    """
+    preprint = "preprint"
+    """
+    Only a preprint's identifiers are known.
+    """
+
+
 
 class ArtifactHeader(ConfiguredBaseModel):
     """
@@ -1299,12 +1443,24 @@ class ArtifactHeader(ConfiguredBaseModel):
 
 class ArticleIdentifiers(ConfiguredBaseModel):
     """
-    Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up.
+    Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article.
     """
-    pmid: Optional[str] = Field(default=None)
-    pmcid: Optional[str] = Field(default=None)
-    doi: Optional[str] = Field(default=None)
+    pmid: Optional[str] = Field(default=None, description="""PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmid`.""")
+    pmcid: Optional[str] = Field(default=None, description="""PubMed Central's copy of the version of record. Never PMC's copy of a preprint, which is `preprint_pmcid`.""")
+    doi: Optional[str] = Field(default=None, description="""The DOI of the version of record. Never a preprint server's DOI, which is in `preprint_dois`.""")
+    preprint_dois: Optional[list[PreprintDoi]] = Field(default=None, description="""Every DOI a preprint server registered for the paper. A server that registers each version separately, such as Research Square's `/v2`, gives one entry per version, each kept as registered.""")
+    preprint_pmid: Optional[str] = Field(default=None, description="""PubMed's record of the preprint, which PubMed types `Preprint`.""")
+    preprint_pmcid: Optional[str] = Field(default=None, description="""PubMed Central's copy of the preprint.""")
+    publication_status: PublicationStatus = Field(default=..., description="""`preprint` when a `preprint_` field is set and `doi`, `pmid` and `pmcid` are all empty, `published` otherwise. The producer states it so that no consumer re-derives it.""")
     neurostore_base_study_id: Optional[str] = Field(default=None, description="""Set once the paper has been uploaded; neurostore's BaseStudy id.""")
+
+
+class PreprintDoi(ConfiguredBaseModel):
+    """
+    A DOI a preprint server registered, with the server that registered it.
+    """
+    doi: str = Field(default=...)
+    server: PreprintServer = Field(default=..., description="""Named by the producer from the DOI, so that no consumer needs a table of preprint servers' DOI patterns.""")
 
 
 class Producer(ConfiguredBaseModel):
@@ -1637,6 +1793,7 @@ class AnalysisVerdict(ConfiguredBaseModel):
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ArtifactHeader.model_rebuild()
 ArticleIdentifiers.model_rebuild()
+PreprintDoi.model_rebuild()
 Producer.model_rebuild()
 InputRef.model_rebuild()
 TextSpan.model_rebuild()

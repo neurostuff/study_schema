@@ -84,7 +84,16 @@ classes:
       doi:
         in_subset: [mvp, deterministic]
         range: string
-        description: Digital Object Identifier, without requiring a particular URL form.
+        description: >-
+          Digital Object Identifier of the version of record, without requiring a particular
+          URL form. Never a preprint server's DOI.
+      publication_status:
+        in_subset: [mvp, deterministic]
+        range: PublicationStatus
+        description: >-
+          Whether the version of record is known or only the preprint, copied from the
+          parsed paper's header identifiers. `study_type` is independent of it: it keeps
+          PubMed's publication types verbatim, `Preprint` included.
       publication_year:
         in_subset: [mvp, deterministic]
         range: integer

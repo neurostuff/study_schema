@@ -32,7 +32,7 @@ from pydantic import (
 
 
 metamodel_version = "1.12.0"
-version = "0.7.0"
+version = "0.8.0"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -1405,6 +1405,20 @@ class AnchorKind(str, Enum):
     """
 
 
+class PublicationStatus(str, Enum):
+    """
+    Whether a paper's version of record is known, or only its preprint.
+    """
+    published = "published"
+    """
+    A DOI, PubMed record or PMC copy of the version of record is known. The paper may have been a preprint too.
+    """
+    preprint = "preprint"
+    """
+    Only a preprint's identifiers are known.
+    """
+
+
 
 class StudyDesign(ConfiguredBaseModel):
     """
@@ -2004,7 +2018,8 @@ Absent when the paper states no prediction, which is common: never paraphrase an
     design: Optional[StudyDesign] = Field(default=None, description="""The study's design outside its tasks: how participants were assigned, the arms they were assigned to, and the occasions data were collected on. The narrative design description is this record's own `description`.""")
     authors: Optional[list[str]] = Field(default=None, description="""Authors of the study or publication, in published order.""")
     journal: Optional[str] = Field(default=None, description="""Journal or other publication venue.""")
-    doi: Optional[str] = Field(default=None, description="""Digital Object Identifier, without requiring a particular URL form.""")
+    doi: Optional[str] = Field(default=None, description="""Digital Object Identifier of the version of record, without requiring a particular URL form. Never a preprint server's DOI.""")
+    publication_status: Optional[PublicationStatus] = Field(default=None, description="""Whether the version of record is known or only the preprint, copied from the parsed paper's header identifiers. `study_type` is independent of it: it keeps PubMed's publication types verbatim, `Preprint` included.""")
     publication_year: Optional[int] = Field(default=None, description="""Year in which the study was first published or made publicly available.""", ge=1600)
     language: Optional[list[str]] = Field(default=None, description="""Languages of the article, as the E-utilities API reports them -- the three-letter codes PubMed assigns, `eng` and the rest. Filled from the same `esummary` call that fills `study_type`, and not read off the paper: the text a reader is given is in one language whatever the article is indexed as.
 At least six of the benchmark's sixteen meta-analyses state \"English language\" as an inclusion criterion, and it was unexpressible. On the 1,804 records measured it excludes exactly one paper, so it buys precision rather than recall; the criterion is stated, so the field states it.""")

@@ -3309,6 +3309,15 @@
       "title": "Prespecification",
       "type": "string"
     },
+    "PublicationStatus": {
+      "description": "Whether a paper's version of record is known, or only its preprint.",
+      "enum": [
+        "published",
+        "preprint"
+      ],
+      "title": "PublicationStatus",
+      "type": "string"
+    },
     "Region": {
       "additionalProperties": false,
       "description": "A brain region the study delimited and used: a connectivity seed or target, the search space an analysis was restricted to, a level of a factor comparing regions, or the signal a model term carries. Declared once and referenced from each, because the same seed written separately in each place is three spellings nothing can join.",
@@ -3778,7 +3787,7 @@
           ]
         },
         "doi": {
-          "description": "Digital Object Identifier, without requiring a particular URL form.",
+          "description": "Digital Object Identifier of the version of record, without requiring a particular URL form. Never a preprint server's DOI.",
           "type": [
             "string",
             "null"
@@ -3885,6 +3894,17 @@
             "array",
             "null"
           ]
+        },
+        "publication_status": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PublicationStatus"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Whether the version of record is known or only the preprint, copied from the parsed paper's header identifiers. `study_type` is independent of it: it keeps PubMed's publication types verbatim, `Preprint` included."
         },
         "publication_year": {
           "description": "Year in which the study was first published or made publicly available.",
@@ -4577,7 +4597,7 @@
       ]
     },
     "doi": {
-      "description": "Digital Object Identifier, without requiring a particular URL form.",
+      "description": "Digital Object Identifier of the version of record, without requiring a particular URL form. Never a preprint server's DOI.",
       "type": [
         "string",
         "null"
@@ -4685,6 +4705,17 @@
         "null"
       ]
     },
+    "publication_status": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PublicationStatus"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Whether the version of record is known or only the preprint, copied from the parsed paper's header identifiers. `study_type` is independent of it: it keeps PubMed's publication types verbatim, `Preprint` included."
+    },
     "publication_year": {
       "description": "Year in which the study was first published or made publicly available.",
       "minimum": 1600,
@@ -4760,5 +4791,5 @@
   ],
   "title": "neuroimaging-study-storage",
   "type": "object",
-  "version": "0.7.0"
+  "version": "0.8.0"
 }

@@ -181,6 +181,11 @@ What each side may rely on:
 
 - **One shape for every source.** PMC, Europe PMC, pubget, Elsevier, ACE and PDF all emit
   a `ParsedPaper`, so a consumer never branches on where a paper came from.
+- **A preprint is not its version of record.** The header's `doi`, `pmid` and `pmcid` name
+  the version of record. A preprint server's DOIs, each with its `PreprintServer`, and
+  PubMed's and PMC's records of the preprint are kept beside them in `preprint_dois`,
+  `preprint_pmid` and `preprint_pmcid`. `publication_status` states which the paper has
+  (`published` or `preprint`), and pondie copies it to `Study.publication_status`.
 - **Bibliography is copied, never extracted.** pondie fills the record's `Study.title`,
   `authors`, `doi`, `journal`, `publication_year`, `language` and `study_type` from
   `ParsedPaper.bibliography` and the header's identifiers (`transform: copy` in
@@ -320,7 +325,10 @@ so ingestion, pondie and neurostore read "Talairach & Tournoux 1988" the same wa
 **Examples.** `examples/` holds one paper and one run: a table whose ingestion parse is a
 single mixed-sign analysis, and pondie's revision that splits it by sign and adds the null
 result the text states. The tests read them through every model, JSON Schema and layout, and
-the checks must find nothing wrong with them.
+the checks must find nothing wrong with them. `examples/identifiers/` holds header
+identifiers for a preprint-only paper and for a published paper with a preprint DOI, and
+under `invalid/` two the models refuse: one without `publication_status`, one with a preprint
+DOI that names no server.
 
 **Storing coordinates.** The models say what a parse means, not how a corpus of them is
 kept. `study_schema.parquet` stores coordinate parses as three Parquet tables -- `parses`,

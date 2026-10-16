@@ -1056,3 +1056,16 @@ enums:
       node:
         in_subset: [mvp, model_extracted]
         description: An atlas parcel or network node definition.
+
+  PublicationStatus:
+    in_subset: [mvp, deterministic]
+    description: Whether a paper's version of record is known, or only its preprint.
+    permissible_values:
+      published:
+        in_subset: [mvp, deterministic]
+        description: >-
+          A DOI, PubMed record or PMC copy of the version of record is known. The paper may
+          have been a preprint too.
+      preprint:
+        in_subset: [mvp, deterministic]
+        description: Only a preprint's identifiers are known.

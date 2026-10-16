@@ -93,9 +93,10 @@
     },
     "ArticleIdentifiers": {
       "additionalProperties": false,
-      "description": "Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up.",
+      "description": "Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article.",
       "properties": {
         "doi": {
+          "description": "The DOI of the version of record. Never a preprint server's DOI, which is in `preprint_dois`.",
           "type": [
             "string",
             "null"
@@ -109,18 +110,51 @@
           ]
         },
         "pmcid": {
+          "description": "PubMed Central's copy of the version of record. Never PMC's copy of a preprint, which is `preprint_pmcid`.",
           "type": [
             "string",
             "null"
           ]
         },
         "pmid": {
+          "description": "PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmid`.",
           "type": [
             "string",
             "null"
           ]
+        },
+        "preprint_dois": {
+          "description": "Every DOI a preprint server registered for the paper. A server that registers each version separately, such as Research Square's `/v2`, gives one entry per version, each kept as registered.",
+          "items": {
+            "$ref": "#/$defs/PreprintDoi"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "preprint_pmcid": {
+          "description": "PubMed Central's copy of the preprint.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "preprint_pmid": {
+          "description": "PubMed's record of the preprint, which PubMed types `Preprint`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "publication_status": {
+          "$ref": "#/$defs/PublicationStatus",
+          "description": "`preprint` when a `preprint_` field is set and `doi`, `pmid` and `pmcid` are all empty, `published` otherwise. The producer states it so that no consumer re-derives it."
         }
       },
+      "required": [
+        "publication_status"
+      ],
       "title": "ArticleIdentifiers",
       "type": "object"
     },
@@ -1430,6 +1464,63 @@
       "title": "PolaritySemantics",
       "type": "string"
     },
+    "PreprintDoi": {
+      "additionalProperties": false,
+      "description": "A DOI a preprint server registered, with the server that registered it.",
+      "properties": {
+        "doi": {
+          "type": "string"
+        },
+        "server": {
+          "$ref": "#/$defs/PreprintServer",
+          "description": "Named by the producer from the DOI, so that no consumer needs a table of preprint servers' DOI patterns."
+        }
+      },
+      "required": [
+        "doi",
+        "server"
+      ],
+      "title": "PreprintDoi",
+      "type": "object"
+    },
+    "PreprintServer": {
+      "description": "The preprint server that registered a DOI. A server hosted on the Open Science Framework is named by its provider, which has a DOI prefix of its own. A server is added here when a producer learns to recognise its DOIs.",
+      "enum": [
+        "biorxiv",
+        "medrxiv",
+        "arxiv",
+        "researchsquare",
+        "osf_preprints",
+        "arabixiv",
+        "metaarxiv",
+        "engrxiv",
+        "focus_archive",
+        "frenxiv",
+        "ina_rxiv",
+        "lawarxiv",
+        "lis_scholarship_archive",
+        "marxiv",
+        "mindrxiv",
+        "nutrixiv",
+        "paleorxiv",
+        "psyarxiv",
+        "socarxiv",
+        "sportrxiv",
+        "africarxiv",
+        "mediarxiv",
+        "bodoarxiv",
+        "edarxiv",
+        "biohackrxiv",
+        "ssrn",
+        "preprints_org",
+        "authorea",
+        "techrxiv",
+        "chemrxiv",
+        "jmir_preprints"
+      ],
+      "title": "PreprintServer",
+      "type": "string"
+    },
     "Prespecification": {
       "description": "Whether a contrast was planned before the data were seen. A preregistered primary contrast and a post-hoc sweep from the same paper are not equivalent evidence, and a synthesis that cannot tell them apart cannot address selective reporting.",
       "enum": [
@@ -1478,6 +1569,15 @@
       ],
       "title": "Producer",
       "type": "object"
+    },
+    "PublicationStatus": {
+      "description": "Whether a paper's version of record is known, or only its preprint.",
+      "enum": [
+        "published",
+        "preprint"
+      ],
+      "title": "PublicationStatus",
+      "type": "string"
     },
     "Reference": {
       "additionalProperties": false,
@@ -2227,5 +2327,5 @@
   ],
   "title": "neuroimaging-paper-parse",
   "type": "object",
-  "version": "0.6.0"
+  "version": "0.7.0"
 }
