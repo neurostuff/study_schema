@@ -104,6 +104,10 @@ class DocumentSource(str, Enum):
     """
     Elsevier full-text API.
     """
+    springer = "springer"
+    """
+    Springer Nature Open Access API full-text JATS.
+    """
     ace = "ace"
     """
     ACE HTML scraping.
