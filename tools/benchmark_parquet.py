@@ -43,7 +43,7 @@ def parse(i):
                 origin="table", table_id=tid, name=f"Condition {a} > Baseline", name_is_printed=True, coordinate_space="MNI",
                 role="result", statistic="t", thresholds=[pp.Threshold(level="height", quantity="p", value=0.001, correction="uncorrected")], points=pts))
     hdr = pp.ArtifactHeader(artifact_kind="coordinate_parse", schema_version=pp.version, article_id=f"art-{i:06d}",
-        identifiers=pp.ArticleIdentifiers(pmid=str(10_000_000+i)), producer=pp.Producer(name="ns-pond-ingestion-workflow", version="1.0", stage="parse"), created_at="2026-10-09T12:00:00Z")
+        identifiers=pp.ArticleIdentifiers(pmid=str(10_000_000+i), publication_status="published"), producer=pp.Producer(name="ns-pond-ingestion-workflow", version="1.0", stage="parse"), created_at="2026-10-09T12:00:00Z")
     return pp.CoordinateParse(header=hdr, parse_id=sha, text_sha256=sha, analyses=analyses,
         tables=[pp.TableReading(table_id=f"tbl{t+1}", reading="coordinates") for t in range(3)])
 N = int(sys.argv[2]) if len(sys.argv) > 2 else 5000

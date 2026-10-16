@@ -135,6 +135,13 @@ derivations:
     notes: >-
       DOI from the parsed paper's header identifiers. Not extracted: a bibliographic fact
       the metadata lookup states is not one a model should be asked to read off the page.
+  Study.publication_status:
+    transform: copy
+    source_artifact: neuroimaging-paper-parse/ParsedPaper
+    source_field: ArticleIdentifiers.publication_status
+    notes: >-
+      Stated by the producer of the parsed paper from the identifiers it holds. Not
+      extracted: whether a version of record exists is not something the text says.
   Study.id:
     transform: generate
     notes: Assigned by the ingestion pipeline; typically DOI-derived (doi:10.../record) or a UUID.

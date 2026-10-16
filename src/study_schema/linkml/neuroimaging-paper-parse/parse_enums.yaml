@@ -2,10 +2,10 @@ id: https://neurostuff.org/schemas/neuroimaging-paper-parse/parse_enums
 name: neuroimaging-paper-parse-enums
 title: Neuroimaging Paper Parse Vocabularies
 description: >-
-  The vocabularies of the parsed paper and the coordinate parse. Coordinate roles and
-  anchor kinds are not here: they are the storage schema's `CoordinateRole` and
-  `AnchorKind`, imported, so that the parse's role and the record's role are written
-  in the same words.
+  The vocabularies of the parsed paper and the coordinate parse. Coordinate roles, anchor
+  kinds and publication status are not here: they are the storage schema's
+  `CoordinateRole`, `AnchorKind` and `PublicationStatus`, imported, so that the parse and
+  the record write them in the same words.
 prefixes:
   linkml: https://w3id.org/linkml/
   parse: https://neurostuff.org/schemas/neuroimaging-paper-parse/
@@ -43,6 +43,75 @@ enums:
         description: ACE HTML scraping.
       pdf:
         description: A PDF converted to text.
+
+  PreprintServer:
+    description: >-
+      The preprint server that registered a DOI. A server hosted on the Open Science
+      Framework is named by its provider, which has a DOI prefix of its own. A server is
+      added here when a producer learns to recognise its DOIs.
+    permissible_values:
+      biorxiv:
+        description: bioRxiv, DOI prefix 10.1101 and, since 2025-11, 10.64898 (openRxiv).
+      medrxiv:
+        description: medRxiv, DOI prefix 10.1101 and, since 2025-11, 10.64898 (openRxiv).
+      arxiv:
+        description: arXiv, DOI prefix 10.48550, the DOI registered for an arXiv id.
+      researchsquare:
+        description: Research Square, DOI prefix 10.21203.
+      osf_preprints:
+        description: OSF Preprints, DOI prefix 10.31219.
+      arabixiv:
+        description: Arabixiv (OSF), DOI prefix 10.31221.
+      metaarxiv:
+        description: MetaArXiv (OSF), DOI prefix 10.31222.
+      engrxiv:
+        description: engrXiv (OSF), DOI prefix 10.31224.
+      focus_archive:
+        description: FocUS Archive (OSF), DOI prefix 10.31225.
+      frenxiv:
+        description: Frenxiv (OSF), DOI prefix 10.31226.
+      ina_rxiv:
+        description: INA-Rxiv (OSF), DOI prefix 10.31227.
+      lawarxiv:
+        description: LawArXiv (OSF), DOI prefix 10.31228.
+      lis_scholarship_archive:
+        description: LIS Scholarship Archive (OSF), DOI prefix 10.31229.
+      marxiv:
+        description: MarXiv (OSF), DOI prefix 10.31230.
+      mindrxiv:
+        description: MindRxiv (OSF), DOI prefix 10.31231.
+      nutrixiv:
+        description: NutriXiv (OSF), DOI prefix 10.31232.
+      paleorxiv:
+        description: PaleorXiv (OSF), DOI prefix 10.31233.
+      psyarxiv:
+        description: PsyArXiv (OSF), DOI prefix 10.31234.
+      socarxiv:
+        description: SocArXiv (OSF), DOI prefix 10.31235.
+      sportrxiv:
+        description: SportRxiv (OSF), DOI prefix 10.31236.
+      africarxiv:
+        description: AfricArXiv (OSF), DOI prefix 10.31730.
+      mediarxiv:
+        description: MediArXiv (OSF), DOI prefix 10.33767.
+      bodoarxiv:
+        description: BodoArXiv (OSF), DOI prefix 10.34055.
+      edarxiv:
+        description: EdArXiv (OSF), DOI prefix 10.35542.
+      biohackrxiv:
+        description: BioHackrXiv (OSF), DOI prefix 10.37044.
+      ssrn:
+        description: SSRN, DOI prefix 10.2139.
+      preprints_org:
+        description: Preprints.org, DOI prefix 10.20944.
+      authorea:
+        description: Authorea, DOI prefix 10.22541.
+      techrxiv:
+        description: TechRxiv, DOI prefix 10.36227.
+      chemrxiv:
+        description: ChemRxiv, DOI prefix 10.26434.
+      jmir_preprints:
+        description: JMIR Preprints, DOI prefix 10.2196.
 
   SectionKind:
     description: What a span of the text is.
