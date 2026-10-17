@@ -32,7 +32,7 @@ from pydantic import (
 
 
 metamodel_version = "1.12.0"
-version = "0.7.0"
+version = "0.8.0"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -118,133 +118,65 @@ class DocumentSource(str, Enum):
     """
 
 
-class PreprintServer(str, Enum):
+class CopyRoute(str, Enum):
     """
-    The preprint server that registered a DOI. A server hosted on the Open Science Framework is named by its provider, which has a DOI prefix of its own. A server is added here when a producer learns to recognise its DOIs.
+    Where a copy of a paper is hosted.
     """
-    biorxiv = "biorxiv"
+    pmc = "pmc"
     """
-    bioRxiv, DOI prefix 10.1101 and, since 2025-11, 10.64898 (openRxiv).
+    PubMed Central or Europe PMC.
     """
-    medrxiv = "medrxiv"
+    publisher = "publisher"
     """
-    medRxiv, DOI prefix 10.1101 and, since 2025-11, 10.64898 (openRxiv).
+    The publisher's own site or full-text API.
     """
-    arxiv = "arxiv"
+    repository = "repository"
     """
-    arXiv, DOI prefix 10.48550, the DOI registered for an arXiv id.
+    An institutional or subject repository other than PMC.
     """
-    researchsquare = "researchsquare"
+    preprint_server = "preprint_server"
     """
-    Research Square, DOI prefix 10.21203.
+    A preprint server; the copy's `preprint_server` names it.
     """
-    osf_preprints = "osf_preprints"
+    unrecorded = "unrecorded"
     """
-    OSF Preprints, DOI prefix 10.31219.
+    Where the copy came from was not recorded, such as a PDF supplied by hand.
     """
-    arabixiv = "arabixiv"
+
+
+class CopyVersion(str, Enum):
     """
-    Arabixiv (OSF), DOI prefix 10.31221.
+    Which version of the paper a copy is, in the NISO Journal Article Versions terms. OpenAlex's `publishedVersion`, `acceptedVersion` and `submittedVersion` are `vor`, `am` and `submitted`.
     """
-    metaarxiv = "metaarxiv"
+    vor = "vor"
     """
-    MetaArXiv (OSF), DOI prefix 10.31222.
+    The version of record, as the journal published it.
     """
-    engrxiv = "engrxiv"
+    am = "am"
     """
-    engrXiv (OSF), DOI prefix 10.31224.
+    The accepted manuscript, after peer review and before the publisher's typesetting.
     """
-    focus_archive = "focus_archive"
+    submitted = "submitted"
     """
-    FocUS Archive (OSF), DOI prefix 10.31225.
+    The version submitted to a journal or posted as a preprint, before peer review.
     """
-    frenxiv = "frenxiv"
+
+
+class CopyAccess(str, Enum):
     """
-    Frenxiv (OSF), DOI prefix 10.31226.
+    How we obtained a copy we hold. The `redistribution` annotation says whether the access itself allows passing the copy on: `by_license` leaves that to the copy's licence, `never` forbids it whatever the licence says.
     """
-    ina_rxiv = "ina_rxiv"
+    public = "public"
     """
-    INA-Rxiv (OSF), DOI prefix 10.31227.
+    Fetched as any reader could fetch it, without our credentials.
     """
-    lawarxiv = "lawarxiv"
+    tdm_grant = "tdm_grant"
     """
-    LawArXiv (OSF), DOI prefix 10.31228.
+    Obtained under terms that permit text mining only: a publisher's full-text API with our key, such as Elsevier's or Wiley's, or a PubMed Central author manuscript whose record says `TDM`.
     """
-    lis_scholarship_archive = "lis_scholarship_archive"
+    unrecorded = "unrecorded"
     """
-    LIS Scholarship Archive (OSF), DOI prefix 10.31229.
-    """
-    marxiv = "marxiv"
-    """
-    MarXiv (OSF), DOI prefix 10.31230.
-    """
-    mindrxiv = "mindrxiv"
-    """
-    MindRxiv (OSF), DOI prefix 10.31231.
-    """
-    nutrixiv = "nutrixiv"
-    """
-    NutriXiv (OSF), DOI prefix 10.31232.
-    """
-    paleorxiv = "paleorxiv"
-    """
-    PaleorXiv (OSF), DOI prefix 10.31233.
-    """
-    psyarxiv = "psyarxiv"
-    """
-    PsyArXiv (OSF), DOI prefix 10.31234.
-    """
-    socarxiv = "socarxiv"
-    """
-    SocArXiv (OSF), DOI prefix 10.31235.
-    """
-    sportrxiv = "sportrxiv"
-    """
-    SportRxiv (OSF), DOI prefix 10.31236.
-    """
-    africarxiv = "africarxiv"
-    """
-    AfricArXiv (OSF), DOI prefix 10.31730.
-    """
-    mediarxiv = "mediarxiv"
-    """
-    MediArXiv (OSF), DOI prefix 10.33767.
-    """
-    bodoarxiv = "bodoarxiv"
-    """
-    BodoArXiv (OSF), DOI prefix 10.34055.
-    """
-    edarxiv = "edarxiv"
-    """
-    EdArXiv (OSF), DOI prefix 10.35542.
-    """
-    biohackrxiv = "biohackrxiv"
-    """
-    BioHackrXiv (OSF), DOI prefix 10.37044.
-    """
-    ssrn = "ssrn"
-    """
-    SSRN, DOI prefix 10.2139.
-    """
-    preprints_org = "preprints_org"
-    """
-    Preprints.org, DOI prefix 10.20944.
-    """
-    authorea = "authorea"
-    """
-    Authorea, DOI prefix 10.22541.
-    """
-    techrxiv = "techrxiv"
-    """
-    TechRxiv, DOI prefix 10.36227.
-    """
-    chemrxiv = "chemrxiv"
-    """
-    ChemRxiv, DOI prefix 10.26434.
-    """
-    jmir_preprints = "jmir_preprints"
-    """
-    JMIR Preprints, DOI prefix 10.2196.
+    How the copy was obtained was not recorded.
     """
 
 
@@ -488,17 +420,6 @@ class TableReadingKind(str, Enum):
     """
 
 
-class CorrectionKind(str, Enum):
-    """
-    A notice attached to a paper by its publisher or indexer.
-    """
-    erratum = "erratum"
-    retraction = "retraction"
-    expression_of_concern = "expression_of_concern"
-    comment = "comment"
-    update = "update"
-
-
 class ThresholdLevel(str, Enum):
     """
     The level a threshold applies at.
@@ -608,6 +529,287 @@ class CitationAlignment(str, Enum):
     """
     A citation marker found but tied to no entry.
     """
+
+
+class LicenseId(str, Enum):
+    """
+    The terms a licence grants. A value annotated `redistributable` lets the text it covers be passed on verbatim with attribution: every Creative Commons licence, including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows, and NC, because neurostore's use is non-commercial. That reading of ND and NC is this project's policy, not legal advice, and no lawyer has confirmed it.
+    """
+    cc_by = "cc-by"
+    cc_by_sa = "cc-by-sa"
+    cc_by_nc = "cc-by-nc"
+    cc_by_nc_sa = "cc-by-nc-sa"
+    cc_by_nd = "cc-by-nd"
+    cc_by_nc_nd = "cc-by-nc-nd"
+    cc0 = "cc0"
+    public_domain = "public-domain"
+    all_rights_reserved = "all-rights-reserved"
+    """
+    A copyright statement with no licence, or terms that allow text mining only, such as PubMed Central's `TDM` for an author manuscript.
+    """
+    other = "other"
+    """
+    A stated licence outside this list, such as a publisher's own user licence or OpenAlex's `publisher-specific-oa`; `stated_as` holds it. Not redistributable, on purpose: Elsevier's open-access user licence is `other`, because its terms are not a CC licence's.
+    """
+
+
+class LicenseDetermination(str, Enum):
+    """
+    Whether a source stated the licence.
+    """
+    stated = "stated"
+    """
+    A source stated it; `stated_by` says which.
+    """
+    assumed = "assumed"
+    """
+    Every source that could state a licence answered and none did, so all rights are reserved.
+    """
+
+
+class MetadataSource(str, Enum):
+    """
+    Who stated a bibliographic fact.
+    """
+    jats = "jats"
+    """
+    A held copy's JATS XML, such as its `<permissions>`.
+    """
+    elsevier = "elsevier"
+    """
+    A held copy's Elsevier full-text XML, its `coredata`.
+    """
+    pmc_cloud = "pmc_cloud"
+    """
+    PubMed Central's cloud record of a held copy.
+    """
+    pubmed = "pubmed"
+    crossref = "crossref"
+    openalex = "openalex"
+    semantic_scholar = "semantic_scholar"
+    europepmc = "europepmc"
+
+
+class OaStatus(str, Enum):
+    """
+    How a paper is open to read, in OpenAlex's terms (https://help.openalex.org/hc/en-us/articles/24347035046295-Open-Access-OA).
+    """
+    gold = "gold"
+    """
+    Published openly licensed in an open-access journal.
+    """
+    diamond = "diamond"
+    """
+    Gold, in a journal that charges authors no fee.
+    """
+    hybrid = "hybrid"
+    """
+    Published openly licensed in a subscription journal.
+    """
+    bronze = "bronze"
+    """
+    Free to read at the publisher, without an open licence.
+    """
+    green = "green"
+    """
+    Closed at the publisher, with a free copy in a repository.
+    """
+    closed = "closed"
+    """
+    No free copy is known.
+    """
+
+
+class PublicationStatus(str, Enum):
+    """
+    Whether a paper's version of record is known, or only its preprint.
+    """
+    published = "published"
+    """
+    A DOI, PubMed record or PMC copy of the version of record is known. The paper may have been a preprint too.
+    """
+    preprint = "preprint"
+    """
+    Only a preprint's identifiers are known.
+    """
+
+
+class PreprintServer(str, Enum):
+    """
+    The preprint server that registered a DOI. A server hosted on the Open Science Framework is named by its provider, which has a DOI prefix of its own. A server is added here when a producer learns to recognise its DOIs.
+    """
+    biorxiv = "biorxiv"
+    """
+    bioRxiv, DOI prefix 10.1101 and, since 2025-11, 10.64898 (openRxiv).
+    """
+    medrxiv = "medrxiv"
+    """
+    medRxiv, DOI prefix 10.1101 and, since 2025-11, 10.64898 (openRxiv).
+    """
+    arxiv = "arxiv"
+    """
+    arXiv, DOI prefix 10.48550, the DOI registered for an arXiv id.
+    """
+    researchsquare = "researchsquare"
+    """
+    Research Square, DOI prefix 10.21203.
+    """
+    osf_preprints = "osf_preprints"
+    """
+    OSF Preprints, DOI prefix 10.31219.
+    """
+    arabixiv = "arabixiv"
+    """
+    Arabixiv (OSF), DOI prefix 10.31221.
+    """
+    metaarxiv = "metaarxiv"
+    """
+    MetaArXiv (OSF), DOI prefix 10.31222.
+    """
+    engrxiv = "engrxiv"
+    """
+    engrXiv (OSF), DOI prefix 10.31224.
+    """
+    focus_archive = "focus_archive"
+    """
+    FocUS Archive (OSF), DOI prefix 10.31225.
+    """
+    frenxiv = "frenxiv"
+    """
+    Frenxiv (OSF), DOI prefix 10.31226.
+    """
+    ina_rxiv = "ina_rxiv"
+    """
+    INA-Rxiv (OSF), DOI prefix 10.31227.
+    """
+    lawarxiv = "lawarxiv"
+    """
+    LawArXiv (OSF), DOI prefix 10.31228.
+    """
+    lis_scholarship_archive = "lis_scholarship_archive"
+    """
+    LIS Scholarship Archive (OSF), DOI prefix 10.31229.
+    """
+    marxiv = "marxiv"
+    """
+    MarXiv (OSF), DOI prefix 10.31230.
+    """
+    mindrxiv = "mindrxiv"
+    """
+    MindRxiv (OSF), DOI prefix 10.31231.
+    """
+    nutrixiv = "nutrixiv"
+    """
+    NutriXiv (OSF), DOI prefix 10.31232.
+    """
+    paleorxiv = "paleorxiv"
+    """
+    PaleorXiv (OSF), DOI prefix 10.31233.
+    """
+    psyarxiv = "psyarxiv"
+    """
+    PsyArXiv (OSF), DOI prefix 10.31234.
+    """
+    socarxiv = "socarxiv"
+    """
+    SocArXiv (OSF), DOI prefix 10.31235.
+    """
+    sportrxiv = "sportrxiv"
+    """
+    SportRxiv (OSF), DOI prefix 10.31236.
+    """
+    africarxiv = "africarxiv"
+    """
+    AfricArXiv (OSF), DOI prefix 10.31730.
+    """
+    mediarxiv = "mediarxiv"
+    """
+    MediArXiv (OSF), DOI prefix 10.33767.
+    """
+    bodoarxiv = "bodoarxiv"
+    """
+    BodoArXiv (OSF), DOI prefix 10.34055.
+    """
+    edarxiv = "edarxiv"
+    """
+    EdArXiv (OSF), DOI prefix 10.35542.
+    """
+    biohackrxiv = "biohackrxiv"
+    """
+    BioHackrXiv (OSF), DOI prefix 10.37044.
+    """
+    ssrn = "ssrn"
+    """
+    SSRN, DOI prefix 10.2139.
+    """
+    preprints_org = "preprints_org"
+    """
+    Preprints.org, DOI prefix 10.20944.
+    """
+    authorea = "authorea"
+    """
+    Authorea, DOI prefix 10.22541.
+    """
+    techrxiv = "techrxiv"
+    """
+    TechRxiv, DOI prefix 10.36227.
+    """
+    chemrxiv = "chemrxiv"
+    """
+    ChemRxiv, DOI prefix 10.26434.
+    """
+    jmir_preprints = "jmir_preprints"
+    """
+    JMIR Preprints, DOI prefix 10.2196.
+    """
+
+
+class CorrectionKind(str, Enum):
+    """
+    A notice attached to a paper by its publisher or indexer.
+    """
+    erratum = "erratum"
+    retraction = "retraction"
+    expression_of_concern = "expression_of_concern"
+    comment = "comment"
+    update = "update"
+
+
+class StudyType(str, Enum):
+    """
+    PubMed publication types, spelled as the E-utilities API returns them so that a value needs no translation. Only the design-relevant types are listed; PubMed also returns funding and indexing types, and the vocabulary is open, so any unlisted type passes through verbatim.
+    """
+    Journal_Article = "Journal Article"
+    """
+    Assigned to every article; carries no design information on its own.
+    """
+    Meta_Analysis = "Meta-Analysis"
+    """
+    A quantitative synthesis of published results.
+    """
+    Systematic_Review = "Systematic Review"
+    """
+    A structured synthesis with a search protocol but no pooled effect estimate.
+    """
+    Review = "Review"
+    """
+    A review without a systematic search protocol.
+    """
+    Randomized_Controlled_Trial = "Randomized Controlled Trial"
+    Clinical_Trial = "Clinical Trial"
+    Observational_Study = "Observational Study"
+    Comparative_Study = "Comparative Study"
+    Multicenter_Study = "Multicenter Study"
+    Validation_Study = "Validation Study"
+    Case_Reports = "Case Reports"
+    """
+    PubMed's spelling is plural.
+    """
+    Editorial = "Editorial"
+    Letter = "Letter"
+    Comment = "Comment"
+    Preprint = "Preprint"
+    Retracted_Publication = "Retracted Publication"
 
 
 class AnalysisType(str, Enum):
@@ -1413,20 +1615,6 @@ class AnchorKind(str, Enum):
     """
 
 
-class PublicationStatus(str, Enum):
-    """
-    Whether a paper's version of record is known, or only its preprint.
-    """
-    published = "published"
-    """
-    A DOI, PubMed record or PMC copy of the version of record is known. The paper may have been a preprint too.
-    """
-    preprint = "preprint"
-    """
-    Only a preprint's identifiers are known.
-    """
-
-
 
 class ArtifactHeader(ConfiguredBaseModel):
     """
@@ -1439,28 +1627,7 @@ class ArtifactHeader(ConfiguredBaseModel):
     producer: Producer = Field(default=...)
     inputs: Optional[list[InputRef]] = Field(default=None, description="""Every artifact this one was made from, by fingerprint.""")
     created_at: Optional[datetime ] = Field(default=None)
-
-
-class ArticleIdentifiers(ConfiguredBaseModel):
-    """
-    Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article.
-    """
-    pmid: Optional[str] = Field(default=None, description="""PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmid`.""")
-    pmcid: Optional[str] = Field(default=None, description="""PubMed Central's copy of the version of record. Never PMC's copy of a preprint, which is `preprint_pmcid`.""")
-    doi: Optional[str] = Field(default=None, description="""The DOI of the version of record. Never a preprint server's DOI, which is in `preprint_dois`.""")
-    preprint_dois: Optional[list[PreprintDoi]] = Field(default=None, description="""Every DOI a preprint server registered for the paper. A server that registers each version separately, such as Research Square's `/v2`, gives one entry per version, each kept as registered.""")
-    preprint_pmid: Optional[str] = Field(default=None, description="""PubMed's record of the preprint, which PubMed types `Preprint`.""")
-    preprint_pmcid: Optional[str] = Field(default=None, description="""PubMed Central's copy of the preprint.""")
-    publication_status: PublicationStatus = Field(default=..., description="""`preprint` when a `preprint_` field is set and `doi`, `pmid` and `pmcid` are all empty, `published` otherwise. The producer states it so that no consumer re-derives it.""")
-    neurostore_base_study_id: Optional[str] = Field(default=None, description="""Set once the paper has been uploaded; neurostore's BaseStudy id.""")
-
-
-class PreprintDoi(ConfiguredBaseModel):
-    """
-    A DOI a preprint server registered, with the server that registered it.
-    """
-    doi: str = Field(default=...)
-    server: PreprintServer = Field(default=..., description="""Named by the producer from the DOI, so that no consumer needs a table of preprint servers' DOI patterns.""")
+    neurostore_base_study_id: Optional[str] = Field(default=None, description="""Set once the paper has been uploaded; neurostore's BaseStudy id. An upload pointer, not a bibliographic identifier, so it sits here and not in `identifiers`.""")
 
 
 class Producer(ConfiguredBaseModel):
@@ -1492,6 +1659,95 @@ class TextSpan(ConfiguredBaseModel):
     text: Optional[str] = Field(default=None, description="""The characters in the range, kept so a reader can check the offsets.""")
 
 
+class License(ConfiguredBaseModel):
+    """
+    A licence as one source stated it, or all rights reserved assumed because no source stated one.
+    """
+    license_id: LicenseId = Field(default=..., description="""Which licence, as OpenAlex's licence slugs name them (`cc-by`, `cc-by-nc`, ...). Not an SPDX License Identifier: sources rarely state the licence's version, and SPDX identifiers require one.""")
+    determination: LicenseDetermination = Field(default=...)
+    stated_by: Optional[MetadataSource] = Field(default=None, description="""The source whose statement this is.""")
+    stated_as: Optional[str] = Field(default=None, description="""The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes. Never empty: a source that gave no statement did not state a licence.""")
+
+    @field_validator('stated_as')
+    def pattern_stated_as(cls, v):
+        pattern=re.compile(r"\S")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stated_as format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stated_as format: {v}"
+            raise ValueError(err_msg)
+        return v
+
+
+class Bibliography(ConfiguredBaseModel):
+    """
+    The paper's bibliographic facts, as the metadata lookup returned them. Defined once: the parsed paper carries it, and the storage Study holds the same object as `Study.bibliography`, so nothing is copied field by field and nothing is extracted.
+    """
+    title: str = Field(default=...)
+    authors: Optional[list[str]] = Field(default=None, description="""Author names in published order.""")
+    journal: Optional[str] = Field(default=None)
+    publication_year: Optional[int] = Field(default=None, description="""Year in which the study was first published or made publicly available.""", ge=1600)
+    volume: Optional[str] = Field(default=None)
+    issue: Optional[str] = Field(default=None)
+    pages: Optional[str] = Field(default=None)
+    abstract: Optional[str] = Field(default=None, description="""Absent (null) when no source gave one; never an empty string.""")
+    abstract_provider: Optional[MetadataSource] = Field(default=None, description="""The source whose abstract `abstract` is. It may differ from `provider`. The abstract is the publisher's abstract of the version `license` describes, so its licence is `license`.""")
+    language: Optional[list[str]] = Field(default=None, description="""Languages of the article, as the E-utilities API reports them -- the three-letter codes PubMed assigns, `eng` and the rest, and not read off the paper: the text a reader is given is in one language whatever the article is indexed as.
+At least six of the benchmark's sixteen meta-analyses state \"English language\" as an inclusion criterion. On the 1,804 records measured it excludes exactly one paper, so it buys precision rather than recall; the criterion is stated, so the field states it.""")
+    publication_types: Optional[list[Union[StudyType, str]]] = Field(default=None, description="""PubMed publication types for this record, verbatim as the E-utilities API returns them (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). Multivalued because PubMed assigns several: every article is `Journal Article` and the design of the study motivates other labels. `StudyType` lists the known types only; any other type PubMed returns is kept verbatim.""")
+    keywords: Optional[list[str]] = Field(default=None)
+    license: License = Field(default=..., description="""The paper's licence: the version of record's, or the latest preprint's while the header's `publication_status` is `preprint`. Not the licence of a copy of another version, which that copy carries.""")
+    oa_status: Optional[OaStatus] = Field(default=None)
+    corrections: Optional[list[Correction]] = Field(default=None, description="""Notices attached to the paper -- errata, retractions, expressions of concern -- as the indexer lists them. A retracted paper is still parsed and stored, marked by its `retraction` notice, and left out of studysets by default; a filter can ask for it explicitly.""")
+    provider: Optional[MetadataSource] = Field(default=None, description="""The metadata service the facts came from.""")
+
+    @field_validator('abstract')
+    def pattern_abstract(cls, v):
+        pattern=re.compile(r"\S")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid abstract format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid abstract format: {v}"
+            raise ValueError(err_msg)
+        return v
+
+
+class ArticleIdentifiers(ConfiguredBaseModel):
+    """
+    Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article.
+    """
+    pmid: Optional[str] = Field(default=None, description="""PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmid`.""")
+    pmcid: Optional[str] = Field(default=None, description="""PubMed Central's copy of the version of record. Never PMC's copy of a preprint, which is `preprint_pmcid`.""")
+    doi: Optional[str] = Field(default=None, description="""The DOI of the version of record. Never a preprint server's DOI, which is in `preprint_dois`.""")
+    preprint_dois: Optional[list[PreprintDoi]] = Field(default=None, description="""Every DOI a preprint server registered for the paper. A server that registers each version separately, such as Research Square's `/v2`, gives one entry per version, each kept as registered.""")
+    preprint_pmid: Optional[str] = Field(default=None, description="""PubMed's record of the preprint, which PubMed types `Preprint`.""")
+    preprint_pmcid: Optional[str] = Field(default=None, description="""PubMed Central's copy of the preprint.""")
+    publication_status: PublicationStatus = Field(default=..., description="""`preprint` when a `preprint_` field is set and `doi`, `pmid` and `pmcid` are all empty, `published` otherwise. The producer states it so that no consumer re-derives it.""")
+
+
+class PreprintDoi(ConfiguredBaseModel):
+    """
+    A DOI a preprint server registered, with the server that registered it.
+    """
+    doi: str = Field(default=...)
+    server: PreprintServer = Field(default=..., description="""Named by the producer from the DOI, so that no consumer needs a table of preprint servers' DOI patterns.""")
+
+
+class Correction(ConfiguredBaseModel):
+    """
+    One notice attached to a paper.
+    """
+    kind: Union[CorrectionKind, str] = Field(default=...)
+    pmid: Optional[str] = Field(default=None)
+    doi: Optional[str] = Field(default=None)
+
+
 class ParsedPaper(ConfiguredBaseModel):
     """
     One paper as text, tables and bibliographic facts. The same shape for every download source.
@@ -1500,6 +1756,8 @@ class ParsedPaper(ConfiguredBaseModel):
     header: ArtifactHeader = Field(default=...)
     source: Union[DocumentSource, str] = Field(default=...)
     source_reason: Optional[str] = Field(default=None, description="""Why this source's text was chosen over the others downloaded, such as \"most tables\" or \"first in download order\". Every stage reads this one text, so the choice is made once and recorded.""")
+    text_copy: HeldCopy = Field(default=..., description="""The copy the text was read from. Its licence and access, not the paper's licence, decide whether the text may be passed on.""")
+    reported_copies: Optional[list[ReportedCopy]] = Field(default=None, description="""Copies of the paper that a source lists and that we do not hold, each with its own licence. Where an open copy is, when `bibliography.oa_status` says one exists.""")
     text_path: str = Field(default=..., description="""The text file's path, relative to the paper's bundle directory.""")
     text_sha256: str = Field(default=..., description="""sha256 of the text file's UTF-8 bytes. This artifact's fingerprint.""")
     text_length: Optional[int] = Field(default=None, ge=0)
@@ -1513,25 +1771,39 @@ class ParsedPaper(ConfiguredBaseModel):
     tables: Optional[list[ParsedTable]] = Field(default=None)
 
 
-class Bibliography(ConfiguredBaseModel):
+class Copy(ConfiguredBaseModel):
     """
-    The paper's bibliographic facts, as the metadata lookup returned them. Downstream they are copied, never extracted: pondie fills the record's Study.title, authors, doi, journal, publication_year, language and study_type from here, and neurostore fills BaseStudy from here.
+    One copy of a paper, where it is, which version it is, and its licence.
     """
-    title: str = Field(default=...)
-    authors: Optional[list[str]] = Field(default=None, description="""Author names in published order.""")
-    journal: Optional[str] = Field(default=None)
-    publication_year: Optional[int] = Field(default=None)
-    volume: Optional[str] = Field(default=None)
-    issue: Optional[str] = Field(default=None)
-    pages: Optional[str] = Field(default=None)
-    abstract: Optional[str] = Field(default=None)
-    language: Optional[list[str]] = Field(default=None)
-    publication_types: Optional[list[str]] = Field(default=None, description="""PubMed publication types, verbatim. The storage schema's Study.study_type.""")
-    keywords: Optional[list[str]] = Field(default=None)
-    license: Optional[str] = Field(default=None)
-    open_access: Optional[bool] = Field(default=None)
-    corrections: Optional[list[Correction]] = Field(default=None, description="""Notices attached to the paper -- errata, retractions, expressions of concern -- as the indexer lists them. A retracted paper is still parsed and stored, marked by its `retraction` notice, and left out of studysets by default; a filter can ask for it explicitly.""")
-    provider: Optional[str] = Field(default=None, description="""The metadata service the facts came from, such as pubmed or europepmc.""")
+    route: CopyRoute = Field(default=...)
+    version: Optional[CopyVersion] = Field(default=None, description="""Absent when no source says which version the copy is.""")
+    license: License = Field(default=..., description="""This copy's own licence. A manuscript or preprint can be licensed differently from the version of record.""")
+    url: Optional[str] = Field(default=None)
+    preprint_server: Optional[PreprintServer] = Field(default=None)
+
+
+class HeldCopy(Copy):
+    """
+    A copy we downloaded.
+    """
+    access: CopyAccess = Field(default=...)
+    route: CopyRoute = Field(default=...)
+    version: Optional[CopyVersion] = Field(default=None, description="""Absent when no source says which version the copy is.""")
+    license: License = Field(default=..., description="""This copy's own licence. A manuscript or preprint can be licensed differently from the version of record.""")
+    url: Optional[str] = Field(default=None)
+    preprint_server: Optional[PreprintServer] = Field(default=None)
+
+
+class ReportedCopy(Copy):
+    """
+    A copy a metadata source lists and we do not hold.
+    """
+    reported_by: MetadataSource = Field(default=...)
+    route: CopyRoute = Field(default=...)
+    version: Optional[CopyVersion] = Field(default=None, description="""Absent when no source says which version the copy is.""")
+    license: License = Field(default=..., description="""This copy's own licence. A manuscript or preprint can be licensed differently from the version of record.""")
+    url: Optional[str] = Field(default=None)
+    preprint_server: Optional[PreprintServer] = Field(default=None)
 
 
 class Reference(ConfiguredBaseModel):
@@ -1557,15 +1829,6 @@ class Citation(ConfiguredBaseModel):
     references: Optional[list[str]] = Field(default=None, description="""The entries it names, by `Reference.id`. Empty when it could not be aligned.""")
     method: CitationAlignment = Field(default=..., description="""How the marker was tied to its entries -- what its reliability rests on.""")
     confidence: Optional[float] = Field(default=None, description="""For a heuristic alignment, how sure; absent for an exact one.""", ge=0, le=1)
-
-
-class Correction(ConfiguredBaseModel):
-    """
-    One notice attached to a paper.
-    """
-    kind: Union[CorrectionKind, str] = Field(default=...)
-    pmid: Optional[str] = Field(default=None)
-    doi: Optional[str] = Field(default=None)
 
 
 class Supplement(ConfiguredBaseModel):
@@ -1792,16 +2055,20 @@ class AnalysisVerdict(ConfiguredBaseModel):
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ArtifactHeader.model_rebuild()
-ArticleIdentifiers.model_rebuild()
-PreprintDoi.model_rebuild()
 Producer.model_rebuild()
 InputRef.model_rebuild()
 TextSpan.model_rebuild()
-ParsedPaper.model_rebuild()
+License.model_rebuild()
 Bibliography.model_rebuild()
+ArticleIdentifiers.model_rebuild()
+PreprintDoi.model_rebuild()
+Correction.model_rebuild()
+ParsedPaper.model_rebuild()
+Copy.model_rebuild()
+HeldCopy.model_rebuild()
+ReportedCopy.model_rebuild()
 Reference.model_rebuild()
 Citation.model_rebuild()
-Correction.model_rebuild()
 Supplement.model_rebuild()
 Section.model_rebuild()
 ParsedTable.model_rebuild()

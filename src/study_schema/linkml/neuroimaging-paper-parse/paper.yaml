@@ -11,6 +11,8 @@ imports:
   - linkml:types
   - parse_enums
   - header
+  - ../neuroimaging-study-storage/license
+  - ../neuroimaging-study-storage/bibliography
 default_prefix: parse
 default_range: string
 
@@ -41,6 +43,20 @@ classes:
           Why this source's text was chosen over the others downloaded, such as "most tables"
           or "first in download order". Every stage reads this one text, so the choice is
           made once and recorded.
+      text_copy:
+        range: HeldCopy
+        inlined: true
+        required: true
+        description: >-
+          The copy the text was read from. Its licence and access, not the paper's licence,
+          decide whether the text may be passed on.
+      reported_copies:
+        range: ReportedCopy
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Copies of the paper that a source lists and that we do not hold, each with its
+          own licence. Where an open copy is, when `bibliography.oa_status` says one exists.
       text_path:
         range: string
         required: true
@@ -98,58 +114,61 @@ classes:
         multivalued: true
         inlined_as_list: true
 
-  Bibliography:
-    description: >-
-      The paper's bibliographic facts, as the metadata lookup returned them. Downstream they
-      are copied, never extracted: pondie fills the record's Study.title, authors, doi,
-      journal, publication_year, language and study_type from here, and neurostore fills
-      BaseStudy from here.
+  Copy:
+    abstract: true
+    description: One copy of a paper, where it is, which version it is, and its licence.
+    rules:
+      - description: A copy on a preprint server, and only such a copy, names the server.
+        open_world: true
+        preconditions:
+          slot_conditions:
+            route:
+              equals_string: preprint_server
+        postconditions:
+          slot_conditions:
+            preprint_server:
+              value_presence: PRESENT
+              any_of:
+                - range: PreprintServer
+        elseconditions:
+          slot_conditions:
+            preprint_server:
+              none_of:
+                - range: PreprintServer
     attributes:
-      title:
-        range: string
+      route:
+        range: CopyRoute
         required: true
-      authors:
-        range: string
-        multivalued: true
-        description: Author names in published order.
-      journal:
-        range: string
-      publication_year:
-        range: integer
-      volume:
-        range: string
-      issue:
-        range: string
-      pages:
-        range: string
-      abstract:
-        range: string
-      language:
-        range: string
-        multivalued: true
-      publication_types:
-        range: string
-        multivalued: true
-        description: PubMed publication types, verbatim. The storage schema's Study.study_type.
-      keywords:
-        range: string
-        multivalued: true
+      version:
+        range: CopyVersion
+        description: Absent when no source says which version the copy is.
       license:
-        range: string
-      open_access:
-        range: boolean
-      corrections:
-        range: Correction
-        multivalued: true
-        inlined_as_list: true
+        range: License
+        inlined: true
+        required: true
         description: >-
-          Notices attached to the paper -- errata, retractions, expressions of concern -- as
-          the indexer lists them. A retracted paper is still parsed and stored, marked by
-          its `retraction` notice, and left out of studysets by default; a filter can ask for
-          it explicitly.
-      provider:
+          This copy's own licence. A manuscript or preprint can be licensed differently from
+          the version of record.
+      url:
         range: string
-        description: The metadata service the facts came from, such as pubmed or europepmc.
+      preprint_server:
+        range: PreprintServer
+
+  HeldCopy:
+    is_a: Copy
+    description: A copy we downloaded.
+    attributes:
+      access:
+        range: CopyAccess
+        required: true
+
+  ReportedCopy:
+    is_a: Copy
+    description: A copy a metadata source lists and we do not hold.
+    attributes:
+      reported_by:
+        range: MetadataSource
+        required: true
 
   Reference:
     description: One entry of a paper's reference list.
@@ -212,19 +231,6 @@ classes:
         minimum_value: 0
         maximum_value: 1
         description: For a heuristic alignment, how sure; absent for an exact one.
-
-  Correction:
-    description: One notice attached to a paper.
-    attributes:
-      kind:
-        any_of:
-          - range: CorrectionKind
-          - range: string
-        required: true
-      pmid:
-        range: string
-      doi:
-        range: string
 
   Supplement:
     description: One item of supplementary material.

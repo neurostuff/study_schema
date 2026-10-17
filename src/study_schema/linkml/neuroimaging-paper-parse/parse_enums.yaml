@@ -3,9 +3,9 @@ name: neuroimaging-paper-parse-enums
 title: Neuroimaging Paper Parse Vocabularies
 description: >-
   The vocabularies of the parsed paper and the coordinate parse. Coordinate roles, anchor
-  kinds and publication status are not here: they are the storage schema's
-  `CoordinateRole`, `AnchorKind` and `PublicationStatus`, imported, so that the parse and
-  the record write them in the same words.
+  kinds, licences and the bibliography's vocabularies are not here: they are the storage
+  schema's `CoordinateRole`, `AnchorKind` and its licence and bibliography modules,
+  imported, so that the parse and the record write them in the same words.
 prefixes:
   linkml: https://w3id.org/linkml/
   parse: https://neurostuff.org/schemas/neuroimaging-paper-parse/
@@ -44,74 +44,54 @@ enums:
       pdf:
         description: A PDF converted to text.
 
-  PreprintServer:
-    description: >-
-      The preprint server that registered a DOI. A server hosted on the Open Science
-      Framework is named by its provider, which has a DOI prefix of its own. A server is
-      added here when a producer learns to recognise its DOIs.
+  CopyRoute:
+    description: Where a copy of a paper is hosted.
     permissible_values:
-      biorxiv:
-        description: bioRxiv, DOI prefix 10.1101 and, since 2025-11, 10.64898 (openRxiv).
-      medrxiv:
-        description: medRxiv, DOI prefix 10.1101 and, since 2025-11, 10.64898 (openRxiv).
-      arxiv:
-        description: arXiv, DOI prefix 10.48550, the DOI registered for an arXiv id.
-      researchsquare:
-        description: Research Square, DOI prefix 10.21203.
-      osf_preprints:
-        description: OSF Preprints, DOI prefix 10.31219.
-      arabixiv:
-        description: Arabixiv (OSF), DOI prefix 10.31221.
-      metaarxiv:
-        description: MetaArXiv (OSF), DOI prefix 10.31222.
-      engrxiv:
-        description: engrXiv (OSF), DOI prefix 10.31224.
-      focus_archive:
-        description: FocUS Archive (OSF), DOI prefix 10.31225.
-      frenxiv:
-        description: Frenxiv (OSF), DOI prefix 10.31226.
-      ina_rxiv:
-        description: INA-Rxiv (OSF), DOI prefix 10.31227.
-      lawarxiv:
-        description: LawArXiv (OSF), DOI prefix 10.31228.
-      lis_scholarship_archive:
-        description: LIS Scholarship Archive (OSF), DOI prefix 10.31229.
-      marxiv:
-        description: MarXiv (OSF), DOI prefix 10.31230.
-      mindrxiv:
-        description: MindRxiv (OSF), DOI prefix 10.31231.
-      nutrixiv:
-        description: NutriXiv (OSF), DOI prefix 10.31232.
-      paleorxiv:
-        description: PaleorXiv (OSF), DOI prefix 10.31233.
-      psyarxiv:
-        description: PsyArXiv (OSF), DOI prefix 10.31234.
-      socarxiv:
-        description: SocArXiv (OSF), DOI prefix 10.31235.
-      sportrxiv:
-        description: SportRxiv (OSF), DOI prefix 10.31236.
-      africarxiv:
-        description: AfricArXiv (OSF), DOI prefix 10.31730.
-      mediarxiv:
-        description: MediArXiv (OSF), DOI prefix 10.33767.
-      bodoarxiv:
-        description: BodoArXiv (OSF), DOI prefix 10.34055.
-      edarxiv:
-        description: EdArXiv (OSF), DOI prefix 10.35542.
-      biohackrxiv:
-        description: BioHackrXiv (OSF), DOI prefix 10.37044.
-      ssrn:
-        description: SSRN, DOI prefix 10.2139.
-      preprints_org:
-        description: Preprints.org, DOI prefix 10.20944.
-      authorea:
-        description: Authorea, DOI prefix 10.22541.
-      techrxiv:
-        description: TechRxiv, DOI prefix 10.36227.
-      chemrxiv:
-        description: ChemRxiv, DOI prefix 10.26434.
-      jmir_preprints:
-        description: JMIR Preprints, DOI prefix 10.2196.
+      pmc:
+        description: PubMed Central or Europe PMC.
+      publisher:
+        description: The publisher's own site or full-text API.
+      repository:
+        description: An institutional or subject repository other than PMC.
+      preprint_server:
+        description: A preprint server; the copy's `preprint_server` names it.
+      unrecorded:
+        description: Where the copy came from was not recorded, such as a PDF supplied by hand.
+
+  CopyVersion:
+    description: >-
+      Which version of the paper a copy is, in the NISO Journal Article Versions terms.
+      OpenAlex's `publishedVersion`, `acceptedVersion` and `submittedVersion` are `vor`,
+      `am` and `submitted`.
+    permissible_values:
+      vor:
+        description: The version of record, as the journal published it.
+      am:
+        description: The accepted manuscript, after peer review and before the publisher's typesetting.
+      submitted:
+        description: The version submitted to a journal or posted as a preprint, before peer review.
+
+  CopyAccess:
+    description: >-
+      How we obtained a copy we hold. The `redistribution` annotation says whether the
+      access itself allows passing the copy on: `by_license` leaves that to the copy's
+      licence, `never` forbids it whatever the licence says.
+    permissible_values:
+      public:
+        description: Fetched as any reader could fetch it, without our credentials.
+        annotations:
+          redistribution: by_license
+      tdm_grant:
+        description: >-
+          Obtained under terms that permit text mining only: a publisher's full-text API
+          with our key, such as Elsevier's or Wiley's, or a PubMed Central author manuscript
+          whose record says `TDM`.
+        annotations:
+          redistribution: never
+      unrecorded:
+        description: How the copy was obtained was not recorded.
+        annotations:
+          redistribution: never
 
   SectionKind:
     description: What a span of the text is.
@@ -310,15 +290,6 @@ enums:
         description: Triage judged it not worth reading, so it was not read.
       excluded_by_hand:
         description: A person marked it as not a coordinate table, so it was not read.
-
-  CorrectionKind:
-    description: A notice attached to a paper by its publisher or indexer.
-    permissible_values:
-      erratum:
-      retraction:
-      expression_of_concern:
-      comment:
-      update:
 
   ThresholdLevel:
     description: The level a threshold applies at.

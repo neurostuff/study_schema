@@ -32,7 +32,7 @@ from pydantic import (
 
 
 metamodel_version = "1.12.0"
-version = "0.8.0"
+version = "0.9.0"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -525,6 +525,198 @@ class Modality(str, Enum):
     """
 
 
+class PublicationStatus(str, Enum):
+    """
+    Whether a paper's version of record is known, or only its preprint.
+    """
+    published = "published"
+    """
+    A DOI, PubMed record or PMC copy of the version of record is known. The paper may have been a preprint too.
+    """
+    preprint = "preprint"
+    """
+    Only a preprint's identifiers are known.
+    """
+
+
+class PreprintServer(str, Enum):
+    """
+    The preprint server that registered a DOI. A server hosted on the Open Science Framework is named by its provider, which has a DOI prefix of its own. A server is added here when a producer learns to recognise its DOIs.
+    """
+    biorxiv = "biorxiv"
+    """
+    bioRxiv, DOI prefix 10.1101 and, since 2025-11, 10.64898 (openRxiv).
+    """
+    medrxiv = "medrxiv"
+    """
+    medRxiv, DOI prefix 10.1101 and, since 2025-11, 10.64898 (openRxiv).
+    """
+    arxiv = "arxiv"
+    """
+    arXiv, DOI prefix 10.48550, the DOI registered for an arXiv id.
+    """
+    researchsquare = "researchsquare"
+    """
+    Research Square, DOI prefix 10.21203.
+    """
+    osf_preprints = "osf_preprints"
+    """
+    OSF Preprints, DOI prefix 10.31219.
+    """
+    arabixiv = "arabixiv"
+    """
+    Arabixiv (OSF), DOI prefix 10.31221.
+    """
+    metaarxiv = "metaarxiv"
+    """
+    MetaArXiv (OSF), DOI prefix 10.31222.
+    """
+    engrxiv = "engrxiv"
+    """
+    engrXiv (OSF), DOI prefix 10.31224.
+    """
+    focus_archive = "focus_archive"
+    """
+    FocUS Archive (OSF), DOI prefix 10.31225.
+    """
+    frenxiv = "frenxiv"
+    """
+    Frenxiv (OSF), DOI prefix 10.31226.
+    """
+    ina_rxiv = "ina_rxiv"
+    """
+    INA-Rxiv (OSF), DOI prefix 10.31227.
+    """
+    lawarxiv = "lawarxiv"
+    """
+    LawArXiv (OSF), DOI prefix 10.31228.
+    """
+    lis_scholarship_archive = "lis_scholarship_archive"
+    """
+    LIS Scholarship Archive (OSF), DOI prefix 10.31229.
+    """
+    marxiv = "marxiv"
+    """
+    MarXiv (OSF), DOI prefix 10.31230.
+    """
+    mindrxiv = "mindrxiv"
+    """
+    MindRxiv (OSF), DOI prefix 10.31231.
+    """
+    nutrixiv = "nutrixiv"
+    """
+    NutriXiv (OSF), DOI prefix 10.31232.
+    """
+    paleorxiv = "paleorxiv"
+    """
+    PaleorXiv (OSF), DOI prefix 10.31233.
+    """
+    psyarxiv = "psyarxiv"
+    """
+    PsyArXiv (OSF), DOI prefix 10.31234.
+    """
+    socarxiv = "socarxiv"
+    """
+    SocArXiv (OSF), DOI prefix 10.31235.
+    """
+    sportrxiv = "sportrxiv"
+    """
+    SportRxiv (OSF), DOI prefix 10.31236.
+    """
+    africarxiv = "africarxiv"
+    """
+    AfricArXiv (OSF), DOI prefix 10.31730.
+    """
+    mediarxiv = "mediarxiv"
+    """
+    MediArXiv (OSF), DOI prefix 10.33767.
+    """
+    bodoarxiv = "bodoarxiv"
+    """
+    BodoArXiv (OSF), DOI prefix 10.34055.
+    """
+    edarxiv = "edarxiv"
+    """
+    EdArXiv (OSF), DOI prefix 10.35542.
+    """
+    biohackrxiv = "biohackrxiv"
+    """
+    BioHackrXiv (OSF), DOI prefix 10.37044.
+    """
+    ssrn = "ssrn"
+    """
+    SSRN, DOI prefix 10.2139.
+    """
+    preprints_org = "preprints_org"
+    """
+    Preprints.org, DOI prefix 10.20944.
+    """
+    authorea = "authorea"
+    """
+    Authorea, DOI prefix 10.22541.
+    """
+    techrxiv = "techrxiv"
+    """
+    TechRxiv, DOI prefix 10.36227.
+    """
+    chemrxiv = "chemrxiv"
+    """
+    ChemRxiv, DOI prefix 10.26434.
+    """
+    jmir_preprints = "jmir_preprints"
+    """
+    JMIR Preprints, DOI prefix 10.2196.
+    """
+
+
+class CorrectionKind(str, Enum):
+    """
+    A notice attached to a paper by its publisher or indexer.
+    """
+    erratum = "erratum"
+    retraction = "retraction"
+    expression_of_concern = "expression_of_concern"
+    comment = "comment"
+    update = "update"
+
+
+class StudyType(str, Enum):
+    """
+    PubMed publication types, spelled as the E-utilities API returns them so that a value needs no translation. Only the design-relevant types are listed; PubMed also returns funding and indexing types, and the vocabulary is open, so any unlisted type passes through verbatim.
+    """
+    Journal_Article = "Journal Article"
+    """
+    Assigned to every article; carries no design information on its own.
+    """
+    Meta_Analysis = "Meta-Analysis"
+    """
+    A quantitative synthesis of published results.
+    """
+    Systematic_Review = "Systematic Review"
+    """
+    A structured synthesis with a search protocol but no pooled effect estimate.
+    """
+    Review = "Review"
+    """
+    A review without a systematic search protocol.
+    """
+    Randomized_Controlled_Trial = "Randomized Controlled Trial"
+    Clinical_Trial = "Clinical Trial"
+    Observational_Study = "Observational Study"
+    Comparative_Study = "Comparative Study"
+    Multicenter_Study = "Multicenter Study"
+    Validation_Study = "Validation Study"
+    Case_Reports = "Case Reports"
+    """
+    PubMed's spelling is plural.
+    """
+    Editorial = "Editorial"
+    Letter = "Letter"
+    Comment = "Comment"
+    Preprint = "Preprint"
+    Retracted_Publication = "Retracted Publication"
+
+
 class ResultReporting(str, Enum):
     """
     Whether a paper reports inferential analyses of its own.
@@ -565,41 +757,93 @@ class OutcomeSummary(str, Enum):
     """
 
 
-class StudyType(str, Enum):
+class LicenseId(str, Enum):
     """
-    PubMed publication types, spelled as the E-utilities API returns them so that a value needs no translation. Only the design-relevant types are listed; PubMed also returns funding and indexing types, and the vocabulary is open, so any unlisted type passes through verbatim.
+    The terms a licence grants. A value annotated `redistributable` lets the text it covers be passed on verbatim with attribution: every Creative Commons licence, including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows, and NC, because neurostore's use is non-commercial. That reading of ND and NC is this project's policy, not legal advice, and no lawyer has confirmed it.
     """
-    Journal_Article = "Journal Article"
+    cc_by = "cc-by"
+    cc_by_sa = "cc-by-sa"
+    cc_by_nc = "cc-by-nc"
+    cc_by_nc_sa = "cc-by-nc-sa"
+    cc_by_nd = "cc-by-nd"
+    cc_by_nc_nd = "cc-by-nc-nd"
+    cc0 = "cc0"
+    public_domain = "public-domain"
+    all_rights_reserved = "all-rights-reserved"
     """
-    Assigned to every article; carries no design information on its own.
+    A copyright statement with no licence, or terms that allow text mining only, such as PubMed Central's `TDM` for an author manuscript.
     """
-    Meta_Analysis = "Meta-Analysis"
+    other = "other"
     """
-    A quantitative synthesis of published results.
+    A stated licence outside this list, such as a publisher's own user licence or OpenAlex's `publisher-specific-oa`; `stated_as` holds it. Not redistributable, on purpose: Elsevier's open-access user licence is `other`, because its terms are not a CC licence's.
     """
-    Systematic_Review = "Systematic Review"
+
+
+class LicenseDetermination(str, Enum):
     """
-    A structured synthesis with a search protocol but no pooled effect estimate.
+    Whether a source stated the licence.
     """
-    Review = "Review"
+    stated = "stated"
     """
-    A review without a systematic search protocol.
+    A source stated it; `stated_by` says which.
     """
-    Randomized_Controlled_Trial = "Randomized Controlled Trial"
-    Clinical_Trial = "Clinical Trial"
-    Observational_Study = "Observational Study"
-    Comparative_Study = "Comparative Study"
-    Multicenter_Study = "Multicenter Study"
-    Validation_Study = "Validation Study"
-    Case_Reports = "Case Reports"
+    assumed = "assumed"
     """
-    PubMed's spelling is plural.
+    Every source that could state a licence answered and none did, so all rights are reserved.
     """
-    Editorial = "Editorial"
-    Letter = "Letter"
-    Comment = "Comment"
-    Preprint = "Preprint"
-    Retracted_Publication = "Retracted Publication"
+
+
+class MetadataSource(str, Enum):
+    """
+    Who stated a bibliographic fact.
+    """
+    jats = "jats"
+    """
+    A held copy's JATS XML, such as its `<permissions>`.
+    """
+    elsevier = "elsevier"
+    """
+    A held copy's Elsevier full-text XML, its `coredata`.
+    """
+    pmc_cloud = "pmc_cloud"
+    """
+    PubMed Central's cloud record of a held copy.
+    """
+    pubmed = "pubmed"
+    crossref = "crossref"
+    openalex = "openalex"
+    semantic_scholar = "semantic_scholar"
+    europepmc = "europepmc"
+
+
+class OaStatus(str, Enum):
+    """
+    How a paper is open to read, in OpenAlex's terms (https://help.openalex.org/hc/en-us/articles/24347035046295-Open-Access-OA).
+    """
+    gold = "gold"
+    """
+    Published openly licensed in an open-access journal.
+    """
+    diamond = "diamond"
+    """
+    Gold, in a journal that charges authors no fee.
+    """
+    hybrid = "hybrid"
+    """
+    Published openly licensed in a subscription journal.
+    """
+    bronze = "bronze"
+    """
+    Free to read at the publisher, without an open licence.
+    """
+    green = "green"
+    """
+    Closed at the publisher, with a free copy in a repository.
+    """
+    closed = "closed"
+    """
+    No free copy is known.
+    """
 
 
 class AnalysisType(str, Enum):
@@ -1405,20 +1649,6 @@ class AnchorKind(str, Enum):
     """
 
 
-class PublicationStatus(str, Enum):
-    """
-    Whether a paper's version of record is known, or only its preprint.
-    """
-    published = "published"
-    """
-    A DOI, PubMed record or PMC copy of the version of record is known. The paper may have been a preprint too.
-    """
-    preprint = "preprint"
-    """
-    Only a preprint's identifiers are known.
-    """
-
-
 
 class StudyDesign(ConfiguredBaseModel):
     """
@@ -2005,25 +2235,84 @@ class CoordinateSet(ConfiguredBaseModel):
     description: Optional[str] = Field(default=None, description="""What the set is, in the source's words, when the role alone does not say.""")
 
 
+class Bibliography(ConfiguredBaseModel):
+    """
+    The paper's bibliographic facts, as the metadata lookup returned them. Defined once: the parsed paper carries it, and the storage Study holds the same object as `Study.bibliography`, so nothing is copied field by field and nothing is extracted.
+    """
+    title: str = Field(default=...)
+    authors: Optional[list[str]] = Field(default=None, description="""Author names in published order.""")
+    journal: Optional[str] = Field(default=None)
+    publication_year: Optional[int] = Field(default=None, description="""Year in which the study was first published or made publicly available.""", ge=1600)
+    volume: Optional[str] = Field(default=None)
+    issue: Optional[str] = Field(default=None)
+    pages: Optional[str] = Field(default=None)
+    abstract: Optional[str] = Field(default=None, description="""Absent (null) when no source gave one; never an empty string.""")
+    abstract_provider: Optional[MetadataSource] = Field(default=None, description="""The source whose abstract `abstract` is. It may differ from `provider`. The abstract is the publisher's abstract of the version `license` describes, so its licence is `license`.""")
+    language: Optional[list[str]] = Field(default=None, description="""Languages of the article, as the E-utilities API reports them -- the three-letter codes PubMed assigns, `eng` and the rest, and not read off the paper: the text a reader is given is in one language whatever the article is indexed as.
+At least six of the benchmark's sixteen meta-analyses state \"English language\" as an inclusion criterion. On the 1,804 records measured it excludes exactly one paper, so it buys precision rather than recall; the criterion is stated, so the field states it.""")
+    publication_types: Optional[list[Union[StudyType, str]]] = Field(default=None, description="""PubMed publication types for this record, verbatim as the E-utilities API returns them (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). Multivalued because PubMed assigns several: every article is `Journal Article` and the design of the study motivates other labels. `StudyType` lists the known types only; any other type PubMed returns is kept verbatim.""")
+    keywords: Optional[list[str]] = Field(default=None)
+    license: License = Field(default=..., description="""The paper's licence: the version of record's, or the latest preprint's while the header's `publication_status` is `preprint`. Not the licence of a copy of another version, which that copy carries.""")
+    oa_status: Optional[OaStatus] = Field(default=None)
+    corrections: Optional[list[Correction]] = Field(default=None, description="""Notices attached to the paper -- errata, retractions, expressions of concern -- as the indexer lists them. A retracted paper is still parsed and stored, marked by its `retraction` notice, and left out of studysets by default; a filter can ask for it explicitly.""")
+    provider: Optional[MetadataSource] = Field(default=None, description="""The metadata service the facts came from.""")
+
+    @field_validator('abstract')
+    def pattern_abstract(cls, v):
+        pattern=re.compile(r"\S")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid abstract format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid abstract format: {v}"
+            raise ValueError(err_msg)
+        return v
+
+
+class ArticleIdentifiers(ConfiguredBaseModel):
+    """
+    Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article.
+    """
+    pmid: Optional[str] = Field(default=None, description="""PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmid`.""")
+    pmcid: Optional[str] = Field(default=None, description="""PubMed Central's copy of the version of record. Never PMC's copy of a preprint, which is `preprint_pmcid`.""")
+    doi: Optional[str] = Field(default=None, description="""The DOI of the version of record. Never a preprint server's DOI, which is in `preprint_dois`.""")
+    preprint_dois: Optional[list[PreprintDoi]] = Field(default=None, description="""Every DOI a preprint server registered for the paper. A server that registers each version separately, such as Research Square's `/v2`, gives one entry per version, each kept as registered.""")
+    preprint_pmid: Optional[str] = Field(default=None, description="""PubMed's record of the preprint, which PubMed types `Preprint`.""")
+    preprint_pmcid: Optional[str] = Field(default=None, description="""PubMed Central's copy of the preprint.""")
+    publication_status: PublicationStatus = Field(default=..., description="""`preprint` when a `preprint_` field is set and `doi`, `pmid` and `pmcid` are all empty, `published` otherwise. The producer states it so that no consumer re-derives it.""")
+
+
+class PreprintDoi(ConfiguredBaseModel):
+    """
+    A DOI a preprint server registered, with the server that registered it.
+    """
+    doi: str = Field(default=...)
+    server: PreprintServer = Field(default=..., description="""Named by the producer from the DOI, so that no consumer needs a table of preprint servers' DOI patterns.""")
+
+
+class Correction(ConfiguredBaseModel):
+    """
+    One notice attached to a paper.
+    """
+    kind: Union[CorrectionKind, str] = Field(default=...)
+    pmid: Optional[str] = Field(default=None)
+    doi: Optional[str] = Field(default=None)
+
+
 class Study(ConfiguredBaseModel):
     """
     The publication-level record that contains the groups, tasks, design, acquisitions, preprocessing pipelines, model estimations, analyses, and reported result tables belonging to one study. Conditions belong to the task they are part of, not to the study.
     """
     id: str = Field(default=..., description="""Stable identifier for the study record, such as a DOI-based or repository-local identifier.""")
-    title: str = Field(default=..., description="""Full title of the study or publication.""")
+    bibliography: Bibliography = Field(default=..., description="""The paper's bibliographic facts, the parsed paper's `Bibliography` unchanged: title, authors, journal, year, abstract, PubMed types, the paper's licence.""")
+    identifiers: Optional[ArticleIdentifiers] = Field(default=None, description="""Every identifier known for the paper, the parsed paper's header identifiers unchanged.""")
     description: Optional[str] = Field(default=None, description="""Brief free-text summary of the study aims and scope.""")
     hypothesis: Optional[list[str]] = Field(default=None, description="""The study's own statement of what it expected to find, quoted from the paper -- usually the closing paragraph of the Introduction, in the form \"we hypothesized that\" or \"we predicted that\". Verbatim but for citation markers, one entry per prediction, so a study stating several gets several.
 A prediction, not a purpose. \"The aim of this study was to examine whether connectivity differs between patients and controls\" says what was tested and takes no value here; \"we expected connectivity to be lower in patients\" says what was expected and does. Recording an aim as a hypothesis asserts a direction the study never committed to, which is precisely what a reader consults this field to check.
 Absent when the paper states no prediction, which is common: never paraphrase an aim, an abstract sentence, or a finding into one. Where the only statement is in the Discussion -- \"consistent with our hypothesis that connectivity would be lower\" -- quote that clause, which is still the study's account of what it predicted rather than `Analysis.interpretations`, the source's account of what it found.""")
     design: Optional[StudyDesign] = Field(default=None, description="""The study's design outside its tasks: how participants were assigned, the arms they were assigned to, and the occasions data were collected on. The narrative design description is this record's own `description`.""")
-    authors: Optional[list[str]] = Field(default=None, description="""Authors of the study or publication, in published order.""")
-    journal: Optional[str] = Field(default=None, description="""Journal or other publication venue.""")
-    doi: Optional[str] = Field(default=None, description="""Digital Object Identifier of the version of record, without requiring a particular URL form. Never a preprint server's DOI.""")
-    publication_status: Optional[PublicationStatus] = Field(default=None, description="""Whether the version of record is known or only the preprint, copied from the parsed paper's header identifiers. `study_type` is independent of it: it keeps PubMed's publication types verbatim, `Preprint` included.""")
-    publication_year: Optional[int] = Field(default=None, description="""Year in which the study was first published or made publicly available.""", ge=1600)
-    language: Optional[list[str]] = Field(default=None, description="""Languages of the article, as the E-utilities API reports them -- the three-letter codes PubMed assigns, `eng` and the rest. Filled from the same `esummary` call that fills `study_type`, and not read off the paper: the text a reader is given is in one language whatever the article is indexed as.
-At least six of the benchmark's sixteen meta-analyses state \"English language\" as an inclusion criterion, and it was unexpressible. On the 1,804 records measured it excludes exactly one paper, so it buys precision rather than recall; the criterion is stated, so the field states it.""")
-    study_type: list[Union[StudyType, str]] = Field(default=..., description="""PubMed publication types for this record, verbatim as the E-utilities API returns them (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). Multivalued because PubMed assigns several: every article is `Journal Article` and the design of the study motivates other labels.""")
     groups: Optional[list[Group]] = Field(default=None, description="""Participant or demographic groups.""")
     tasks: Optional[list[Task]] = Field(default=None, description="""Task, resting-state, stimulation, passive-viewing, or other meaningful participant paradigms associated with study acquisitions. Each holds the conditions it was made of.""")
     assessments: Optional[list[Assessment]] = Field(default=None, description="""Measures of participants that were taken independently of an acquisition.""")
@@ -2049,6 +2338,29 @@ class ExternalDataset(ConfiguredBaseModel):
     """
     name: Optional[str] = Field(default=None, description="""Dataset name as reported by the study or its repository.""")
     url: Optional[str] = Field(default=None, description="""Optional landing-page, repository, or direct-access URL for the dataset.""")
+
+
+class License(ConfiguredBaseModel):
+    """
+    A licence as one source stated it, or all rights reserved assumed because no source stated one.
+    """
+    license_id: LicenseId = Field(default=..., description="""Which licence, as OpenAlex's licence slugs name them (`cc-by`, `cc-by-nc`, ...). Not an SPDX License Identifier: sources rarely state the licence's version, and SPDX identifiers require one.""")
+    determination: LicenseDetermination = Field(default=...)
+    stated_by: Optional[MetadataSource] = Field(default=None, description="""The source whose statement this is.""")
+    stated_as: Optional[str] = Field(default=None, description="""The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes. Never empty: a source that gave no statement did not state a licence.""")
+
+    @field_validator('stated_as')
+    def pattern_stated_as(cls, v):
+        pattern=re.compile(r"\S")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid stated_as format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid stated_as format: {v}"
+            raise ValueError(err_msg)
+        return v
 
 
 class AnalysisDetails(ConfiguredBaseModel):
@@ -2226,8 +2538,13 @@ InferenceSettings.model_rebuild()
 StatisticalMap.model_rebuild()
 Table.model_rebuild()
 CoordinateSet.model_rebuild()
+Bibliography.model_rebuild()
+ArticleIdentifiers.model_rebuild()
+PreprintDoi.model_rebuild()
+Correction.model_rebuild()
 Study.model_rebuild()
 ExternalDataset.model_rebuild()
+License.model_rebuild()
 AnalysisDetails.model_rebuild()
 MassUnivariateDetails.model_rebuild()
 DecodingDetails.model_rebuild()

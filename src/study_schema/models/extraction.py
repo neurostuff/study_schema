@@ -32,7 +32,7 @@ from pydantic import (
 
 
 metamodel_version = "1.12.0"
-version = "0.5.0"
+version = "0.6.0"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -2601,8 +2601,6 @@ Says nothing about whether the analyses found anything; that is each `Analysis.o
     tables: Optional[list[Table]] = Field(default=None, description="""Publication tables from which results or analysis metadata were extracted.""")
     coordinate_sets: Optional[list[CoordinateSet]] = Field(default=None, description="""Every group of coordinates the paper reports, in its tables or its text, with what each is for.""")
     external_datasets: Optional[list[ExternalDataset]] = Field(default=None, description="""Named external datasets used, cited, or made available by the study.""")
-    language: Optional[list[str]] = Field(default=None, description="""Languages of this article, copied from the parsed paper's `Bibliography.language` alongside `study_type`, not read off the paper: three-letter codes, `eng` and the rest.""")
-    study_type: Optional[list[str]] = Field(default=None, description="""PubMed publication types for this record, verbatim, copied from the parsed paper's `Bibliography.publication_types`, not read off the paper: it is what the indexers said about the article, which is what a publication-type exclusion asks about.""")
 
     @field_validator('stable_id')
     def pattern_stable_id(cls, v):
