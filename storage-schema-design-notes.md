@@ -77,11 +77,11 @@ The slot would then need a rule that it is populated only when no term of the mo
 reaches a `FactorLevel` naming an arm — the arm was fixed, not varied. That cannot be a
 LinkML `rules` block: `slot_conditions` are within-class, and this condition reaches
 through `terms` → `levels` → `arms`. It would be another `check_` in
-`review/validate_record.py`, which is where every cross-class invariant already lives.
+`pondie/extraction/record/rules.py`, which is where every cross-class invariant already lives.
 
 ### What carries it instead
 
-`check_arm_reachability` in [review/validate_record.py](review/validate_record.py), built
+`check_arm_reachability` in pondie's `pondie/extraction/record/rules.py`, built
 on `check_occasion_factors`' pattern: the structure is checked, and prose is the trigger.
 An analysis whose `name` or `definition` names an arm — matched against that record's own
 `Arm.name` and `Arm.agent`, so the vocabulary is the paper's rather than a fixed word list
@@ -244,7 +244,7 @@ instrument-bearing groups are wrong-shaped under it. The binding belongs at grou
 
 ### The cost that was accepted
 
-`gen_extraction_schema.py` carries plain references through unwrapped, so the link has no
+`pondie.schema.generate` carries plain references through unwrapped, so the link has no
 `ExtractedValue`: no evidence span, no `extraction_status`. The justifying quote moves to
 `Assessment.description`, whose wording now asks for the purpose the source gave for
 administering the instrument.
@@ -259,7 +259,7 @@ purpose has somewhere to live, and it contradicts a bad link where a reviewer ca
 
 ### What carries it
 
-`check_group_instruments` in [review/validate_record.py](review/validate_record.py): every
+`check_group_instruments` in pondie's `pondie/extraction/record/rules.py`: every
 entry must resolve to an `assessments[].local_id`. Referential integrity is mechanical in
 a way clinical relevance is not — no validator can know that the SCID-II is beside the
 point for heroin dependence, but any validator can know that an id resolves to an entry
@@ -317,7 +317,7 @@ use.
 
 ### What carries it
 
-`check_analysis_inference_settings` in [review/validate_record.py](review/validate_record.py):
+`check_analysis_inference_settings` in pondie's `pondie/extraction/record/rules.py`:
 the id must resolve to an `inference_settings[].local_id`. A dangling id leaves an analysis
 with no threshold, no correction and no alpha, which reads as a result reported without
 inference — a different claim from one whose thresholding the paper never stated. That case
@@ -354,7 +354,7 @@ same error as hoisting `InferenceSettings` onto `ModelEstimation`. Both are refe
 
 ### What carries it
 
-`check_analysis_measures` in [review/validate_record.py](review/validate_record.py), through
+`check_analysis_measures` in pondie's `pondie/extraction/record/rules.py`, through
 the shared `check_references_resolve`. A dangling id leaves a result whose measured quantity
 nothing states, which is not the same claim as a paper vague about what it measured — that
 is a declared `Measure` holding the source's wording in `source_label` and `not_reported`
@@ -456,7 +456,7 @@ class is still the fix for it.
 exclusivity between them is dropped.**
 
 The rule used to be "populate exactly one, never both", and a structural validator was supposed to
-reject both. Neither half held. Nothing ever checked it — `validate_record.py` has no such check —
+reject both. Neither half held. Nothing ever checked it — `pondie.extraction.record.validate` has no such check —
 and `build_record.py`'s `derive_coordinate_spaces` fills `Analysis.coordinate_space` from the table
 parse whenever every table behind an analysis agrees, which is 214 of 308 analyses on 2026-08-14.
 The exclusivity was being violated by the pipeline that was meant to hold it, in the ordinary case.

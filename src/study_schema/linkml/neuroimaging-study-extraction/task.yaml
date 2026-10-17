@@ -159,14 +159,14 @@ classes:
     attributes:
       stable_id:
         range: string
-        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
         description: >-
           UUID minted by the store the first time this entity appears, never by an extractor,
           and kept across re-runs so a later extraction matches the same entity.
       local_id:
-        identifier: true
         range: string
         required: true
+        identifier: true
       name:
         range: ExtractedString
         description: >-
@@ -269,14 +269,14 @@ classes:
     attributes:
       stable_id:
         range: string
-        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
         description: >-
           UUID minted by the store the first time this entity appears, never by an extractor,
           and kept across re-runs so a later extraction matches the same entity.
       local_id:
-        identifier: true
         range: string
         required: true
+        identifier: true
         description: Stable identifier.
       name:
         range: ExtractedString

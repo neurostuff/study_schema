@@ -4,7 +4,7 @@
 #
 # THE MAP IS AN IDENTITY MAP
 # --------------------------
-# The extraction schema is generated from the storage schema by gen_extraction_schema.py,
+# The extraction schema is generated from the storage schema by pondie.schema.generate,
 # so the two have the same classes with the same slots in the same nesting. A storage
 # field is therefore populated from the extraction field of the same name on the same
 # class, and the mapper needs no instruction to do it. What the mapper does uniformly:
@@ -32,7 +32,7 @@
 #   fact copied from the parsed paper (`copy`, naming `source_artifact` and
 #   `source_field` in neuroimaging-paper-parse), a fact an API states, an identifier the
 #   pipeline mints, a value computed from an ingestion artifact. They are exactly the storage fields marked
-#   `in_subset: [deterministic]`, and check_extraction_to_storage_map.py asserts that
+#   `in_subset: [deterministic]`, and pondie.schema.checks.extraction_to_storage_map asserts that
 #   correspondence in both directions.
 #
 # free_text_normalizations
@@ -81,6 +81,15 @@ derivations:
     transform: generate
   Assessment.id:
     transform: generate
+  CategoryDistribution.category_normalized:
+    transform: derive
+    source_representation: sibling_field
+    source_field: CategoryDistribution.category
+    notes: >-
+      `pondie.normalization.sex_distribution` and `handedness_distribution` fold the
+      study's wording in `category` onto the answer set of the distribution the entry
+      belongs to. A distribution with no normalizer (gender, race, ethnicity) leaves it
+      unset; unset is not UNKNOWN, which says a normalizer ran and found no match.
   Condition.id:
     transform: generate
   ConnectivityEdge.directionality:
@@ -103,10 +112,41 @@ derivations:
       coherence: undirected
       structural_covariance: undirected
       multivariate: undirected
+  CoordinateSet.id:
+    transform: derive
+    source_representation: ingestion_artifact
+    source_field: ParsedAnalysis.key
+    notes: >-
+      The `analysis#<h>` key the coordinate parse gave the analysis this set was read from
+      (neuroimaging-paper-parse), the key `Analysis.source_table_analysis` names. It hashes
+      the set's name, space and points, so nothing here is extracted or minted.
+  CoordinateSet.table:
+    transform: derive
+    source_representation: ingestion_artifact
+    source_field: ParsedAnalysis.table_id
+    notes: >-
+      The Table whose `Table.id` is the parse analysis's `table_id`. Unset when the set was
+      read from the text or a figure, where `table_id` is absent.
+  CoordinateSet.text_excerpt:
+    transform: derive
+    source_representation: ingestion_artifact
+    source_field: ParsedAnalysis.text_spans
+    notes: >-
+      The paper's text over the analysis's `text_spans`, the sentences its coordinates were
+      read from. Unset for a set read from a table.
   Device.id:
     transform: generate
   Region.id:
     transform: generate
+  Group.age_unit_normalized:
+    transform: derive
+    source_representation: sibling_field
+    source_field: Group.age_unit
+    notes: >-
+      `pondie.normalization.age_unit` folds the source's wording in `age_unit` onto the
+      AgeUnit vocabulary, UNKNOWN where the wording does not say. `age_unit` keeps the
+      wording, and its own entry under free_text_normalizations tidies spelling for
+      queries; this field is the comparable one.
   Group.id:
     transform: generate
     notes: UUID assigned by mapper; extraction local_id stored in audit log.

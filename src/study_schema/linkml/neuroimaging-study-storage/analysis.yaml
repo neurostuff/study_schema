@@ -284,7 +284,7 @@ classes:
     # negative rule "whole-brain, no ROI" and "the extractor missed the ROIs" are the same JSON.
     #
     # The projection drops `rules`, so these are stated here and evaluated against extraction
-    # records by `review/validate_record.py::check_rules`.
+    # records by `pondie.extraction.record.validate.Validator.check_rules`.
     rules:
       - description: Whole-brain and searchlight analyses restrict inference to no region.
         preconditions:
@@ -325,7 +325,7 @@ classes:
     # `required: true` on `cells` catches an absent key and nothing else: LinkML has no
     # minimum cardinality here, so `cells: []` -- an effect that compared nothing -- passes
     # it. The projection drops `rules`, so this is stated here and evaluated against
-    # extraction records by `review/validate_record.py::check_rules`, the same route the two
+    # extraction records by `pondie.extraction.record.validate.Validator.check_rules`, the same route the two
     # rules on Analysis take. A postcondition with no preconditions holds of every Effect.
     rules:
       - description: An effect that compared nothing tested nothing; cells cannot be empty.

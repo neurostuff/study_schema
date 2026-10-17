@@ -196,7 +196,7 @@ something — see §2.4. **`unique_keys`** says a combination may not repeat wit
 | Hand-edited? | Never — re-running the mapper regenerates it | Never — produce a new version or a separate correction record |
 | Size | 52 classes, 57 vocabularies, 365 fields, across 13 modules | Generated: the same classes plus the evidence types |
 
-The extraction schema is **generated** from storage by `gen_extraction_schema.py`, so the two cannot
+The extraction schema is **generated** from storage by `pondie.schema.generate`, so the two cannot
 drift. The whole of the projection:
 
 - fields marked `deterministic` are dropped (code fills them, so there is nothing to read off a page);
@@ -208,7 +208,7 @@ drift. The whole of the projection:
   record, rather than a list of wrappers;
 - an inlined child is projected too; a reference stays a reference and resolves through `local_id`;
 - `minimum_value`, `rules` and `unique_keys` are **dropped**, because they constrain a scalar and the
-  wrapper is in the way. Those move into `review/validate_record.py` (chapter 12).
+  wrapper is in the way. Those move into `pondie.extraction.record.validate` and `pondie/extraction/record/rules.py` (chapter 12).
 
 You fill the extraction schema. You read either. Everything this tutorial says about a field is true
 of both, because they are the same field.
@@ -289,7 +289,7 @@ low-priority and inside it.
 `deterministic` is what an API, a parser, or a derivation supplies: bibliographic metadata, PubMed
 publication types, minted identifiers, `Table.coordinate_space`, NeuroVault maps. `model_extracted`
 is everything read off the page. Every field is in exactly one of the two, and
-`check_field_provenance.py` fails if not; identifiers and type designators are in neither by
+`pondie.schema.checks.field_provenance` fails if not; identifiers and type designators are in neither by
 definition.
 
 A derivation need not come from outside the record. `ConnectivityEdge.directionality` is derived from
@@ -1505,7 +1505,7 @@ not change shape because the question changed; the cells do.
 
 > **A value the article does not report takes `extraction_status: not_reported`.**
 
-No vocabulary offers an `unstated` member, and `check_schema.py` fails the build if one appears —
+No vocabulary offers an `unstated` member, and `pondie.schema.checks.linkml` fails the build if one appears —
 silence recorded two ways is silence a query finds half of.
 
 Nothing is lost by that rule, because a `not_reported` wrapper is still **present**: everything the
@@ -1534,7 +1534,7 @@ and an extractor is asked for nine. `EffectKind` is bound by no field at all (§
 37 vocabularies come to 26 + 10 + 1.
 
 Whether a field is open or closed is storage's decision, and the projection may not revisit it:
-`check_extraction_to_storage_map.py` fails if extraction opens a closed vocabulary or closes an open
+`pondie.schema.checks.extraction_to_storage_map` fails if extraction opens a closed vocabulary or closes an open
 one. The second direction is the quiet one — closing an open vocabulary works fine and costs you the
 signal that a value is missing.
 
@@ -1635,7 +1635,7 @@ change if a different contrast came off the same model?
 
 ### 12.3 What the validator checks
 
-`review/validate_record.py` runs three tiers over a finished extraction record. Errors mean the record
+`pondie.extraction.record.validate` (with the rules in `pondie/extraction/record/rules.py`) runs three tiers over a finished extraction record. Errors mean the record
 is wrong; warnings mean a reviewer has to look.
 
 **Tier 1 — conformance (errors).** Types, required slots, closed vocabularies, the evidence
@@ -1815,15 +1815,14 @@ model, `FactorLevel.level` within its term, `(term, level)` within one `Effect`,
 **The checks.**
 
 ```bash
-python3 check_schema.py                        # both schemas load; no rule names a missing slot
-python3 check_field_provenance.py --strict     # every field says how it gets filled
-python3 check_extraction_to_storage_map.py     # the projection has not drifted
-python3 gen_extraction_schema.py --check       # the committed extraction tree is current
+python3 -m pondie.schema.checks.linkml                    # both schemas load; no rule names a missing slot
+python3 -m pondie.schema.checks.field_provenance --strict # every field says how it gets filled
+python3 -m pondie.schema.checks.extraction_to_storage_map # the projection has not drifted
+python3 -m pondie.schema.generate --check              # the committed extraction tree is current
 python3 -m pytest                              # everything the review layer stands on
-python3 review/validate_record.py --record <id>.extraction.json --text <text>
+python3 -m pondie.extraction.record.validate --record <id>.extraction.json --text <text>
 ```
 
 **Worked records.** [representing-models.md §5](representing-models.md#5-worked-models) has twelve,
-each with the sentences from the paper it came from and a referent record. Three complete extraction
-records live under `review/examples/`, each with a corrections note saying what the extractor got
-wrong and why.
+each with the sentences from the paper it came from and a referent record. A complete extraction
+record is `examples/run/records/x7Ex4mpleA01.extraction.json`.

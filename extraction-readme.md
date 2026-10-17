@@ -110,7 +110,7 @@ whether the vocabulary is short a value. Twenty-six fields are open, including
 `Analysis.spatial_scope`, `Measure.family`, `Task.stimulus_modality`, and `Task.response_modality`.
 
 Which a field is, is storage's decision and not one extraction may revisit;
-`check_extraction_to_storage_map.py` fails if the projection opens or closes a vocabulary.
+`pondie.schema.checks.extraction_to_storage_map` fails if the projection opens or closes a vocabulary.
 
 ### Missingness has one encoding, and it is `not_reported`
 
@@ -154,7 +154,7 @@ This rule does **not** change a value that names something the source reported:
 
 ### Evidence invariants
 
-Enforced by [review/validate_record.py](review/validate_record.py):
+Enforced by `pondie.extraction.record.validate`:
 
 - `extraction_status: not_reported` ⇒ omit `value`, and `evidence.status` must be
   `not_applicable`. A field recorded this way therefore carries **no span**: there is no
@@ -224,7 +224,7 @@ composite of subscales still names the instrument the numbers came from. What th
 *was* goes in `source_definition`, and there it is not optional: `FactorLevel.timepoints` names
 the occasions a factor *compares*, a derived column has no levels to hang them on, so this is
 the only place saying which occasions it spanned. A derived column with neither slot filled is
-an unattributed number, and `validate_record.py` says so.
+an unattributed number, and `pondie.extraction.record.validate` says so.
 
 The region's own facts go on the `Region`: `name` in the source's wording,
 `definition_method` for how it was delimited — `same_study_analysis` where it came from this
@@ -642,7 +642,7 @@ Extraction carries storage's own vocabularies, so no normalization step is neede
 arrives is already one storage accepts.
 
 Facts the storage schema needs that no extraction field supplies. These are exactly the
-storage fields marked `in_subset: [deterministic]`, and `check_extraction_to_storage_map.py`
+storage fields marked `in_subset: [deterministic]`, and `pondie.schema.checks.extraction_to_storage_map`
 asserts that correspondence in both directions, so this table cannot quietly fall behind:
 
 | Storage field | How the mapper fills it |
@@ -676,11 +676,9 @@ extraction fields had nowhere to land and a section of the map called `absorbed_
 recorded where each one went instead.
 
 That is gone. The extraction schema is generated from the storage schema by
-`gen_extraction_schema.py`, so an extraction field with no storage counterpart is now
+`pondie.schema.generate`, so an extraction field with no storage counterpart is now
 impossible by construction rather than merely documented, and
-`check_extraction_to_storage_map.py` asserts the correspondence in both directions.
-[test_map_coverage.py](test_map_coverage.py) exercises each failure mode against mutated
-copies of the real schemas, because a completeness check that cannot fail is worth nothing.
+`pondie.schema.checks.extraction_to_storage_map` asserts the correspondence in both directions.
 
 The shapes that used to need absorbing are listed as candidates at the end of
 [extraction-deviations.yaml](src/study_schema/linkml/extraction-deviations.yaml). They were not obviously wrong --
