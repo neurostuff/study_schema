@@ -14,7 +14,7 @@ imports:
   - region
   - acquisition
   - analysis
-  - license
+  - bibliography
 default_prefix: neurostudy
 default_range: string
 
@@ -35,11 +35,21 @@ classes:
         required: true
         description: Stable identifier for the study record, such as a DOI-based or repository-local 
           identifier.
-      title:
+      bibliography:
         in_subset: [mvp, deterministic]
-        range: string
+        range: Bibliography
+        inlined: true
         required: true
-        description: Full title of the study or publication.
+        description: >-
+          The paper's bibliographic facts, the parsed paper's `Bibliography` unchanged:
+          title, authors, journal, year, abstract, PubMed types, the paper's licence.
+      identifiers:
+        in_subset: [mvp, deterministic]
+        range: ArticleIdentifiers
+        inlined: true
+        description: >-
+          Every identifier known for the paper, the parsed paper's header identifiers
+          unchanged.
       description:
         in_subset: [mvp, model_extracted]
         range: string
@@ -73,72 +83,6 @@ classes:
           The study's design outside its tasks: how participants were assigned, the arms they
           were assigned to, and the occasions data were collected on. The narrative design
           description is this record's own `description`.
-      authors:
-        in_subset: [mvp, deterministic]
-        range: string
-        multivalued: true
-        description: Authors of the study or publication, in published order.
-      journal:
-        in_subset: [mvp, deterministic]
-        range: string
-        description: Journal or other publication venue.
-      doi:
-        in_subset: [mvp, deterministic]
-        range: string
-        description: >-
-          Digital Object Identifier of the version of record, without requiring a particular
-          URL form. Never a preprint server's DOI.
-      publication_status:
-        in_subset: [mvp, deterministic]
-        range: PublicationStatus
-        description: >-
-          Whether the version of record is known or only the preprint, copied from the
-          parsed paper's header identifiers. `study_type` is independent of it: it keeps
-          PubMed's publication types verbatim, `Preprint` included.
-      license:
-        in_subset: [mvp, deterministic]
-        range: License
-        inlined: true
-        description: >-
-          The paper's licence, copied from the parsed paper's bibliography: the version of
-          record's, or the preprint's while `publication_status` is `preprint`. Not the
-          licence of the copy the text was read from, which the parsed paper keeps.
-      oa_status:
-        in_subset: [mvp, deterministic]
-        range: OaStatus
-        description: How the paper is open to read, copied from the parsed paper's bibliography.
-      publication_year:
-        in_subset: [mvp, deterministic]
-        range: integer
-        minimum_value: 1600
-        description: Year in which the study was first published or made publicly available.
-      language:
-        in_subset: [mvp, deterministic]
-        range: string
-        multivalued: true
-        description: >-
-          Languages of the article, as the E-utilities API reports them -- the three-letter
-          codes PubMed assigns, `eng` and the rest. Filled from the same `esummary` call
-          that fills `study_type`, and not read off the paper: the text a reader is given
-          is in one language whatever the article is indexed as.
-
-          At least six of the benchmark's sixteen meta-analyses state "English language" as
-          an inclusion criterion, and it was unexpressible. On the 1,804 records measured it
-          excludes exactly one paper, so it buys precision rather than recall; the criterion
-          is stated, so the field states it.
-
-      study_type:
-        in_subset: [mvp, deterministic]
-        any_of:
-          - range: StudyType
-          - range: string
-        multivalued: true
-        required: true
-        description: >-
-          PubMed publication types for this record, verbatim as the E-utilities API returns
-          them (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). Multivalued because
-          PubMed assigns several: every article is `Journal Article` and the design of the study
-          motivates other labels.
       groups:
         in_subset: [mvp, model_extracted]
         range: Group
@@ -319,50 +263,3 @@ enums:
         description: >-
           No analysis reports a significant effect and at least one outcome was not reported,
           or `result_reporting` was not reported.
-
-  StudyType:
-    in_subset: [mvp, deterministic]
-    description: >-
-      PubMed publication types, spelled as the E-utilities API returns them so that a value
-      needs no translation. Only the design-relevant types are listed; PubMed also returns
-      funding and indexing types, and the vocabulary is open, so any unlisted type passes
-      through verbatim.
-    permissible_values:
-      "Journal Article":
-        in_subset: [mvp, deterministic]
-        description: Assigned to every article; carries no design information on its own.
-      "Meta-Analysis":
-        in_subset: [mvp, deterministic]
-        description: >-
-          A quantitative synthesis of published results.
-      "Systematic Review":
-        in_subset: [mvp, deterministic]
-        description: A structured synthesis with a search protocol but no pooled effect estimate.
-      "Review":
-        in_subset: [mvp, deterministic]
-        description: A review without a systematic search protocol.
-      "Randomized Controlled Trial":
-        in_subset: [mvp, deterministic]
-      "Clinical Trial":
-        in_subset: [mvp, deterministic]
-      "Observational Study":
-        in_subset: [mvp, deterministic]
-      "Comparative Study":
-        in_subset: [mvp, deterministic]
-      "Multicenter Study":
-        in_subset: [mvp, deterministic]
-      "Validation Study":
-        in_subset: [mvp, deterministic]
-      "Case Reports":
-        in_subset: [mvp, deterministic]
-        description: PubMed's spelling is plural.
-      "Editorial":
-        in_subset: [mvp, deterministic]
-      "Letter":
-        in_subset: [mvp, deterministic]
-      "Comment":
-        in_subset: [mvp, deterministic]
-      "Preprint":
-        in_subset: [mvp, deterministic]
-      "Retracted Publication":
-        in_subset: [mvp, deterministic]

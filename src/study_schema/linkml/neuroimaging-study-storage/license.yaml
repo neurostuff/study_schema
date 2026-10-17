@@ -8,7 +8,7 @@ description: >-
 
   Whether a licence lets a text or an abstract be redistributed is not stored. It is
   `study_schema.licensing`'s `text_may_be_redistributed` and
-  `abstract_may_be_redistributed`, which read the `redistributable` annotation of `LicenseCode` here and the `redistribution` annotation of the paper-parse
+  `abstract_may_be_redistributed`, which read the `redistributable` annotation of `LicenseId` here and the `redistribution` annotation of the paper-parse
   `CopyAccess`, so a change of policy is a release of this package rather than a re-run.
 prefixes:
   linkml: https://w3id.org/linkml/
@@ -34,7 +34,7 @@ classes:
         open_world: true
         preconditions:
           slot_conditions:
-            basis:
+            determination:
               equals_string: stated
         postconditions:
           slot_conditions:
@@ -48,7 +48,7 @@ classes:
                 - range: string
         elseconditions:
           slot_conditions:
-            code:
+            license_id:
               equals_string: all-rights-reserved
             stated_by:
               none_of:
@@ -57,13 +57,17 @@ classes:
               none_of:
                 - range: string
     attributes:
-      code:
+      license_id:
         in_subset: [mvp, deterministic]
-        range: LicenseCode
+        range: LicenseId
         required: true
-      basis:
+        description: >-
+          Which licence, as OpenAlex's licence slugs name them (`cc-by`, `cc-by-nc`, ...).
+          Not an SPDX License Identifier: sources rarely state the licence's version,
+          and SPDX identifiers require one.
+      determination:
         in_subset: [mvp, deterministic]
-        range: LicenseBasis
+        range: LicenseDetermination
         required: true
       stated_by:
         in_subset: [mvp, deterministic]
@@ -80,7 +84,7 @@ classes:
 
 enums:
 
-  LicenseCode:
+  LicenseId:
     in_subset: [mvp, deterministic]
     description: >-
       The terms a licence grants. A value annotated `redistributable` lets the text it
@@ -134,7 +138,7 @@ enums:
           purpose: Elsevier's open-access user licence is `other`, because its terms are not
           a CC licence's.
 
-  LicenseBasis:
+  LicenseDetermination:
     in_subset: [mvp, deterministic]
     description: Whether a source stated the licence.
     permissible_values:

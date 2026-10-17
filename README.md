@@ -185,34 +185,41 @@ What each side may rely on:
   the version of record. A preprint server's DOIs, each with its `PreprintServer`, and
   PubMed's and PMC's records of the preprint are kept beside them in `preprint_dois`,
   `preprint_pmid` and `preprint_pmcid`. `publication_status` states which the paper has
-  (`published` or `preprint`), and pondie copies it to `Study.publication_status`.
+  (`published` or `preprint`). The upload pointer `neurostore_base_study_id` is the
+  header's own, not an identifier of the paper.
 - **A licence belongs to a copy.** A copy is four facts: where it is hosted (`route`), which
   version it is (`version`: `vor`, `am`, `submitted`), its own `license`, and, for a copy we
   hold, how we obtained it (`access`: `public`, `tdm_grant`, `unrecorded`).
-  `ParsedPaper.text_copy` is the copy the text was read from; `Bibliography.reported_copies`
-  are copies a source lists and we do not hold. `Bibliography.license` is the paper's
+  `ParsedPaper.text_copy` is the copy the text was read from; `ParsedPaper.reported_copies`
+  are copies a source lists and we do not hold. Copies are the parse's alone: storage holds
+  no copy. `Bibliography.license` is the paper's
   licence: the version of record's, or the preprint's while `publication_status` is
-  `preprint`. A licence is `stated` by a named source, or `assumed` all rights reserved when
+  `preprint`. A licence names its `license_id` (OpenAlex's licence slugs, `cc-by` and the
+  rest) and its `determination`: `stated` by a named source, or `assumed` all rights reserved when
   every source that could state one answered and none did. A text-mining grant is an
   access, not a licence: a PMC author manuscript under `TDM` terms is `pmc` / `am` /
   `tdm_grant` with its own all-rights-reserved licence, and the article's CC licence sits
   in `Bibliography.license` beside it.
 - **Whether a text may be passed on is derived, never stored.**
-  `study_schema.licensing` reads the `redistributable` annotation of `LicenseCode` and the
+  `study_schema.licensing` reads the `redistributable` annotation of `LicenseId` and the
   `redistribution` annotation of `CopyAccess`, one function per question. The text follows
   its copy: `text_may_be_redistributed(text_copy)` takes the held copy, so its access is
   always weighed. The abstract follows the paper:
   `abstract_may_be_redistributed(bibliography.license)`, and
   `Bibliography.abstract_provider` names where the abstract came from. Anything a function
-  does not recognise as permitted -- no licence, an unknown code or access, a
-  redistributable code nobody stated -- is refused.
+  does not recognise as permitted -- no licence, an unknown licence id or access, a
+  redistributable licence nobody stated -- is refused.
   Counting every CC licence as redistributable, NC and ND included, is this project's
   policy, not legal advice; `other`, which holds Elsevier's open-access user licence, is
   refused on purpose. A missing abstract or licence statement is null, never `""`.
-- **Bibliography is copied, never extracted.** pondie fills the record's `Study.title`,
-  `authors`, `doi`, `journal`, `publication_year`, `language`, `study_type`, `license` and
-  `oa_status` from `ParsedPaper.bibliography` and the header's identifiers (`transform: copy` in
-  `extraction-to-storage.map.yaml`), and skips a paper whose `is_meta_analysis` is true.
+- **The bibliography is defined once, and never extracted.** `Bibliography` (title,
+  authors, journal, year, abstract, PubMed types, the paper's licence, corrections) and
+  `ArticleIdentifiers` live in the storage schema's `bibliography` module, and the parse
+  imports them. The storage `Study` holds the parsed paper's two objects unchanged, as
+  `Study.bibliography` and `Study.identifiers` (two whole-object `copy` entries in
+  `extraction-to-storage.map.yaml`), so no field has a second definition or a translation
+  rule. The extraction record carries none of them: a model is never asked for a
+  bibliographic fact, and pondie skips a paper whose `is_meta_analysis` is true.
 - **Keys come from what was extracted, not where it was read.** An analysis is
   `analysis#<h>`, where `h` hashes its normalized name, its space and its sorted points
   (coordinates and values); `ParsedAnalysis.key` gives the recipe. The same analysis read
@@ -354,7 +361,7 @@ under `invalid/` two the models refuse: one without `publication_status`, one wi
 DOI that names no server. The example paper's text is an open PMC copy. `examples/licenses/`
 holds the copy and bibliography of a text-mining-only PMC manuscript of a CC BY-NC article,
 a preprint-only paper, and a paper nobody states a licence for, and under `invalid/` the
-shapes the models or the JSON Schema refuse, `publisher-tdm` as a licence code among them.
+shapes the models or the JSON Schema refuse, `publisher-tdm` as a licence id among them.
 The JSON Schema enforces the schema's LinkML rules (an assumed licence names no source, an
 abstract names its provider, a copy names a preprint server exactly when it is on one); the
 pydantic models do not evaluate rules, so a producer and a consumer of a parse validate it

@@ -177,35 +177,6 @@ classes:
         multivalued: true
         inlined_as_list: true
         description: Named external datasets used, cited, or made available by the study.
-      language:
-        range: string
-        multivalued: true
-        description: >-
-          Languages of this article, copied from the parsed paper's `Bibliography.language`
-          alongside `study_type`, not read off the paper: three-letter codes, `eng` and the
-          rest.
-      study_type:
-        range: string
-        multivalued: true
-        description: >-
-          PubMed publication types for this record, verbatim, copied from the parsed paper's
-          `Bibliography.publication_types`, not read off the paper: it is what the indexers
-          said about the article, which is what a publication-type exclusion asks about.
-      publication_status:
-        range: string
-        description: '`published` or `preprint`, copied from the parsed paper''s `ArticleIdentifiers.publication_status`,
-          not read off the paper.'
-      license:
-        range: License
-        inlined: true
-        description: >-
-          The paper's licence, copied whole from the parsed paper's `Bibliography.license`,
-          not read off the paper.
-      oa_status:
-        range: string
-        description: >-
-          How the paper is open to read, copied from the parsed paper's `Bibliography.oa_status`,
-          not read off the paper.
   ExternalDataset:
     description: A named external dataset, with an optional public location.
     attributes:
@@ -286,18 +257,3 @@ classes:
         description: >-
           Exclusive character offset immediately before the next same-or-higher-level heading
           or EOF.
-  License:
-    description: >-
-      A licence as the parsed paper states it. Storage's `License` says what each field means
-      and which values it takes.
-    attributes:
-      code:
-        range: string
-        required: true
-      basis:
-        range: string
-        required: true
-      stated_by:
-        range: string
-      stated_as:
-        range: string

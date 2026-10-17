@@ -11,7 +11,7 @@ prefixes:
 imports:
   - linkml:types
   - parse_enums
-  - ../neuroimaging-study-storage/analysis_enums
+  - ../neuroimaging-study-storage/bibliography
 default_prefix: parse
 default_range: string
 
@@ -48,66 +48,11 @@ classes:
         description: Every artifact this one was made from, by fingerprint.
       created_at:
         range: datetime
-
-  ArticleIdentifiers:
-    description: >-
-      Every identifier known for the paper when the artifact was written. Carried whole, so
-      no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name
-      the version of record; a preprint's identifiers are kept beside them in the
-      `preprint_` fields, so a paper and its preprint are one article.
-    attributes:
-      pmid:
-        range: string
-        description: >-
-          PubMed's record of the version of record. Never PubMed's record of a preprint,
-          which is `preprint_pmid`.
-      pmcid:
-        range: string
-        description: >-
-          PubMed Central's copy of the version of record. Never PMC's copy of a preprint,
-          which is `preprint_pmcid`.
-      doi:
-        range: string
-        description: >-
-          The DOI of the version of record. Never a preprint server's DOI, which is in
-          `preprint_dois`.
-      preprint_dois:
-        range: PreprintDoi
-        multivalued: true
-        inlined_as_list: true
-        description: >-
-          Every DOI a preprint server registered for the paper. A server that registers each
-          version separately, such as Research Square's `/v2`, gives one entry per version,
-          each kept as registered.
-      preprint_pmid:
-        range: string
-        description: PubMed's record of the preprint, which PubMed types `Preprint`.
-      preprint_pmcid:
-        range: string
-        description: PubMed Central's copy of the preprint.
-      publication_status:
-        range: PublicationStatus
-        required: true
-        description: >-
-          `preprint` when a `preprint_` field is set and `doi`, `pmid` and `pmcid` are all
-          empty, `published` otherwise. The producer states it so that no consumer re-derives
-          it.
       neurostore_base_study_id:
         range: string
-        description: Set once the paper has been uploaded; neurostore's BaseStudy id.
-
-  PreprintDoi:
-    description: A DOI a preprint server registered, with the server that registered it.
-    attributes:
-      doi:
-        range: string
-        required: true
-      server:
-        range: PreprintServer
-        required: true
         description: >-
-          Named by the producer from the DOI, so that no consumer needs a table of preprint
-          servers' DOI patterns.
+          Set once the paper has been uploaded; neurostore's BaseStudy id. An upload pointer,
+          not a bibliographic identifier, so it sits here and not in `identifiers`.
 
   Producer:
     description: The program and stage that wrote an artifact.

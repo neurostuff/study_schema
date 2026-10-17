@@ -1,7 +1,7 @@
 """Whether the text or the abstract of a parsed paper may be passed on.
 
 Nothing in a parsed paper or a record says this; it is derived here from the facts they
-hold. ``REDISTRIBUTABLE_LICENSES`` is the LicenseCode values annotated ``redistributable`` in
+hold. ``REDISTRIBUTABLE_LICENSES`` is the LicenseId values annotated ``redistributable`` in
 neuroimaging-study-storage/license.yaml, and ``REDISTRIBUTABLE_ACCESS`` the CopyAccess values
 annotated ``redistribution: by_license`` in neuroimaging-paper-parse/parse_enums.yaml;
 tests/test_licensing.py keeps them equal.
@@ -48,12 +48,12 @@ def _field(license: Any, name: str) -> Any:
 
 
 def _license_permits(license: Any) -> bool:
-    """A redistributable code, stated by a named source in a non-empty statement."""
-    if license is None or _value(_field(license, "code")) not in REDISTRIBUTABLE_LICENSES:
+    """A redistributable licence id, stated by a named source in a non-empty statement."""
+    if license is None or _value(_field(license, "license_id")) not in REDISTRIBUTABLE_LICENSES:
         return False
     stated_as = _field(license, "stated_as")
     return (
-        _value(_field(license, "basis")) == "stated"
+        _value(_field(license, "determination")) == "stated"
         and bool(_field(license, "stated_by"))
         and isinstance(stated_as, str)
         and bool(stated_as.strip())
@@ -64,8 +64,8 @@ def abstract_may_be_redistributed(paper_license: Any) -> bool:
     """True when the paper's licence (a License dict or model, ``Bibliography.license``)
     lets its abstract be passed on.
 
-    False, never an error, for anything else: no licence, an unknown code, or a
-    redistributable code that is not stated by a named source in a non-empty statement,
+    False, never an error, for anything else: no licence, an unknown licence id, or a
+    redistributable licence id that is not stated by a named source in a non-empty statement,
     which the schema's rules forbid (an assumed licence is always all rights reserved).
     """
     return _license_permits(paper_license)

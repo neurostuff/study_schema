@@ -21,8 +21,8 @@ around — so recording one means inventing a cohort. Skip the paper instead.
 
 The gate runs on PubMed metadata **before any text is read**, in two parts:
 
-1. **Publication type.** Skip when `Study.study_type` (the PubMed publication types, fetched
-   from E-utilities by PMID) includes `Meta-Analysis`.
+1. **Publication type.** Skip when `Bibliography.publication_types` (the PubMed publication
+   types, fetched from E-utilities by PMID) includes `Meta-Analysis`.
 2. **Title.** Skip when the title contains "meta-analysis", case-insensitive.
 
 Both are needed. Measured against 200 corpus papers whose own methods say they ran a
@@ -647,8 +647,7 @@ asserts that correspondence in both directions, so this table cannot quietly fal
 
 | Storage field | How the mapper fills it |
 |---|---|
-| `Study.title`, `.authors`, `.journal`, `.doi`, `.publication_year` | `api_lookup` — bibliographic facts the E-utilities API states, which is not something a model should be asked to read off the page |
-| `Study.study_type` | `api_lookup` — PubMed publication types by PMID, stored verbatim and multivalued |
+| `Study.bibliography`, `Study.identifiers` | `copy` — the parsed paper's `Bibliography` and header identifiers, held whole: bibliographic facts the metadata lookup states, which is not something a model should be asked to read off the page |
 | `Analysis.id`, and every other `id` | `generate` — must be a deterministic function of the source location, so re-extraction reproduces it and externally stored evidence still joins. Recipe: study, table or figure identifier, analysis label slug or index. The extraction record's `local_id` goes in the audit log and every reference to it resolves through the same table |
 | `Analysis.statistical_maps` | `api_lookup` — the maps NeuroVault holds for the study. A paper that shares maps says so in a data-availability sentence, and the sentence is not the map |
 | `Table.source_path` | `generate` — the repository path of the raw table file |

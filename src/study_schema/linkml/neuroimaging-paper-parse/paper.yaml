@@ -12,6 +12,7 @@ imports:
   - parse_enums
   - header
   - ../neuroimaging-study-storage/license
+  - ../neuroimaging-study-storage/bibliography
 default_prefix: parse
 default_range: string
 
@@ -49,6 +50,13 @@ classes:
         description: >-
           The copy the text was read from. Its licence and access, not the paper's licence,
           decide whether the text may be passed on.
+      reported_copies:
+        range: ReportedCopy
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Copies of the paper that a source lists and that we do not hold, each with its
+          own licence. Where an open copy is, when `bibliography.oa_status` says one exists.
       text_path:
         range: string
         required: true
@@ -105,101 +113,6 @@ classes:
         range: ParsedTable
         multivalued: true
         inlined_as_list: true
-
-  Bibliography:
-    description: >-
-      The paper's bibliographic facts, as the metadata lookup returned them. Downstream they
-      are copied, never extracted: pondie fills the record's Study.title, authors, doi,
-      journal, publication_year, language, study_type, license and oa_status from here, and
-      neurostore fills BaseStudy from here.
-    rules:
-      # `any_of` / `none_of` over the range, rather than value_presence alone, so that a
-      # field written as null counts as absent.
-      - description: An abstract, and only an abstract, says which source it came from.
-        open_world: true
-        preconditions:
-          slot_conditions:
-            abstract:
-              any_of:
-                - range: string
-        postconditions:
-          slot_conditions:
-            abstract_provider:
-              value_presence: PRESENT
-              any_of:
-                - range: MetadataSource
-        elseconditions:
-          slot_conditions:
-            abstract_provider:
-              none_of:
-                - range: MetadataSource
-    attributes:
-      title:
-        range: string
-        required: true
-      authors:
-        range: string
-        multivalued: true
-        description: Author names in published order.
-      journal:
-        range: string
-      publication_year:
-        range: integer
-      volume:
-        range: string
-      issue:
-        range: string
-      pages:
-        range: string
-      abstract:
-        range: string
-        pattern: '\S'
-        description: Absent (null) when no source gave one; never an empty string.
-      abstract_provider:
-        range: MetadataSource
-        description: >-
-          The source whose abstract `abstract` is. It may differ from `provider`. The
-          abstract is the publisher's abstract of the version `license` describes, so its
-          licence is `license`.
-      language:
-        range: string
-        multivalued: true
-      publication_types:
-        range: string
-        multivalued: true
-        description: PubMed publication types, verbatim. The storage schema's Study.study_type.
-      keywords:
-        range: string
-        multivalued: true
-      license:
-        range: License
-        inlined: true
-        required: true
-        description: >-
-          The paper's licence: the version of record's, or the latest preprint's while the
-          header's `publication_status` is `preprint`. Not the licence of a copy of another
-          version, which that copy carries.
-      oa_status:
-        range: OaStatus
-      reported_copies:
-        range: ReportedCopy
-        multivalued: true
-        inlined_as_list: true
-        description: >-
-          Copies of the paper that a source lists and that we do not hold, each with its
-          own licence. Where an open copy is, when `oa_status` says one exists.
-      corrections:
-        range: Correction
-        multivalued: true
-        inlined_as_list: true
-        description: >-
-          Notices attached to the paper -- errata, retractions, expressions of concern -- as
-          the indexer lists them. A retracted paper is still parsed and stored, marked by
-          its `retraction` notice, and left out of studysets by default; a filter can ask for
-          it explicitly.
-      provider:
-        range: MetadataSource
-        description: The metadata service the facts came from.
 
   Copy:
     abstract: true
@@ -318,19 +231,6 @@ classes:
         minimum_value: 0
         maximum_value: 1
         description: For a heuristic alignment, how sure; absent for an exact one.
-
-  Correction:
-    description: One notice attached to a paper.
-    attributes:
-      kind:
-        any_of:
-          - range: CorrectionKind
-          - range: string
-        required: true
-      pmid:
-        range: string
-      doi:
-        range: string
 
   Supplement:
     description: One item of supplementary material.

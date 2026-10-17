@@ -2601,11 +2601,6 @@ Says nothing about whether the analyses found anything; that is each `Analysis.o
     tables: Optional[list[Table]] = Field(default=None, description="""Publication tables from which results or analysis metadata were extracted.""")
     coordinate_sets: Optional[list[CoordinateSet]] = Field(default=None, description="""Every group of coordinates the paper reports, in its tables or its text, with what each is for.""")
     external_datasets: Optional[list[ExternalDataset]] = Field(default=None, description="""Named external datasets used, cited, or made available by the study.""")
-    language: Optional[list[str]] = Field(default=None, description="""Languages of this article, copied from the parsed paper's `Bibliography.language` alongside `study_type`, not read off the paper: three-letter codes, `eng` and the rest.""")
-    study_type: Optional[list[str]] = Field(default=None, description="""PubMed publication types for this record, verbatim, copied from the parsed paper's `Bibliography.publication_types`, not read off the paper: it is what the indexers said about the article, which is what a publication-type exclusion asks about.""")
-    publication_status: Optional[str] = Field(default=None, description="""`published` or `preprint`, copied from the parsed paper's `ArticleIdentifiers.publication_status`, not read off the paper.""")
-    license: Optional[License] = Field(default=None, description="""The paper's licence, copied whole from the parsed paper's `Bibliography.license`, not read off the paper.""")
-    oa_status: Optional[str] = Field(default=None, description="""How the paper is open to read, copied from the parsed paper's `Bibliography.oa_status`, not read off the paper.""")
 
     @field_validator('stable_id')
     def pattern_stable_id(cls, v):
@@ -2663,16 +2658,6 @@ class PaperSection(ConfiguredBaseModel):
     parent_section: Optional[str] = Field(default=None, description="""title of the immediately containing section, when applicable.""")
     start_char: int = Field(default=..., description="""Inclusive character offset of the section heading in normalized source text.""", ge=0)
     end_char: int = Field(default=..., description="""Exclusive character offset immediately before the next same-or-higher-level heading or EOF.""", ge=0)
-
-
-class License(ConfiguredBaseModel):
-    """
-    A licence as the parsed paper states it. Storage's `License` says what each field means and which values it takes.
-    """
-    code: str = Field(default=...)
-    basis: str = Field(default=...)
-    stated_by: Optional[str] = Field(default=None)
-    stated_as: Optional[str] = Field(default=None)
 
 
 class ExtractedAnalysisType(ExtractedValue):
@@ -3203,7 +3188,6 @@ ExternalDataset.model_rebuild()
 ExtractedResultReporting.model_rebuild()
 ExtractionMetadata.model_rebuild()
 PaperSection.model_rebuild()
-License.model_rebuild()
 ExtractedAnalysisType.model_rebuild()
 ExtractedSpatialScope.model_rebuild()
 ExtractedAnalysisOutcome.model_rebuild()

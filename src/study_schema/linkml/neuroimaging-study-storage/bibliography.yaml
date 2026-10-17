@@ -1,0 +1,398 @@
+id: https://neurostuff.org/schemas/neuroimaging-study-storage/bibliography
+name: neuroimaging-study-storage-bibliography
+title: Neuroimaging Study Storage Bibliography Module
+description: >-
+  A paper's bibliographic facts and identifiers, defined once. The paper-parse schema imports
+  this module, so the parsed paper and the storage Study hold the same `Bibliography` and
+  `ArticleIdentifiers`, and the record never restates one of their fields.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  neurostudy: https://neurostuff.org/schemas/neuroimaging-study-storage/
+imports:
+  - linkml:types
+  - subsets
+  - license
+default_prefix: neurostudy
+default_range: string
+
+classes:
+
+  Bibliography:
+    description: >-
+      The paper's bibliographic facts, as the metadata lookup returned them. Defined once:
+      the parsed paper carries it, and the storage Study holds the same object as
+      `Study.bibliography`, so nothing is copied field by field and nothing is extracted.
+    rules:
+      # `any_of` / `none_of` over the range, rather than value_presence alone, so that a
+      # field written as null counts as absent.
+      - description: An abstract, and only an abstract, says which source it came from.
+        open_world: true
+        preconditions:
+          slot_conditions:
+            abstract:
+              any_of:
+                - range: string
+        postconditions:
+          slot_conditions:
+            abstract_provider:
+              value_presence: PRESENT
+              any_of:
+                - range: MetadataSource
+        elseconditions:
+          slot_conditions:
+            abstract_provider:
+              none_of:
+                - range: MetadataSource
+    attributes:
+      title:
+        in_subset: [mvp, deterministic]
+        range: string
+        required: true
+      authors:
+        in_subset: [mvp, deterministic]
+        range: string
+        multivalued: true
+        description: Author names in published order.
+      journal:
+        in_subset: [mvp, deterministic]
+        range: string
+      publication_year:
+        in_subset: [mvp, deterministic]
+        range: integer
+        minimum_value: 1600
+        description: Year in which the study was first published or made publicly available.
+      volume:
+        in_subset: [mvp, deterministic]
+        range: string
+      issue:
+        in_subset: [mvp, deterministic]
+        range: string
+      pages:
+        in_subset: [mvp, deterministic]
+        range: string
+      abstract:
+        in_subset: [mvp, deterministic]
+        range: string
+        pattern: '\S'
+        description: Absent (null) when no source gave one; never an empty string.
+      abstract_provider:
+        in_subset: [mvp, deterministic]
+        range: MetadataSource
+        description: >-
+          The source whose abstract `abstract` is. It may differ from `provider`. The
+          abstract is the publisher's abstract of the version `license` describes, so its
+          licence is `license`.
+      language:
+        in_subset: [mvp, deterministic]
+        range: string
+        multivalued: true
+        description: >-
+          Languages of the article, as the E-utilities API reports them -- the three-letter
+          codes PubMed assigns, `eng` and the rest, and not read off the paper: the text a
+          reader is given is in one language whatever the article is indexed as.
+
+          At least six of the benchmark's sixteen meta-analyses state "English language" as
+          an inclusion criterion. On the 1,804 records measured it excludes exactly one
+          paper, so it buys precision rather than recall; the criterion is stated, so the
+          field states it.
+      publication_types:
+        in_subset: [mvp, deterministic]
+        any_of:
+          - range: StudyType
+          - range: string
+        multivalued: true
+        description: >-
+          PubMed publication types for this record, verbatim as the E-utilities API returns
+          them (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). Multivalued because
+          PubMed assigns several: every article is `Journal Article` and the design of the
+          study motivates other labels.
+      keywords:
+        in_subset: [mvp, deterministic]
+        range: string
+        multivalued: true
+      license:
+        in_subset: [mvp, deterministic]
+        range: License
+        inlined: true
+        required: true
+        description: >-
+          The paper's licence: the version of record's, or the latest preprint's while the
+          header's `publication_status` is `preprint`. Not the licence of a copy of another
+          version, which that copy carries.
+      oa_status:
+        in_subset: [mvp, deterministic]
+        range: OaStatus
+      corrections:
+        in_subset: [mvp, deterministic]
+        range: Correction
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Notices attached to the paper -- errata, retractions, expressions of concern -- as
+          the indexer lists them. A retracted paper is still parsed and stored, marked by
+          its `retraction` notice, and left out of studysets by default; a filter can ask for
+          it explicitly.
+      provider:
+        in_subset: [mvp, deterministic]
+        range: MetadataSource
+        description: The metadata service the facts came from.
+
+  ArticleIdentifiers:
+    description: >-
+      Every identifier known for the paper when the artifact was written. Carried whole, so
+      no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name
+      the version of record; a preprint's identifiers are kept beside them in the
+      `preprint_` fields, so a paper and its preprint are one article.
+    attributes:
+      pmid:
+        in_subset: [mvp, deterministic]
+        range: string
+        description: >-
+          PubMed's record of the version of record. Never PubMed's record of a preprint,
+          which is `preprint_pmid`.
+      pmcid:
+        in_subset: [mvp, deterministic]
+        range: string
+        description: >-
+          PubMed Central's copy of the version of record. Never PMC's copy of a preprint,
+          which is `preprint_pmcid`.
+      doi:
+        in_subset: [mvp, deterministic]
+        range: string
+        description: >-
+          The DOI of the version of record. Never a preprint server's DOI, which is in
+          `preprint_dois`.
+      preprint_dois:
+        in_subset: [mvp, deterministic]
+        range: PreprintDoi
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Every DOI a preprint server registered for the paper. A server that registers each
+          version separately, such as Research Square's `/v2`, gives one entry per version,
+          each kept as registered.
+      preprint_pmid:
+        in_subset: [mvp, deterministic]
+        range: string
+        description: PubMed's record of the preprint, which PubMed types `Preprint`.
+      preprint_pmcid:
+        in_subset: [mvp, deterministic]
+        range: string
+        description: PubMed Central's copy of the preprint.
+      publication_status:
+        in_subset: [mvp, deterministic]
+        range: PublicationStatus
+        required: true
+        description: >-
+          `preprint` when a `preprint_` field is set and `doi`, `pmid` and `pmcid` are all
+          empty, `published` otherwise. The producer states it so that no consumer re-derives
+          it.
+
+  PreprintDoi:
+    description: A DOI a preprint server registered, with the server that registered it.
+    attributes:
+      doi:
+        in_subset: [mvp, deterministic]
+        range: string
+        required: true
+      server:
+        in_subset: [mvp, deterministic]
+        range: PreprintServer
+        required: true
+        description: >-
+          Named by the producer from the DOI, so that no consumer needs a table of preprint
+          servers' DOI patterns.
+
+  Correction:
+    description: One notice attached to a paper.
+    attributes:
+      kind:
+        in_subset: [mvp, deterministic]
+        any_of:
+          - range: CorrectionKind
+          - range: string
+        required: true
+      pmid:
+        in_subset: [mvp, deterministic]
+        range: string
+      doi:
+        in_subset: [mvp, deterministic]
+        range: string
+
+enums:
+
+  PublicationStatus:
+    in_subset: [mvp, deterministic]
+    description: Whether a paper's version of record is known, or only its preprint.
+    permissible_values:
+      published:
+        in_subset: [mvp, deterministic]
+        description: >-
+          A DOI, PubMed record or PMC copy of the version of record is known. The paper may
+          have been a preprint too.
+      preprint:
+        in_subset: [mvp, deterministic]
+        description: Only a preprint's identifiers are known.
+
+  PreprintServer:
+    in_subset: [mvp, deterministic]
+    description: >-
+      The preprint server that registered a DOI. A server hosted on the Open Science
+      Framework is named by its provider, which has a DOI prefix of its own. A server is
+      added here when a producer learns to recognise its DOIs.
+    permissible_values:
+      biorxiv:
+        in_subset: [mvp, deterministic]
+        description: bioRxiv, DOI prefix 10.1101 and, since 2025-11, 10.64898 (openRxiv).
+      medrxiv:
+        in_subset: [mvp, deterministic]
+        description: medRxiv, DOI prefix 10.1101 and, since 2025-11, 10.64898 (openRxiv).
+      arxiv:
+        in_subset: [mvp, deterministic]
+        description: arXiv, DOI prefix 10.48550, the DOI registered for an arXiv id.
+      researchsquare:
+        in_subset: [mvp, deterministic]
+        description: Research Square, DOI prefix 10.21203.
+      osf_preprints:
+        in_subset: [mvp, deterministic]
+        description: OSF Preprints, DOI prefix 10.31219.
+      arabixiv:
+        in_subset: [mvp, deterministic]
+        description: Arabixiv (OSF), DOI prefix 10.31221.
+      metaarxiv:
+        in_subset: [mvp, deterministic]
+        description: MetaArXiv (OSF), DOI prefix 10.31222.
+      engrxiv:
+        in_subset: [mvp, deterministic]
+        description: engrXiv (OSF), DOI prefix 10.31224.
+      focus_archive:
+        in_subset: [mvp, deterministic]
+        description: FocUS Archive (OSF), DOI prefix 10.31225.
+      frenxiv:
+        in_subset: [mvp, deterministic]
+        description: Frenxiv (OSF), DOI prefix 10.31226.
+      ina_rxiv:
+        in_subset: [mvp, deterministic]
+        description: INA-Rxiv (OSF), DOI prefix 10.31227.
+      lawarxiv:
+        in_subset: [mvp, deterministic]
+        description: LawArXiv (OSF), DOI prefix 10.31228.
+      lis_scholarship_archive:
+        in_subset: [mvp, deterministic]
+        description: LIS Scholarship Archive (OSF), DOI prefix 10.31229.
+      marxiv:
+        in_subset: [mvp, deterministic]
+        description: MarXiv (OSF), DOI prefix 10.31230.
+      mindrxiv:
+        in_subset: [mvp, deterministic]
+        description: MindRxiv (OSF), DOI prefix 10.31231.
+      nutrixiv:
+        in_subset: [mvp, deterministic]
+        description: NutriXiv (OSF), DOI prefix 10.31232.
+      paleorxiv:
+        in_subset: [mvp, deterministic]
+        description: PaleorXiv (OSF), DOI prefix 10.31233.
+      psyarxiv:
+        in_subset: [mvp, deterministic]
+        description: PsyArXiv (OSF), DOI prefix 10.31234.
+      socarxiv:
+        in_subset: [mvp, deterministic]
+        description: SocArXiv (OSF), DOI prefix 10.31235.
+      sportrxiv:
+        in_subset: [mvp, deterministic]
+        description: SportRxiv (OSF), DOI prefix 10.31236.
+      africarxiv:
+        in_subset: [mvp, deterministic]
+        description: AfricArXiv (OSF), DOI prefix 10.31730.
+      mediarxiv:
+        in_subset: [mvp, deterministic]
+        description: MediArXiv (OSF), DOI prefix 10.33767.
+      bodoarxiv:
+        in_subset: [mvp, deterministic]
+        description: BodoArXiv (OSF), DOI prefix 10.34055.
+      edarxiv:
+        in_subset: [mvp, deterministic]
+        description: EdArXiv (OSF), DOI prefix 10.35542.
+      biohackrxiv:
+        in_subset: [mvp, deterministic]
+        description: BioHackrXiv (OSF), DOI prefix 10.37044.
+      ssrn:
+        in_subset: [mvp, deterministic]
+        description: SSRN, DOI prefix 10.2139.
+      preprints_org:
+        in_subset: [mvp, deterministic]
+        description: Preprints.org, DOI prefix 10.20944.
+      authorea:
+        in_subset: [mvp, deterministic]
+        description: Authorea, DOI prefix 10.22541.
+      techrxiv:
+        in_subset: [mvp, deterministic]
+        description: TechRxiv, DOI prefix 10.36227.
+      chemrxiv:
+        in_subset: [mvp, deterministic]
+        description: ChemRxiv, DOI prefix 10.26434.
+      jmir_preprints:
+        in_subset: [mvp, deterministic]
+        description: JMIR Preprints, DOI prefix 10.2196.
+
+  CorrectionKind:
+    in_subset: [mvp, deterministic]
+    description: A notice attached to a paper by its publisher or indexer.
+    permissible_values:
+      erratum:
+        in_subset: [mvp, deterministic]
+      retraction:
+        in_subset: [mvp, deterministic]
+      expression_of_concern:
+        in_subset: [mvp, deterministic]
+      comment:
+        in_subset: [mvp, deterministic]
+      update:
+        in_subset: [mvp, deterministic]
+
+  StudyType:
+    in_subset: [mvp, deterministic]
+    description: >-
+      PubMed publication types, spelled as the E-utilities API returns them so that a value
+      needs no translation. Only the design-relevant types are listed; PubMed also returns
+      funding and indexing types, and the vocabulary is open, so any unlisted type passes
+      through verbatim.
+    permissible_values:
+      "Journal Article":
+        in_subset: [mvp, deterministic]
+        description: Assigned to every article; carries no design information on its own.
+      "Meta-Analysis":
+        in_subset: [mvp, deterministic]
+        description: >-
+          A quantitative synthesis of published results.
+      "Systematic Review":
+        in_subset: [mvp, deterministic]
+        description: A structured synthesis with a search protocol but no pooled effect estimate.
+      "Review":
+        in_subset: [mvp, deterministic]
+        description: A review without a systematic search protocol.
+      "Randomized Controlled Trial":
+        in_subset: [mvp, deterministic]
+      "Clinical Trial":
+        in_subset: [mvp, deterministic]
+      "Observational Study":
+        in_subset: [mvp, deterministic]
+      "Comparative Study":
+        in_subset: [mvp, deterministic]
+      "Multicenter Study":
+        in_subset: [mvp, deterministic]
+      "Validation Study":
+        in_subset: [mvp, deterministic]
+      "Case Reports":
+        in_subset: [mvp, deterministic]
+        description: PubMed's spelling is plural.
+      "Editorial":
+        in_subset: [mvp, deterministic]
+      "Letter":
+        in_subset: [mvp, deterministic]
+      "Comment":
+        in_subset: [mvp, deterministic]
+      "Preprint":
+        in_subset: [mvp, deterministic]
+      "Retracted Publication":
+        in_subset: [mvp, deterministic]

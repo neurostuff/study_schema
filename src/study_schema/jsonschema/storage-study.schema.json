@@ -513,6 +513,66 @@
       "title": "ArmKind",
       "type": "string"
     },
+    "ArticleIdentifiers": {
+      "additionalProperties": false,
+      "description": "Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article.",
+      "properties": {
+        "doi": {
+          "description": "The DOI of the version of record. Never a preprint server's DOI, which is in `preprint_dois`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pmcid": {
+          "description": "PubMed Central's copy of the version of record. Never PMC's copy of a preprint, which is `preprint_pmcid`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pmid": {
+          "description": "PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmid`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "preprint_dois": {
+          "description": "Every DOI a preprint server registered for the paper. A server that registers each version separately, such as Research Square's `/v2`, gives one entry per version, each kept as registered.",
+          "items": {
+            "$ref": "#/$defs/PreprintDoi"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "preprint_pmcid": {
+          "description": "PubMed Central's copy of the preprint.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "preprint_pmid": {
+          "description": "PubMed's record of the preprint, which PubMed types `Preprint`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "publication_status": {
+          "$ref": "#/$defs/PublicationStatus",
+          "description": "`preprint` when a `preprint_` field is set and `doi`, `pmid` and `pmcid` are all empty, `published` otherwise. The producer states it so that no consumer re-derives it."
+        }
+      },
+      "required": [
+        "publication_status"
+      ],
+      "title": "ArticleIdentifiers",
+      "type": "object"
+    },
     "Assessment": {
       "additionalProperties": false,
       "description": "A behavioral, cognitive, biological, clinical, or questionnaire-based instrument or procedure that produces participant-level measurements independently of the neuroimaging acquisition or experimental conditions.",
@@ -558,6 +618,194 @@
       ],
       "title": "AssignmentStructure",
       "type": "string"
+    },
+    "Bibliography": {
+      "additionalProperties": false,
+      "description": "The paper's bibliographic facts, as the metadata lookup returned them. Defined once: the parsed paper carries it, and the storage Study holds the same object as `Study.bibliography`, so nothing is copied field by field and nothing is extracted.",
+      "else": {
+        "properties": {
+          "abstract_provider": {
+            "not": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/MetadataSource"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "abstract": {
+            "anyOf": [
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "required": [
+          "abstract"
+        ]
+      },
+      "properties": {
+        "abstract": {
+          "description": "Absent (null) when no source gave one; never an empty string.",
+          "pattern": "\\S",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "abstract_provider": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetadataSource"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The source whose abstract `abstract` is. It may differ from `provider`. The abstract is the publisher's abstract of the version `license` describes, so its licence is `license`."
+        },
+        "authors": {
+          "description": "Author names in published order.",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "corrections": {
+          "description": "Notices attached to the paper -- errata, retractions, expressions of concern -- as the indexer lists them. A retracted paper is still parsed and stored, marked by its `retraction` notice, and left out of studysets by default; a filter can ask for it explicitly.",
+          "items": {
+            "$ref": "#/$defs/Correction"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "issue": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "journal": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "keywords": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "language": {
+          "description": "Languages of the article, as the E-utilities API reports them -- the three-letter codes PubMed assigns, `eng` and the rest, and not read off the paper: the text a reader is given is in one language whatever the article is indexed as.\nAt least six of the benchmark's sixteen meta-analyses state \"English language\" as an inclusion criterion. On the 1,804 records measured it excludes exactly one paper, so it buys precision rather than recall; the criterion is stated, so the field states it.",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "license": {
+          "$ref": "#/$defs/License",
+          "description": "The paper's licence: the version of record's, or the latest preprint's while the header's `publication_status` is `preprint`. Not the licence of a copy of another version, which that copy carries."
+        },
+        "oa_status": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OaStatus"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pages": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provider": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetadataSource"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The metadata service the facts came from."
+        },
+        "publication_types": {
+          "description": "PubMed publication types for this record, verbatim as the E-utilities API returns them (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). Multivalued because PubMed assigns several: every article is `Journal Article` and the design of the study motivates other labels.",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/StudyType"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "publication_year": {
+          "description": "Year in which the study was first published or made publicly available.",
+          "minimum": 1600,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "volume": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "title",
+        "license"
+      ],
+      "then": {
+        "properties": {
+          "abstract_provider": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/MetadataSource"
+              }
+            ]
+          }
+        },
+        "required": [
+          "abstract_provider"
+        ]
+      },
+      "title": "Bibliography",
+      "type": "object"
     },
     "Blinding": {
       "description": "Who was kept unaware of the assignment. Open vocabulary: write the source's own wording in the field when nothing here fits.",
@@ -1078,6 +1326,51 @@
       ],
       "title": "CoordinateSet",
       "type": "object"
+    },
+    "Correction": {
+      "additionalProperties": false,
+      "description": "One notice attached to a paper.",
+      "properties": {
+        "doi": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CorrectionKind"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "pmid": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "Correction",
+      "type": "object"
+    },
+    "CorrectionKind": {
+      "description": "A notice attached to a paper by its publisher or indexer.",
+      "enum": [
+        "erratum",
+        "retraction",
+        "expression_of_concern",
+        "comment",
+        "update"
+      ],
+      "title": "CorrectionKind",
+      "type": "string"
     },
     "DecodingClass": {
       "additionalProperties": false,
@@ -2371,7 +2664,7 @@
       "description": "A licence as one source stated it, or all rights reserved assumed because no source stated one.",
       "else": {
         "properties": {
-          "code": {
+          "license_id": {
             "const": "all-rights-reserved"
           },
           "stated_as": {
@@ -2396,20 +2689,21 @@
       },
       "if": {
         "properties": {
-          "basis": {
+          "determination": {
             "const": "stated"
           }
         },
         "required": [
-          "basis"
+          "determination"
         ]
       },
       "properties": {
-        "basis": {
-          "$ref": "#/$defs/LicenseBasis"
+        "determination": {
+          "$ref": "#/$defs/LicenseDetermination"
         },
-        "code": {
-          "$ref": "#/$defs/LicenseCode"
+        "license_id": {
+          "$ref": "#/$defs/LicenseId",
+          "description": "Which licence, as OpenAlex's licence slugs name them (`cc-by`, `cc-by-nc`, ...). Not an SPDX License Identifier: sources rarely state the licence's version, and SPDX identifiers require one."
         },
         "stated_as": {
           "description": "The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes. Never empty: a source that gave no statement did not state a licence.",
@@ -2432,8 +2726,8 @@
         }
       },
       "required": [
-        "code",
-        "basis"
+        "license_id",
+        "determination"
       ],
       "then": {
         "properties": {
@@ -2460,16 +2754,16 @@
       "title": "License",
       "type": "object"
     },
-    "LicenseBasis": {
+    "LicenseDetermination": {
       "description": "Whether a source stated the licence.",
       "enum": [
         "stated",
         "assumed"
       ],
-      "title": "LicenseBasis",
+      "title": "LicenseDetermination",
       "type": "string"
     },
-    "LicenseCode": {
+    "LicenseId": {
       "description": "The terms a licence grants. A value annotated `redistributable` lets the text it covers be passed on verbatim with attribution: every Creative Commons licence, including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows, and NC, because neurostore's use is non-commercial. That reading of ND and NC is this project's policy, not legal advice, and no lawyer has confirmed it.",
       "enum": [
         "cc-by",
@@ -2483,7 +2777,7 @@
         "all-rights-reserved",
         "other"
       ],
-      "title": "LicenseCode",
+      "title": "LicenseId",
       "type": "string"
     },
     "MRI": {
@@ -3394,6 +3688,63 @@
       "title": "PolaritySemantics",
       "type": "string"
     },
+    "PreprintDoi": {
+      "additionalProperties": false,
+      "description": "A DOI a preprint server registered, with the server that registered it.",
+      "properties": {
+        "doi": {
+          "type": "string"
+        },
+        "server": {
+          "$ref": "#/$defs/PreprintServer",
+          "description": "Named by the producer from the DOI, so that no consumer needs a table of preprint servers' DOI patterns."
+        }
+      },
+      "required": [
+        "doi",
+        "server"
+      ],
+      "title": "PreprintDoi",
+      "type": "object"
+    },
+    "PreprintServer": {
+      "description": "The preprint server that registered a DOI. A server hosted on the Open Science Framework is named by its provider, which has a DOI prefix of its own. A server is added here when a producer learns to recognise its DOIs.",
+      "enum": [
+        "biorxiv",
+        "medrxiv",
+        "arxiv",
+        "researchsquare",
+        "osf_preprints",
+        "arabixiv",
+        "metaarxiv",
+        "engrxiv",
+        "focus_archive",
+        "frenxiv",
+        "ina_rxiv",
+        "lawarxiv",
+        "lis_scholarship_archive",
+        "marxiv",
+        "mindrxiv",
+        "nutrixiv",
+        "paleorxiv",
+        "psyarxiv",
+        "socarxiv",
+        "sportrxiv",
+        "africarxiv",
+        "mediarxiv",
+        "bodoarxiv",
+        "edarxiv",
+        "biohackrxiv",
+        "ssrn",
+        "preprints_org",
+        "authorea",
+        "techrxiv",
+        "chemrxiv",
+        "jmir_preprints"
+      ],
+      "title": "PreprintServer",
+      "type": "string"
+    },
     "Preprocessing": {
       "additionalProperties": false,
       "description": "An ordered preprocessing pipeline applied to acquired data before or as part of statistical modeling. This can be expanded with COBIDAS.",
@@ -3886,15 +4237,9 @@
             "null"
           ]
         },
-        "authors": {
-          "description": "Authors of the study or publication, in published order.",
-          "items": {
-            "type": "string"
-          },
-          "type": [
-            "array",
-            "null"
-          ]
+        "bibliography": {
+          "$ref": "#/$defs/Bibliography",
+          "description": "The paper's bibliographic facts, the parsed paper's `Bibliography` unchanged: title, authors, journal, year, abstract, PubMed types, the paper's licence."
         },
         "coordinate_sets": {
           "description": "Every group of coordinates the paper reports, in its tables or its text, with what each is for.",
@@ -3934,13 +4279,6 @@
             "null"
           ]
         },
-        "doi": {
-          "description": "Digital Object Identifier of the version of record, without requiring a particular URL form. Never a preprint server's DOI.",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
         "external_datasets": {
           "description": "Named external datasets used, cited, or made available by the study.",
           "items": {
@@ -3975,6 +4313,17 @@
           "description": "Stable identifier for the study record, such as a DOI-based or repository-local identifier.",
           "type": "string"
         },
+        "identifiers": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArticleIdentifiers"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Every identifier known for the paper, the parsed paper's header identifiers unchanged."
+        },
         "inference_settings": {
           "description": "Thresholding and correction schemes used by one or more analyses. Declared here once and referenced by identifier.",
           "items": {
@@ -3984,34 +4333,6 @@
             "array",
             "null"
           ]
-        },
-        "journal": {
-          "description": "Journal or other publication venue.",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "language": {
-          "description": "Languages of the article, as the E-utilities API reports them -- the three-letter codes PubMed assigns, `eng` and the rest. Filled from the same `esummary` call that fills `study_type`, and not read off the paper: the text a reader is given is in one language whatever the article is indexed as.\nAt least six of the benchmark's sixteen meta-analyses state \"English language\" as an inclusion criterion, and it was unexpressible. On the 1,804 records measured it excludes exactly one paper, so it buys precision rather than recall; the criterion is stated, so the field states it.",
-          "items": {
-            "type": "string"
-          },
-          "type": [
-            "array",
-            "null"
-          ]
-        },
-        "license": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/License"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "description": "The paper's licence, copied from the parsed paper's bibliography: the version of record's, or the preprint's while `publication_status` is `preprint`. Not the licence of the copy the text was read from, which the parsed paper keeps."
         },
         "measures": {
           "description": "The scientific quantities the study measured, used by one or more analyses. Declared here once and referenced by identifier.",
@@ -4033,17 +4354,6 @@
             "null"
           ]
         },
-        "oa_status": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/OaStatus"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "description": "How the paper is open to read, copied from the parsed paper's bibliography."
-        },
         "outcome_summary": {
           "anyOf": [
             {
@@ -4062,25 +4372,6 @@
           },
           "type": [
             "array",
-            "null"
-          ]
-        },
-        "publication_status": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/PublicationStatus"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "description": "Whether the version of record is known or only the preprint, copied from the parsed paper's header identifiers. `study_type` is independent of it: it keeps PubMed's publication types verbatim, `Preprint` included."
-        },
-        "publication_year": {
-          "description": "Year in which the study was first published or made publicly available.",
-          "minimum": 1600,
-          "type": [
-            "integer",
             "null"
           ]
         },
@@ -4105,20 +4396,6 @@
           ],
           "description": "Whether the paper reports inferential analyses of its own. An empty `analyses` list is otherwise ambiguous: a methods or data paper that tests nothing and a paper the extractor read badly look the same. With this set, `no_analyses_reported` asserts the emptiness, with the sentences that show it as evidence.\nSays nothing about whether the analyses found anything; that is each `Analysis.outcome`, summarised in `outcome_summary`."
         },
-        "study_type": {
-          "description": "PubMed publication types for this record, verbatim as the E-utilities API returns them (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). Multivalued because PubMed assigns several: every article is `Journal Article` and the design of the study motivates other labels.",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/StudyType"
-              },
-              {
-                "type": "string"
-              }
-            ]
-          },
-          "type": "array"
-        },
         "tables": {
           "description": "Publication tables from which results or analysis metadata were extracted.",
           "items": {
@@ -4138,16 +4415,11 @@
             "array",
             "null"
           ]
-        },
-        "title": {
-          "description": "Full title of the study or publication.",
-          "type": "string"
         }
       },
       "required": [
         "id",
-        "title",
-        "study_type"
+        "bibliography"
       ],
       "title": "Study",
       "type": "object"
@@ -4718,15 +4990,9 @@
         "null"
       ]
     },
-    "authors": {
-      "description": "Authors of the study or publication, in published order.",
-      "items": {
-        "type": "string"
-      },
-      "type": [
-        "array",
-        "null"
-      ]
+    "bibliography": {
+      "$ref": "#/$defs/Bibliography",
+      "description": "The paper's bibliographic facts, the parsed paper's `Bibliography` unchanged: title, authors, journal, year, abstract, PubMed types, the paper's licence."
     },
     "coordinate_sets": {
       "description": "Every group of coordinates the paper reports, in its tables or its text, with what each is for.",
@@ -4766,13 +5032,6 @@
         "null"
       ]
     },
-    "doi": {
-      "description": "Digital Object Identifier of the version of record, without requiring a particular URL form. Never a preprint server's DOI.",
-      "type": [
-        "string",
-        "null"
-      ]
-    },
     "external_datasets": {
       "description": "Named external datasets used, cited, or made available by the study.",
       "items": {
@@ -4807,6 +5066,17 @@
       "description": "Stable identifier for the study record, such as a DOI-based or repository-local identifier.",
       "type": "string"
     },
+    "identifiers": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ArticleIdentifiers"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Every identifier known for the paper, the parsed paper's header identifiers unchanged."
+    },
     "inference_settings": {
       "description": "Thresholding and correction schemes used by one or more analyses. Declared here once and referenced by identifier.",
       "items": {
@@ -4816,34 +5086,6 @@
         "array",
         "null"
       ]
-    },
-    "journal": {
-      "description": "Journal or other publication venue.",
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "language": {
-      "description": "Languages of the article, as the E-utilities API reports them -- the three-letter codes PubMed assigns, `eng` and the rest. Filled from the same `esummary` call that fills `study_type`, and not read off the paper: the text a reader is given is in one language whatever the article is indexed as.\nAt least six of the benchmark's sixteen meta-analyses state \"English language\" as an inclusion criterion, and it was unexpressible. On the 1,804 records measured it excludes exactly one paper, so it buys precision rather than recall; the criterion is stated, so the field states it.",
-      "items": {
-        "type": "string"
-      },
-      "type": [
-        "array",
-        "null"
-      ]
-    },
-    "license": {
-      "anyOf": [
-        {
-          "$ref": "#/$defs/License"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "description": "The paper's licence, copied from the parsed paper's bibliography: the version of record's, or the preprint's while `publication_status` is `preprint`. Not the licence of the copy the text was read from, which the parsed paper keeps."
     },
     "measures": {
       "description": "The scientific quantities the study measured, used by one or more analyses. Declared here once and referenced by identifier.",
@@ -4865,17 +5107,6 @@
         "null"
       ]
     },
-    "oa_status": {
-      "anyOf": [
-        {
-          "$ref": "#/$defs/OaStatus"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "description": "How the paper is open to read, copied from the parsed paper's bibliography."
-    },
     "outcome_summary": {
       "anyOf": [
         {
@@ -4894,25 +5125,6 @@
       },
       "type": [
         "array",
-        "null"
-      ]
-    },
-    "publication_status": {
-      "anyOf": [
-        {
-          "$ref": "#/$defs/PublicationStatus"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "description": "Whether the version of record is known or only the preprint, copied from the parsed paper's header identifiers. `study_type` is independent of it: it keeps PubMed's publication types verbatim, `Preprint` included."
-    },
-    "publication_year": {
-      "description": "Year in which the study was first published or made publicly available.",
-      "minimum": 1600,
-      "type": [
-        "integer",
         "null"
       ]
     },
@@ -4937,20 +5149,6 @@
       ],
       "description": "Whether the paper reports inferential analyses of its own. An empty `analyses` list is otherwise ambiguous: a methods or data paper that tests nothing and a paper the extractor read badly look the same. With this set, `no_analyses_reported` asserts the emptiness, with the sentences that show it as evidence.\nSays nothing about whether the analyses found anything; that is each `Analysis.outcome`, summarised in `outcome_summary`."
     },
-    "study_type": {
-      "description": "PubMed publication types for this record, verbatim as the E-utilities API returns them (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). Multivalued because PubMed assigns several: every article is `Journal Article` and the design of the study motivates other labels.",
-      "items": {
-        "anyOf": [
-          {
-            "$ref": "#/$defs/StudyType"
-          },
-          {
-            "type": "string"
-          }
-        ]
-      },
-      "type": "array"
-    },
     "tables": {
       "description": "Publication tables from which results or analysis metadata were extracted.",
       "items": {
@@ -4970,16 +5168,11 @@
         "array",
         "null"
       ]
-    },
-    "title": {
-      "description": "Full title of the study or publication.",
-      "type": "string"
     }
   },
   "required": [
     "id",
-    "title",
-    "study_type"
+    "bibliography"
   ],
   "title": "neuroimaging-study-storage",
   "type": "object",

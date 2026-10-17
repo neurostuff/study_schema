@@ -102,13 +102,6 @@
             "null"
           ]
         },
-        "neurostore_base_study_id": {
-          "description": "Set once the paper has been uploaded; neurostore's BaseStudy id.",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
         "pmcid": {
           "description": "PubMed Central's copy of the version of record. Never PMC's copy of a preprint, which is `preprint_pmcid`.",
           "type": [
@@ -189,6 +182,13 @@
             "null"
           ]
         },
+        "neurostore_base_study_id": {
+          "description": "Set once the paper has been uploaded; neurostore's BaseStudy id. An upload pointer, not a bibliographic identifier, so it sits here and not in `identifiers`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "producer": {
           "$ref": "#/$defs/Producer"
         },
@@ -232,7 +232,7 @@
     },
     "Bibliography": {
       "additionalProperties": false,
-      "description": "The paper's bibliographic facts, as the metadata lookup returned them. Downstream they are copied, never extracted: pondie fills the record's Study.title, authors, doi, journal, publication_year, language, study_type, license and oa_status from here, and neurostore fills BaseStudy from here.",
+      "description": "The paper's bibliographic facts, as the metadata lookup returned them. Defined once: the parsed paper carries it, and the storage Study holds the same object as `Study.bibliography`, so nothing is copied field by field and nothing is extracted.",
       "else": {
         "properties": {
           "abstract_provider": {
@@ -322,6 +322,7 @@
           ]
         },
         "language": {
+          "description": "Languages of the article, as the E-utilities API reports them -- the three-letter codes PubMed assigns, `eng` and the rest, and not read off the paper: the text a reader is given is in one language whatever the article is indexed as.\nAt least six of the benchmark's sixteen meta-analyses state \"English language\" as an inclusion criterion. On the 1,804 records measured it excludes exactly one paper, so it buys precision rather than recall; the criterion is stated, so the field states it.",
           "items": {
             "type": "string"
           },
@@ -362,9 +363,16 @@
           "description": "The metadata service the facts came from."
         },
         "publication_types": {
-          "description": "PubMed publication types, verbatim. The storage schema's Study.study_type.",
+          "description": "PubMed publication types for this record, verbatim as the E-utilities API returns them (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). Multivalued because PubMed assigns several: every article is `Journal Article` and the design of the study motivates other labels.",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "$ref": "#/$defs/StudyType"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": [
             "array",
@@ -372,18 +380,10 @@
           ]
         },
         "publication_year": {
+          "description": "Year in which the study was first published or made publicly available.",
+          "minimum": 1600,
           "type": [
             "integer",
-            "null"
-          ]
-        },
-        "reported_copies": {
-          "description": "Copies of the paper that a source lists and that we do not hold, each with its own licence. Where an open copy is, when `oa_status` says one exists.",
-          "items": {
-            "$ref": "#/$defs/ReportedCopy"
-          },
-          "type": [
-            "array",
             "null"
           ]
         },
@@ -1019,7 +1019,7 @@
       "description": "A licence as one source stated it, or all rights reserved assumed because no source stated one.",
       "else": {
         "properties": {
-          "code": {
+          "license_id": {
             "const": "all-rights-reserved"
           },
           "stated_as": {
@@ -1044,20 +1044,21 @@
       },
       "if": {
         "properties": {
-          "basis": {
+          "determination": {
             "const": "stated"
           }
         },
         "required": [
-          "basis"
+          "determination"
         ]
       },
       "properties": {
-        "basis": {
-          "$ref": "#/$defs/LicenseBasis"
+        "determination": {
+          "$ref": "#/$defs/LicenseDetermination"
         },
-        "code": {
-          "$ref": "#/$defs/LicenseCode"
+        "license_id": {
+          "$ref": "#/$defs/LicenseId",
+          "description": "Which licence, as OpenAlex's licence slugs name them (`cc-by`, `cc-by-nc`, ...). Not an SPDX License Identifier: sources rarely state the licence's version, and SPDX identifiers require one."
         },
         "stated_as": {
           "description": "The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes. Never empty: a source that gave no statement did not state a licence.",
@@ -1080,8 +1081,8 @@
         }
       },
       "required": [
-        "code",
-        "basis"
+        "license_id",
+        "determination"
       ],
       "then": {
         "properties": {
@@ -1108,16 +1109,16 @@
       "title": "License",
       "type": "object"
     },
-    "LicenseBasis": {
+    "LicenseDetermination": {
       "description": "Whether a source stated the licence.",
       "enum": [
         "stated",
         "assumed"
       ],
-      "title": "LicenseBasis",
+      "title": "LicenseDetermination",
       "type": "string"
     },
-    "LicenseCode": {
+    "LicenseId": {
       "description": "The terms a licence grants. A value annotated `redistributable` lets the text it covers be passed on verbatim with attribution: every Creative Commons licence, including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows, and NC, because neurostore's use is non-commercial. That reading of ND and NC is this project's policy, not legal advice, and no lawyer has confirmed it.",
       "enum": [
         "cc-by",
@@ -1131,7 +1132,7 @@
         "all-rights-reserved",
         "other"
       ],
-      "title": "LicenseCode",
+      "title": "LicenseId",
       "type": "string"
     },
     "MapQuantity": {
@@ -1535,6 +1536,16 @@
           "description": "The paper's reference list, in order. Usually fetched from an API by the paper's identifiers rather than parsed from the text (`Reference.provider` says which), so it is complete and carries DOIs even when the text's list is badly extracted.",
           "items": {
             "$ref": "#/$defs/Reference"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "reported_copies": {
+          "description": "Copies of the paper that a source lists and that we do not hold, each with its own licence. Where an open copy is, when `bibliography.oa_status` says one exists.",
+          "items": {
+            "$ref": "#/$defs/ReportedCopy"
           },
           "type": [
             "array",
@@ -2378,6 +2389,29 @@
       "title": "StatisticKind",
       "type": "string"
     },
+    "StudyType": {
+      "description": "PubMed publication types, spelled as the E-utilities API returns them so that a value needs no translation. Only the design-relevant types are listed; PubMed also returns funding and indexing types, and the vocabulary is open, so any unlisted type passes through verbatim.",
+      "enum": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Systematic Review",
+        "Review",
+        "Randomized Controlled Trial",
+        "Clinical Trial",
+        "Observational Study",
+        "Comparative Study",
+        "Multicenter Study",
+        "Validation Study",
+        "Case Reports",
+        "Editorial",
+        "Letter",
+        "Comment",
+        "Preprint",
+        "Retracted Publication"
+      ],
+      "title": "StudyType",
+      "type": "string"
+    },
     "Supplement": {
       "additionalProperties": false,
       "description": "One item of supplementary material.",
@@ -2763,6 +2797,16 @@
       "description": "The paper's reference list, in order. Usually fetched from an API by the paper's identifiers rather than parsed from the text (`Reference.provider` says which), so it is complete and carries DOIs even when the text's list is badly extracted.",
       "items": {
         "$ref": "#/$defs/Reference"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "reported_copies": {
+      "description": "Copies of the paper that a source lists and that we do not hold, each with its own licence. Where an open copy is, when `bibliography.oa_status` says one exists.",
+      "items": {
+        "$ref": "#/$defs/ReportedCopy"
       },
       "type": [
         "array",

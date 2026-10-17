@@ -1604,7 +1604,7 @@ Two checks run on PubMed metadata **before any text is read**, and both exist be
 meta-analysis has no participant sample, no acquisition and no measure of its own — the three things
 an `Analysis` is built around, so recording one means inventing a cohort.
 
-1. Skip when `Study.study_type` includes `Meta-Analysis`.
+1. Skip when `Bibliography.publication_types` includes `Meta-Analysis`.
 2. Skip when the title contains "meta-analysis", case-insensitively.
 
 Both are needed: the type label is precise but missing from unindexed records, and the title gate

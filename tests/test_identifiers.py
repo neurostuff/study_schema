@@ -81,20 +81,58 @@ def test_header_and_storage_share_one_publication_status_vocabulary():
     } == {"published", "preprint"}
 
 
+def _study_with(identifiers: dict) -> dict:
+    bibliography = {
+        "title": "An example",
+        "publication_types": ["Preprint"],
+        "license": {"license_id": "all-rights-reserved", "determination": "assumed"},
+    }
+    return {"id": "x7Ex4mpleA01", "bibliography": bibliography, "identifiers": identifiers}
+
+
 @pytest.mark.parametrize("status", ["published", "preprint"])
 def test_storage_study_carries_the_publication_status(status):
     validator = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
-    study = {"id": "x7Ex4mpleA01", "title": "An example", "study_type": ["Preprint"], "publication_status": status}
+    study = _study_with({"publication_status": status})
 
-    assert storage.Study.model_validate(study).publication_status == status
+    assert storage.Study.model_validate(study).identifiers.publication_status == status
     validator.validate(study, jsonschema.load("storage-study"))
 
 
 def test_storage_refuses_an_unknown_publication_status():
     validator = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
-    study = {"id": "x7Ex4mpleA01", "title": "An example", "study_type": ["Preprint"], "publication_status": "in_press"}
+    study = _study_with({"publication_status": "in_press"})
 
     with pytest.raises(ValidationError, match="publication_status"):
         storage.Study.model_validate(study)
     with pytest.raises(validator.ValidationError):
         validator.validate(study, jsonschema.load("storage-study"))
+
+
+def test_the_upload_pointer_is_the_headers_not_an_identifier(example_paths):
+    paper = load(example_paths["parsed_paper"])
+    assert paper_parse.ParsedPaper.model_validate(paper).header.neurostore_base_study_id == "x7Ex4mpleA01"
+    paper["header"]["identifiers"]["neurostore_base_study_id"] = "x7Ex4mpleA01"
+    with pytest.raises(ValidationError, match="neurostore_base_study_id"):
+        paper_parse.ParsedPaper.model_validate(paper)
+
+
+@pytest.mark.parametrize("year, valid", [(1600, True), (2026, True), (1599, False)])
+def test_a_publication_year_before_1600_is_refused(year, valid, example_paths):
+    # The parse and the storage Study share the bounds: one Bibliography.
+    validator = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
+    paper = load(example_paths["parsed_paper"])
+    paper["bibliography"]["publication_year"] = year
+    study = {"id": "x7Ex4mpleA01", "bibliography": paper["bibliography"]}
+    for model, document, schema in (
+        (paper_parse.ParsedPaper, paper, "parsed-paper"),
+        (storage.Study, study, "storage-study"),
+    ):
+        if valid:
+            model.model_validate(document)
+            validator.validate(document, jsonschema.load(schema))
+        else:
+            with pytest.raises(ValidationError, match="publication_year"):
+                model.model_validate(document)
+            with pytest.raises(validator.ValidationError):
+                validator.validate(document, jsonschema.load(schema))
