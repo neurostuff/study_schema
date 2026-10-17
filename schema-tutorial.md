@@ -196,7 +196,7 @@ something — see §2.4. **`unique_keys`** says a combination may not repeat wit
 | Hand-edited? | Never — re-running the mapper regenerates it | Never — produce a new version or a separate correction record |
 | Size | 52 classes, 57 vocabularies, 365 fields, across 13 modules | Generated: the same classes plus the evidence types |
 
-The extraction schema is **generated** from storage by `gen_extraction_schema.py`, so the two cannot
+The extraction schema is **generated** from storage by `pondie.schema.generate`, so the two cannot
 drift. The whole of the projection:
 
 - fields marked `deterministic` are dropped (code fills them, so there is nothing to read off a page);
@@ -289,7 +289,7 @@ low-priority and inside it.
 `deterministic` is what an API, a parser, or a derivation supplies: bibliographic metadata, PubMed
 publication types, minted identifiers, `Table.coordinate_space`, NeuroVault maps. `model_extracted`
 is everything read off the page. Every field is in exactly one of the two, and
-`check_field_provenance.py` fails if not; identifiers and type designators are in neither by
+`pondie.schema.checks.field_provenance` fails if not; identifiers and type designators are in neither by
 definition.
 
 A derivation need not come from outside the record. `ConnectivityEdge.directionality` is derived from
@@ -1505,7 +1505,7 @@ not change shape because the question changed; the cells do.
 
 > **A value the article does not report takes `extraction_status: not_reported`.**
 
-No vocabulary offers an `unstated` member, and `check_schema.py` fails the build if one appears —
+No vocabulary offers an `unstated` member, and `pondie.schema.checks.linkml` fails the build if one appears —
 silence recorded two ways is silence a query finds half of.
 
 Nothing is lost by that rule, because a `not_reported` wrapper is still **present**: everything the
@@ -1534,7 +1534,7 @@ and an extractor is asked for nine. `EffectKind` is bound by no field at all (§
 37 vocabularies come to 26 + 10 + 1.
 
 Whether a field is open or closed is storage's decision, and the projection may not revisit it:
-`check_extraction_to_storage_map.py` fails if extraction opens a closed vocabulary or closes an open
+`pondie.schema.checks.extraction_to_storage_map` fails if extraction opens a closed vocabulary or closes an open
 one. The second direction is the quiet one — closing an open vocabulary works fine and costs you the
 signal that a value is missing.
 
@@ -1815,10 +1815,10 @@ model, `FactorLevel.level` within its term, `(term, level)` within one `Effect`,
 **The checks.**
 
 ```bash
-python3 check_schema.py                        # both schemas load; no rule names a missing slot
-python3 check_field_provenance.py --strict     # every field says how it gets filled
-python3 check_extraction_to_storage_map.py     # the projection has not drifted
-python3 gen_extraction_schema.py --check       # the committed extraction tree is current
+python3 -m pondie.schema.checks.linkml                    # both schemas load; no rule names a missing slot
+python3 -m pondie.schema.checks.field_provenance --strict # every field says how it gets filled
+python3 -m pondie.schema.checks.extraction_to_storage_map # the projection has not drifted
+python3 -m pondie.schema.generate --check              # the committed extraction tree is current
 python3 -m pytest                              # everything the review layer stands on
 python3 review/validate_record.py --record <id>.extraction.json --text <text>
 ```

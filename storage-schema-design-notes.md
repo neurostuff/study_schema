@@ -244,7 +244,7 @@ instrument-bearing groups are wrong-shaped under it. The binding belongs at grou
 
 ### The cost that was accepted
 
-`gen_extraction_schema.py` carries plain references through unwrapped, so the link has no
+`pondie.schema.generate` carries plain references through unwrapped, so the link has no
 `ExtractedValue`: no evidence span, no `extraction_status`. The justifying quote moves to
 `Assessment.description`, whose wording now asks for the purpose the source gave for
 administering the instrument.
