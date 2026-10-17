@@ -219,7 +219,10 @@ What each side may rely on:
   `Study.bibliography` and `Study.identifiers` (two whole-object `copy` entries in
   `extraction-to-storage.map.yaml`), so no field has a second definition or a translation
   rule. The extraction record carries none of them: a model is never asked for a
-  bibliographic fact, and pondie skips a paper whose `is_meta_analysis` is true.
+  bibliographic fact, and pondie skips a paper whose `is_meta_analysis` is true. Language
+  and publication types come only from the parsed paper, which ingestion fills from
+  PubMed, so a criterion on either (English only, no reviews) is answered by joining the
+  record to its parse through `parse_id`; neurostore persists neither.
 - **Keys come from what was extracted, not where it was read.** An analysis is
   `analysis#<h>`, where `h` hashes its normalized name, its space and its sorted points
   (coordinates and values); `ParsedAnalysis.key` gives the recipe. The same analysis read

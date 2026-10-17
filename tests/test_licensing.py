@@ -257,10 +257,59 @@ def test_a_field_written_as_null_counts_as_absent(example_paths):
         validator.validate(paper, schema)
 
 
-def test_parse_and_storage_share_one_licence_vocabulary():
-    for enum in ("LicenseId", "LicenseDetermination", "MetadataSource", "OaStatus", "PublicationStatus", "PreprintServer", "CorrectionKind", "StudyType"):
-        assert {v.value for v in getattr(paper_parse, enum)} == {v.value for v in getattr(storage, enum)}
-    assert "publisher-tdm" not in {v.value for v in storage.LicenseId}
+SHARED_CLASSES = ("Bibliography", "ArticleIdentifiers", "PreprintDoi", "Correction", "License")
+SHARED_ENUMS = (
+    "LicenseId", "LicenseDetermination", "MetadataSource", "OaStatus",
+    "PublicationStatus", "PreprintServer", "CorrectionKind", "StudyType",
+)
+
+
+def _definitions(kind):
+    """Element name -> every YAML module (relative path) that defines it."""
+    where = {}
+    for path in sorted(LINKML.rglob("*.yaml")):
+        for name in (yaml.safe_load(path.read_text()) or {}).get(kind) or {}:
+            where.setdefault(name, []).append(path.relative_to(LINKML).as_posix())
+    return where
+
+
+def test_the_shared_bibliography_is_defined_once_in_storage():
+    classes, enums = _definitions("classes"), _definitions("enums")
+    for name in SHARED_CLASSES:
+        assert len(classes[name]) == 1 and classes[name][0].startswith("neuroimaging-study-storage/"), (name, classes[name])
+    for name in SHARED_ENUMS:
+        assert len(enums[name]) == 1 and enums[name][0].startswith("neuroimaging-study-storage/"), (name, enums[name])
+    codes = _values(LINKML / "neuroimaging-study-storage" / "license.yaml", "LicenseId")
+    assert "publisher-tdm" not in codes
+
+
+def test_the_parse_imports_the_bibliography_and_storage_never_imports_the_parse():
+    imports = lambda path: yaml.safe_load(path.read_text()).get("imports") or []
+    for module in ("paper", "header"):
+        assert "../neuroimaging-study-storage/bibliography" in imports(LINKML / "neuroimaging-paper-parse" / f"{module}.yaml")
+    for path in (LINKML / "neuroimaging-study-storage").glob("*.yaml"):
+        assert not any("paper-parse" in item for item in imports(path)), path
+
+
+def _class_of(field):
+    """The class a model field holds, through Optional."""
+    import typing
+    annotation = field.annotation
+    args = [a for a in typing.get_args(annotation) if a is not type(None)]
+    return (args[0] if args else annotation).__name__
+
+
+def test_every_copy_in_the_map_names_a_field_that_exists_with_the_same_class():
+    derivations = yaml.safe_load((LINKML / "extraction-to-storage.map.yaml").read_text())["derivations"]
+    copies = {target: d for target, d in derivations.items() if d.get("transform") == "copy"}
+    assert set(copies) == {"Study.bibliography", "Study.identifiers"}
+    for target, derivation in copies.items():
+        assert derivation["source_artifact"] == "neuroimaging-paper-parse/ParsedPaper"
+        source_class, source_field = derivation["source_field"].split(".")
+        target_class, target_field = target.split(".")
+        source = getattr(paper_parse, source_class).model_fields[source_field]
+        stored = getattr(storage, target_class).model_fields[target_field]
+        assert _class_of(source) == _class_of(stored), target
 
 
 @pytest.mark.parametrize("name", VALID)
@@ -279,11 +328,6 @@ def test_the_storage_study_holds_the_parsed_papers_bibliography_unchanged(name, 
     assert stored.bibliography.model_dump(mode="json") == study["bibliography"]
     assert stored.identifiers.model_dump(mode="json") == study["identifiers"]
     assert abstract_may_be_redistributed(stored.bibliography.license) is VALID[name][1]
-
-
-def test_the_shared_classes_have_the_same_fields_in_every_contract():
-    for cls in ("Bibliography", "ArticleIdentifiers", "PreprintDoi", "Correction", "License"):
-        assert set(getattr(paper_parse, cls).model_fields) == set(getattr(storage, cls).model_fields), cls
 
 
 def test_the_record_carries_no_bibliographic_fact():

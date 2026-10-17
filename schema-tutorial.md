@@ -194,7 +194,7 @@ something — see §2.4. **`unique_keys`** says a combination may not repeat wit
 | What it is | The normalized, query-optimized target: typed values bound to vocabularies, no provenance | The immutable record of one extraction: the same shape with every value wrapped in its evidence |
 | Who writes it | The mapper, from an extraction record | A language model reading the paper, plus deterministic passes |
 | Hand-edited? | Never — re-running the mapper regenerates it | Never — produce a new version or a separate correction record |
-| Size | 45 classes, 37 vocabularies, 301 fields, across 11 modules | Generated: the same classes plus the evidence types |
+| Size | 52 classes, 57 vocabularies, 365 fields, across 13 modules | Generated: the same classes plus the evidence types |
 
 The extraction schema is **generated** from storage by `gen_extraction_schema.py`, so the two cannot
 drift. The whole of the projection:
@@ -350,8 +350,8 @@ Task-internal structure is *not* here. What participants did inside the scanner 
 
 | Field | Holds | Not to be confused with |
 |---|---|---|
-| `title`, `authors`, `journal`, `doi`, `publication_year` | Bibliographic facts | Nothing — all `deterministic`, from the E-utilities API rather than the page |
-| `study_type` | PubMed publication types, verbatim and multivalued | A design label of your own. `Meta-Analysis` here is also a *gate*: the paper is skipped |
+| `bibliography` | The parsed paper's `Bibliography`, whole: title, authors, journal, year, abstract, PubMed publication types (`publication_types`), the paper's licence | Nothing — all `deterministic`, from the metadata lookup rather than the page. `Meta-Analysis` among the publication types is also a *gate*: the paper is skipped |
+| `identifiers` | The parsed paper's header identifiers, whole: DOI, PMID, PMCID, preprint identifiers, `publication_status` | — |
 | `description` | Brief summary of aims and scope | `StudyDesign.description`, which is the design narrative |
 | `hypothesis` | The study's own prediction, quoted, one entry per prediction | An aim. See below |
 | `design` | The inlined `StudyDesign` | — |
@@ -1745,12 +1745,12 @@ Worth knowing before you go hunting for a slot. The full list with evidence is i
 
 ## Appendix A. Class inventory
 
-45 classes. "Declared in" is where the record lives; everything else references it by identifier. The
+52 classes. "Declared in" is where the record lives; everything else references it by identifier. The
 required column leaves out `id`, which every class that has one requires; "Fields" counts it.
 
 | Class | Declared in | Required fields | Fields |
 |---|---|---|---|
-| `Study` | the record root | `title`, `study_type` | 23 |
+| `Study` | the record root | `bibliography` | 22 |
 | `StudyDesign` | `Study.design` (inlined) | — | 6 |
 | `Arm` | `StudyDesign.arms` | `name`, `arm_kind` | 5 |
 | `Timepoint` | `StudyDesign.timepoints` | `name`, `relation_to_intervention` | 5 |
@@ -1791,13 +1791,19 @@ required column leaves out `id`, which every class that has one requires; "Field
 | `Table` | `Study.tables` | — | 11 |
 | `StatisticalMap` | `Analysis.statistical_maps` | `map_type` | 7 |
 | `ExternalDataset` | `Study.external_datasets` | — | 2 |
+| `Bibliography` | `Study.bibliography` (inlined), shared with the parsed paper | `title`, `license` | 16 |
+| `ArticleIdentifiers` | `Study.identifiers` (inlined), shared with the parsed paper's header | `publication_status` | 7 |
+| `PreprintDoi` | `ArticleIdentifiers.preprint_dois` | `doi`, `server` | 2 |
+| `Correction` | `Bibliography.corrections` | `kind` | 3 |
+| `License` | `Bibliography.license` (inlined) | `license_id`, `determination` | 4 |
 
 ## Appendix B. Where everything is
 
-**The schema.** `neuroimaging-study-storage.yaml` plus eleven modules under
-[neuroimaging-study-storage/](src/study_schema/linkml/neuroimaging-study-storage/): `subsets`, `design`, `study`, `group`,
-`task`, `assessment`, `region`, `acquisition`, `analysis_enums`, `analysis_details`, `analysis`.
-`analysis_enums` holds 27 of the 38 vocabularies, separately so that the analysis and
+**The schema.** `neuroimaging-study-storage.yaml` plus thirteen modules under
+[neuroimaging-study-storage/](src/study_schema/linkml/neuroimaging-study-storage/): `subsets`, `design`, `study`, `license`,
+`bibliography`, `group`, `task`, `assessment`, `region`, `acquisition`, `analysis_enums`,
+`analysis_details`, `analysis`.
+`analysis_enums` holds 30 of the 57 vocabularies, separately so that the analysis and
 analysis-details modules can both bind to them without either importing the other.
 [neuroimaging-study-extraction/](src/study_schema/linkml/neuroimaging-study-extraction/) is the generated projection and is
 never hand-edited.

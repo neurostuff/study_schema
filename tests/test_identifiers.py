@@ -136,3 +136,17 @@ def test_a_publication_year_before_1600_is_refused(year, valid, example_paths):
                 model.model_validate(document)
             with pytest.raises(validator.ValidationError):
                 validator.validate(document, jsonschema.load(schema))
+
+
+def test_an_unlisted_publication_type_is_kept_verbatim(example_paths):
+    # StudyType lists known types only; PubMed's vocabulary is open.
+    validator = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
+    types = ["Journal Article", "Research Support, N.I.H., Extramural"]
+    paper = load(example_paths["parsed_paper"])
+    paper["bibliography"]["publication_types"] = types
+    study = {"id": "x7Ex4mpleA01", "bibliography": paper["bibliography"]}
+
+    assert paper_parse.ParsedPaper.model_validate(paper).bibliography.publication_types == types
+    assert storage.Study.model_validate(study).bibliography.publication_types == types
+    validator.validate(paper, jsonschema.load("parsed-paper"))
+    validator.validate(study, jsonschema.load("storage-study"))
