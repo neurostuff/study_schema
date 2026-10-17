@@ -111,6 +111,7 @@ Group:
   age_maximum: 0
   age_median: 0
   age_unit: 0
+  age_unit_normalized: n/a
   sex_distribution: 1
   gender_distribution: 1
   handedness_distribution: 1
@@ -119,6 +120,7 @@ Group:
   is_healthy: 0
   medical_condition: 0
   population_characteristics: 0
+  other_characteristics: n/a
   diagnostic_system: 1
   diagnostic_instrument: 1
   clinical_characteristics: 1
@@ -126,9 +128,13 @@ Group:
   medication_status: 1
   education_summary: 2
   socioeconomic_status_summary: 2
+  sample_source: 0
+  sample_source_reference: 1
+  sample_overlap_count: 1
 
 CategoryDistribution:
   category: 1
+  category_normalized: n/a
   count: 1
   percentage: 1
   denominator: 1
@@ -155,6 +161,7 @@ Task:
   paradigm_category: n/a
   reference_ids: n/a
   variant_qualifiers: 1
+  references: 1
   description: 1
   conditions: 1
   design_type: 1
@@ -171,6 +178,7 @@ Acquisition:
   id: n/a
   acquisition_type: n/a
   modality: 0
+  brain_coverage: 1
   acquisition_duration_seconds: 1
   device: 2
 
@@ -249,6 +257,7 @@ InferenceSettings:
   clusterwise_threshold_value: 0
   multiple_comparison_method: 0
   correction_scope: 0
+  correction_regions: 1
   search_volume: 2
   neighborhood_definition: 2
   tfce_used: 1
@@ -261,6 +270,7 @@ Analysis:
   id: n/a
   name: 0
   definition: 0
+  outcome: 0
   prespecification: 0
   interpretations: 0
   spatial_scope: 0
@@ -269,12 +279,14 @@ Analysis:
   measure: 0
   groups: 0
   effect: 0
+  mirror_of: n/a
   details: 1
   acquisitions: 0
   tasks: 0
   model_estimation: 0
   inference_settings: 0
   tables: 0
+  source_table_analysis: 0
   statistical_maps: 1
   coordinate_space: 0
   assessments: 1
@@ -282,6 +294,7 @@ Analysis:
 
 Effect:
   cells: 0
+  kind: 1
   mediation: 1
   statistic: 0
 
@@ -341,7 +354,9 @@ TaskQualifier:
 Condition:
   id: n/a
   name: 0
+  condition_kind: 1
   description: 0
+  stimulus_content: 1
 
 StatisticalMap:
   id: n/a
