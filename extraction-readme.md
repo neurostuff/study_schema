@@ -154,7 +154,7 @@ This rule does **not** change a value that names something the source reported:
 
 ### Evidence invariants
 
-Enforced by [review/validate_record.py](review/validate_record.py):
+Enforced by `pondie.extraction.record.validate`:
 
 - `extraction_status: not_reported` ⇒ omit `value`, and `evidence.status` must be
   `not_applicable`. A field recorded this way therefore carries **no span**: there is no
@@ -224,7 +224,7 @@ composite of subscales still names the instrument the numbers came from. What th
 *was* goes in `source_definition`, and there it is not optional: `FactorLevel.timepoints` names
 the occasions a factor *compares*, a derived column has no levels to hang them on, so this is
 the only place saying which occasions it spanned. A derived column with neither slot filled is
-an unattributed number, and `validate_record.py` says so.
+an unattributed number, and `pondie.extraction.record.validate` says so.
 
 The region's own facts go on the `Region`: `name` in the source's wording,
 `definition_method` for how it was delimited — `same_study_analysis` where it came from this

@@ -208,7 +208,7 @@ drift. The whole of the projection:
   record, rather than a list of wrappers;
 - an inlined child is projected too; a reference stays a reference and resolves through `local_id`;
 - `minimum_value`, `rules` and `unique_keys` are **dropped**, because they constrain a scalar and the
-  wrapper is in the way. Those move into `review/validate_record.py` (chapter 12).
+  wrapper is in the way. Those move into `pondie.extraction.record.validate` and `pondie/extraction/record/rules.py` (chapter 12).
 
 You fill the extraction schema. You read either. Everything this tutorial says about a field is true
 of both, because they are the same field.
@@ -1635,7 +1635,7 @@ change if a different contrast came off the same model?
 
 ### 12.3 What the validator checks
 
-`review/validate_record.py` runs three tiers over a finished extraction record. Errors mean the record
+`pondie.extraction.record.validate` (with the rules in `pondie/extraction/record/rules.py`) runs three tiers over a finished extraction record. Errors mean the record
 is wrong; warnings mean a reviewer has to look.
 
 **Tier 1 — conformance (errors).** Types, required slots, closed vocabularies, the evidence
@@ -1820,10 +1820,9 @@ python3 -m pondie.schema.checks.field_provenance --strict # every field says how
 python3 -m pondie.schema.checks.extraction_to_storage_map # the projection has not drifted
 python3 -m pondie.schema.generate --check              # the committed extraction tree is current
 python3 -m pytest                              # everything the review layer stands on
-python3 review/validate_record.py --record <id>.extraction.json --text <text>
+python3 -m pondie.extraction.record.validate --record <id>.extraction.json --text <text>
 ```
 
 **Worked records.** [representing-models.md §5](representing-models.md#5-worked-models) has twelve,
-each with the sentences from the paper it came from and a referent record. Three complete extraction
-records live under `review/examples/`, each with a corrections note saying what the extractor got
-wrong and why.
+each with the sentences from the paper it came from and a referent record. A complete extraction
+record is `examples/run/records/x7Ex4mpleA01.extraction.json`.
