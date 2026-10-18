@@ -585,7 +585,7 @@ class MetadataSource(str, Enum):
     """
     publisher_page = "publisher_page"
     """
-    A held copy's web page at its publisher: the rights metadata it carries (`dc.rights`, `prism.copyright`) or the copyright line it prints.
+    A held copy's web page at its publisher: the rights metadata it carries (`dc.rights`, `prism.copyright`), the copyright line it prints, or the user licence it names.
     """
     pubmed = "pubmed"
     crossref = "crossref"

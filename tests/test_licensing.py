@@ -22,6 +22,7 @@ VALID = {
     "tdm_manuscript_of_open_article": (False, True),
     "preprint_only": (True, True),
     "assumed_all_rights_reserved": (False, False),
+    "publisher_page_user_license": (False, False),
 }
 # Refused by the models and the JSON Schema alike.
 INVALID = {
