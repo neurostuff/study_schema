@@ -27,22 +27,12 @@
       "additionalProperties": false,
       "description": "pondie's verdict on one analysis of the parse a revision revises, reached while extracting the whole record. The verdict overrides the original's proposal, grouping and role alike.\nWhat a verdict does to what is stored against the analysis -- claims, their evidence, and users' votes on them:\n- accept, relabel: nothing moves. The key is unchanged, so everything stored against\n  it applies to the revision as it stands.\n- edit: everything is copied to the one analysis in `replaced_by`, whose points are\n  the corrected ones.\n- split: everything is copied to each analysis in `replaced_by`. - merge: everything stored against each merged analysis is copied to the one\n  analysis they merge into. Two copies of the same field with the same value become\n  one claim; with different values they stay competing claims, resolved like any\n  other.\n- omit: nothing is copied. - add: nothing to copy; the analysis is new.\nEvery copy records the key and parse it was copied from, so a reviewer can tell a copied claim from one made against the revision. The revised parse and everything stored against it are kept, unchanged, as history: superseded rather than deleted, and left out of projections and studysets.",
       "properties": {
-        "evidence": {
-          "description": "The sentences of the paper the verdict rests on.",
-          "items": {
-            "$ref": "#/$defs/TextSpan"
-          },
-          "type": [
-            "array",
-            "null"
-          ]
-        },
         "key": {
           "description": "The revised parse's analysis key; for `add`, the new analysis's key in this revision.",
           "type": "string"
         },
-        "reason": {
-          "type": "string"
+        "verdict": {
+          "$ref": "#/$defs/AuditVerdict"
         },
         "replaced_by": {
           "description": "The keys in this revision that take the analysis's place: itself for accept and relabel, the one corrected analysis for edit, the replacements for split and merge, none for omit.",
@@ -68,8 +58,18 @@
           ],
           "description": "For relabel, the role the points have instead."
         },
-        "verdict": {
-          "$ref": "#/$defs/AuditVerdict"
+        "reason": {
+          "type": "string"
+        },
+        "evidence": {
+          "description": "The sentences of the paper the verdict rests on.",
+          "items": {
+            "$ref": "#/$defs/TextSpan"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
         }
       },
       "required": [
@@ -95,8 +95,8 @@
       "additionalProperties": false,
       "description": "Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article.",
       "properties": {
-        "doi": {
-          "description": "The DOI of the version of record. Never a preprint server's DOI, which is in `preprint_dois`.",
+        "pmid": {
+          "description": "PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmid`.",
           "type": [
             "string",
             "null"
@@ -109,8 +109,8 @@
             "null"
           ]
         },
-        "pmid": {
-          "description": "PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmid`.",
+        "doi": {
+          "description": "The DOI of the version of record. Never a preprint server's DOI, which is in `preprint_dois`.",
           "type": [
             "string",
             "null"
@@ -126,15 +126,15 @@
             "null"
           ]
         },
-        "preprint_pmcid": {
-          "description": "PubMed Central's copy of the preprint.",
+        "preprint_pmid": {
+          "description": "PubMed's record of the preprint, which PubMed types `Preprint`.",
           "type": [
             "string",
             "null"
           ]
         },
-        "preprint_pmid": {
-          "description": "PubMed's record of the preprint, which PubMed types `Preprint`.",
+        "preprint_pmcid": {
+          "description": "PubMed Central's copy of the preprint.",
           "type": [
             "string",
             "null"
@@ -155,22 +155,22 @@
       "additionalProperties": false,
       "description": "Who made an artifact, from what, for which paper.",
       "properties": {
+        "artifact_kind": {
+          "$ref": "#/$defs/ArtifactKind"
+        },
+        "schema_version": {
+          "description": "The version of this schema the artifact validates against.",
+          "type": "string"
+        },
         "article_id": {
           "description": "The ingestion catalog's key for the paper. Minted once, at download, and never recomputed from the identifiers below.",
           "type": "string"
         },
-        "artifact_kind": {
-          "$ref": "#/$defs/ArtifactKind"
-        },
-        "created_at": {
-          "format": "date-time",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
         "identifiers": {
           "$ref": "#/$defs/ArticleIdentifiers"
+        },
+        "producer": {
+          "$ref": "#/$defs/Producer"
         },
         "inputs": {
           "description": "Every artifact this one was made from, by fingerprint.",
@@ -182,19 +182,19 @@
             "null"
           ]
         },
+        "created_at": {
+          "format": "date-time",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "neurostore_base_study_id": {
           "description": "Set once the paper has been uploaded; neurostore's BaseStudy id. An upload pointer, not a bibliographic identifier, so it sits here and not in `identifiers`.",
           "type": [
             "string",
             "null"
           ]
-        },
-        "producer": {
-          "$ref": "#/$defs/Producer"
-        },
-        "schema_version": {
-          "description": "The version of this schema the artifact validates against.",
-          "type": "string"
         }
       },
       "required": [
@@ -261,6 +261,51 @@
         ]
       },
       "properties": {
+        "title": {
+          "type": "string"
+        },
+        "authors": {
+          "description": "Author names in published order.",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "journal": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "publication_year": {
+          "description": "Year in which the study was first published or made publicly available.",
+          "minimum": 1600,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "volume": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "issue": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pages": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "abstract": {
           "description": "Absent (null) when no source gave one; never an empty string.",
           "pattern": "\\S",
@@ -280,8 +325,8 @@
           ],
           "description": "The source whose abstract `abstract` is. It may differ from `provider`. The abstract is the publisher's abstract of the version `license` describes, so its licence is `license`."
         },
-        "authors": {
-          "description": "Author names in published order.",
+        "language": {
+          "description": "Languages of the article, as the E-utilities API reports them -- the three-letter codes PubMed assigns, `eng` and the rest, and not read off the paper: the text a reader is given is in one language whatever the article is indexed as.\nAt least six of the benchmark's sixteen meta-analyses state \"English language\" as an inclusion criterion. On the 1,804 records measured it excludes exactly one paper, so it buys precision rather than recall; the criterion is stated, so the field states it.",
           "items": {
             "type": "string"
           },
@@ -290,39 +335,24 @@
             "null"
           ]
         },
-        "corrections": {
-          "description": "Notices attached to the paper -- errata, retractions, expressions of concern -- as the indexer lists them. A retracted paper is still parsed and stored, marked by its `retraction` notice, and left out of studysets by default; a filter can ask for it explicitly.",
+        "publication_types": {
+          "description": "PubMed publication types for this record, verbatim as the E-utilities API returns them (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). Multivalued because PubMed assigns several: every article is `Journal Article` and the design of the study motivates other labels. `StudyType` lists the known types only; any other type PubMed returns is kept verbatim.",
           "items": {
-            "$ref": "#/$defs/Correction"
+            "anyOf": [
+              {
+                "$ref": "#/$defs/StudyType"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": [
             "array",
-            "null"
-          ]
-        },
-        "issue": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "journal": {
-          "type": [
-            "string",
             "null"
           ]
         },
         "keywords": {
-          "items": {
-            "type": "string"
-          },
-          "type": [
-            "array",
-            "null"
-          ]
-        },
-        "language": {
-          "description": "Languages of the article, as the E-utilities API reports them -- the three-letter codes PubMed assigns, `eng` and the rest, and not read off the paper: the text a reader is given is in one language whatever the article is indexed as.\nAt least six of the benchmark's sixteen meta-analyses state \"English language\" as an inclusion criterion. On the 1,804 records measured it excludes exactly one paper, so it buys precision rather than recall; the criterion is stated, so the field states it.",
           "items": {
             "type": "string"
           },
@@ -345,9 +375,13 @@
             }
           ]
         },
-        "pages": {
+        "corrections": {
+          "description": "Notices attached to the paper -- errata, retractions, expressions of concern -- as the indexer lists them. A retracted paper is still parsed and stored, marked by its `retraction` notice, and left out of studysets by default; a filter can ask for it explicitly.",
+          "items": {
+            "$ref": "#/$defs/Correction"
+          },
           "type": [
-            "string",
+            "array",
             "null"
           ]
         },
@@ -361,40 +395,6 @@
             }
           ],
           "description": "The metadata service the facts came from."
-        },
-        "publication_types": {
-          "description": "PubMed publication types for this record, verbatim as the E-utilities API returns them (https://pubmed.ncbi.nlm.nih.gov/help/#publication-types). Multivalued because PubMed assigns several: every article is `Journal Article` and the design of the study motivates other labels. `StudyType` lists the known types only; any other type PubMed returns is kept verbatim.",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/StudyType"
-              },
-              {
-                "type": "string"
-              }
-            ]
-          },
-          "type": [
-            "array",
-            "null"
-          ]
-        },
-        "publication_year": {
-          "description": "Year in which the study was first published or made publicly available.",
-          "minimum": 1600,
-          "type": [
-            "integer",
-            "null"
-          ]
-        },
-        "title": {
-          "type": "string"
-        },
-        "volume": {
-          "type": [
-            "string",
-            "null"
-          ]
         }
       },
       "required": [
@@ -422,13 +422,13 @@
       "additionalProperties": false,
       "description": "One table cell an analysis was read from, by row and column group.",
       "properties": {
-        "column_group": {
-          "description": "As on ParsedPoint; 0 in a table with one block of coordinate columns.",
+        "row": {
+          "description": "The TableRow's `row`.",
           "minimum": 0,
           "type": "integer"
         },
-        "row": {
-          "description": "The TableRow's `row`.",
+        "column_group": {
+          "description": "As on ParsedPoint; 0 in a table with one block of coordinate columns.",
           "minimum": 0,
           "type": "integer"
         }
@@ -444,18 +444,9 @@
       "additionalProperties": false,
       "description": "One in-text citation and the reference entries it names. A grouped citation (\"[3-5]\", \"(Smith, 2001; Jones, 2003)\") is one Citation with several references.",
       "properties": {
-        "confidence": {
-          "description": "For a heuristic alignment, how sure; absent for an exact one.",
-          "maximum": 1,
-          "minimum": 0,
-          "type": [
-            "number",
-            "null"
-          ]
-        },
-        "method": {
-          "$ref": "#/$defs/CitationAlignment",
-          "description": "How the marker was tied to its entries -- what its reliability rests on."
+        "text_span": {
+          "$ref": "#/$defs/TextSpan",
+          "description": "The citation marker in the text."
         },
         "references": {
           "description": "The entries it names, by `Reference.id`. Empty when it could not be aligned.",
@@ -468,9 +459,18 @@
           ],
           "x-reference": "Reference"
         },
-        "text_span": {
-          "$ref": "#/$defs/TextSpan",
-          "description": "The citation marker in the text."
+        "method": {
+          "$ref": "#/$defs/CitationAlignment",
+          "description": "How the marker was tied to its entries -- what its reliability rests on."
+        },
+        "confidence": {
+          "description": "For a heuristic alignment, how sure; absent for an exact one.",
+          "maximum": 1,
+          "minimum": 0,
+          "type": [
+            "number",
+            "null"
+          ]
         }
       },
       "required": [
@@ -541,29 +541,16 @@
       "additionalProperties": false,
       "description": "Every coordinate a paper reports, grouped into analyses. An original parse is written by the ingestion workflow; a revision is written by pondie when its audit disagrees with the original.\nA parse is never edited after it is written. A reader that disagrees with it writes a revision instead, and the revision is a complete parse on its own: neurostore can store it as a new version of the paper's analyses without consulting the parse it revises.\nAnalyses that pondie accepts or relabels keep their keys, because their name, space and points are unchanged, so claims made against them carry over to the revision untouched. Only a split, a merge or an omission changes which keys exist.",
       "properties": {
-        "analyses": {
-          "description": "May be empty: the parse ran and found no analysis. A paper the parse never ran on has no CoordinateParse at all, so the two are never confused, and `tables` says what reading each table found.",
-          "items": {
-            "$ref": "#/$defs/ParsedAnalysis"
-          },
-          "type": "array"
-        },
         "header": {
           "$ref": "#/$defs/ArtifactHeader",
           "description": "`inputs` names the parsed paper by `text_sha256`, and for a revision also the parse it revises by `parse_id`."
         },
-        "omitted_analyses": {
-          "description": "Text or figure analyses the producer read and left out of `analyses`, each with the reason. A table's omissions are in `tables`. Absent when nothing was left out.",
-          "items": {
-            "$ref": "#/$defs/OmittedAnalysis"
-          },
-          "type": [
-            "array",
-            "null"
-          ]
-        },
         "parse_id": {
           "description": "This parse's identity, the fingerprint every later artifact cites. Unique per paper; a sha256 of the canonical JSON of `analyses` is recommended, so two producers that reach the same analyses reach the same id.",
+          "type": "string"
+        },
+        "text_sha256": {
+          "description": "The parsed paper's fingerprint. Every point's cells and spans address it.",
           "type": "string"
         },
         "revision_of": {
@@ -572,6 +559,13 @@
             "string",
             "null"
           ]
+        },
+        "analyses": {
+          "description": "May be empty: the parse ran and found no analysis. A paper the parse never ran on has no CoordinateParse at all, so the two are never confused, and `tables` says what reading each table found.",
+          "items": {
+            "$ref": "#/$defs/ParsedAnalysis"
+          },
+          "type": "array"
         },
         "tables": {
           "description": "One entry per table of the parsed paper: what reading it for coordinates found, or why it was not read. A table with no entry was not considered.",
@@ -583,9 +577,15 @@
             "null"
           ]
         },
-        "text_sha256": {
-          "description": "The parsed paper's fingerprint. Every point's cells and spans address it.",
-          "type": "string"
+        "omitted_analyses": {
+          "description": "Text or figure analyses the producer read and left out of `analyses`, each with the reason. A table's omissions are in `tables`. Absent when nothing was left out.",
+          "items": {
+            "$ref": "#/$defs/OmittedAnalysis"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
         },
         "text_sweep": {
           "anyOf": [
@@ -657,28 +657,8 @@
         ]
       },
       "properties": {
-        "license": {
-          "$ref": "#/$defs/License",
-          "description": "This copy's own licence. A manuscript or preprint can be licensed differently from the version of record."
-        },
-        "preprint_server": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/PreprintServer"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
         "route": {
           "$ref": "#/$defs/CopyRoute"
-        },
-        "url": {
-          "type": [
-            "string",
-            "null"
-          ]
         },
         "version": {
           "anyOf": [
@@ -690,6 +670,26 @@
             }
           ],
           "description": "Absent when no source says which version the copy is."
+        },
+        "license": {
+          "$ref": "#/$defs/License",
+          "description": "This copy's own licence. A manuscript or preprint can be licensed differently from the version of record."
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "preprint_server": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PreprintServer"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -749,12 +749,6 @@
       "additionalProperties": false,
       "description": "One notice attached to a paper.",
       "properties": {
-        "doi": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
         "kind": {
           "anyOf": [
             {
@@ -766,6 +760,12 @@
           ]
         },
         "pmid": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "doi": {
           "type": [
             "string",
             "null"
@@ -921,28 +921,8 @@
         "access": {
           "$ref": "#/$defs/CopyAccess"
         },
-        "license": {
-          "$ref": "#/$defs/License",
-          "description": "This copy's own licence. A manuscript or preprint can be licensed differently from the version of record."
-        },
-        "preprint_server": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/PreprintServer"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
         "route": {
           "$ref": "#/$defs/CopyRoute"
-        },
-        "url": {
-          "type": [
-            "string",
-            "null"
-          ]
         },
         "version": {
           "anyOf": [
@@ -954,6 +934,26 @@
             }
           ],
           "description": "Absent when no source says which version the copy is."
+        },
+        "license": {
+          "$ref": "#/$defs/License",
+          "description": "This copy's own licence. A manuscript or preprint can be licensed differently from the version of record."
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "preprint_server": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PreprintServer"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -1022,20 +1022,20 @@
           "license_id": {
             "const": "all-rights-reserved"
           },
-          "stated_as": {
-            "not": {
-              "anyOf": [
-                {
-                  "type": "string"
-                }
-              ]
-            }
-          },
           "stated_by": {
             "not": {
               "anyOf": [
                 {
                   "$ref": "#/$defs/MetadataSource"
+                }
+              ]
+            }
+          },
+          "stated_as": {
+            "not": {
+              "anyOf": [
+                {
+                  "type": "string"
                 }
               ]
             }
@@ -1053,20 +1053,12 @@
         ]
       },
       "properties": {
-        "determination": {
-          "$ref": "#/$defs/LicenseDetermination"
-        },
         "license_id": {
           "$ref": "#/$defs/LicenseId",
           "description": "Which licence, as OpenAlex's licence slugs name them (`cc-by`, `cc-by-nc`, ...). Not an SPDX License Identifier: sources rarely state the licence's version, and SPDX identifiers require one."
         },
-        "stated_as": {
-          "description": "The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes. Never empty: a source that gave no statement did not state a licence.",
-          "pattern": "\\S",
-          "type": [
-            "string",
-            "null"
-          ]
+        "determination": {
+          "$ref": "#/$defs/LicenseDetermination"
         },
         "stated_by": {
           "anyOf": [
@@ -1078,6 +1070,14 @@
             }
           ],
           "description": "The source whose statement this is."
+        },
+        "stated_as": {
+          "description": "The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes. Never empty: a source that gave no statement did not state a licence.",
+          "pattern": "\\S",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -1086,17 +1086,17 @@
       ],
       "then": {
         "properties": {
-          "stated_as": {
-            "anyOf": [
-              {
-                "type": "string"
-              }
-            ]
-          },
           "stated_by": {
             "anyOf": [
               {
                 "$ref": "#/$defs/MetadataSource"
+              }
+            ]
+          },
+          "stated_as": {
+            "anyOf": [
+              {
+                "type": "string"
               }
             ]
           }
@@ -1264,10 +1264,6 @@
           "description": "The analysis's label as the producer read it.",
           "type": "string"
         },
-        "reason": {
-          "description": "Why it was left out, for example that it repeats a kept analysis (the same key) or that its passage is not in the text.",
-          "type": "string"
-        },
         "text_spans": {
           "description": "The sentences it was read from, when it was located.",
           "items": {
@@ -1277,6 +1273,10 @@
             "array",
             "null"
           ]
+        },
+        "reason": {
+          "description": "Why it was left out, for example that it repeats a kept analysis (the same key) or that its passage is not in the text.",
+          "type": "string"
         }
       },
       "required": [
@@ -1290,19 +1290,9 @@
       "additionalProperties": false,
       "description": "The points a paper reports together for one tested effect, or for one non-result purpose such as the regions of interest an analysis used.\nIn an original parse, the grouping is the ingestion workflow's proposal, made from a table and its caption. pondie confirms or overrides it with the whole paper in view. The role is required and is set in the ingestion workflow by the `roles` classifier stage, after the analyses are identified. It is also the ingestion workflow's proposal: pondie's accept confirms it, and a relabel overrides it with a reviewed correction that wins.",
       "properties": {
-        "anchor_kind": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/AnchorKind"
-            },
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "description": "For an `anchor`, what it defines."
+        "key": {
+          "description": "The analysis's identity, derived from what was extracted -- its `name`, `coordinate_space` and `points` -- never from where it was read, so the same analysis read from two sources (a table and its HTML copy, a table and the sentence restating it) reaches the same key, and a re-run that extracts the same content reaches it again. A rename or a changed point is a new key. The name is part of the key because differently named analyses can print identical points.\n`analysis#<h>`, where `h` is the first 16 hex characters of the sha256 of the UTF-8 bytes of the compact JSON array `[<name>, <space>, [<point>, ...]]` (no whitespace, non-ASCII characters unescaped). `<name>` is `name` normalized: Unicode NFKC, casefolded, every dash (Unicode Pd and U+2212 minus) as `-`, zero-width characters and all whitespace dropped, so `PO > Sil` and `PO>Sil` are one name. `<space>` is `coordinate_space`, or `\"\"` when absent.\nEach `<point>` is `[<x>, <y>, <z>, <space>, [[<kind>, <value>], ...]]`: the coordinates rounded to 0.01 mm and written with two decimals (`\"-4.00\"`); the point's own `space` when it differs from the analysis's, else `\"\"`; and each of its `values` as its `kind` and its value written to 6 significant digits (`\"5.8\"`, `\"3.2e-12\"`). Negative zero is written as zero. Each point's values, and then the points, are sorted by their own compact JSON, in code point order.\nAn analysis with no points -- a contrast a table lists as \"n.s.\" -- hashes its name and space alone. The two halves of a sign split hold different points under different names, so each has its own key. `study_schema.keys.analysis_key` computes it.\nThis key is what the extraction record's `Analysis.source_table_analysis` and `CoordinateSet.id` name, and what neurostore stores as `Analysis.source_id`. Two analyses of one parse never share a name, space and points, so never share a key.",
+          "type": "string"
         },
         "cells": {
           "description": "For a table analysis, every cell it was read from: each point's row and column group, and the rows that name the contrast without coordinates. Required for `origin: table`; every point's row and column group is among them.",
@@ -1311,6 +1301,43 @@
           },
           "type": [
             "array",
+            "null"
+          ]
+        },
+        "text_spans": {
+          "description": "For a text or figure analysis, the sentences or legend it was read from: those holding its coordinates, or the one stating a result that has none.",
+          "items": {
+            "$ref": "#/$defs/TextSpan"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "origin": {
+          "$ref": "#/$defs/CoordinateOrigin"
+        },
+        "table_id": {
+          "description": "The ParsedTable the points were read from. Present exactly when `origin` is `table`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name": {
+          "description": "The analysis's label, as printed where the paper prints one.",
+          "type": "string"
+        },
+        "name_is_printed": {
+          "description": "False when the producer composed the name because the paper printed none, so a reader never mistakes a placeholder for the paper's wording.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "description": {
+          "type": [
+            "string",
             "null"
           ]
         },
@@ -1324,94 +1351,6 @@
             }
           ],
           "description": "The space of the analysis's points; absent when the paper states none. A point states its own only when it differs."
-        },
-        "derived_from": {
-          "description": "On a revision, the keys of the revised parse's analyses this one was made from by a split or a merge. Absent on an analysis carried over unchanged.",
-          "items": {
-            "type": "string"
-          },
-          "type": [
-            "array",
-            "null"
-          ]
-        },
-        "description": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "from_prior_study": {
-          "description": "The coordinates come from another publication rather than from this study: a peak quoted for comparison (always true for `role: reference`), another study's peak taken as this study's ROI or seed, or a peak from the authors' own earlier publication given with its statistics, which is `role: result` with this flag true so that a meta-analysis can avoid counting the earlier study twice. Separate from the role, because a borrowed seed is still the seed this study's analysis used. False when the study defined them itself, including an ROI built from its own earlier result, meaning an earlier analysis in this same paper such as a localizer.",
-          "type": [
-            "boolean",
-            "null"
-          ]
-        },
-        "key": {
-          "description": "The analysis's identity, derived from what was extracted -- its `name`, `coordinate_space` and `points` -- never from where it was read, so the same analysis read from two sources (a table and its HTML copy, a table and the sentence restating it) reaches the same key, and a re-run that extracts the same content reaches it again. A rename or a changed point is a new key. The name is part of the key because differently named analyses can print identical points.\n`analysis#<h>`, where `h` is the first 16 hex characters of the sha256 of the UTF-8 bytes of the compact JSON array `[<name>, <space>, [<point>, ...]]` (no whitespace, non-ASCII characters unescaped). `<name>` is `name` normalized: Unicode NFKC, casefolded, every dash (Unicode Pd and U+2212 minus) as `-`, zero-width characters and all whitespace dropped, so `PO > Sil` and `PO>Sil` are one name. `<space>` is `coordinate_space`, or `\"\"` when absent.\nEach `<point>` is `[<x>, <y>, <z>, <space>, [[<kind>, <value>], ...]]`: the coordinates rounded to 0.01 mm and written with two decimals (`\"-4.00\"`); the point's own `space` when it differs from the analysis's, else `\"\"`; and each of its `values` as its `kind` and its value written to 6 significant digits (`\"5.8\"`, `\"3.2e-12\"`). Negative zero is written as zero. Each point's values, and then the points, are sorted by their own compact JSON, in code point order.\nAn analysis with no points -- a contrast a table lists as \"n.s.\" -- hashes its name and space alone. The two halves of a sign split hold different points under different names, so each has its own key. `study_schema.keys.analysis_key` computes it.\nThis key is what the extraction record's `Analysis.source_table_analysis` and `CoordinateSet.id` name, and what neurostore stores as `Analysis.source_id`. Two analyses of one parse never share a name, space and points, so never share a key.",
-          "type": "string"
-        },
-        "name": {
-          "description": "The analysis's label, as printed where the paper prints one.",
-          "type": "string"
-        },
-        "name_is_printed": {
-          "description": "False when the producer composed the name because the paper printed none, so a reader never mistakes a placeholder for the paper's wording.",
-          "type": [
-            "boolean",
-            "null"
-          ]
-        },
-        "origin": {
-          "$ref": "#/$defs/CoordinateOrigin"
-        },
-        "points": {
-          "description": "Empty when the paper names the analysis but reports no coordinates for it -- most often because nothing survived the threshold. Whether it found an effect is the extraction record's `Analysis.outcome`; an empty list here only says that no coordinates were printed.",
-          "items": {
-            "$ref": "#/$defs/ParsedPoint"
-          },
-          "type": [
-            "array",
-            "null"
-          ]
-        },
-        "prior_study_evidence": {
-          "description": "The citation or sentence showing the coordinates come from another publication.",
-          "items": {
-            "$ref": "#/$defs/TextSpan"
-          },
-          "type": [
-            "array",
-            "null"
-          ]
-        },
-        "role": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/CoordinateRole"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "What the points are for. Only a `result` is an analysis with a statistic in the extraction record; an `anchor` -- a region of interest, a seed, a stimulation target -- becomes a CoordinateSet there, and never enters a studyset as an analysis.\nRequired. Set in the ingestion workflow by the `roles` classifier stage, after the analyses are identified: a classifier that reads each set and its context, named by `role_source`. It is the ingestion workflow's proposal, which pondie audits: accept confirms it, and relabel overrides it with a reviewed correction that wins. The extractors never propose a role, and nothing supplies a default.\nNumbers that are not brain coordinates, such as channel numbers or lattice points, get no role. They are not a coordinate set."
-        },
-        "role_confidence": {
-          "description": "The classifier's probability for `role` (and `anchor_kind`).",
-          "maximum": 1,
-          "minimum": 0,
-          "type": [
-            "number",
-            "null"
-          ]
-        },
-        "role_source": {
-          "description": "The classifier that set the role, by name and version, such as `set-role-encoder@2026-10-09`.",
-          "type": [
-            "string",
-            "null"
-          ]
         },
         "space_as_printed": {
           "type": [
@@ -1429,6 +1368,64 @@
             }
           ]
         },
+        "role": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CoordinateRole"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "What the points are for. Only a `result` is an analysis with a statistic in the extraction record; an `anchor` -- a region of interest, a seed, a stimulation target -- becomes a CoordinateSet there, and never enters a studyset as an analysis.\nRequired. Set in the ingestion workflow by the `roles` classifier stage, after the analyses are identified: a classifier that reads each set and its context, named by `role_source`. It is the ingestion workflow's proposal, which pondie audits: accept confirms it, and relabel overrides it with a reviewed correction that wins. The extractors never propose a role, and nothing supplies a default.\nNumbers that are not brain coordinates, such as channel numbers or lattice points, get no role. They are not a coordinate set."
+        },
+        "anchor_kind": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AnchorKind"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "For an `anchor`, what it defines."
+        },
+        "from_prior_study": {
+          "description": "The coordinates come from another publication rather than from this study: a peak quoted for comparison (always true for `role: reference`), another study's peak taken as this study's ROI or seed, or a peak from the authors' own earlier publication given with its statistics, which is `role: result` with this flag true so that a meta-analysis can avoid counting the earlier study twice. Separate from the role, because a borrowed seed is still the seed this study's analysis used. False when the study defined them itself, including an ROI built from its own earlier result, meaning an earlier analysis in this same paper such as a localizer.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "prior_study_evidence": {
+          "description": "The citation or sentence showing the coordinates come from another publication.",
+          "items": {
+            "$ref": "#/$defs/TextSpan"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "role_confidence": {
+          "description": "The classifier's probability for `role` (and `anchor_kind`).",
+          "maximum": 1,
+          "minimum": 0,
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "role_source": {
+          "description": "The classifier that set the role, by name and version, such as `set-role-encoder@2026-10-09`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "split": {
           "anyOf": [
             {
@@ -1439,6 +1436,16 @@
             }
           ],
           "description": "Present on both halves of an analysis split by sign, and only there. The split is declared here and nowhere else: a reader never infers it from a name."
+        },
+        "derived_from": {
+          "description": "On a revision, the keys of the revised parse's analyses this one was made from by a split or a merge. Absent on an analysis carried over unchanged.",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
         },
         "statistic": {
           "anyOf": [
@@ -1461,27 +1468,20 @@
             "null"
           ]
         },
-        "table_id": {
-          "description": "The ParsedTable the points were read from. Present exactly when `origin` is `table`.",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "text_spans": {
-          "description": "For a text or figure analysis, the sentences or legend it was read from: those holding its coordinates, or the one stating a result that has none.",
+        "thresholds": {
+          "description": "The thresholds the analysis's results survived, at every level the paper states: most often a voxel-level height (\"p < .001 uncorrected\") together with a cluster-level correction (\"FWE p < .05\"), which one method cannot express. Read from the caption, footer or Methods; each threshold cites where.",
           "items": {
-            "$ref": "#/$defs/TextSpan"
+            "$ref": "#/$defs/Threshold"
           },
           "type": [
             "array",
             "null"
           ]
         },
-        "thresholds": {
-          "description": "The thresholds the analysis's results survived, at every level the paper states: most often a voxel-level height (\"p < .001 uncorrected\") together with a cluster-level correction (\"FWE p < .05\"), which one method cannot express. Read from the caption, footer or Methods; each threshold cites where.",
+        "points": {
+          "description": "Empty when the paper names the analysis but reports no coordinates for it -- most often because nothing survived the threshold. Whether it found an effect is the extraction record's `Analysis.outcome`; an empty list here only says that no coordinates were printed.",
           "items": {
-            "$ref": "#/$defs/Threshold"
+            "$ref": "#/$defs/ParsedPoint"
           },
           "type": [
             "array",
@@ -1502,64 +1502,8 @@
       "additionalProperties": false,
       "description": "One paper as text, tables and bibliographic facts. The same shape for every download source.\nThe text is the only offset space. Every evidence span an extraction record cites, every table row's position and every text-read point addresses `text_sha256`'s characters, so a span can be checked by slicing the text, and a span made against a different text is detectably wrong.",
       "properties": {
-        "bibliography": {
-          "$ref": "#/$defs/Bibliography"
-        },
-        "citations": {
-          "description": "Every in-text citation, where it sits in the text and which reference it points to. The link from a sentence to a work, which the reference list alone cannot give: what resolves the citations a task's description makes (storage `Task.reference_ids`) and traces a task to the paper that introduced it.",
-          "items": {
-            "$ref": "#/$defs/Citation"
-          },
-          "type": [
-            "array",
-            "null"
-          ]
-        },
         "header": {
           "$ref": "#/$defs/ArtifactHeader"
-        },
-        "is_meta_analysis": {
-          "description": "Whether the paper is itself a meta-analysis or review, decided here once. Every consumer reads this field; none applies its own test.",
-          "type": "boolean"
-        },
-        "is_meta_analysis_basis": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/MetaAnalysisBasis"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "references": {
-          "description": "The paper's reference list, in order. Usually fetched from an API by the paper's identifiers rather than parsed from the text (`Reference.provider` says which), so it is complete and carries DOIs even when the text's list is badly extracted.",
-          "items": {
-            "$ref": "#/$defs/Reference"
-          },
-          "type": [
-            "array",
-            "null"
-          ]
-        },
-        "reported_copies": {
-          "description": "Copies of the paper that a source lists and that we do not hold, each with its own licence. Where an open copy is, when `bibliography.oa_status` says one exists.",
-          "items": {
-            "$ref": "#/$defs/ReportedCopy"
-          },
-          "type": [
-            "array",
-            "null"
-          ]
-        },
-        "sections": {
-          "items": {
-            "$ref": "#/$defs/Section"
-          },
-          "type": [
-            "array",
-            "null"
-          ]
         },
         "source": {
           "anyOf": [
@@ -1578,10 +1522,85 @@
             "null"
           ]
         },
+        "text_copy": {
+          "$ref": "#/$defs/HeldCopy",
+          "description": "The copy the text was read from. Its licence and access, not the paper's licence, decide whether the text may be passed on."
+        },
+        "reported_copies": {
+          "description": "Copies of the paper that a source lists and that we do not hold, each with its own licence. Where an open copy is, when `bibliography.oa_status` says one exists.",
+          "items": {
+            "$ref": "#/$defs/ReportedCopy"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "text_path": {
+          "description": "The text file's path, relative to the paper's bundle directory.",
+          "type": "string"
+        },
+        "text_sha256": {
+          "description": "sha256 of the text file's UTF-8 bytes. This artifact's fingerprint.",
+          "type": "string"
+        },
+        "text_length": {
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "bibliography": {
+          "$ref": "#/$defs/Bibliography"
+        },
+        "is_meta_analysis": {
+          "description": "Whether the paper is itself a meta-analysis or review, decided here once. Every consumer reads this field; none applies its own test.",
+          "type": "boolean"
+        },
+        "is_meta_analysis_basis": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetaAnalysisBasis"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sections": {
+          "items": {
+            "$ref": "#/$defs/Section"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
         "supplements": {
           "description": "Supplementary material the paper links to, and whether it was fetched. A result the text cites to a supplement that was not fetched is reported elsewhere, not missing.",
           "items": {
             "$ref": "#/$defs/Supplement"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "references": {
+          "description": "The paper's reference list, in order. Usually fetched from an API by the paper's identifiers rather than parsed from the text (`Reference.provider` says which), so it is complete and carries DOIs even when the text's list is badly extracted.",
+          "items": {
+            "$ref": "#/$defs/Reference"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "citations": {
+          "description": "Every in-text citation, where it sits in the text and which reference it points to. The link from a sentence to a work, which the reference list alone cannot give: what resolves the citations a task's description makes (storage `Task.reference_ids`) and traces a task to the paper that introduced it.",
+          "items": {
+            "$ref": "#/$defs/Citation"
           },
           "type": [
             "array",
@@ -1596,25 +1615,6 @@
             "array",
             "null"
           ]
-        },
-        "text_copy": {
-          "$ref": "#/$defs/HeldCopy",
-          "description": "The copy the text was read from. Its licence and access, not the paper's licence, decide whether the text may be passed on."
-        },
-        "text_length": {
-          "minimum": 0,
-          "type": [
-            "integer",
-            "null"
-          ]
-        },
-        "text_path": {
-          "description": "The text file's path, relative to the paper's bundle directory.",
-          "type": "string"
-        },
-        "text_sha256": {
-          "description": "sha256 of the text file's UTF-8 bytes. This artifact's fingerprint.",
-          "type": "string"
         }
       },
       "required": [
@@ -1633,31 +1633,6 @@
       "additionalProperties": false,
       "description": "One reported coordinate. `coordinates`, `space` and `values` are NIMADS's point fields with NIMADS's meaning, so the projection to a studyset copies them; everything else is the parse's own.",
       "properties": {
-        "cluster_measure": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/ClusterMeasure"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "cluster_size": {
-          "minimum": 0,
-          "type": [
-            "number",
-            "null"
-          ]
-        },
-        "column_group": {
-          "description": "For a table point, which block of coordinate columns it was read from, numbered from 0 left to right. 0 in a table with one block. Two contrasts printed side by side share rows and differ here.",
-          "minimum": 0,
-          "type": [
-            "integer",
-            "null"
-          ]
-        },
         "coordinates": {
           "description": "x, y, z in millimetres.",
           "items": {
@@ -1666,27 +1641,6 @@
           "maxItems": 3,
           "minItems": 3,
           "type": "array"
-        },
-        "is_subpeak": {
-          "type": [
-            "boolean",
-            "null"
-          ]
-        },
-        "label": {
-          "description": "The region name printed beside the point.",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "row": {
-          "description": "For a table point, the TableRow it was read from.",
-          "minimum": 0,
-          "type": [
-            "integer",
-            "null"
-          ]
         },
         "space": {
           "anyOf": [
@@ -1698,6 +1652,22 @@
             }
           ],
           "description": "Only when it differs from the analysis's `coordinate_space`."
+        },
+        "row": {
+          "description": "For a table point, the TableRow it was read from.",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "column_group": {
+          "description": "For a table point, which block of coordinate columns it was read from, numbered from 0 left to right. 0 in a table with one block. Two contrasts printed side by side share rows and differ here.",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
         },
         "text_span": {
           "anyOf": [
@@ -1719,6 +1689,36 @@
             "array",
             "null"
           ]
+        },
+        "cluster_size": {
+          "minimum": 0,
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "cluster_measure": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ClusterMeasure"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "is_subpeak": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "label": {
+          "description": "The region name printed beside the point.",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -1731,37 +1731,9 @@
       "additionalProperties": false,
       "description": "A table of the paper, cell by cell.",
       "properties": {
-        "caption": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "column_headings": {
-          "items": {
-            "type": "string"
-          },
-          "type": [
-            "array",
-            "null"
-          ]
-        },
-        "coordinate_space_hint": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/ReportedSpace"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "description": "The source parser's own guess at the table's space. A hint for the coordinate stages, not an answer: the space a point is stored in is the coordinate parse's."
-        },
-        "footer": {
-          "type": [
-            "string",
-            "null"
-          ]
+        "table_id": {
+          "description": "The table's key, as the source's parser names it. Stable for the life of the parsed paper and used unchanged by every consumer: the coordinate parse's `table_id`s, the record's Table.id, neurostore's Table.t_id. Never renumbered from the printed label and never sanitized differently on disk.",
+          "type": "string"
         },
         "label": {
           "description": "The printed label, such as Table 2 or Supplementary Table S4.",
@@ -1776,10 +1748,31 @@
             "null"
           ]
         },
+        "caption": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "footer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "raw_path": {
           "description": "The source's raw table file, relative to the bundle directory.",
           "type": [
             "string",
+            "null"
+          ]
+        },
+        "column_headings": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
             "null"
           ]
         },
@@ -1793,10 +1786,6 @@
             "null"
           ]
         },
-        "table_id": {
-          "description": "The table's key, as the source's parser names it. Stable for the life of the parsed paper and used unchanged by every consumer: the coordinate parse's `table_id`s, the record's Table.id, neurostore's Table.t_id. Never renumbered from the printed label and never sanitized differently on disk.",
-          "type": "string"
-        },
         "text_span": {
           "anyOf": [
             {
@@ -1807,6 +1796,17 @@
             }
           ],
           "description": "Where the table's rows are inlined in the text, when the source inlines them."
+        },
+        "coordinate_space_hint": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReportedSpace"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The source parser's own guess at the table's space. A hint for the coordinate stages, not an answer: the space a point is stored in is the coordinate parse's."
         },
         "triage": {
           "anyOf": [
@@ -1839,20 +1839,6 @@
       "additionalProperties": false,
       "description": "A value reported at a point. NIMADS's point value.",
       "properties": {
-        "correction": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/CorrectionMethod"
-            },
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "description": "For a p value, the correction it is under; absent for a statistic or effect size."
-        },
         "kind": {
           "anyOf": [
             {
@@ -1869,6 +1855,9 @@
             "null"
           ]
         },
+        "value": {
+          "type": "number"
+        },
         "level": {
           "anyOf": [
             {
@@ -1880,8 +1869,19 @@
           ],
           "description": "Whether the value describes the peak or the cluster the peak belongs to. A cluster-level p printed on the peak's row is the cluster's."
         },
-        "value": {
-          "type": "number"
+        "correction": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CorrectionMethod"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "For a p value, the correction it is under; absent for a statistic or effect size."
         }
       },
       "required": [
@@ -1972,22 +1972,12 @@
       "additionalProperties": false,
       "description": "The program and stage that wrote an artifact.",
       "properties": {
-        "model": {
-          "description": "The language model a stage called, if any.",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
         "name": {
           "description": "ns-pond-ingestion-workflow or pondie.",
           "type": "string"
         },
-        "prompt_version": {
-          "type": [
-            "string",
-            "null"
-          ]
+        "version": {
+          "type": "string"
         },
         "stage": {
           "description": "The stage within the producer, such as extract, space or audit.",
@@ -1996,8 +1986,18 @@
             "null"
           ]
         },
-        "version": {
-          "type": "string"
+        "model": {
+          "description": "The language model a stage called, if any.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "prompt_version": {
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -2020,28 +2020,9 @@
       "additionalProperties": false,
       "description": "One entry of a paper's reference list.",
       "properties": {
-        "doi": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
         "id": {
           "description": "Stable within the paper: the source's own id where it has one (a JATS `ref` id such as `B12`), else `ref<position>`.",
           "type": "string"
-        },
-        "label": {
-          "description": "How the text cites it: the number of a numbered style (\"12\"), or the author-year key of an author-year style (\"Stroop 1935\").",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "pmid": {
-          "type": [
-            "string",
-            "null"
-          ]
         },
         "position": {
           "description": "1-based order in the list, which a numbered citation style cites by.",
@@ -2065,9 +2046,28 @@
           ],
           "description": "Where the entry came from."
         },
+        "label": {
+          "description": "How the text cites it: the number of a numbered style (\"12\"), or the author-year key of an author-year style (\"Stroop 1935\").",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "text": {
           "description": "The entry as printed.",
           "type": "string"
+        },
+        "doi": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pmid": {
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "title": {
           "type": [
@@ -2129,31 +2129,11 @@
         ]
       },
       "properties": {
-        "license": {
-          "$ref": "#/$defs/License",
-          "description": "This copy's own licence. A manuscript or preprint can be licensed differently from the version of record."
-        },
-        "preprint_server": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/PreprintServer"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
         "reported_by": {
           "$ref": "#/$defs/MetadataSource"
         },
         "route": {
           "$ref": "#/$defs/CopyRoute"
-        },
-        "url": {
-          "type": [
-            "string",
-            "null"
-          ]
         },
         "version": {
           "anyOf": [
@@ -2165,6 +2145,26 @@
             }
           ],
           "description": "Absent when no source says which version the copy is."
+        },
+        "license": {
+          "$ref": "#/$defs/License",
+          "description": "This copy's own licence. A manuscript or preprint can be licensed differently from the version of record."
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "preprint_server": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PreprintServer"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -2229,17 +2229,6 @@
       "additionalProperties": false,
       "description": "A span of the text and what it is.",
       "properties": {
-        "end_char": {
-          "minimum": 0,
-          "type": "integer"
-        },
-        "heading": {
-          "description": "The heading as printed.",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
         "kind": {
           "anyOf": [
             {
@@ -2250,7 +2239,18 @@
             }
           ]
         },
+        "heading": {
+          "description": "The heading as printed.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "start_char": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "end_char": {
           "minimum": 0,
           "type": "integer"
         }
@@ -2416,23 +2416,23 @@
       "additionalProperties": false,
       "description": "One item of supplementary material.",
       "properties": {
-        "fetched": {
-          "type": "boolean"
-        },
         "label": {
           "type": [
             "string",
             "null"
           ]
         },
-        "path": {
-          "description": "Where the fetched file is, relative to the bundle directory.",
+        "url": {
           "type": [
             "string",
             "null"
           ]
         },
-        "url": {
+        "fetched": {
+          "type": "boolean"
+        },
+        "path": {
+          "description": "Where the fetched file is, relative to the bundle directory.",
           "type": [
             "string",
             "null"
@@ -2465,6 +2465,9 @@
       "additionalProperties": false,
       "description": "What reading one table for coordinates found.",
       "properties": {
+        "table_id": {
+          "type": "string"
+        },
         "reading": {
           "$ref": "#/$defs/TableReadingKind"
         },
@@ -2474,9 +2477,6 @@
             "string",
             "null"
           ]
-        },
-        "table_id": {
-          "type": "string"
         }
       },
       "required": [
@@ -2502,6 +2502,11 @@
       "additionalProperties": false,
       "description": "One body row of a table.",
       "properties": {
+        "row": {
+          "description": "The row's index among the table's body rows, from 0. What a coordinate parse's point cites.",
+          "minimum": 0,
+          "type": "integer"
+        },
         "cells": {
           "description": "The row's cells, as printed, in column order.",
           "items": {
@@ -2511,11 +2516,6 @@
             "array",
             "null"
           ]
-        },
-        "row": {
-          "description": "The row's index among the table's body rows, from 0. What a coordinate parse's point cites.",
-          "minimum": 0,
-          "type": "integer"
         },
         "text_span": {
           "anyOf": [
@@ -2539,14 +2539,16 @@
       "additionalProperties": false,
       "description": "Whether a table is worth reading for coordinates, and why.",
       "properties": {
-        "excluded_by_hand": {
-          "description": "A person marked the table as not holding coordinates. Overrides `passes`, and no consumer reads coordinates from it.",
+        "passes": {
+          "type": "boolean"
+        },
+        "score": {
           "type": [
-            "boolean",
+            "number",
             "null"
           ]
         },
-        "exclusion_reason": {
+        "route": {
           "type": [
             "string",
             "null"
@@ -2558,18 +2560,16 @@
             "null"
           ]
         },
-        "passes": {
-          "type": "boolean"
-        },
-        "route": {
+        "excluded_by_hand": {
+          "description": "A person marked the table as not holding coordinates. Overrides `passes`, and no consumer reads coordinates from it.",
           "type": [
-            "string",
+            "boolean",
             "null"
           ]
         },
-        "score": {
+        "exclusion_reason": {
           "type": [
-            "number",
+            "string",
             "null"
           ]
         }
@@ -2593,12 +2593,12 @@
       "additionalProperties": false,
       "description": "A range of the parsed paper's text, by character offset.",
       "properties": {
-        "end_char": {
-          "description": "Exclusive.",
+        "start_char": {
           "minimum": 0,
           "type": "integer"
         },
-        "start_char": {
+        "end_char": {
+          "description": "Exclusive.",
           "minimum": 0,
           "type": "integer"
         },
@@ -2637,6 +2637,9 @@
             "null"
           ]
         },
+        "truncated": {
+          "type": "boolean"
+        },
         "points_dropped_as_table_restatements": {
           "description": "Points found in the text but dropped because a table already reports them.",
           "minimum": 0,
@@ -2644,9 +2647,6 @@
             "integer",
             "null"
           ]
-        },
-        "truncated": {
-          "type": "boolean"
         }
       },
       "required": [
@@ -2659,6 +2659,20 @@
       "additionalProperties": false,
       "description": "One threshold an analysis's results survived. Maps onto the storage schema's InferenceSettings: a `height` threshold is height_threshold_value and _type, a `cluster_extent` is cluster_extent_threshold, a `cluster_level` is clusterwise_threshold_value, `tfce` sets tfce_used; `correction` is multiple_comparison_method at that level.",
       "properties": {
+        "level": {
+          "$ref": "#/$defs/ThresholdLevel"
+        },
+        "quantity": {
+          "$ref": "#/$defs/ThresholdQuantity",
+          "description": "What `value` is measured in."
+        },
+        "value": {
+          "description": "Absent when the paper names the correction but not the number.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
         "correction": {
           "anyOf": [
             {
@@ -2671,13 +2685,6 @@
               "type": "null"
             }
           ]
-        },
-        "level": {
-          "$ref": "#/$defs/ThresholdLevel"
-        },
-        "quantity": {
-          "$ref": "#/$defs/ThresholdQuantity",
-          "description": "What `value` is measured in."
         },
         "scope_as_printed": {
           "description": "What the correction ran over, as printed, such as \"whole brain\" or \"within the amygdala mask\".",
@@ -2696,13 +2703,6 @@
             }
           ],
           "description": "Where the threshold was read."
-        },
-        "value": {
-          "description": "Absent when the paper names the correction but not the number.",
-          "type": [
-            "number",
-            "null"
-          ]
         }
       },
       "required": [
@@ -2763,29 +2763,16 @@
   "description": "Every coordinate a paper reports, grouped into analyses. An original parse is written by the ingestion workflow; a revision is written by pondie when its audit disagrees with the original.\nA parse is never edited after it is written. A reader that disagrees with it writes a revision instead, and the revision is a complete parse on its own: neurostore can store it as a new version of the paper's analyses without consulting the parse it revises.\nAnalyses that pondie accepts or relabels keep their keys, because their name, space and points are unchanged, so claims made against them carry over to the revision untouched. Only a split, a merge or an omission changes which keys exist.",
   "metamodel_version": "1.12.0",
   "properties": {
-    "analyses": {
-      "description": "May be empty: the parse ran and found no analysis. A paper the parse never ran on has no CoordinateParse at all, so the two are never confused, and `tables` says what reading each table found.",
-      "items": {
-        "$ref": "#/$defs/ParsedAnalysis"
-      },
-      "type": "array"
-    },
     "header": {
       "$ref": "#/$defs/ArtifactHeader",
       "description": "`inputs` names the parsed paper by `text_sha256`, and for a revision also the parse it revises by `parse_id`."
     },
-    "omitted_analyses": {
-      "description": "Text or figure analyses the producer read and left out of `analyses`, each with the reason. A table's omissions are in `tables`. Absent when nothing was left out.",
-      "items": {
-        "$ref": "#/$defs/OmittedAnalysis"
-      },
-      "type": [
-        "array",
-        "null"
-      ]
-    },
     "parse_id": {
       "description": "This parse's identity, the fingerprint every later artifact cites. Unique per paper; a sha256 of the canonical JSON of `analyses` is recommended, so two producers that reach the same analyses reach the same id.",
+      "type": "string"
+    },
+    "text_sha256": {
+      "description": "The parsed paper's fingerprint. Every point's cells and spans address it.",
       "type": "string"
     },
     "revision_of": {
@@ -2794,6 +2781,13 @@
         "string",
         "null"
       ]
+    },
+    "analyses": {
+      "description": "May be empty: the parse ran and found no analysis. A paper the parse never ran on has no CoordinateParse at all, so the two are never confused, and `tables` says what reading each table found.",
+      "items": {
+        "$ref": "#/$defs/ParsedAnalysis"
+      },
+      "type": "array"
     },
     "tables": {
       "description": "One entry per table of the parsed paper: what reading it for coordinates found, or why it was not read. A table with no entry was not considered.",
@@ -2805,9 +2799,15 @@
         "null"
       ]
     },
-    "text_sha256": {
-      "description": "The parsed paper's fingerprint. Every point's cells and spans address it.",
-      "type": "string"
+    "omitted_analyses": {
+      "description": "Text or figure analyses the producer read and left out of `analyses`, each with the reason. A table's omissions are in `tables`. Absent when nothing was left out.",
+      "items": {
+        "$ref": "#/$defs/OmittedAnalysis"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
     },
     "text_sweep": {
       "anyOf": [

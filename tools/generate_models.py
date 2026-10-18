@@ -114,6 +114,19 @@ def _annotate_unique_keys(document: dict, view) -> None:
             definition["x-unique-keys"] = list(keys.values())
 
 
+def _sort_keys(node, declared_order: bool = False):
+    """Sort every object's keys, except a `properties` object, which keeps the generator's order."""
+    if isinstance(node, list):
+        return [_sort_keys(item) for item in node]
+    if not isinstance(node, dict):
+        return node
+    keys = list(node) if declared_order else sorted(node)
+    return {
+        key: _sort_keys(node[key], declared_order=key == "properties" and not declared_order)
+        for key in keys
+    }
+
+
 def render() -> dict[Path, str]:
     """Every generated file, path -> contents."""
     from linkml.generators.jsonschemagen import JsonSchemaGenerator
@@ -128,12 +141,12 @@ def render() -> dict[Path, str]:
         out[PACKAGE / "models" / f"{contract.module}.py"] = _header(contract) + models
         for name, top in contract.roots.items():
             document = json.loads(
-                JsonSchemaGenerator(view.schema, top_class=top).serialize()
+                JsonSchemaGenerator(view.schema, top_class=top).generate().to_json()
             )
             _annotate_references(document, view)
             _annotate_unique_keys(document, view)
             out[PACKAGE / "jsonschema" / f"{name}.schema.json"] = (
-                json.dumps(document, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
+                json.dumps(_sort_keys(document), indent=2, ensure_ascii=False) + "\n"
             )
     return out
 
