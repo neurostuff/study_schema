@@ -583,6 +583,10 @@ class MetadataSource(str, Enum):
     """
     PubMed Central's cloud record of a held copy.
     """
+    publisher_page = "publisher_page"
+    """
+    A held copy's web page at its publisher: the rights metadata it carries (`dc.rights`, `prism.copyright`), the copyright line it prints, or the user licence it names.
+    """
     pubmed = "pubmed"
     crossref = "crossref"
     openalex = "openalex"
