@@ -326,6 +326,8 @@ parse = CoordinateParse.model_validate_json(path.read_bytes())
 
 **Unique keys.** A class with a LinkML `unique_keys` carries `"x-unique-keys": [[slot, ...], ...]` on its definition, its own keys first and then inherited ones with each key's slots in declared order, and `study_schema.jsonschema.unique_keys(name)` returns them as a dict from class to tuples of slot names.
 
+**Property order.** Each object's `properties` follow the LinkML's declared slot order, inherited slots included, rather than alphabetical order.
+
 Every model forbids fields its schema does not declare, so a file written against another
 version fails where it is read, naming the field, instead of losing what the reader does not
 recognise. Each model module records the schema version it was generated from as `version`,
