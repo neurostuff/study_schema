@@ -53,7 +53,7 @@ scheme, so they are deliberately not crosswalked here, and no field in this sche
 [storage-schema-design-notes.md §"Conditions belong to a task"](storage-schema-design-notes.md)
 gives the reason. What a vocabulary can be checked against instead is whether a field exists whose
 free-text value a later normalization step could map onto it, which is a per-field audit rather
-than a crosswalk; [onvoc-mapping-audit.md](onvoc-mapping-audit.md) is that audit for ONVOC.
+than a crosswalk.
 
 ---
 

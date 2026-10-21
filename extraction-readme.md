@@ -6,8 +6,7 @@ express, and known limits worth knowing before someone rediscovers them.
 
 The schema files are the source of truth for *what* a field holds; this file covers *how* the
 pipeline is expected to behave around them. Reasoning behind the schema's shape is in
-[storage-schema-design-notes.md](storage-schema-design-notes.md); measured expressivity gaps
-are in [storage-schema-expressivity-probe.md](storage-schema-expressivity-probe.md).
+[storage-schema-design-notes.md](storage-schema-design-notes.md).
 
 ---
 
@@ -532,8 +531,7 @@ averaged        [  +0.5     +0.5     -0.5     -0.5  ]
 They differ only in the rest cells, and that is exactly what the two records differ in: the simple
 effect has an unsigned `task` cell (restricting to it, so `rest` drops out) and the main effect has no
 condition cell at all (so both cells carry the diagnosis sign). The vector is recoverable from the
-cells; [test_effect_kind_derivation.py](test_effect_kind_derivation.py) reconstructs all four of the
-factorial example's.
+cells.
 
 One factorial model therefore yields:
 
@@ -761,8 +759,7 @@ for deciding which categories the enums are missing. Nothing in the repo aggrega
 
 ## 5. Known limits
 
-Facts a paper may report that no field currently holds. Full evidence and options are in
-[storage-schema-expressivity-probe.md](storage-schema-expressivity-probe.md); this is the short
+Facts a paper may report that no field currently holds. This is the short
 list so an extractor is not left hunting for a slot.
 
 - **Non-imaging outcomes.** `MeasureFamily` covers imaging signals only, so an intervention

@@ -558,8 +558,7 @@ within HC" are the same two cells and the record cannot tell them apart.
 > Compared to the control group, RA patients showed enhanced activation in the left precuneus, left superior frontal gyrus and right cingulate gyrus during the rotation task, with left hemisphere dominance.
 
 **Referent** `Qa5HqrHq97Pm` (pmid 37559139) — a mental-rotation task in rheumatoid arthritis. This
-one is **audited by hand**, and the audit is
-[corrections/Qa5HqrHq97Pm.corrections.json](../corrections/Qa5HqrHq97Pm.corrections.json): 34
+one is **audited by hand**: 34
 operations that take the record from five validator errors to none.
 
 Four of the five defects are worth knowing because they are not this paper's:

@@ -8,8 +8,8 @@ staged from the repository root, so nothing here is committed:
 
 The guides link to each other, to the schema directories and to files that are not part of
 the site. Their links are rewritten while staging so the markdown on disk keeps working on
-GitHub: schema directories point at the reference, other repository files at GitHub, and a
-link to a file that is not in the repository is reduced to its text and reported.
+GitHub: schema directories point at the reference and other repository files at GitHub. A
+link to a file that does not exist is left alone, so `mkdocs build --strict` fails on it.
 """
 
 from __future__ import annotations
@@ -43,9 +43,7 @@ GUIDES = (
 LINK = re.compile(r"\[((?:[^\[\]]|\[[^\[\]]*\])*)\]\(([^)\s#]*)(#[^)\s]*)?\)")
 
 
-def rewrite_links(markdown: str, source: Path, staged: set[str]) -> tuple[str, list[str]]:
-    dropped: list[str] = []
-
+def rewrite_links(markdown: str, source: Path, staged: set[str]) -> str:
     def replace(match: re.Match) -> str:
         text, target, anchor = match.group(1), match.group(2), match.group(3) or ""
         if not target or re.match(r"[a-z]+:", target):
@@ -63,10 +61,9 @@ def rewrite_links(markdown: str, source: Path, staged: set[str]) -> tuple[str, l
             return f"[{text}](reference/{path.name}/index.md{anchor})"
         if relative and path.exists():
             return f"[{text}]({TREE if path.is_dir() else BLOB}{relative})"
-        dropped.append(f"{source.name}: {target}")
-        return text
+        return match.group(0)
 
-    return LINK.sub(replace, markdown), dropped
+    return LINK.sub(replace, markdown)
 
 
 def main() -> None:
@@ -80,13 +77,9 @@ def main() -> None:
         )
 
     sources = {"README.md": "index.md", **{name: name for name in GUIDES}}
-    dropped: list[str] = []
     for name, target in sources.items():
-        text, lost = rewrite_links((ROOT / name).read_text(), ROOT / name, set(sources))
+        text = rewrite_links((ROOT / name).read_text(), ROOT / name, set(sources))
         (BUILD / target).write_text(text)
-        dropped += lost
-    for entry in dropped:
-        print(f"link without a target, kept as text: {entry}")
 
 
 if __name__ == "__main__":
