@@ -1,0 +1,46 @@
+site_name: study_schema
+site_description: The contracts between the neurostuff pipeline repositories, generated from LinkML
+site_url: https://neurostuff.github.io/study_schema/
+repo_url: https://github.com/neurostuff/study_schema
+docs_dir: build/docs
+site_dir: build/site
+strict: true
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+nav:
+  - Home: index.md
+  - Guides:
+      - Schema tutorial: schema-tutorial.md
+      - Analysis entities: analysis-entities.md
+      - Representing models: representing-models.md
+      - Storage design notes: storage-schema-design-notes.md
+      - Extraction schema: extraction-readme.md
+  - Crosswalks:
+      - Standards crosswalk: standards-crosswalk.md
+      - ARS crosswalk: ars-crosswalk.md
+  - Reference:
+      - Storage: reference/neuroimaging-study-storage/index.md
+      - Extraction: reference/neuroimaging-study-extraction/index.md
+      - Paper parse: reference/neuroimaging-paper-parse/index.md
