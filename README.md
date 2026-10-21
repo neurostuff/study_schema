@@ -446,8 +446,6 @@ the priority inventory from here.
 | [representing-models.md](representing-models.md) | How to put a reported analysis into the schema: which facts belong to the model and which to the contrast, where each class's job ends, and what to do when a paper does not divide things the way the schema does. Its YAML fragments and the worked records under `pondie/tests/fixtures/examples/` are checked on every test run |
 | [ars-crosswalk.md](ars-crosswalk.md) | Field-level comparison against CDISC's Analysis Results Standard — the closest peer this schema has, and so the main check on the model/contrast split. For design comparison, not an executable map |
 | [standards-crosswalk.md](standards-crosswalk.md) | The same reading against BIDS Stats Models and NIDM-Results — what each represents, where they are more expressive, and where this schema keeps something they cannot say. Companion to the ARS crosswalk and does not repeat it |
-| [storage-schema-expressivity-probe.md](storage-schema-expressivity-probe.md) | Measured expressivity gaps against 25 corpus papers, with options |
-| [multivariate-probe.md](multivariate-probe.md) | The same reading narrowed to decoding, RSA, PLS and searchlight work: what a meta-analyst cannot filter on today, ranked, with options. Companion to the probe above and numbered `M1`–`M8` so the two do not collide |
 
 # Ideation about LLM extraction workflow
 
