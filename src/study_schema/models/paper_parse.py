@@ -76,11 +76,11 @@ class ArtifactKind(str, Enum):
     """
     parsed_paper = "parsed_paper"
     """
-    Contract C2, a ParsedPaper.
+    A ParsedPaper.
     """
     coordinate_parse = "coordinate_parse"
     """
-    Contract C3, a CoordinateParse, original or revision.
+    A CoordinateParse, original or revision.
     """
 
 
