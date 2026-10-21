@@ -166,14 +166,14 @@ keeping, since an answer the vocabulary has no slot for is the evidence it is sh
 `neuroimaging-paper-parse.yaml` and `neuroimaging-paper-parse/` hold the two artifacts the
 ingestion workflow hands downstream, as contracts both sides validate against:
 
-| Contract | Class | Producer | Consumers |
-|---|---|---|---|
-| C2 | `ParsedPaper`: the text every offset addresses, tables row by row, bibliography, `is_meta_analysis` | ns-pond-ingestion-workflow (extract, metadata, triage) | the workflow's coordinate stages, pondie, neurostore |
-| C3 | `CoordinateParse`: points grouped into keyed analyses, with roles and sign splits | ns-pond-ingestion-workflow (analyses, resolve, space); pondie for a revision | pondie, neurostore |
+| Class | Producer | Consumers |
+|---|---|---|
+| `ParsedPaper`: the text every offset addresses, tables row by row, bibliography, `is_meta_analysis` | ns-pond-ingestion-workflow (extract, metadata, triage) | the workflow's coordinate stages, pondie, neurostore |
+| `CoordinateParse`: points grouped into keyed analyses, with roles and sign splits | ns-pond-ingestion-workflow (analyses, resolve, space); pondie for a revision | pondie, neurostore |
 
 They live here rather than as a NIMADS extension because the extraction and storage
 records point into them: evidence spans address `ParsedPaper.text_sha256`, and
-`Analysis.source_table_analysis` names a C3 key. NIMADS stays the meta-analysis
+`Analysis.source_table_analysis` names a `CoordinateParse` key. NIMADS stays the meta-analysis
 interchange. A `ParsedPoint`'s `coordinates`, `space` and `values` carry NIMADS's names and
 meaning, so projecting a parse onto a studyset is a field copy.
 
