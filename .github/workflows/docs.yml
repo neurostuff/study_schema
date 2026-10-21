@@ -26,6 +26,8 @@ jobs:
         run: python tools/build_docs.py
       - name: Build the site (broken links fail)
         run: mkdocs build --strict
+      - name: Every page is rendered, not raw Markdown
+        run: python tools/check_site.py
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name == 'push'
         with:
