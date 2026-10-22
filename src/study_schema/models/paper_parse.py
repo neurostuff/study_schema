@@ -1692,6 +1692,7 @@ class Bibliography(ConfiguredBaseModel):
     """
     title: str = Field(default=...)
     authors: Optional[list[str]] = Field(default=None, description="""Author names in published order.""")
+    corresponding_authors: Optional[list[CorrespondingAuthor]] = Field(default=None, description="""The authors the paper names to correspond with, in published order. Several when it names several. Absent when no source said who they are.""")
     journal: Optional[str] = Field(default=None)
     publication_year: Optional[int] = Field(default=None, description="""Year in which the study was first published or made publicly available.""", ge=1600)
     volume: Optional[str] = Field(default=None)
@@ -1718,6 +1719,41 @@ At least six of the benchmark's sixteen meta-analyses state \"English language\"
                     raise ValueError(err_msg)
         elif isinstance(v, str) and not pattern.search(v):
             err_msg = f"Invalid abstract format: {v}"
+            raise ValueError(err_msg)
+        return v
+
+
+class CorrespondingAuthor(ConfiguredBaseModel):
+    """
+    One author the paper names to correspond with. A name with no email is kept, and so is an email the paper prints without saying whose it is; one of the two is always there.
+    """
+    name: Optional[str] = Field(default=None, description="""The author's name, as `authors` spells it when it lists them.""")
+    email: Optional[str] = Field(default=None, description="""The email address the paper prints for them.""")
+    stated_by: MetadataSource = Field(default=..., description="""The source that named them: a held copy's full text (`jats`, `elsevier`), which pairs a name with its email, before `pubmed`, whose affiliations carry the email, before `openalex`, which names them without one.""")
+
+    @field_validator('name')
+    def pattern_name(cls, v):
+        pattern=re.compile(r"\S")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid name format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid name format: {v}"
+            raise ValueError(err_msg)
+        return v
+
+    @field_validator('email')
+    def pattern_email(cls, v):
+        pattern=re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid email format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid email format: {v}"
             raise ValueError(err_msg)
         return v
 
@@ -2064,6 +2100,7 @@ InputRef.model_rebuild()
 TextSpan.model_rebuild()
 License.model_rebuild()
 Bibliography.model_rebuild()
+CorrespondingAuthor.model_rebuild()
 ArticleIdentifiers.model_rebuild()
 PreprintDoi.model_rebuild()
 Correction.model_rebuild()
