@@ -515,7 +515,7 @@
     },
     "ArticleIdentifiers": {
       "additionalProperties": false,
-      "description": "Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article.",
+      "description": "Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article. An identifier appears in one slot only: `doi`, `alternative_dois`, `preprint_dois` and `version_dois` never share a DOI, and likewise for PMIDs and PMCIDs.",
       "properties": {
         "pmid": {
           "description": "PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmid`.",
@@ -535,6 +535,46 @@
           "description": "The DOI of the version of record. Never a preprint server's DOI, which is in `preprint_dois`.",
           "type": [
             "string",
+            "null"
+          ]
+        },
+        "alternative_pmids": {
+          "description": "Other PubMed records of the version of record, such as a duplicate record. Not `pmid` itself, not a preprint's record, not another version's.",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "alternative_pmcids": {
+          "description": "Other PubMed Central records of the version of record, such as a second PMC record of the same article. Not `pmcid` itself, not a preprint's copy, not another version's.",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "alternative_dois": {
+          "description": "Other DOIs of the version of record: one from before a publisher move, or a Crossref alias (`is-same-as`, `is-identical-to`). Not `doi` itself, not a preprint server's DOI, not another version's DOI.",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "version_dois": {
+          "description": "The DOIs a publisher registered for individual versions of the work, as Crossref's `has-version` and `is-version-of` list them, each with its version label. `doi` still holds the version of record.",
+          "items": {
+            "$ref": "#/$defs/VersionDoi"
+          },
+          "type": [
+            "array",
             "null"
           ]
         },
@@ -4937,6 +4977,25 @@
       ],
       "title": "VariationLevel",
       "type": "string"
+    },
+    "VersionDoi": {
+      "additionalProperties": false,
+      "description": "A DOI a publisher registered for one version of a work, with the version.",
+      "properties": {
+        "doi": {
+          "type": "string"
+        },
+        "version": {
+          "description": "The publisher's label for the version, as in the DOI's `.1`, `.2` suffix.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "doi",
+        "version"
+      ],
+      "title": "VersionDoi",
+      "type": "object"
     }
   },
   "$id": "https://neurostuff.org/schemas/neuroimaging-study-storage",

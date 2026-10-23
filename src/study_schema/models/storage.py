@@ -2277,11 +2277,15 @@ At least six of the benchmark's sixteen meta-analyses state \"English language\"
 
 class ArticleIdentifiers(ConfiguredBaseModel):
     """
-    Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article.
+    Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article. An identifier appears in one slot only: `doi`, `alternative_dois`, `preprint_dois` and `version_dois` never share a DOI, and likewise for PMIDs and PMCIDs.
     """
     pmid: Optional[str] = Field(default=None, description="""PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmid`.""")
     pmcid: Optional[str] = Field(default=None, description="""PubMed Central's copy of the version of record. Never PMC's copy of a preprint, which is `preprint_pmcid`.""")
     doi: Optional[str] = Field(default=None, description="""The DOI of the version of record. Never a preprint server's DOI, which is in `preprint_dois`.""")
+    alternative_pmids: Optional[list[str]] = Field(default=None, description="""Other PubMed records of the version of record, such as a duplicate record. Not `pmid` itself, not a preprint's record, not another version's.""")
+    alternative_pmcids: Optional[list[str]] = Field(default=None, description="""Other PubMed Central records of the version of record, such as a second PMC record of the same article. Not `pmcid` itself, not a preprint's copy, not another version's.""")
+    alternative_dois: Optional[list[str]] = Field(default=None, description="""Other DOIs of the version of record: one from before a publisher move, or a Crossref alias (`is-same-as`, `is-identical-to`). Not `doi` itself, not a preprint server's DOI, not another version's DOI.""")
+    version_dois: Optional[list[VersionDoi]] = Field(default=None, description="""The DOIs a publisher registered for individual versions of the work, as Crossref's `has-version` and `is-version-of` list them, each with its version label. `doi` still holds the version of record.""")
     preprint_dois: Optional[list[PreprintDoi]] = Field(default=None, description="""Every DOI a preprint server registered for the paper. A server that registers each version separately, such as Research Square's `/v2`, gives one entry per version, each kept as registered.""")
     preprint_pmid: Optional[str] = Field(default=None, description="""PubMed's record of the preprint, which PubMed types `Preprint`.""")
     preprint_pmcid: Optional[str] = Field(default=None, description="""PubMed Central's copy of the preprint.""")
@@ -2294,6 +2298,14 @@ class PreprintDoi(ConfiguredBaseModel):
     """
     doi: str = Field(default=...)
     server: PreprintServer = Field(default=..., description="""Named by the producer from the DOI, so that no consumer needs a table of preprint servers' DOI patterns.""")
+
+
+class VersionDoi(ConfiguredBaseModel):
+    """
+    A DOI a publisher registered for one version of a work, with the version.
+    """
+    doi: str = Field(default=...)
+    version: str = Field(default=..., description="""The publisher's label for the version, as in the DOI's `.1`, `.2` suffix.""")
 
 
 class Correction(ConfiguredBaseModel):
@@ -2545,6 +2557,7 @@ CoordinateSet.model_rebuild()
 Bibliography.model_rebuild()
 ArticleIdentifiers.model_rebuild()
 PreprintDoi.model_rebuild()
+VersionDoi.model_rebuild()
 Correction.model_rebuild()
 Study.model_rebuild()
 ExternalDataset.model_rebuild()

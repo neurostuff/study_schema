@@ -258,7 +258,7 @@ def test_a_field_written_as_null_counts_as_absent(example_paths):
         validator.validate(paper, schema)
 
 
-SHARED_CLASSES = ("Bibliography", "ArticleIdentifiers", "PreprintDoi", "Correction", "License")
+SHARED_CLASSES = ("Bibliography", "ArticleIdentifiers", "PreprintDoi", "VersionDoi", "Correction", "License")
 SHARED_ENUMS = (
     "LicenseId", "LicenseDetermination", "MetadataSource", "OaStatus",
     "PublicationStatus", "PreprintServer", "CorrectionKind", "StudyType",

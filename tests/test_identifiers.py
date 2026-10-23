@@ -9,7 +9,8 @@ from study_schema import jsonschema
 from study_schema.models import paper_parse, storage
 
 IDENTIFIERS = EXAMPLES / "identifiers"
-VALID = ["preprint_only", "published_with_preprint"]
+VALID = ["preprint_only", "published_with_preprint", "elife_reviewed_preprint",
+         "duplicate_pubmed_record"]
 INVALID = {
     "missing_publication_status": "publication_status",
     "preprint_doi_without_server": "server",
@@ -150,3 +151,53 @@ def test_an_unlisted_publication_type_is_kept_verbatim(example_paths):
     assert storage.Study.model_validate(study).bibliography.publication_types == types
     validator.validate(paper, jsonschema.load("parsed-paper"))
     validator.validate(study, jsonschema.load("storage-study"))
+
+
+def test_an_elife_reviewed_preprint_keeps_its_versions_apart_from_the_version_of_record():
+    ids = paper_parse.ArticleIdentifiers.model_validate(load(IDENTIFIERS / "elife_reviewed_preprint.json"))
+    assert ids.doi == "10.7554/eLife.106070"
+    assert ids.alternative_dois == ["10.7554/eLife.106070.3"]
+    assert [(v.doi, v.version) for v in ids.version_dois] == [
+        ("10.7554/eLife.106070.1", "1"),
+        ("10.7554/eLife.106070.2", "2"),
+    ]
+    assert [d.server for d in ids.preprint_dois] == ["biorxiv"]
+    assert ids.publication_status == "published"
+
+
+def test_a_duplicate_pubmed_record_is_an_alternative_not_a_second_paper():
+    ids = paper_parse.ArticleIdentifiers.model_validate(load(IDENTIFIERS / "duplicate_pubmed_record.json"))
+    assert (ids.pmid, ids.pmcid) == ("32341955", "PMC7181890")
+    assert ids.alternative_pmids == ["32341954"]
+    assert ids.publication_status == "published"
+
+
+def test_a_version_doi_without_its_version_is_refused():
+    ids = load(IDENTIFIERS / "elife_reviewed_preprint.json")
+    del ids["version_dois"][0]["version"]
+    with pytest.raises(ValidationError, match="version"):
+        paper_parse.ArticleIdentifiers.model_validate(ids)
+
+
+def _slots(identifiers: dict) -> list[tuple[str, str]]:
+    """(kind, id) for every identifier in every slot."""
+    found = []
+    for kind, single, many, nested in (
+        ("doi", "doi", "alternative_dois", ("preprint_dois", "version_dois")),
+        ("pmid", "pmid", "alternative_pmids", ("preprint_pmid",)),
+        ("pmcid", "pmcid", "alternative_pmcids", ("preprint_pmcid",)),
+    ):
+        found += [(kind, identifiers[single])] if identifiers.get(single) else []
+        found += [(kind, v) for v in identifiers.get(many) or []]
+        for slot in nested:
+            value = identifiers.get(slot)
+            for item in value if isinstance(value, list) else [value] if value else []:
+                found.append((kind, item["doi"] if isinstance(item, dict) else item))
+    return found
+
+
+@pytest.mark.parametrize("name", VALID)
+def test_no_identifier_example_repeats_an_id_across_slots(name):
+    # The schema cannot state this across fields, so the examples are held to it.
+    found = _slots(load(IDENTIFIERS / f"{name}.json"))
+    assert len(found) == len(set(found))
