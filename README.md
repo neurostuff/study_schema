@@ -186,11 +186,14 @@ What each side may rely on:
   PubMed's and PMC's records of the preprint are kept beside them in `preprint_dois`,
   `preprint_pmid` and `preprint_pmcid`. Other records of that same version go in
   `alternative_dois`, `alternative_pmids` and `alternative_pmcids` (a duplicate PubMed
-  record, a second PMC record, a DOI from before a publisher move, a Crossref alias); other
-  versions of the work, such as an eLife reviewed preprint's `.1` and `.2`, go in
-  `version_dois` with their version label. An identifier appears in one slot of an
-  `ArticleIdentifiers` only; LinkML cannot state that across fields, so a producer
-  guarantees it and `tests/test_identifiers.py` checks the examples. `publication_status` states which the paper has
+  record, a second PMC record, a DOI from before a publisher move, a Crossref alias); the
+  publisher's own DOIs for other versions of the work, such as an eLife reviewed preprint's
+  `.1` and `.2`, go in `version_dois`. A preprint server's DOI stays in `preprint_dois` even
+  when Crossref lists it as a version, and an eLife reviewed preprint with no version of
+  record yet has its base DOI there too (server `elife`) with `doi` empty. An identifier
+  appears in one slot of an `ArticleIdentifiers` only, DOIs compared case-insensitively;
+  LinkML cannot state that across fields, so `check_paper` and `check_revision` do.
+  `publication_status` states which the paper has
   (`published` or `preprint`). The upload pointer `neurostore_base_study_id` is the
   header's own, not an identifier of the paper.
 - **A licence belongs to a copy.** A copy is four facts: where it is hosted (`route`), which

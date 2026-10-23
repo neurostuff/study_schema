@@ -93,7 +93,7 @@
     },
     "ArticleIdentifiers": {
       "additionalProperties": false,
-      "description": "Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article. An identifier appears in one slot only: `doi`, `alternative_dois`, `preprint_dois` and `version_dois` never share a DOI, and likewise for PMIDs and PMCIDs.",
+      "description": "Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article. An identifier appears in one slot only: `doi`, `alternative_dois`, `preprint_dois` and `version_dois` never share a DOI (compared case-insensitively), and likewise for PMIDs and PMCIDs; `check_paper` and `check_revision` verify it.",
       "properties": {
         "pmid": {
           "description": "PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmid`.",
@@ -110,7 +110,7 @@
           ]
         },
         "doi": {
-          "description": "The DOI of the version of record. Never a preprint server's DOI, which is in `preprint_dois`.",
+          "description": "The DOI of the version of record. Never a preprint server's DOI, which is in `preprint_dois`. An eLife base DOI is the version of record's only once the journal has published one; before that it is a `preprint_dois` entry.",
           "type": [
             "string",
             "null"
@@ -147,9 +147,9 @@
           ]
         },
         "version_dois": {
-          "description": "The DOIs a publisher registered for individual versions of the work, as Crossref's `has-version` and `is-version-of` list them, each with its version label. `doi` still holds the version of record.",
+          "description": "The publisher's own DOIs for individual versions of the work, such as eLife's `.1` and `.2`. Not a preprint server's DOI, which stays in `preprint_dois` even when Crossref lists it as a version.",
           "items": {
-            "$ref": "#/$defs/VersionDoi"
+            "type": "string"
           },
           "type": [
             "array",
@@ -157,7 +157,7 @@
           ]
         },
         "preprint_dois": {
-          "description": "Every DOI a preprint server registered for the paper. A server that registers each version separately, such as Research Square's `/v2`, gives one entry per version, each kept as registered.",
+          "description": "Every DOI a preprint server registered for the paper. A server that registers each version separately, such as Research Square's `/v2`, gives one entry per version, each kept as registered. A reviewed preprint with no version of record yet has its eLife base DOI here, with server `elife`, and its `.1`, `.2` DOIs in `version_dois`.",
           "items": {
             "$ref": "#/$defs/PreprintDoi"
           },
@@ -182,7 +182,7 @@
         },
         "publication_status": {
           "$ref": "#/$defs/PublicationStatus",
-          "description": "`preprint` when a `preprint_` field is set and `doi`, `pmid` and `pmcid` are all empty, `published` otherwise. The producer states it so that no consumer re-derives it."
+          "description": "`preprint` when a `preprint_` field is set and `doi`, `pmid` and `pmcid` are all empty, `published` otherwise. `alternative_` and `version_dois` do not count. The producer states it so that no consumer re-derives it."
         }
       },
       "required": [
@@ -1969,6 +1969,7 @@
         "arxiv",
         "researchsquare",
         "osf_preprints",
+        "elife",
         "arabixiv",
         "metaarxiv",
         "engrxiv",
@@ -2796,25 +2797,6 @@
       ],
       "title": "VariationLevel",
       "type": "string"
-    },
-    "VersionDoi": {
-      "additionalProperties": false,
-      "description": "A DOI a publisher registered for one version of a work, with the version.",
-      "properties": {
-        "doi": {
-          "type": "string"
-        },
-        "version": {
-          "description": "The publisher's label for the version, as in the DOI's `.1`, `.2` suffix.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "doi",
-        "version"
-      ],
-      "title": "VersionDoi",
-      "type": "object"
     }
   },
   "$id": "https://neurostuff.org/schemas/neuroimaging-paper-parse",
@@ -2949,5 +2931,5 @@
   ],
   "title": "neuroimaging-paper-parse",
   "type": "object",
-  "version": "0.8.0"
+  "version": "0.9.0"
 }

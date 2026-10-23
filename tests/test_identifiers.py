@@ -4,13 +4,18 @@ paper has."""
 import pytest
 from pydantic import ValidationError
 
-from conftest import EXAMPLES, load
+from conftest import EXAMPLES, STUDY, load
 from study_schema import jsonschema
 from study_schema.models import paper_parse, storage
 
 IDENTIFIERS = EXAMPLES / "identifiers"
-VALID = ["preprint_only", "published_with_preprint", "elife_reviewed_preprint",
-         "duplicate_pubmed_record"]
+VALID = [
+    "preprint_only",
+    "published_with_preprint",
+    "elife_reviewed_preprint",
+    "elife_reviewed_preprint_only",
+    "duplicate_pubmed_record",
+]
 INVALID = {
     "missing_publication_status": "publication_status",
     "preprint_doi_without_server": "server",
@@ -157,12 +162,22 @@ def test_an_elife_reviewed_preprint_keeps_its_versions_apart_from_the_version_of
     ids = paper_parse.ArticleIdentifiers.model_validate(load(IDENTIFIERS / "elife_reviewed_preprint.json"))
     assert ids.doi == "10.7554/eLife.106070"
     assert ids.alternative_dois == ["10.7554/eLife.106070.3"]
-    assert [(v.doi, v.version) for v in ids.version_dois] == [
-        ("10.7554/eLife.106070.1", "1"),
-        ("10.7554/eLife.106070.2", "2"),
-    ]
+    assert ids.version_dois == ["10.7554/eLife.106070.1", "10.7554/eLife.106070.2"]
     assert [d.server for d in ids.preprint_dois] == ["biorxiv"]
     assert ids.publication_status == "published"
+
+
+def test_an_elife_paper_with_no_version_of_record_is_a_preprint():
+    ids = paper_parse.ArticleIdentifiers.model_validate(
+        load(IDENTIFIERS / "elife_reviewed_preprint_only.json")
+    )
+    assert ids.doi is None
+    assert [(d.doi, d.server) for d in ids.preprint_dois] == [
+        ("10.7554/eLife.112197", "elife"),
+        ("10.31234/osf.io/edaxh_v3", "psyarxiv"),
+    ]
+    assert ids.version_dois == ["10.7554/eLife.112197.1"]
+    assert ids.publication_status == "preprint"
 
 
 def test_a_duplicate_pubmed_record_is_an_alternative_not_a_second_paper():
@@ -172,32 +187,50 @@ def test_a_duplicate_pubmed_record_is_an_alternative_not_a_second_paper():
     assert ids.publication_status == "published"
 
 
-def test_a_version_doi_without_its_version_is_refused():
-    ids = load(IDENTIFIERS / "elife_reviewed_preprint.json")
-    del ids["version_dois"][0]["version"]
-    with pytest.raises(ValidationError, match="version"):
-        paper_parse.ArticleIdentifiers.model_validate(ids)
+def _problems(identifiers: dict) -> list[str]:
+    pytest.importorskip("pyarty", reason="optional: layouts")
+    from study_schema.layouts import PaperParse, check_paper
+
+    paper = PaperParse.read(EXAMPLES / "corpus" / STUDY / "parse")
+    ids = paper_parse.ArticleIdentifiers.model_validate(identifiers)
+    paper.coordinate_parse.header.identifiers = ids
+    return [p for p in check_paper(paper) if "belongs to one slot" in p]
 
 
-def _slots(identifiers: dict) -> list[tuple[str, str]]:
-    """(kind, id) for every identifier in every slot."""
-    found = []
-    for kind, single, many, nested in (
-        ("doi", "doi", "alternative_dois", ("preprint_dois", "version_dois")),
-        ("pmid", "pmid", "alternative_pmids", ("preprint_pmid",)),
-        ("pmcid", "pmcid", "alternative_pmcids", ("preprint_pmcid",)),
-    ):
-        found += [(kind, identifiers[single])] if identifiers.get(single) else []
-        found += [(kind, v) for v in identifiers.get(many) or []]
-        for slot in nested:
-            value = identifiers.get(slot)
-            for item in value if isinstance(value, list) else [value] if value else []:
-                found.append((kind, item["doi"] if isinstance(item, dict) else item))
-    return found
+def test_the_header_of_a_parsed_paper_and_of_a_revision_are_checked_too():
+    pytest.importorskip("pyarty", reason="optional: layouts")
+    from study_schema.layouts import PaperParse, Run, check_revision, check_paper
+
+    twice = paper_parse.ArticleIdentifiers(
+        pmid="1", alternative_pmids=["1"], publication_status="published"
+    )
+    paper = PaperParse.read(EXAMPLES / "corpus" / STUDY / "parse")
+    paper.parsed_paper.header.identifiers = twice
+    assert any("parsed_paper lists 1" in p for p in check_paper(paper))
+
+    revision = Run.read(EXAMPLES / "run").revisions[STUDY]
+    revision.header.identifiers = twice
+    original = PaperParse.read(EXAMPLES / "corpus" / STUDY / "parse").coordinate_parse
+    assert any("the revision lists 1" in p for p in check_revision(original, revision))
 
 
 @pytest.mark.parametrize("name", VALID)
 def test_no_identifier_example_repeats_an_id_across_slots(name):
-    # The schema cannot state this across fields, so the examples are held to it.
-    found = _slots(load(IDENTIFIERS / f"{name}.json"))
-    assert len(found) == len(set(found))
+    assert _problems(load(IDENTIFIERS / f"{name}.json")) == []
+
+
+@pytest.mark.parametrize(
+    "slot, value",
+    [
+        ("alternative_dois", ["10.7554/eLife.106070.1"]),
+        ("alternative_dois", ["10.7554/ELIFE.106070.1"]),
+        ("alternative_pmids", ["42663321"]),
+        ("alternative_pmcids", ["pmc13524378"]),
+        ("preprint_pmid", "42663321"),
+        ("version_dois", ["10.1101/2025.02.05.636581"]),
+    ],
+)
+def test_an_id_in_two_slots_is_reported(slot, value):
+    ids = load(IDENTIFIERS / "elife_reviewed_preprint.json")
+    ids[slot] = value
+    assert _problems(ids)
