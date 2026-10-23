@@ -809,6 +809,10 @@ class MetadataSource(str, Enum):
     """
     PubMed Central's cloud record of a held copy.
     """
+    pdf = "pdf"
+    """
+    A held copy's PDF, read from the text its extraction gave.
+    """
     publisher_page = "publisher_page"
     """
     A held copy's web page at its publisher: the rights metadata it carries (`dc.rights`, `prism.copyright`), the copyright line it prints, or the user licence it names.
@@ -2282,7 +2286,7 @@ class CorrespondingAuthor(ConfiguredBaseModel):
     """
     name: Optional[str] = Field(default=None, description="""The author's name, as `authors` spells it when it lists them.""")
     email: Optional[str] = Field(default=None, description="""The email address the paper prints for them.""")
-    stated_by: MetadataSource = Field(default=..., description="""The source that named them: a held copy's full text (`jats`, `elsevier`), which pairs a name with its email, before `pubmed`, whose affiliations carry the email, before `openalex`, which names them without one.""")
+    stated_by: MetadataSource = Field(default=..., description="""The source that named them: a held copy (`jats`, `elsevier`, `pdf`, or the `publisher_page` ACE read), `pubmed`, whose affiliations carry the email, or `openalex`, which names them without one.""")
 
     @field_validator('name')
     def pattern_name(cls, v):
