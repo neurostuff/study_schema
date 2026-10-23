@@ -158,11 +158,10 @@ def test_an_unlisted_publication_type_is_kept_verbatim(example_paths):
     validator.validate(study, jsonschema.load("storage-study"))
 
 
-def test_an_elife_reviewed_preprint_keeps_its_versions_apart_from_the_version_of_record():
+def test_an_elife_paper_keeps_its_other_versions_beside_the_version_of_record():
     ids = paper_parse.ArticleIdentifiers.model_validate(load(IDENTIFIERS / "elife_reviewed_preprint.json"))
     assert ids.doi == "10.7554/eLife.106070"
-    assert ids.alternative_dois == ["10.7554/eLife.106070.3"]
-    assert ids.version_dois == ["10.7554/eLife.106070.1", "10.7554/eLife.106070.2"]
+    assert ids.alternative_dois == [f"10.7554/eLife.106070.{k}" for k in (1, 2, 3)]
     assert [d.server for d in ids.preprint_dois] == ["biorxiv"]
     assert ids.publication_status == "published"
 
@@ -174,9 +173,9 @@ def test_an_elife_paper_with_no_version_of_record_is_a_preprint():
     assert ids.doi is None
     assert [(d.doi, d.server) for d in ids.preprint_dois] == [
         ("10.7554/eLife.112197", "elife"),
+        ("10.7554/eLife.112197.1", "elife"),
         ("10.31234/osf.io/edaxh_v3", "psyarxiv"),
     ]
-    assert ids.version_dois == ["10.7554/eLife.112197.1"]
     assert ids.publication_status == "preprint"
 
 
@@ -222,14 +221,14 @@ def test_no_identifier_example_repeats_an_id_across_slots(name):
 @pytest.mark.parametrize(
     "slot, value",
     [
-        ("alternative_dois", ["10.7554/eLife.106070.1"]),
-        ("alternative_dois", ["10.7554/ELIFE.106070.1"]),
+        ("alternative_dois", ["10.7554/eLife.106070.1", "10.7554/eLife.106070.1"]),
+        ("alternative_dois", ["10.7554/ELIFE.106070"]),
         ("alternative_dois", ["10.7554/eLife.106070"]),
         ("preprint_pmcid", "PMC13524378"),
         ("alternative_pmids", ["42663321"]),
         ("alternative_pmcids", ["pmc13524378"]),
         ("preprint_pmid", "42663321"),
-        ("version_dois", ["10.1101/2025.02.05.636581"]),
+        ("alternative_dois", ["10.1101/2025.02.05.636581"]),
     ],
 )
 def test_an_id_in_two_slots_is_reported(slot, value):

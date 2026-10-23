@@ -260,7 +260,6 @@ def _check_identifiers(ids: paper_parse.ArticleIdentifiers, what: str) -> list[s
         {
             "doi": [ids.doi],
             "alternative_dois": ids.alternative_dois,
-            "version_dois": ids.version_dois,
             "preprint_dois": [d.doi for d in ids.preprint_dois or []],
         },
         {
