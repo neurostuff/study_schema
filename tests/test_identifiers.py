@@ -224,6 +224,8 @@ def test_no_identifier_example_repeats_an_id_across_slots(name):
     [
         ("alternative_dois", ["10.7554/eLife.106070.1"]),
         ("alternative_dois", ["10.7554/ELIFE.106070.1"]),
+        ("alternative_dois", ["10.7554/eLife.106070"]),
+        ("preprint_pmcid", "PMC13524378"),
         ("alternative_pmids", ["42663321"]),
         ("alternative_pmcids", ["pmc13524378"]),
         ("preprint_pmid", "42663321"),

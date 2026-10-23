@@ -223,8 +223,8 @@ classes:
         required: true
         description: >-
           `preprint` when a `preprint_` field is set and `doi`, `pmid` and `pmcid` are all
-          empty, `published` otherwise. `alternative_` and `version_dois` do not count. The producer states it so that no consumer re-derives
-          it.
+          empty, `published` otherwise. `alternative_` and `version_dois` do not count. The
+          producer states it so that no consumer re-derives it.
 
   PreprintDoi:
     description: A DOI a preprint server registered, with the server that registered it.
@@ -297,7 +297,9 @@ enums:
       elife:
         in_subset: [mvp, deterministic]
         description: >-
-          eLife reviewed preprints, DOI prefix 10.7554, before a version of record exists.
+          eLife reviewed preprints before a version of record exists. Named from Crossref's
+          record type `posted-content`/`preprint`, not from the DOI prefix 10.7554, which
+          published eLife articles share.
       arabixiv:
         in_subset: [mvp, deterministic]
         description: Arabixiv (OSF), DOI prefix 10.31221.

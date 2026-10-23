@@ -565,7 +565,7 @@ class PreprintServer(str, Enum):
     """
     elife = "elife"
     """
-    eLife reviewed preprints, DOI prefix 10.7554, before a version of record exists.
+    eLife reviewed preprints before a version of record exists. Named from Crossref's record type `posted-content`/`preprint`, not from the DOI prefix 10.7554, which published eLife articles share.
     """
     arabixiv = "arabixiv"
     """
