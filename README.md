@@ -184,7 +184,16 @@ What each side may rely on:
 - **A preprint is not its version of record.** The header's `doi`, `pmid` and `pmcid` name
   the version of record. A preprint server's DOIs, each with its `PreprintServer`, and
   PubMed's and PMC's records of the preprint are kept beside them in `preprint_dois`,
-  `preprint_pmid` and `preprint_pmcid`. `publication_status` states which the paper has
+  `preprint_pmids` and `preprint_pmcids`. Any other DOI, PMID or PMCID of the work, neither the version of
+  record's nor a preprint's, goes in `alternative_dois`, `alternative_pmids` or
+  `alternative_pmcids`: another version (an eLife paper's `.1`, `.2`), a duplicate PubMed
+  record, a second PMC record, a Crossref alias, a DOI from before a publisher move. A
+  preprint server's DOI stays in `preprint_dois` even when Crossref lists it as a version,
+  and an eLife reviewed preprint with no version of record yet has its base DOI and `.k` DOIs
+  there (server `elife`) with `doi` empty. An identifier appears in one slot of an
+  `ArticleIdentifiers` only, DOIs compared case-insensitively; LinkML cannot state that
+  across fields, so `check_paper` and `check_revision` do.
+  `publication_status` states which the paper has
   (`published` or `preprint`). The upload pointer `neurostore_base_study_id` is the
   header's own, not an identifier of the paper.
 - **A licence belongs to a copy.** A copy is four facts: where it is hosted (`route`), which

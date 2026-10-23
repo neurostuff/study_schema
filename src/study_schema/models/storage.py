@@ -32,7 +32,7 @@ from pydantic import (
 
 
 metamodel_version = "1.12.0"
-version = "0.9.0"
+version = "0.10.0"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -562,6 +562,10 @@ class PreprintServer(str, Enum):
     osf_preprints = "osf_preprints"
     """
     OSF Preprints, DOI prefix 10.31219.
+    """
+    elife = "elife"
+    """
+    eLife reviewed preprints before a version of record exists. Named from Crossref's record type `posted-content`/`preprint`, not from the DOI prefix 10.7554, which published eLife articles share.
     """
     arabixiv = "arabixiv"
     """
@@ -2277,15 +2281,18 @@ At least six of the benchmark's sixteen meta-analyses state \"English language\"
 
 class ArticleIdentifiers(ConfiguredBaseModel):
     """
-    Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article.
+    Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article. An identifier appears in one slot only: `doi`, `alternative_dois` and `preprint_dois` never share a DOI (compared case-insensitively), and likewise for PMIDs and PMCIDs; `check_paper` and `check_revision` verify it.
     """
-    pmid: Optional[str] = Field(default=None, description="""PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmid`.""")
-    pmcid: Optional[str] = Field(default=None, description="""PubMed Central's copy of the version of record. Never PMC's copy of a preprint, which is `preprint_pmcid`.""")
-    doi: Optional[str] = Field(default=None, description="""The DOI of the version of record. Never a preprint server's DOI, which is in `preprint_dois`.""")
-    preprint_dois: Optional[list[PreprintDoi]] = Field(default=None, description="""Every DOI a preprint server registered for the paper. A server that registers each version separately, such as Research Square's `/v2`, gives one entry per version, each kept as registered.""")
-    preprint_pmid: Optional[str] = Field(default=None, description="""PubMed's record of the preprint, which PubMed types `Preprint`.""")
-    preprint_pmcid: Optional[str] = Field(default=None, description="""PubMed Central's copy of the preprint.""")
-    publication_status: PublicationStatus = Field(default=..., description="""`preprint` when a `preprint_` field is set and `doi`, `pmid` and `pmcid` are all empty, `published` otherwise. The producer states it so that no consumer re-derives it.""")
+    pmid: Optional[str] = Field(default=None, description="""PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmids`.""")
+    pmcid: Optional[str] = Field(default=None, description="""PubMed Central's copy of the version of record. Never PMC's copy of a preprint, which is `preprint_pmcids`.""")
+    doi: Optional[str] = Field(default=None, description="""The DOI of the version of record. Never a preprint server's DOI, which is in `preprint_dois`. An eLife base DOI is the version of record's only once the journal has published one; before that it is a `preprint_dois` entry.""")
+    alternative_pmids: Optional[list[str]] = Field(default=None, description="""Any other PMID of this work that is neither the version of record's `pmid` nor a preprint's: a duplicate record, another version.""")
+    alternative_pmcids: Optional[list[str]] = Field(default=None, description="""Any other PMCID of this work that is neither the version of record's `pmcid` nor a preprint's: a second PMC record, another version.""")
+    alternative_dois: Optional[list[str]] = Field(default=None, description="""Any other DOI of this work that is neither the version of record's `doi` nor a preprint's: another version's, such as eLife's `.1`, `.2`, a Crossref alias, a DOI from before a publisher move.""")
+    preprint_dois: Optional[list[PreprintDoi]] = Field(default=None, description="""Every DOI a preprint server registered for the paper. A server that registers each version separately, such as Research Square's `/v2`, gives one entry per version, each kept as registered. A reviewed preprint with no version of record yet has its eLife base DOI and its `.1`, `.2` DOIs here, with server `elife`.""")
+    preprint_pmids: Optional[list[str]] = Field(default=None, description="""PubMed's records of the preprint, which PubMed types `Preprint`: one per indexed preprint server, or a duplicate record. Never a version of record's PMID.""")
+    preprint_pmcids: Optional[list[str]] = Field(default=None, description="""PubMed Central's copies of the preprint, one per indexed preprint server. Never a version of record's PMCID.""")
+    publication_status: PublicationStatus = Field(default=..., description="""`preprint` when a `preprint_` field is set and `doi`, `pmid` and `pmcid` are all empty, `published` otherwise. `alternative_` fields do not count. The producer states it so that no consumer re-derives it.""")
 
 
 class PreprintDoi(ConfiguredBaseModel):

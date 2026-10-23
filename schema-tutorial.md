@@ -1792,7 +1792,7 @@ required column leaves out `id`, which every class that has one requires; "Field
 | `StatisticalMap` | `Analysis.statistical_maps` | `map_type` | 7 |
 | `ExternalDataset` | `Study.external_datasets` | — | 2 |
 | `Bibliography` | `Study.bibliography` (inlined), shared with the parsed paper | `title`, `license` | 16 |
-| `ArticleIdentifiers` | `Study.identifiers` (inlined), shared with the parsed paper's header | `publication_status` | 7 |
+| `ArticleIdentifiers` | `Study.identifiers` (inlined), shared with the parsed paper's header | `publication_status` | 11 |
 | `PreprintDoi` | `ArticleIdentifiers.preprint_dois` | `doi`, `server` | 2 |
 | `Correction` | `Bibliography.corrections` | `kind` | 3 |
 | `License` | `Bibliography.license` (inlined) | `license_id`, `determination` | 4 |

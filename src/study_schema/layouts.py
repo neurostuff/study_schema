@@ -147,6 +147,8 @@ def check_paper(paper: PaperParse, bundle_dir: Optional[Path] = None) -> list[st
             "the corpus holds a revision; revisions belong to the run that made them"
         )
     problems += _check_keys(parse, "the parse")
+    problems += _check_identifiers(text.header.identifiers, "parsed_paper")
+    problems += _check_identifiers(parse.header.identifiers, "coordinate_parse")
 
     if bundle_dir is not None:
         path = Path(bundle_dir) / text.text_path
@@ -176,6 +178,7 @@ def check_revision(original: CoordinateParse, revision: CoordinateParse) -> list
     if revision.text_sha256 != original.text_sha256:
         problems.append("the revision addresses a different text")
     problems += _check_keys(revision, "the revision")
+    problems += _check_identifiers(revision.header.identifiers, "the revision")
 
     before = {analysis.key for analysis in original.analyses}
     after = {analysis.key for analysis in revision.analyses}
@@ -247,4 +250,39 @@ def _check_keys(parse: CoordinateParse, what: str) -> list[str]:
         derived = key_for(analysis)
         if derived != analysis.key:
             problems.append(f"{analysis.key} is not the key its content gives: {derived}")
+    return problems
+
+
+def _check_identifiers(ids: paper_parse.ArticleIdentifiers, what: str) -> list[str]:
+    """An identifier sits in one slot of `ArticleIdentifiers`; LinkML cannot say so across
+    fields. DOIs are case-insensitive, and Crossref returns them in either case."""
+    kinds = (
+        {
+            "doi": [ids.doi],
+            "alternative_dois": ids.alternative_dois,
+            "preprint_dois": [d.doi for d in ids.preprint_dois or []],
+        },
+        {
+            "pmid": [ids.pmid],
+            "alternative_pmids": ids.alternative_pmids,
+            "preprint_pmids": ids.preprint_pmids,
+        },
+        {
+            "pmcid": [ids.pmcid],
+            "alternative_pmcids": ids.alternative_pmcids,
+            "preprint_pmcids": ids.preprint_pmcids,
+        },
+    )
+    problems = []
+    for slots in kinds:
+        where: dict[str, list[str]] = {}
+        for slot, values in slots.items():
+            for value in values or []:
+                if value:
+                    where.setdefault(value.casefold(), []).append(slot)
+        problems += [
+            f"{what} lists {value} in {' and '.join(found)}; an identifier belongs to one slot"
+            for value, found in where.items()
+            if len(found) > 1
+        ]
     return problems
