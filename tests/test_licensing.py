@@ -258,7 +258,34 @@ def test_a_field_written_as_null_counts_as_absent(example_paths):
         validator.validate(paper, schema)
 
 
-SHARED_CLASSES = ("Bibliography", "ArticleIdentifiers", "PreprintDoi", "Correction", "License")
+
+@pytest.mark.parametrize(
+    "author, valid",
+    [
+        ({"name": "Example B", "stated_by": "openalex"}, True),
+        ({"email": "b@example.org", "stated_by": "jats"}, True),
+        ({"name": "Example B", "email": None, "stated_by": "openalex"}, True),
+        ({"stated_by": "jats"}, False),
+        ({"name": None, "stated_by": "jats"}, False),
+        ({"email": None, "stated_by": "jats"}, False),
+        ({"name": None, "email": None, "stated_by": "jats"}, False),
+        ({"name": "Example B", "email": "not an address", "stated_by": "pubmed"}, False),
+    ],
+)
+def test_a_corresponding_author_has_a_name_or_an_email(author, valid, example_paths):
+    validator = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
+    paper = load(example_paths["parsed_paper"])
+    paper["bibliography"]["corresponding_authors"] = [author]
+    if valid:
+        validator.validate(paper, jsonschema.load("parsed-paper"))
+    else:
+        with pytest.raises(validator.ValidationError):
+            validator.validate(paper, jsonschema.load("parsed-paper"))
+
+SHARED_CLASSES = (
+    "Bibliography", "CorrespondingAuthor", "ArticleIdentifiers", "PreprintDoi", "Correction",
+    "License",
+)
 SHARED_ENUMS = (
     "LicenseId", "LicenseDetermination", "MetadataSource", "OaStatus",
     "PublicationStatus", "PreprintServer", "CorrectionKind", "StudyType",

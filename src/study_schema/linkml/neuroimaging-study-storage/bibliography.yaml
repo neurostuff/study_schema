@@ -53,6 +53,14 @@ classes:
         range: string
         multivalued: true
         description: Author names in published order.
+      corresponding_authors:
+        in_subset: [mvp, deterministic]
+        range: CorrespondingAuthor
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          The authors the paper names to correspond with, in published order. Several when
+          it names several. Absent when no source said who they are.
       journal:
         in_subset: [mvp, deterministic]
         range: string
@@ -137,6 +145,64 @@ classes:
         in_subset: [mvp, deterministic]
         range: MetadataSource
         description: The metadata service the facts came from.
+
+  CorrespondingAuthor:
+    description: >-
+      One author the paper names to correspond with. A name with no email is kept, and so is
+      an email the paper prints without saying whose it is; one of the two is always there.
+    # `any_of` rejects both fields left out; the rules, one written as null beside the
+    # other left out or null. A rule's condition holds only of a field that is written.
+    any_of:
+      - slot_conditions:
+          name:
+            required: true
+      - slot_conditions:
+          email:
+            required: true
+    rules:
+      - description: A null name needs an email.
+        preconditions:
+          slot_conditions:
+            name:
+              none_of:
+                - range: string
+        postconditions:
+          slot_conditions:
+            email:
+              value_presence: PRESENT
+              any_of:
+                - range: string
+      - description: A null email needs a name.
+        preconditions:
+          slot_conditions:
+            email:
+              none_of:
+                - range: string
+        postconditions:
+          slot_conditions:
+            name:
+              value_presence: PRESENT
+              any_of:
+                - range: string
+    attributes:
+      name:
+        in_subset: [mvp, deterministic]
+        range: string
+        pattern: '\S'
+        description: The author's name, as `authors` spells it when it lists them.
+      email:
+        in_subset: [mvp, deterministic]
+        range: string
+        pattern: '^[^@\s]+@[^@\s]+\.[^@\s]+$'
+        description: The email address the paper prints for them.
+      stated_by:
+        in_subset: [mvp, deterministic]
+        range: MetadataSource
+        required: true
+        description: >-
+          The source that named them: a held copy (`jats`, `elsevier`, `pdf`, or the
+          `publisher_page` ACE read), `pubmed`, whose affiliations carry the email, or
+          `openalex`, which names them without one.
 
   ArticleIdentifiers:
     description: >-
