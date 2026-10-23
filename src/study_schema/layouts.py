@@ -265,12 +265,12 @@ def _check_identifiers(ids: paper_parse.ArticleIdentifiers, what: str) -> list[s
         {
             "pmid": [ids.pmid],
             "alternative_pmids": ids.alternative_pmids,
-            "preprint_pmid": [ids.preprint_pmid],
+            "preprint_pmids": ids.preprint_pmids,
         },
         {
             "pmcid": [ids.pmcid],
             "alternative_pmcids": ids.alternative_pmcids,
-            "preprint_pmcid": [ids.preprint_pmcid],
+            "preprint_pmcids": ids.preprint_pmcids,
         },
     )
     problems = []

@@ -152,13 +152,13 @@ classes:
         range: string
         description: >-
           PubMed's record of the version of record. Never PubMed's record of a preprint,
-          which is `preprint_pmid`.
+          which is `preprint_pmids`.
       pmcid:
         in_subset: [mvp, deterministic]
         range: string
         description: >-
           PubMed Central's copy of the version of record. Never PMC's copy of a preprint,
-          which is `preprint_pmcid`.
+          which is `preprint_pmcids`.
       doi:
         in_subset: [mvp, deterministic]
         range: string
@@ -198,14 +198,20 @@ classes:
           version separately, such as Research Square's `/v2`, gives one entry per version,
           each kept as registered. A reviewed preprint with no version of record yet has its
           eLife base DOI and its `.1`, `.2` DOIs here, with server `elife`.
-      preprint_pmid:
+      preprint_pmids:
         in_subset: [mvp, deterministic]
         range: string
-        description: PubMed's record of the preprint, which PubMed types `Preprint`.
-      preprint_pmcid:
+        multivalued: true
+        description: >-
+          PubMed's records of the preprint, which PubMed types `Preprint`: one per indexed
+          preprint server, or a duplicate record. Never a version of record's PMID.
+      preprint_pmcids:
         in_subset: [mvp, deterministic]
         range: string
-        description: PubMed Central's copy of the preprint.
+        multivalued: true
+        description: >-
+          PubMed Central's copies of the preprint, one per indexed preprint server. Never a
+          version of record's PMCID.
       publication_status:
         in_subset: [mvp, deterministic]
         range: PublicationStatus

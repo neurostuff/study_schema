@@ -184,7 +184,7 @@ What each side may rely on:
 - **A preprint is not its version of record.** The header's `doi`, `pmid` and `pmcid` name
   the version of record. A preprint server's DOIs, each with its `PreprintServer`, and
   PubMed's and PMC's records of the preprint are kept beside them in `preprint_dois`,
-  `preprint_pmid` and `preprint_pmcid`. Any other DOI, PMID or PMCID of the work, neither the version of
+  `preprint_pmids` and `preprint_pmcids`. Any other DOI, PMID or PMCID of the work, neither the version of
   record's nor a preprint's, goes in `alternative_dois`, `alternative_pmids` or
   `alternative_pmcids`: another version (an eLife paper's `.1`, `.2`), a duplicate PubMed
   record, a second PMC record, a Crossref alias, a DOI from before a publisher move. A

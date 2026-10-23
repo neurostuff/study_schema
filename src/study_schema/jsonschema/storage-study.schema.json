@@ -518,14 +518,14 @@
       "description": "Every identifier known for the paper when the artifact was written. Carried whole, so no consumer has to choose between them or look one up. `doi`, `pmid` and `pmcid` name the version of record; a preprint's identifiers are kept beside them in the `preprint_` fields, so a paper and its preprint are one article. An identifier appears in one slot only: `doi`, `alternative_dois` and `preprint_dois` never share a DOI (compared case-insensitively), and likewise for PMIDs and PMCIDs; `check_paper` and `check_revision` verify it.",
       "properties": {
         "pmid": {
-          "description": "PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmid`.",
+          "description": "PubMed's record of the version of record. Never PubMed's record of a preprint, which is `preprint_pmids`.",
           "type": [
             "string",
             "null"
           ]
         },
         "pmcid": {
-          "description": "PubMed Central's copy of the version of record. Never PMC's copy of a preprint, which is `preprint_pmcid`.",
+          "description": "PubMed Central's copy of the version of record. Never PMC's copy of a preprint, which is `preprint_pmcids`.",
           "type": [
             "string",
             "null"
@@ -578,17 +578,23 @@
             "null"
           ]
         },
-        "preprint_pmid": {
-          "description": "PubMed's record of the preprint, which PubMed types `Preprint`.",
+        "preprint_pmids": {
+          "description": "PubMed's records of the preprint, which PubMed types `Preprint`: one per indexed preprint server, or a duplicate record. Never a version of record's PMID.",
+          "items": {
+            "type": "string"
+          },
           "type": [
-            "string",
+            "array",
             "null"
           ]
         },
-        "preprint_pmcid": {
-          "description": "PubMed Central's copy of the preprint.",
+        "preprint_pmcids": {
+          "description": "PubMed Central's copies of the preprint, one per indexed preprint server. Never a version of record's PMCID.",
+          "items": {
+            "type": "string"
+          },
           "type": [
-            "string",
+            "array",
             "null"
           ]
         },

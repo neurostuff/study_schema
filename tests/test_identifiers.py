@@ -31,7 +31,7 @@ def _paper_with(identifiers: dict, example_paths) -> dict:
 def _status(identifiers: dict) -> str:
     """The rule `ArticleIdentifiers.publication_status` documents."""
     record = any(identifiers.get(k) for k in ("doi", "pmid", "pmcid"))
-    preprint = any(identifiers.get(k) for k in ("preprint_dois", "preprint_pmid", "preprint_pmcid"))
+    preprint = any(identifiers.get(k) for k in ("preprint_dois", "preprint_pmids", "preprint_pmcids"))
     return "preprint" if preprint and not record else "published"
 
 
@@ -49,7 +49,7 @@ def test_identifier_examples_validate(name, example_paths):
 def test_a_preprint_only_paper_holds_no_version_of_record_id():
     ids = paper_parse.ArticleIdentifiers.model_validate(load(IDENTIFIERS / "preprint_only.json"))
     assert (ids.doi, ids.pmid, ids.pmcid) == (None, None, None)
-    assert ids.preprint_pmid and ids.preprint_pmcid
+    assert ids.preprint_pmids and ids.preprint_pmcids
     assert [d.server for d in ids.preprint_dois] == ["biorxiv"]
     assert ids.publication_status == "preprint"
 
@@ -224,10 +224,10 @@ def test_no_identifier_example_repeats_an_id_across_slots(name):
         ("alternative_dois", ["10.7554/eLife.106070.1", "10.7554/eLife.106070.1"]),
         ("alternative_dois", ["10.7554/ELIFE.106070"]),
         ("alternative_dois", ["10.7554/eLife.106070"]),
-        ("preprint_pmcid", "PMC13524378"),
+        ("preprint_pmcids", ["PMC13524378"]),
         ("alternative_pmids", ["42663321"]),
         ("alternative_pmcids", ["pmc13524378"]),
-        ("preprint_pmid", "42663321"),
+        ("preprint_pmids", ["42663321"]),
         ("alternative_dois", ["10.1101/2025.02.05.636581"]),
     ],
 )
