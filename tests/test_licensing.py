@@ -260,31 +260,48 @@ def test_a_field_written_as_null_counts_as_absent(example_paths):
 
 
 @pytest.mark.parametrize(
-    "author, valid",
+    "change, valid",
     [
-        ({"name": "Example B", "stated_by": "openalex"}, True),
-        ({"email": "b@example.org", "stated_by": "jats"}, True),
-        ({"name": "Example B", "email": None, "stated_by": "openalex"}, True),
-        ({"stated_by": "jats"}, False),
-        ({"name": None, "stated_by": "jats"}, False),
-        ({"email": None, "stated_by": "jats"}, False),
-        ({"name": None, "email": None, "stated_by": "jats"}, False),
-        ({"name": "Example B", "email": "not an address", "stated_by": "pubmed"}, False),
+        ({}, True),
+        ({"orcid": "0000-0002-1825-009X"}, True),
+        ({"orcid": "https://orcid.org/0000-0002-1825-0097"}, False),  # bare iD only
+        ({"openalex_id": "https://openalex.org/A5000000001"}, False),
+        ({"name": ""}, False),
+        ({"emails": ["not an address"]}, False),
+        ({"affiliations": [{"text": "Somewhere", "institutions": [{"ror": "00hj54h04"}]}]},
+         True),
+        ({"affiliations": [{"text": "Somewhere",
+                            "institutions": [{"ror": "https://ror.org/00hj54h04"}]}]}, False),
+        ({"affiliations": [{"institutions": [{"ror": "00hj54h04"}]}]}, False),  # no text
+        ({"affiliations": [{"text": "Somewhere",
+                            "institutions": [{"ror": "00hj54h04", "country": "usa"}]}]},
+         False),
     ],
 )
-def test_a_corresponding_author_has_a_name_or_an_email(author, valid, example_paths):
+def test_an_author_s_ids_and_affiliations_are_checked(change, valid, example_paths):
     validator = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
     paper = load(example_paths["parsed_paper"])
-    paper["bibliography"]["corresponding_authors"] = [author]
+    paper["bibliography"]["authors"][0].update(change)
     if valid:
         validator.validate(paper, jsonschema.load("parsed-paper"))
     else:
         with pytest.raises(validator.ValidationError):
             validator.validate(paper, jsonschema.load("parsed-paper"))
 
+
+def test_a_correspondence_email_must_be_an_address(example_paths):
+    validator = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
+    paper = load(example_paths["parsed_paper"])
+    paper["bibliography"]["correspondence_emails"] = ["office@example.org"]
+    validator.validate(paper, jsonschema.load("parsed-paper"))
+    paper["bibliography"]["correspondence_emails"] = ["office at example.org"]
+    with pytest.raises(validator.ValidationError):
+        validator.validate(paper, jsonschema.load("parsed-paper"))
+
+
 SHARED_CLASSES = (
-    "Bibliography", "CorrespondingAuthor", "ArticleIdentifiers", "PreprintDoi", "Correction",
-    "License",
+    "Bibliography", "Author", "Affiliation", "Institution", "ArticleIdentifiers",
+    "PreprintDoi", "Correction", "License",
 )
 SHARED_ENUMS = (
     "LicenseId", "LicenseDetermination", "MetadataSource", "OaStatus",

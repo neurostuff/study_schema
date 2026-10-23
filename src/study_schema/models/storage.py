@@ -32,7 +32,7 @@ from pydantic import (
 
 
 metamodel_version = "1.12.0"
-version = "0.10.0"
+version = "0.11.0"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -2252,8 +2252,9 @@ class Bibliography(ConfiguredBaseModel):
     The paper's bibliographic facts, as the metadata lookup returned them. Defined once: the parsed paper carries it, and the storage Study holds the same object as `Study.bibliography`, so nothing is copied field by field and nothing is extracted.
     """
     title: str = Field(default=...)
-    authors: Optional[list[str]] = Field(default=None, description="""Author names in published order.""")
-    corresponding_authors: Optional[list[CorrespondingAuthor]] = Field(default=None, description="""The authors the paper names to correspond with, in published order. Several when it names several. Absent when no source said who they are.""")
+    authors: Optional[list[Author]] = Field(default=None, description="""The paper's authors in published order, each with the ids that name them across papers, their affiliations on this paper, and whether the paper names them to correspond with.""")
+    authors_provider: Optional[MetadataSource] = Field(default=None, description="""The source whose author list `authors` is: its names, order, ids and affiliations. It may differ from `provider`.""")
+    correspondence_emails: Optional[list[str]] = Field(default=None, description="""Addresses the paper prints for correspondence that belong to no author in `authors`, such as a note's email whose name could not be read. An address paired with an author is that author's `emails`, never here.""")
     journal: Optional[str] = Field(default=None)
     publication_year: Optional[int] = Field(default=None, description="""Year in which the study was first published or made publicly available.""", ge=1600)
     volume: Optional[str] = Field(default=None)
@@ -2270,6 +2271,19 @@ At least six of the benchmark's sixteen meta-analyses state \"English language\"
     corrections: Optional[list[Correction]] = Field(default=None, description="""Notices attached to the paper -- errata, retractions, expressions of concern -- as the indexer lists them. A retracted paper is still parsed and stored, marked by its `retraction` notice, and left out of studysets by default; a filter can ask for it explicitly.""")
     provider: Optional[MetadataSource] = Field(default=None, description="""The metadata service the facts came from.""")
 
+    @field_validator('correspondence_emails')
+    def pattern_correspondence_emails(cls, v):
+        pattern=re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid correspondence_emails format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid correspondence_emails format: {v}"
+            raise ValueError(err_msg)
+        return v
+
     @field_validator('abstract')
     def pattern_abstract(cls, v):
         pattern=re.compile(r"\S")
@@ -2284,13 +2298,16 @@ At least six of the benchmark's sixteen meta-analyses state \"English language\"
         return v
 
 
-class CorrespondingAuthor(ConfiguredBaseModel):
+class Author(ConfiguredBaseModel):
     """
-    One author the paper names to correspond with. A name with no email is kept, and so is an email the paper prints without saying whose it is; one of the two is always there.
+    One author of the paper. The ids say who they are across papers; the affiliations say where they were for this one, since an author moves between institutions over a career.
     """
-    name: Optional[str] = Field(default=None, description="""The author's name, as `authors` spells it when it lists them.""")
-    email: Optional[str] = Field(default=None, description="""The email address the paper prints for them.""")
-    stated_by: MetadataSource = Field(default=..., description="""The source that named them: a held copy (`jats`, `elsevier`, `pdf`, or the `publisher_page` ACE read), `pubmed`, whose affiliations carry the email, or `openalex`, which names them without one.""")
+    name: str = Field(default=..., description="""The name as `authors_provider` gives it.""")
+    orcid: Optional[str] = Field(default=None, description="""The author's ORCID iD, bare, without `https://orcid.org/`.""")
+    openalex_id: Optional[str] = Field(default=None, description="""OpenAlex's id for the author, bare (`A5054079188`). OpenAlex assigns it by its own disambiguation, so it can join two people or split one; an ORCID iD is the stronger id.""")
+    affiliations: Optional[list[Affiliation]] = Field(default=None, description="""Where the author was when they wrote this paper, as it prints each.""")
+    corresponding: Optional[bool] = Field(default=None, description="""The paper names them to correspond with. Absent when no source said who the corresponding authors are.""")
+    emails: Optional[list[str]] = Field(default=None, description="""The email addresses the paper prints for them.""")
 
     @field_validator('name')
     def pattern_name(cls, v):
@@ -2305,16 +2322,98 @@ class CorrespondingAuthor(ConfiguredBaseModel):
             raise ValueError(err_msg)
         return v
 
-    @field_validator('email')
-    def pattern_email(cls, v):
+    @field_validator('orcid')
+    def pattern_orcid(cls, v):
+        pattern=re.compile(r"^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid orcid format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid orcid format: {v}"
+            raise ValueError(err_msg)
+        return v
+
+    @field_validator('openalex_id')
+    def pattern_openalex_id(cls, v):
+        pattern=re.compile(r"^A\d+$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid openalex_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid openalex_id format: {v}"
+            raise ValueError(err_msg)
+        return v
+
+    @field_validator('emails')
+    def pattern_emails(cls, v):
         pattern=re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
         if isinstance(v, list):
             for element in v:
                 if isinstance(element, str) and not pattern.search(element):
-                    err_msg = f"Invalid email format: {element}"
+                    err_msg = f"Invalid emails format: {element}"
                     raise ValueError(err_msg)
         elif isinstance(v, str) and not pattern.search(v):
-            err_msg = f"Invalid email format: {v}"
+            err_msg = f"Invalid emails format: {v}"
+            raise ValueError(err_msg)
+        return v
+
+
+class Affiliation(ConfiguredBaseModel):
+    """
+    One affiliation an author gives on the paper: its text as printed, and the institutions it names, identified in the Research Organization Registry. One text can name several (a department of a university and a hospital), or none that the registry holds.
+    """
+    text: str = Field(default=..., description="""The affiliation as the paper prints it.""")
+    institutions: Optional[list[Institution]] = Field(default=None)
+
+    @field_validator('text')
+    def pattern_text(cls, v):
+        pattern=re.compile(r"\S")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid text format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid text format: {v}"
+            raise ValueError(err_msg)
+        return v
+
+
+class Institution(ConfiguredBaseModel):
+    """
+    An organization in the Research Organization Registry (https://ror.org).
+    """
+    ror: str = Field(default=..., description="""The ROR id, bare, without `https://ror.org/`.""")
+    name: Optional[str] = Field(default=None, description="""The registry's name for it.""")
+    country: Optional[str] = Field(default=None, description="""ISO 3166-1 alpha-2 code of the country it is in.""")
+
+    @field_validator('ror')
+    def pattern_ror(cls, v):
+        pattern=re.compile(r"^0[a-z0-9]{6}[0-9]{2}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid ror format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid ror format: {v}"
+            raise ValueError(err_msg)
+        return v
+
+    @field_validator('country')
+    def pattern_country(cls, v):
+        pattern=re.compile(r"^[A-Z]{2}$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid country format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid country format: {v}"
             raise ValueError(err_msg)
         return v
 
@@ -2590,7 +2689,9 @@ StatisticalMap.model_rebuild()
 Table.model_rebuild()
 CoordinateSet.model_rebuild()
 Bibliography.model_rebuild()
-CorrespondingAuthor.model_rebuild()
+Author.model_rebuild()
+Affiliation.model_rebuild()
+Institution.model_rebuild()
 ArticleIdentifiers.model_rebuild()
 PreprintDoi.model_rebuild()
 Correction.model_rebuild()
