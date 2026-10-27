@@ -671,6 +671,14 @@ class PreprintServer(str, Enum):
     """
     JMIR Preprints, DOI prefix 10.2196.
     """
+    peerj_preprints = "peerj_preprints"
+    """
+    PeerJ Preprints, DOI prefix 10.7287.
+    """
+    qeios = "qeios"
+    """
+    Qeios, DOI prefix 10.32388.
+    """
 
 
 class CorrectionKind(str, Enum):
@@ -2439,7 +2447,7 @@ class PreprintDoi(ConfiguredBaseModel):
     A DOI a preprint server registered, with the server that registered it.
     """
     doi: str = Field(default=...)
-    server: PreprintServer = Field(default=..., description="""Named by the producer from the DOI, so that no consumer needs a table of preprint servers' DOI patterns.""")
+    server: Union[PreprintServer, str] = Field(default=..., description="""Named by the producer from the DOI, so that no consumer needs a table of preprint servers' DOI patterns. A server PreprintServer does not list is named by its DOI prefix.""")
 
 
 class Correction(ConfiguredBaseModel):

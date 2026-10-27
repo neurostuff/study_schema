@@ -74,11 +74,12 @@ def test_invalid_identifier_examples_are_refused(name, field, example_paths):
         validator.validate(paper, jsonschema.load("parsed-paper"))
 
 
-def test_a_preprint_server_outside_the_vocabulary_is_refused():
+def test_a_preprint_server_outside_the_vocabulary_is_kept_as_written():
+    """A server PreprintServer does not list is named by its DOI prefix."""
     ids = load(IDENTIFIERS / "published_with_preprint.json")
-    ids["preprint_dois"][0]["server"] = "osf"
-    with pytest.raises(ValidationError, match="server"):
-        paper_parse.ArticleIdentifiers.model_validate(ids)
+    ids["preprint_dois"][0]["server"] = "10.31237"
+    parsed = paper_parse.ArticleIdentifiers.model_validate(ids)
+    assert parsed.preprint_dois[0].server == "10.31237"
 
 
 def test_header_and_storage_share_one_publication_status_vocabulary():

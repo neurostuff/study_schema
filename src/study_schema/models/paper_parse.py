@@ -774,6 +774,14 @@ class PreprintServer(str, Enum):
     """
     JMIR Preprints, DOI prefix 10.2196.
     """
+    peerj_preprints = "peerj_preprints"
+    """
+    PeerJ Preprints, DOI prefix 10.7287.
+    """
+    qeios = "qeios"
+    """
+    Qeios, DOI prefix 10.32388.
+    """
 
 
 class CorrectionKind(str, Enum):
@@ -1886,7 +1894,7 @@ class PreprintDoi(ConfiguredBaseModel):
     A DOI a preprint server registered, with the server that registered it.
     """
     doi: str = Field(default=...)
-    server: PreprintServer = Field(default=..., description="""Named by the producer from the DOI, so that no consumer needs a table of preprint servers' DOI patterns.""")
+    server: Union[PreprintServer, str] = Field(default=..., description="""Named by the producer from the DOI, so that no consumer needs a table of preprint servers' DOI patterns. A server PreprintServer does not list is named by its DOI prefix.""")
 
 
 class Correction(ConfiguredBaseModel):
@@ -1929,7 +1937,7 @@ class Copy(ConfiguredBaseModel):
     version: Optional[CopyVersion] = Field(default=None, description="""Absent when no source says which version the copy is.""")
     license: License = Field(default=..., description="""This copy's own licence. A manuscript or preprint can be licensed differently from the version of record.""")
     url: Optional[str] = Field(default=None)
-    preprint_server: Optional[PreprintServer] = Field(default=None)
+    preprint_server: Optional[Union[PreprintServer, str]] = Field(default=None, description="""A server PreprintServer does not list is named by its DOI prefix.""")
 
 
 class HeldCopy(Copy):
@@ -1941,7 +1949,7 @@ class HeldCopy(Copy):
     version: Optional[CopyVersion] = Field(default=None, description="""Absent when no source says which version the copy is.""")
     license: License = Field(default=..., description="""This copy's own licence. A manuscript or preprint can be licensed differently from the version of record.""")
     url: Optional[str] = Field(default=None)
-    preprint_server: Optional[PreprintServer] = Field(default=None)
+    preprint_server: Optional[Union[PreprintServer, str]] = Field(default=None, description="""A server PreprintServer does not list is named by its DOI prefix.""")
 
 
 class ReportedCopy(Copy):
@@ -1953,7 +1961,7 @@ class ReportedCopy(Copy):
     version: Optional[CopyVersion] = Field(default=None, description="""Absent when no source says which version the copy is.""")
     license: License = Field(default=..., description="""This copy's own licence. A manuscript or preprint can be licensed differently from the version of record.""")
     url: Optional[str] = Field(default=None)
-    preprint_server: Optional[PreprintServer] = Field(default=None)
+    preprint_server: Optional[Union[PreprintServer, str]] = Field(default=None, description="""A server PreprintServer does not list is named by its DOI prefix.""")
 
 
 class Reference(ConfiguredBaseModel):
