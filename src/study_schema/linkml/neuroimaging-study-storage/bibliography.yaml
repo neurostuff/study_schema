@@ -331,11 +331,14 @@ classes:
         required: true
       server:
         in_subset: [mvp, deterministic]
-        range: PreprintServer
+        any_of:
+          - range: PreprintServer
+          - range: string
         required: true
         description: >-
           Named by the producer from the DOI, so that no consumer needs a table of preprint
-          servers' DOI patterns.
+          servers' DOI patterns. A server PreprintServer does not list is named by its
+          DOI prefix.
 
   Correction:
     description: One notice attached to a paper.
@@ -474,6 +477,12 @@ enums:
       jmir_preprints:
         in_subset: [mvp, deterministic]
         description: JMIR Preprints, DOI prefix 10.2196.
+      peerj_preprints:
+        in_subset: [mvp, deterministic]
+        description: PeerJ Preprints, DOI prefix 10.7287.
+      qeios:
+        in_subset: [mvp, deterministic]
+        description: Qeios, DOI prefix 10.32388.
 
   CorrectionKind:
     in_subset: [mvp, deterministic]

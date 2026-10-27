@@ -128,13 +128,12 @@ classes:
           slot_conditions:
             preprint_server:
               value_presence: PRESENT
-              any_of:
-                - range: PreprintServer
         elseconditions:
           slot_conditions:
             preprint_server:
               none_of:
                 - range: PreprintServer
+                - range: string
     attributes:
       route:
         range: CopyRoute
@@ -152,7 +151,10 @@ classes:
       url:
         range: string
       preprint_server:
-        range: PreprintServer
+        any_of:
+          - range: PreprintServer
+          - range: string
+        description: A server PreprintServer does not list is named by its DOI prefix.
 
   HeldCopy:
     is_a: Copy
