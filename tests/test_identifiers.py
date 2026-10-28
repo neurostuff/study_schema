@@ -92,7 +92,7 @@ def _study_with(identifiers: dict) -> dict:
     bibliography = {
         "title": "An example",
         "publication_types": ["Preprint"],
-        "license": {"license_id": "all-rights-reserved", "determination": "assumed"},
+        "license": {"license_id": "all_rights_reserved", "determination": "assumed"},
     }
     return {"id": "x7Ex4mpleA01", "bibliography": bibliography, "identifiers": identifiers}
 

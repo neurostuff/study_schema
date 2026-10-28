@@ -49,7 +49,7 @@ classes:
         elseconditions:
           slot_conditions:
             license_id:
-              equals_string: all-rights-reserved
+              equals_string: all_rights_reserved
             stated_by:
               none_of:
                 - range: MetadataSource
@@ -62,9 +62,10 @@ classes:
         range: LicenseId
         required: true
         description: >-
-          Which licence, as OpenAlex's licence slugs name them (`cc-by`, `cc-by-nc`, ...).
-          Not an SPDX License Identifier: sources rarely state the licence's version,
-          and SPDX identifiers require one.
+          Which licence, in the same snake_case every application and API uses (`cc_by`,
+          `cc_by_nc`, ...); what the source said, such as OpenAlex's `cc-by`, is in
+          `stated_as`. Not an SPDX License Identifier: sources rarely state the licence's
+          version, and SPDX identifiers require one.
       determination:
         in_subset: [mvp, deterministic]
         range: LicenseDetermination
@@ -93,27 +94,27 @@ enums:
       and NC, because neurostore's use is non-commercial. That reading of ND and NC is this
       project's policy, not legal advice, and no lawyer has confirmed it.
     permissible_values:
-      cc-by:
+      cc_by:
         in_subset: [mvp, deterministic]
         annotations:
           redistributable: true
-      cc-by-sa:
+      cc_by_sa:
         in_subset: [mvp, deterministic]
         annotations:
           redistributable: true
-      cc-by-nc:
+      cc_by_nc:
         in_subset: [mvp, deterministic]
         annotations:
           redistributable: true
-      cc-by-nc-sa:
+      cc_by_nc_sa:
         in_subset: [mvp, deterministic]
         annotations:
           redistributable: true
-      cc-by-nd:
+      cc_by_nd:
         in_subset: [mvp, deterministic]
         annotations:
           redistributable: true
-      cc-by-nc-nd:
+      cc_by_nc_nd:
         in_subset: [mvp, deterministic]
         annotations:
           redistributable: true
@@ -121,11 +122,11 @@ enums:
         in_subset: [mvp, deterministic]
         annotations:
           redistributable: true
-      public-domain:
+      public_domain:
         in_subset: [mvp, deterministic]
         annotations:
           redistributable: true
-      all-rights-reserved:
+      all_rights_reserved:
         in_subset: [mvp, deterministic]
         description: >-
           A copyright statement with no licence, or terms that allow text mining only, such

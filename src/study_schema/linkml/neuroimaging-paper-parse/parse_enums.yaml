@@ -107,6 +107,8 @@ enums:
         description: A table's rows, inlined into the text.
       supplement:
       references:
+      data_availability:
+        description: The statement of where the paper's data or code can be had.
       other:
 
   MetaAnalysisBasis:
@@ -334,6 +336,21 @@ enums:
       permutation:
       small_volume:
         description: A correction within a region, such as SPM's small-volume correction.
+
+  LinkSource:
+    description: How a paper's link was found.
+    permissible_values:
+      markup:
+        description: >-
+          The source's own link markup, such as a JATS `ext-link` or an HTML `a`, whose
+          target is the link.
+      text:
+        description: The text prints the link, with no markup naming it.
+      supplement:
+        description: The source's markup for supplementary material, such as JATS `media`.
+      reference:
+        description: >-
+          An entry of the reference list: its URL, or a data repository's DOI.
 
   ReferenceProvider:
     description: Where a reference-list entry came from.
