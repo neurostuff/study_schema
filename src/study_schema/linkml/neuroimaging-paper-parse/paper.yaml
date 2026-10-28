@@ -99,8 +99,7 @@ classes:
         description: >-
           Every http(s) link the paper gives, once each: in its text or markup, its
           supplementary material or its reference list, where a DOI counts as its
-          `https://doi.org/` link. Where each one appeared is the producer's record, not
-          this one's.
+          `https://doi.org/` link, with every place it appears.
       references:
         range: Reference
         multivalued: true
@@ -271,6 +270,37 @@ classes:
         description: >-
           Whether the repository the link names holds NIfTI files (`.nii`, `.nii.gz`), as
           checked there. Absent when it was not checked.
+      occurrences:
+        range: LinkOccurrence
+        multivalued: true
+        inlined_as_list: true
+        required: true
+        minimum_cardinality: 1
+        description: Every place the paper gives the link, in text order.
+
+  LinkOccurrence:
+    description: >-
+      One place a paper gives a link: a span of the text, or an entry of its reference list
+      the text does not print. The section a span is in is the `ParsedPaper.sections` span
+      holding `start_char`, so a link from the data-availability statement is one with a
+      span in a `data_availability` section.
+    attributes:
+      found_by:
+        range: LinkSource
+        required: true
+      start_char:
+        range: integer
+        minimum_value: 0
+        description: >-
+          Where the span that prints the link, or the text its markup anchors, starts.
+          Absent only for a reference-list entry the text does not print.
+      end_char:
+        range: integer
+        minimum_value: 0
+        description: Where that span ends, exclusive.
+      reference_id:
+        range: string
+        description: The `Reference.id` the link was read from, when `found_by` is `reference`.
 
   Section:
     description: A span of the text and what it is.

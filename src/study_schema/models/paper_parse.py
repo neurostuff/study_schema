@@ -492,6 +492,28 @@ class CorrectionMethod(str, Enum):
     """
 
 
+class LinkSource(str, Enum):
+    """
+    How a paper's link was found.
+    """
+    markup = "markup"
+    """
+    The source's own link markup, such as a JATS `ext-link` or an HTML `a`, whose target is the link.
+    """
+    text = "text"
+    """
+    The text prints the link, with no markup naming it.
+    """
+    supplement = "supplement"
+    """
+    The source's markup for supplementary material, such as JATS `media`.
+    """
+    reference = "reference"
+    """
+    An entry of the reference list: its URL, or a data repository's DOI.
+    """
+
+
 class ReferenceProvider(str, Enum):
     """
     Where a reference-list entry came from.
@@ -1928,7 +1950,7 @@ class ParsedPaper(ConfiguredBaseModel):
     is_meta_analysis_basis: Optional[MetaAnalysisBasis] = Field(default=None)
     sections: Optional[list[Section]] = Field(default=None)
     supplements: Optional[list[Supplement]] = Field(default=None, description="""Supplementary material the paper links to, and whether it was fetched. A result the text cites to a supplement that was not fetched is reported elsewhere, not missing.""")
-    links: Optional[list[PaperLink]] = Field(default=None, description="""Every http(s) link the paper gives, once each: in its text or markup, its supplementary material or its reference list, where a DOI counts as its `https://doi.org/` link. Where each one appeared is the producer's record, not this one's.""")
+    links: Optional[list[PaperLink]] = Field(default=None, description="""Every http(s) link the paper gives, once each: in its text or markup, its supplementary material or its reference list, where a DOI counts as its `https://doi.org/` link, with every place it appears.""")
     references: Optional[list[Reference]] = Field(default=None, description="""The paper's reference list, in order. Usually fetched from an API by the paper's identifiers rather than parsed from the text (`Reference.provider` says which), so it is complete and carries DOIs even when the text's list is badly extracted.""")
     citations: Optional[list[Citation]] = Field(default=None, description="""Every in-text citation, where it sits in the text and which reference it points to. The link from a sentence to a work, which the reference list alone cannot give: what resolves the citations a task's description makes (storage `Task.reference_ids`) and traces a task to the paper that introduced it.""")
     tables: Optional[list[ParsedTable]] = Field(default=None)
@@ -2010,6 +2032,17 @@ class PaperLink(ConfiguredBaseModel):
     """
     url: str = Field(default=..., description="""The link, normalized: the scheme and host in lower case, no `www.`, no fragment and no trailing slash; a DOI as `https://doi.org/` and the DOI in lower case.""")
     has_nifti: Optional[bool] = Field(default=None, description="""Whether the repository the link names holds NIfTI files (`.nii`, `.nii.gz`), as checked there. Absent when it was not checked.""")
+    occurrences: list[LinkOccurrence] = Field(default=..., description="""Every place the paper gives the link, in text order.""", min_length=1)
+
+
+class LinkOccurrence(ConfiguredBaseModel):
+    """
+    One place a paper gives a link: a span of the text, or an entry of its reference list the text does not print. The section a span is in is the `ParsedPaper.sections` span holding `start_char`, so a link from the data-availability statement is one with a span in a `data_availability` section.
+    """
+    found_by: LinkSource = Field(default=...)
+    start_char: Optional[int] = Field(default=None, description="""Where the span that prints the link, or the text its markup anchors, starts. Absent only for a reference-list entry the text does not print.""", ge=0)
+    end_char: Optional[int] = Field(default=None, description="""Where that span ends, exclusive.""", ge=0)
+    reference_id: Optional[str] = Field(default=None, description="""The `Reference.id` the link was read from, when `found_by` is `reference`.""")
 
 
 class Section(ConfiguredBaseModel):
@@ -2245,6 +2278,7 @@ Reference.model_rebuild()
 Citation.model_rebuild()
 Supplement.model_rebuild()
 PaperLink.model_rebuild()
+LinkOccurrence.model_rebuild()
 Section.model_rebuild()
 ParsedTable.model_rebuild()
 TableRow.model_rebuild()

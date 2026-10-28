@@ -31,22 +31,42 @@ def test_an_undeclared_field_is_refused(example_paths):
         CoordinateParse.model_validate(data)
 
 
-def test_a_link_needs_its_url_and_may_say_whether_it_holds_nifti(example_paths):
+@pytest.mark.parametrize(
+    "broken, field",
+    [
+        ({"occurrences": [{"found_by": "text", "start_char": 0, "end_char": 5}]}, "url"),
+        ({"url": "https://osf.io/abcde"}, "occurrences"),
+        ({"url": "https://osf.io/abcde", "occurrences": []}, "occurrences"),
+        ({"url": "https://osf.io/abcde", "occurrences": [{"found_by": "footnote"}]}, "found_by"),
+    ],
+)
+def test_a_link_needs_its_url_and_where_it_appears(example_paths, broken, field):
     validator = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
     data = load(example_paths["parsed_paper"])
     data["links"] = [
-        {"url": "https://openneuro.org/datasets/ds000001", "has_nifti": True},
-        {"url": "https://doi.org/10.17605/osf.io/abcde"},
+        {
+            "url": "https://openneuro.org/datasets/ds000001",
+            "has_nifti": True,
+            "occurrences": [
+                {"found_by": "markup", "start_char": 10, "end_char": 52},
+                {"found_by": "text", "start_char": 900, "end_char": 942},
+            ],
+        },
+        {
+            "url": "https://doi.org/10.17605/osf.io/abcde",
+            "occurrences": [{"found_by": "reference", "reference_id": "ref12"}],
+        },
     ]
-    data["sections"].append({"kind": "data_availability", "start_char": 0, "end_char": 1})
+    data["sections"].append({"kind": "data_availability", "start_char": 0, "end_char": 60})
     paper = ParsedPaper.model_validate(data)
     validator.validate(data, jsonschema.load("parsed-paper"))
     assert [link.has_nifti for link in paper.links] == [True, None]
+    assert paper.links[1].occurrences[0].start_char is None
 
-    data["links"].append({"has_nifti": False})
-    with pytest.raises(ValidationError, match="url"):
+    data["links"].append(broken)
+    with pytest.raises(ValidationError, match=field):
         ParsedPaper.model_validate(data)
-    with pytest.raises(validator.ValidationError, match="url"):
+    with pytest.raises(validator.ValidationError):
         validator.validate(data, jsonschema.load("parsed-paper"))
 
 
