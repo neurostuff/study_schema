@@ -31,6 +31,25 @@ def test_an_undeclared_field_is_refused(example_paths):
         CoordinateParse.model_validate(data)
 
 
+def test_a_link_needs_its_url_and_may_say_whether_it_holds_nifti(example_paths):
+    validator = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
+    data = load(example_paths["parsed_paper"])
+    data["links"] = [
+        {"url": "https://openneuro.org/datasets/ds000001", "has_nifti": True},
+        {"url": "https://doi.org/10.17605/osf.io/abcde"},
+    ]
+    data["sections"].append({"kind": "data_availability", "start_char": 0, "end_char": 1})
+    paper = ParsedPaper.model_validate(data)
+    validator.validate(data, jsonschema.load("parsed-paper"))
+    assert [link.has_nifti for link in paper.links] == [True, None]
+
+    data["links"].append({"has_nifti": False})
+    with pytest.raises(ValidationError, match="url"):
+        ParsedPaper.model_validate(data)
+    with pytest.raises(validator.ValidationError, match="url"):
+        validator.validate(data, jsonschema.load("parsed-paper"))
+
+
 def test_references_are_ids_not_nested_objects():
     # Group.arm is `inlined: false`: a record holds the arm's local_id.
     assert extraction.Group.model_fields["arm"].annotation == (str | None)

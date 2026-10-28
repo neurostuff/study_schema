@@ -92,6 +92,15 @@ classes:
           Supplementary material the paper links to, and whether it was fetched. A result
           the text cites to a supplement that was not fetched is reported elsewhere, not
           missing.
+      links:
+        range: PaperLink
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          Every http(s) link the paper gives, once each: in its text or markup, its
+          supplementary material or its reference list, where a DOI counts as its
+          `https://doi.org/` link. Where each one appeared is the producer's record, not
+          this one's.
       references:
         range: Reference
         multivalued: true
@@ -247,6 +256,21 @@ classes:
       path:
         range: string
         description: Where the fetched file is, relative to the bundle directory.
+
+  PaperLink:
+    description: One link the paper gives.
+    attributes:
+      url:
+        range: string
+        required: true
+        description: >-
+          The link, normalized: the scheme and host in lower case, no `www.`, no fragment
+          and no trailing slash; a DOI as `https://doi.org/` and the DOI in lower case.
+      has_nifti:
+        range: boolean
+        description: >-
+          Whether the repository the link names holds NIfTI files (`.nii`, `.nii.gz`), as
+          checked there. Absent when it was not checked.
 
   Section:
     description: A span of the text and what it is.

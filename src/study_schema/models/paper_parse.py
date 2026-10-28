@@ -197,6 +197,10 @@ class SectionKind(str, Enum):
     """
     supplement = "supplement"
     references = "references"
+    data_availability = "data_availability"
+    """
+    The statement of where the paper's data or code can be had.
+    """
     other = "other"
 
 
@@ -1924,6 +1928,7 @@ class ParsedPaper(ConfiguredBaseModel):
     is_meta_analysis_basis: Optional[MetaAnalysisBasis] = Field(default=None)
     sections: Optional[list[Section]] = Field(default=None)
     supplements: Optional[list[Supplement]] = Field(default=None, description="""Supplementary material the paper links to, and whether it was fetched. A result the text cites to a supplement that was not fetched is reported elsewhere, not missing.""")
+    links: Optional[list[PaperLink]] = Field(default=None, description="""Every http(s) link the paper gives, once each: in its text or markup, its supplementary material or its reference list, where a DOI counts as its `https://doi.org/` link. Where each one appeared is the producer's record, not this one's.""")
     references: Optional[list[Reference]] = Field(default=None, description="""The paper's reference list, in order. Usually fetched from an API by the paper's identifiers rather than parsed from the text (`Reference.provider` says which), so it is complete and carries DOIs even when the text's list is badly extracted.""")
     citations: Optional[list[Citation]] = Field(default=None, description="""Every in-text citation, where it sits in the text and which reference it points to. The link from a sentence to a work, which the reference list alone cannot give: what resolves the citations a task's description makes (storage `Task.reference_ids`) and traces a task to the paper that introduced it.""")
     tables: Optional[list[ParsedTable]] = Field(default=None)
@@ -1997,6 +2002,14 @@ class Supplement(ConfiguredBaseModel):
     url: Optional[str] = Field(default=None)
     fetched: bool = Field(default=...)
     path: Optional[str] = Field(default=None, description="""Where the fetched file is, relative to the bundle directory.""")
+
+
+class PaperLink(ConfiguredBaseModel):
+    """
+    One link the paper gives.
+    """
+    url: str = Field(default=..., description="""The link, normalized: the scheme and host in lower case, no `www.`, no fragment and no trailing slash; a DOI as `https://doi.org/` and the DOI in lower case.""")
+    has_nifti: Optional[bool] = Field(default=None, description="""Whether the repository the link names holds NIfTI files (`.nii`, `.nii.gz`), as checked there. Absent when it was not checked.""")
 
 
 class Section(ConfiguredBaseModel):
@@ -2231,6 +2244,7 @@ ReportedCopy.model_rebuild()
 Reference.model_rebuild()
 Citation.model_rebuild()
 Supplement.model_rebuild()
+PaperLink.model_rebuild()
 Section.model_rebuild()
 ParsedTable.model_rebuild()
 TableRow.model_rebuild()
