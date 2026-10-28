@@ -39,8 +39,8 @@ INVALID_BY_RULE = [
     "server_named_off_a_preprint_server",
 ]
 
-CC_BY = {"license_id": "cc-by", "determination": "stated", "stated_by": "jats", "stated_as": "https://creativecommons.org/licenses/by/4.0/"}
-ARR = {"license_id": "all-rights-reserved", "determination": "assumed"}
+CC_BY = {"license_id": "cc_by", "determination": "stated", "stated_by": "jats", "stated_as": "https://creativecommons.org/licenses/by/4.0/"}
+ARR = {"license_id": "all_rights_reserved", "determination": "assumed"}
 
 
 def _values(path, enum):
@@ -71,9 +71,9 @@ def test_the_sets_match_the_schema_annotations():
         (CC_BY, "tdm_grant", False),  # a CC-licensed Elsevier article fetched with our key
         (CC_BY, "unrecorded", False),  # a supplied PDF nobody recorded the origin of
         (CC_BY, None, True),  # the abstract of a CC-licensed paper
-        ({**CC_BY, "license_id": "cc-by-nc-nd"}, "public", True),
+        ({**CC_BY, "license_id": "cc_by_nc_nd"}, "public", True),
         ({**CC_BY, "license_id": "other", "stated_as": "Elsevier user license"}, "public", False),
-        ({**CC_BY, "license_id": "all-rights-reserved", "stated_as": "© 2005 Elsevier Inc."}, "public", False),
+        ({**CC_BY, "license_id": "all_rights_reserved", "stated_as": "© 2005 Elsevier Inc."}, "public", False),
         (ARR, "public", False),
         (ARR, None, False),
     ],
@@ -111,7 +111,7 @@ def test_every_code_and_access_is_decided():
         (CC_BY, "bogus"),  # an access outside CopyAccess
         (CC_BY, ""),
         ({**CC_BY, "license_id": "cc-by-4.0"}, "public"),  # an id outside LicenseId
-        ({"license_id": "cc-by", "determination": "assumed"}, None),  # the rules make an assumed licence ARR
+        ({"license_id": "cc_by", "determination": "assumed"}, None),  # the rules make an assumed licence ARR
         ({**CC_BY, "determination": "assumed"}, "public"),
         ({**CC_BY, "determination": "inferred"}, "public"),
         ({**CC_BY, "stated_by": None}, "public"),  # stated by nobody
@@ -165,8 +165,8 @@ def test_a_tdm_manuscript_keeps_the_articles_own_licence_beside_it():
     example = load(LICENSES / "tdm_manuscript_of_open_article.json")
     copy = paper_parse.HeldCopy.model_validate(example["text_copy"])
     bibliography = example["bibliography"]
-    assert (copy.version, copy.access, copy.license.license_id) == ("am", "tdm_grant", "all-rights-reserved")
-    assert bibliography["license"]["license_id"] == "cc-by-nc"
+    assert (copy.version, copy.access, copy.license.license_id) == ("am", "tdm_grant", "all_rights_reserved")
+    assert bibliography["license"]["license_id"] == "cc_by_nc"
     assert bibliography["abstract_provider"] != bibliography["provider"]
 
 
@@ -395,3 +395,9 @@ def test_storage_refuses_a_licence_outside_the_contract():
 def test_storage_requires_the_bibliography():
     with pytest.raises(ValidationError, match="bibliography"):
         storage.Study.model_validate({"id": "x7Ex4mpleA01"})
+
+
+def test_a_licence_id_is_spelled_one_way_in_code_documents_and_databases():
+    # The value a document or a database column holds is the name code writes.
+    for schema_module in (paper_parse, storage):
+        assert {m.name for m in schema_module.LicenseId} == {m.value for m in schema_module.LicenseId}

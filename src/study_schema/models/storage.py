@@ -32,7 +32,7 @@ from pydantic import (
 
 
 metamodel_version = "1.12.0"
-version = "0.11.0"
+version = "0.12.0"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -773,15 +773,15 @@ class LicenseId(str, Enum):
     """
     The terms a licence grants. A value annotated `redistributable` lets the text it covers be passed on verbatim with attribution: every Creative Commons licence, including ND, because converting a format to text is a change CC 4.0 2(a)(4) allows, and NC, because neurostore's use is non-commercial. That reading of ND and NC is this project's policy, not legal advice, and no lawyer has confirmed it.
     """
-    cc_by = "cc-by"
-    cc_by_sa = "cc-by-sa"
-    cc_by_nc = "cc-by-nc"
-    cc_by_nc_sa = "cc-by-nc-sa"
-    cc_by_nd = "cc-by-nd"
-    cc_by_nc_nd = "cc-by-nc-nd"
+    cc_by = "cc_by"
+    cc_by_sa = "cc_by_sa"
+    cc_by_nc = "cc_by_nc"
+    cc_by_nc_sa = "cc_by_nc_sa"
+    cc_by_nd = "cc_by_nd"
+    cc_by_nc_nd = "cc_by_nc_nd"
     cc0 = "cc0"
-    public_domain = "public-domain"
-    all_rights_reserved = "all-rights-reserved"
+    public_domain = "public_domain"
+    all_rights_reserved = "all_rights_reserved"
     """
     A copyright statement with no licence, or terms that allow text mining only, such as PubMed Central's `TDM` for an author manuscript.
     """
@@ -2502,7 +2502,7 @@ class License(ConfiguredBaseModel):
     """
     A licence as one source stated it, or all rights reserved assumed because no source stated one.
     """
-    license_id: LicenseId = Field(default=..., description="""Which licence, as OpenAlex's licence slugs name them (`cc-by`, `cc-by-nc`, ...). Not an SPDX License Identifier: sources rarely state the licence's version, and SPDX identifiers require one.""")
+    license_id: LicenseId = Field(default=..., description="""Which licence, in the same snake_case every application and API uses (`cc_by`, `cc_by_nc`, ...); what the source said, such as OpenAlex's `cc-by`, is in `stated_as`. Not an SPDX License Identifier: sources rarely state the licence's version, and SPDX identifiers require one.""")
     determination: LicenseDetermination = Field(default=...)
     stated_by: Optional[MetadataSource] = Field(default=None, description="""The source whose statement this is.""")
     stated_as: Optional[str] = Field(default=None, description="""The statement exactly as the source gave it: a licence URL, a licence name, or a copyright line. What `other` holds, and what attribution quotes. Never empty: a source that gave no statement did not state a licence.""")

@@ -24,14 +24,14 @@ from typing import Any, Mapping, Optional
 
 REDISTRIBUTABLE_LICENSES = frozenset(
     {
-        "cc-by",
-        "cc-by-sa",
-        "cc-by-nc",
-        "cc-by-nc-sa",
-        "cc-by-nd",
-        "cc-by-nc-nd",
+        "cc_by",
+        "cc_by_sa",
+        "cc_by_nc",
+        "cc_by_nc_sa",
+        "cc_by_nd",
+        "cc_by_nc_nd",
         "cc0",
-        "public-domain",
+        "public_domain",
     }
 )
 REDISTRIBUTABLE_ACCESS = frozenset({"public"})
