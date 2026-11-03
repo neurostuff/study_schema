@@ -165,7 +165,38 @@ Enforced by `pondie.extraction.record.validate`:
 - Every span satisfies `text == source[start_char:end_char]` against the normalized source
   text, half-open interval.
 - Records are immutable. Do not hand-correct one; produce a new extraction version or a
-  separate correction record.
+  separate correction record. The one pass that writes after extraction is normalization,
+  and it writes only `normalized` (below): it never changes a value, its status or its
+  evidence.
+
+### Normalizations sit beside the value
+
+A record is filled in three passes: values, then the evidence for them, then what the values
+mean in a shared vocabulary. The third pass writes `normalized` on the `ExtractedValue` it
+read, a list of `Normalization` entries, and leaves `value` as the source's wording, so the
+comparable value and the words it came from can be checked against each other:
+
+```json
+"medical_condition": {"extraction_status": "extracted",
+                      "value": ["Probable Alzheimer's disease"],
+                      "evidence": {"status": "present", "sets": [...]},
+                      "normalized": [
+                        {"vocabulary": "MONDO", "status": "mapped", "item": 0,
+                         "value": "MONDO:0004975", "label": "Alzheimer disease",
+                         "method": "lexical", "confidence": 1.0,
+                         "mapping_tool": "pondie.normalization.medical_condition 16a42d8"}]}
+```
+
+- One entry per vocabulary, list item (`item`) and head (`head`, for one diagnosis in a
+  comorbidity list): a field can carry MONDO and ONVOC readings side by side.
+- `normalized` unset means no normalizer ran on the slot. An entry with `status: unmapped`
+  means one ran and could not place the value; `absent`, that the value states an absence.
+- A normalization of a whole entity -- a task placed on a canonical paradigm -- is recorded on
+  the entity's `name`, with `also_read` naming the other slots it used.
+- A normalizer's rerun replaces the entries carrying its `mapping_tool` name and leaves the
+  rest. Storage has no wrapper, so the storage columns that carry a normalized value
+  (`Group.age_unit_normalized`, `CategoryDistribution.category_normalized`) are filled from
+  these entries by the mapper.
 
 ### The method payload names itself
 

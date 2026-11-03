@@ -52,7 +52,7 @@
 id: https://neurostuff.org/schemas/extraction-to-storage-map
 name: extraction-to-storage-map
 title: Neuroimaging Study Extraction-to-Storage Transformation Map
-version: 0.7.0
+version: 0.8.0
 source_schema: https://neurostuff.org/schemas/neuroimaging-study-extraction
 target_schema: https://neurostuff.org/schemas/neuroimaging-study-storage
 
@@ -83,13 +83,15 @@ derivations:
     transform: generate
   CategoryDistribution.category_normalized:
     transform: derive
-    source_representation: sibling_field
+    source_representation: normalized
     source_field: CategoryDistribution.category
     notes: >-
-      `pondie.normalization.sex_distribution` and `handedness_distribution` fold the
-      study's wording in `category` onto the answer set of the distribution the entry
-      belongs to. A distribution with no normalizer (gender, race, ethnicity) leaves it
-      unset; unset is not UNKNOWN, which says a normalizer ran and found no match.
+      The `value` of the `category.normalized` entry whose vocabulary is the distribution's
+      answer set (SexCategory, HandednessCategory), written by
+      `pondie.normalization.sex_distribution` and `handedness_distribution`. Unset where
+      `category` carries no such entry: a distribution with no normalizer (gender, race,
+      ethnicity), which is not UNKNOWN -- an `unmapped` entry is the normalizer finding no
+      match.
   Condition.id:
     transform: generate
   ConnectivityEdge.directionality:
@@ -140,13 +142,13 @@ derivations:
     transform: generate
   Group.age_unit_normalized:
     transform: derive
-    source_representation: sibling_field
+    source_representation: normalized
     source_field: Group.age_unit
     notes: >-
-      `pondie.normalization.age_unit` folds the source's wording in `age_unit` onto the
-      AgeUnit vocabulary, UNKNOWN where the wording does not say. `age_unit` keeps the
-      wording, and its own entry under free_text_normalizations tidies spelling for
-      queries; this field is the comparable one.
+      The `value` of the `age_unit.normalized` entry whose vocabulary is AgeUnit, written by
+      `pondie.normalization.age_unit`; UNKNOWN where that entry is `unmapped`, because the
+      wording does not say. `age_unit` keeps the wording, and its own entry under
+      free_text_normalizations tidies spelling for queries; this field is the comparable one.
   Group.id:
     transform: generate
     notes: UUID assigned by mapper; extraction local_id stored in audit log.
