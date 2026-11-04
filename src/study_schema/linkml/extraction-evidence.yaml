@@ -6,7 +6,7 @@ description: >-
   information extracted from source documents.
 
 license: CC0-1.0
-version: 0.2.0
+version: 0.3.0
 
 prefixes:
   linkml: https://w3id.org/linkml/
@@ -64,6 +64,23 @@ enums:
           The one value here that reports on the extraction rather than on the source, and
           the one a later pass should revisit: recording it is how a pass declines without
           the decline being mistaken for a finding.
+
+  NormalizationStatus:
+    description: Outcome of one normalizer reading one value.
+    permissible_values:
+      mapped:
+        description: The normalizer placed the value on a term of its vocabulary.
+      unmapped:
+        description: >-
+          The normalizer read the value and could not place it. A wording worth a rule,
+          which an unset `normalized` is not: unset says no normalizer ran.
+      ambiguous:
+        description: >-
+          Several terms matched and the normalizer chose none, rather than guess between them.
+      absent:
+        description: >-
+          The value states an absence -- "no history of psychiatric illness", "healthy older
+          adults" -- and was read as one: placed, and on no term.
 
   ValueSource:
     description: Describes how an extracted value relates to the source material.
@@ -140,6 +157,87 @@ classes:
         range: Evidence
         required: true
         inlined: true
+      normalized:
+        range: Normalization
+        multivalued: true
+        inlined_as_list: true
+        description: >-
+          What normalizers made of the value: one entry per vocabulary, list item and head.
+          Written by the normalization pass after the value and evidence passes, never
+          extracted; the source's wording stays in `value`, so the comparable value and the
+          words it was read from sit side by side and can be checked against each other.
+          Unset where no normalizer covers the slot, which is not the same as an entry whose
+          status is `unmapped`: that says a normalizer read the value and could not place it.
+
+  Normalization:
+    description: >-
+      One normalizer's reading of an extracted value onto a vocabulary: an assertion about
+      the value, kept beside it rather than written over it. The first two passes record what
+      the source says and where; this records what that means in a shared vocabulary, and
+      which code said so.
+    attributes:
+      vocabulary:
+        required: true
+        description: >-
+          The answer set the value was placed on: an ontology (MONDO, ONVOC), a vocabulary
+          this schema defines (AgeUnit), or a normalizer's own category set.
+      status:
+        range: NormalizationStatus
+        required: true
+      value:
+        description: >-
+          The term's identifier or permissible value, as the vocabulary spells it. Populate
+          when status is mapped; omit otherwise.
+      label:
+        description: The term's preferred label in its vocabulary.
+      item:
+        range: integer
+        minimum_value: 0
+        description: >-
+          Which item of a list-valued `value` this entry reads, counting from 0. Omitted
+          for a scalar value. A list's items normalize independently -- one of a group's
+          conditions maps and the next does not -- so an entry has to say which it is about.
+      head:
+        description: >-
+          The part of the value this entry is about, when one value names several things:
+          one diagnosis in a comorbidity list that arrived as a single string. Omitted when
+          the entry reads the whole value.
+      qualifiers:
+        multivalued: true
+        description: >-
+          Course or state words lifted off the value before lookup -- first-episode,
+          remitted, treatment-resistant -- so the term stays the diagnosis and the
+          qualification is not lost with the words it came from.
+      rollup:
+        range: boolean
+        description: >-
+          True when the term was reached by dropping part of what the value said, so it is
+          broader than the source. Omitted when nothing was dropped.
+      method:
+        description: >-
+          How the normalizer reached the term, in its own words: a decisive rule, a lexical
+          match, an exact label, an embedding neighbour, a cluster, a citation, a review.
+      also_read:
+        multivalued: true
+        description: >-
+          Other slots of the same object the normalizer read besides this one, such as a
+          task's `description` and `conditions` when its `name` is placed on a canonical task.
+          An entity-level normalization is recorded on the entity's name, and this is what
+          keeps that from reading as a judgement on the name alone.
+      mapping_tool:
+        required: true
+        description: >-
+          The normalizer that wrote this entry and its version, such as
+          `pondie.normalization.age_unit 16a42d8`. SSSOM's `mapping_tool`. A rerun of a
+          normalizer replaces the entries carrying its name and leaves other normalizers'
+          entries alone.
+      confidence:
+        range: float
+        minimum_value: 0
+        maximum_value: 1
+        description: >-
+          The normalizer's score for this entry, from 0 to 1, where its method produces one.
+          SSSOM's `confidence`.
 
   ExtractedString:
     is_a: ExtractedValue

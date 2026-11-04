@@ -980,7 +980,7 @@
           "type": "string"
         },
         "category_normalized": {
-          "description": "`category` folded onto the answer set for the distribution this entry belongs to. **Derived, not extracted**: `pondie.normalization.sex_distribution` and `pondie.normalization.handedness_distribution` set it, and `category` keeps the study's own wording.\nThe answer set depends on the slot, which is why the range is open here rather than an enum: sex folds to MALE/FEMALE/OTHER/UNKNOWN, handedness to RIGHT/LEFT/AMBIDEXTROUS/OTHER/UNKNOWN. A distribution with no normalizer -- gender, race, ethnicity -- leaves this unset rather than guessing.\nUnset is not UNKNOWN. UNKNOWN says a normalizer read the wording and could not place it, which is a wording worth a rule; unset says none ran.",
+          "description": "`category` folded onto the answer set for the distribution this entry belongs to. **Derived, not extracted**: `pondie.normalization.sex_distribution` and `pondie.normalization.handedness_distribution` record their reading in the extraction record's `category.normalized`, the mapper copies it here, and `category` keeps the study's own wording.\nThe answer set depends on the slot, which is why the range is open here rather than an enum: sex folds to MALE/FEMALE/OTHER/UNKNOWN, handedness to RIGHT/LEFT/AMBIDEXTROUS/OTHER/UNKNOWN. A distribution with no normalizer -- gender, race, ethnicity -- leaves this unset rather than guessing.\nUnset is not UNKNOWN. UNKNOWN says a normalizer read the wording and could not place it, which is a wording worth a rule; unset says none ran.",
           "type": [
             "string",
             "null"
@@ -2267,7 +2267,7 @@
               "type": "null"
             }
           ],
-          "description": "`age_unit` folded onto a fixed set. **Derived, not extracted**: `pondie.normalization.age_unit` sets it from the source's own wording, which is kept in `age_unit`.\nWithout it the age fields are not comparable across studies: `6` under \"months\" and `6` under \"years\" are the same number, and a filter on age reads every neonatal and infant cohort wrong. `UNKNOWN` where the wording does not say -- not `years`, because assuming the common case is what makes that error silent."
+          "description": "`age_unit` folded onto a fixed set. **Derived, not extracted**: `pondie.normalization.age_unit` reads the source's own wording, which is kept in `age_unit`, and records its reading in the extraction record's `age_unit.normalized`; the mapper copies it here.\nWithout it the age fields are not comparable across studies: `6` under \"months\" and `6` under \"years\" are the same number, and a filter on age reads every neonatal and infant cohort wrong. `UNKNOWN` where the wording does not say -- not `years`, because assuming the common case is what makes that error silent."
         },
         "sex_distribution": {
           "description": "Aggregate phenotypic sex distribution. Use one entry per reported category, with the study's category label and a count and/or percentage. A cohort described wholly as one sex reports its distribution without ever printing a breakdown: \"22 male smokers\", \"young women (n = 8)\" and \"ten male patients\" are each one entry whose count is the whole group, plus a second entry for the absent sex with a count of zero. Read a demographics table row (\"N female | 5\") exactly as you would read the same fact in a sentence.",

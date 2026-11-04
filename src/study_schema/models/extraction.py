@@ -106,6 +106,28 @@ class UnreportedReason(str, Enum):
     """
 
 
+class NormalizationStatus(str, Enum):
+    """
+    Outcome of one normalizer reading one value.
+    """
+    mapped = "mapped"
+    """
+    The normalizer placed the value on a term of its vocabulary.
+    """
+    unmapped = "unmapped"
+    """
+    The normalizer read the value and could not place it. A wording worth a rule, which an unset `normalized` is not: unset says no normalizer ran.
+    """
+    ambiguous = "ambiguous"
+    """
+    Several terms matched and the normalizer chose none, rather than guess between them.
+    """
+    absent = "absent"
+    """
+    The value states an absence -- "no history of psychiatric illness", "healthy older adults" -- and was read as one: placed, and on no term.
+    """
+
+
 class ValueSource(str, Enum):
     """
     Describes how an extracted value relates to the source material.
@@ -1405,6 +1427,25 @@ class ExtractedValue(ConfiguredBaseModel):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
+
+
+class Normalization(ConfiguredBaseModel):
+    """
+    One normalizer's reading of an extracted value onto a vocabulary: an assertion about the value, kept beside it rather than written over it. The first two passes record what the source says and where; this records what that means in a shared vocabulary, and which code said so.
+    """
+    vocabulary: str = Field(default=..., description="""The answer set the value was placed on: an ontology (MONDO, ONVOC), a vocabulary this schema defines (AgeUnit), or a normalizer's own category set.""")
+    status: NormalizationStatus = Field(default=...)
+    value: Optional[str] = Field(default=None, description="""The term's identifier or permissible value, as the vocabulary spells it. Populate when status is mapped; omit otherwise.""")
+    label: Optional[str] = Field(default=None, description="""The term's preferred label in its vocabulary.""")
+    item: Optional[int] = Field(default=None, description="""Which item of a list-valued `value` this entry reads, counting from 0. Omitted for a scalar value. A list's items normalize independently -- one of a group's conditions maps and the next does not -- so an entry has to say which it is about.""", ge=0)
+    head: Optional[str] = Field(default=None, description="""The part of the value this entry is about, when one value names several things: one diagnosis in a comorbidity list that arrived as a single string. Omitted when the entry reads the whole value.""")
+    qualifiers: Optional[list[str]] = Field(default=None, description="""Course or state words lifted off the value before lookup -- first-episode, remitted, treatment-resistant -- so the term stays the diagnosis and the qualification is not lost with the words it came from.""")
+    rollup: Optional[bool] = Field(default=None, description="""True when the term was reached by dropping part of what the value said, so it is broader than the source. Omitted when nothing was dropped.""")
+    method: Optional[str] = Field(default=None, description="""How the normalizer reached the term, in its own words: a decisive rule, a lexical match, an exact label, an embedding neighbour, a cluster, a citation, a review.""")
+    also_read: Optional[list[str]] = Field(default=None, description="""Other slots of the same object the normalizer read besides this one, such as a task's `description` and `conditions` when its `name` is placed on a canonical task. An entity-level normalization is recorded on the entity's name, and this is what keeps that from reading as a judgement on the name alone.""")
+    mapping_tool: str = Field(default=..., description="""The normalizer that wrote this entry and its version, such as `pondie.normalization.age_unit 16a42d8`. SSSOM's `mapping_tool`. A rerun of a normalizer replaces the entries carrying its name and leaves other normalizers' entries alone.""")
+    confidence: Optional[float] = Field(default=None, description="""The normalizer's score for this entry, from 0 to 1, where its method produces one. SSSOM's `confidence`.""", ge=0, le=1)
 
 
 class ExtractedString(ExtractedValue):
@@ -1416,6 +1457,7 @@ class ExtractedString(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedInteger(ExtractedValue):
@@ -1427,6 +1469,7 @@ class ExtractedInteger(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedNumber(ExtractedValue):
@@ -1438,6 +1481,7 @@ class ExtractedNumber(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedBoolean(ExtractedValue):
@@ -1449,6 +1493,7 @@ class ExtractedBoolean(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedStringList(ExtractedValue):
@@ -1460,6 +1505,7 @@ class ExtractedStringList(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedIntegerList(ExtractedValue):
@@ -1471,6 +1517,7 @@ class ExtractedIntegerList(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedNumberList(ExtractedValue):
@@ -1482,6 +1529,7 @@ class ExtractedNumberList(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedBooleanList(ExtractedValue):
@@ -1493,6 +1541,7 @@ class ExtractedBooleanList(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class Evidence(ConfiguredBaseModel):
@@ -1596,6 +1645,7 @@ class ExtractedAllocation(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedAssignmentStructure(ExtractedValue):
@@ -1607,6 +1657,7 @@ class ExtractedAssignmentStructure(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedBlinding(ExtractedValue):
@@ -1618,6 +1669,7 @@ class ExtractedBlinding(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedArmKind(ExtractedValue):
@@ -1629,6 +1681,7 @@ class ExtractedArmKind(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedTimepointRelation(ExtractedValue):
@@ -1640,6 +1693,7 @@ class ExtractedTimepointRelation(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class Group(ConfiguredBaseModel):
@@ -1692,7 +1746,6 @@ A protocol, preprocessing pipeline or analysis \"described previously\" is a sha
     sample_source_reference: Optional[ExtractedString] = Field(default=None, description="""The dataset name, or the prior publication as the source cites it: an author-year citation, a bracketed reference number, or a trial registration number, copied as written. Without it the overlap is known but not actionable -- deciding whether two papers are one independent sample needs the identity of the other one.""")
     sample_overlap_count: Optional[ExtractedInteger] = Field(default=None, description="""How many of this group were in that prior report, when the source says so. It is the difference between two papers being one sample and their sharing part of one, which is the difference between dropping a study and down-weighting it.""")
     is_healthy: Optional[ExtractedBoolean] = Field(default=None, description="""Whether this cohort is free of medical, neurological and psychiatric conditions. Derived from `medical_condition` by `pondie.normalization.is_healthy`, never extracted, so it cannot disagree with the field it summarises. Unset where `medical_condition` was never read: that is an unread cohort, not a healthy one.""")
-    age_unit_normalized: Optional[ExtractedString] = Field(default=None, description="""`age_unit` folded onto years / months / weeks / gestational_weeks / UNKNOWN by `pondie.normalization.age_unit`, never extracted. The source's own wording stays in `age_unit`.""")
     other_characteristics: Optional[ExtractedStringList] = Field(default=None, description="""Cohort traits moved out of `population_characteristics` because every plausible cohort could carry them. Written by `pondie.normalization.population_characteristics`, never extracted.""")
 
     @field_validator('stable_id')
@@ -1718,7 +1771,6 @@ class CategoryDistribution(ConfiguredBaseModel):
     percentage: Optional[ExtractedNumber] = Field(default=None, description="""Percentage of the relevant group in this category.""")
     denominator: Optional[ExtractedInteger] = Field(default=None, description="""Number of participants used as the denominator for the percentage.""")
     reporting_framework: Optional[ExtractedString] = Field(default=None, description="""The classification system the study used for these categories, in its own words, such as the OMB or NIH race and ethnicity categories, a named handedness inventory, or a self-report question's answer set.""")
-    category_normalized: Optional[ExtractedString] = Field(default=None, description="""`category` folded onto the answer set for the distribution it belongs to, by `pondie.normalization.sex_distribution` or `.handedness_distribution`. Unset where no normalizer covers the distribution -- unset is not UNKNOWN, which says a normalizer read the wording and could not place it.""")
 
 
 class ExtractedSampleSource(ExtractedValue):
@@ -1730,6 +1782,7 @@ class ExtractedSampleSource(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedSpecies(ExtractedValue):
@@ -1741,6 +1794,7 @@ class ExtractedSpecies(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class Task(ConfiguredBaseModel):
@@ -1827,6 +1881,7 @@ class ExtractedTaskVariantAxis(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedConditionKind(ExtractedValue):
@@ -1838,6 +1893,7 @@ class ExtractedConditionKind(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedDesignType(ExtractedValue):
@@ -1849,6 +1905,7 @@ class ExtractedDesignType(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedStimulusModalityList(ExtractedValue):
@@ -1860,6 +1917,7 @@ class ExtractedStimulusModalityList(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedResponseModalityList(ExtractedValue):
@@ -1871,6 +1929,7 @@ class ExtractedResponseModalityList(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class Assessment(ConfiguredBaseModel):
@@ -1934,6 +1993,7 @@ class ExtractedRegionDefinition(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedRegionType(ExtractedValue):
@@ -1945,6 +2005,7 @@ class ExtractedRegionType(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class Acquisition(ConfiguredBaseModel):
@@ -2184,6 +2245,7 @@ class ExtractedBrainCoverage(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedModality(ExtractedValue):
@@ -2195,6 +2257,7 @@ class ExtractedModality(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class Analysis(ConfiguredBaseModel):
@@ -2633,6 +2696,7 @@ class ExtractedResultReporting(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractionMetadata(ConfiguredBaseModel):
@@ -2669,6 +2733,7 @@ class ExtractedAnalysisType(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedSpatialScope(ExtractedValue):
@@ -2680,6 +2745,7 @@ class ExtractedSpatialScope(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedAnalysisOutcome(ExtractedValue):
@@ -2691,6 +2757,7 @@ class ExtractedAnalysisOutcome(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedSpatialUnit(ExtractedValue):
@@ -2702,6 +2769,7 @@ class ExtractedSpatialUnit(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedEffectKind(ExtractedValue):
@@ -2713,6 +2781,7 @@ class ExtractedEffectKind(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedEffectPath(ExtractedValue):
@@ -2724,6 +2793,7 @@ class ExtractedEffectPath(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedModelFamily(ExtractedValue):
@@ -2735,6 +2805,7 @@ class ExtractedModelFamily(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedStatisticFamily(ExtractedValue):
@@ -2746,6 +2817,7 @@ class ExtractedStatisticFamily(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedMeasureFamily(ExtractedValue):
@@ -2757,6 +2829,7 @@ class ExtractedMeasureFamily(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedMeasureType(ExtractedValue):
@@ -2768,6 +2841,7 @@ class ExtractedMeasureType(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedPrespecification(ExtractedValue):
@@ -2779,6 +2853,7 @@ class ExtractedPrespecification(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedTermType(ExtractedValue):
@@ -2790,6 +2865,7 @@ class ExtractedTermType(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedVariationLevel(ExtractedValue):
@@ -2801,6 +2877,7 @@ class ExtractedVariationLevel(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedDirection(ExtractedValue):
@@ -2812,6 +2889,7 @@ class ExtractedDirection(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedFunctionalForm(ExtractedValue):
@@ -2823,6 +2901,7 @@ class ExtractedFunctionalForm(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedConnectivityMethod(ExtractedValue):
@@ -2834,6 +2913,7 @@ class ExtractedConnectivityMethod(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedInferenceTarget(ExtractedValue):
@@ -2845,6 +2925,7 @@ class ExtractedInferenceTarget(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedPerformanceRelation(ExtractedValue):
@@ -2856,6 +2937,7 @@ class ExtractedPerformanceRelation(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedNullHypothesis(ExtractedValue):
@@ -2867,6 +2949,7 @@ class ExtractedNullHypothesis(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedConjunctionImplementation(ExtractedValue):
@@ -2878,6 +2961,7 @@ class ExtractedConjunctionImplementation(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedSecondBlockList(ExtractedValue):
@@ -2889,6 +2973,7 @@ class ExtractedSecondBlockList(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedDecompositionMethod(ExtractedValue):
@@ -2900,6 +2985,7 @@ class ExtractedDecompositionMethod(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedMapQuantity(ExtractedValue):
@@ -2911,6 +2997,7 @@ class ExtractedMapQuantity(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedPolaritySemantics(ExtractedValue):
@@ -2922,6 +3009,7 @@ class ExtractedPolaritySemantics(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedNotStructurableReason(ExtractedValue):
@@ -2933,6 +3021,7 @@ class ExtractedNotStructurableReason(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedTablePurpose(ExtractedValue):
@@ -2944,6 +3033,7 @@ class ExtractedTablePurpose(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedCoordinateRole(ExtractedValue):
@@ -2955,6 +3045,7 @@ class ExtractedCoordinateRole(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedResultKind(ExtractedValue):
@@ -2966,6 +3057,7 @@ class ExtractedResultKind(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class ExtractedAnchorKind(ExtractedValue):
@@ -2977,6 +3069,7 @@ class ExtractedAnchorKind(ExtractedValue):
     value_source: Optional[ValueSource] = Field(default=None)
     unreported_reason: Optional[UnreportedReason] = Field(default=None, description="""Why there is no value, where the reason is not the plain one. Populate when extraction_status is not_reported and one of the four applies; omit when it is extracted, where there is nothing to explain. Absent is the ordinary case and claims nothing beyond the status: the attribute was examined and the source carries no value. Reading absence as \"no pass looked\" would contradict what `not_reported` already asserts, so nothing should.""")
     evidence: Evidence = Field(default=...)
+    normalized: Optional[list[Normalization]] = Field(default=None, description="""What normalizers made of the value: one entry per vocabulary, list item and head. Written by the normalization pass after the value and evidence passes, never extracted; the source's wording stays in `value`, so the comparable value and the words it was read from sit side by side and can be checked against each other. Unset where no normalizer covers the slot, which is not the same as an entry whose status is `unmapped`: that says a normalizer read the value and could not place it.""")
 
 
 class AnalysisDetails(ConfiguredBaseModel):
@@ -3125,6 +3218,7 @@ class NotStructurableDetails(AnalysisDetails):
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 ExtractedValue.model_rebuild()
+Normalization.model_rebuild()
 ExtractedString.model_rebuild()
 ExtractedInteger.model_rebuild()
 ExtractedNumber.model_rebuild()
