@@ -70,6 +70,33 @@ def test_a_link_needs_its_url_and_where_it_appears(example_paths, broken, field)
         validator.validate(data, jsonschema.load("parsed-paper"))
 
 
+def test_a_venue_names_its_source_and_only_a_fuzzy_match_has_a_score(example_paths):
+    validator = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
+    schema = jsonschema.load("parsed-paper")
+    data = load(example_paths["parsed_paper"])
+    bibliography = data["bibliography"]
+
+    for venue in ({"openalex_id": "S121666818", "match": "doi"},
+                  {"openalex_id": "S121666818", "match": "doi", "score": None},
+                  {"openalex_id": "S121666818", "match": "fuzzy", "score": 96.5}):
+        bibliography["venue"] = venue
+        ParsedPaper.model_validate(data)
+        validator.validate(data, schema)
+    assert ParsedPaper.model_validate(data).bibliography.venue.match == "fuzzy"
+
+    bibliography["venue"] = {"openalex_id": "https://openalex.org/S121666818", "match": "doi"}
+    with pytest.raises(ValidationError, match="openalex_id"):
+        ParsedPaper.model_validate(data)
+    with pytest.raises(validator.ValidationError):
+        validator.validate(data, schema)
+
+    for venue in ({"openalex_id": "S121666818", "match": "fuzzy"},
+                  {"openalex_id": "S121666818", "match": "title", "score": 100}):
+        bibliography["venue"] = venue
+        with pytest.raises(validator.ValidationError):
+            validator.validate(data, schema)
+
+
 def test_references_are_ids_not_nested_objects():
     # Group.arm is `inlined: false`: a record holds the arm's local_id.
     assert extraction.Group.model_fields["arm"].annotation == (str | None)
