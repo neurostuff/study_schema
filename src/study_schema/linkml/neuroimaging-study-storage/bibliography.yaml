@@ -75,6 +75,14 @@ classes:
       journal:
         in_subset: [mvp, deterministic]
         range: string
+        description: The journal's name as the metadata source printed it.
+      venue:
+        in_subset: [mvp, deterministic]
+        range: Venue
+        inlined: true
+        description: >-
+          Which journal, preprint server or conference series the paper appeared in, as
+          identified from its ids or from `journal`. Absent when it could not be identified.
       publication_year:
         in_subset: [mvp, deterministic]
         range: integer
@@ -156,6 +164,47 @@ classes:
         in_subset: [mvp, deterministic]
         range: MetadataSource
         description: The metadata service the facts came from.
+
+  Venue:
+    description: >-
+      The OpenAlex source a paper appeared in, and how it was identified. Only the paper's
+      own facts: the source's title, ISSNs and other ids belong to the source, and the
+      consumer holds them once.
+    rules:
+      - description: A fuzzy match, and only a fuzzy match, has a score.
+        open_world: true
+        preconditions:
+          slot_conditions:
+            match:
+              equals_string: fuzzy
+        postconditions:
+          slot_conditions:
+            score:
+              value_presence: PRESENT
+              any_of:
+                - range: float
+        elseconditions:
+          slot_conditions:
+            score:
+              none_of:
+                - range: float
+    attributes:
+      openalex_id:
+        in_subset: [mvp, deterministic]
+        range: string
+        required: true
+        pattern: '^S\d+$'
+        description: OpenAlex's source id, bare (`S121666818`).
+      match:
+        in_subset: [mvp, deterministic]
+        range: VenueMatch
+        required: true
+      score:
+        in_subset: [mvp, deterministic]
+        range: float
+        minimum_value: 0
+        maximum_value: 100
+        description: How close `journal` was to the source's name, 0 to 100.
 
   Author:
     description: >-
@@ -483,6 +532,32 @@ enums:
       qeios:
         in_subset: [mvp, deterministic]
         description: Qeios, DOI prefix 10.32388.
+
+  VenueMatch:
+    in_subset: [mvp, deterministic]
+    description: How a paper's venue was identified, from the strongest evidence to the weakest.
+    permissible_values:
+      doi:
+        in_subset: [mvp, deterministic]
+        description: OpenAlex's work for the version of record's DOI names the source.
+      pmid:
+        in_subset: [mvp, deterministic]
+        description: OpenAlex's work for the PMID names the source.
+      preprint_server:
+        in_subset: [mvp, deterministic]
+        description: Only a preprint is known, and the source is its server's.
+      issn:
+        in_subset: [mvp, deterministic]
+        description: An ISSN that PubMed or Crossref gives for the paper belongs to the source.
+      title:
+        in_subset: [mvp, deterministic]
+        description: >-
+          `journal` equals one of the source's names or abbreviations, once case,
+          punctuation, a leading "The", a parenthetical qualifier and a subtitle are set
+          aside.
+      fuzzy:
+        in_subset: [mvp, deterministic]
+        description: "`journal` is close to one of the source's names; `score` says how close."
 
   CorrectionKind:
     in_subset: [mvp, deterministic]

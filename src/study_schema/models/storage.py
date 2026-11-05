@@ -681,6 +681,36 @@ class PreprintServer(str, Enum):
     """
 
 
+class VenueMatch(str, Enum):
+    """
+    How a paper's venue was identified, from the strongest evidence to the weakest.
+    """
+    doi = "doi"
+    """
+    OpenAlex's work for the version of record's DOI names the source.
+    """
+    pmid = "pmid"
+    """
+    OpenAlex's work for the PMID names the source.
+    """
+    preprint_server = "preprint_server"
+    """
+    Only a preprint is known, and the source is its server's.
+    """
+    issn = "issn"
+    """
+    An ISSN that PubMed or Crossref gives for the paper belongs to the source.
+    """
+    title = "title"
+    """
+    `journal` equals one of the source's names or abbreviations, once case, punctuation, a leading "The", a parenthetical qualifier and a subtitle are set aside.
+    """
+    fuzzy = "fuzzy"
+    """
+    `journal` is close to one of the source's names; `score` says how close.
+    """
+
+
 class CorrectionKind(str, Enum):
     """
     A notice attached to a paper by its publisher or indexer.
@@ -2263,7 +2293,8 @@ class Bibliography(ConfiguredBaseModel):
     authors: Optional[list[Author]] = Field(default=None, description="""The paper's authors in published order, each with the ids that name them across papers, their affiliations on this paper, and whether the paper names them to correspond with.""")
     authors_provider: Optional[MetadataSource] = Field(default=None, description="""The source whose author list `authors` is: its names, order, ids and affiliations. It may differ from `provider`.""")
     correspondence_emails: Optional[list[str]] = Field(default=None, description="""Addresses the paper prints for correspondence that belong to no author in `authors`, such as a note's email whose name could not be read. An address paired with an author is that author's `emails`, never here.""")
-    journal: Optional[str] = Field(default=None)
+    journal: Optional[str] = Field(default=None, description="""The journal's name as the metadata source printed it.""")
+    venue: Optional[Venue] = Field(default=None, description="""Which journal, preprint server or conference series the paper appeared in, as identified from its ids or from `journal`. Absent when it could not be identified.""")
     publication_year: Optional[int] = Field(default=None, description="""Year in which the study was first published or made publicly available.""", ge=1600)
     volume: Optional[str] = Field(default=None)
     issue: Optional[str] = Field(default=None)
@@ -2302,6 +2333,28 @@ At least six of the benchmark's sixteen meta-analyses state \"English language\"
                     raise ValueError(err_msg)
         elif isinstance(v, str) and not pattern.search(v):
             err_msg = f"Invalid abstract format: {v}"
+            raise ValueError(err_msg)
+        return v
+
+
+class Venue(ConfiguredBaseModel):
+    """
+    The OpenAlex source a paper appeared in, and how it was identified. Only the paper's own facts: the source's title, ISSNs and other ids belong to the source, and the consumer holds them once.
+    """
+    openalex_id: str = Field(default=..., description="""OpenAlex's source id, bare (`S121666818`).""")
+    match: VenueMatch = Field(default=...)
+    score: Optional[float] = Field(default=None, description="""How close `journal` was to the source's name, 0 to 100.""", ge=0, le=100)
+
+    @field_validator('openalex_id')
+    def pattern_openalex_id(cls, v):
+        pattern=re.compile(r"^S\d+$")
+        if isinstance(v, list):
+            for element in v:
+                if isinstance(element, str) and not pattern.search(element):
+                    err_msg = f"Invalid openalex_id format: {element}"
+                    raise ValueError(err_msg)
+        elif isinstance(v, str) and not pattern.search(v):
+            err_msg = f"Invalid openalex_id format: {v}"
             raise ValueError(err_msg)
         return v
 
@@ -2697,6 +2750,7 @@ StatisticalMap.model_rebuild()
 Table.model_rebuild()
 CoordinateSet.model_rebuild()
 Bibliography.model_rebuild()
+Venue.model_rebuild()
 Author.model_rebuild()
 Affiliation.model_rebuild()
 Institution.model_rebuild()
