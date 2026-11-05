@@ -303,7 +303,7 @@ Intrinsic to the condition and not its role in any one contrast. What a tested e
     """
     task_state = "task_state"
     """
-    A state the paradigm put the participant in, active or passive: performing a trial and responding, or viewing, listening to or receiving stimuli with nothing to do -- passive viewing, passive listening, passive tactile stimulation. The default, and the one most conditions are.
+    A state the paradigm put the participant in, active or passive: performing a trial and responding, or viewing, listening to or receiving stimuli -- passive viewing, passive listening, passive tactile stimulation. Most conditions are task_state.
     """
     rest = "rest"
     """
