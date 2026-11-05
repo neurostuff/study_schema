@@ -161,8 +161,9 @@ classes:
         description: >-
           The method that produced the map and its method-specific payload. The populated
           subclass identifies the method. A voxelwise, vertexwise, or ROI-wise GLM,
-          mixed-effects model, ANOVA, ANCOVA, or robust regression takes
-          MassUnivariateDetails; a method outside the first-class families takes
+          mixed-effects model, ANOVA, ANCOVA, robust regression, or brain-behaviour
+          correlation takes MassUnivariateDetails, and a seed-based or ROI-to-ROI correlation
+          takes ConnectivityDetails; a method outside the first-class families takes
           OtherAnalysisDetails and names itself in method_label.
       acquisitions:
         in_subset: [mvp, model_extracted]

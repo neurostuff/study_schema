@@ -303,7 +303,7 @@ Intrinsic to the condition and not its role in any one contrast. What a tested e
     """
     task_state = "task_state"
     """
-    An active state the paradigm put the participant in -- viewing cues, performing a trial, responding. The default, and the one most conditions are.
+    A state the paradigm put the participant in, active or passive: performing a trial and responding, or viewing, listening to or receiving stimuli with nothing to do -- passive viewing, passive listening, passive tactile stimulation. The default, and the one most conditions are.
     """
     rest = "rest"
     """
@@ -458,6 +458,10 @@ class RegionType(str, Enum):
     coordinate_sphere = "coordinate_sphere"
     """
     A sphere or box around a coordinate, whose geometry `description` records.
+    """
+    voxel = "voxel"
+    """
+    A single voxel or coordinate taken as the region, with no surrounding volume -- a peak voxel, a seed voxel. A sphere or box around the coordinate is `coordinate_sphere`.
     """
     functional_cluster = "functional_cluster"
     """
@@ -902,7 +906,7 @@ class AnalysisType(str, Enum):
     """
     mass_univariate = "mass_univariate"
     """
-    Voxelwise, vertexwise, or ROI-wise GLM, mixed-effects model, ANOVA or ANCOVA, or robust regression. This is the default family and takes no details payload.
+    Voxelwise, vertexwise, or ROI-wise GLM, mixed-effects model, ANOVA or ANCOVA, robust regression, or brain-behaviour correlation. This is the default family and takes no details payload.
     """
     multivariate_decoding = "multivariate_decoding"
     """
@@ -1057,6 +1061,10 @@ class ModelFamily(str, Enum):
     robust_regression = "robust_regression"
     """
     A regression fitted to resist outliers, such as an iteratively reweighted or M-estimator fit.
+    """
+    correlation = "correlation"
+    """
+    A correlation coefficient (Pearson, Spearman or partial) between the measure and a variable that is not another brain region's signal -- a behavioural score, a symptom rating, age, a physiological or genetic measure -- across participants or observations. A brain-behaviour correlation is this family, including one whose measure is connectivity, such as connectivity strength correlated with a symptom score. Correlating one region's signal with another's is connectivity and not this family: a seed-based or ROI-to-ROI correlation is a connectivity analysis, and its model family is the model that tested the effect on those connectivity estimates, such as a `glm` comparing groups.
     """
 
 
@@ -1323,7 +1331,7 @@ class ConnectivityMethod(str, Enum):
     """
     seed_based = "seed_based"
     """
-    Correlation between a seed's time series and every other element, with no interaction term.
+    Correlation between a seed's time series and every other element, with no interaction term. A connectivity analysis even when the source calls it a correlation analysis: the correlation estimates connectivity, so it is not the analysis's `ModelFamily`.
     """
     dcm = "dcm"
     """
@@ -2029,7 +2037,7 @@ Not the analysis's seeds: a whole-brain seed-based analysis has a seed and no se
     measure: str = Field(default=..., description="""The scientific quantity of the map, by identifier, independent of the statistic used to test it. Analyses of one quantity reference one record; an analysis of a different quantity takes its own. Required: a paper vague about what it measured still takes a record, with `source_label` as given and `extraction_status: not_reported` elsewhere.""")
     groups: list[AnalysisGroup] = Field(default=..., description="""The participant cohorts the analysis ran on, and how many participants each contributed. Membership only: this slot says which people were analysed, never what was compared. A cohort comparison is a pair of directional `Cell`s on the model term whose levels name the cohorts, exactly as a condition or occasion comparison is.""")
     effect: Effect = Field(default=..., description="""What was tested about the map. Universal across every method.""")
-    details: Union[MassUnivariateDetails,DecodingDetails,SimilarityDetails,ConnectivityDetails,ConjunctionDetails,LatentDecompositionDetails,OtherAnalysisDetails,NotStructurableDetails] = Field(default=..., description="""The method that produced the map and its method-specific payload. The populated subclass identifies the method. A voxelwise, vertexwise, or ROI-wise GLM, mixed-effects model, ANOVA, ANCOVA, or robust regression takes MassUnivariateDetails; a method outside the first-class families takes OtherAnalysisDetails and names itself in method_label.""")
+    details: Union[MassUnivariateDetails,DecodingDetails,SimilarityDetails,ConnectivityDetails,ConjunctionDetails,LatentDecompositionDetails,OtherAnalysisDetails,NotStructurableDetails] = Field(default=..., description="""The method that produced the map and its method-specific payload. The populated subclass identifies the method. A voxelwise, vertexwise, or ROI-wise GLM, mixed-effects model, ANOVA, ANCOVA, robust regression, or brain-behaviour correlation takes MassUnivariateDetails, and a seed-based or ROI-to-ROI correlation takes ConnectivityDetails; a method outside the first-class families takes OtherAnalysisDetails and names itself in method_label.""")
     acquisitions: Optional[list[str]] = Field(default=None, description="""Acquisition protocols supplying data to this analysis. Structural, diffusion, and other non-paradigm analyses are linked directly through this field.""")
     tasks: Optional[list[str]] = Field(default=None, description="""The participant paradigms that contextualize this analysis. An analysis can span paradigms, as a cross-task conjunction or a localizer-plus-main-task analysis does.
 A resting-state analysis names its Task here like any other: the resting-state protocol is a paradigm, and a Task record exists for it. What leaves this empty is an analysis with no paradigm at all -- morphometry, diffusion, a static PET scan -- which is linked through `acquisitions` instead.""")
@@ -2583,7 +2591,7 @@ class AnalysisDetails(ConfiguredBaseModel):
 
 class MassUnivariateDetails(AnalysisDetails):
     """
-    Payload for a voxelwise, vertexwise, or ROI-wise GLM, mixed-effects model, ANOVA, ANCOVA, or robust regression -- the default family. It adds no fields: what was tested is in Effect and how it was estimated is in ModelEstimation.
+    Payload for a voxelwise, vertexwise, or ROI-wise GLM, mixed-effects model, ANOVA, ANCOVA, robust regression, or brain-behaviour correlation -- the default family. It adds no fields: what was tested is in Effect and how it was estimated is in ModelEstimation.
     A voxelwise **mediation** analysis is one of these. Each path it reports is estimated by regression, so the fit is mass-univariate and what makes the map a mediation is `Effect.mediation` -- the path tested, and the term it runs through. Reaching for OtherAnalysisDetails because the word \"mediation\" has no first-class payload leaves `Effect.mediation` empty, and an indirect-effect map with no path recorded is indistinguishable from a plain regression on the same predictor.
     """
     details_type: Literal["MassUnivariateDetails"] = Field(default="MassUnivariateDetails", description="""The concrete details subclass carried by this payload. Populated from the class itself, not extracted.""")
