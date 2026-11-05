@@ -864,7 +864,7 @@ class AnalysisType(str, Enum):
     """
     mass_univariate = "mass_univariate"
     """
-    Voxelwise, vertexwise, or ROI-wise GLM, mixed-effects model, ANOVA or ANCOVA, or robust regression. This is the default family and takes no details payload.
+    Voxelwise, vertexwise, or ROI-wise GLM, mixed-effects model, ANOVA or ANCOVA, robust regression, or brain-behaviour correlation. This is the default family and takes no details payload.
     """
     multivariate_decoding = "multivariate_decoding"
     """
@@ -1019,6 +1019,10 @@ class ModelFamily(str, Enum):
     robust_regression = "robust_regression"
     """
     A regression fitted to resist outliers, such as an iteratively reweighted or M-estimator fit.
+    """
+    correlation = "correlation"
+    """
+    A correlation coefficient (Pearson, Spearman or partial) between the measure and a variable that is not another brain region's signal -- a behavioural score, a symptom rating, age, a physiological or genetic measure -- across participants or observations. A brain-behaviour correlation is this family, including one whose measure is connectivity, such as connectivity strength correlated with a symptom score. Correlating one region's signal with another's is connectivity and not this family: a seed-based or ROI-to-ROI correlation is a connectivity analysis, and its model family is the model that tested the effect on those connectivity estimates, such as a `glm` comparing groups.
     """
 
 
@@ -1285,7 +1289,7 @@ class ConnectivityMethod(str, Enum):
     """
     seed_based = "seed_based"
     """
-    Correlation between a seed's time series and every other element, with no interaction term.
+    Correlation between a seed's time series and every other element, with no interaction term. A connectivity analysis even when the source calls it a correlation analysis: the correlation estimates connectivity, so it is not the analysis's `ModelFamily`.
     """
     dcm = "dcm"
     """

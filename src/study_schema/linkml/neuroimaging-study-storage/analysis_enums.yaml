@@ -43,7 +43,8 @@ enums:
         in_subset: [mvp, model_extracted]
         description: >-
           Voxelwise, vertexwise, or ROI-wise GLM, mixed-effects model, ANOVA or ANCOVA,
-          or robust regression. This is the default family and takes no details payload.
+          robust regression, or brain-behaviour correlation. This is the default family and
+          takes no details payload.
       multivariate_decoding:
         in_subset: [mvp, model_extracted]
         description: Classification or pattern discriminability.
@@ -233,6 +234,18 @@ enums:
         description: >-
           A regression fitted to resist outliers, such as an iteratively reweighted or
           M-estimator fit.
+      correlation:
+        in_subset: [mvp, model_extracted]
+        description: >-
+          A correlation coefficient (Pearson, Spearman or partial) between the measure and a
+          variable that is not another brain region's signal -- a behavioural score, a symptom
+          rating, age, a physiological or genetic measure -- across participants or
+          observations. A brain-behaviour correlation is this family, including one whose
+          measure is connectivity, such as connectivity strength correlated with a symptom
+          score. Correlating one region's signal with another's is connectivity and not this
+          family: a seed-based or ROI-to-ROI correlation is a connectivity analysis, and its
+          model family is the model that tested the effect on those connectivity estimates,
+          such as a `glm` comparing groups.
 
   StatisticFamily:
     in_subset: [mvp, model_extracted]
@@ -577,7 +590,9 @@ enums:
         in_subset: [mvp, model_extracted]
         description: >-
           Correlation between a seed's time series and every other element, with no
-          interaction term.
+          interaction term. A connectivity analysis even when the source calls it a
+          correlation analysis: the correlation estimates connectivity, so it is not the
+          analysis's `ModelFamily`.
       dcm:
         in_subset: [mvp, model_extracted]
         description: >-

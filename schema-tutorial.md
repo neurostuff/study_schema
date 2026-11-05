@@ -790,7 +790,7 @@ factor is one `ModelTerm` with three levels and the regions on `FactorLevel.regi
 |---|---|---|
 | `name` | The region as the source names it — `aSCC`, `left dlPFC parcel`, `salience network` | Its own words. Mapping onto an anatomical vocabulary happens downstream and needs the original to map from |
 | `definition_method` | Required, **closed**: `atlas`, `prior_literature`, `anatomical_a_priori`, `functional_localizer`, `same_study_analysis` | See below — this is the field the schema cares most about |
-| `region_type` | Open: `anatomical`, `atlas_parcel`, `network`, `coordinate_sphere`, `functional_cluster` | What `definition_method` does not settle: an atlas parcel and an anatomical structure can both come from an atlas, and a network is neither |
+| `region_type` | Open: `anatomical`, `atlas_parcel`, `network`, `coordinate_sphere`, `voxel`, `functional_cluster` | What `definition_method` does not settle: an atlas parcel and an anatomical structure can both come from an atlas, and a network is neither |
 | `atlas` | The atlas, parcellation or template as named, with version or parcel index | `definition_method: atlas` records that one was used, not which — which is not enough to pool two studies |
 | `description` | How the source defines it, **including geometry**: "8 mm spheres centered at [0 36 −6]" | Definitional coordinates have no structured slot and belong here, where the evidence span makes them checkable |
 
@@ -859,7 +859,7 @@ The model's terms and how it was fit, referenced by every analysis whose contras
 
 | Field | Holds | The boundary |
 |---|---|---|
-| `model_family` | Required, open: `glm`, `mixed_effects`, `anova`, `ancova`, `robust_regression` | The queryable form. A method the vocabulary cannot name — ICA, RSA, a decoder — is free text here, and the `details` subclass identifies the method anyway |
+| `model_family` | Required, open: `glm`, `mixed_effects`, `anova`, `ancova`, `robust_regression`, `correlation` | The queryable form. A method the vocabulary cannot name — ICA, RSA, a decoder — is free text here, and the `details` subclass identifies the method anyway |
 | `model_type` | Required: the source's own wording, minimally cleaned | "mass-univariate GLM", "representational similarity analysis" |
 | `stage` | Required: the source's word for the stage — run, session, subject, group, or anything else it uses | **A label, not an ordering.** Two records both saying `group` say nothing about their relation |
 | `estimator` | OLS, WLS, ML, REML, permutation, Bayesian… | — |
