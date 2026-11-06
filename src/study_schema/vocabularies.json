@@ -56,7 +56,32 @@
           "role": "the ids: `tasks[].id` (version 3.1, dated 2026-10-09, 232 tasks)"
         }
       ],
-      "id_form": "hedtsk_<name> (a HED task) or tct_<name> (a task the inventory adds)",
+      "upstream": [
+        {
+          "name": "HED-task (the HED Task Catalog)",
+          "homepage": "https://www.hedtags.org/hed-task",
+          "repository": "hed-standard/hed-task",
+          "commit": "4a9e858249e1a1e7bef74b821f3b0554b550136d",
+          "path": "data/task_details.json",
+          "sha256": "43be993768063dfb6e0d8a4917dacbc828cb65e0fb8d776fdbe02ce7d89b24eb",
+          "license": "MIT",
+          "covers": "The 107 hedtsk_* tasks: their ids (`hedtsk_id`), names, aliases, definitions and primary family, and their hedvar_* variations. ns-pond keeps a byte-identical copy at ingestion_workflow/normalization/data/hed-task/task_details.json."
+        },
+        {
+          "name": "Cognitive Atlas, through HED-task's crosswalk",
+          "homepage": "https://www.cognitiveatlas.org",
+          "repository": "hed-standard/hed-task",
+          "commit": "55f7d586ee1eccfb0559d2aa175ade9718e0587f",
+          "path": "data/mappings/atlas_task_to_hed.tsv",
+          "sha256": "7ac288f642f4c95dec2f6f541433b76389574198893d1a6d5fe2c31191390b44",
+          "covers": "Cognitive Atlas task names matched to a HED task, used only as synonyms when matching names; no Cognitive Atlas id is written."
+        },
+        {
+          "name": "BrainMap paradigm classes",
+          "covers": "The 14 tct_bm_* tasks (inventory `source: brainmap-derived`), made from BrainMap paradigm classes that no HED task matched, through ns-pond's ingestion_workflow/normalization/data/brainmap_crosswalk.json."
+        }
+      ],
+      "id_form": "hedtsk_<name> (a HED-task task), tct_bm_<name> (from a BrainMap paradigm class) or tct_<name> (a task ns-pond adds from the corpus)",
       "hierarchy": {
         "kind": "field",
         "field": "family",
@@ -79,6 +104,18 @@
           "path": "ingestion_workflow/normalization/data/task_inventory_v3.json",
           "sha256": "a323c235b268524a22a75b73e10e109a324623ac3d56eb8e988fa468513fd01b",
           "role": "the ids: `families`"
+        }
+      ],
+      "upstream": [
+        {
+          "name": "HED-task (the HED Task Catalog)",
+          "homepage": "https://www.hedtags.org/hed-task",
+          "repository": "hed-standard/hed-task",
+          "commit": "4a9e858249e1a1e7bef74b821f3b0554b550136d",
+          "path": "data/task_family_defs.tsv",
+          "sha256": "b00e3145294558b8c389679e5339249f639b903067a287af8fd90ef755cf2a3c",
+          "license": "MIT",
+          "covers": "19 of the 23 families, by their `family_id`. ns-pond adds animal_behavior, dyadic_interaction_observation, information_evaluation_and_belief and ingestive_behavior."
         }
       ],
       "id_form": "<snake_case family>",

@@ -375,8 +375,11 @@ roles. The rule is that a `Normalization.vocabulary` is a manifest name (`mondo`
 against the release the manifest pins. Each entry gives the release, a download URL and
 sha256 for an external ontology or the source file, commit and sha256 for a vocabulary
 defined in pipeline code, where an id's parent comes from (`is_a`, `skos:broader`, a field,
-or the id's prefix, as in `<family>#<n>`), and the strings records written before the rename
-carry (`astra canonical task`, `ns-pond contrast set <fit_id>`).
+or the id's prefix, as in `<family>#<n>`), the strings records written before the rename
+carry (`astra canonical task`, `ns-pond contrast set <fit_id>`), and under `upstream` the
+vocabularies its ids or names are borrowed from. The `hedtsk_*` tasks and 19 of the 23 task
+families are [HED-task](https://www.hedtags.org/hed-task)'s (MIT), pinned to the
+`hed-standard/hed-task` commit ns-pond's copy was taken from.
 `study_schema.vocabularies.vocabulary(name)` returns one entry and `for_legacy(string)` reads
 a legacy string back to its entry. A reader that loads an ontology loads the release named
 here, so its ancestors and the normalizer's mapping agree. Moving a release is a change to

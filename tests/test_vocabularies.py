@@ -43,6 +43,12 @@ def test_the_ontologies_are_downloads():
     assert v.vocabulary("onvoc").release == "1.0.0"
 
 
+@pytest.mark.parametrize("name", ["canonical_task", "task_family"])
+def test_the_task_vocabularies_credit_hed_task(name):
+    hed = [u for u in v.vocabulary(name).upstream if u.name.startswith("HED-task")]
+    assert hed and all(u.commit and u.sha256 and u.license == "MIT" for u in hed)
+
+
 def test_a_contrast_set_names_its_family():
     families = v.vocabulary("task_family").values
     sep = v.vocabulary("contrast_set").hierarchy.separator

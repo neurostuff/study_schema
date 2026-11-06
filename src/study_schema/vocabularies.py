@@ -50,6 +50,19 @@ class Source(_Strict):
     role: str
 
 
+class Upstream(_Strict):
+    """A vocabulary this one borrows ids, names or structure from, and which part."""
+
+    name: str
+    homepage: Optional[str] = None
+    repository: Optional[str] = None
+    commit: Optional[str] = Field(default=None, pattern=r"^[0-9a-f]{40}$")
+    path: Optional[str] = None
+    sha256: Optional[str] = Field(default=None, pattern=_SHA256)
+    license: Optional[str] = None
+    covers: str
+
+
 class Hierarchy(_Strict):
     """Where an id's parent comes from: an edge in the release, a field, or the id's prefix."""
 
@@ -67,6 +80,7 @@ class Vocabulary(_Strict):
     release: str
     download: Optional[Download]
     sources: list[Source]
+    upstream: list[Upstream] = []
     id_form: str
     hierarchy: Optional[Hierarchy]
     values: Optional[list[str]]
