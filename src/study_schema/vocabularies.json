@@ -1,0 +1,305 @@
+{
+  "manifest_version": 1,
+  "vocabularies": [
+    {
+      "name": "mondo",
+      "title": "MONDO Disease Ontology",
+      "legacy_vocabularies": ["MONDO"],
+      "release": "2026-09-01",
+      "download": {
+        "url": "http://purl.obolibrary.org/obo/mondo/releases/2026-09-01/mondo.json",
+        "sha256": "ba19a3be2a384f21d2a09eaa726daedf6f06b9747ae011ab81d29fcd4dd8d3ee",
+        "bytes": 107586061
+      },
+      "sources": [],
+      "id_form": "MONDO:<7 digits>",
+      "hierarchy": {
+        "kind": "is_a",
+        "parent_vocabulary": "mondo",
+        "description": "The release's is_a edges (rdfs:subClassOf)."
+      },
+      "values": null,
+      "notes": "The graph's version IRI is http://purl.obolibrary.org/obo/mondo/releases/2026-09-01/mondo.owl, the release the normalization fit's manifest names."
+    },
+    {
+      "name": "onvoc",
+      "title": "ONVOC",
+      "legacy_vocabularies": ["ONVOC"],
+      "release": "1.0.0",
+      "download": {
+        "url": "https://raw.githubusercontent.com/OpenNeuroOrg/onvoc-widget/05d2df561b62cc0c3fd1a96bf23641c5ff65329c/skos.ttl",
+        "sha256": "459a51cc4380d8c310dbd8766ad85d8cc2db77b51f0c75da3e68411526e77766",
+        "bytes": 386863
+      },
+      "sources": [],
+      "id_form": "ONVOC:<7 digits> (IRI https://w3id.org/onvoc/ONVOC_<7 digits>)",
+      "hierarchy": {
+        "kind": "skos:broader",
+        "parent_vocabulary": "onvoc",
+        "description": "The release's skos:broader links."
+      },
+      "values": null,
+      "notes": "owl:versionInfo 1.0.0. ONVOC is published on BioPortal, which serves downloads only with an API key; the URL is a commit-pinned copy in OpenNeuroOrg/onvoc-widget, byte-identical to the file pondie maps against."
+    },
+    {
+      "name": "canonical_task",
+      "title": "Canonical tasks",
+      "legacy_vocabularies": ["astra canonical task"],
+      "release": "task-inventory-3.1",
+      "download": null,
+      "sources": [
+        {
+          "repository": "neurostuff/ns-pond-ingestion-workflow",
+          "commit": "47e84703ba6b89949c7414b86588e1c6b2c0421d",
+          "path": "ingestion_workflow/normalization/data/task_inventory_v3.json",
+          "sha256": "a323c235b268524a22a75b73e10e109a324623ac3d56eb8e988fa468513fd01b",
+          "role": "the ids: `tasks[].id` (version 3.1, dated 2026-10-09, 232 tasks)"
+        }
+      ],
+      "upstream": [
+        {
+          "name": "HED-task (the HED Task Catalog)",
+          "homepage": "https://www.hedtags.org/hed-task",
+          "repository": "hed-standard/hed-task",
+          "commit": "4a9e858249e1a1e7bef74b821f3b0554b550136d",
+          "path": "data/task_details.json",
+          "sha256": "43be993768063dfb6e0d8a4917dacbc828cb65e0fb8d776fdbe02ce7d89b24eb",
+          "license": "MIT",
+          "covers": "The 107 hedtsk_* tasks: their ids (`hedtsk_id`), names, aliases, definitions and primary family, and their hedvar_* variations. ns-pond keeps a byte-identical copy at ingestion_workflow/normalization/data/hed-task/task_details.json."
+        },
+        {
+          "name": "Cognitive Atlas, through HED-task's crosswalk",
+          "homepage": "https://www.cognitiveatlas.org",
+          "repository": "hed-standard/hed-task",
+          "commit": "55f7d586ee1eccfb0559d2aa175ade9718e0587f",
+          "path": "data/mappings/atlas_task_to_hed.tsv",
+          "sha256": "7ac288f642f4c95dec2f6f541433b76389574198893d1a6d5fe2c31191390b44",
+          "covers": "Cognitive Atlas task names matched to a HED task, used only as synonyms when matching names; no Cognitive Atlas id is written."
+        },
+        {
+          "name": "BrainMap paradigm classes",
+          "covers": "The 14 tct_bm_* tasks (inventory `source: brainmap-derived`), made from BrainMap paradigm classes that no HED task matched, through ns-pond's ingestion_workflow/normalization/data/brainmap_crosswalk.json."
+        }
+      ],
+      "id_form": "hedtsk_<name> (a HED-task task), tct_bm_<name> (from a BrainMap paradigm class) or tct_<name> (a task ns-pond adds from the corpus)",
+      "hierarchy": {
+        "kind": "field",
+        "field": "family",
+        "parent_vocabulary": "task_family",
+        "description": "The inventory entry's `family`."
+      },
+      "values": null,
+      "notes": null
+    },
+    {
+      "name": "task_family",
+      "title": "Task families",
+      "legacy_vocabularies": ["astra task family"],
+      "release": "task-inventory-3.1",
+      "download": null,
+      "sources": [
+        {
+          "repository": "neurostuff/ns-pond-ingestion-workflow",
+          "commit": "47e84703ba6b89949c7414b86588e1c6b2c0421d",
+          "path": "ingestion_workflow/normalization/data/task_inventory_v3.json",
+          "sha256": "a323c235b268524a22a75b73e10e109a324623ac3d56eb8e988fa468513fd01b",
+          "role": "the ids: `families`"
+        }
+      ],
+      "upstream": [
+        {
+          "name": "HED-task (the HED Task Catalog)",
+          "homepage": "https://www.hedtags.org/hed-task",
+          "repository": "hed-standard/hed-task",
+          "commit": "4a9e858249e1a1e7bef74b821f3b0554b550136d",
+          "path": "data/task_family_defs.tsv",
+          "sha256": "b00e3145294558b8c389679e5339249f639b903067a287af8fd90ef755cf2a3c",
+          "license": "MIT",
+          "covers": "19 of the 23 families, by their `family_id`. ns-pond adds animal_behavior, dyadic_interaction_observation, information_evaluation_and_belief and ingestive_behavior."
+        }
+      ],
+      "id_form": "<snake_case family>",
+      "hierarchy": null,
+      "values": [
+        "animal_behavior",
+        "attentional_cueing",
+        "conditioning_and_reinforcement",
+        "conflict_and_interference",
+        "dyadic_interaction_observation",
+        "emotion",
+        "executive_and_reasoning",
+        "information_evaluation_and_belief",
+        "ingestive_behavior",
+        "language",
+        "memory_control",
+        "metacognition_and_interoception",
+        "motor_performance",
+        "oddball_and_vigilance",
+        "perceptual_judgment",
+        "pseudo_tasks",
+        "recall_and_recognition",
+        "response_inhibition",
+        "reward_and_value_choice",
+        "social_cognition_and_games",
+        "spatial_navigation",
+        "visual_search_and_tracking",
+        "working_memory_span"
+      ],
+      "notes": null
+    },
+    {
+      "name": "condition_atom",
+      "title": "Condition atoms",
+      "legacy_vocabularies": ["astra condition atom: {axis}", "astra condition atom"],
+      "release": "ns-pond-47e8470",
+      "download": null,
+      "sources": [
+        {
+          "repository": "neurostuff/ns-pond-ingestion-workflow",
+          "commit": "47e84703ba6b89949c7414b86588e1c6b2c0421d",
+          "path": "ingestion_workflow/normalization/taskcat/conditions.py",
+          "sha256": "86a8500f31c2478723a65140de44f4902d9e277966e2b41e469cb44e8aedb332",
+          "role": "the rules: `ATOMS`, and the family- and task-dependent rewrites in `normalize_condition_ctx`"
+        }
+      ],
+      "id_form": "<axis>:<value>, for example congruency:incongruent",
+      "hierarchy": {
+        "kind": "prefix",
+        "separator": ":",
+        "parent_vocabulary": null,
+        "description": "The axis, the id's text before the first ':'."
+      },
+      "values": null,
+      "notes": "The legacy entries carry the axis in the vocabulary string and only the value in `value` (`astra condition atom: congruency` / `incongruent`); `astra condition atom` without an axis appears only on unmapped entries. Under this name the id is `<axis>:<value>`, the form the rules themselves produce. The set is open-ended: the rewrites add atoms that `ATOMS` does not list (congruency:neutral, and level:* moved onto another axis), so no value list is pinned."
+    },
+    {
+      "name": "condition_phase",
+      "title": "Condition phases",
+      "legacy_vocabularies": ["astra condition phase"],
+      "release": "ns-pond-47e8470",
+      "download": null,
+      "sources": [
+        {
+          "repository": "neurostuff/ns-pond-ingestion-workflow",
+          "commit": "47e84703ba6b89949c7414b86588e1c6b2c0421d",
+          "path": "ingestion_workflow/normalization/taskcat/conditions.py",
+          "sha256": "86a8500f31c2478723a65140de44f4902d9e277966e2b41e469cb44e8aedb332",
+          "role": "the ids: `PHASE`"
+        }
+      ],
+      "id_form": "<phase>",
+      "hierarchy": null,
+      "values": [
+        "anticipation",
+        "cue",
+        "outcome",
+        "encoding",
+        "retrieval",
+        "delay",
+        "decision",
+        "response",
+        "rating",
+        "instruction",
+        "stimulus"
+      ],
+      "notes": null
+    },
+    {
+      "name": "contrast_key",
+      "title": "Contrast keys",
+      "legacy_vocabularies": ["astra contrast key"],
+      "release": "ns-pond-47e8470",
+      "download": null,
+      "sources": [
+        {
+          "repository": "neurostuff/ns-pond-ingestion-workflow",
+          "commit": "47e84703ba6b89949c7414b86588e1c6b2c0421d",
+          "path": "ingestion_workflow/normalization/records.py",
+          "sha256": "703965fc1ef7973745d947472f00849bd20272b8b26de20f33c9c5045fe3dd9c",
+          "role": "the rule: `key = family | target tokens | baseline`"
+        }
+      ],
+      "id_form": "<task family>|<target tokens joined by ;>|<baseline kinds joined by +, or vs:<baseline tokens>, or ->",
+      "hierarchy": {
+        "kind": "prefix",
+        "separator": "|",
+        "parent_vocabulary": "task_family",
+        "description": "The task family, the id's text before the first '|'; `task:<study>/<task>` when the task has no family."
+      },
+      "values": null,
+      "notes": "A key is computed from the contrast, not looked up, so there is no list of keys to pin; the rule is the release."
+    },
+    {
+      "name": "contrast_set",
+      "title": "Contrast sets",
+      "legacy_vocabularies": ["ns-pond contrast set {fit_id}"],
+      "release": "fit-ed5ac7b08c20",
+      "download": null,
+      "sources": [
+        {
+          "repository": null,
+          "commit": null,
+          "path": "fit-ed5ac7b08c20/contrast_sets/sets.jsonl",
+          "sha256": "7a398fa0c1b71acf462669569dc8a53dfb47449ab9bc0dd44c5a5c1e1e4c28af",
+          "role": "the ids: each row's `set` (5,445 sets), with its `family` and `label`"
+        },
+        {
+          "repository": "neurostuff/ns-pond-ingestion-workflow",
+          "commit": "47e84703ba6b89949c7414b86588e1c6b2c0421d",
+          "path": "ingestion_workflow/normalization/contrasts.py",
+          "sha256": "50a72caf711fac087b4b22166671ef41af309610e9cfa0dc9d62163fe3aaf98a",
+          "role": "the code that fits the sets and assigns contrasts to them"
+        }
+      ],
+      "id_form": "<task family>#<n>",
+      "hierarchy": {
+        "kind": "prefix",
+        "separator": "#",
+        "parent_vocabulary": "task_family",
+        "description": "The task family, the id's text before '#'."
+      },
+      "values": null,
+      "notes": "Set ids are minted by a normalization fit and mean nothing outside it, so the release is the fit. The fit directory is not published; only its sha256 is pinned here."
+    },
+    {
+      "name": "contrast_set_orientation",
+      "title": "Contrast set orientation",
+      "legacy_vocabularies": ["ns-pond contrast set orientation {fit_id}"],
+      "release": "fit-ed5ac7b08c20",
+      "download": null,
+      "sources": [
+        {
+          "repository": "neurostuff/ns-pond-ingestion-workflow",
+          "commit": "47e84703ba6b89949c7414b86588e1c6b2c0421d",
+          "path": "ingestion_workflow/normalization/sidecars.py",
+          "sha256": "839a4ed887f71c9e960b8c14c3d96bc500caa0fc0e61ef031c12b496c0f0c0f7",
+          "role": "the ids: `write_contrasts`"
+        }
+      ],
+      "id_form": "same | reversed",
+      "hierarchy": null,
+      "values": ["same", "reversed"],
+      "notes": "Whether the contrast states its set in the set's majority direction. It reads against the same fit as `contrast_set`."
+    },
+    {
+      "name": "medical_role",
+      "title": "Medical condition role",
+      "legacy_vocabularies": ["astra medical role"],
+      "release": "ns-pond-47e8470",
+      "download": null,
+      "sources": [
+        {
+          "repository": "neurostuff/ns-pond-ingestion-workflow",
+          "commit": "47e84703ba6b89949c7414b86588e1c6b2c0421d",
+          "path": "ingestion_workflow/normalization/medical.py",
+          "sha256": "6ae5b15f5de4db51be529a2d9734bff2bbdbad65452d89489575dfc570cdb6c3",
+          "role": "the ids: `role`"
+        }
+      ],
+      "id_form": "none | comorbid | primary",
+      "hierarchy": null,
+      "values": ["none", "comorbid", "primary"],
+      "notes": "none: the item says no diagnosis (healthy); comorbid: it carries a prevalence or history qualifier; primary: otherwise."
+    }
+  ]
+}

@@ -7,6 +7,7 @@
     study_schema.linkml               the LinkML source, as paths into the installed package
     study_schema.keys                 the analysis key rule
     study_schema.statistics           which statistic kinds are signed; a point's side
+    study_schema.vocabularies         the release of each vocabulary `normalized` ids resolve against
     study_schema.layouts              where those files sit on disk (needs the `layouts` extra)
     study_schema.parquet              coordinate parses stored as Parquet (the `parquet` extra)
 
