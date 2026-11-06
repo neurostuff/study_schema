@@ -32,7 +32,7 @@ def test_record_with_stable_id_on_its_entity_validates(example_paths):
 def test_record_without_stable_id_still_validates(example_paths):
     validator = pytest.importorskip("jsonschema", reason="optional: JSON Schema validation")
     record = load(example_paths["record"])
-    record.pop("stable_id")
+    record.pop("stable_id", None)
 
     extraction.Study.model_validate(record)
     validator.validate(record, jsonschema.load("extraction-record"))

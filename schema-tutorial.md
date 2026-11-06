@@ -1626,7 +1626,7 @@ same order is what stops you inventing entities to satisfy a cell.
    on each level; `inputs_from` where the source describes a lower stage (chapter 8).
 5. **Analyses.** One per distinct tested effect. For each: cells, statistic, payload, measure,
    cohorts and n, tables, scope and regions (chapters 9–10).
-6. **Tables.** Every table either named by an analysis or marked with `non_analysis_content` (§10.6).
+6. **Tables.** Every table either named by an analysis or given a `purpose` that says what its rows are (§10.6).
 
 Two habits worth forming. When a step needs an entity that does not exist, **go back and declare it**
 rather than writing the fact in prose — an entity named only in an `Analysis.definition` is invisible
@@ -1635,47 +1635,66 @@ change if a different contrast came off the same model?
 
 ### 12.3 What the validator checks
 
-`pondie.extraction.record.validate` (with the rules in `pondie/extraction/record/rules.py`) runs three tiers over a finished extraction record. Errors mean the record
-is wrong; warnings mean a reviewer has to look.
+`python -m pondie.extraction.record.validate --record <id>.extraction.json --text <text>` runs two
+modules over a finished record: `validate.py` (conformance to the schema) and `rules.py` (nineteen
+rules about what a record means). Each finding is an **error**, meaning the record is wrong, or a
+**warning**, meaning a reviewer has to look. The command exits non-zero on any error and prints
+warnings without failing. Without `--text` the span offsets are not checked.
 
-**Tier 1 — conformance (errors).** Types, required slots, closed vocabularies, the evidence
-invariants of §2.3, span offsets against the normalized text, and the source-text hash. Plus the
-class `rules` the projection dropped — the two on `Analysis` and the non-empty `cells` rule on
-`Effect`.
+**Conformance (`validate.py`).** Every key is a slot the class declares, every required slot is
+present, and every value has the declared type and the single-or-list shape of its slot. A
+null is not an absent slot: an unknown is a `not_reported` wrapper or an omitted key. Also:
 
-**Tier 2 — structure (errors).** The invariants LinkML cannot express because they span a multivalued
-nested slot or a sibling class:
+- **Closed vocabularies are errors; open ones are warnings.** A value outside a closed enum fails;
+  a value outside an open one (`any_of: [<Enum>, string]`) is kept as free text with a warning.
+  `unstated` is refused on either, because missingness has one encoding (§11.1).
+- **The evidence invariants of §2.3.** `not_reported` carries no `value` and `evidence.status:
+  not_applicable`; `extracted` carries no `unreported_reason`; `present` has at least one set, each
+  with at least one span.
+- **Span offsets** (with `--text`): each span's `text` equals the normalized source at
+  `[start_char, end_char)`. The `source_text_hash`, when the record states one, must be the hash of
+  that text.
+- **Identifiers and references.** A `local_id` is a non-empty string. A reference to an id nothing
+  declares is a warning; one that resolves to the wrong class is an error.
+- **Class `rules`.** The storage schema's rules, which the projection drops, are evaluated here:
+  whole-brain and searchlight scopes name no region and an ROI scope names its regions (on
+  `Analysis` and again on `InferenceSettings.correction_scope`), the non-empty `cells` rule on
+  `Effect`, and the rules on `Region`, `Bibliography` and `License`.
+
+**Rules that are errors (`rules.py`).** Invariants LinkML cannot express because they span a
+multivalued nested slot or a sibling class:
 
 | Check | Catches |
 |---|---|
-| `Cell.term` in scope | A cell naming no term, or a term of a model this analysis does not reach through `inputs_from` |
-| `Cell.level` agrees with its term | A level the term does not declare — the string join the mapper depends on |
-| `Effect.mediation.mediator` in scope | The same, for the one other term pointer |
-| `inputs_from` acyclic | A model fitted on its own output; a hang as well as a falsehood |
-| term names unique across a chain | A first-level `motion` indistinguishable from a group-level one |
+| `effect_kind` | An `Effect.kind` that disagrees with the kind the cells derive (§9.6), or cells that derive no kind |
+| `cell_terms` | A cell naming no term, or a term of a model this analysis does not reach through `inputs_from`; a `level` the term does not declare; the same for `Effect.mediation.mediator` |
+| `cell_level_polarity` | A cell whose `level` and `direction` state opposite signs of one effect |
+| `model_stages` | An `inputs_from` cycle; a term name repeated across a chain |
 | references resolve | A dangling `Analysis.measure`, `Analysis.inference_settings`, `Acquisition.device` or `Group.diagnostic_instrument` |
-| table purpose | A table marked non-analysis that an analysis nonetheless names |
+| `table_purpose` | A table whose `purpose` says it is not a reported effect that an analysis nonetheless names |
 
-One invariant is stated on the field it constrains and is **not** checked here: the `is_healthy`
-contradiction of §4.2, which a record audit in the review layer catches instead.
-
-**Tier 3 — prose-triggered review (warnings).** These read a name or a definition, so they route a
-record to review rather than rejecting it. Each catches a defect that is invisible to tiers 1 and 2 —
-every cell resolves, every level agrees, and the record is structurally perfect while the comparison
-the paper reported has gone missing.
+**Rules that are warnings (`rules.py`).** These read a name or a definition, so they route a
+record to review rather than rejecting it. Each catches a defect invisible to conformance and to
+the errors above: every cell resolves, every level agrees, and the record is structurally perfect
+while the comparison the paper reported has gone missing.
 
 | Check | The defect |
 |---|---|
-| crossings | Prose names an interaction that the cells do not record: no product column and fewer than two crossed terms. Or two analyses with identical cells on one model whose prose disagrees about what was tested |
-| product columns | A product column whose components are outside its chain, or that no cell anywhere names |
-| unsigned cells | `held` on a cell with no level, or on *every* declared level of a factor |
-| occasion factors | A continuous term named after a comparison; or several timepoints declared, analyses reporting change over time, and no `FactorLevel.timepoints` naming any |
-| arm reachability | Prose names an arm that neither `FactorLevel.arms` nor `Group.arm` reaches (§3.5) |
-| derived columns | A derived column with no `source_definition`, or none naming its `assessment` |
-| table purpose | A table no analysis names and that carries no `non_analysis_content` |
+| `crossings` | Prose names an interaction that the cells do not record: no product column and fewer than two crossed terms. Or two analyses with identical cells on one model whose prose disagrees about what was tested |
+| `product_columns` | A product column whose components are outside its chain, or that no cell anywhere names |
+| `unsigned_cells` | `held` on a cell with no level, or on *every* declared level of a factor |
+| `occasion_factors` | A continuous term named after a comparison; or several timepoints declared, analyses reporting change over time, and no `FactorLevel.timepoints` naming any |
+| `arm_reachability` | Prose names an arm that neither `FactorLevel.arms` nor `Group.arm` reaches (§3.5) |
+| `derived_columns` | A derived column with no `source_definition`, or none naming its `assessment` |
+| `table_purpose` | A table no analysis names and whose `purpose` is empty, so nothing says whether it was left out on purpose |
+| `one_protocol_per_acquisition` | Several echo times and several repetition times on one acquisition: two protocols in one entity |
+| `acquisition_subclass` | A modality whose parameters have no class to live in |
+| `modality_measures` | A measure the acquisition's modality could not have produced |
+| `value_source_honesty` | `value_source: reported` on a value with no supporting sentence; say `generated` instead |
+| `counts_add_up` | A `CategoryDistribution` that does not sum to its denominator, or an enrolment funnel that increases |
 
-A record is also routed to human review by count: `not_reported` fields per record, required fields
-left empty, a failing structural check, and any value outside a vocabulary.
+One invariant is stated on the field it constrains and is **not** checked here: the `is_healthy`
+contradiction of §4.2, which a record audit in the review layer catches instead.
 
 ### 12.4 Reading a record back out
 
@@ -1739,7 +1758,7 @@ Worth knowing before you go hunting for a slot. The full list with evidence is i
 2. Every covariate the paper mentions appears in some stage's `terms`.
 3. No two analyses with different design matrices share a `ModelEstimation`.
 4. Every declared `Timepoint` and `Arm` is reached by a `FactorLevel` or a `Group.arm`.
-5. Every table is either named by an analysis or marked with `non_analysis_content`.
+5. Every table is either named by an analysis or has a `purpose` that says what its rows are.
 
 ---
 
