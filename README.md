@@ -366,6 +366,22 @@ sentence.
 space to `ReportedSpace`'s `MNI`, `TAL` or `OTHER`, or to none when nothing (or both) is stated,
 so ingestion, pondie and neurostore read "Talairach & Tournoux 1988" the same way.
 
+**Vocabularies.** A record's `normalized` entries name the vocabulary each value was placed
+on, and `src/study_schema/vocabularies.json` pins the release of every vocabulary whose ids
+land there: MONDO and ONVOC, and the pipeline's own canonical tasks, task families,
+condition atoms and phases, contrast keys, contrast sets and their orientation, and medical
+roles. The rule is that a `Normalization.vocabulary` is a manifest name (`mondo`,
+`canonical_task`, ...) or an enum this schema defines (`AgeUnit`), and its `value` resolves
+against the release the manifest pins. Each entry gives the release, a download URL and
+sha256 for an external ontology or the source file, commit and sha256 for a vocabulary
+defined in pipeline code, where an id's parent comes from (`is_a`, `skos:broader`, a field,
+or the id's prefix, as in `<family>#<n>`), and the strings records written before the rename
+carry (`astra canonical task`, `ns-pond contrast set <fit_id>`).
+`study_schema.vocabularies.vocabulary(name)` returns one entry and `for_legacy(string)` reads
+a legacy string back to its entry. A reader that loads an ontology loads the release named
+here, so its ancestors and the normalizer's mapping agree. Moving a release is a change to
+this file, and the normalizer re-maps everything when the pin reaches it.
+
 **Examples.** `examples/` holds one paper and one run: a table whose ingestion parse is a
 single mixed-sign analysis, and pondie's revision that splits it by sign and adds the null
 result the text states. The tests read them through every model, JSON Schema and layout, and
