@@ -1,0 +1,2955 @@
+{
+ "case_id": "pmc_8209034",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 3,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "analyses": [
+   {
+    "local_id": "a_val_valence",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reward + Punishment > Neutral \u2014 Valence model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "One-sample t -tests across all subjects confirmed that reward-related regions, assessed by region of interest (ROI) analysis, were more highly activated in both the valence and magnitude models, for the valence contrast with right thalamus being more highly activated for incentive conditions compared to neutral during the valence cue period."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "one or more regions of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Activation within each ROI was assessed with an inclusive mask; the analyses were restricted to the previous ROIs"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "recent meta-analysis of neural activation in the MID task and anatomically defined regions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The following ROIs were selected and included in the present study based on a recent meta-analysis of neural activation in the MID task, reporting activation in common regions for reward and punishment anticipation; striatum, thalamus, amygdala and insula 31 ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "striatum, thalamus, amygdala and insula",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The following ROIs were selected and included in the present study based on a recent meta-analysis of neural activation in the MID task, reporting activation in common regions for reward and punishment anticipation; striatum, thalamus, amygdala and insula 31 ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reward"
+    ],
+    "conditions": [
+     {
+      "condition": "c_reward_punishment",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Reward + Punishment > Neutral"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Reward + Punishment > Neutral"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_all_imaging",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "One-sample t -tests were carried out for each contrast."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "seventy-three participants",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Ten participants (1 HC\u2212C, 4 HC\u2009+\u2009C, 4 SZ\u2212C, 1 SZ\u2009+\u2009C) were excluded due to low image quality, resulting in a sample of seventy-three participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Reward + Punishment > Neutral",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Reward + Punishment > Neutral"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "reward-related regions ... were more highly activated"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "One-sample t -tests were carried out for each contrast."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "neutral",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Reward + Punishment > Neutral"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All ROIs were defined in MNI space for both right and left hemispheres"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We applied family-wise error (FWE) correction adjusted for small volume [ p (svc)\u2009<\u20090.05] within each of the independent ROIs at the voxel level"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "family-wise error (FWE) correction adjusted for small volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We applied family-wise error (FWE) correction adjusted for small volume [ p (svc)\u2009<\u20090.05] within each of the independent ROIs at the voxel level"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "each of the independent ROIs",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "within each of the independent ROIs"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 3,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "only ROIs with at least three contiguous voxels were considered significant"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "clusters were considered significant if the family-wise error (FWE) corrected peak p -value was significant at p \u2009<\u20090.05"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "years of education and age were included as continuous covariates; motion correction parameters were included as additional regressors",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Additional regressors included motion correction parameters estimated from the realignment step of the pre-processing."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "reward-related regions were activated during the two cue periods",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a validation ROI analysis was first carried out to verify that reward-related regions were activated during the two cue periods."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_val_magnitude",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "High > Low + Neutral \u2014 Magnitude model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The magnitude contrast revealed high magnitude cues compared to low magnitude plus neutral ones further activated the right: ventral anterior insula and amygdala and left: caudate."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "one or more regions of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Region of interest (ROI) validation analysis"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "Automated Anatomical Labelling atlas 3 (AAL3) and manually defined insular sub-regions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The striatum was divided into subcomponents of NAcc, caudate and putamen and were defined structurally along with thalamus and amygdala, using the Automated Anatomical Labelling atlas 3 (AAL3)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "caudate, nucleus accumbens, amygdala, thalamus, dorsal anterior insula, ventral anterior insula and posterior insula",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The striatum was divided into subcomponents of NAcc, caudate and putamen and were defined structurally along with thalamus and amygdala"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reward"
+    ],
+    "conditions": [
+     {
+      "condition": "c_high_magnitude",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "High > Low + Neutral"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_low_neutral",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "High > Low + Neutral"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_all_imaging",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "One-sample t -tests were carried out for each contrast."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "seventy-three participants",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "resulting in a sample of seventy-three participants"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "High > Low + Neutral",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "High > Low + Neutral"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "further activated"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "One-sample t -tests were carried out for each contrast."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "low magnitude plus neutral",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The magnitude contrast revealed high magnitude cues compared to low magnitude plus neutral ones"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All ROIs were defined in MNI space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "at the voxel level"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "family-wise error (FWE) correction adjusted for small volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We applied family-wise error (FWE) correction adjusted for small volume"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "each of the independent ROIs",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "within each of the independent ROIs"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 3,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "only ROIs with at least three contiguous voxels were considered significant"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "years of education and age were used as continuous covariates",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "with years of education and age as covariates"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "reward-related regions were activated during the two cue periods",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "to verify that reward-related regions were activated during the two cue periods"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_main_reward_cannabis",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reward > Punishment \u2014 Cannabis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The main effect of cannabis use and an interaction of cannabis use and schizophrenia was observed for the reward versus punishment contrast."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "one or more regions of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ROI main analysis"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "predefined reward regions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The main analysis was a 2\u2009\u00d7\u20092 ANCOVA to assess the modulation of each contrast"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "putamen, ventral anterior insula and dorsal anterior insula",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "increased activation in the right: putamen, ventral anterior insula and dorsal anterior insula for reward versus punishment for cannabis users"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reward"
+    ],
+    "conditions": [
+     {
+      "condition": "c_reward",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "reward versus punishment"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_punishment",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "reward versus punishment"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_cannabis"
+    ],
+    "model_estimation": "me_group_ancova",
+    "groups": [
+     {
+      "group": "g_cannabis_users",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "for cannabis users (HC\u2009+\u2009C and SZ\u2009+\u2009C) compared to non-users (HC\u2212C and SZ\u2212C)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_nonusers",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "for cannabis users (HC\u2009+\u2009C and SZ\u2009+\u2009C) compared to non-users (HC\u2212C and SZ\u2212C)"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Reward > Punishment; main effect of cannabis use",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The main effect of cannabis use ... was observed for the reward versus punishment contrast."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "increased activation"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "F",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Cannabis Putamen R 15.89"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "punishment",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "reward versus punishment"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl3"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All ROIs were defined in MNI space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "at the voxel level"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "family-wise error (FWE) correction adjusted for small volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We applied family-wise error (FWE) correction adjusted for small volume"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "each of the independent ROIs",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "within each of the independent ROIs"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 3,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A minimum cluster size threshold of three contiguous voxels was considered in all analyses"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "2 \u00d7 2 ANCOVA with schizophrenia status and cannabis use; years of education and age as covariates",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The main analysis was a 2\u2009\u00d7\u20092 ANCOVA to assess the modulation of each contrast with cannabis use, schizophrenia status and their interaction, with years of education and age as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "modulation of each contrast with cannabis use, schizophrenia status and their interaction",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The main analysis was a 2\u2009\u00d7\u20092 ANCOVA to assess the modulation of each contrast with cannabis use, schizophrenia status and their interaction"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_main_reward_interaction",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reward > Punishment \u2014 Cannabis \u00d7 schizophrenia interaction",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The main effect of cannabis use and an interaction of cannabis use and schizophrenia was observed for the reward versus punishment contrast."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "one or more regions of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ROI main analysis"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "predefined reward regions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The main analysis was a 2\u2009\u00d7\u20092 ANCOVA"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "right thalamus",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Also activation in the right thalamus was larger for reward versus punishment for the HC\u2009+\u2009C and SZ\u2212C groups versus HC\u2212C and SZ\u2009+\u2009C groups"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reward"
+    ],
+    "conditions": [
+     {
+      "condition": "c_reward",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "reward versus punishment"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_punishment",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "reward versus punishment"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_cannabis",
+     "t_schizophrenia",
+     "t_interaction"
+    ],
+    "model_estimation": "me_group_ancova",
+    "groups": [
+     {
+      "group": "g_hc_c",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "larger for reward versus punishment for the HC\u2009+\u2009C and SZ\u2212C groups versus HC\u2212C and SZ\u2009+\u2009C groups"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_sz_non_c",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "larger for reward versus punishment for the HC\u2009+\u2009C and SZ\u2212C groups versus HC\u2212C and SZ\u2009+\u2009C groups"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_hc_non_c",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "larger for reward versus punishment for the HC\u2009+\u2009C and SZ\u2212C groups versus HC\u2212C and SZ\u2009+\u2009C groups"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_sz_c",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "larger for reward versus punishment for the HC\u2009+\u2009C and SZ\u2212C groups versus HC\u2212C and SZ\u2009+\u2009C groups"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Reward > Punishment; cannabis by schizophrenia interaction",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Clusters showing significant modulation by the interaction of cannabis and schizophrenia for the reward versus punishment contrast"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "beta values",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Extraction of beta values showed"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "F",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Interaction Thalamus R 14.48"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "punishment",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "reward versus punishment"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl3"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All ROIs were defined in MNI space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "at the voxel level"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "family-wise error (FWE) correction adjusted for small volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We applied family-wise error (FWE) correction adjusted for small volume"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "each of the independent ROIs",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "within each of the independent ROIs"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 3,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "A minimum cluster size threshold of three contiguous voxels was considered in all analyses"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "2 \u00d7 2 ANCOVA included cannabis use, schizophrenia status, their interaction, age and education covariates",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The main analysis was a 2\u2009\u00d7\u20092 ANCOVA to assess the modulation of each contrast with cannabis use, schizophrenia status and their interaction, with years of education and age as covariates."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "significant modulation by the interaction of cannabis and schizophrenia",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Clusters showing significant modulation by the interaction of cannabis and schizophrenia"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Region of interest (ROI) validation analysis for the three contrasts using the valence and magnitude cue models."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Region of interest (ROI) validation analysis for the three contrasts using the valence and magnitude cue models",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Region of interest (ROI) validation analysis for the three contrasts using the valence and magnitude cue models."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "caption": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "We applied family-wise error (FWE) correction adjusted for small volume [ p (svc)\u2009<\u20090.05] within each of the independent ROIs at the voxel level (only ROIs with at least three contiguous voxels were considered significant).",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We applied family-wise error (FWE) correction adjusted for small volume [ p (svc)\u2009<\u20090.05] within each of the independent ROIs at the voxel level (only ROIs with at least three contiguous voxels were considered significant)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "ROI validation results for valence, reward versus punishment, and magnitude contrasts",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Region of interest (ROI) validation analysis for the three contrasts using the valence and magnitude cue models."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Region of interest (ROI) main analysis displaying the effects of cannabis and schizophrenia on each contrast of interest as well as the cannabis by schizophrenia interactions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Region of interest (ROI) main analysis displaying the effects of cannabis and schizophrenia on each contrast of interest as well as the cannabis by schizophrenia interactions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Region of interest (ROI) main analysis displaying the effects of cannabis and schizophrenia on each contrast of interest as well as the cannabis by schizophrenia interactions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "caption": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "We applied family-wise error (FWE) correction adjusted for small volume [ p (svc) < 0.05] within each of the independent ROIs at the voxel level (only ROIs with at least three contiguous voxels were considered significant).",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We applied family-wise error (FWE) correction adjusted for small volume [ p (svc) < 0.05] within each of the independent ROIs at the voxel level (only ROIs with at least three contiguous voxels were considered significant)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "ROI main effects of cannabis, diagnosis, and their interaction for each contrast",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Region of interest (ROI) main analysis displaying the effects of cannabis and schizophrenia on each contrast of interest as well as the cannabis by schizophrenia interactions."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "c_reward_punishment",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reward + Punishment",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Reward + Punishment > Neutral"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "incentive conditions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "more highly activated ... for incentive conditions compared to neutral"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Reward + Punishment > Neutral"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Neutral",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Reward + Punishment > Neutral"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "neutral cue",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "neutral during the valence cue period"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "neutral during the valence cue period"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_reward",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Reward",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "reward versus punishment"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "reward conditions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "mean of reward"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "reward versus punishment"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_punishment",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Punishment",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "reward versus punishment"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "punishment conditions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "mean of punishment conditions"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "reward versus punishment"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_high_magnitude",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "High",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "High > Low + Neutral"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "high magnitude conditions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "mean of high magnitude conditions"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "High > Low + Neutral"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_low_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Low + Neutral",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "High > Low + Neutral"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "low magnitude plus neutral conditions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "low magnitude plus neutral ones"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "High > Low + Neutral"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "t_cannabis",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "cannabis use",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "with cannabis use, schizophrenia status and their interaction"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "cannabis use ... as between-group fixed factors"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the modulation of each contrast with cannabis use"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [],
+    "groups": [
+     "g_cannabis_users",
+     "g_nonusers"
+    ]
+   },
+   {
+    "local_id": "t_schizophrenia",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "schizophrenia status",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "with cannabis use, schizophrenia status and their interaction"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "schizophrenia ... as between-group fixed factors"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The main analysis was a 2\u2009\u00d7\u20092 ANCOVA to assess the modulation of each contrast with cannabis use, schizophrenia status and their interaction"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [],
+    "groups": [
+     "g_hc_c",
+     "g_sz_c",
+     "g_hc_non_c",
+     "g_sz_non_c"
+    ]
+   },
+   {
+    "local_id": "t_interaction",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "cannabis by schizophrenia interaction",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the cannabis by schizophrenia interactions"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical interaction",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "their interaction"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the interaction of cannabis and schizophrenia"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [],
+    "groups": []
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_all_imaging",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "all imaging participants",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "resulting in a sample of seventy-three participants"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants retained for imaging analysis",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Ten participants (1 HC\u2212C, 4 HC\u2009+\u2009C, 4 SZ\u2212C, 1 SZ\u2009+\u2009C) were excluded due to low image quality, resulting in a sample of seventy-three participants."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Eighty-nine participants completed the study"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_cannabis_users",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "cannabis users (HC\u2009+\u2009C and SZ\u2009+\u2009C)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "for cannabis users (HC\u2009+\u2009C and SZ\u2009+\u2009C) compared to non-users (HC\u2212C and SZ\u2212C)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Eighty-nine participants completed the study"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_nonusers",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "non-users (HC\u2212C and SZ\u2212C)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "for cannabis users (HC\u2009+\u2009C and SZ\u2009+\u2009C) compared to non-users (HC\u2212C and SZ\u2212C)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Eighty-nine participants completed the study"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_hc_c",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "HC\u2009+\u2009C",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Cannabis user healthy controls (HC\u2009+\u2009C)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "healthy control participants"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_sz_c",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "SZ\u2009+\u2009C",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "cannabis user schizophrenia patients (SZ\u2009+\u2009C)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "40 patients"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_hc_non_c",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "HC\u2212C",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Non-cannabis user healthy controls (SZ\u2212C)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "49 healthy controls"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_sz_non_c",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "SZ\u2212C",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Non-cannabis user schizophrenia patients (SZ\u2212C)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "text": "40 patients"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_reward",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "two-choice RT task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A two-choice RT task was used with elements of the MID and Eriksen flanker tasks."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants responded to incongruent arrow-head stimuli following valence and magnitude cues while being scanned using fMRI.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A two-choice RT task was used with elements of the MID and Eriksen flanker tasks."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_reward_punishment",
+     "c_neutral",
+     "c_reward",
+     "c_punishment",
+     "c_high_magnitude",
+     "c_low_neutral"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Preceding the stimulus, a valence cue was first presented, for a variable period"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional magnetic resonance imaging (fMRI)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Functional MR images were acquired using a Philips Achieva 3.0 Tesla TX MRI scanner"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "Philips Achieva 3.0 Tesla TX MRI scanner",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Functional MR images were acquired using a Philips Achieva 3.0 Tesla TX MRI scanner"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Echo-planar imaging with 2 s repetition time, 36 slices and 3 \u00d7 3 \u00d7 3 mm voxel size",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "using echo-planar imaging with 2\u2009s repetition time (TR), 36 slices and 3\u2009\u00d7\u20093\u2009\u00d7\u20093\u2009mm voxel size"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": 3,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Philips Achieva 3.0 Tesla TX MRI scanner"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "echo-planar imaging",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "using echo-planar imaging"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": 2,
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "2\u2009s repetition time (TR)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "3 \u00d7 3 \u00d7 3 mm",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "3\u2009\u00d7\u20093\u2009\u00d7\u20093\u2009mm voxel size"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   },
+   "other_mri_details_not_reported_in_schema_notes_decision_the_anatomical_T1_scan_is_recorded_as_a_separate_acquisition_not_reported_here_for_brevity."
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Images were realigned, temporally interpolated, segmented, normalized to MNI space and smoothed with an 8 mm FWHM Gaussian kernel; a 128 s high-pass filter was applied.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Pre-processing was first performed by spatially realigning the raw images and temporal interpolation was completed to correct for delay in slice acquisition."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": {
+     "extraction_status": "extracted",
+     "value": "ArtRepair software; SPM12 toolbox for MATLAB",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Quality control was performed using ArtRepair software"
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "SPM12 toolbox for MATLAB ... was used for all imaging data analysis."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "steps": {
+     "extraction_status": "extracted",
+     "value": [
+      "spatially realigning the raw images",
+      "temporal interpolation",
+      "segmenting the T1 image into grey and white matter and CSF",
+      "normalizing images to standard MNI space",
+      "smoothing with an 8 mm FWHM Gaussian kernel",
+      "applying a 128 s high-pass filter"
+     ],
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Images were normalized to standard Montreal Neurological Institute (MNI) space and smoothed with an 8\u2009mm full width at half maximum (FWHM) Gaussian kernel."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "me_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "GLM",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a GLM was applied to the images from each participant."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "hrf_model": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Three regressors, reward (+), punishment (\u2212) and neutral (*) were included for the valence model. Five regressors (\u221220, \u22125, 0, +5, +20) were included for the magnitude model.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Three regressors, reward (+), punishment (\u2212) and neutral (*) were included for the valence model. Five regressors (\u221220, \u22125, 0, +5, +20) were included for the magnitude model."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "first-level and second-level",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A first-level within-subject analysis was carried out"
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "At the second-level, a validation ROI analysis was first carried out"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": {
+     "extraction_status": "extracted",
+     "value": "SPM12 toolbox for MATLAB",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "SPM12 toolbox for MATLAB ... was used for all imaging data analysis."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "me_group_ancova",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "2 \u00d7 2 ANCOVA",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The main analysis was a 2\u2009\u00d7\u20092 ANCOVA"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Cannabis use, schizophrenia status and their interaction, with years of education and age as covariates",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "with cannabis use, schizophrenia status and their interaction, with years of education and age as covariates"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "second-level",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At the second-level"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": {
+     "extraction_status": "extracted",
+     "value": "SPM12 toolbox for MATLAB",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "SPM12 toolbox for MATLAB ... was used for all imaging data analysis."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "assessments": [],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined how schizophrenia and chronic cannabis use jointly affect neural sensitivity to reward anticipation.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Interaction of schizophrenia and chronic cannabis use on reward anticipation sensitivity"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "A 2 \u00d7 2 group design crossed cannabis use with schizophrenia status during an fMRI reward anticipation task, using ROI validation and second-level ANCOVA analyses.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "The main analysis was a 2\u2009\u00d7\u20092 ANCOVA to assess the modulation of each contrast with cannabis use, schizophrenia status and their interaction"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": []
+ },
+ "usage": {
+  "prompt": 15037,
+  "completion": 10655,
+  "reasoning": 96,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 43270,
+ "service_tier_echo": "flex"
+}

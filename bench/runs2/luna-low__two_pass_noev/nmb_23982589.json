@@ -1,0 +1,1506 @@
+{
+ "case_id": "nmb_23982589",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "two_pass",
+ "tag": "two_pass_noev",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 2,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "neuroimaging_methods_extraction_v1",
+   "source_text_hash": "not_computed",
+   "extraction_date": "2026-08-04",
+   "paper_sections": [
+    {
+     "ordinal": 0,
+     "title": "Effects of attention and perceptual uncertainty on cerebellar activity during visual motion perception.",
+     "level": 0,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 1,
+     "title": "Methods",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 2,
+     "title": "Participants",
+     "level": 2,
+     "parent_section": "Methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 3,
+     "title": "Prescan Training and Eye Movement Assessment",
+     "level": 2,
+     "parent_section": "Methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 4,
+     "title": "Visual Stimulation",
+     "level": 2,
+     "parent_section": "Methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 5,
+     "title": "Task",
+     "level": 2,
+     "parent_section": "Methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 6,
+     "title": "MRI Acquisition",
+     "level": 2,
+     "parent_section": "Methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 7,
+     "title": "Image Processing and Statistical Analysis of fMRI Data",
+     "level": 2,
+     "parent_section": "Methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 8,
+     "title": "Results",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 9,
+     "title": "Behavioral Data",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 10,
+     "title": "fMRI Data",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 11,
+     "title": "Discussion",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 12,
+     "title": "Conclusion",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 13,
+     "title": "References",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    }
+   ]
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined whether cerebellar activity during visual motion perception reflects sustained covert attention to salient motion or facilitation of motion detection and discrimination under high perceptual uncertainty.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Participants performed an event-related visual motion perception task during fMRI while attention was directed either to random-dot motion or to a colored fixation spot, and perceptual uncertainty was manipulated by varying motion coherence.",
+   "value_source": "generated"
+  },
+  "external_datasets": [],
+  "assessments": [
+   {
+    "local_id": "assess_fixation",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Eye movement assessment",
+     "value_source": "generated"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Eye movements were recorded during prescan training to ensure fixation compliance; participants were informed if eye movements deviated more than \u00b10.3\u00b0 from the central fixation spot.",
+     "value_source": "generated"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "physiological measure",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_attention",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "attention",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Participants attended covertly either to the dot motion or to the colored spot at fixation.",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_attend_motion",
+     "cond_attend_color"
+    ],
+    "groups": []
+   },
+   {
+    "local_id": "term_coherence",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "motion coherence",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "The percentage of coherently moving dots contained within the random-dot arrays; 0, 15, or 30%.",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_coherence_0",
+     "cond_coherence_15",
+     "cond_coherence_30"
+    ],
+    "groups": [],
+    "levels": {
+     "extraction_status": "extracted",
+     "value": "0, 15, and 30 % coherent motion",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "term_fixation",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "head motion and physiological noise",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "The six head motion regressors and models of respiratory and cardiac noise were included in the general linear model as regressors.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "healthy_participants",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "healthy participants",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Twenty-two healthy participants gave informed written consent; four participants were excluded in the training session, leaving 18 individuals to participate in the fMRI experiment.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "approached_count": {
+     "extraction_status": "not_reported"
+    },
+    "consented_count": {
+     "extraction_status": "extracted",
+     "value": "22",
+     "value_source": "reported"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "22",
+     "value_source": "generated"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "18",
+     "value_source": "reported"
+    },
+    "excluded_count": {
+     "extraction_status": "extracted",
+     "value": "4",
+     "value_source": "reported"
+    },
+    "inclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": "Participants were able to detect coherent visual motion at signal-to-noise levels used in the experiment and maintain steady fixation throughout the task.",
+     "value_source": "generated"
+    },
+    "exclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": "Unable to meet the strict criteria for maintaining steady fixation throughout the task.",
+     "value_source": "reported"
+    },
+    "recruitment_method": {
+     "extraction_status": "not_reported"
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "21.9",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "2.1 years",
+     "value_source": "reported"
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "19 years",
+     "value_source": "reported"
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "26 years",
+     "value_source": "reported"
+    },
+    "age_median": {
+     "extraction_status": "not_reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "12",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "generated"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "male",
+       "value_source": "generated"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "6",
+       "value_source": "generated"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "generated"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "gender_distribution": [],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "generated"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "generated"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": "healthy",
+     "value_source": "reported"
+    },
+    "diagnostic_system": {
+     "extraction_status": "not_reported"
+    },
+    "diagnostic_instrument": {
+     "extraction_status": "not_reported"
+    },
+    "clinical_characteristics": {
+     "extraction_status": "not_reported"
+    },
+    "medication_status": {
+     "extraction_status": "not_reported"
+    },
+    "education_summary": {
+     "extraction_status": "not_reported"
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_visual_motion",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "visual motion perception task",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants attended covertly to the moving dots and monitored for periods of motion coherence, or attended to the central spot and monitored for color changes. Each trial was preceded by a visual cue indicating the upcoming task.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_attend_motion",
+     "cond_attend_color",
+     "cond_coherence_0",
+     "cond_coherence_15",
+     "cond_coherence_30"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related design",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "Presentation software (Version 14.3, Neurobehavioral Systems, Inc.)",
+     "value_source": "reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Participants were instructed to attend covertly to the moving dots and monitor for periods of motion coherence, or to attend to the central spot and monitor for color changes. They indicated the last direction of motion or the last color of the central spot at stimulus offset.",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "A fixation spot and 400 sparse gray background dots on a black background formed a random-dot kinematogram. The fixation spot alternated between green and yellow; coherent dots moved along the horizontal axis.",
+     "value_source": "reported"
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "Accuracy of the left/right or green/yellow response",
+      "value_source": "generated"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Response time measured from stimulus offset",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_bold",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional magnetic resonance imaging",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "not_reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3-T MR scanner (Trio; Siemens, Erlangen, Germany) with a 32-channel head coil",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Functional data were acquired as 35 axial slices in descending order using a gradient echo echo-planar T2*-sensitive sequence.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"slice_thickness\":\"3 mm\",\"interslice_gap\":\"1.05 mm\",\"flip_angle\":\"90\u00b0\",\"matrix\":\"64\u00d764\",\"field_of_view\":\"210\u00d7210 mm\",\"heart_rate_sampling\":\"50 Hz\",\"respiration_sampling\":\"50 Hz\"}",
+     "value_source": "generated"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3-T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "gradient echo echo-planar T2*-sensitive sequence",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "2D slices",
+      "value_source": "generated"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2.19 seconds",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "30 ms",
+      "value_source": "reported"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "3.3\u00d73.3\u00d73.0 mm",
+      "value_source": "reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Functional data volumes were slice-time corrected, realigned, coregistered to the anatomical image, normalized to stereotaxic space using SUIT, masked to exclude areas outside the cerebellum, manually inspected and corrected where necessary, and smoothed.",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM8",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "SUIT, Version 2.53",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "MRIcron",
+      "value_source": "reported"
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "Slice-time correction",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Realignment to the first volume",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Coregistration of the T2*-weighted mean image with the anatomical T1-weighted image",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Normalization to stereotaxic space using SUIT",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Application of an individual binary cerebellar mask",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Manual inspection and correction of segmentation",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Resampling to 2 mm voxel size",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Smoothing with an 8-mm full-width half-maximum isotropic Gaussian kernel",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_fmri_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "general linear model",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "hemodynamic response function (HRF)",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Responses during stimulation periods were modeled as boxcar functions convolved with an HRF separately for six conditions; exact stimulation duration was modeled for each trial. High-pass filtering used a 128-s cutoff, with respiratory and cardiac noise regressors and six head-motion regressors included.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "first-level and group-level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "t-statistics for contrast images, followed by random-effects group-level analysis with planned t tests",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM8 (Wellcome Department of Imaging Neuroscience, UCL, London, UK)",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Physiological Log Extraction for Modeling toolbox",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_attend_motion",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "attend motion",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants attended covertly to the dot motion and monitored for periods of motion coherence.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_attend_color",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "attend color",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants attended to the central colored fixation spot and monitored for color changes.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state; comparator",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_coherence_0",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "0 % coherent motion",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Random-dot displays with no coherent motion signal; these constituted the motion detection condition and were intended to produce high perceptual uncertainty.",
+     "value_source": "generated"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_coherence_15",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "15 % coherent motion",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Random-dot displays containing 15% coherent motion, providing trials of intermediate difficulty.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_coherence_30",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "30 % coherent motion",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Random-dot displays containing 30% coherent motion; these constituted the motion tracking condition and were sufficiently salient to be readily discerned from noise.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "class of stimulus",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "an_cerebellum_tracking",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "attend motion (30 %)>attend color (30 %)",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "the cerebellum",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxel",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "an individual binary mask to exclude areas that were not part of the cerebellum, using the spatially unbiased infratentorial template (SUIT)",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "cerebellum",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_visual_motion"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_attend_motion",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "attend motion (30 %)",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "motion coherence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "30 %",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_attend_color",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "attend color (30 %)",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "motion coherence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "30 %",
+         "value_source": "reported"
+        }
+       }
+      ]
+     }
+    ],
+    "terms": [
+     "term_attention",
+     "term_coherence",
+     "term_fixation"
+    ],
+    "model_estimation": "model_fmri_glm",
+    "groups": [
+     {
+      "group": "healthy_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "a planned comparison of the condition requiring attention to a strong coherent motion signal with the corresponding color-control condition [attend motion (30 %)>attend color (30 %)]",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t-statistics",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "stereotaxic space",
+     "value_source": "reported"
+    },
+    "assessments": [
+     "assess_fixation"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel- or cluster-level",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "height threshold p=0.001",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE corrected for multiple comparisons",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "the cerebellum",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "false",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Respiratory and cardiac noise regressors and six head motion regressors were included in the general linear model.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The comparison tested whether the cerebellum was involved in sustained attentive tracking of a salient supra-threshold motion signal.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "an_cerebellum_detection",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "attend motion (0 %)>attend color (0 %)",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "the cerebellum",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxel",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "an individual binary mask to exclude areas that were not part of the cerebellum, using the spatially unbiased infratentorial template (SUIT)",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "cerebellum",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_visual_motion"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_attend_motion",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "attend motion (0 %)",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "motion coherence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "0 %",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_attend_color",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "attend color (0 %)",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "motion coherence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "0 %",
+         "value_source": "reported"
+        }
+       }
+      ]
+     }
+    ],
+    "terms": [
+     "term_attention",
+     "term_coherence",
+     "term_fixation"
+    ],
+    "model_estimation": "model_fmri_glm",
+    "groups": [
+     {
+      "group": "healthy_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "the condition with no coherent motion signal compared to the corresponding color-control condition [attend motion (0 %)>attend color (0 %)]",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t-statistics",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "stereotaxic space",
+     "value_source": "reported"
+    },
+    "assessments": [
+     "assess_fixation"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel- or cluster-level",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "height threshold p=0.001",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE corrected for multiple comparisons",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "the cerebellum",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "false",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Respiratory and cardiac noise regressors and six head motion regressors were included in the general linear model.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The comparison tested whether the cerebellum was active during the motion detection task under high perceptual uncertainty.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "an_wholebrain_tracking",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "attend motion (30 %)>attend color (30 %)",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxel",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_visual_motion"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_attend_motion",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "attend motion (30 %)",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "motion coherence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "30 %",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_attend_color",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "attend color (30 %)",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "motion coherence",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "30 %",
+         "value_source": "reported"
+        }
+       }
+      ]
+     }
+    ],
+    "terms": [
+     "term_attention",
+     "term_coherence",
+     "term_fixation"
+    ],
+    "model_estimation": "model_fmri_glm",
+    "groups": [
+     {
+      "group": "healthy_participants",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "exploratory whole-brain comparison of the condition requiring attention to a salient suprathreshold motion signal with the corresponding color-control condition [attend motion (30 %)>attend color (30 %)]",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t-statistics",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "stereotaxic space",
+     "value_source": "reported"
+    },
+    "assessments": [
+     "assess_fixation"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel- or cluster-level",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "height threshold p=0.001",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE corrected for multiple comparisons",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "false",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Respiratory and cardiac noise regressors and six head motion regressors were included in the general linear model.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "The comparison tested whether the motion tracking task activated cortical regions commonly associated with attention to visual motion.",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "not_reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "not_reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Table reporting the locations and statistical results of the cerebellar effects of motion detection and cortical effects of attention to a salient suprathreshold motion signal.",
+     "value_source": "generated"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 27165,
+  "completion": 9063,
+  "reasoning": 305,
+  "cached": 13393
+ },
+ "usage_pass1": {
+  "prompt": 13396,
+  "completion": 3752,
+  "reasoning": 78,
+  "cached": 13393
+ },
+ "usage_pass2": {
+  "prompt": 13769,
+  "completion": 5311,
+  "reasoning": 227,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 39076,
+ "service_tier_echo": "flex"
+}

@@ -1,0 +1,2615 @@
+{
+ "case_id": "pmc_9797690",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev_p1lowp2high",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "stage1_names": [],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "OpenAI",
+   "extractor_version": "neuroimaging-methods-curator-v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": [
+    {
+     "ordinal": 0,
+     "title": "Estimating effective connectivity in Alzheimer's disease progression: A dynamic causal modeling study",
+     "level": 0,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 1,
+     "title": "Materials and methods",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 2,
+     "title": "fMRI data",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 3,
+     "title": "Data acquisition and preprocessing",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 4,
+     "title": "Dynamic causal modeling",
+     "level": 2,
+     "parent_section": "Materials and methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 5,
+     "title": "Results",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 6,
+     "title": "Connectivity at individual level",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 7,
+     "title": "Connectivity at group level",
+     "level": 2,
+     "parent_section": "Results",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 8,
+     "title": "Alzheimer's Disease Neuroimaging Initiative",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 9,
+     "title": "Author contributions",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    }
+   ]
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study estimated resting-state effective connectivity among default mode, salience, and central executive network regions across cognitively normal, early MCI, late MCI, and Alzheimer's disease groups, and tested whether connectivity predicted MMSE and CDR scores.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "A retrospective longitudinal ADNI-2 resting-state fMRI study comparing four stable progression-stage groups using dynamic causal modeling, parametric empirical Bayes, Bayesian model reduction, ANOVA, and linear regression.",
+   "value_source": "generated"
+  },
+  "external_datasets": [
+   {
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Alzheimer's Disease Neuroimaging Initiative (ADNI)",
+     "value_source": "reported"
+    },
+    "url": {
+     "extraction_status": "extracted",
+     "value": "adni.loni.usc.edu",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "assess_mmse",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "mini-mental state examination (MMSE)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Cognitive scores used for subject inclusion and as an outcome in linear regression.",
+     "value_source": "generated"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical and neuropsychological assessment",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "assess_cdr",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "clinical dementia rating (CDR)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Clinical dementia rating used for subject inclusion and as an outcome in linear regression.",
+     "value_source": "generated"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical scale",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_group",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "subject group",
+     "value_source": "generated"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "groups": [
+     "g_cn",
+     "g_emci",
+     "g_lmci",
+     "g_ad"
+    ]
+   },
+   {
+    "local_id": "term_mmse",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "MMSE score",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "mini-mental state examination",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "outcome",
+     "value_source": "generated"
+    },
+    "assessment": "assess_mmse",
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "between subjects",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "term_cdr",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "CDR score",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "clinical dementia rating",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "outcome",
+     "value_source": "generated"
+    },
+    "assessment": "assess_cdr",
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "between subjects",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_cn",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "CN subjects",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "MMSE scores above 24, CDR = 0, free of memory complaints.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "31",
+     "value_source": "reported"
+    },
+    "inclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "MMSE scores above 24",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "CDR = 0",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "free of memory complaints",
+      "value_source": "reported"
+     }
+    ],
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "76.65",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "6.40",
+     "value_source": "reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "generated"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "F",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "19",
+       "value_source": "reported"
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "M",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "12",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "cognitively normal",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "g_emci",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "EMCI patients",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "MMSE scores above 24, CDR = 0.5, have subjective memory complaints, abnormal memory functions.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "34",
+     "value_source": "reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "72.00",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "6.56",
+     "value_source": "reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "generated"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "F",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "24",
+       "value_source": "reported"
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "M",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "10",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "early mild cognitive impairment",
+      "value_source": "generated"
+     }
+    ]
+   },
+   {
+    "local_id": "g_lmci",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "LMCI patients",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "MMSE scores above 24, CDR = 0.5, have subjective memory complaints, abnormal memory functions (more severe compared to EMCIs).",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "31",
+     "value_source": "reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "73.00",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "8.51",
+     "value_source": "reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "generated"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "F",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "13",
+       "value_source": "reported"
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "M",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "late mild cognitive impairment",
+      "value_source": "generated"
+     }
+    ]
+   },
+   {
+    "local_id": "g_ad",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "AD patients",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "MMSE scores ranging from 20 to 26, CDR above 0.5, have subjective memory complaints, abnormal memory functions (same as LMCIs).",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "34",
+     "value_source": "reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "73.34",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "7.36",
+     "value_source": "reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "generated"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "F",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported"
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "M",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "16",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "Alzheimer's disease",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_rest",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "resting-state fMRI",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "During the fMRI scans, all participants were instructed to keep their eyes open and relax.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_rest"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "resting state",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Keep their eyes open and relax.",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_bold",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "resting-state functional images",
+     "value_source": "reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3.0-T (Philips) scanner",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Resting-state functional images were obtained using an echo-planar imaging sequence (EPI). Each series has 140 volumes, and each volume consists of 48 slices of image matrices with dimensions 64 \u00d7 64.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"flip_angle_degrees\":80,\"slice_count\":48,\"matrix\":\"64 \u00d7 64\"}",
+     "value_source": "generated"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3.0-T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "echo-planar imaging sequence (EPI)",
+      "value_source": "reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "3",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.03",
+      "value_source": "generated"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "[3.31, 3.31, 3.31]",
+      "value_source": "reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "extracted",
+      "value": "140",
+      "value_source": "reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_spm_restplus",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The first 10 volumes of each functional time series were discarded. The remaining 130 volumes were corrected for the staggered order of slice acquisition. Preprocessing also included regression of head motion parameters, realignment for head movement, and spatial normalization using T1 image unified segmentation to the Montreal Neurological Institute (MNI) space.",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "Statistical Parametric Mapping 12 (SPM 12)",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "RESTplus toolkits",
+      "value_source": "reported"
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "Discarded the first 10 volumes",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Slice timing correction",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Regression of head motion parameters",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Realignment for head movement",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Spatial normalization using T1 image unified segmentation to MNI space",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_dcm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "dynamic causal modeling (DCM)",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The neuronal model included intrinsic connectivity, extrinsic connectivity, and input parameters; the resting-state stimulus was usually set to zero. The observation model was a generalized BOLD signal model. Regions of interest were modeled as nodes, with time series extracted from all voxels within an 8-mm-radius sphere around associated MNI coordinates.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "subject-specific and group-level",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "Bayesian Model Reduction (BMR) and parametric empirical Bayes (PEB)",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "not_reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_anova",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "analysis of variance (ANOVA)",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "The connectivity strengths for each subject group were compared using analysis of variance (ANOVA). Bonferroni correction was applied for multiple comparisons.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "model_regression",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "linear regression analysis",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Forward step-wise linear regression was used for MMSE; both forward and backward connections between L-dlPFC and mPFC were predictive of CDR.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "forward step-wise linear regression; forward and backward regression",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_rest",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "resting state",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participants kept their eyes open and relaxed during the fMRI scans; stimulus u was usually set to zero in resting state models.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "rest",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "an_cn_ec",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Connectivity strengths (means and variances) of CN subjects",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "all voxels within a sphere having radius 8 mm around an associated MNI coordinate",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "previous investigations on bilateral PCC, dlPFC, ACC, and mPFC",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "mPFC and bilateral PCC, dlPFC, ACC",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "resting state",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "model_dcm",
+    "groups": [
+     {
+      "group": "g_cn",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 31,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_spm_restplus",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "The intrinsic effective connectivity among the seven brain regions during the resting state was estimated for CN subjects using DCM and PEB.",
+     "value_source": "generated"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "connectivity strengths",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl3"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "connection",
+      "value_source": "generated"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "DCM",
+      "value_source": "reported"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "mPFC and bilateral PCC, dlPFC, ACC",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "mPFC and bilateral PCC, dlPFC, ACC",
+      "value_source": "reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "connectivity strengths",
+      "value_source": "reported"
+     },
+     "edges": []
+    },
+    "decoding": {},
+    "similarity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "an_emci_ec",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Connectivity strengths (means and variances) of EMCI patients",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "all voxels within a sphere having radius 8 mm around an associated MNI coordinate",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "previous investigations on bilateral PCC, dlPFC, ACC, and mPFC",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "mPFC and bilateral PCC, dlPFC, ACC",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "resting state",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "model_dcm",
+    "groups": [
+     {
+      "group": "g_emci",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 34,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_spm_restplus",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "The intrinsic effective connectivity among the seven brain regions during the resting state was estimated for EMCI patients using DCM and PEB.",
+     "value_source": "generated"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "connectivity strengths",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl4"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "connection",
+      "value_source": "generated"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "DCM",
+      "value_source": "reported"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "mPFC and bilateral PCC, dlPFC, ACC",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "mPFC and bilateral PCC, dlPFC, ACC",
+      "value_source": "reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "connectivity strengths",
+      "value_source": "reported"
+     },
+     "edges": []
+    },
+    "decoding": {},
+    "similarity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "an_lmci_ec",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Connectivity strengths (means and variances) of LMCI patients",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "all voxels within a sphere having radius 8 mm around an associated MNI coordinate",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "previous investigations on bilateral PCC, dlPFC, ACC, and mPFC",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "mPFC and bilateral PCC, dlPFC, ACC",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "resting state",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "model_dcm",
+    "groups": [
+     {
+      "group": "g_lmci",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 31,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_spm_restplus",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "The intrinsic effective connectivity among the seven brain regions during the resting state was estimated for LMCI patients using DCM and PEB.",
+     "value_source": "generated"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "connectivity strengths",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl5"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "connection",
+      "value_source": "generated"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "DCM",
+      "value_source": "reported"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "mPFC and bilateral PCC, dlPFC, ACC",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "mPFC and bilateral PCC, dlPFC, ACC",
+      "value_source": "reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "connectivity strengths",
+      "value_source": "reported"
+     },
+     "edges": []
+    },
+    "decoding": {},
+    "similarity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "an_ad_ec",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Connectivity strengths (means and variances) of AD patients",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "all voxels within a sphere having radius 8 mm around an associated MNI coordinate",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "previous investigations on bilateral PCC, dlPFC, ACC, and mPFC",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "mPFC and bilateral PCC, dlPFC, ACC",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "resting state",
+       "value_source": "reported"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "model_dcm",
+    "groups": [
+     {
+      "group": "g_ad",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 34,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_spm_restplus",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "The intrinsic effective connectivity among the seven brain regions during the resting state was estimated for AD patients using DCM and PEB.",
+     "value_source": "generated"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "connectivity strengths",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl6"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "connection",
+      "value_source": "generated"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "DCM",
+      "value_source": "reported"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "mPFC and bilateral PCC, dlPFC, ACC",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "mPFC and bilateral PCC, dlPFC, ACC",
+      "value_source": "reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "connectivity strengths",
+      "value_source": "reported"
+     },
+     "edges": []
+    },
+    "decoding": {},
+    "similarity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "an_lpp_lpp_anova",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "L-PCC \u2192 L-PCC",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "effective connectivity between ROI nodes",
+     "value_source": "generated"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "previous investigations on bilateral PCC, dlPFC, ACC, and mPFC",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "L-PCC \u2192 L-PCC",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "model_anova",
+    "groups": [
+     {
+      "group": "g_cn",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 31,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_emci",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 34,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_lmci",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 31,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_ad",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 34,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_spm_restplus",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "ANOVA of the effective connection strengths for L-PCC \u2192 L-PCC across CN, EMCI, LMCI, and AD subjects.",
+     "value_source": "generated"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "effective connection strengths",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "ANOVA",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl7"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "connection",
+      "value_source": "generated"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Bonferroni correction",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "multiple comparisons",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "DCM",
+      "value_source": "reported"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "L-PCC",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "L-PCC",
+      "value_source": "reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "effective connection strengths",
+      "value_source": "reported"
+     },
+     "edges": [
+      {
+       "source_region": {
+        "extraction_status": "extracted",
+        "value": "L-PCC",
+        "value_source": "reported"
+       },
+       "target_region": {
+        "extraction_status": "extracted",
+        "value": "L-PCC",
+        "value_source": "reported"
+       }
+      }
+     ]
+    },
+    "decoding": {},
+    "similarity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "an_rpp_racc_anova",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "R-PCC \u2192 R-ACC",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "effective connectivity between ROI nodes",
+     "value_source": "generated"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "previous investigations on bilateral PCC, dlPFC, ACC, and mPFC",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "R-PCC \u2192 R-ACC",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "model_anova",
+    "groups": [
+     {
+      "group": "g_cn",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 31,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_emci",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 34,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_lmci",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 31,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_ad",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 34,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_spm_restplus",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "ANOVA of the effective connection strengths for R-PCC \u2192 R-ACC across CN, EMCI, LMCI, and AD subjects.",
+     "value_source": "generated"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "effective connection strengths",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "ANOVA",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl7"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "connection",
+      "value_source": "generated"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Bonferroni correction",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "multiple comparisons",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "DCM",
+      "value_source": "reported"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "R-PCC",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "R-ACC",
+      "value_source": "reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "effective connection strengths",
+      "value_source": "reported"
+     },
+     "edges": [
+      {
+       "source_region": {
+        "extraction_status": "extracted",
+        "value": "R-PCC",
+        "value_source": "reported"
+       },
+       "target_region": {
+        "extraction_status": "extracted",
+        "value": "R-ACC",
+        "value_source": "reported"
+       }
+      }
+     ]
+    },
+    "decoding": {},
+    "similarity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "an_racc_racc_anova",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "R-ACC \u2192 R-ACC",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "effective connectivity between ROI nodes",
+     "value_source": "generated"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "previous investigations on bilateral PCC, dlPFC, ACC, and mPFC",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "R-ACC \u2192 R-ACC",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group"
+    ],
+    "model_estimation": "model_anova",
+    "groups": [
+     {
+      "group": "g_cn",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 31,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_emci",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 34,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_lmci",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 31,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_ad",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 34,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_spm_restplus",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "ANOVA of the effective connection strengths for R-ACC \u2192 R-ACC across CN, EMCI, LMCI, and AD subjects.",
+     "value_source": "generated"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "effective connection strengths",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "ANOVA",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [
+     "tbl7"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "connection",
+      "value_source": "generated"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Bonferroni correction",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "multiple comparisons",
+      "value_source": "reported"
+     }
+    },
+    "statistical_maps": [],
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "DCM",
+      "value_source": "reported"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "R-ACC",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "R-ACC",
+      "value_source": "reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "effective connection strengths",
+      "value_source": "reported"
+     },
+     "edges": [
+      {
+       "source_region": {
+        "extraction_status": "extracted",
+        "value": "R-ACC",
+        "value_source": "reported"
+       },
+       "target_region": {
+        "extraction_status": "extracted",
+        "value": "R-ACC",
+        "value_source": "reported"
+       }
+      }
+     ]
+    },
+    "decoding": {},
+    "similarity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "an_mmse_regression",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Effective connectivity predicting MMSE scores",
+     "value_source": "generated"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "effective connectivity between brain regions",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "previous investigations on bilateral PCC, dlPFC, ACC, and mPFC",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "L-dlPFC, L-PCC, and mPFC",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_mmse"
+    ],
+    "model_estimation": "model_regression",
+    "groups": [
+     {
+      "group": "g_cn",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 31,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_emci",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 34,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_lmci",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 31,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_ad",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 34,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_spm_restplus",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "The forward step-wise linear regression tested whether resting-state connectivity predicted MMSE scores. EC between left dlPFC and left PCC was the first variable entered, followed by L-dlPFC to mPFC and L-PCC to R-ACC; together they explained 11.5% of the variance in MMSE scores (R\u00b2 = 0.115, F = 5.434, p = 0.002).",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "resting-state connectivity between the brain regions",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "F = 5.434 and \u03b2",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported"
+    },
+    "assessments": [
+     "assess_mmse"
+    ],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "DCM-derived effective connectivity",
+      "value_source": "generated"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left dlPFC and left PCC",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "left PCC, mPFC, and right ACC",
+      "value_source": "reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "whether EC between regions could predict subjects' cognitive scores",
+      "value_source": "reported"
+     },
+     "edges": []
+    },
+    "decoding": {},
+    "similarity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {
+     "method_label": {
+      "extraction_status": "extracted",
+      "value": "forward step-wise linear regression",
+      "value_source": "reported"
+     },
+     "structured_details": {
+      "extraction_status": "extracted",
+      "value": "Predictors: L-dlPFC to L-PCC (\u03b2 = \u22120.234, p = 0.007), L-dlPFC to mPFC (\u03b2 = 0.222, p = 0.01), and L-PCC to R-ACC (\u03b2 = 0.168, p = 0.048); R\u00b2 = 0.115; F = 5.434; p = 0.002.",
+      "value_source": "reported"
+     },
+     "reason_first_class_type_not_used": {
+      "extraction_status": "extracted",
+      "value": "The analysis is a linear regression predicting a cognitive assessment from DCM-derived connectivity rather than one of the named connectivity-estimation methods.",
+      "value_source": "generated"
+     }
+    }
+   },
+   {
+    "local_id": "an_cdr_regression",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Effective connectivity predicting CDR scores",
+     "value_source": "generated"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "effective connectivity between brain regions",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "previous investigations on bilateral PCC, dlPFC, ACC, and mPFC",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "L-dlPFC and mPFC",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_cdr"
+    ],
+    "model_estimation": "model_regression",
+    "groups": [
+     {
+      "group": "g_cn",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 31,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_emci",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 34,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_lmci",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 31,
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_ad",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 34,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_spm_restplus",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Linear regression tested whether resting-state connectivity predicted CDR scores. Both forward and backward connections between L-dlPFC and mPFC were predictive; the model explained 12.1% of the variance in CDR scores (R\u00b2 = 0.121, F = 8.755, p < 0.001).",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "resting-state connectivity between the brain regions",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "F = 8.755 and \u03b2",
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported"
+    },
+    "assessments": [
+     "assess_cdr"
+    ],
+    "inference_settings": {},
+    "statistical_maps": [],
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "DCM-derived effective connectivity",
+      "value_source": "generated"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "L-dlPFC and mPFC",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "mPFC and L-dlPFC",
+      "value_source": "reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "whether EC between regions could predict subjects' cognitive scores",
+      "value_source": "reported"
+     },
+     "edges": []
+    },
+    "decoding": {},
+    "similarity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {
+     "method_label": {
+      "extraction_status": "extracted",
+      "value": "linear regression analysis",
+      "value_source": "reported"
+     },
+     "structured_details": {
+      "extraction_status": "extracted",
+      "value": "Predictors: L-dlPFC to mPFC (\u03b2 = \u22120.307, p < 0.001) and mPFC to L-dlPFC (\u03b2 = 0.214, p = 0.012); R\u00b2 = 0.121; F = 8.755; p < 0.001.",
+      "value_source": "reported"
+     },
+     "reason_first_class_type_not_used": {
+      "extraction_status": "extracted",
+      "value": "The analysis is a linear regression predicting a cognitive assessment from DCM-derived connectivity rather than one of the named connectivity-estimation methods.",
+      "value_source": "generated"
+     }
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Demographics and clinical information",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Table 1 Demographics and clinical information.",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": [
+      "CN",
+      "EMCI",
+      "LMCI",
+      "AD",
+      "p-value"
+     ],
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Demographic and clinical characteristics of CN, EMCI, LMCI, and AD groups.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Coordinates of ROI in MNI space",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Table 2 Coordinates of ROI in MNI space.",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": [
+      "Regions",
+      "x",
+      "y",
+      "z"
+     ],
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "MNI coordinates for the seven regions of interest used as DCM nodes.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Connectivity strengths (means and variances) of CN subjects",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Table 3 Connectivity strengths (means and variances) of CN subjects.",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": [
+      "From",
+      "To",
+      "M",
+      "Var"
+     ],
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Posterior means and variances of connectivity strengths for CN subjects.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl4",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 4",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Connectivity strengths (means and variances) of EMCI patients",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Table 4 Connectivity strengths (means and variances) of EMCI patients.",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": [
+      "From",
+      "To",
+      "M",
+      "Var"
+     ],
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Posterior means and variances of connectivity strengths for EMCI patients.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl5",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 5",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Connectivity strengths (means and variances) of LMCI patients",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Table 5 Connectivity strengths (means and variances) of LMCI patients.",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": [
+      "From",
+      "To",
+      "M",
+      "Var"
+     ],
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Posterior means and variances of connectivity strengths for LMCI patients.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl6",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 6",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Connectivity strengths (means and variances) of AD patients",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Table 6 Connectivity strengths (means and variances) of AD patients.",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": [
+      "From",
+      "To",
+      "M",
+      "Var"
+     ],
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Posterior means and variances of connectivity strengths for AD patients.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl7",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 7",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "ANOVA results for the effective connections",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Table 7 ANOVA results for the effective connections.",
+     "value_source": "reported"
+    },
+    "footer": {
+     "extraction_status": "not_reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": [
+      "Connection",
+      "(I) group",
+      "(J) group",
+      "Mean difference (I-J)",
+      "Std. error",
+      "Sig."
+     ],
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Pairwise ANOVA comparisons of effective connection strengths among CN, EMCI, LMCI, and AD groups for L-PCC \u2192 L-PCC, R-PCC \u2192 R-ACC, and R-ACC \u2192 R-ACC.",
+     "value_source": "generated"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 24417,
+  "completion": 24845,
+  "reasoning": 6863,
+  "cached": 11971
+ },
+ "usage_pass1": {
+  "prompt": 11974,
+  "completion": 5479,
+  "reasoning": 110,
+  "cached": 11971
+ },
+ "usage_pass2": {
+  "prompt": 12443,
+  "completion": 19366,
+  "reasoning": 6753,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 75339,
+ "service_tier_echo": "flex"
+}

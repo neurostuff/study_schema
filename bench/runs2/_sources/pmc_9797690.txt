@@ -1,0 +1,154 @@
+Estimating effective connectivity in Alzheimer's disease progression: A dynamic causal modeling study
+
+2. Materials and methods 2.1. fMRI data Data used in this study were obtained from the Alzheimer's Disease Neuroimaging Initiative (ADNI) database ( adni.loni.usc.edu ). The ADNI was launched in 2003 as a public-private partnership, led by Principal Investigator Michael W. Weiner, MD. The primary goal of ADNI has been to test whether serial magnetic resonance imaging (MRI), positron emission tomography (PET), other biological markers, and clinical and neuropsychological assessment can be combined to measure the progression of MCI and early Alzheimer's disease (AD). Under ADNI, there are numerous research data sets available. We used fMRI data from subjects whose longitudinal records of the visits were fully documented and publicly available. To ensure the uniformity of data acquisition protocols and formats, all images and corresponding clinical data (e.g., mini-mental state examination, [MMSE], clinical dementia rating, [CDR]) were downloaded from ADNI-2 phase since it has most of the fMRI data. We selected four types of subjects, whose general inclusion/exclusion criteria are as follows: (1) CN subjects: MMSE scores above 24, CDR = 0, free of memory complaints; (2) EMCI patients: MMSE scores above 24, CDR = 0.5, have subjective memory complaints, abnormal memory functions; (3) LMCI patients: MMSE scores above 24, CDR = 0.5, have subjective memory complaints, abnormal memory functions (more severe compared to EMCIs); (4) AD patients: MMSE scores ranging from 20 to 26, CDR above 0.5, have subjective memory complaints, abnormal memory functions (same as LMCIs). In this study, 34 AD patients, 31 LMCI patients, 34 EMCI patients, and 31 CN subjects were selected and analyzed. All subjects remained in their progression stage (stable) throughout the entire data collection visits (spanning for at least 24 months). The average age was 76.65, 72.00, 73.00, and 73.34 for CNs, EMCIs, LMCIs, and ADs, respectively. Details of the demographic and clinical information could be found in Table 1 . Table 1 Demographics and clinical information. 
+ CN 
+ 
+ EMCI 
+ 
+ LMCI 
+ 
+ AD 
+ 
+ p -value 
+ Gender 19F/12M 24F/10M 13F/18M 18F/16M Age 76.65 ± 6.40 72.00 ± 6.56 73.00 ± 8.51 73.34 ± 7.36 0.059 MMSE score 29.32 ± 0.93 27.91 ± 1.89 27.54 ± 1.87 19.80 ± 4.02 <0.001 CDR score 0.00 ± 0.00 0.47 ± 0.12 0.48 ± 0.10 1.02 ± 0.41 <0.001 2.2. Data acquisition and preprocessing The data were acquired on a 3.0-T (Philips) scanner with TR/TE set as 3,000/30 ms and flip angle of 80. Resting-state functional images were obtained using an echo-planar imaging sequence (EPI). Each series has 140 volumes, and each volume consists of 48 slices of image matrices with dimensions 64 × 64 with voxel size of 3.31 × 3.31 × 3.31 mm 3 . During the fMRI scans, all participants were instructed to keep their eyes open and relax. The preprocessing was carried out using Statistical Parametric Mapping 12 (SPM 12, http://www.fil.ion.ucl.ac.uk/spm ) and RESTplus toolkits (Jia et al., 2019 ). The first 10 volumes of each functional time series were discarded from analysis to allow for participant's stabilization and magnetic field equilibration. The remaining 130 volumes were corrected for the staggered order of slice acquisition that was used during echo-planar scanning. The correction ensures the data on each slice corresponds to the same point in time. The preprocessing also included regression of head motion parameters, realignment for head movement, and spatial normalization using T1 image unified segmentation to the Montreal Neurological Institute (MNI) space. 2.3. Dynamic causal modeling We modeled the regions of interest (ROIs) as nodes in the EC networks. To include regions from DMN, SAN, and CEN networks, mPFC and bilateral PCC, dlPFC, ACC were chosen as regions of interest We summarized ROI activity by extracting time series at all voxels within a sphere having radius 8 mm around an associated MNI coordinate for the ROI. See Table 2 for MNI coordinates of each ROI. The coordinates were chosen based on previous investigations on bilateral PCC (Jeong et al., 2009 ), dlPFC (Gruber et al., 2010 ), ACC (Mannell et al., 2010 ), and mPFC (Maguire et al., 2010 ). Table 2 Coordinates of ROI in MNI space. 
+ Regions 
+ 
+ x 
+ 
+ y 
+ 
+ z 
+ L-dlPFC –39 34 37 R-dlPFC 35 39 31 L-ACC –5 39 20 R-ACC 6 33 16 L-PCC –8 –49 38 R-PCC 8 –48 39 mPFC 0 53 –14 DCM is comprised of two models: the neuronal model and the observation model. For the resting state, the neuronal model tasks the form as follows: 
+ (1) 
+ x ˙ ( t ) = A x ( t ) + C u + v 
+ In the equation above, x denotes the neuronal activity and u denotes stimulus. v denotes the random neuronal fluctuation that represents the state noise. Stimulus u is still included in the equation for the resting state scenario, but is usually set to zero in resting state models. The parameters θ = { A, B j , C } represent the intrinsic connectivity, extrinsic connectivity, and input, respectively. The second model in DCM is the observation model. fMRI machines detect the activated brain regions by observing the changes in BOLD signal y . The generalized BOLD signal model was proposed by Stephan et al. ( 2007 ), in which both blood volume v and deoxyhemoglobin content q affect the observations: 
+ (2) 
+ y ( t ) ≈ V 0 [ k 1 ( 1 - q ( t ) ) + k 2 ( 1 - q ( t ) v ( t ) ) + k 3 ( 1 - v ( t ) ) ] 
+ where V 0 is the resting venous blood volume fraction and k 1 , k 2 , k 3 represent the coefficients associated with the machine's echo time and relaxation time. Changes in blood volume and deoxyhemoglobin level were caused by neuronal activities, and in turn, changed the observed BOLD signal responses. Thus the neuronal model and the observation model together captured the dynamics of the neural activity propagation. We used PEB to infer the connectivity strengths for the four subject groups. In general, for PEB, a parameter vector is first sampled from a prior distribution. A random effect is added to the parameter vector for this subject. Then data are generated using the DCM and observation noise is added to model the observed response. The calculated connection strengths are accompanied by the likelihood of each connection. By setting the threshold for the likelihood, the most probable estimates are selected. Bayesian Model Reduction (BMR) was used to control the switching on and off of each connection (to calculate the likelihood with the connection's presence and absence) and estimate the parameter to infer the connectivity pattern. The connectivity strengths for each subject group were compared using analysis of variance (ANOVA). Bonferroni correction was applied for multiple comparisons. A linear regression analysis was also carried out to test if EC between regions could predict subjects' cognitive scores.
+
+3. Results 3.1. Connectivity at individual level The estimated DCMs for the four subject groups are shown in Figure 1 . The subject-specific matrices represent the intrinsic EC among the seven brain regions during the resting state. Figure 1 Subject-specific effective connectivity matrices following DCM of the resting-state fMRI for CN (A) , EMCI (B) , LMCI (C) , and AD (D) subjects. Each matrix element represents effective connectivity among 7 nodes in the following order: left PCC, right PCC, left ACC, right ACC, left dlPFC, right dlPFC, and mPFC. Directions of the connections are represented from columns to rows. 3.2. Connectivity at group level The PEB process estimates group EC at five levels of confidence. At 0.5 level, all subject groups presented full connections (connections present among all ROI pairings). See Figure 2 for details of each subject group. However, the fully connected pattern only persisted for the CN group. Only two connections remained for the EMCI group after thresholding for 0.99 level. One connection (self connection L-PCC → L-PCC) remained for the LMCI group at 0.99 level. No connection was left after thresholding for the AD patient group. More information can be found in Figure 3 . Figure 2 Effective connectivity for CN (A) , EMCI (B) , LMCI (C) , and AD (D) subject groups. Figure 3 PEB estimates of connectivity for the four subject groups. Each row represents a threshold imposed on the evidence for each connection. The first row represents a no-threshold condition. The second, third, fourth, and fifth row represent free energy exceeding 0.5, 0.75, 0.95, and 0.99 conditions, respectively. CN (A) , EMCI (B) , LMCI (C) , and AD (D) . The group EC strengths were calculated following the calculation of connection probabilities. Posterior means and variances of all connection strengths for each subject group were presented in detail in Figure 4 and Tables 3 – 6 . ANOVA of the effective connection strengths showed only connections L-PCC → L-PCC, R-PCC → R-ACC, and R-ACC → R-ACC were significantly different within subject groups. See details in Table 7 . Figure 4 Effective connectivity for CN, EMCI, LMCI, and AD subject groups. Table 3 Connectivity strengths (means and variances) of CN subjects. 
+ From 
+ 
+ To 
+ 
+ 
+ M 
+ 
+ 
+ 
+ Var 
+ 
+ 
+ From 
+ 
+ To 
+ 
+ 
+ M 
+ 
+ 
+ 
+ Var 
+ 
+ L-PCC L-PCC –3.409E-01 6.199E-04 L-dlPFC L-PCC 3.484E-02 1.530E-04 R-PCC 6.963E-02 3.062E-04 R-PCC 3.612E-02 1.464E-04 L-ACC 5.544E-02 1.761E-04 L-ACC 4.268E-02 1.375E-04 R-ACC 4.120E-02 2.040E-04 R-ACC 7.986E-03 1.581E-04 L-dlPFC 5.228E-02 2.487E-04 L-dlPFC -3.802E-01 4.622E-04 R-dlPFC 6.599E-02 2.595E-04 R-dlPFC 8.666E-02 2.186E-04 mPFC 7.884E-02 3.153E-04 mPFC 2.884E-02 2.817E-04 R-PCC L-PCC 6.810E-02 2.755E-04 R-dlPFC L-PCC 4.900E-02 1.725E-04 R-PCC –3.764E-01 6.527E-04 R-PCC 3.800E-02 1.521E-04 L-ACC 7.408E-02 1.726E-04 L-ACC 7.492E-02 1.531E-04 R-ACC 8.136E-02 2.196E-04 R-ACC 4.455E-02 1.638E-04 L-dlPFC 5.234E-02 2.783E-04 L-dlPFC 9.445E-02 2.746E-04 R-dlPFC 3.964E-02 2.076E-04 R-dlPFC –3.612E-01 5.436E-04 mPFC 6.622E-02 3.035E-04 mPFC 9.391E-03 2.791E-04 L-ACC L-PCC 5.377E-02 1.601E-04 mPFC L-PCC 5.165E-02 9.981E-05 R-PCC 6.388E-02 1.628E-04 R-PCC 4.584E-02 1.029E-04 L-ACC -3.631E-01 5.412E-04 L-ACC 4.635E-02 1.305E-04 R-ACC 1.026E-01 2.350E-04 R-ACC 5.455E-02 1.704E-04 L-dlPFC 6.959E-02 2.084E-04 L-dlPFC 2.421E-02 1.640E-04 R-dlPFC 8.255E-02 2.076E-04 R-dlPFC 1.884E-02 1.347E-04 mPFC 6.039E-02 3.249E-04 mPFC -4.345E-01 4.733E-04 R-ACC L-PCC 4.640E-02 1.806E-04 R-ACC L-dlPFC 9.842E-03 2.496E-04 R-PCC 6.570E-02 1.899E-04 R-dlPFC 5.221E-02 1.962E-04 L-ACC 1.055E-01 1.868E-04 mPFC 8.409E-02 3.808E-04 R-ACC –3.787E-01 6.092E-04 Table 4 Connectivity strengths (means and variances) of EMCI patients. 
+ From 
+ 
+ To 
+ 
+ 
+ M 
+ 
+ 
+ 
+ Var 
+ 
+ 
+ From 
+ 
+ To 
+ 
+ 
+ M 
+ 
+ 
+ 
+ Var 
+ 
+ L-PCC L-PCC 7.504E-03 1.392E-03 L-dlPFC L-PCC –7.158E-03 3.091E-04 R-PCC 7.255E-02 6.470E-04 R-PCC 5.229E-03 2.948E-04 L-ACC -6.740E-03 3.921E-04 L-ACC 9.506E-04 2.746E-04 R-ACC 1.104E-04 4.442E-04 R-ACC 1.175E-02 3.170E-04 L-dlPFC –5.802E-03 5.360E-04 L-dlPFC 1.565E-02 9.202E-04 R-dlPFC –1.665E-02 5.609E-04 R-dlPFC 5.899E-03 4.342E-04 mPFC 7.926E-03 6.711E-04 mPFC –9.337E-03 5.716E-04 R-PCC L-PCC 6.762E-02 5.799E-04 R-dlPFC L-PCC –1.288E-02 3.344E-04 R-PCC 6.716E-02 1.344E-03 R-PCC –2.525E-03 2.922E-04 L-ACC –3.008E-04 3.713E-04 L-ACC 8.878E-05 2.918E-04 R-ACC –5.156E-03 4.654E-04 R-ACC 4.412E-03 3.118E-04 L-dlPFC 5.251E-03 5.813E-04 L-dlPFC 7.060E-03 5.344E-04 R-dlPFC –2.854E-03 4.369E-04 R-dlPFC –4.639E-03 1.031E-03 mPFC 4.507E-03 6.313E-04 mPFC 8.892E-03 5.481E-04 L-ACC L-PCC –6.195E-03 3.188E-04 mPFC L-PCC –2.391E-03 1.884E-04 R-PCC –1.887E-03 3.256E-04 R-PCC –1.817E-04 1.953E-04 L-ACC 1.061E-02 1.076E-03 L-ACC 5.777E-03 2.484E-04 R-ACC 9.613E-03 4.618E-04 R-ACC –1.794E-03 3.265E-04 L-dlPFC 8.388E-03 4.118E-04 L-dlPFC –5.725E-03 3.153E-04 R-dlPFC 1.560E-03 4.094E-04 R-dlPFC 1.985E-03 2.557E-04 mPFC 4.181E-03 6.446E-04 mPFC –4.249E-03 8.931E-04 R-ACC L-PCC -9.365E-04 3.535E-04 R-ACC L-dlPFC 1.425E-02 4.945E-04 R-PCC –8.538E-03 3.734E-04 R-dlPFC –2.793E-03 3.781E-04 L-ACC 3.769E-03 3.685E-04 mPFC –1.599E-03 7.549E-04 R-ACC 4.587E-02 1.121E-03 Table 5 Connectivity strengths (means and variances) of LMCI patients. 
+ From 
+ 
+ To 
+ 
+ 
+ M 
+ 
+ 
+ 
+ Var 
+ 
+ 
+ From 
+ 
+ To 
+ 
+ 
+ M 
+ 
+ 
+ 
+ Var 
+ 
+ L-PCC L-PCC –1.199E-01 1.015E-03 L-dlPFC L-PCC 6.182E-03 2.909E-04 R-PCC –1.256E-03 5.652E-04 R-PCC 7.941E-03 2.758E-04 L-ACC –5.495E-03 3.014E-04 L-ACC –9.103E-03 2.560E-04 R-ACC –9.420E-03 3.543E-04 R-ACC 2.300E-02 2.967E-04 L-dlPFC 2.550E-03 4.434E-04 L-dlPFC 2.085E-03 8.191E-04 R-dlPFC –1.605E-02 4.667E-04 R-dlPFC –9.015E-03 4.198E-04 mPFC –1.796E-02 5.707E-04 mPFC 1.179E-02 5.486E-04 R-PCC L-PCC –7.482E-03 5.010E-04 R-dlPFC L-PCC –5.887E-03 3.081E-04 R-PCC –8.564E-03 1.019E-03 R-PCC –3.466E-03 2.682E-04 L-ACC –1.755E-02 2.905E-04 L-ACC 2.083E-03 2.688E-04 R-ACC –5.122E-02 3.840E-04 R-ACC –8.858E-03 2.847E-04 L-dlPFC –1.325E-04 4.950E-04 L-dlPFC –9.867E-03 5.166E-04 R-dlPFC –3.978E-03 3.545E-04 R-dlPFC –8.523E-03 8.884E-04 mPFC –9.359E-05 5.348E-04 mPFC 1.400E-02 5.155E-04 L-ACC L-PCC –3.593E-04 2.845E-04 mPFC L-PCC –1.639E-02 1.856E-04 R-PCC –6.853E-03 2.953E-04 R-PCC 1.907E-03 1.919E-04 L-ACC –1.716E-02 9.317E-04 L-ACC 2.758E-03 2.480E-04 R-ACC 2.230E-02 4.335E-04 R-ACC –3.905E-03 3.266E-04 L-dlPFC –1.620E-02 3.768E-04 L-dlPFC 5.830E-03 3.145E-04 R-dlPFC 5.083E-03 3.784E-04 R-dlPFC 7.055E-03 2.541E-04 mPFC 8.337E-03 6.097E-04 mPFC 1.704E-03 8.557E-04 R-ACC L-PCC –1.153E-02 3.178E-04 R-ACC L-dlPFC 5.281E-02 4.550E-04 R-PCC –1.963E-02 3.398E-04 R-dlPFC –5.729E-03 3.422E-04 L-ACC 2.144E-02 3.367E-04 mPFC –1.910E-03 7.172E-04 R-ACC –1.708E-02 9.975E-04 Table 6 Connectivity strengths (means and variances) of AD patients. 
+ From 
+ 
+ To 
+ 
+ 
+ M 
+ 
+ 
+ 
+ Var 
+ 
+ 
+ From 
+ 
+ To 
+ 
+ 
+ M 
+ 
+ 
+ 
+ Var 
+ 
+ L-PCC L-PCC –7.011E-03 1.168E-03 L-dlPFC L-PCC 1.323E-03 2.828E-04 R-PCC 1.440E-02 5.774E-04 R-PCC 2.956E-03 2.704E-04 L-ACC –1.603E-02 3.334E-04 L-ACC –6.805E-04 2.516E-04 R-ACC –1.203E-02 3.841E-04 R-ACC 1.293E-02 2.900E-04 L-dlPFC –7.879E-04 4.708E-04 L-dlPFC 7.789E-03 8.131E-04 R-dlPFC 5.539E-03 4.926E-04 R-dlPFC –1.942E-02 4.063E-04 mPFC –1.006E-02 6.036E-04 mPFC 4.186E-03 5.329E-04 R-PCC L-PCC 4.370E-02 5.260E-04 R-dlPFC L-PCC 2.395E-03 3.132E-04 R-PCC –1.175E-03 1.205E-03 R-PCC –7.823E-03 2.732E-04 L-ACC 1.342E-03 3.316E-04 L-ACC –3.121E-03 2.745E-04 R-ACC –1.220E-02 4.189E-04 R-ACC –6.892E-03 2.915E-04 L-dlPFC 2.197E-03 5.355E-04 L-dlPFC –1.485E-02 5.105E-04 R-dlPFC –4.947E-03 3.930E-04 R-dlPFC 8.310E-03 9.384E-04 mPFC –3.278E-03 5.842E-04 mPFC 1.818E-02 5.201E-04 L-ACC L-PCC –1.373E-02 2.948E-04 mPFC L-PCC –7.312E-03 1.835E-04 R-PCC –3.841E-03 3.021E-04 R-PCC –7.829E-03 1.897E-04 L-ACC 4.132E-03 1.005E-03 L-ACC 8.341E-03 2.437E-04 R-ACC –3.207E-03 4.381E-04 R-ACC 1.196E-02 3.169E-04 L-dlPFC –6.189E-03 3.858E-04 L-dlPFC 1.328E-03 3.076E-04 R-dlPFC –3.707E-04 3.839E-04 R-dlPFC 1.336E-02 2.490E-04 mPFC 9.397E-03 6.201E-04 mPFC 3.043E-03 8.657E-04 R-ACC L-PCC -9.231E-03 3.321E-04 R-ACC L-dlPFC 1.420E-02 4.658E-04 R-PCC –1.157E-02 3.478E-04 R-dlPFC –1.957E-03 3.551E-04 L-ACC –2.483E-03 3.496E-04 mPFC 1.027E-02 7.185E-04 R-ACC 5.261E-03 1.077E-03 Table 7 ANOVA results for the effective connections. 
+ Connection 
+ 
+ (I) group 
+ 
+ (J) group 
+ 
+ Mean difference (I-J) 
+ 
+ Std. error 
+ Sig . L-PCC → L-PCC CN EMCI 0.0002 0.0158 1.0000 LMCI 0.0426 0.0159 0.0502 AD 0.0275 0.0156 0.4792 EMCI CN –0.0002 0.0158 1.0000 LMCI 0.0424 0.0160 0.0552 AD 0.0272 0.0157 0.5084 LMCI CN –0.0426 0.0159 0.0502 EMCI –0.0424 0.0160 0.0552 AD –0.0152 0.0158 1.0000 AD CN –0.0275 0.0156 0.4792 EMCI –0.0272 0.0157 0.5084 LMCI 0.0152 0.0158 1.0000 R-PCC 
+ → R-ACC CN EMCI 0.0252 0.0148 0.5469 LMCI 0.0503 0.0149 0.0060 AD 0.0268 0.0146 0.4113 EMCI CN –0.0252 0.0148 0.5469 LMCI 0.0251 0.0150 0.5887 AD 0.0016 0.0147 1.0000 LMCI CN –0.0503 0.0149 0.0060 EMCI –0.0251 0.0150 0.5887 AD –0.0235 0.0148 0.6941 AD CN –0.0268 0.0146 0.4113 EMCI –0.0016 0.0147 1.0000 LMCI 0.0235 0.0148 0.6941 R-ACC → R-ACC CN EMCI –0.0102 0.0152 1.0000 LMCI 0.0391 0.0154 0.0726 AD 0.0080 0.0150 1.0000 EMCI CN 0.0102 0.0152 1.0000 LMCI 0.0493 0.0155 0.0110 AD 0.0182 0.0151 1.0000 LMCI CN –0.0391 0.0154 0.0726 EMCI –0.0493 0.0155 0.0110 AD –0.0311 0.0152 0.2624 AD CN –0.0080 0.0150 1.0000 EMCI –0.0182 0.0151 1.0000 LMCI 0.0311 0.0152 0.2624 Following the PEB analysis, a linear regression analysis was carried out to test if resting-state connectivity between the brain regions could predict subjects' cognitive scores. For MMSE, the forward step-wise linear regression showed the EC between left dlPFC to left PCC was the first variable automatically entered into the step-wise regression (β = −0.234, p = 0.007), followed by connection between L-dlPFC to mPFC (β = 0.222, p = 0.01), and connection between L-PCC to R-ACC (β = 0.168, p = 0.048). Together, they explain 11.5% of variance in MMSE scores ( R 2 = 0.115, F = 5.434, p = 0.002). For CDR, both forward and backward connections between L-dlPFC and mPFC are predictive of the score ( R 2 = 0.121, F = 8.755, p < 0.001). Connection from L-dlPFC to mPFC negatively predicted the score (β = −0.307, p < 0.001), and connection from mPFC to L-dlPFC positively predicted the score (β = 0.214, p = 0.012). Scatter plots of effective connections vs. MMSE and CDR scores are shown in Figure 5 . Figure 5 Scatterplots of significant effective connectivities vs. MMSE scores (A) and CDR scores (B) . Linear fit lines are shown. Both β and p values for each correlation are shown.
+
+Alzheimer's Disease Neuroimaging Initiative Data collection and sharing for this project was funded by the Alzheimer's Disease Neuroimaging Initiative (ADNI) (National Institutes of Health Grant U01 AG024904 ) and DOD ADNI (Department of Defense award number W81XWH-12-2-0012). ADNI is funded by the National Institute on Aging, the National Institute of Biomedical Imaging and Bioengineering, and through generous contributions from the following: AbbVie, Alzheimer's Association; Alzheimer's Drug Discovery Foundation; Araclon Biotech; BioClinica, Inc.; Biogen; Bristol-Myers Squibb Company; CereSpir, Inc.; Cogstate; Eisai Inc.; Elan Pharmaceuticals, Inc.; Eli Lilly and Company; EuroImmun; F. Hoffmann-La Roche Ltd and its affiliated company Genentech, Inc.; Fujirebio; GE Healthcare; IXICO Ltd.; Janssen Alzheimer Immunotherapy Research & Development, LLC.; Johnson & Johnson Pharmaceutical Research & Development LLC.; Lumosity; Lundbeck; Merck & Co., Inc.; Meso Scale Diagnostics, LLC.; NeuroRx Research; Neurotrack Technologies; Novartis Pharmaceuticals Corporation; Pfizer Inc.; Piramal Imaging; Servier; Takeda Pharmaceutical Company; and Transition Therapeutics. The Canadian Institutes of Health Research is providing funds to support ADNI clinical sites in Canada. Private sector contributions are facilitated by the Foundation for the National Institutes of Health ( www.fnih.org ). The grantee organization is the Northern California Institute for Research and Education, and the study is coordinated by the Alzheimer's Therapeutic Research Institute at the University of Southern California. ADNI data are disseminated by the Laboratory for Neuro Imaging at the University of Southern California.
+
+Author contributions JH, J-YJ, and CN contributed to the conception and design of the study and to the interpretation of the findings of the study. JH selected and analyzed the data. JH and CN drafted the manuscript. All authors contributed to the article and approved the submitted version.
+
+Table 1 Demographics and clinical information.
+
+Table 2 Coordinates of ROI in MNI space.
+
+Table 3 Connectivity strengths (means and variances) of CN subjects.
+
+Table 4 Connectivity strengths (means and variances) of EMCI patients.
+
+Table 5 Connectivity strengths (means and variances) of LMCI patients.
+
+Table 6 Connectivity strengths (means and variances) of AD patients.
+
+Table 7 ANOVA results for the effective connections.

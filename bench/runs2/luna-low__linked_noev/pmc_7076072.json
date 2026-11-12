@@ -1,0 +1,2480 @@
+{
+ "case_id": "pmc_7076072",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 5,
+ "stage1_names": [
+  "PD < Controls \u2014 Left anterior insula seed",
+  "PD < Controls \u2014 Left posterior insula seed",
+  "PD < Controls \u2014 Right anterior insula seed",
+  "PD < Controls \u2014 Right posterior insula seed",
+  "Depressed PD < Non-depressed PD: lower functional connectivity (left anterior insula vs frontal-parietal regions)"
+ ],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "OpenAI",
+   "extractor_version": "neuroimaging-methods-curation-v1",
+   "source_text_hash": "",
+   "extraction_date": "2026-08-04",
+   "paper_sections": [
+    {
+     "ordinal": 0,
+     "title": "Damaged Insula Network Contributes to Depression in Parkinson\u2019s Disease",
+     "level": 0,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 1,
+     "title": "Materials and Methods",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 2,
+     "title": "Subjects",
+     "level": 2,
+     "parent_section": "Materials and Methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 3,
+     "title": "Image Acquisition",
+     "level": 2,
+     "parent_section": "Materials and Methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 4,
+     "title": "Image Processing",
+     "level": 2,
+     "parent_section": "Materials and Methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 5,
+     "title": "Functional Connectivity Analysis",
+     "level": 2,
+     "parent_section": "Materials and Methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 6,
+     "title": "Statistical Analysis",
+     "level": 2,
+     "parent_section": "Materials and Methods",
+     "start_char": 0,
+     "end_char": 0
+    },
+    {
+     "ordinal": 7,
+     "title": "Results",
+     "level": 1,
+     "start_char": 0,
+     "end_char": 0
+    }
+   ]
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study investigated insula functional connectivity abnormalities in Parkinson\u2019s disease and depression-related connectivity changes by comparing depressed PD patients, non-depressed PD patients, and normal controls.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Cross-sectional resting-state functional MRI study of two groups of PD patients, with and without depression, and age- and sex-matched normal controls.",
+   "value_source": "generated"
+  },
+  "external_datasets": [
+   {
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Human Brainnetome Atlas",
+     "value_source": "reported"
+    },
+    "url": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Human Connectome Project data",
+     "value_source": "reported"
+    },
+    "url": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "ass_updrs",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Unified Parkinson\u2019s Disease Rating Scale (UPDRS)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "not_reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical scale",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ass_hrsd",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Hamilton Rating Scale for Depression (HRSD)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "not_reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical scale",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ass_hama",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Hamilton Anxiety Rating Scale (HAMA)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "not_reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical scale",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "ass_mmse",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Mini-Mental State Examination (MMSE)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "not_reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "cognitive test",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_group",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "group",
+     "value_source": "generated"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "depressed PD patients, non-depressed PD patients, and normal controls",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [
+     "g_dpd",
+     "g_ndpd",
+     "g_nc"
+    ],
+    "levels": {
+     "extraction_status": "not_reported"
+    },
+    "variation_level": {
+     "extraction_status": "not_reported"
+    },
+    "association_direction": {
+     "extraction_status": "not_reported"
+    },
+    "functional_form": {
+     "extraction_status": "not_reported"
+    },
+    "interaction_with": [],
+    "unit": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "term_age",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "age",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "age",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [],
+    "levels": {
+     "extraction_status": "not_reported"
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "between subjects",
+     "value_source": "generated"
+    },
+    "association_direction": {
+     "extraction_status": "not_reported"
+    },
+    "functional_form": {
+     "extraction_status": "extracted",
+     "value": "linear",
+     "value_source": "generated"
+    },
+    "interaction_with": [],
+    "unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "term_sex",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "sex",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "sex",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [],
+    "levels": {
+     "extraction_status": "extracted",
+     "value": "male; female",
+     "value_source": "reported"
+    },
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "between subjects",
+     "value_source": "generated"
+    },
+    "association_direction": {
+     "extraction_status": "not_reported"
+    },
+    "functional_form": {
+     "extraction_status": "not_reported"
+    },
+    "interaction_with": [],
+    "unit": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_dpd",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "depressed PD patients",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "PD patients with depression",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "approached_count": {
+     "extraction_status": "not_reported"
+    },
+    "consented_count": {
+     "extraction_status": "not_reported"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "17",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "17",
+     "value_source": "reported"
+    },
+    "excluded_count": {
+     "extraction_status": "not_reported"
+    },
+    "inclusion_criteria": {
+     "extraction_status": "not_reported"
+    },
+    "exclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": "cerebrovascular disorders, including a previous stroke, a history of seizure, hydrocephalus, an intracranial mass, a history of head injury, previous neurological surgery, or other neurological diseases; any current DSM-IV Axis I diagnosis other than MDD; treatment with antidepressants or other psychiatric therapy; dementia; unable to keep still during the MRI because of head motion",
+     "value_source": "reported"
+    },
+    "recruitment_method": {
+     "extraction_status": "extracted",
+     "value": "recruited from the Department of Neurology, Second Affiliated Hospital of Zhejiang University",
+     "value_source": "reported"
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "59.4",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "8.9",
+     "value_source": "reported"
+    },
+    "age_minimum": {
+     "extraction_status": "not_reported"
+    },
+    "age_maximum": {
+     "extraction_status": "not_reported"
+    },
+    "age_median": {
+     "extraction_status": "not_reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "y",
+     "value_source": "reported"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "male",
+       "value_source": "generated"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "8",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "generated"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "9",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "gender_distribution": [],
+    "handedness_distribution": [],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": "Parkinson\u2019s disease with unipolar depression",
+     "value_source": "reported"
+    },
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "UK PD Brain Bank criteria; Diagnostic and Statistical Manual of Mental Disorders, 4th Edition criteria (DSM-IV)",
+     "value_source": "reported"
+    },
+    "diagnostic_instrument": {
+     "extraction_status": "extracted",
+     "value": "Unified Parkinson\u2019s Disease Rating Scale (UPDRS); Hamilton Rating Scale for Depression (HRSD); Hamilton Anxiety Rating Scale (HAMA); Mini-Mental State Examination (MMSE)",
+     "value_source": "reported"
+    },
+    "clinical_characteristics": {
+     "extraction_status": "extracted",
+     "value": "Disease duration 3.6 \u00b1 3.3; Hoehn and Yahr stage median 2.5; UPDRS 44.1 \u00b1 12.3; MMSE 26.2 \u00b1 2.5; HRSD 30.0 \u00b1 6.1; HAMA 16.1 \u00b1 8.1",
+     "value_source": "reported"
+    },
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "No treatment with antidepressants or other psychiatric therapy",
+     "value_source": "reported"
+    },
+    "education_summary": {
+     "extraction_status": "not_reported"
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "g_ndpd",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "non-depressed PD patients",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "PD patients without depression",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "approached_count": {
+     "extraction_status": "not_reported"
+    },
+    "consented_count": {
+     "extraction_status": "not_reported"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "17",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "17",
+     "value_source": "reported"
+    },
+    "excluded_count": {
+     "extraction_status": "not_reported"
+    },
+    "inclusion_criteria": {
+     "extraction_status": "not_reported"
+    },
+    "exclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": "cerebrovascular disorders, including a previous stroke, a history of seizure, hydrocephalus, an intracranial mass, a history of head injury, previous neurological surgery, or other neurological diseases; any current DSM-IV Axis I diagnosis other than MDD; treatment with antidepressants or other psychiatric therapy; dementia; unable to keep still during the MRI because of head motion",
+     "value_source": "reported"
+    },
+    "recruitment_method": {
+     "extraction_status": "extracted",
+     "value": "recruited from the Department of Neurology, Second Affiliated Hospital of Zhejiang University",
+     "value_source": "reported"
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "59.1",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "9.9",
+     "value_source": "reported"
+    },
+    "age_minimum": {
+     "extraction_status": "not_reported"
+    },
+    "age_maximum": {
+     "extraction_status": "not_reported"
+    },
+    "age_median": {
+     "extraction_status": "not_reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "y",
+     "value_source": "reported"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "male",
+       "value_source": "generated"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "9",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "generated"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "8",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "gender_distribution": [],
+    "handedness_distribution": [],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": "Parkinson\u2019s disease without depression",
+     "value_source": "reported"
+    },
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "UK PD Brain Bank criteria; Diagnostic and Statistical Manual of Mental Disorders, 4th Edition criteria (DSM-IV)",
+     "value_source": "reported"
+    },
+    "diagnostic_instrument": {
+     "extraction_status": "extracted",
+     "value": "Unified Parkinson\u2019s Disease Rating Scale (UPDRS); Hamilton Rating Scale for Depression (HRSD); Hamilton Anxiety Rating Scale (HAMA); Mini-Mental State Examination (MMSE)",
+     "value_source": "reported"
+    },
+    "clinical_characteristics": {
+     "extraction_status": "extracted",
+     "value": "Disease duration 4.3 \u00b1 3.7; Hoehn and Yahr stage median 2.5; UPDRS 40.5 \u00b1 9.2; MMSE 26.1 \u00b1 2.7; HRSD 8.2 \u00b1 5.6; HAMA 7.1 \u00b1 6.8",
+     "value_source": "reported"
+    },
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "No treatment with antidepressants or other psychiatric therapy",
+     "value_source": "reported"
+    },
+    "education_summary": {
+     "extraction_status": "not_reported"
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "g_nc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "normal controls (NC)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Seventeen normal controls matched for age and sex",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "approached_count": {
+     "extraction_status": "not_reported"
+    },
+    "consented_count": {
+     "extraction_status": "not_reported"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "17",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "17",
+     "value_source": "reported"
+    },
+    "excluded_count": {
+     "extraction_status": "not_reported"
+    },
+    "inclusion_criteria": {
+     "extraction_status": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "exclusion_criteria": {
+     "extraction_status": "not_reported"
+    },
+    "recruitment_method": {
+     "extraction_status": "not_reported"
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "59.18",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "9.95",
+     "value_source": "reported"
+    },
+    "age_minimum": {
+     "extraction_status": "not_reported"
+    },
+    "age_maximum": {
+     "extraction_status": "not_reported"
+    },
+    "age_median": {
+     "extraction_status": "not_reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "y",
+     "value_source": "reported"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "male",
+       "value_source": "generated"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "9",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "generated"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "8",
+       "value_source": "reported"
+      },
+      "percentage": {
+       "extraction_status": "not_reported"
+      },
+      "denominator": {
+       "extraction_status": "not_reported"
+      },
+      "reporting_framework": {
+       "extraction_status": "not_reported"
+      }
+     }
+    ],
+    "gender_distribution": [],
+    "handedness_distribution": [],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": "normal controls",
+     "value_source": "reported"
+    },
+    "diagnostic_system": {
+     "extraction_status": "not_reported"
+    },
+    "diagnostic_instrument": {
+     "extraction_status": "not_reported"
+    },
+    "clinical_characteristics": {
+     "extraction_status": "not_reported"
+    },
+    "medication_status": {
+     "extraction_status": "not_reported"
+    },
+    "education_summary": {
+     "extraction_status": "not_reported"
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_rest",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "resting-state BOLD fMRI",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Subjects were instructed to relax with their eyes closed without falling asleep, and without directed systematic thought.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_rest"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "resting-state",
+     "value_source": "generated"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "presentation_software": {
+     "extraction_status": "not_reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Relax with their eyes closed without falling asleep, and without directed systematic thought.",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "not_reported"
+    },
+    "task_performance_measures": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_bold",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "BOLD images",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "not_reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3.0T GE MR scanner",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Echo planar imaging sequence; flip angle = 90\u00b0, FOV = 240 \u00d7 240 mm2, matrix = 64 \u00d7 64, slice thickness = 5 mm, slice gap = 1 mm, 23 interleaved axial slices. A total of 185 resting-state BOLD images were acquired from each subject.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "not_reported"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3.0T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "echo planar imaging sequence",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "not_reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.03",
+      "value_source": "generated"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "extracted",
+      "value": "185",
+      "value_source": "reported"
+     }
+    }
+   },
+   {
+    "local_id": "acq_t1",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "Anatomical images",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "not_reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3.0T GE MR scanner",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "3-D GRE T1-weighted sequence; TR/TE = 5.14 ms/1.17 ms, FOV = 240 \u00d7 240 mm2, matrix = 256 \u00d7 256, slice thickness = 1.2 mm, no gap, 124 sagittal slices.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "not_reported"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3.0T",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "3-D GRE T1-weighted sequence",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "3-D",
+      "value_source": "reported"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.00514",
+      "value_source": "generated"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.00117",
+      "value_source": "generated"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_rest",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The first 10 images were excluded; remaining images were slice-time corrected, realigned, nuisance-regressed, normalized into standard space using DARTEL, resampled to 3 \u00d7 3 \u00d7 3 mm, smoothed with a 6-mm Gaussian kernel, linearly detrended, and bandpass filtered at 0.01~0.1 Hz. Framewise displacement was used to censor time points with FD > 0.5 mm; subjects with fewer than 130 remaining time points were excluded.",
+     "value_source": "reported"
+    },
+    "software": {
+     "extraction_status": "extracted",
+     "value": "Data Processing Assistant for Resting-State fMRI (DPARSF); Resting-State fMRI Data Analysis Toolkit (REST V1.8); DARTEL",
+     "value_source": "reported"
+    },
+    "steps": {
+     "extraction_status": "extracted",
+     "value": "Exclude first 10 images; slice timing correction; realignment; regression of Friston-24 head motion parameters and white matter and CSF signals using CompCor; normalization using DARTEL; resampling to 3 \u00d7 3 \u00d7 3 mm; 6-mm Gaussian smoothing; linear detrending; 0.01~0.1 Hz bandpass filtering; framewise-displacement scrubbing at FD > 0.5 mm; exclude subjects with fewer than 130 remaining time points.",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_fc",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "Pearson\u2019s correlation",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "not_reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Correlation was calculated between the average time series within the insula ROIs and other brain areas; connectivity maps were transformed to Z maps using Fisher r-to-z transformation.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "subject-level",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "Pearson\u2019s correlation with Fisher r-to-z transformation",
+     "value_source": "reported"
+    },
+    "software": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "model_group_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "general linear models",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "not_reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Age and sex were used as covariates.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "not_reported"
+    },
+    "software": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_rest",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "resting state",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Eyes closed, relaxed, without falling asleep or directed systematic thought.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "rest",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "an_pd_lt_nc_lai",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "PD < Controls \u2014 Left anterior insula seed",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "Human Brainnetome Atlas",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "left anterior insula",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "resting state",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group",
+     "term_age",
+     "term_sex"
+    ],
+    "model_estimation": "model_group_glm",
+    "groups": [
+     {
+      "group": "g_dpd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_ndpd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_nc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_rest",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "PD patients showed lower insula functional connectivity compared with normal controls",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Pearson\u2019s correlation transformed to Z maps using Fisher r-to-z transformation",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "zero",
+     "value_source": "generated"
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel",
+      "value_source": "generated"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "FDR-corrected p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FDR (false discovery rate)",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "No",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "seed-based FC analysis",
+      "value_source": "reported"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left anterior insula",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "other brain areas",
+      "value_source": "reported"
+     },
+     "parameter_sign": {
+      "extraction_status": "not_reported"
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "decreased functional connectivity",
+      "value_source": "reported"
+     },
+     "edges": [],
+     "modulatory_input": {
+      "extraction_status": "not_reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "a connectivity parameter",
+      "value_source": "generated"
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Age and sex were used as covariates.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "PD patients showed widely decreased insula FC in the whole brain",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "an_pd_lt_nc_lpi",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "PD < Controls \u2014 Left posterior insula seed",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "Human Brainnetome Atlas",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "left posterior insula",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "resting state",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group",
+     "term_age",
+     "term_sex"
+    ],
+    "model_estimation": "model_group_glm",
+    "groups": [
+     {
+      "group": "g_dpd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_ndpd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_nc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_rest",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "PD patients showed lower insula functional connectivity compared with normal controls",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Pearson\u2019s correlation transformed to Z maps using Fisher r-to-z transformation",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "zero",
+     "value_source": "generated"
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel",
+      "value_source": "generated"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "FDR-corrected p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FDR (false discovery rate)",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "No",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "seed-based FC analysis",
+      "value_source": "reported"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left posterior insula",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "other brain areas",
+      "value_source": "reported"
+     },
+     "parameter_sign": {
+      "extraction_status": "not_reported"
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "decreased functional connectivity",
+      "value_source": "reported"
+     },
+     "edges": [],
+     "modulatory_input": {
+      "extraction_status": "not_reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "a connectivity parameter",
+      "value_source": "generated"
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Age and sex were used as covariates.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "PD patients showed widely decreased insula FC in the whole brain",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "an_pd_lt_nc_rai",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "PD < Controls \u2014 Right anterior insula seed",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "Human Brainnetome Atlas",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "right anterior insula",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "resting state",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group",
+     "term_age",
+     "term_sex"
+    ],
+    "model_estimation": "model_group_glm",
+    "groups": [
+     {
+      "group": "g_dpd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_ndpd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_nc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_rest",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "PD patients showed lower insula functional connectivity compared with normal controls",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Pearson\u2019s correlation transformed to Z maps using Fisher r-to-z transformation",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "zero",
+     "value_source": "generated"
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel",
+      "value_source": "generated"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "FDR-corrected p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FDR (false discovery rate)",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "No",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "seed-based FC analysis",
+      "value_source": "reported"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "right anterior insula",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "other brain areas",
+      "value_source": "reported"
+     },
+     "parameter_sign": {
+      "extraction_status": "not_reported"
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "decreased functional connectivity",
+      "value_source": "reported"
+     },
+     "edges": [],
+     "modulatory_input": {
+      "extraction_status": "not_reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "a connectivity parameter",
+      "value_source": "generated"
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Age and sex were used as covariates.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "PD patients showed widely decreased insula FC in the whole brain",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "an_pd_lt_nc_rpi",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "PD < Controls \u2014 Right posterior insula seed",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "Human Brainnetome Atlas",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "right posterior insula",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "resting state",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group",
+     "term_age",
+     "term_sex"
+    ],
+    "model_estimation": "model_group_glm",
+    "groups": [
+     {
+      "group": "g_dpd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_ndpd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_nc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_rest",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "PD patients showed lower insula functional connectivity compared with normal controls",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Pearson\u2019s correlation transformed to Z maps using Fisher r-to-z transformation",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "zero",
+     "value_source": "generated"
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel",
+      "value_source": "generated"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "FDR-corrected p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FDR (false discovery rate)",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "No",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "seed-based FC analysis",
+      "value_source": "reported"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "right posterior insula",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "other brain areas",
+      "value_source": "reported"
+     },
+     "parameter_sign": {
+      "extraction_status": "not_reported"
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "decreased functional connectivity",
+      "value_source": "reported"
+     },
+     "edges": [],
+     "modulatory_input": {
+      "extraction_status": "not_reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "a connectivity parameter",
+      "value_source": "generated"
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Age and sex were used as covariates.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "PD patients showed widely decreased insula FC in the whole brain",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "an_dpd_lt_ndpd_lai",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Depressed PD < Non-depressed PD: lower functional connectivity (left anterior insula vs frontal-parietal regions)",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "Human Brainnetome Atlas",
+     "value_source": "reported"
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "left anterior insula",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_bold"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_rest",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "resting state",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated"
+      },
+      "factor_levels": []
+     }
+    ],
+    "terms": [
+     "term_group",
+     "term_age",
+     "term_sex"
+    ],
+    "model_estimation": "model_group_glm",
+    "groups": [
+     {
+      "group": "g_dpd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported"
+      }
+     },
+     {
+      "group": "g_ndpd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "17",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_rest",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Depressed PD patients had lower functional connectivity between the left anterior insula and frontal-parietal regions compared with non-depressed patients",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Pearson\u2019s correlation transformed to Z maps using Fisher r-to-z transformation",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "zero",
+     "value_source": "generated"
+    },
+    "tables": [
+     "tbl3"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI",
+     "value_source": "reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "generated"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.001",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "Gaussian Random Field theory corrected",
+      "value_source": "reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Gaussian Random Field theory",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "No",
+      "value_source": "generated"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "seed-based FC analysis",
+      "value_source": "reported"
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left anterior insula",
+      "value_source": "reported"
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "left middle frontal gyrus and left inferior parietal lobe",
+      "value_source": "reported"
+     },
+     "parameter_sign": {
+      "extraction_status": "not_reported"
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "lower functional connectivity",
+      "value_source": "reported"
+     },
+     "edges": [
+      {
+       "source_region": {
+        "extraction_status": "extracted",
+        "value": "left anterior insula",
+        "value_source": "reported"
+       },
+       "target_region": {
+        "extraction_status": "extracted",
+        "value": "left middle frontal gyrus",
+        "value_source": "reported"
+       },
+       "directionality": {
+        "extraction_status": "not_reported"
+       },
+       "parameter_sign": {
+        "extraction_status": "not_reported"
+       }
+      },
+      {
+       "source_region": {
+        "extraction_status": "extracted",
+        "value": "left anterior insula",
+        "value_source": "reported"
+       },
+       "target_region": {
+        "extraction_status": "extracted",
+        "value": "left inferior parietal lobe",
+        "value_source": "reported"
+       },
+       "directionality": {
+        "extraction_status": "not_reported"
+       },
+       "parameter_sign": {
+        "extraction_status": "not_reported"
+       }
+      }
+     ],
+     "modulatory_input": {
+      "extraction_status": "not_reported"
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "a connectivity parameter",
+      "value_source": "generated"
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "Age and sex were used as covariates.",
+     "value_source": "reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "Depressed PD patients showed decreased FC between left anterior insula and left middle frontal gyrus and left inferior parietal lobe",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Demographic characteristics",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "# t value; ## F value; ### Pearson chi-square. dPD, depressed PD; ndPD, non-depressed PD; NC, normal controls.",
+     "value_source": "reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "Index; dPD; ndPD; NC; Test value; p value",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Demographic and clinical characteristics of depressed PD patients, non-depressed PD patients, and normal controls.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "PD patients showed lower insula functional connectivity compared with normal controls",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "MNI, Montreal Neurological Institute; L, left; R, right.",
+     "value_source": "reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "Cluster Size; Hemisphere; Brain Region; MNI coordinate; Peak t",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Whole-brain clusters showing decreased functional connectivity in PD patients compared with normal controls for left anterior, left posterior, right anterior, and right posterior insula seeds.",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported"
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Depressed PD patients had lower functional connectivity between the left anterior insula and frontal-parietal regions compared with non-depressed patients",
+     "value_source": "reported"
+    },
+    "caption": {
+     "extraction_status": "not_reported"
+    },
+    "footer": {
+     "extraction_status": "extracted",
+     "value": "MNI, Montreal Neurological Institute; L, left; R, right.",
+     "value_source": "reported"
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "Cluster Size; Hemisphere; Brain Region; MNI coordinate; Peak t",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Clusters showing lower functional connectivity in depressed PD patients than non-depressed PD patients between the left anterior insula and frontal-parietal regions.",
+     "value_source": "generated"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 15974,
+  "completion": 17526,
+  "reasoning": 195,
+  "cached": 0
+ },
+ "usage_pass1": {
+  "prompt": 7700,
+  "completion": 7695,
+  "reasoning": 101,
+  "cached": 0
+ },
+ "usage_pass2": {
+  "prompt": 8274,
+  "completion": 9831,
+  "reasoning": 94,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 73632,
+ "service_tier_echo": "flex"
+}

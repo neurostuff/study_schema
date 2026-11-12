@@ -1,0 +1,2069 @@
+{
+ "case_id": "nmb_15585344",
+ "sample": "nmb",
+ "config": "luna-high",
+ "mode": "analyses_first",
+ "model": "gpt-5.6-luna",
+ "effort": "high",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "ana_wholebrain_corrected",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "comparison of gray matter between cases and controls",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "SPM99 performed (a) spatial normalization to a customized template, (b) segmentation, (c) smoothing, (d) voxel-by-voxel comparison of gray matter between cases and controls."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Aim of this study was to assess whole brain morphology in FTD using magnetic resonance imaging (MRI) and voxel-based morphometry with statistic parametric mapping (SPM99) to test the hypothesis that the RLS might be specifically targeted by FTD."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxel-by-voxel",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "SPM99 performed (a) spatial normalization to a customized template, (b) segmentation, (c) smoothing, (d) voxel-by-voxel comparison of gray matter between cases and controls."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_mri"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [
+     "term_group",
+     "term_age"
+    ],
+    "model_estimation": "model_ancova",
+    "groups": [
+     {
+      "group": "g_ftd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "atrophic in FTD",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "As shown in , five regions of the rostral limbic system were atrophic in FTD at P <0.05 corrected for multiple comparisons."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "9",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Nine FTD patients and 26 healthy controls underwent high resolution 3D MRI."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_controls",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Nine FTD patients and 26 healthy controls underwent high resolution 3D MRI."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "26",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Nine FTD patients and 26 healthy controls underwent high resolution 3D MRI."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "compare the gray matter concentration between cases and controls",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The \u201cCompare populations\u2014AnCova\u201d procedure was used to compare the gray matter concentration between cases and controls, and statistical significance was set at P <0.05 corrected for multiple comparisons."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "gray matter concentration",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The \u201cCompare populations\u2014AnCova\u201d procedure was used to compare the gray matter concentration between cases and controls, and statistical significance was set at P <0.05 corrected for multiple comparisons."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "stereotactic customized gray matter template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The gray matter of controls was then extracted through segmentation of images into gray matter, white matter, and CSF with a modified mixture model cluster algorithm and averaged thus obtaining a stereotactic customized gray matter template."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "SPM99 performed (a) spatial normalization to a customized template, (b) segmentation, (c) smoothing, (d) voxel-by-voxel comparison of gray matter between cases and controls."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The \u201cCompare populations\u2014AnCova\u201d procedure was used to compare the gray matter concentration between cases and controls, and statistical significance was set at P <0.05 corrected for multiple comparisons."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "corrected P",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The \u201cCompare populations\u2014AnCova\u201d procedure was used to compare the gray matter concentration between cases and controls, and statistical significance was set at P <0.05 corrected for multiple comparisons."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "corrected for multiple comparisons",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The \u201cCompare populations\u2014AnCova\u201d procedure was used to compare the gray matter concentration between cases and controls, and statistical significance was set at P <0.05 corrected for multiple comparisons."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "the rostral limbic system was selectively affected in FTD",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The regions of the rostral limbic system were all found to be severely atrophic in our sample, except for the periaqueductal gray, which also displayed atrophy at a more liberal, but still acceptable threshold given the a priori hypothesis, and at corrected P with small volume correction."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "ana_pag_uncorrected",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "periaqueductal gray atrophy at P <0.001 uncorrected",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At P <0.001 uncorrected also the periaqueductal gray was atrophic."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Aim of this study was to assess whole brain morphology in FTD using magnetic resonance imaging (MRI) and voxel-based morphometry with statistic parametric mapping (SPM99) to test the hypothesis that the RLS might be specifically targeted by FTD."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "This procedure compares only the voxels included in this sphere."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_mri"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [
+     "term_group",
+     "term_age"
+    ],
+    "model_estimation": "model_ancova",
+    "groups": [
+     {
+      "group": "g_ftd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "atrophic in FTD",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "At P <0.001 uncorrected also the periaqueductal gray was atrophic."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "9",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Nine FTD patients and 26 healthy controls underwent high resolution 3D MRI."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_controls",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Nine FTD patients and 26 healthy controls underwent high resolution 3D MRI."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "26",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Nine FTD patients and 26 healthy controls underwent high resolution 3D MRI."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "the periaqueductal gray was atrophic at P <0.001 uncorrected",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "At P <0.001 uncorrected also the periaqueductal gray was atrophic."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "gray matter concentration",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The \u201cCompare populations\u2014AnCova\u201d procedure was used to compare the gray matter concentration between cases and controls, and statistical significance was set at P <0.05 corrected for multiple comparisons."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "stereotactic customized gray matter template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The gray matter of controls was then extracted through segmentation of images into gray matter, white matter, and CSF with a modified mixture model cluster algorithm and averaged thus obtaining a stereotactic customized gray matter template."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "SPM99 performed (a) spatial normalization to a customized template, (b) segmentation, (c) smoothing, (d) voxel-by-voxel comparison of gray matter between cases and controls."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.001",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "At P <0.001 uncorrected also the periaqueductal gray was atrophic."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected P",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "At P <0.001 uncorrected also the periaqueductal gray was atrophic."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "uncorrected",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "At P <0.001 uncorrected also the periaqueductal gray was atrophic."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "the periaqueductal gray also displayed atrophy at a more liberal threshold",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The regions of the rostral limbic system were all found to be severely atrophic in our sample, except for the periaqueductal gray, which also displayed atrophy at a more liberal, but still acceptable threshold given the a priori hypothesis, and at corrected P with small volume correction."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "ana_pag_svc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "periaqueductal gray small volume correction",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Small volume correction was used in order to check whether the periaqueductal gray (significant at uncorrected P \u2014see ) was significant at corrected P ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "the voxels included in this sphere",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "This procedure compares only the voxels included in this sphere."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "This procedure compares only the voxels included in this sphere."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "a sphere of 3 cm of diameter was located at the approximate center of the periaqueductal gray",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The origin of a sphere of 3 cm of diameter was located at the approximate center of the periaqueductal gray (voxel coordinates (0, \u221228, \u221210)), and the procedure \u201csmall volume correction\u201d was carried out."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "periaqueductal gray",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Small volume correction was used in order to check whether the periaqueductal gray (significant at uncorrected P \u2014see ) was significant at corrected P ."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_mri"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [
+     "term_group",
+     "term_age"
+    ],
+    "model_estimation": "model_ancova",
+    "groups": [
+     {
+      "group": "g_ftd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "atrophic in FTD",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "When atrophy of the periaqueductal gray was investigated with the small volume correction procedure, the same cluster resulted atrophic at P =0.038 corrected for multiple comparisons."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "9",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Nine FTD patients and 26 healthy controls underwent high resolution 3D MRI."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_controls",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Nine FTD patients and 26 healthy controls underwent high resolution 3D MRI."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": "26",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Nine FTD patients and 26 healthy controls underwent high resolution 3D MRI."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "the same cluster resulted atrophic at P =0.038 corrected for multiple comparisons",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "When atrophy of the periaqueductal gray was investigated with the small volume correction procedure, the same cluster resulted atrophic at P =0.038 corrected for multiple comparisons."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "gray matter concentration",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The \u201cCompare populations\u2014AnCova\u201d procedure was used to compare the gray matter concentration between cases and controls, and statistical significance was set at P <0.05 corrected for multiple comparisons."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "stereotactic customized gray matter template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The gray matter of controls was then extracted through segmentation of images into gray matter, white matter, and CSF with a modified mixture model cluster algorithm and averaged thus obtaining a stereotactic customized gray matter template."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxels",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "This procedure compares only the voxels included in this sphere."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "small volume correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Small volume correction was used in order to check whether the periaqueductal gray (significant at uncorrected P \u2014see ) was significant at corrected P ."
+          },
+          {
+           "text": "When atrophy of the periaqueductal gray was investigated with the small volume correction procedure, the same cluster resulted atrophic at P =0.038 corrected for multiple comparisons."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "only the voxels included in this sphere",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "This procedure compares only the voxels included in this sphere."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "search_volume": {
+      "extraction_status": "extracted",
+      "value": "a sphere of 3 cm of diameter",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The origin of a sphere of 3 cm of diameter was located at the approximate center of the periaqueductal gray (voxel coordinates (0, \u221228, \u221210)), and the procedure \u201csmall volume correction\u201d was carried out."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "the periaqueductal gray displayed atrophy at corrected P with small volume correction",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The regions of the rostral limbic system were all found to be severely atrophic in our sample, except for the periaqueductal gray, which also displayed atrophy at a more liberal, but still acceptable threshold given the a priori hypothesis, and at corrected P with small volume correction."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "tables": [],
+  "conditions": [],
+  "terms": [
+   {
+    "local_id": "term_group",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "cases and controls",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "SPM99 performed (a) spatial normalization to a customized template, (b) segmentation, (c) smoothing, (d) voxel-by-voxel comparison of gray matter between cases and controls."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "comparison of gray matter between cases and controls",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "SPM99 performed (a) spatial normalization to a customized template, (b) segmentation, (c) smoothing, (d) voxel-by-voxel comparison of gray matter between cases and controls."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The \u201cCompare populations\u2014AnCova\u201d procedure was used to compare the gray matter concentration between cases and controls, and statistical significance was set at P <0.05 corrected for multiple comparisons."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The \u201cCompare populations\u2014AnCova\u201d procedure was used to compare the gray matter concentration between cases and controls, and statistical significance was set at P <0.05 corrected for multiple comparisons."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [],
+    "groups": [
+     "g_ftd",
+     "g_controls"
+    ],
+    "levels": {
+     "extraction_status": "extracted",
+     "value": [
+      "cases",
+      "controls"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "SPM99 performed (a) spatial normalization to a customized template, (b) segmentation, (c) smoothing, (d) voxel-by-voxel comparison of gray matter between cases and controls."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "term_age",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Age",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Age was used as a covariate."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Age was used as a covariate.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Age was used as a covariate."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Age was used as a covariate."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Age was used as a covariate."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [],
+    "groups": [],
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "between subjects",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Age was used as a covariate."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_ftd",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "FTD patients",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Nine FTD patients and 26 healthy controls underwent high resolution 3D MRI."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Patients were diagnosed as FTD when they presented a pattern of symptoms characterized mainly by behavioral problems and by a \u201cfrontal\u201d pattern of cognitive function.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Patients were diagnosed as FTD when they presented a pattern of symptoms characterized mainly by behavioral problems (lack of insight, dishinibition, emotional unconcern, impaired personal and social conduct) and by a \u201cfrontal\u201d pattern of cognitive function (perseverative and utilization behaviors, lower performance on frontal function tests)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Nine FTD patients and 26 healthy controls underwent high resolution 3D MRI."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "14",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the original series of 14 FTD patients , the diagnosis was made on clinical grounds following clinical descriptions and guidelines available at that time."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "excluded_count": {
+     "extraction_status": "extracted",
+     "value": "5",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "After excluding two patients with progressive aphasia in the absence of other cognitive and behavioral disturbances, one who displayed no deterioration in 3 years, one with very anomalous morphology characterized by ventricles smaller than controls\u2019 and abnormal lobar proportions (a morphological outlier) and one subject whose complete digital data were not available for image processing, 9 FTD subjects remained."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "inclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "a pattern of symptoms characterized mainly by behavioral problems and by a \u201cfrontal\u201d pattern of cognitive function",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Patients were diagnosed as FTD when they presented a pattern of symptoms characterized mainly by behavioral problems (lack of insight, dishinibition, emotional unconcern, impaired personal and social conduct) and by a \u201cfrontal\u201d pattern of cognitive function (perseverative and utilization behaviors, lower performance on frontal function tests)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "frontotemporal dementia",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Patients were diagnosed as FTD when they presented a pattern of symptoms characterized mainly by behavioral problems (lack of insight, dishinibition, emotional unconcern, impaired personal and social conduct) and by a \u201cfrontal\u201d pattern of cognitive function (perseverative and utilization behaviors, lower performance on frontal function tests)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "diagnostic_instrument": [
+     {
+      "extraction_status": "extracted",
+      "value": "clinical dementia rating scale (CDR)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Overall dementia severity was assessed with the clinical dementia rating scale (CDR)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Mini-Mental State Examination (MMSE)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All had the Mini-Mental State Examination (MMSE) administered, and were judged not demented by a neurologist and a psychologist involved in the evaluation of the patients."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "clinical_characteristics": {
+     "extraction_status": "extracted",
+     "value": "The MMSE score was as expected for mild-moderate FTD, since the early involvement of language negatively affects performance on this test.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The MMSE score was as expected for mild-moderate FTD, since the early involvement of language negatively affects performance on this test."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_controls",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "healthy controls",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Nine FTD patients and 26 healthy controls underwent high resolution 3D MRI."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Controls were patients\u2019 relatives, mostly spouses, without detectable cognitive deficit and with a negative history of neurological disease.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Controls were patients\u2019 relatives (mostly spouses) without detectable cognitive deficit."
+         },
+         {
+          "text": "They had a negative history of neurological disease, though some reported mild subjective memory problems which did not result in impairment of daily activities."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Nine FTD patients and 26 healthy controls underwent high resolution 3D MRI."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "31",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Of the original 31 controls, 27 had MRI images suitable for the volumetric analyses of the present study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "27",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Of the original 31 controls, 27 had MRI images suitable for the volumetric analyses of the present study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "excluded_count": {
+     "extraction_status": "extracted",
+     "value": "1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "One of these was excluded for the development of multiple system atrophy a few years after scanning, and 26 control subjects remained."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "inclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "without detectable cognitive deficit",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Controls were patients\u2019 relatives (mostly spouses) without detectable cognitive deficit."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "negative history of neurological disease",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "They had a negative history of neurological disease, though some reported mild subjective memory problems which did not result in impairment of daily activities."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "not demented",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All had the Mini-Mental State Examination (MMSE) administered, and were judged not demented by a neurologist and a psychologist involved in the evaluation of the patients."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "diagnostic_instrument": [
+     {
+      "extraction_status": "extracted",
+      "value": "Mini-Mental State Examination (MMSE)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All had the Mini-Mental State Examination (MMSE) administered, and were judged not demented by a neurologist and a psychologist involved in the evaluation of the patients."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "experiments": [],
+  "acquisitions": [
+   {
+    "local_id": "acq_mri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "high-resolution sagittal T1-weighted volumetric MRI scan",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For each subject, a high-resolution sagittal T1-weighted volumetric MRI scan was acquired at the Radiology Department, University of Verona, using a 1.5 T Magnetom scanner (Siemens, Erlangen, Germany), with a gradient echo 3D technique: TR=10 ms, TE=4 ms, TI=300 ms, flip angle=10\u00b0, field of view=250 mm, acquisition matrix 160\u00d7256, and a slice thickness of 1.3 mm."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "1.5 T Magnetom scanner (Siemens, Erlangen, Germany)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For each subject, a high-resolution sagittal T1-weighted volumetric MRI scan was acquired at the Radiology Department, University of Verona, using a 1.5 T Magnetom scanner (Siemens, Erlangen, Germany), with a gradient echo 3D technique: TR=10 ms, TE=4 ms, TI=300 ms, flip angle=10\u00b0, field of view=250 mm, acquisition matrix 160\u00d7256, and a slice thickness of 1.3 mm."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "A high-resolution sagittal T1-weighted volumetric MRI scan was acquired with a gradient echo 3D technique.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For each subject, a high-resolution sagittal T1-weighted volumetric MRI scan was acquired at the Radiology Department, University of Verona, using a 1.5 T Magnetom scanner (Siemens, Erlangen, Germany), with a gradient echo 3D technique: TR=10 ms, TE=4 ms, TI=300 ms, flip angle=10\u00b0, field of view=250 mm, acquisition matrix 160\u00d7256, and a slice thickness of 1.3 mm."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "1.5 T",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For each subject, a high-resolution sagittal T1-weighted volumetric MRI scan was acquired at the Radiology Department, University of Verona, using a 1.5 T Magnetom scanner (Siemens, Erlangen, Germany), with a gradient echo 3D technique: TR=10 ms, TE=4 ms, TI=300 ms, flip angle=10\u00b0, field of view=250 mm, acquisition matrix 160\u00d7256, and a slice thickness of 1.3 mm."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "gradient echo 3D technique",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For each subject, a high-resolution sagittal T1-weighted volumetric MRI scan was acquired at the Radiology Department, University of Verona, using a 1.5 T Magnetom scanner (Siemens, Erlangen, Germany), with a gradient echo 3D technique: TR=10 ms, TE=4 ms, TI=300 ms, flip angle=10\u00b0, field of view=250 mm, acquisition matrix 160\u00d7256, and a slice thickness of 1.3 mm."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "3D",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For each subject, a high-resolution sagittal T1-weighted volumetric MRI scan was acquired at the Radiology Department, University of Verona, using a 1.5 T Magnetom scanner (Siemens, Erlangen, Germany), with a gradient echo 3D technique: TR=10 ms, TE=4 ms, TI=300 ms, flip angle=10\u00b0, field of view=250 mm, acquisition matrix 160\u00d7256, and a slice thickness of 1.3 mm."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "0.01 seconds",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For each subject, a high-resolution sagittal T1-weighted volumetric MRI scan was acquired at the Radiology Department, University of Verona, using a 1.5 T Magnetom scanner (Siemens, Erlangen, Germany), with a gradient echo 3D technique: TR=10 ms, TE=4 ms, TI=300 ms, flip angle=10\u00b0, field of view=250 mm, acquisition matrix 160\u00d7256, and a slice thickness of 1.3 mm."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": [
+      {
+       "extraction_status": "extracted",
+       "value": "0.004 seconds",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For each subject, a high-resolution sagittal T1-weighted volumetric MRI scan was acquired at the Radiology Department, University of Verona, using a 1.5 T Magnetom scanner (Siemens, Erlangen, Germany), with a gradient echo 3D technique: TR=10 ms, TE=4 ms, TI=300 ms, flip angle=10\u00b0, field of view=250 mm, acquisition matrix 160\u00d7256, and a slice thickness of 1.3 mm."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_vbm",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "After removing the voxels below the cerebellum with MRIcro, MRI scans were analyzed with SPM99 running under Matlab 6.0. The following pre-processing was carried out: creation of a gray matter template, normalization of the gray matter to the template, and smoothing.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "After removing the voxels below the cerebellum with MRIcro ( http://www.psychology.nottingham.ac.uk/staff/cr1/mricro.html ) , MRI scans were analyzed with SPM99 ( http://www.fil.ion.ucl.ac.uk/spm ) running under Matlab 6.0 (Mathworks, Sherborn, MA, USA) on a Sun Sparc Ultra 30 workstation (Sun Microsystem Inc., Mountain View, CA, USA)."
+         },
+         {
+          "text": "The following pre-processing was carried out: creation of a gray matter template, normalization of the gray matter to the template, and smoothing."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "MRIcro",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "After removing the voxels below the cerebellum with MRIcro ( http://www.psychology.nottingham.ac.uk/staff/cr1/mricro.html ) , MRI scans were analyzed with SPM99 ( http://www.fil.ion.ucl.ac.uk/spm ) running under Matlab 6.0 (Mathworks, Sherborn, MA, USA) on a Sun Sparc Ultra 30 workstation (Sun Microsystem Inc., Mountain View, CA, USA)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "SPM99",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "After removing the voxels below the cerebellum with MRIcro ( http://www.psychology.nottingham.ac.uk/staff/cr1/mricro.html ) , MRI scans were analyzed with SPM99 ( http://www.fil.ion.ucl.ac.uk/spm ) running under Matlab 6.0 (Mathworks, Sherborn, MA, USA) on a Sun Sparc Ultra 30 workstation (Sun Microsystem Inc., Mountain View, CA, USA)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Matlab 6.0",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "After removing the voxels below the cerebellum with MRIcro ( http://www.psychology.nottingham.ac.uk/staff/cr1/mricro.html ) , MRI scans were analyzed with SPM99 ( http://www.fil.ion.ucl.ac.uk/spm ) running under Matlab 6.0 (Mathworks, Sherborn, MA, USA) on a Sun Sparc Ultra 30 workstation (Sun Microsystem Inc., Mountain View, CA, USA)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "removing the voxels below the cerebellum",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "After removing the voxels below the cerebellum with MRIcro ( http://www.psychology.nottingham.ac.uk/staff/cr1/mricro.html ) , MRI scans were analyzed with SPM99 ( http://www.fil.ion.ucl.ac.uk/spm ) running under Matlab 6.0 (Mathworks, Sherborn, MA, USA) on a Sun Sparc Ultra 30 workstation (Sun Microsystem Inc., Mountain View, CA, USA)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "creation of a gray matter template",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The following pre-processing was carried out: creation of a gray matter template, normalization of the gray matter to the template, and smoothing."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "normalization of the gray matter to the template",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The following pre-processing was carried out: creation of a gray matter template, normalization of the gray matter to the template, and smoothing."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "smoothing",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The following pre-processing was carried out: creation of a gray matter template, normalization of the gray matter to the template, and smoothing."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "affine and non-linear transformations, medium regularization, re-slicing 2 mm \u00d72 mm \u00d72 mm, and no masking",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The gray matter of cases was extracted with the same procedure as described above for controls and together with the gray matter of controls was normalized onto the gray matter template with affine and non-linear transformations, medium regularization, re-slicing 2 mm \u00d72 mm \u00d72 mm, and no masking ."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "smoothed with an isotropic Gaussian filter of 8 mm",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The normalized gray matter images were smoothed with an isotropic Gaussian filter of 8 mm."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_ancova",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "Compare populations\u2014AnCova",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The \u201cCompare populations\u2014AnCova\u201d procedure was used to compare the gray matter concentration between cases and controls, and statistical significance was set at P <0.05 corrected for multiple comparisons."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Age was used as a covariate. Total intracranial volume was not entered, as there was no significant difference between groups.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Age was used as a covariate. Total intracranial volume was not entered, as there was no significant difference between groups."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The \u201cCompare populations\u2014AnCova\u201d procedure was used to compare the gray matter concentration between cases and controls, and statistical significance was set at P <0.05 corrected for multiple comparisons."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM99",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "After removing the voxels below the cerebellum with MRIcro ( http://www.psychology.nottingham.ac.uk/staff/cr1/mricro.html ) , MRI scans were analyzed with SPM99 ( http://www.fil.ion.ucl.ac.uk/spm ) running under Matlab 6.0 (Mathworks, Sherborn, MA, USA) on a Sun Sparc Ultra 30 workstation (Sun Microsystem Inc., Mountain View, CA, USA)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Matlab 6.0",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "After removing the voxels below the cerebellum with MRIcro ( http://www.psychology.nottingham.ac.uk/staff/cr1/mricro.html ) , MRI scans were analyzed with SPM99 ( http://www.fil.ion.ucl.ac.uk/spm ) running under Matlab 6.0 (Mathworks, Sherborn, MA, USA) on a Sun Sparc Ultra 30 workstation (Sun Microsystem Inc., Mountain View, CA, USA)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "assessment_cdr",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "clinical dementia rating scale (CDR)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Overall dementia severity was assessed with the clinical dementia rating scale (CDR)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Overall dementia severity was assessed with the clinical dementia rating scale (CDR).",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Overall dementia severity was assessed with the clinical dementia rating scale (CDR)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical scale",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Overall dementia severity was assessed with the clinical dementia rating scale (CDR)."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "assessment_mmse",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Mini-Mental State Examination (MMSE)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All had the Mini-Mental State Examination (MMSE) administered, and were judged not demented by a neurologist and a psychologist involved in the evaluation of the patients."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "All had the Mini-Mental State Examination (MMSE) administered.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All had the Mini-Mental State Examination (MMSE) administered, and were judged not demented by a neurologist and a psychologist involved in the evaluation of the patients."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "cognitive test",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All had the Mini-Mental State Examination (MMSE) administered, and were judged not demented by a neurologist and a psychologist involved in the evaluation of the patients."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study assessed whole-brain gray matter morphology in frontotemporal dementia to test whether the rostral limbic system is selectively affected.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "The aim of this study was to test the hypothesis that the rostral limbic system is selectively affected in FTD."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "A cross-sectional voxel-based morphometry comparison of gray matter concentration between 9 FTD patients and 26 healthy controls using high-resolution 3D MRI, with age as a covariate.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Nine FTD patients and 26 healthy controls underwent high resolution 3D MRI."
+       },
+       {
+        "text": "The \u201cCompare populations\u2014AnCova\u201d procedure was used to compare the gray matter concentration between cases and controls, and statistical significance was set at P <0.05 corrected for multiple comparisons."
+       },
+       {
+        "text": "Age was used as a covariate."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [],
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "neuroimaging-methods-curation-v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  }
+ },
+ "usage": {
+  "prompt": 13821,
+  "completion": 21015,
+  "reasoning": 6548,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 68281,
+ "service_tier_echo": "flex"
+}

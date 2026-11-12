@@ -1,0 +1,1888 @@
+{
+ "case_id": "pmc_11655501",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 4,
+ "stage1_names": [
+  "Seeds \u2014 Older adults",
+  "Seeds \u2014 Young adults",
+  "lvOT seed \u2014 between-group FC differences",
+  "rvOT seed \u2014 between-group FC differences"
+ ],
+ "record": {
+  "analyses": [
+   {
+    "local_id": "a1",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Seeds \u2014 Older adults",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Specifically, for each group, the most activated voxels in the activation map (FDR correction, q <\u202f0.05) within the left and right vOT of each region were selected as the seed voxels"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the most activated voxels in the activation map"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "Automated Anatomical Labeling (AAL) atlas and prior studies",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The vOT consisted of these areas in the Automated Anatomical Labeling (AAL) atlas"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "left and right vOT",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we identified the left and right vOT regions as components of the word-selective areas."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_task"
+    ],
+    "experiments": [
+     "exp_localizer"
+    ],
+    "conditions": [
+     {
+      "condition": "c_chinese",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "the activation levels caused by the Chinese character images were compared."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_scattered",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "baseline",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The phase-scattered Chinese characters were used as a baseline in the localizer task"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_older",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Seeds selected from the group-level activation map during the word localizer task in older adults (left) and young adults (right)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": 19,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "we recruited 19 healthy older adults"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_task",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Chinese characters vs. scattered Chinese characters",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The linear contrast image (Chinese characters vs. scattered Chinese characters) was calculated to identify the brain regions sensitive to word perception for each participant."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation map",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The one-sample t -test was performed to obtain the group-level activation map."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Peak t value"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "phase-scattered Chinese characters",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The phase-scattered Chinese characters were used as a baseline in the localizer task"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "spatial normalization to the EPI template in the Montreal Neurological Institute (MNI) space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the most activated voxels in the activation map (FDR correction, q <\u202f0.05)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "FDR correction, q <\u202f0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "FDR q",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "FDR correction, q <\u202f0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FDR correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "FDR correction, q <\u202f0.05"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "brain regions sensitive to word perception",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The linear contrast image (Chinese characters vs. scattered Chinese characters) was calculated to identify the brain regions sensitive to word perception for each participant."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a2",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Seeds \u2014 Young adults",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "for each group, the most activated voxels in the activation map"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the most activated voxels"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "Automated Anatomical Labeling (AAL) atlas and prior studies",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The vOT consisted of these areas in the Automated Anatomical Labeling (AAL) atlas"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "left and right vOT",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we identified the left and right vOT regions as components of the word-selective areas."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_task"
+    ],
+    "experiments": [
+     "exp_localizer"
+    ],
+    "conditions": [
+     {
+      "condition": "c_chinese",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Chinese characters vs. scattered Chinese characters"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_scattered",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "baseline",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The phase-scattered Chinese characters were used as a baseline in the localizer task"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_young",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Seeds selected from the group-level activation map during the word localizer task in older adults (left) and young adults (right)."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": 22,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "and 22 young adults"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_task",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Chinese characters vs. scattered Chinese characters",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The linear contrast image (Chinese characters vs. scattered Chinese characters) was calculated"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation map",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "group-level activation map"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Peak t value"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "phase-scattered Chinese characters",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The phase-scattered Chinese characters were used as a baseline in the localizer task"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl1"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "spatial normalization to the EPI template in the Montreal Neurological Institute (MNI) space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the most activated voxels in the activation map (FDR correction, q <\u202f0.05)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "FDR correction, q <\u202f0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "FDR q",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "FDR correction, q <\u202f0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FDR correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "FDR correction, q <\u202f0.05"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "brain regions sensitive to word perception",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "identify the brain regions sensitive to word perception"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a3",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "lvOT seed \u2014 between-group FC differences",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "within the Automated Anatomical Labeling (AAL) mask",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For FC beyond the word network, two-sample t -tests were performed within the Automated Anatomical Labeling (AAL) mask"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the time course of every voxel in the brain"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "Automated Anatomical Labeling (AAL) atlas",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "within the Automated Anatomical Labeling (AAL) mask"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "lvOT and non-word-selective regions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "FC between the left vOT and the right inferior temporal gyrus (ITG.R), right inferior parietal (IPL.R), left inferior parietal (IPL.L), supplementary motor area (SMA.L), and right precuneus (PCUN.R)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_rest"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [],
+    "terms": [],
+    "model_estimation": "me_ttest",
+    "groups": [
+     {
+      "group": "g_older",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than young adults",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Older adults exhibited increased FC beyond the word network than young adults."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": 19,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "we recruited 19 healthy older adults"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_young",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than older adults",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Compared to the young adults, older adults showed"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": 22,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "and 22 young adults"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_rest",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "FC between the lvOT and non-word-selective regions: ITG.R, IPL.R, IPL.L, SMA.L, and PCUN.R",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "FC between the left vOT and the right inferior temporal gyrus (ITG.R), right inferior parietal (IPL.R), left inferior parietal (IPL.L), supplementary motor area (SMA.L), and right precuneus (PCUN.R) was found to be increased in older adults."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "we conducted FC analyses"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Pearson correlation coefficient transformed into z-values via Fisher\u2019s r-to-z transformation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The resulting correlation coefficients were then transformed to z -values using Fisher\u2019s r-to-z transformation."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "two-sample t -tests were performed"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": 39,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "t (39)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "spatial normalization to the EPI template in MNI space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Gaussian Random Field (GRF) theory was applied for multiple comparison correction, with a p- value of <0.001 for voxel-level and a p- value of <0.05 for cluster-level significance"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a p- value of <0.001 for voxel-level"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a p- value of <0.001 for voxel-level"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a p- value of <0.05 for cluster-level significance"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Gaussian Random Field (GRF) theory",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Gaussian Random Field (GRF) theory was applied for multiple comparison correction"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "Automated Anatomical Labeling (AAL) mask",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "within the Automated Anatomical Labeling (AAL) mask"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "seed-based functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Seed-based functional connectivity analyses"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left vOT",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "FC between the left vOT and the right inferior temporal gyrus (ITG.R), right inferior parietal (IPL.R), left inferior parietal (IPL.L), supplementary motor area (SMA.L), and right precuneus (PCUN.R)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "ITG.R, IPL.R, IPL.L, SMA.L, and PCUN.R",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "FC between the left vOT and the right inferior temporal gyrus (ITG.R), right inferior parietal (IPL.R), left inferior parietal (IPL.L), supplementary motor area (SMA.L), and right precuneus (PCUN.R)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "increased in older adults compared to young adults",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "was found to be increased in older adults."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "connectivity parameter",
+      "value_source": "generated",
+      "evidence": {
+       "status": "not_found"
+      }
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a4",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "rvOT seed \u2014 between-group FC differences",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "within the Automated Anatomical Labeling (AAL) mask",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For FC beyond the word network, two-sample t -tests were performed within the Automated Anatomical Labeling (AAL) mask"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the time course of every voxel in the brain"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "Automated Anatomical Labeling (AAL) atlas",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "within the Automated Anatomical Labeling (AAL) mask"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "rvOT and non-word-selective regions",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "FC between the right vOT and the right superior parietal gyrus (SPG.R) and right dorsolateral superior frontal gyrus (SFGdor.R) also increased in older adults compared to young adults. Conversely, FC between the right vOT and the left lingual gyrus (LING.L) and left medial superior frontal gyrus (SFGmed.L) decreased in older adults compared to young adults."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_rest"
+    ],
+    "experiments": [
+     "exp_rest"
+    ],
+    "conditions": [],
+    "terms": [],
+    "model_estimation": "me_ttest",
+    "groups": [
+     {
+      "group": "g_older",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than young adults for SPG.R and SFGdor.R; lesser than young adults for LING.L and SFGmed.L",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "also increased in older adults compared to young adults. Conversely, FC between the right vOT and the left lingual gyrus (LING.L) and left medial superior frontal gyrus (SFGmed.L) decreased in older adults compared to young adults."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": 19,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "we recruited 19 healthy older adults"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_young",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser than older adults for SPG.R and SFGdor.R; greater than older adults for LING.L and SFGmed.L",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Compared to the young adults, older adults showed"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": 22,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "and 22 young adults"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_rest",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "FC between the rvOT and SPG.R, SFGdor.R, LING.L, and SFGmed.L",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "FC between the right vOT and the right superior parietal gyrus (SPG.R) and right dorsolateral superior frontal gyrus (SFGdor.R) also increased in older adults compared to young adults. Conversely, FC between the right vOT and the left lingual gyrus (LING.L) and left medial superior frontal gyrus (SFGmed.L) decreased in older adults compared to young adults."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "between-group differences in FC beyond the word network"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "Pearson correlation coefficients transformed into z-values using Fisher\u2019s r-to-z transformation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The resulting correlation coefficients were then transformed to z -values using Fisher\u2019s r-to-z transformation."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "two-sample t -tests were performed"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": 39,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "t (39)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "spatial normalization to the EPI template in MNI space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster-level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a p- value of <0.05 for cluster-level significance"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a p- value of <0.001 for voxel-level"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a p- value of <0.001 for voxel-level"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a p- value of <0.05 for cluster-level significance"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Gaussian Random Field (GRF) theory",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Gaussian Random Field (GRF) theory was applied for multiple comparison correction"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "Automated Anatomical Labeling (AAL) mask",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "within the Automated Anatomical Labeling (AAL) mask"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "seed-based functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Seed-based functional connectivity analyses"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "right vOT",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "FC between the right vOT and the right superior parietal gyrus (SPG.R)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "SPG.R, SFGdor.R, LING.L, and SFGmed.L",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "FC between the right vOT and the right superior parietal gyrus (SPG.R) and right dorsolateral superior frontal gyrus (SFGdor.R) also increased in older adults compared to young adults. Conversely, FC between the right vOT and the left lingual gyrus (LING.L) and left medial superior frontal gyrus (SFGmed.L) decreased in older adults compared to young adults."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "increased or decreased in older adults compared to young adults",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "also increased in older adults compared to young adults. Conversely, FC between the right vOT and the left lingual gyrus (LING.L) and left medial superior frontal gyrus (SFGmed.L) decreased in older adults compared to young adults."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "connectivity parameter",
+      "value_source": "generated",
+      "evidence": {
+       "status": "not_found"
+      }
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Seeds selected from the group-level activation map during the word localizer task in older adults (left) and young adults (right)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Seeds selected from the group-level activation map during the word localizer task in older adults (left) and young adults (right).",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Seeds selected from the group-level activation map during the word localizer task in older adults (left) and young adults (right)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "ROIs; Older adults: MNI coordinates, Peak t value; Young adults: MNI coordinates, Peak t value",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ROIs Older adults Young adults MNI coordinates Peak t value MNI coordinates Peak t value"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Seeds selected from group-level word-localizer activation maps.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Regions exhibited significant between-group differences in FC beyond the word network."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Regions exhibited significant between-group differences in FC beyond the word network.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Regions exhibited significant between-group differences in FC beyond the word network."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "ROIs; Regions; Cluster size; Peak t value; MNI coordinates X Y Z",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ROIs Regions Cluster size Peak t value MNI coordinates X Y Z"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Significant between-group differences in seed-based functional connectivity beyond the word network.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The results of between-group differences in connectivity between the two word-selective ROIs and other non-word-selective regions (i.e., beyond the word network) are summarized in Table 2"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Correlation between FC and word-matching task performance."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Correlation between FC and word-matching task performance.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Correlation between FC and word-matching task performance."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "column_headings": {
+     "extraction_status": "extracted",
+     "value": "ROIs; Regions; WMT_r; WMT_p; WMT par_r; WMT par_p",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "ROIs Regions WMT_ r WMT_ p WMT par_ r WMT par_ p"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Correlations between functional connectivity and word-matching task performance.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The correlation results are presented in Table 3 and Figure 4 ."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 19587,
+  "completion": 56429,
+  "reasoning": 48168,
+  "cached": 9959
+ },
+ "usage_pass1": {
+  "prompt": 9625,
+  "completion": 48000,
+  "reasoning": 48000,
+  "cached": 0
+ },
+ "usage_pass2": {
+  "prompt": 9962,
+  "completion": 8429,
+  "reasoning": 168,
+  "cached": 9959
+ },
+ "finish_reason": "length/stop",
+ "raw_chars": 33595,
+ "parse_error": "pass1=JSONDecodeError: Expecting value: line 1 column 1 (char 0) pass2=None",
+ "service_tier_echo": "flex"
+}

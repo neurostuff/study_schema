@@ -1,0 +1,1869 @@
+{
+ "case_id": "nmb_23021615",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "a_caps_wholebrain",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Whole brain regression of CAPS score against gray matter volume",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Whole brain regression in SPM8 revealed that CAPS score was inversely correlated with gray matter in a large cluster comprising the subgenual anterior cingulate cortex (sgACC, BA25), caudate nucleus, and hypothalamus (Table 2, Fig. 1)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "Whole brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Whole brain regression in SPM8 revealed that CAPS score was inversely correlated with gray matter in a large cluster comprising the subgenual anterior cingulate cortex (sgACC, BA25), caudate nucleus, and hypothalamus (Table 2, Fig. 1)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Regional GMV findings were considered significant for uncorrected P < 0.001 at the voxel level with a minimum spatial extent of 50 contiguous voxels."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_mprage"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [
+     "term_caps",
+     "term_child_trauma",
+     "term_adult_trauma",
+     "term_gmv"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_veterans",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Structural brain magnetic resonance imaging (MRI) was obtained on 28 combat veterans from Operations Enduring and Iraqi Freedom."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "28",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-eight combat-exposed OEF/OIF veterans (25 males, 3 females; mean age 29.6) were recruited from the Pittsburgh area through public media advertisements."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Greater PTSS would be associated with smaller gray matter volume, with total CAPS score, childhood trauma load, and adult trauma load entered as regressors and total gray matter volume as a covariate.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Processed gray matter images were analyzed in a multiple regression model within SPM8 to test our primary hypothesis, that greater PTSS would be associated with smaller gray matter in the ACC, hippocampus, and insula."
+         },
+         {
+          "text": "Regressors included the total (past month) CAPS score, childhood trauma load, and adult trauma load."
+         },
+         {
+          "text": "All images were covaried for total gray matter volume (GMV) as determined by Easy Volume (Cyril Pernet, http://www.sbirc.ed.ac.uk/cyril/cp_download.html)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "CAPS scores were inversely correlated with volumes of the subgenual cingulate (sgACC), caudate, hypothalamus, insula, and left middle temporal gyrus (MTG)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "CAPS score was inversely correlated with gray matter in a large cluster comprising the subgenual anterior cingulate cortex (sgACC, BA25), caudate nucleus, and hypothalamus (Table 2, Fig. 1)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "zero",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "CAPS score was inversely correlated with gray matter in a large cluster comprising the subgenual anterior cingulate cortex (sgACC, BA25), caudate nucleus, and hypothalamus (Table 2, Fig. 1)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute atlas",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Peak coordinates based on Montreal Neurological Institute atlas."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [
+     "ass_caps"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel level with a minimum spatial extent of 50 contiguous voxels",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regional GMV findings were considered significant for uncorrected P < 0.001 at the voxel level with a minimum spatial extent of 50 contiguous voxels."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.001",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regional GMV findings were considered significant for uncorrected P < 0.001 at the voxel level with a minimum spatial extent of 50 contiguous voxels."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected P",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regional GMV findings were considered significant for uncorrected P < 0.001 at the voxel level with a minimum spatial extent of 50 contiguous voxels."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": "50",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regional GMV findings were considered significant for uncorrected P < 0.001 at the voxel level with a minimum spatial extent of 50 contiguous voxels."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "uncorrected",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regional GMV findings were considered significant for uncorrected P < 0.001 at the voxel level with a minimum spatial extent of 50 contiguous voxels."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "search_volume": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "No",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regional GMV findings were considered significant for uncorrected P < 0.001 at the voxel level with a minimum spatial extent of 50 contiguous voxels."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": "0.05",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For Pearson/Spearman correlations and t-tests in SPSS, results were considered significant at P < 0.05, two-tailed."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "extracted",
+     "value": "The model also included total gray matter volume as a covariate.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All images were covaried for total gray matter volume (GMV) as determined by Easy Volume (Cyril Pernet, http://www.sbirc.ed.ac.uk/cyril/cp_download.html)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "PTSS are associated with abnormalities in limbic structures that may underlie the pathophysiology of PTSD.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "PTSS are associated with abnormalities in limbic structures that may underlie the pathophysiology of PTSD."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_child_trauma",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Childhood trauma load regression",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Childhood trauma load was inversely correlated with the left inferior parietal cortex (BA2), and cerebellum (Table 2, Supplemental Fig. 2)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "Whole brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Whole brain regression in SPM8 revealed that CAPS score was inversely correlated with gray matter in a large cluster comprising the subgenual anterior cingulate cortex (sgACC, BA25), caudate nucleus, and hypothalamus (Table 2, Fig. 1)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Regional GMV findings were considered significant for uncorrected P < 0.001 at the voxel level with a minimum spatial extent of 50 contiguous voxels."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "acquisitions": [
+     "acq_mprage"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [
+     "term_child_trauma",
+     "term_gmv"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_veterans",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-eight combat-exposed OEF/OIF veterans (25 males, 3 females; mean age 29.6) were recruited from the Pittsburgh area through public media advertisements."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "28",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Structural brain magnetic resonance imaging (MRI) was obtained on 28 combat veterans from Operations Enduring and Iraqi Freedom."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_vbm",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Greater childhood trauma load was associated with smaller gray matter volume.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Childhood trauma load was inversely correlated with the left inferior parietal cortex (BA2), and cerebellum (Table 2, Supplemental Fig. 2)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "gray matter volume",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Childhood trauma load was inversely correlated with the left inferior parietal cortex (BA2), and cerebellum (Table 2, Supplemental Fig. 2)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute atlas",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Peak coordinates based on Montreal Neurological Institute atlas."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [
+     "ass_thq"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel level with a minimum spatial extent of 50 contiguous voxels",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regional GMV findings were considered significant for uncorrected P < 0.001 at the voxel level with a minimum spatial extent of 50 contiguous voxels."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.001",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regional GMV findings were considered significant for uncorrected P < 0.001 at the voxel level with a minimum spatial extent of 50 contiguous voxels."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected P",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regional GMV findings were considered significant for uncorrected P < 0.001 at the voxel level with a minimum spatial extent of 50 contiguous voxels."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": "50",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regional GMV findings were considered significant for uncorrected P < 0.001 at the voxel level with a minimum spatial extent of 50 contiguous voxels."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "uncorrected",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regional GMV findings were considered significant for uncorrected P < 0.001 at the voxel level with a minimum spatial extent of 50 contiguous voxels."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "tfce_used": {
+      "extraction_status": "extracted",
+      "value": "No",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Regional GMV findings were considered significant for uncorrected P < 0.001 at the voxel level with a minimum spatial extent of 50 contiguous voxels."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1. Demographic and clinical variables."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Demographic and clinical variables",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1. Demographic and clinical variables."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Values represent either count (percent) or mean (standard deviation). Values in bold are statistically different between the PTSD and non-PTSD groups, two-tailed t-test, P < 0.05. CAPS = Clinician-administered PTSD Scale (past month).",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Values represent either count (percent) or mean (standard deviation). Values in bold are statistically different between the PTSD and non-PTSD groups, two-tailed t-test, P < 0.05. CAPS = Clinician-administered PTSD Scale (past month)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Demographic and clinical variables for PTSD and non-PTSD groups.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Comparison of clinical variables between the diagnostic groups revealed that the PTSD group had significantly greater total CAPS scores (t26 = 6.2, P < 0.001), BDI (t26 = 3.7, P < 0.01), and adult trauma load (t26 = 2.1, P < 0.05) relative to the non-PTSD group (Table 1)."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Whole brain regression in SPM8 revealed that CAPS score was inversely correlated with gray matter in a large cluster comprising the subgenual anterior cingulate cortex (sgACC, BA25), caudate nucleus, and hypothalamus (Table 2, Fig. 1)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Regional gray matter findings",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2. Regional gray matter findings."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "caption": {
+     "extraction_status": "extracted",
+     "value": "Summary of smaller gray matter volume associated with greater post-traumatic stress symptoms (\u2191CAPS, \u2193GMV), greater child trauma load (\u2191Child Trauma, \u2193GMV), or PTSD compared to non-PTSD. Regions shown were significant at uncorrected P < 0.001, threshold k = 50 voxels. k = cluster size. CAPS = Clinician-administered PTSD Scale. GMV = gray matter volume. Peak coordinates based on Montreal Neurological Institute atlas.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Summary of smaller gray matter volume associated with greater post-traumatic stress symptoms (\u2191CAPS, \u2193GMV), greater child trauma load (\u2191Child Trauma, \u2193GMV), or PTSD compared to non-PTSD. Regions shown were significant at uncorrected P < 0.001, threshold k = 50 voxels. k = cluster size. CAPS = Clinician-administered PTSD Scale. GMV = gray matter volume. Peak coordinates based on Montreal Neurological Institute atlas."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Regional gray matter findings from symptom, trauma-load, and diagnostic-group analyses.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Summary of smaller gray matter volume associated with greater post-traumatic stress symptoms (\u2191CAPS, \u2193GMV), greater child trauma load (\u2191Child Trauma, \u2193GMV), or PTSD compared to non-PTSD."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "conditions": [],
+  "terms": [
+   {
+    "local_id": "term_caps",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "total (past month) CAPS score",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Regressors included the total (past month) CAPS score, childhood trauma load, and adult trauma load."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Regressors included the total (past month) CAPS score, childhood trauma load, and adult trauma load."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Processed gray matter images were analyzed in a multiple regression model within SPM8 to test our primary hypothesis, that greater PTSS would be associated with smaller gray matter in the ACC, hippocampus, and insula."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment": "ass_caps",
+    "conditions": [],
+    "groups": [
+     "g_veterans"
+    ]
+   },
+   {
+    "local_id": "term_child_trauma",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "childhood trauma load",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Regressors included the total (past month) CAPS score, childhood trauma load, and adult trauma load."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The number of trauma types experienced (i.e. number of THQ questions positively endorsed), before and after age 18, were summed to indicate childhood and adult trauma load, respectively."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Regressors included the total (past month) CAPS score, childhood trauma load, and adult trauma load."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment": "ass_thq",
+    "conditions": [],
+    "groups": [
+     "g_veterans"
+    ]
+   },
+   {
+    "local_id": "term_adult_trauma",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "adult trauma load",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Regressors included the total (past month) CAPS score, childhood trauma load, and adult trauma load."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The number of trauma types experienced (i.e. number of THQ questions positively endorsed), before and after age 18, were summed to indicate childhood and adult trauma load, respectively."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Regressors included the total (past month) CAPS score, childhood trauma load, and adult trauma load."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment": "ass_thq",
+    "conditions": [],
+    "groups": [
+     "g_veterans"
+    ]
+   },
+   {
+    "local_id": "term_gmv",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "total gray matter volume",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All images were covaried for total gray matter volume (GMV) as determined by Easy Volume (Cyril Pernet, http://www.sbirc.ed.ac.uk/cyril/cp_download.html)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All images were covaried for total gray matter volume (GMV) as determined by Easy Volume (Cyril Pernet, http://www.sbirc.ed.ac.uk/cyril/cp_download.html)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "covariate",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All images were covaried for total gray matter volume (GMV) as determined by Easy Volume (Cyril Pernet, http://www.sbirc.ed.ac.uk/cyril/cp_download.html)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [],
+    "groups": [
+     "g_veterans"
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_veterans",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "combat-exposed OEF/OIF veterans",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-eight combat-exposed OEF/OIF veterans (25 males, 3 females; mean age 29.6) were recruited from the Pittsburgh area through public media advertisements."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Combat-exposed U.S. military veterans from Operations Enduring and Iraqi Freedom; 13 met criteria for PTSD and subjects were unmedicated and free of major comorbid psychiatric disorders.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirteen subjects met full criteria for PTSD as identified by the CAPS, using the F1/I2 criteria (Weathers et al., 2001). Subjects were unmedicated, and free of major comorbid psychiatric disorders as determined by the SCID."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-eight combat-exposed OEF/OIF veterans (25 males, 3 females; mean age 29.6) were recruited from the Pittsburgh area through public media advertisements."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "28",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Structural brain magnetic resonance imaging (MRI) was obtained on 28 combat veterans from Operations Enduring and Iraqi Freedom."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "29.6",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-eight combat-exposed OEF/OIF veterans (25 males, 3 females; mean age 29.6) were recruited from the Pittsburgh area through public media advertisements."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-eight combat-exposed OEF/OIF veterans (25 males, 3 females; mean age 29.6) were recruited from the Pittsburgh area through public media advertisements."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "males",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-eight combat-exposed OEF/OIF veterans (25 males, 3 females; mean age 29.6) were recruited from the Pittsburgh area through public media advertisements."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "25",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-eight combat-exposed OEF/OIF veterans (25 males, 3 females; mean age 29.6) were recruited from the Pittsburgh area through public media advertisements."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "females",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-eight combat-exposed OEF/OIF veterans (25 males, 3 females; mean age 29.6) were recruited from the Pittsburgh area through public media advertisements."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "3",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-eight combat-exposed OEF/OIF veterans (25 males, 3 females; mean age 29.6) were recruited from the Pittsburgh area through public media advertisements."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "recruitment_method": {
+     "extraction_status": "extracted",
+     "value": "public media advertisements",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-eight combat-exposed OEF/OIF veterans (25 males, 3 females; mean age 29.6) were recruited from the Pittsburgh area through public media advertisements."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": "post-traumatic stress disorder",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirteen subjects met full criteria for PTSD as identified by the CAPS, using the F1/I2 criteria (Weathers et al., 2001)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "DSM-IV",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subjects were assessed with the Structured Clinical Interview for DSM-IV Axis I Disorders (SCID-I) (First et al., 2002)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_instrument": [
+     {
+      "local_id": "x",
+      "name": {
+       "extraction_status": "extracted",
+       "value": "Clinician-Administered PTSD Scale (CAPS)",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Past month PTSS were assessed using the Clinician-Administered PTSD Scale (CAPS) (Blake et al., 1995)."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "unmedicated",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subjects were unmedicated, and free of major comorbid psychiatric disorders as determined by the SCID."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "experiments": [],
+  "acquisitions": [
+   {
+    "local_id": "acq_mprage",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "Structural brain magnetic resonance imaging (MRI)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Structural brain magnetic resonance imaging (MRI) was obtained on 28 combat veterans from Operations Enduring and Iraqi Freedom."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3.0 Tesla Siemens Trio MRI scanner",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "MRI structural brain images were acquired using a 3.0 Tesla Siemens Trio MRI scanner (Siemens, Malvern, PA) at the University of Pittsburgh Magnetic Resonance Research Center."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Three-dimensional sagittal high-resolution MPRAGE scans covering the entire brain.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Three-dimensional sagittal high-resolution MPRAGE scans were acquired with the following parameters: echo time = 2.98 ms, repetition time = 2300 ms, slice thickness = 1.2 mm, 160 slices, flip angle = 9\u00b0, field of view=256 \u00d7 240 mm, inversion time (IT) = 900 ms and image matrix = 256 \u00d7 240 covering the entire brain."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3.0",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "MRI structural brain images were acquired using a 3.0 Tesla Siemens Trio MRI scanner (Siemens, Malvern, PA) at the University of Pittsburgh Magnetic Resonance Research Center."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "MPRAGE",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Three-dimensional sagittal high-resolution MPRAGE scans were acquired with the following parameters: echo time = 2.98 ms, repetition time = 2300 ms, slice thickness = 1.2 mm, 160 slices, flip angle = 9\u00b0, field of view=256 \u00d7 240 mm, inversion time (IT) = 900 ms and image matrix = 256 \u00d7 240 covering the entire brain."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "three-dimensional",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Three-dimensional sagittal high-resolution MPRAGE scans were acquired with the following parameters: echo time = 2.98 ms, repetition time = 2300 ms, slice thickness = 1.2 mm, 160 slices, flip angle = 9\u00b0, field of view=256 \u00d7 240 mm, inversion time (IT) = 900 ms and image matrix = 256 \u00d7 240 covering the entire brain."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2.3",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Three-dimensional sagittal high-resolution MPRAGE scans were acquired with the following parameters: echo time = 2.98 ms, repetition time = 2300 ms, slice thickness = 1.2 mm, 160 slices, flip angle = 9\u00b0, field of view=256 \u00d7 240 mm, inversion time (IT) = 900 ms and image matrix = 256 \u00d7 240 covering the entire brain."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "2.98",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Three-dimensional sagittal high-resolution MPRAGE scans were acquired with the following parameters: echo time = 2.98 ms, repetition time = 2300 ms, slice thickness = 1.2 mm, 160 slices, flip angle = 9\u00b0, field of view=256 \u00d7 240 mm, inversion time (IT) = 900 ms and image matrix = 256 \u00d7 240 covering the entire brain."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_found"
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_vbm",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Images were segmented into gray and white matter, normalized to the standard International Consortium for Brain Mapping template using a unified model integrated within SPM8, modulated by Jacobian determinants, and smoothed with a 12-mm Gaussian kernel; hippocampal analyses used a 4-mm Gaussian kernel.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "converted files were segmented into gray and white matter, and normalized to the standard International Consortium for Brain Mapping template using a unified model integrated within SPM8."
+         },
+         {
+          "text": "Images were smoothed with a 12-mm Gaussian kernel. For analysis of the hippocampus only, images were smoothed with a 4-mm Gaussian kernel as suggested by prior studies (Maguire et al., 2000, Kasai et al., 2008)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "Statistical Parametric Mapping, Version 8 (SPM8)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Image processing and voxel-based morphometry (VBM) were performed with Statistical Parametric Mapping, Version 8 (SPM8, Wellcome Department of Imaging Neuroscience, London, UK; http://www.fil.ion.ucl.ac.uk/spm), which was executed in Matlab 7.2 (Mathworks, Sherborn, MA)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "DICOM files were converted to NIFTI-1 format",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "DICOM files were converted to NIFTI-1 format (http://nifti.nimh.nih.gov.ezproxy.lib.utexas.edu)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "segmented into gray and white matter",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "converted files were segmented into gray and white matter, and normalized to the standard International Consortium for Brain Mapping template using a unified model integrated within SPM8."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "normalized to the standard International Consortium for Brain Mapping template",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "converted files were segmented into gray and white matter, and normalized to the standard International Consortium for Brain Mapping template using a unified model integrated within SPM8."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "modulated by the Jacobian determinants derived from the spatial normalization",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Voxel values were modulated by the Jacobian determinants derived from the spatial normalization; brain structures that had volumes reduced after spatial normalization thereby had total counts decreased by an amount proportional to the degree of volume discounted."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "smoothed with a 12-mm Gaussian kernel",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Images were smoothed with a 12-mm Gaussian kernel."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "me_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "multiple regression model",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Processed gray matter images were analyzed in a multiple regression model within SPM8"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Whole brain regression in SPM8 revealed that CAPS score was inversely correlated with gray matter"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM8",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Processed gray matter images were analyzed in a multiple regression model within SPM8"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "ass_caps",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Clinician-Administered PTSD Scale (CAPS)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Past month PTSS were assessed using the Clinician-Administered PTSD Scale (CAPS) (Blake et al., 1995)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Past month post-traumatic stress symptoms and total CAPS score.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Past month PTSS were assessed using the Clinician-Administered PTSD Scale (CAPS) (Blake et al., 1995)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical scale",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Past month PTSS were assessed using the Clinician-Administered PTSD Scale (CAPS) (Blake et al., 1995)."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "ass_thq",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Trauma History Questionnaire (THQ)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants completed the Trauma History Questionnaire (THQ), which is a self-report measure of exposure to a wide variety of traumas."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Self-report measure of exposure to a wide variety of traumas; childhood and adult trauma load were calculated from endorsed trauma types.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "It includes the number of times an event occurred and age at the time of exposure (Green, 1996). The number of trauma types experienced (i.e. number of THQ questions positively endorsed), before and after age 18, were summed to indicate childhood and adult trauma load, respectively."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "questionnaire",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants completed the Trauma History Questionnaire (THQ), which is a self-report measure of exposure to a wide variety of traumas."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined whether post-traumatic stress symptoms and PTSD diagnosis were associated with regional gray matter volume differences in combat-exposed veterans.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "To this end, this study aims to complement previous morphometric studies of PTSD by examining the relationship between PTSS and regional brain volumes in combat-exposed OEF/OIF military veterans, with subthreshold and threshold PTSD."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Cross-sectional structural MRI voxel-based morphometry study using dimensional multiple regression across combat-exposed veterans and a PTSD versus non-PTSD group contrast.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Images were analyzed using voxel-based morphometry, and regressed against the total CAPS score and trauma load. Images were subsequently analyzed by diagnosis of PTSD vs. non-PTSD."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [],
+  "extraction_metadata": {
+   "extractor_model": "unknown",
+   "extractor_version": "unknown",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  }
+ },
+ "usage": {
+  "prompt": 20195,
+  "completion": 8917,
+  "reasoning": 67,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 36515,
+ "service_tier_echo": "flex"
+}

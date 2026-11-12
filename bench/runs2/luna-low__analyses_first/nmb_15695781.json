@@ -1,0 +1,1064 @@
+{
+ "case_id": "nmb_15695781",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 1,
+ "record": {
+  "analyses": [
+   {
+    "local_id": "an_group_p001",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "FTD versus healthy controls, P < 0.01 corrected",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the group analysis, 2 different statistical criteria were used: P < 0.01 (T = 5.18), corrected for multiple comparison (extent threshold, k = 50); and P < 0.0005 (T = 6.29), corrected (extent threshold, k = 50)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "voxel-wise analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Images of patients with FTD were compared with those of healthy controls in a voxel-wise manner using SPM99 both for between-group analysis and for individual-to-group analysis (P < 0.001, uncorrected; extent threshold, k = 200)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "On an SPM{t} map of each patient, the number of voxels with significant (P < 0.001, uncorrected) hypometabolism compared with the healthy control group was counted in each hemisphere, and an AI between the hemispheres was calculated using the following equation: AISPM = (number of hypometabolic voxels in right hemisphere - number of hypometabolic voxels in left hemisphere)/(number of hypometabolic voxels in right hemisphere + number of hypometabolic voxels in left hemisphere) \u00d7 200."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_pet"
+    ],
+    "experiments": [],
+    "conditions": [],
+    "terms": [],
+    "model_estimation": "me_spm",
+    "groups": [
+     {
+      "group": "g_ftd",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "patients with FTD",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For comparison with FTD patients, PET scans were also obtained in 11 age- and sex-matched healthy individuals."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "29",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Of the 40 patients with FTD, 29 patients who had undergone 18F-FDG PET scans were included in this study."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "group": "g_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "healthy controls",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For comparison with FTD patients, PET scans were also obtained in 11 age- and sex-matched healthy individuals."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "11",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For comparison with FTD patients, PET scans were also obtained in 11 age- and sex-matched healthy individuals."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_pet",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "FTD patients compared with healthy controls",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Images of patients with FTD were compared with those of healthy controls in a voxel-wise manner using SPM99 both for between-group analysis and for individual-to-group analysis."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "glucose metabolism",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The aim of the current study was 2-fold: first, to delineate the brain regions with reduction of glucose metabolism in FTD using SPM analysis of 18F-FDG PET images; and second, to investigate the hemispheric asymmetry of glucose metabolism, which has not been systematically studied."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "18F-FDG activity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The count of each voxel was normalized to the average count of cerebellum using a customized program, because cerebellum is known to be one of the least affected regions in FTD."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "T",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "P < 0.01 (T = 5.18), corrected for multiple comparison (extent threshold, k = 50); and P < 0.0005 (T = 6.29), corrected (extent threshold, k = 50)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [
+     "tbl3"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Montreal Neurological Institute (MNI) template",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Before statistical analysis, using SPM99 (Wellcome Department of Cognitive Neurology, Institute of Neurology, University College London) implanted in a Matlab 5.3 environment (MathWorks, Inc.), all images were preprocessed for spatial normalization into the Montreal Neurological Institute (MNI) template to remove intersubject anatomic variability, then smoothed with a FWHM 16-mm Gaussian kernel to increase the signal-to-noise ratio and to account for subtle variations in anatomic structures (5)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxels",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Images of patients with FTD were compared with those of healthy controls in a voxel-wise manner using SPM99 both for between-group analysis and for individual-to-group analysis (P < 0.001, uncorrected; extent threshold, k = 200)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": "0.01",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "With a height threshold of P < 0.01 (corrected for multiple comparison, T = 5.18), there was significant hypometabolism in extensive prefrontal areas."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "P, corrected",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "With a height threshold of P < 0.01 (corrected for multiple comparison, T = 5.18), there was significant hypometabolism in extensive prefrontal areas."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": "50",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "P < 0.01 (T = 5.18), corrected for multiple comparison (extent threshold, k = 50)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "corrected for multiple comparison",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For the group analysis, 2 different statistical criteria were used: P < 0.01 (T = 5.18), corrected for multiple comparison (extent threshold, k = 50); and P < 0.0005 (T = 6.29), corrected (extent threshold, k = 50)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "SPM analysis of 18F-FDG PET images of patients with FTD showed decreased metabolism in the frontal and anterior temporal areas, cingulate gyri, uncus, insula, and subcortical areas, including basal ganglia and medial thalamic regions.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "SPM analysis of 18F-FDG PET images of patients with FTD showed decreased metabolism in the frontal and anterior temporal areas, cingulate gyri, uncus, insula, and subcortical areas, including basal ganglia (putamen and globus pallidus) and medial thalamic regions."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "TABLE 1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "TABLE 1"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Characteristics of the Patient and Control Groups",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Characteristics of the Patient and Control Groups"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Participant characteristics for the patient and control groups.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Characteristics of the Patient and Control Groups"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "TABLE 2",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "TABLE 2"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Clinical Characteristics of Patients",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Clinical Characteristics of Patients"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "TABLE 3",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "TABLE 3"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Hypometabolic Regions in Patients with FTD",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Hypometabolic Regions in Patients with FTD"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "conditions": [],
+  "terms": [],
+  "groups": [
+   {
+    "local_id": "g_ftd",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "patients with FTD",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Of the 40 patients with FTD, 29 patients who had undergone 18F-FDG PET scans were included in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "29",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Of the 40 patients with FTD, 29 patients who had undergone 18F-FDG PET scans were included in this study."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "frontotemporal dementia",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "All patients fulfilled the consensus clinical diagnostic criteria for FTD (2)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "local_id": "g_control",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "healthy individuals",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For comparison with FTD patients, PET scans were also obtained in 11 age- and sex-matched healthy individuals."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "11",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For comparison with FTD patients, PET scans were also obtained in 11 age- and sex-matched healthy individuals."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "experiments": [],
+  "acquisitions": [
+   {
+    "local_id": "acq_pet",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "18F-FDG PET",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "PET scans of 30 min were acquired starting 40 min after intravenous injection of 4.8 MBq/kg 18F-FDG using an Advance PET scanner (GE Healthcare)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "extracted",
+     "value": "30 min",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "PET scans of 30 min were acquired starting 40 min after intravenous injection of 4.8 MBq/kg 18F-FDG using an Advance PET scanner (GE Healthcare)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "Advance PET scanner (GE Healthcare)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "PET scans of 30 min were acquired starting 40 min after intravenous injection of 4.8 MBq/kg 18F-FDG using an Advance PET scanner (GE Healthcare)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Subjects fasted for at least 4 h before PET imaging. PET images were reconstructed using a Hanning filter (cutoff frequency = 4.5 mm) and displayed in a 128 \u00d7 128 matrix (pixel size = 1.95 \u00d7 1.95 mm, with a slice thickness of 4.25 mm). Attenuation correction was performed with a uniform attenuation coefficient (\u03bc = 0.096 cm-1).",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subjects fasted for at least 4 h before PET imaging."
+         },
+         {
+          "text": "PET images were reconstructed using a Hanning filter (cutoff frequency = 4.5 mm) and displayed in a 128 \u00d7 128 matrix (pixel size = 1.95 \u00d7 1.95 mm, with a slice thickness of 4.25 mm)."
+         },
+         {
+          "text": "Attenuation correction was performed with a uniform attenuation coefficient (\u03bc = 0.096 cm-1)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "pet": {
+     "tracer_name": {
+      "extraction_status": "extracted",
+      "value": "18F-FDG",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PET scans of 30 min were acquired starting 40 min after intravenous injection of 4.8 MBq/kg 18F-FDG using an Advance PET scanner (GE Healthcare)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "tracer_radionuclide": {
+      "extraction_status": "extracted",
+      "value": "18F",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PET scans of 30 min were acquired starting 40 min after intravenous injection of 4.8 MBq/kg 18F-FDG using an Advance PET scanner (GE Healthcare)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "mode_of_administration": {
+      "extraction_status": "extracted",
+      "value": "intravenous injection",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PET scans of 30 min were acquired starting 40 min after intravenous injection of 4.8 MBq/kg 18F-FDG using an Advance PET scanner (GE Healthcare)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "scan_type": {
+      "extraction_status": "extracted",
+      "value": "static image",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PET scans of 30 min were acquired starting 40 min after intravenous injection of 4.8 MBq/kg 18F-FDG using an Advance PET scanner (GE Healthcare)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "uptake_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "40 min",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PET scans of 30 min were acquired starting 40 min after intravenous injection of 4.8 MBq/kg 18F-FDG using an Advance PET scanner (GE Healthcare)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "spatial_resolution_mm": {
+      "extraction_status": "extracted",
+      "value": "in-plane and axial resolution of the scanner were 4.9 and 3.9 mm full width at half maximum (FWHM), respectively",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "In-plane and axial resolution of the scanner were 4.9 and 3.9 mm full width at half maximum (FWHM), respectively."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_pet",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "All images were preprocessed for spatial normalization into the Montreal Neurological Institute (MNI) template, then smoothed with a FWHM 16-mm Gaussian kernel. The count of each voxel was normalized to the average count of cerebellum.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Before statistical analysis, using SPM99 (Wellcome Department of Cognitive Neurology, Institute of Neurology, University College London) implanted in a Matlab 5.3 environment (MathWorks, Inc.), all images were preprocessed for spatial normalization into the Montreal Neurological Institute (MNI) template to remove intersubject anatomic variability, then smoothed with a FWHM 16-mm Gaussian kernel to increase the signal-to-noise ratio and to account for subtle variations in anatomic structures (5)."
+         },
+         {
+          "text": "The count of each voxel was normalized to the average count of cerebellum using a customized program, because cerebellum is known to be one of the least affected regions in FTD."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM99",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Before statistical analysis, using SPM99 (Wellcome Department of Cognitive Neurology, Institute of Neurology, University College London) implanted in a Matlab 5.3 environment (MathWorks, Inc.)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Matlab 5.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Before statistical analysis, using SPM99 (Wellcome Department of Cognitive Neurology, Institute of Neurology, University College London) implanted in a Matlab 5.3 environment (MathWorks, Inc.)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "spatial normalization into the Montreal Neurological Institute (MNI) template",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "all images were preprocessed for spatial normalization into the Montreal Neurological Institute (MNI) template"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "smoothed with a FWHM 16-mm Gaussian kernel",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "then smoothed with a FWHM 16-mm Gaussian kernel"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "normalized to the average count of cerebellum",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The count of each voxel was normalized to the average count of cerebellum using a customized program"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "me_spm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "2-sample t test",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the group analysis, a 2-sample t test was used to detect differences between the FTD and healthy control groups."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "voxel-wise analysis using SPM99",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Images of patients with FTD were compared with those of healthy controls in a voxel-wise manner using SPM99 both for between-group analysis and for individual-to-group analysis."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the group analysis, a 2-sample t test was used to detect differences between the FTD and healthy control groups."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM99; Matlab 5.3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Before statistical analysis, using SPM99 (Wellcome Department of Cognitive Neurology, Institute of Neurology, University College London) implanted in a Matlab 5.3 environment (MathWorks, Inc.)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "ass_mmse",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "MMSE",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "MMSE = Mini-Mental State Examination."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical scale",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "MMSE = Mini-Mental State Examination."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study used 18F-FDG PET and SPM voxel-wise analysis to identify regions of reduced glucose metabolism in frontotemporal dementia and to quantify hemispheric metabolic asymmetry.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "The aim of the current study was 2-fold: first, to delineate the brain regions with reduction of glucose metabolism in FTD using SPM analysis of 18F-FDG PET images; and second, to investigate the hemispheric asymmetry of glucose metabolism in FTD, which has not been systematically studied."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "We compared the regional metabolic patterns on 18F-FDG PET images obtained from 29 patients with FTD and 11 healthy subjects using a voxel-wise analysis (statistical parametric mapping [SPM]).",
+   "value_source": "reported",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "We compared the regional metabolic patterns on 18F-FDG PET images obtained from 29 patients with FTD and 11 healthy subjects using a voxel-wise analysis (statistical parametric mapping [SPM])."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": [],
+  "extraction_metadata": {
+   "extractor_model": "openai",
+   "extractor_version": "neuroimaging_methods_extraction_v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  }
+ },
+ "usage": {
+  "prompt": 15474,
+  "completion": 7281,
+  "reasoning": 76,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 33243,
+ "service_tier_echo": "flex"
+}

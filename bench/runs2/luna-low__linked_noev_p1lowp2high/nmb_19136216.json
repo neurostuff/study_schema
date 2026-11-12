@@ -1,0 +1,1711 @@
+{
+ "case_id": "nmb_19136216",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "linked",
+ "tag": "linked_noev_p1lowp2high",
+ "no_evidence": true,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 3,
+ "stage1_names": [
+  "emotion-by-gender of poser interaction (fearful male expressions > fearful female expressions; female expressions of disgust > male expressions of disgust); socialcommunication",
+  "interaction of testosterone and angry male expressions > baseline; socialcommunication",
+  "interaction of testosterone and fearful male expressions > baseline; socialcommunication"
+ ],
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "neuroimaging-methods-curation-v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study investigated whether normal-range testosterone levels are associated with behavioral emotion recognition and amygdala activation during explicit recognition of emotional facial expressions in healthy young males.",
+   "value_source": "generated"
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "A cross-sectional correlational functional MRI study of 21 healthy right-handed young males performing an explicit emotion recognition task, with behavioral analyses, ROI analyses of bilateral amygdala activity, and whole-slab fMRI analyses.",
+   "value_source": "generated"
+  },
+  "external_datasets": [],
+  "assessments": [
+   {
+    "local_id": "assay_testosterone",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "electrochemiluminescence-immunoassay (ECLIA)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Blood samples were taken on the day of fMRI measurements to determine testosterone concentration. The intra-assay accuracy was over 90%, the coefficient of variation was 4-8%, and assay sensitivity was 0.2 ng/ml.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "a biospecimen assay",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "scid",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Structured Clinical Interview for DSM (SCID)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The German version of the Structured Clinical Interview for DSM was used to exclude the presence of psychiatric disorders.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical interview",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "tas20",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Toronto Alexithymia Scale 20",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Alexithymia was assessed with the Toronto Alexithymia Scale 20.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical scale",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "neuropsych_battery",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "computerized neuropsychological test battery",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The battery assessed nonverbal intelligence, cognitive flexibility, visual learning and memory.",
+     "value_source": "reported"
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "cognitive test",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "term_emotion",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "emotion",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "The five basic emotions anger, disgust, fear, happiness and sadness, as well as neutral expressions.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "within-subjects factor",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_anger",
+     "cond_disgust",
+     "cond_fear",
+     "cond_happiness",
+     "cond_sadness",
+     "cond_neutral"
+    ],
+    "groups": [],
+    "levels": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "term_poser_gender",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "gender of poser",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Female and male posers were presented.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "within-subjects factor",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_female_poser",
+     "cond_male_poser"
+    ],
+    "groups": [],
+    "levels": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "term_laterality",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "laterality",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Left and right amygdala ROI parameter estimates were analyzed.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "repeated factor",
+     "value_source": "generated"
+    },
+    "conditions": [
+     "cond_left_amygdala",
+     "cond_right_amygdala"
+    ],
+    "groups": [],
+    "levels": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "term_testosterone",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "testosterone level",
+     "value_source": "reported"
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "Blood testosterone levels measured on the day of fMRI measurements.",
+     "value_source": "reported"
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "generated"
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated"
+    },
+    "conditions": [],
+    "groups": [
+     "g1"
+    ],
+    "assessment": "assay_testosterone",
+    "variation_level": {
+     "extraction_status": "extracted",
+     "value": "between subjects",
+     "value_source": "generated"
+    },
+    "association_direction": {
+     "extraction_status": "extracted",
+     "value": "positive for amygdala response; negative for reaction time to fearful male faces",
+     "value_source": "reported"
+    },
+    "functional_form": {
+     "extraction_status": "extracted",
+     "value": "linear Pearson correlation",
+     "value_source": "generated"
+    },
+    "unit": {
+     "extraction_status": "extracted",
+     "value": "ng/ml",
+     "value_source": "reported"
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g1",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "healthy males",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Twenty-one right-handed healthy males aged 21-33 years; all participants were students.",
+     "value_source": "reported"
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated"
+    },
+    "approached_count": {
+     "extraction_status": "not_reported"
+    },
+    "consented_count": {
+     "extraction_status": "not_reported"
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "Twenty-one",
+     "value_source": "reported"
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "21",
+     "value_source": "generated"
+    },
+    "excluded_count": {
+     "extraction_status": "not_reported"
+    },
+    "inclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "healthy males",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "right-handed",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "without any hormone treatment",
+      "value_source": "reported"
+     }
+    ],
+    "exclusion_criteria": [
+     {
+      "extraction_status": "extracted",
+      "value": "psychiatric disorders according to DSM IV",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "the usual exclusion criteria for MRI",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "positive drug screening",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "alexithymia",
+      "value_source": "reported"
+     }
+    ],
+    "recruitment_method": {
+     "extraction_status": "extracted",
+     "value": "recruited by advertisements at the University of Vienna and the Medical University of Vienna, Austria",
+     "value_source": "reported"
+    },
+    "recruitment_dates": {
+     "extraction_status": "not_reported"
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "25.1 years",
+     "value_source": "reported"
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "3.5 years",
+     "value_source": "reported"
+    },
+    "age_minimum": {
+     "extraction_status": "extracted",
+     "value": "21 years",
+     "value_source": "reported"
+    },
+    "age_maximum": {
+     "extraction_status": "extracted",
+     "value": "33 years",
+     "value_source": "reported"
+    },
+    "age_median": {
+     "extraction_status": "not_reported"
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported"
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "males",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "21",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "gender_distribution": [],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported"
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "21",
+       "value_source": "reported"
+      }
+     }
+    ],
+    "race_distribution": [],
+    "ethnicity_distribution": [],
+    "medical_condition": [
+     {
+      "extraction_status": "extracted",
+      "value": "healthy",
+      "value_source": "reported"
+     }
+    ],
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "DSM IV",
+     "value_source": "reported"
+    },
+    "diagnostic_instrument": [
+     {
+      "extraction_status": "extracted",
+      "value": "Structured Clinical Interview for DSM (SCID)",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "Toronto Alexithymia Scale 20",
+      "value_source": "reported"
+     }
+    ],
+    "clinical_characteristics": {
+     "extraction_status": "extracted",
+     "value": "All subjects performed above average according to norms on several neuropsychological tasks. No subject was alexithymic.",
+     "value_source": "reported"
+    },
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "Only males without any hormone treatment were included; all participants had a negative drug screening.",
+     "value_source": "reported"
+    },
+    "education_summary": {
+     "extraction_status": "extracted",
+     "value": "All participants were students; mean education 17.9 years, S.D. = 3.2.",
+     "value_source": "reported"
+    },
+    "socioeconomic_status_summary": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_emotion",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "explicit emotion recognition task",
+     "value_source": "reported"
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Subjects viewed 72 color photographs of facial expressions and chose the correct emotion from two verbal possibilities presented on the left and right of the image by pressing the corresponding button using the right hand. Emotional facial expressions were presented for a maximum of 5 s with a variable interstimulus interval of 12 to 18 s, during which subjects viewed a scrambled face with a central crosshair.",
+     "value_source": "reported"
+    },
+    "conditions": [
+     "cond_anger",
+     "cond_disgust",
+     "cond_fear",
+     "cond_happiness",
+     "cond_sadness",
+     "cond_neutral",
+     "cond_female_poser",
+     "cond_male_poser"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related design",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "Presentation software package (Neurobehavioral Systems Inc., Albany, CA, USA)",
+     "value_source": "reported"
+    },
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Subjects were instructed to choose the correct emotion from two verbal possibilities presented on the left and right of the image.",
+     "value_source": "reported"
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "72 color photographs portraying an equal number of the five basic emotions\u2014anger, disgust, fear, happiness and sadness\u2014as well as neutral expressions; both female and male faces were presented.",
+     "value_source": "reported"
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "recognition accuracy",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "reaction time",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional magnetic resonance imaging (fMRI)",
+     "value_source": "reported"
+    },
+    "acquisition_duration_seconds": {
+     "extraction_status": "not_reported"
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3 Tesla Medspec whole-body scanner (Bruker Biospin, Ettlingen, Germany)",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Gradient-recalled echo-planar imaging with 10 oblique axial slices centered on the amygdala employing asymmetric k-space sampling. FOV = 25 cm \u00d7 21 cm, matrix size 128 \u00d7 91, slice thickness 2 mm, slice gap 0.5 mm, TR = 1000 ms, TE = 31 ms.",
+     "value_source": "reported"
+    },
+    "structured_details": {
+     "extraction_status": "extracted",
+     "value": "{\"field_of_view\":\"25 cm \u00d7 21 cm\",\"matrix\":\"128 \u00d7 91\",\"slices\":10,\"slice_orientation\":\"oblique axial\",\"slice_thickness\":\"2 mm\",\"slice_gap\":\"0.5 mm\",\"sampling\":\"asymmetric k-space sampling\"}",
+     "value_source": "generated"
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": "3 Tesla",
+      "value_source": "reported"
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "gradient-recalled EPI",
+      "value_source": "reported"
+     },
+     "mr_acquisition_type": {
+      "extraction_status": "extracted",
+      "value": "2D slices",
+      "value_source": "generated"
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "1000 ms",
+      "value_source": "reported"
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": "31 ms",
+      "value_source": "reported"
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_volumes": {
+      "extraction_status": "not_reported"
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "prep_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Functional data were preprocessed using SPM2. Images were slice timing corrected, realigned to the mean image, normalized into standardized stereotactic space, and spatially smoothed using an isotropic Gaussian kernel with a full-width-at-half-maximum of 9 mm.",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM2",
+      "value_source": "reported"
+     }
+    ],
+    "steps": [
+     {
+      "extraction_status": "extracted",
+      "value": "slice timing correction",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "realignment to the mean image",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "normalization into standardized stereotactic space",
+      "value_source": "reported"
+     },
+     {
+      "extraction_status": "extracted",
+      "value": "spatial smoothing using an isotropic Gaussian kernel with a full-width-at-half-maximum of 9 mm",
+      "value_source": "reported"
+     }
+    ]
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "model_fmri_glm",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "general linear model",
+     "value_source": "generated"
+    },
+    "hrf_model": {
+     "extraction_status": "extracted",
+     "value": "canonical hemodynamic response function and its temporal derivative",
+     "value_source": "reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Each stimulus was modelled with a separate regressor based on the individual response period. Regressors of each valence were pooled to assess brain responses to each emotion, leaving a minimum of 12 stimuli per category for statistical analysis.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "individual and group level; second level random effects analysis",
+     "value_source": "reported"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "second level random effects analysis",
+     "value_source": "reported"
+    },
+    "software": [
+     {
+      "extraction_status": "extracted",
+      "value": "SPM2",
+      "value_source": "reported"
+     }
+    ]
+   },
+   {
+    "local_id": "model_behavioral_anova",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "repeated measures ANOVA",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "not_reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Emotion and gender of poser were within-subjects factors. Greenhouse-Geisser corrected p-values were used for all ANOVAs and post hoc results were Bonferroni corrected.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "not_reported"
+    },
+    "software": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "model_roi_anova",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "three-way ANOVA",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "not_reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Emotion, gender of poser and laterality were analyzed as repeated factors using mean parameter estimates extracted from left and right amygdala ROIs.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "not_reported"
+    },
+    "software": {
+     "extraction_status": "not_reported"
+    }
+   },
+   {
+    "local_id": "model_correlation",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "Pearson correlation",
+     "value_source": "reported"
+    },
+    "hrf_model": {
+     "extraction_status": "not_reported"
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "Correlations were performed across all participants between testosterone level and behavioral parameters or mean amygdala parameter estimates; results were corrected for multiple correlations.",
+     "value_source": "reported"
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated"
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "Pearson correlations",
+     "value_source": "reported"
+    },
+    "software": {
+     "extraction_status": "not_reported"
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "cond_anger",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "anger",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Facial expressions portraying anger.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "a class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_disgust",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "disgust",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Facial expressions portraying disgust.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "a class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_fear",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "fear",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Facial expressions portraying fear.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "a class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_happiness",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "happiness",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Facial expressions portraying happiness.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "a class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_sadness",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "sadness",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Facial expressions portraying sadness.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "a class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "neutral expressions",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Neutral facial expressions.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "a class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_female_poser",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "female posers",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Facial expressions presented by female posers.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "a class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_male_poser",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "male posers",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Facial expressions presented by male posers.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "a class of stimulus",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_left_amygdala",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "left amygdala",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Mean parameter estimates extracted from the left amygdala ROI.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "a laterality level",
+     "value_source": "generated"
+    }
+   },
+   {
+    "local_id": "cond_right_amygdala",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "right amygdala",
+     "value_source": "reported"
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Mean parameter estimates extracted from the right amygdala ROI.",
+     "value_source": "reported"
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "a laterality level",
+     "value_source": "generated"
+    }
+   }
+  ],
+  "analyses": [
+   {
+    "local_id": "ana1",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "emotion-by-gender of poser interaction (fearful male expressions > fearful female expressions; female expressions of disgust > male expressions of disgust); socialcommunication",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "not_reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "not_reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_emotion"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_fear",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "fearful male expressions",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "male expressions of fear were significantly better recognized compared with the corresponding female expressions",
+       "value_source": "reported"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotion",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "fear",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "gender of poser",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "male",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_female_poser",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "fearful female expressions",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "corresponding female expressions",
+       "value_source": "reported"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotion",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "fear",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "gender of poser",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "female",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_disgust",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "female expressions of disgust",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "female expressions were recognized more accurately than the male ones",
+       "value_source": "reported"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotion",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "disgust",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "gender of poser",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "female",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_male_poser",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "male expressions of disgust",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "the male ones",
+       "value_source": "reported"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotion",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "disgust",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "gender of poser",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "male",
+         "value_source": "reported"
+        }
+       }
+      ]
+     }
+    ],
+    "terms": [
+     "term_emotion",
+     "term_poser_gender"
+    ],
+    "model_estimation": "model_behavioral_anova",
+    "groups": [
+     {
+      "group": "g1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "across all subjects",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 21,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Emotion-by-gender of poser interaction, with male expressions of fear recognized more accurately than female expressions of fear and female expressions of disgust recognized more accurately than male expressions of disgust.",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "recognition accuracy",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "not_reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "F",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "extracted",
+      "value": 5,
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": 95,
+      "value_source": "reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "not_reported"
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "Bonferroni correction",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "post hoc results",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "Fearful male expressions and female expressions of disgust were better recognized than their corresponding counterparts.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "ana2",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "interaction of testosterone and angry male expressions > baseline; socialcommunication",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-slab analysis",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_emotion"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_anger",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "angry male expressions",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than baseline",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotion",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "anger",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "gender of poser",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "male",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_male_poser",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "male poser",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotion",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "anger",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "gender of poser",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "male",
+         "value_source": "reported"
+        }
+       }
+      ]
+     }
+    ],
+    "terms": [
+     "term_testosterone",
+     "term_emotion",
+     "term_poser_gender"
+    ],
+    "model_estimation": "model_correlation",
+    "groups": [
+     {
+      "group": "g1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "across all participants",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 21,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Association of testosterone with activation of the inferior frontal gyrus during processing of angry male expressions.",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "parameter estimates",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "implicit baseline",
+     "value_source": "generated"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported"
+    },
+    "assessments": [
+     "assay_testosterone"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "uncorrected",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole slab",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "Neural processing of threat-related stimuli is related to testosterone levels.",
+     "value_source": "reported"
+    }
+   },
+   {
+    "local_id": "ana3",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "interaction of testosterone and fearful male expressions > baseline; socialcommunication",
+     "value_source": "reported"
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-slab analysis",
+     "value_source": "reported"
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported"
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_emotion"
+    ],
+    "conditions": [
+     {
+      "condition": "cond_fear",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "fearful male expressions",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater than baseline",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotion",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "fear",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "gender of poser",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "male",
+         "value_source": "reported"
+        }
+       }
+      ]
+     },
+     {
+      "condition": "cond_male_poser",
+      "label": {
+       "extraction_status": "extracted",
+       "value": "male poser",
+       "value_source": "reported"
+      },
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated"
+      },
+      "factor_levels": [
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "emotion",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "fear",
+         "value_source": "reported"
+        }
+       },
+       {
+        "factor_name": {
+         "extraction_status": "extracted",
+         "value": "gender of poser",
+         "value_source": "reported"
+        },
+        "level": {
+         "extraction_status": "extracted",
+         "value": "male",
+         "value_source": "reported"
+        }
+       }
+      ]
+     }
+    ],
+    "terms": [
+     "term_testosterone",
+     "term_emotion",
+     "term_poser_gender"
+    ],
+    "model_estimation": "model_correlation",
+    "groups": [
+     {
+      "group": "g1",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "across all participants",
+       "value_source": "reported"
+      },
+      "factor_levels": [],
+      "n": {
+       "extraction_status": "extracted",
+       "value": 21,
+       "value_source": "reported"
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "Association of testosterone with activation of the inferior frontal gyrus during processing of fearful male expressions.",
+     "value_source": "reported"
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activation",
+      "value_source": "reported"
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "parameter estimates",
+      "value_source": "reported"
+     },
+     "unit": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "t",
+      "value_source": "reported"
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "not_reported"
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "implicit baseline",
+     "value_source": "generated"
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported"
+    },
+    "assessments": [
+     "assay_testosterone"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "voxel",
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported"
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "uncorrected p",
+      "value_source": "reported"
+     },
+     "cluster_forming_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "not_reported"
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "not_reported"
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "uncorrected",
+      "value_source": "reported"
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole slab",
+      "value_source": "reported"
+     },
+     "search_volume": {
+      "extraction_status": "not_reported"
+     },
+     "neighborhood_definition": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_used": {
+      "extraction_status": "not_reported"
+     },
+     "tfce_parameters": {
+      "extraction_status": "not_reported"
+     },
+     "permutation_count": {
+      "extraction_status": "not_reported"
+     },
+     "alpha_level": {
+      "extraction_status": "not_reported"
+     },
+     "number_of_tests": {
+      "extraction_status": "not_reported"
+     }
+    },
+    "statistical_maps": [],
+    "model_representation_notes": {
+     "extraction_status": "not_reported"
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "Neural processing of threat-related stimuli is related to testosterone levels.",
+     "value_source": "reported"
+    }
+   }
+  ]
+ },
+ "usage": {
+  "prompt": 21818,
+  "completion": 18484,
+  "reasoning": 8812,
+  "cached": 10575
+ },
+ "usage_pass1": {
+  "prompt": 10578,
+  "completion": 4501,
+  "reasoning": 105,
+  "cached": 10575
+ },
+ "usage_pass2": {
+  "prompt": 11240,
+  "completion": 13983,
+  "reasoning": 8707,
+  "cached": 0
+ },
+ "finish_reason": "stop/stop",
+ "raw_chars": 44192,
+ "service_tier_echo": "flex"
+}

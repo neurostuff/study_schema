@@ -1,0 +1,3535 @@
+{
+ "case_id": "pmc_11426113",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 6,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "neuroimaging-curation-v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "analyses": [
+   {
+    "local_id": "a_la_plus_gt_la_minus_roi",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "LA+ [all problems \u2013 control] > LA- [all problems \u2013 control]",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For question 1, we compared the languages collapsed across problem size (i.e., \u201cLA+ [all problems \u2013 control] > LA- [all problems \u2013 control]\u201d and \u201cLA- [all problems \u2013 control] > LA+ [all problems \u2013 control].\u201d)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "within each of the three ROIs (STG/MTG, IFG, and IPS)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Then, within each of the three ROIs (STG/MTG, IFG, and IPS), we compared brain activation elicited by the multiplication task across the two languages (language of learning vs. the other language, or LA+ vs. LA-)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We then extracted the top 25% of voxels showing maximal activation (regardless of significance) for each contrast."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "combined functional and anatomically defined ROIs using localizer activation constrained by anatomical regions",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In order to define combined (i.e., functional and anatomically defined) ROIs, these anatomical regions were used to constrain the brain activity from the localizer tasks."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "left STG/MTG, left IFG, and bilateral IPS",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The verbal localizer task was used as a functional localizer for temporal-frontal areas in each language, including the left superior and middle temporal gyri (STG/MTG) and the left inferior frontal gyrus (IFG). The numerosity localizer was used as a functional localizer of quantity processing regions in the bilateral intraparietal sulci (IPS)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold",
+     "acq_t1"
+    ],
+    "experiments": [
+     "exp_multiplication"
+    ],
+    "conditions": [
+     {
+      "condition": "c_la_plus",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "LA+ [all problems \u2013 control] > LA- [all problems \u2013 control]"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_la_minus",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "LA+ [all problems \u2013 control] > LA- [all problems \u2013 control]"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side of the first-level contrast",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For the multiplication task, a first-level contrast of \u201call problems greater than control\u201d was performed for each participant and each language."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_language"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_bilingual",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The final sample comprised 29 participants."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "29",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The final sample comprised 29 participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "LA+ [all problems \u2013 control] > LA- [all problems \u2013 control]",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For question 1, we compared the languages collapsed across problem size (i.e., \u201cLA+ [all problems \u2013 control] > LA- [all problems \u2013 control]\u201d and \u201cLA- [all problems \u2013 control] > LA+ [all problems \u2013 control].\u201d)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "brain activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Then, within each of the three ROIs (STG/MTG, IFG, and IPS), we compared brain activation elicited by the multiplication task across the two languages (language of learning vs. the other language, or LA+ vs. LA-)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "BOLD signal",
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The fMRI blood oxygenation level dependent (BOLD) signal was measured with a susceptibility-weighted single-shot echo planar imaging (EPI) sequence."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "control",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the multiplication task, a first-level contrast of \u201call problems greater than control\u201d was performed for each participant and each language."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All coordinates are reported in MNI space for consistency with previous fMRI studies in math cognition"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Clusters exceeding these size thresholds were considered significant."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.005,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Using 3dClustSim, we carried out ten thousand Monte Carlo simulations of random noise activations using a cluster-wise probability threshold of 0.05 and a voxel-wise threshold of 0.005 within each of our ROIs."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "voxel-wise threshold",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "using a cluster-wise probability threshold of 0.05 and a voxel-wise threshold of 0.005 within each of our ROIs"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "using a cluster-wise probability threshold of 0.05 and a voxel-wise threshold of 0.005 within each of our ROIs"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "3dClustSim with ten thousand Monte Carlo simulations",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Using 3dClustSim, we carried out ten thousand Monte Carlo simulations of random noise activations"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "within each of our ROIs",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "within each of our ROIs"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "permutation_count": {
+      "extraction_status": "extracted",
+      "value": 10000,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "we carried out ten thousand Monte Carlo simulations"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "using a cluster-wise probability threshold of 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "language-related differences in activation between the language of learning and the other language",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In summary, we did not observe significant differences in activation between LA+ and LA- in any of the regions of interest that we hypothesized"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_la_minus_gt_la_plus_roi",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "LA- [all problems \u2013 control] > LA+ [all problems \u2013 control]",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For question 1, we compared the languages collapsed across problem size (i.e., \u201cLA+ [all problems \u2013 control] > LA- [all problems \u2013 control]\u201d and \u201cLA- [all problems \u2013 control] > LA+ [all problems \u2013 control].\u201d)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "within each of the three ROIs (STG/MTG, IFG, and IPS)",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Then, within each of the three ROIs (STG/MTG, IFG, and IPS), we compared brain activation elicited by the multiplication task across the two languages"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We then extracted the top 25% of voxels showing maximal activation"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "functional localizer constrained by anatomically defined ROIs",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "These anatomical regions were used to constrain the brain activity from the localizer tasks."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "left STG/MTG, left IFG, and bilateral IPS",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "including the left superior and middle temporal gyri (STG/MTG) and the left inferior frontal gyrus (IFG). The numerosity localizer was used as a functional localizer of quantity processing regions in the bilateral intraparietal sulci (IPS)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold",
+     "acq_t1"
+    ],
+    "experiments": [
+     "exp_multiplication"
+    ],
+    "conditions": [
+     {
+      "condition": "c_la_minus",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "LA- [all problems \u2013 control] > LA+ [all problems \u2013 control]"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_la_plus",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "LA- [all problems \u2013 control] > LA+ [all problems \u2013 control]"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_control",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side of the first-level contrast",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "a first-level contrast of \u201call problems greater than control\u201d"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_language"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_bilingual",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The final sample comprised 29 participants."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "29",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The final sample comprised 29 participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "LA- [all problems \u2013 control] > LA+ [all problems \u2013 control]",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For question 1, we compared the languages collapsed across problem size (i.e., \u201cLA+ [all problems \u2013 control] > LA- [all problems \u2013 control]\u201d and \u201cLA- [all problems \u2013 control] > LA+ [all problems \u2013 control].\u201d)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "brain activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "we compared brain activation elicited by the multiplication task across the two languages"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "not_reported",
+      "evidence": {
+       "status": "not_applicable"
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "control",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a first-level contrast of \u201call problems greater than control\u201d"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All coordinates are reported in MNI space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Clusters exceeding these size thresholds were considered significant."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.005,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a voxel-wise threshold of 0.005"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "voxel-wise threshold",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a voxel-wise threshold of 0.005"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a cluster-wise probability threshold of 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "3dClustSim with ten thousand Monte Carlo simulations",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Using 3dClustSim, we carried out ten thousand Monte Carlo simulations"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "within each of our ROIs",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "within each of our ROIs"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "permutation_count": {
+      "extraction_status": "extracted",
+      "value": 10000,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "ten thousand Monte Carlo simulations"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "no significant differences in activation between LA+ and LA-",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We did not observe significant differences in activation between LA+ and LA-"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_small_gt_large_roi",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Multiplication Task [small > large] within the regions of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the contrast of small > large, there were significant clusters in the left STG/MTG and left IFG"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "an exploratory analysis revealed a main effect of problem size within the ROIs"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The resulting left MTG/STG and left IFG ROIs comprised 1,982 voxels and 1,680 voxels, respectively."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "functional and anatomically defined ROIs",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In order to define combined (i.e., functional and anatomically defined) ROIs"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "left STG/MTG and left IFG",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "there were significant clusters in the left STG/MTG and left IFG"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold",
+     "acq_t1"
+    ],
+    "experiments": [
+     "exp_multiplication"
+    ],
+    "conditions": [
+     {
+      "condition": "c_small",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For the contrast of small > large"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_large",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For the contrast of small > large"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_problem_size"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_bilingual",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The final sample comprised 29 participants."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "29",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The final sample comprised 29 participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "small > large, collapsed across languages",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "an exploratory analysis revealed a main effect of problem size within the ROIs."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "brain activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We did observe a main effect of Problem size (i.e., collapsed across languages)"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z-value",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Cluster size (k), MNI coordinates of the peaks, Z values, and approximate Brodmann areas (~BA) for the clusters showing significant activation for the problem size contrast."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All coordinates are reported in MNI space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Clusters exceeding these size thresholds were considered significant."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.005,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a voxel-wise threshold of 0.005"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "voxel-wise threshold",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a voxel-wise threshold of 0.005"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a cluster-wise probability threshold of 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "3dClustSim",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Significance thresholds for the Multiplication Task within the ROIs were determined using 3dClustSim"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "within each ROI",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "within each of our ROIs"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "small problems engaged left STG/MTG and left IFG to a greater extent than large problems",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "small problems engaged left STG/MTG and left IFG to a greater extent than large problems"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_large_gt_small_roi",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Multiplication Task [large > small] within the regions of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the large > small contrast, there were 2 significant clusters in the right IPS"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "regions of interest",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "an exploratory analysis revealed a main effect of problem size within the ROIs"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The resulting ROIs for right and left IPS were 428 voxels and 547 voxels"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "functional and anatomically defined ROIs",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "combined (i.e., functional and anatomically defined) ROIs"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "right IPS",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "there were 2 significant clusters in the right IPS"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold",
+     "acq_t1"
+    ],
+    "experiments": [
+     "exp_multiplication"
+    ],
+    "conditions": [
+     {
+      "condition": "c_large",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For the large > small contrast"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_small",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For the large > small contrast"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_problem_size"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_bilingual",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The final sample comprised 29 participants."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "29",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The final sample comprised 29 participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "large > small, collapsed across languages",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the large > small contrast, there were 2 significant clusters in the right IPS"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "brain activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "large problems engaged right IPS to a greater extent than small problems"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z-value",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Z values"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All coordinates are reported in MNI space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Clusters exceeding these size thresholds were considered significant."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.005,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a voxel-wise threshold of 0.005"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "voxel-wise threshold",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a voxel-wise threshold of 0.005"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a cluster-wise probability threshold of 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "3dClustSim",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Significance thresholds for the Multiplication Task within the ROIs were determined using 3dClustSim"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "within each of our ROIs",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "within each of our ROIs"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "large problems engaged right IPS to a greater extent than small problems",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "large problems engaged right IPS to a greater extent than small problems"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_small_gt_large_wholebrain",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Multiplication Task [small > large] at the whole-brain level",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "an analysis at the whole-brain level confirmed the main effect of problem size"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain level",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "an analysis at the whole-brain level confirmed the main effect of problem size"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a cluster size of 732 voxels was needed for significance at the whole-brain level"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold",
+     "acq_t1"
+    ],
+    "experiments": [
+     "exp_multiplication"
+    ],
+    "conditions": [
+     {
+      "condition": "c_small",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Multiplication Task [small > large]"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_large",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Multiplication Task [small > large]"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_problem_size"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_bilingual",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The final sample comprised 29 participants."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "29",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The final sample comprised 29 participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "small > large, collapsed across languages, whole-brain",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For the contrast of small > large"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "brain activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We did observe a main effect of Problem size"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z-value",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Z values"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl3"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All coordinates are reported in MNI space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Clusters exceeding these size thresholds were considered significant."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 732,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a cluster size of 732 voxels was needed for significance at the whole-brain level"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "cluster-size threshold",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a cluster size of 732 voxels was needed for significance at the whole-brain level"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "at the whole-brain level"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "small problems engaged right superior temporal gyrus, left superior temporal gyrus, left precentral gyrus, left medial frontal gyrus, and right middle occipital gyrus more than large problems",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3. Cluster information for the main effect of problem size for the multiplication task at the whole-brain level."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_large_gt_small_wholebrain",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Multiplication Task [large > small] at the whole-brain level",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Multiplication Task [large > small] \u2003Right Inf Parietal Lob"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain level",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "at the whole-brain level"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a cluster size of 732 voxels was needed for significance at the whole-brain level"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold",
+     "acq_t1"
+    ],
+    "experiments": [
+     "exp_multiplication"
+    ],
+    "conditions": [
+     {
+      "condition": "c_large",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Multiplication Task [large > small]"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_small",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Multiplication Task [large > small]"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_problem_size"
+    ],
+    "model_estimation": "me_glm",
+    "groups": [
+     {
+      "group": "g_bilingual",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The final sample comprised 29 participants."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "29",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "The final sample comprised 29 participants."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "large > small, collapsed across languages, whole-brain",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Multiplication Task [large > small]"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "brain activation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "large problems engaged right IPS to a greater extent than small problems"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "z-value",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Z values"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "tables": [
+     "tbl3"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "MNI space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All coordinates are reported in MNI space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Clusters exceeding these size thresholds were considered significant."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 732,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a cluster size of 732 voxels was needed for significance at the whole-brain level"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole-brain level",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "at the whole-brain level"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "large problems engaged right inferior parietal lobule more than small problems",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3. Cluster information for the main effect of problem size for the multiplication task at the whole-brain level."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1. Language proficiency measures for the final sample (n = 29)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Language proficiency measures for the final sample (n = 29).",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1. Language proficiency measures for the final sample (n = 29)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Language proficiency measures and paired-samples t-test comparisons across English and Spanish.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Mean standardized scores, standard deviation (SD), and standard error of the mean (SEM) for the three subtests of the Woodcock Johnson (English) and Bateria III (Spanish)."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2. Cluster information for the main effect of problem size for the multiplication task within the regions of interest."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Cluster information for the main effect of problem size for the multiplication task within the regions of interest.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2. Cluster information for the main effect of problem size for the multiplication task within the regions of interest."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Cluster locations, MNI coordinates, cluster sizes, and z-values for ROI problem-size contrasts.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Cluster size (k), MNI coordinates of the peaks, Z values, and approximate Brodmann areas (~BA) for the clusters showing significant activation for the problem size contrast."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3. Cluster information for the main effect of problem size for the multiplication task at the whole-brain level."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Cluster information for the main effect of problem size for the multiplication task at the whole-brain level.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3. Cluster information for the main effect of problem size for the multiplication task at the whole-brain level."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Whole-brain cluster locations, MNI coordinates, cluster sizes, and z-values for problem-size contrasts.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Cluster size (k), MNI coordinates of the peaks, Z values, and approximate Brodmann areas (~BA) for the clusters showing significant activation for the problem size contrasts."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "c_la_plus",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "LA+",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "language of learning: LA+"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "language of learning multiplication",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "language of learning: LA+"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "language condition",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The language of learning multiplication (LA+)"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_la_minus",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "LA-",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the other language (LA-)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "the other language relative to the language of learning multiplication",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the other language (LA-)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "language condition",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "LA+ vs. LA-"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_small",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "small problems",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Problems with correct solutions smaller than 25 were considered small problems"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "problems with correct solutions smaller than 25",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Problems with correct solutions smaller than 25 were considered small problems"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "problem-size condition",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "small problems"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_large",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "large problems",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Problems with correct solutions larger than 25 were considered large problems"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "problems with correct solutions larger than 25",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Problems with correct solutions larger than 25 were considered large problems"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "problem-size condition",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "large problems"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_control",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "control",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "all problems greater than control"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "a blue square that turned red and required a button press",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For these trials, participants saw a blue square and were instructed to press a button with their index finger when the blue square turned red"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "control condition",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "control trials"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "t_language",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Language",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Language (i.e., language of learning: LA+, LA-)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "including Problem size (Small, Large), Language (i.e., language of learning: LA+, LA-), and Correctness"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For question 1, we compared the languages"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_la_plus",
+     "c_la_minus"
+    ],
+    "groups": [],
+    "levels": {
+     "extraction_status": "extracted",
+     "value": "LA+, LA-",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "text": "Language (i.e., language of learning: LA+, LA-)"
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "t_problem_size",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Problem size",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Problem size (Small, Large)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "including Problem size (Small, Large)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "an exploratory analysis revealed a main effect of problem size"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_small",
+     "c_large"
+    ],
+    "groups": []
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_bilingual",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Spanish-English bilingual adults",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty-five Spanish-English bilingual adults were recruited for this study"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Bilingual adults who learned both languages before 9 years old with equivalent proficiency across languages; 6 initial participants were excluded and the final sample comprised 29 participants.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To control for the effects of language proficiency and age of language acquisition, only bilinguals who learned both languages before 9 years old with equivalent proficiency across languages were included in the analyses."
+         },
+         {
+          "text": "Six of the initial 35 participants were excluded from the final sample"
+         },
+         {
+          "text": "The final sample comprised 29 participants."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "adults",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty-five Spanish-English bilingual adults were recruited for this study"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "enrolled_count": {
+     "extraction_status": "extracted",
+     "value": "35",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Thirty-five Spanish-English bilingual adults were recruited for this study"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "35",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Six of the initial 35 participants were excluded from the final sample"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "excluded_count": {
+     "extraction_status": "extracted",
+     "value": "6",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Six of the initial 35 participants were excluded from the final sample"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "inclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": [
+      "learned both languages before 9 years old",
+      "equivalent proficiency across languages",
+      "right-handed",
+      "normal or corrected-to-normal vision",
+      "normal hearing",
+      "no history of cognitive or perceptual deficits",
+      "were not diagnosed with language delays or learning disabilities",
+      "were not taking medication that affected their cognition"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "To control for the effects of language proficiency and age of language acquisition, only bilinguals who learned both languages before 9 years old with equivalent proficiency across languages were included in the analyses."
+         },
+         {
+          "text": "Participants were right-handed, had normal or corrected-to-normal vision, normal hearing, no history of cognitive or perceptual deficits, were not diagnosed with language delays or learning disabilities, and were not taking medication that affected their cognition at the time of testing."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": "no history of cognitive or perceptual deficits; no language delays or learning disabilities",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "no history of cognitive or perceptual deficits, were not diagnosed with language delays or learning disabilities"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_instrument": {
+     "extraction_status": "extracted",
+     "value": "Edinburgh Inventory",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants were right-handed (assessed by the Edinburgh Inventory, Oldfield, 1971"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "clinical_characteristics": {
+     "extraction_status": "extracted",
+     "value": "All participants reported Spanish as their native language (L1), with 8 participants also reporting English as a simultaneous native language. Eleven individuals learned multiplication in Spanish, and 18 reported learning multiplication in English.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All participants reported Spanish as their native language (L1), with 8 participants also reporting English as a simultaneous native language."
+         },
+         {
+          "text": "Eleven individuals learned multiplication in Spanish, and 18 reported learning multiplication in English."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Participants were right-handed"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_multiplication",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "single-digit multiplication verification task",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "2.3.1 Single-digit multiplication verification task"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants heard two spoken number words, followed by a visual Arabic digit, and determined whether the Arabic digit was the correct product of the two spoken numbers.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "For this task, participants heard two spoken number words, followed by a visual Arabic digit, and the task was to determine whether the Arabic digit was the correct product of the two spoken numbers"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_la_plus",
+     "c_la_minus",
+     "c_small",
+     "c_large",
+     "c_control"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Event-related statistical analysis was performed according to the general linear model (GLM)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_bold",
+     "acq_t1"
+    ],
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "Participants used their index finger if the proposed solution was true and their middle finger if the proposed solution was false.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participants used their index finger if the proposed solution was true and their middle finger if the proposed solution was false."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "spoken number words and a visual Arabic digit",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "participants heard two spoken number words, followed by a visual Arabic digit"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_performance_measures": {
+     "extraction_status": "extracted",
+     "value": [
+      "accuracy",
+      "response time"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Participant averages of accuracy and response time were extracted separately from the conditions of interest"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_bold",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "fMRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "2.4 fMRI data acquisition"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "Siemens Prisma Fit scanner (3T) at the Baylor College of Medicine\u2019s Core for Advanced Magnetic Resonance Imaging and a Siemens Skyra scanner (3T) at the University of Texas\u2019s Biomedical Imaging Center",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Images were collected using a Siemens Prisma Fit scanner (3T) at the Baylor College of Medicine\u2019s Core for Advanced Magnetic Resonance Imaging (Houston, Texas) and a Siemens Skyra scanner (3T) at the University of Texas\u2019s Biomedical Imaging Center (Austin, Texas)."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "The fMRI BOLD signal was measured with a susceptibility-weighted single-shot EPI sequence; TE = 30 ms, flip angle = 68 s, matrix size = 256 x 256, field of view = 256, slice thickness = 2 mm, 64 slices, TR = 1,250 ms, and voxel size 2 x 2 x 2 mm.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The fMRI blood oxygenation level dependent (BOLD) signal was measured with a susceptibility-weighted single-shot echo planar imaging (EPI) sequence. The following parameters were used across both scanners to ensure comparability of the datasets: TE = 30 ms, flip angle = 68 s, matrix size = 256 x 256, field of view = 256, slice thickness = 2 mm, number of slices = 64, TR = 1,250 ms, and voxel size: 2 x 2 x 2 mm."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": 3,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Siemens Prisma Fit scanner (3T)"
+          },
+          {
+           "text": "Siemens Skyra scanner (3T)"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "single-shot echo planar imaging (EPI)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "susceptibility-weighted single-shot echo planar imaging (EPI) sequence"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": 1.25,
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TR = 1,250 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": 0.03,
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TE = 30 ms"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": [
+       2,
+       2,
+       2
+      ],
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel size: 2 x 2 x 2 mm"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "local_id": "acq_t1",
+  "modality": {
+   "extraction_status": "extracted",
+   "value": "structural MRI",
+   "value_source": "reported",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "a high-resolution T1-weighted 3D structural image was acquired"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "description": {
+   "extraction_status": "extracted",
+   "value": "High-resolution T1-weighted 3D structural image; TR = 1,900 ms, TE = 2.43 ms, matrix size = 256 x 256, field of view = 256 mm, slice thickness = 1 mm, and 192 slices.",
+   "value_source": "reported",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "Before functional image acquisition, a high-resolution T1-weighted 3D structural image was acquired for each participant with the following parameters: TR = 1,900 ms, TE = 2.43 ms, matrix size = 256 x 256, field of view = 256 mm, slice thickness = 1 mm, and number of slices = 192."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "mri": {
+   "magnetic_field_strength_tesla": {
+    "extraction_status": "extracted",
+    "value": 3,
+    "value_source": "reported",
+    "evidence": {
+     "status": "present",
+     "sets": [
+      {
+       "spans": [
+        {
+         "text": "Images were collected using a Siemens Prisma Fit scanner (3T)"
+        },
+        {
+         "text": "a Siemens Skyra scanner (3T)"
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "pulse_sequence_type": {
+    "extraction_status": "extracted",
+    "value": "T1-weighted 3D",
+    "value_source": "reported",
+    "evidence": {
+     "status": "present",
+     "sets": [
+      {
+       "spans": [
+        {
+         "text": "a high-resolution T1-weighted 3D structural image"
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "repetition_time_seconds": {
+    "extraction_status": "extracted",
+    "value": 1.9,
+    "value_source": "generated",
+    "evidence": {
+     "status": "present",
+     "sets": [
+      {
+       "spans": [
+        {
+         "text": "TR = 1,900 ms"
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "echo_time_seconds": {
+    "extraction_status": "extracted",
+    "value": 0.00243,
+    "value_source": "generated",
+    "evidence": {
+     "status": "present",
+     "sets": [
+      {
+       "spans": [
+        {
+         "text": "TE = 2.43 ms"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  }
+ },
+ "usage": {
+  "prompt": 20536,
+  "completion": 12923,
+  "reasoning": 72,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 53220,
+ "service_tier_echo": "flex"
+}

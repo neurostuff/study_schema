@@ -1,0 +1,3626 @@
+{
+ "case_id": "nmb_27998996",
+ "sample": "nmb",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 2,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "neuroimaging-methods-curation-v1",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "analyses": [
+   {
+    "local_id": "a_ifg_increase_pos",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Left IFG seed region: positive correlation between \u2018Increase\u2019 success and the effective coupling of the left IFG and left STG, VMPFC and bilateral amygdalae",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "During the up-regulation of emotion we found a positive correlation between \u2018Increase\u2019 success and the effective coupling of the left IFG (seed region) and left STG, VMPFC and bilateral amygdalae"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "remainder of the brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The resulting PPI parameter estimates denoted the change in strength of effective coupling between the seed regions and the remainder of the brain during reappraisal relative to \u2018Look-Negative\u2019 trials"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "this interaction term was entered into a voxelwise regression"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "prior evidence and a functionally determined left IFG seed region; the amygdala was defined purely anatomically using the Anatomy Toolbox",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the left IFG and the amygdala were chosen as ROIs and seed regions for the PPI analyses"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "left IFG",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "left IFG: \u221245, 26, 7; 5022\u2009mm"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reappraisal"
+    ],
+    "conditions": [
+     {
+      "condition": "c_increase",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "the regulation contrasts (\u2018Increase > Look-Negative\u2019) and (\u2018Decrease > Look-Negative\u2019) were used as psychological context"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_look_negative",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "the seed regions and the remainder of the brain during reappraisal relative to \u2018Look-Negative\u2019 trials"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_increase_success"
+    ],
+    "model_estimation": "me_ppi",
+    "groups": [
+     {
+      "group": "g_subjects",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-three right-handed subjects"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "\u2018Increase > Look-Negative\u2019, with individual mean reappraisal success scores as predictor of the PPI map",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "we determined task-dependent effective interaction based on the contrast \u2018Increase\u2019 or \u2018Decrease\u2019 v s control condition (\u2018Increase > Look-Negative\u2019 and \u2018Decrease > Look-Negative\u2019) using the individual mean reappraisal success scores as predictor of the PPI map"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "PPI parameter estimates",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The resulting PPI parameter estimates denoted the change in strength of effective coupling"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "positive correlation between \u2018Increase\u2019 success and the effective coupling"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "\u2018Look-Negative\u2019",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "during reappraisal relative to \u2018Look-Negative\u2019 trials"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "transformation into Talairach space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [
+     "assess_reappraisal_success"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PPI maps were thresholded at 91 voxels"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "at an initial significance level of P < 0.001"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "P",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "at an initial significance level of P < 0.001"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "cluster_extent_threshold": {
+      "extraction_status": "extracted",
+      "value": 91,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PPI maps were thresholded at 91 voxels"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "an FWE cluster level correction of P < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "family wise error (FWE) thresholds using the alphasim procedure",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We utilized height and cluster size thresholding after establishing family wise error (FWE) thresholds using the alphasim procedure"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Whole brain functional and anatomical images were acquired"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "psychophysiological interaction (PPI)",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "we performed an analysis of PPI"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left IFG",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Our PPI analysis was based on the two ROI regions, the left IFG and the left amygdala"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "left STG, VMPFC and bilateral amygdalae",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the effective coupling of the left IFG (seed region) and left STG, VMPFC and bilateral amygdalae"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "positive correlation with \u2018Increase\u2019 success",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "During the up-regulation of emotion we found a positive correlation between \u2018Increase\u2019 success and the effective coupling"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "change in strength of effective coupling",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The resulting PPI parameter estimates denoted the change in strength of effective coupling"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "successful reappraisal is linked to changes in effective connectivity between two systems, prefrontal cognitive control regions and regions crucially involved in emotional evaluation",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "These results suggest that successful reappraisal is linked to changes in effective connectivity between two systems, prefrontal cognitive control regions and regions crucially involved in emotional evaluation."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_ifg_increase_neg",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "negative correlation between \u2018Increase\u2019 success and activity of the left IFG coupled with pregenual anterior cingulate cortex, DMPFC, caudate, right insula, left IPL, right MFG, right STG and right IFG",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We also observed a negative correlation between \u2018Increase\u2019 success and activity of the left IFG that was coupled with pregenual anterior cingulate cortex (pgACC), DMPFC, caudate, right insula, left IPL, right MFG, right STG and right IFG"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "remainder of the brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The resulting PPI parameter estimates denoted the change in strength of effective coupling between the seed regions and the remainder of the brain during reappraisal relative to \u2018Look-Negative\u2019 trials"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reappraisal"
+    ],
+    "conditions": [
+     {
+      "condition": "c_increase",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "\u2018Increase > Look-Negative\u2019"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_look_negative",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "\u2018Increase > Look-Negative\u2019"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_increase_success"
+    ],
+    "model_estimation": "me_ppi",
+    "groups": [
+     {
+      "group": "g_subjects",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-three right-handed subjects"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "\u2018Increase > Look-Negative\u2019, negative correlation with reappraisal success",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We also observed a negative correlation between \u2018Increase\u2019 success and activity of the left IFG that was coupled with pregenual anterior cingulate cortex (pgACC), DMPFC, caudate, right insula, left IPL, right MFG, right STG and right IFG"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "PPI beta estimate",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PPI beta estimate of IFG coupling"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "negative correlation between \u2018Increase\u2019 success"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "\u2018Look-Negative\u2019",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "during reappraisal relative to \u2018Look-Negative\u2019 trials"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "transformation into Talairach space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [
+     "assess_reappraisal_success"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PPI maps were thresholded at 91 voxels"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE cluster level correction",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "an FWE cluster level correction of P < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "PPI",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "we performed an analysis of PPI"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left IFG",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Our PPI analysis was based on the two ROI regions, the left IFG and the left amygdala"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "pregenual anterior cingulate cortex, DMPFC, caudate, right insula, left IPL, right MFG, right STG and right IFG",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We also observed a negative correlation between \u2018Increase\u2019 success and activity of the left IFG that was coupled with pregenual anterior cingulate cortex (pgACC), DMPFC, caudate, right insula, left IPL, right MFG, right STG and right IFG"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "negative correlation with \u2018Increase\u2019 success",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "We also observed a negative correlation between \u2018Increase\u2019 success"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "effective coupling",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "negative correlation between \u2018Increase\u2019 success and activity of the left IFG that was coupled with"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_ifg_decrease_pos",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "positive effective coupling between the left IFG and DLPFC, DMPFC, right MTG and STG during down-regulation depending on reappraisal success",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The results further indicated significant positive effective coupling between the left IFG (seed region) and DLPFC, DMPFC, right MTG and STG during down-regulation of emotion depending on reappraisal success"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "remainder of the brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "between the seed regions and the remainder of the brain"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reappraisal"
+    ],
+    "conditions": [
+     {
+      "condition": "c_decrease",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "\u2018Decrease > Look-Negative\u2019"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_look_negative",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "\u2018Decrease > Look-Negative\u2019"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_decrease_success"
+    ],
+    "model_estimation": "me_ppi",
+    "groups": [
+     {
+      "group": "g_subjects",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-three right-handed subjects"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "\u2018Decrease > Look-Negative\u2019, positive correlation with \u2018Decrease\u2019 success",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The results further indicated significant positive effective coupling between the left IFG (seed region) and DLPFC, DMPFC, right MTG and STG during down-regulation of emotion depending on reappraisal success"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "effective coupling",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "significant positive effective coupling"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "positive effective coupling"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "\u2018Look-Negative\u2019",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "\u2018Decrease > Look-Negative\u2019"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "transformation into Talairach space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [
+     "assess_reappraisal_success"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PPI maps were thresholded at 91 voxels"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "an FWE cluster level correction of P < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "PPI",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "we performed an analysis of PPI"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left IFG",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Our PPI analysis was based on the two ROI regions, the left IFG and the left amygdala"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "DLPFC, DMPFC, right MTG and STG",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "significant positive effective coupling between the left IFG (seed region) and DLPFC, DMPFC, right MTG and STG"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "positive effective coupling",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "significant positive effective coupling"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "to examine changes in effective connectivity"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_ifg_decrease_neg",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "negative correlation between effective connectivity and \u2018Decrease\u2019 success between left IFG and right IFG, left SFG/VMPFC and left orbital gyrus",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In contrast, a negative correlation between effective connectivity and \u2018Decrease\u2019 success was found between left IFG (seed region) and right IFG, left SFG/VMPFC and left orbital gyrus"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "remainder of the brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "between the seed regions and the remainder of the brain"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reappraisal"
+    ],
+    "conditions": [
+     {
+      "condition": "c_decrease",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "\u2018Decrease > Look-Negative\u2019"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_look_negative",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "\u2018Decrease > Look-Negative\u2019"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_decrease_success"
+    ],
+    "model_estimation": "me_ppi",
+    "groups": [
+     {
+      "group": "g_subjects",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-three right-handed subjects"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "\u2018Decrease > Look-Negative\u2019, negative correlation with \u2018Decrease\u2019 success",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a negative correlation between effective connectivity and \u2018Decrease\u2019 success"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "negative correlation between effective connectivity and \u2018Decrease\u2019 success"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a negative correlation"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "\u2018Look-Negative\u2019",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "\u2018Decrease > Look-Negative\u2019"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "transformation into Talairach space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [
+     "assess_reappraisal_success"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PPI maps were thresholded at 91 voxels"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "an FWE cluster level correction of P < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "PPI",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "we performed an analysis of PPI"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left IFG",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Our PPI analysis was based on the two ROI regions, the left IFG and the left amygdala"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "right IFG, left SFG/VMPFC and left orbital gyrus",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a negative correlation between effective connectivity and \u2018Decrease\u2019 success was found between left IFG (seed region) and right IFG, left SFG/VMPFC and left orbital gyrus"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "negative correlation with \u2018Decrease\u2019 success",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a negative correlation between effective connectivity and \u2018Decrease\u2019 success"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "negative correlation between effective connectivity and \u2018Decrease\u2019 success"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_amyg_increase_pos",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "positive correlation between \u2018Increase\u2019 success and coupling of the left amygdala with left IFG, left MFG, left SFG, sgACC, left STG, left insula, left IPL, left MTG and left parahippocampal gyrus",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The PPI analysis based on the left amygdala as seed region demonstrated a positive correlation between \u2018Increase\u2019 success and the coupling with a number of regions such as left IFG, left MFG, left SFG, subgenual ACC (sgACC), left STG, left insula, left IPL, left MTG and left parahippocampal gyrus"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "remainder of the brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "between the seed regions and the remainder of the brain"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reappraisal"
+    ],
+    "conditions": [
+     {
+      "condition": "c_increase",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "\u2018Increase > Look-Negative\u2019"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_look_negative",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "\u2018Increase > Look-Negative\u2019"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_increase_success"
+    ],
+    "model_estimation": "me_ppi",
+    "groups": [
+     {
+      "group": "g_subjects",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-three right-handed subjects"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "\u2018Increase > Look-Negative\u2019, positive correlation with \u2018Increase\u2019 success",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "positive correlation between \u2018Increase\u2019 success and the coupling"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "effective coupling",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "effective coupling between the left amygdala"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "positive correlation between \u2018Increase\u2019 success"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "\u2018Look-Negative\u2019",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "\u2018Increase > Look-Negative\u2019"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "transformation into Talairach space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [
+     "assess_reappraisal_success"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PPI maps were thresholded at 91 voxels"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "an FWE cluster level correction of P < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "PPI",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The PPI analysis based on the left amygdala as seed region"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left amygdala",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "left amygdala as seed region"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "left IFG, left MFG, left SFG, subgenual ACC, left STG, left insula, left IPL, left MTG and left parahippocampal gyrus",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the coupling with a number of regions such as left IFG, left MFG, left SFG, subgenual ACC (sgACC), left STG, left insula, left IPL, left MTG and left parahippocampal gyrus"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "positive correlation with \u2018Increase\u2019 success",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "positive correlation between \u2018Increase\u2019 success and the coupling"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The PPI analysis based on the left amygdala as seed region"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_amyg_increase_neg",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "negative correlation between \u2018Increase\u2019 success and effective connectivity between the left amygdala and right SFG/OFC",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Effective connectivity between the left amygdala (seed region) and the right SFG/OFC was negatively correlated with \u2018Increase\u2019 success"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "remainder of the brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "between the seed regions and the remainder of the brain"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reappraisal"
+    ],
+    "conditions": [
+     {
+      "condition": "c_increase",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "\u2018Increase > Look-Negative\u2019"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_look_negative",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "\u2018Increase > Look-Negative\u2019"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_increase_success"
+    ],
+    "model_estimation": "me_ppi",
+    "groups": [
+     {
+      "group": "g_subjects",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-three right-handed subjects"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "\u2018Increase > Look-Negative\u2019, negative correlation with \u2018Increase\u2019 success",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Effective connectivity between the left amygdala (seed region) and the right SFG/OFC was negatively correlated with \u2018Increase\u2019 success"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Effective connectivity between the left amygdala"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "was negatively correlated with \u2018Increase\u2019 success"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "\u2018Look-Negative\u2019",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "\u2018Increase > Look-Negative\u2019"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "transformation into Talairach space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [
+     "assess_reappraisal_success"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PPI maps were thresholded at 91 voxels"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "an FWE cluster level correction of P < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "PPI",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The PPI analysis based on the left amygdala as seed region"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left amygdala",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "text": "left amygdala as seed region"
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "right SFG/OFC",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "text": "right SFG/OFC"
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "negative correlation with \u2018Increase\u2019 success",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "text": "was negatively correlated with \u2018Increase\u2019 success"
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "effective connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "text": "Effective connectivity between the left amygdala"
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_amyg_decrease_pos",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "positive correlation between left amygdala activity and \u2018Decrease\u2019 success in bilateral fusiform gyri, right parahippocampal gyrus and occipital cortex",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The activity in the left amygdala was positively correlated with activity in the bilateral fusiform gyri, right parahippocampal gyrus and occipital cortex and \u2018Decrease\u2019 success"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Whole brain functional and anatomical images were acquired"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "voxelwise regression"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reappraisal"
+    ],
+    "conditions": [
+     {
+      "condition": "c_decrease",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "\u2018Decrease > Look-Negative\u2019"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_look_negative",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "\u2018Decrease > Look-Negative\u2019"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_decrease_success"
+    ],
+    "model_estimation": "me_ppi",
+    "groups": [
+     {
+      "group": "g_subjects",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "text": "Twenty-three right-handed subjects"
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "positive correlation between left amygdala activity and \u2018Decrease\u2019 success",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The activity in the left amygdala was positively correlated with activity in the bilateral fusiform gyri, right parahippocampal gyrus and occipital cortex and \u2018Decrease\u2019 success"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "activity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The activity in the left amygdala"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "was positively correlated"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "\u2018Look-Negative\u2019",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "\u2018Decrease > Look-Negative\u2019"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "transformation into Talairach space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [
+     "assess_reappraisal_success"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PPI maps were thresholded at 91 voxels"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "an FWE cluster level correction of P < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {},
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   },
+   {
+    "local_id": "a_amyg_decrease_neg",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "negative correlation between \u2018Decrease\u2019 success and effective coupling between the left amygdala and right precuneus",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We also found a negative correlation between \u2018Decrease\u2019 success and the effective coupling between the left amygdala and the right precuneus."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Whole brain functional and anatomical images were acquired"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_reappraisal"
+    ],
+    "conditions": [
+     {
+      "condition": "c_decrease",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "greater side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "\u2018Decrease > Look-Negative\u2019"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_look_negative",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "lesser side",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "\u2018Decrease > Look-Negative\u2019"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_decrease_success"
+    ],
+    "model_estimation": "me_ppi",
+    "groups": [
+     {
+      "group": "g_subjects",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included without a direction",
+       "value_source": "generated",
+       "evidence": {
+        "status": "not_found"
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "23",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-three right-handed subjects"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "prep_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "negative correlation between \u2018Decrease\u2019 success and effective coupling between the left amygdala and the right precuneus",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "We also found a negative correlation between \u2018Decrease\u2019 success and the effective coupling between the left amygdala and the right precuneus."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "effective coupling",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the effective coupling between the left amygdala and the right precuneus"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "correlation",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "negative correlation"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "\u2018Look-Negative\u2019",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "\u2018Decrease > Look-Negative\u2019"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "transformation into Talairach space"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [
+     "assess_reappraisal_success"
+    ],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "PPI maps were thresholded at 91 voxels"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "FWE",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "an FWE cluster level correction of P < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistical_maps": [],
+    "decoding": {},
+    "similarity": {},
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "PPI",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "we performed an analysis of PPI"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "left amygdala",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "left amygdala as seed region"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "right precuneus",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the right precuneus"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "negative correlation with \u2018Decrease\u2019 success",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "negative correlation between \u2018Decrease\u2019 success"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "effective coupling",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "the effective coupling between the left amygdala and the right precuneus"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {}
+   }
+  ],
+  "tables": [],
+  "conditions": [
+   {
+    "local_id": "c_increase",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Increase",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "two reappraisal conditions (\u2018Increase, Decrease\u2019)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Subjects were asked to engage themselves with the depicted situation and increase their sense of subjective closeness to the displayed events",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "In the \u2018Increase\u2019 condition, subjects were asked to engage themselves with the depicted situation and to increase their sense of subjective closeness to the displayed events"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_decrease",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Decrease",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "two reappraisal conditions (\u2018Increase, Decrease\u2019)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Subjects were instructed to reduce the intensity of the negative emotion by distancing themselves from the image",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Conversely, in the \u2018Decrease\u2019 condition subjects were instructed to reduce the intensity of the negative emotion by distancing themselves from the image"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "task state",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   },
+   {
+    "local_id": "c_look_negative",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Look-Negative",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "two control conditions (\u2018Look-Neutral, Look-Negative\u2019)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Subjects viewed negative stimuli attentively and allowed themselves to experience emotional responses without trying to manipulate them",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "subjects were asked to view the neutral (\u2018Look-Neutral\u2019) or negative (\u2018Look-Negative\u2019) stimuli attentively and allow themselves to experience/feel any emotional responses"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "comparator",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The \u2018Look-Negative\u2019 condition constituted the natural response to all images and was used as a control condition."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_look_neutral",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Look-Neutral",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "two control conditions (\u2018Look-Neutral, Look-Negative\u2019)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Subjects viewed neutral stimuli attentively without trying to manipulate emotional responses",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "subjects were asked to view the neutral (\u2018Look-Neutral\u2019)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "control condition",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "t_increase_success",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Increase success",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "reappraisal success scores for \u2018Increase\u2019 (\u2018Increase\u2019 minus \u2018Look-Negative\u2019)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "mean increase in reported emotion when applying cognitive reappraisal relative to \u2018Look-Negative\u2019",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Overall reappraisal success was defined as either the mean decrease or mean increase in reported emotion when applying a cognitive reappraisal strategy"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "used as a predictor in the PPI analysis"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [
+     "c_increase",
+     "c_look_negative"
+    ]
+   },
+   {
+    "local_id": "t_decrease_success",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Decrease success",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "reappraisal success scores for ... \u2018Decrease\u2019 (\u2018Decrease\u2019 minus \u2018Look-Negative\u2019)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "source_definition": {
+     "extraction_status": "extracted",
+     "value": "mean decrease in reported emotion when applying cognitive reappraisal relative to \u2018Look-Negative\u2019",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "reappraisal success scores for \u2018Increase\u2019 (\u2018Increase\u2019 minus \u2018Look-Negative\u2019) and \u2018Decrease\u2019 (\u2018Decrease\u2019 minus \u2018Look-Negative\u2019)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "continuous",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "used as a predictor in the PPI analysis"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "conditions": [
+     "c_decrease",
+     "c_look_negative"
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_subjects",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "subjects",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-three right-handed subjects"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "human",
+     "value_source": "generated",
+     "evidence": {
+      "status": "not_found"
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "23",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Twenty-three right-handed subjects"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "25.70 years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "mean age = 25.70 years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_standard_deviation": {
+     "extraction_status": "extracted",
+     "value": "5.95 years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "s.d. = 5.95 years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "mean age = 25.70 years"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "female",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "12 female"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "12",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "12 female"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Twenty-three right-handed subjects"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "inclusion_criteria": {
+     "extraction_status": "extracted",
+     "value": "normal or corrected to normal vision; written, informed consent; no history of neurological or psychiatric disease",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Subjects had normal or corrected to normal vision, gave written, informed consent to participate in the study and had no history of neurological or psychiatric disease."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_reappraisal",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "cognitive reappraisal",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Our participants were presented with highly arousing and aversive pictures while using cognitive reappraisal to increase, maintain, or decrease their emotional responses."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants viewed highly arousing and aversive pictures and increased, maintained, or decreased emotional responses using cognitive reappraisal",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Our participants were presented with highly arousing and aversive pictures while using cognitive reappraisal to increase, maintain, or decrease their emotional responses."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_increase",
+     "c_decrease",
+     "c_look_negative",
+     "c_look_neutral"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "event-related design",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Pictures were presented in an event-related design"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri",
+     "acq_eda"
+    ],
+    "presentation_software": {
+     "extraction_status": "extracted",
+     "value": "Presentation (Version 14.1)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "using the stimulation software Presentation (Version 14.1, Neurobehavioral Systems, USA)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "126 aversive and 42 neutral pictures from the International Affective Picture System (IAPS)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Stimuli consisted of 126 aversive and 42 neutral pictures from the International Affective Picture System (IAPS)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_performance_measures": [
+     {
+      "extraction_status": "extracted",
+      "value": "current emotional state ratings on a four-point Likert scale from 1 to 4",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "subjects rated their current emotional state on a scale from 1 to 4"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "functional magnetic resonance imaging",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Whole brain functional and anatomical images were acquired using a 3.0 T Magnetom TrioTim MRI scanner"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3.0 T Magnetom TrioTim MRI scanner (Siemens, Erlangen, The Netherlands) with a 12-channel head coil",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Whole brain functional and anatomical images were acquired using a 3.0 T Magnetom TrioTim MRI scanner (Siemens, Erlangen, Germany) with a 12-channel head coil."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Functional T2*-weighted gradient-echo planar images and high-resolution 3D T1-weighted anatomical images were acquired",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "A high-resolution 3D T1-weighted dataset was acquired for each subject"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "mri": {
+     "magnetic_field_strength_tesla": {
+      "extraction_status": "extracted",
+      "value": 3.0,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "using a 3.0 T Magnetom TrioTim MRI scanner"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "pulse_sequence_type": {
+      "extraction_status": "extracted",
+      "value": "T2*-weighted, gradient-echo planar imaging pulse sequence",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Functional images were acquired using a T2*-weighted, gradient-echo planar imaging pulse sequence"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "repetition_time_seconds": {
+      "extraction_status": "extracted",
+      "value": 2,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TE = 30 ms; TR = 2 s"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "echo_time_seconds": {
+      "extraction_status": "extracted",
+      "value": 0.03,
+      "value_source": "generated",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "TE = 30 ms; TR = 2 s"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "acquisition_voxel_size_mm": {
+      "extraction_status": "extracted",
+      "value": "3 \u00d7 3 \u00d7 3mm\u00b3",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "at an in-plane resolution of 3 \u00d7 3 \u00d7 3mm\u00b3"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "number_of_volumes": {
+      "extraction_status": "extracted",
+      "value": "285 whole brain volumes per experimental run",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For each experimental run 285 whole brain volumes were recorded."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   },
+   "other_data_modalities_presented_in_same_study_session_but_not_part_of_this_acquisition_protocol_are_not_added_here",
+   "acquisition_type_note_should_not_be_interpreted_as_a_field"
+  ],
+  "acquisition_duration_seconds": {
+   "extraction_status": "not_reported",
+   "evidence": {
+    "status": "not_applicable"
+   }
+  }
+ },
+ "usage": {
+  "prompt": 17293,
+  "completion": 13183,
+  "reasoning": 103,
+  "cached": 17290
+ },
+ "finish_reason": "stop",
+ "raw_chars": 53305,
+ "service_tier_echo": "flex"
+}

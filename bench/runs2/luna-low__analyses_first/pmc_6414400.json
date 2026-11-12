@@ -1,0 +1,3157 @@
+{
+ "case_id": "pmc_6414400",
+ "sample": "pmc20",
+ "config": "luna-low",
+ "mode": "analyses_first",
+ "tag": "analyses_first",
+ "no_evidence": false,
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "service_tier": "flex",
+ "gold_n_analyses": 4,
+ "record": {
+  "extraction_metadata": {
+   "extractor_model": "gpt-5",
+   "extractor_version": "1.0",
+   "extraction_date": "2026-08-04",
+   "paper_sections": []
+  },
+  "analyses": [
+   {
+    "local_id": "a_ba45_pos",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Positive functional connectivity changes with Brodmann area 45 as seed region",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Increased functional connectivity was observed between rIFC and a cluster in right caudate/anterior cingulate cortex."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain correlation analysis",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The average time series for each subject were then used as a model for a whole-brain correlation analysis producing functional connectivity maps."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Group connectivity maps were computed by determining the median correlation coefficient (across subjects) at each voxel."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "this study's own earlier analysis",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The previous study showed progressively increased activation with the number of fMRI-Neurofeedback runs in the rIFC-Neurofeedback group within two clusters of the rIFC:"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "Brodmann area 45",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Separate functional connectivity analyses were performed using these 2 clusters in Brodmann area 44 and Brodmann area 45 as seed regions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_nf"
+    ],
+    "conditions": [
+     {
+      "condition": "c_last",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "last relative to first fMRI-Neurofeedback run",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Next, to examine whether there would be a positive or negative change in functional connectivity in the last relative to the first fMRI-Neurofeedback run with the two seed regions of rIFC, separate repeated-measures ANOVAs were conducted"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_first",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "first",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Increased functional connectivity was observed between rIFC and a cluster in right caudate/anterior cingulate cortex."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_run"
+    ],
+    "model_estimation": "me_fc",
+    "groups": [
+     {
+      "group": "g_rifc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All 18 participants of the rIFC-Neurofeedback group (and 13 control boys) were included in the fMRI-Neurofeedback functional connectivity data analyses."
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All 18 participants of the rIFC-Neurofeedback group (and 13 control boys) were included in the fMRI-Neurofeedback functional connectivity data analyses."
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "pp_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "last relative to first fMRI-Neurofeedback run; increased functional connectivity between rIFC Brodmann area 45 and right dorsal caudate/anterior cingulate cortex",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Increased functional connectivity was observed between rIFC and a cluster in right caudate/anterior cingulate cortex."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "functional connectivity changes"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "correlation coefficient",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Group connectivity maps were computed by determining the median correlation coefficient (across subjects) at each voxel."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "F",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Significant group differences were observed for the cluster in the anterior cingulate/caudate that showed a positive connectivity change with Brodmann area 45 (F (df = 1, 29) = 4; p < 0.05)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_numerator": {
+      "extraction_status": "extracted",
+      "value": "1",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Significant group differences were observed for the cluster in the anterior cingulate/caudate that showed a positive connectivity change with Brodmann area 45 (F (df = 1, 29) = 4; p < 0.05)."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "degrees_of_freedom_denominator": {
+      "extraction_status": "extracted",
+      "value": "29",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Significant group differences were observed for the cluster in the anterior cingulate/caudate that showed a positive connectivity change with Brodmann area 45 (F (df = 1, 29) = 4; p < 0.05)."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "baseline": {
+     "extraction_status": "extracted",
+     "value": "first fMRI-Neurofeedback run",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Increased functional connectivity was observed between rIFC and a cluster in right caudate/anterior cingulate cortex."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The ROI included the pars triangularis (14,138 voxels in the Talairach space of the template and 385 voxels when mapped to fMRI space)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "For each of the analyses of positive or negative changes for each seed region, a voxel-level p < 0.05 was applied and a corresponding cluster-level statistical threshold was computed"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "less than one false positive cluster was observed with voxel-wise p < 0.05 and cluster p < 0.02."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "voxel-wise p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "less than one false positive cluster was observed with voxel-wise p < 0.05 and cluster p < 0.02."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.02,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "less than one false positive cluster was observed with voxel-wise p < 0.05 and cluster p < 0.02."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "multiple_comparison_method": {
+      "extraction_status": "extracted",
+      "value": "randomization-based tests; data-driven cluster-level thresholding",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Therefore, only runs completed by at least about 70% of the participants were included, which resulted in only the first 11 (or less) fMRI-Neurofeedback runs being analysed (i.e., runs 1\u201311, with the lowest number of runs being 6). Data were analysed using the non-parametric XBAM software package"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a second, cluster level threshold was computed for the resulting 3D voxel clusters using a data-driven based approach so that the final expected number of type I error clusters was less than one per whole brain."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "alpha_level": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "less than one false positive cluster was observed with voxel-wise p < 0.05 and cluster p < 0.02."
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "whole-brain correlation analysis",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "The average time series for each subject were then used as a model for a whole-brain correlation analysis producing functional connectivity maps."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "Brodmann area 45",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Separate functional connectivity analyses were performed using these 2 clusters in Brodmann area 44 and Brodmann area 45 as seed regions."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "right caudate/anterior cingulate cortex",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Increased functional connectivity was observed between rIFC and a cluster in right caudate/anterior cingulate cortex."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "increased functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Increased functional connectivity was observed between rIFC and a cluster in right caudate/anterior cingulate cortex."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity change",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Next, to examine whether there would be a positive or negative change in functional connectivity"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "decoding": {},
+    "similarity": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "extracted",
+     "value": "improved functional connectivity between IFC and dorsal caudate/anterior cingulate cortex was associated with reduced CPRS-R inattention symptom scores",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "suggesting that improved functional connectivity between IFC and dorsal caudate/anterior cingulate cortex was associated with reduced CPRS-R inattention symptom scores"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "a_ba45_neg",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Negative functional connectivity changes with Brodmann area 45 as seed region",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Decreased functional connectivity was found between rIFC and 4 posterior clusters comprising left parahippocampal gyrus/hippocampus/thalamus/putamen/insula; left lingual gyrus; bilateral posterior cingulate cortex/precuneus/calcarine gyrus; and thalamus, ventral basal ganglia and insula"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "whole-brain correlation analysis"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "at each voxel"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "this study's own earlier analysis",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Separate functional connectivity analyses were performed using these 2 clusters in Brodmann area 44 and Brodmann area 45 as seed regions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "Brodmann area 45",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "using these 2 clusters in Brodmann area 44 and Brodmann area 45 as seed regions"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_nf"
+    ],
+    "conditions": [
+     {
+      "condition": "c_last",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "last relative to first",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Decreased functional connectivity was found between rIFC and 4 posterior clusters"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_first",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "first",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "for the last relative to the first fMRI-Neurofeedback run"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_run"
+    ],
+    "model_estimation": "me_fc",
+    "groups": [
+     {
+      "group": "g_rifc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All 18 participants of the rIFC-Neurofeedback group"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All 18 participants of the rIFC-Neurofeedback group"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "pp_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "last relative to first fMRI-Neurofeedback run; decreased functional connectivity between Brodmann area 45 and four posterior clusters",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Decreased functional connectivity was found between rIFC and 4 posterior clusters comprising left parahippocampal gyrus/hippocampus/thalamus/putamen/insula; left lingual gyrus; bilateral posterior cingulate cortex/precuneus/calcarine gyrus; and thalamus, ventral basal ganglia and insula"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "functional connectivity"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "correlation coefficient",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "average correlation coefficient values"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "F",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "separate repeated-measures ANOVAs were conducted"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Talairach template"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "a corresponding cluster-level statistical threshold was computed"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel-wise p < 0.05 and cluster p < 0.002"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "voxel-wise p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel-wise p < 0.05 and cluster p < 0.002"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.002,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel-wise p < 0.05 and cluster p < 0.002"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "less than one error cluster was observed"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "whole-brain correlation analysis",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "whole-brain correlation analysis producing functional connectivity maps"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "Brodmann area 45",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Brodmann area 45 as seed region"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "left parahippocampal gyrus/hippocampus/thalamus/putamen/insula; left lingual gyrus; bilateral posterior cingulate cortex/precuneus/calcarine gyrus; thalamus, ventral basal ganglia and insula",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Decreased functional connectivity was found between rIFC and 4 posterior clusters comprising left parahippocampal gyrus/hippocampus/thalamus/putamen/insula; left lingual gyrus; bilateral posterior cingulate cortex/precuneus/calcarine gyrus; and thalamus, ventral basal ganglia and insula"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "decreased functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Decreased functional connectivity was found between rIFC and 4 posterior clusters"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity change",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "functional connectivity changes"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "decoding": {},
+    "similarity": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   },
+   {
+    "local_id": "a_ba44_pos",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Positive functional connectivity changes with Brodmann area 44 as seed region",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "This revealed increased functional connectivity with the right anterior cingulate cortex."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "whole-brain correlation analysis"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "at each voxel"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "this study's own earlier analysis",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Separate functional connectivity analyses were performed using these 2 clusters in Brodmann area 44 and Brodmann area 45 as seed regions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "Brodmann area 44",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Brodmann area 44 as seed region"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_nf"
+    ],
+    "conditions": [
+     {
+      "condition": "c_last",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "last relative to first",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "For the ANOVA of positive functional connectivity changes between the last relative to the first fMRI-Neurofeedback run in Brodmann area 44"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_first",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "first",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "between the last relative to the first fMRI-Neurofeedback run"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_run"
+    ],
+    "model_estimation": "me_fc",
+    "groups": [
+     {
+      "group": "g_rifc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All 18 participants of the rIFC-Neurofeedback group"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All 18 participants of the rIFC-Neurofeedback group"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "pp_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "last relative to first fMRI-Neurofeedback run; increased functional connectivity between Brodmann area 44 and right anterior cingulate cortex",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "This revealed increased functional connectivity with the right anterior cingulate cortex."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "functional connectivity"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "correlation coefficient",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Average correlation coefficients of the dorsal anterior cingulate cortex cluster"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "F",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "separate repeated-measures ANOVAs were conducted"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Talairach template"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "less than one false positive cluster was observed"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel-wise p < 0.05 and cluster p < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "voxel-wise p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel-wise p < 0.05 and cluster p < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel-wise p < 0.05 and cluster p < 0.05"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "less than one error cluster"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "whole-brain correlation analysis",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "whole-brain correlation analysis producing functional connectivity maps"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "Brodmann area 44",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Brodmann area 44 as seed region"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "right anterior cingulate cortex",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "This revealed increased functional connectivity with the right anterior cingulate cortex."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "increased functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "This revealed increased functional connectivity with the right anterior cingulate cortex."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity change",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "functional connectivity changes"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "decoding": {},
+    "similarity": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   },
+   {
+    "local_id": "a_ba44_neg",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Negative functional connectivity changes with Brodmann area 44 as seed region",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Decreased functional connectivity was observed in a large cluster comprising the bilateral precuneus/posterior cingulate cortex/hippocampus/parahippocampal gyrus/thalamus/calcarine/lingual gyrus"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_scope": {
+     "extraction_status": "extracted",
+     "value": "whole-brain",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "whole-brain correlation analysis"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "spatial_unit": {
+     "extraction_status": "extracted",
+     "value": "voxels",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "at each voxel"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_definition": {
+     "extraction_status": "extracted",
+     "value": "this study's own earlier analysis",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Separate functional connectivity analyses were performed using these 2 clusters in Brodmann area 44 and Brodmann area 45 as seed regions."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "roi_label": {
+     "extraction_status": "extracted",
+     "value": "Brodmann area 44",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Brodmann area 44 as seed region"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "experiments": [
+     "exp_nf"
+    ],
+    "conditions": [
+     {
+      "condition": "c_last",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "last relative to first",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Decreased functional connectivity was observed in a large cluster"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     },
+     {
+      "condition": "c_first",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "first",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "between the last relative to the first fMRI-Neurofeedback run"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "terms": [
+     "t_run"
+    ],
+    "model_estimation": "me_fc",
+    "groups": [
+     {
+      "group": "g_rifc",
+      "role": {
+       "extraction_status": "extracted",
+       "value": "included",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All 18 participants of the rIFC-Neurofeedback group"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "n": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "All 18 participants of the rIFC-Neurofeedback group"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "preprocessing": "pp_fmri",
+    "definition": {
+     "extraction_status": "extracted",
+     "value": "last relative to first fMRI-Neurofeedback run; decreased functional connectivity between Brodmann area 44 and bilateral precuneus/posterior cingulate cortex/hippocampus/parahippocampal gyrus/thalamus/calcarine/lingual gyrus",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Decreased functional connectivity was observed in a large cluster comprising the bilateral precuneus/posterior cingulate cortex/hippocampus/parahippocampal gyrus/thalamus/calcarine/lingual gyrus"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "measure": {
+     "source_label": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "functional connectivity"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "specific_metric": {
+      "extraction_status": "extracted",
+      "value": "correlation coefficient",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Correlation coefficients for the functional connectivity of PCC/precuneus with the seed region"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "statistic": {
+     "family": {
+      "extraction_status": "extracted",
+      "value": "F",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "separate repeated-measures ANOVAs were conducted"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "tables": [
+     "tbl2"
+    ],
+    "coordinate_space": {
+     "extraction_status": "extracted",
+     "value": "Talairach space",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Talairach template"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessments": [],
+    "inference_settings": {
+     "inference_level": {
+      "extraction_status": "extracted",
+      "value": "cluster",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "less than one error cluster was observed with voxel-wise p < 0.05 and cluster p < 0.001."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.05,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel-wise p < 0.05 and cluster p < 0.001."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "voxelwise_threshold_type": {
+      "extraction_status": "extracted",
+      "value": "voxel-wise p",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel-wise p < 0.05 and cluster p < 0.001."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "clusterwise_threshold_value": {
+      "extraction_status": "extracted",
+      "value": 0.001,
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "voxel-wise p < 0.05 and cluster p < 0.001."
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "correction_scope": {
+      "extraction_status": "extracted",
+      "value": "whole brain",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "less than one error cluster was observed"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "connectivity": {
+     "connectivity_method": {
+      "extraction_status": "extracted",
+      "value": "whole-brain correlation analysis",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "whole-brain correlation analysis producing functional connectivity maps"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "seed_regions": {
+      "extraction_status": "extracted",
+      "value": "Brodmann area 44",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Brodmann area 44 as seed region"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "target_regions": {
+      "extraction_status": "extracted",
+      "value": "bilateral precuneus/posterior cingulate cortex/hippocampus/parahippocampal gyrus/thalamus/calcarine/lingual gyrus",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Decreased functional connectivity was observed in a large cluster comprising the bilateral precuneus/posterior cingulate cortex/hippocampus/parahippocampal gyrus/thalamus/calcarine/lingual gyrus"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "parameter_change": {
+      "extraction_status": "extracted",
+      "value": "decreased functional connectivity",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "Decreased functional connectivity was observed in a large cluster"
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "inference_target": {
+      "extraction_status": "extracted",
+      "value": "functional connectivity change",
+      "value_source": "reported",
+      "evidence": {
+       "status": "present",
+       "sets": [
+        {
+         "spans": [
+          {
+           "text": "functional connectivity changes"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "conjunction": {},
+    "decoding": {},
+    "similarity": {},
+    "component_decomposition": {},
+    "not_structurable": {},
+    "other_method": {},
+    "model_representation_notes": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    },
+    "interpretations": {
+     "extraction_status": "not_reported",
+     "evidence": {
+      "status": "not_applicable"
+     }
+    }
+   }
+  ],
+  "tables": [
+   {
+    "local_id": "tbl1",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 1",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Behaviour ratings before and after real-time fMRI Neurofeedback training for the rIFC-neurofeedback and lPHG-neurofeedback control ADHD groups."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Behaviour ratings before and after real-time fMRI Neurofeedback training for the rIFC-neurofeedback and lPHG-neurofeedback control ADHD groups.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 Behaviour ratings before and after real-time fMRI Neurofeedback training for the rIFC-neurofeedback and lPHG-neurofeedback control ADHD groups."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Clinical outcome comparisons before and after neurofeedback training.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 1 shows the clinical improvements in both groups in the primary and secondary outcome measures"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl2",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 2",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Changes in positive and negative functional connectivity with the two seed regions of rIFC."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Changes in positive and negative functional connectivity with the two seed regions of rIFC.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 2 Changes in positive and negative functional connectivity with the two seed regions of rIFC."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "tbl3",
+    "table_number": {
+     "extraction_status": "extracted",
+     "value": "Table 3",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Correlations between clinical changes in the ADHD-RS and the CPRS-R and the significant functional connectivity changes in the rIFC-Neurofeedback group."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "title": {
+     "extraction_status": "extracted",
+     "value": "Correlations between clinical changes in the ADHD-RS and the CPRS-R and the significant functional connectivity changes in the rIFC-Neurofeedback group.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Table 3 Correlations between clinical changes in the ADHD-RS and the CPRS-R and the significant functional connectivity changes in the rIFC-Neurofeedback group."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "conditions": [
+   {
+    "local_id": "c_first",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "first fMRI-Neurofeedback run",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "between the last relative to the first fMRI-Neurofeedback run"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "timepoint",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "between the last relative to the first fMRI-Neurofeedback run"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "c_last",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "last fMRI-Neurofeedback run",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "between the last relative to the first fMRI-Neurofeedback run"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "condition_kind": {
+     "extraction_status": "extracted",
+     "value": "timepoint",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "between the last relative to the first fMRI-Neurofeedback run"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "terms": [
+   {
+    "local_id": "t_run",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "run",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "with run as within-group repeated measure"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "type": {
+     "extraction_status": "extracted",
+     "value": "categorical",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "with run as within-group repeated measure"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "role": {
+     "extraction_status": "extracted",
+     "value": "term of interest",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "with run as within-group repeated measure"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_first",
+     "c_last"
+    ],
+    "groups": [],
+    "levels": {
+     "extraction_status": "extracted",
+     "value": "first; last",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "between the last relative to the first fMRI-Neurofeedback run"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "groups": [
+   {
+    "local_id": "g_rifc",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "rIFC-Neurofeedback group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the rIFC-Neurofeedback group is the main focus of the study"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Eighteen right-handed boys with ADHD who received rIFC neurofeedback.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Eighteen right-handed boys"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "boys",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Eighteen right-handed boys"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "18",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All 18 participants of the rIFC-Neurofeedback group"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "14 (2)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "12\u201317 years old; mean (SD) = 14 (2)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_unit": {
+     "extraction_status": "extracted",
+     "value": "years",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "12\u201317 years old"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "sex_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "boys",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Eighteen right-handed boys"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Eighteen right-handed boys"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "handedness_distribution": [
+     {
+      "category": {
+       "extraction_status": "extracted",
+       "value": "right-handed",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Eighteen right-handed boys"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "count": {
+       "extraction_status": "extracted",
+       "value": "18",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "Eighteen right-handed boys"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": "ADHD",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "They all met the clinical DSM-5 criteria for the diagnosis of ADHD"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "diagnostic_system": {
+     "extraction_status": "extracted",
+     "value": "DSM-5",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "clinical DSM-5 criteria"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "medication_status": {
+     "extraction_status": "extracted",
+     "value": "Fifteen boys ... received stable psychostimulant administration throughout the fMRI-Neurofeedback period.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Fifteen boys of the rIFC-Neurofeedback group and 9 control boys of the lPHG-Neurofeedback group received stable psychostimulant administration throughout the fMRI-Neurofeedback period."
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "g_lphg",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "lPHG-Neurofeedback control group",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a group of 13 ADHD adolescents who had to enhance another control region, the left parahippocampal gyrus"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "species": {
+     "extraction_status": "extracted",
+     "value": "boys",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "13 control boys"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquired_count": {
+     "extraction_status": "extracted",
+     "value": "13",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "All 18 participants of the rIFC-Neurofeedback group (and 13 control boys) were included"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "age_mean": {
+     "extraction_status": "extracted",
+     "value": "14 (2)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "13 control ADHD patients (mean age (SD) = 14 (2))"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "medical_condition": {
+     "extraction_status": "extracted",
+     "value": "ADHD",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "meeting DSM-5 criteria for the diagnosis of ADHD"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "experiments": [
+   {
+    "local_id": "exp_nf",
+    "task_name": {
+     "extraction_status": "extracted",
+     "value": "fMRI-Neurofeedback",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Boys were offered 14 fMRI-Neurofeedback runs"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "task_description": {
+     "extraction_status": "extracted",
+     "value": "Participants attempted to move a rocket toward space by self-regulating activity in a target ROI, with rest blocks showing an underwater dolphin image and activation blocks showing a rocket video clip.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Boys were asked to move the rocket towards space by any means they found helpful."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "conditions": [
+     "c_first",
+     "c_last"
+    ],
+    "design_type": {
+     "extraction_status": "extracted",
+     "value": "block design",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Each fMRI-Neurofeedback run consisted of seven rest (30s) and six activation (50s) blocks"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "acquisitions": [
+     "acq_fmri"
+    ],
+    "instructions": {
+     "extraction_status": "extracted",
+     "value": "you can try to concentrate on the rocket or try any other method that works for you",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "text": "Instructions were minimal (i.e., \u201cyou can try to concentrate on the rocket\u201d or \u201ctry any other method that works for you\u201d)"
+       }
+      ]
+     }
+    },
+    "stimuli": {
+     "extraction_status": "extracted",
+     "value": "underwater dolphin image and video-clip of a rocket",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "text": "Each fMRI-Neurofeedback run consisted of seven rest (30s) and six activation (50s) blocks, starting with a rest block showing an underwater dolphin image, while activation blocks showed a video-clip of a rocket."
+       }
+      ]
+     }
+    },
+    "task_performance_measures": {
+     "extraction_status": "extracted",
+     "value": "score (0\u201310), reflecting the percentage of distance travelled through space during each run",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "text": "a score (0\u201310), reflecting the percentage of distance travelled through space during each run, appeared on the screen"
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "acquisitions": [
+   {
+    "local_id": "acq_fmri",
+    "modality": {
+     "extraction_status": "extracted",
+     "value": "fMRI",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Gradient-echo echo planar MR imaging and structural data were acquired on a 3T General Electric MR750 MRI scanner"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "instrument": {
+     "extraction_status": "extracted",
+     "value": "3T General Electric MR750 MRI scanner with a 12-channel head coil",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Gradient-echo echo planar MR imaging and structural data were acquired on a 3T General Electric MR750 MRI scanner with a 12-channel head coil"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "T2*-weighted gradient echo echo-planar imaging was acquired with TR/TE = 2000/30 ms, flip angle 75\u00b0, 40 \u00d7 3 mm slices, 0.3 mm slice gap, 64 \u00d7 64 matrix, 21.1 cm FOV, and 3.3 \u00d7 3.3 \u00d7 3.3 mm3 voxels.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "fMRI-Neurofeedback scans were collected using an T2*-weighted gradient echo, echo-planar image sequence (TR/TE = 2000/30 ms, flip angle = 75\u00b0, 40 \u00d7 3 mm slices with a 0.3 mm slice gap, matrix size 64 \u00d7 64, 21.1 cm FOV, voxel size = 3.3 \u00d7 3.3 \u00d7 3.3 mm 3 )."
+         }
+        ]
+       }
+      ]
+     },
+     "mri": {
+      "magnetic_field_strength_tesla": {
+       "extraction_status": "extracted",
+       "value": 3,
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "acquired on a 3T General Electric MR750 MRI scanner"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "pulse_sequence_type": {
+       "extraction_status": "extracted",
+       "value": "T2*-weighted gradient echo, echo-planar image sequence",
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "fMRI-Neurofeedback scans were collected using an T2*-weighted gradient echo, echo-planar image sequence"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "repetition_time_seconds": {
+       "extraction_status": "extracted",
+       "value": 2,
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "TR/TE = 2000/30 ms"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "echo_time_seconds": {
+       "extraction_status": "extracted",
+       "value": [
+        0.03
+       ],
+       "value_source": "generated",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "TR/TE = 2000/30 ms"
+           }
+          ]
+         }
+        ]
+       }
+      },
+      "acquisition_voxel_size_mm": {
+       "extraction_status": "extracted",
+       "value": [
+        3.3,
+        3.3,
+        3.3
+       ],
+       "value_source": "reported",
+       "evidence": {
+        "status": "present",
+        "sets": [
+         {
+          "spans": [
+           {
+            "text": "voxel size = 3.3 \u00d7 3.3 \u00d7 3.3 mm 3"
+           }
+          ]
+         }
+        ]
+       }
+      }
+     }
+    }
+   }
+  ],
+  "preprocessings": [
+   {
+    "local_id": "pp_fmri",
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Motion correction, rigid-body realignment, and Gaussian smoothing at 7.8 mm FWHM.",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "After realignment, data were then smoothed using a Gaussian filter at 7.8 mm FWHM (full-width half-maximum) to improve the signal-to-noise ratio of the images."
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": {
+     "extraction_status": "extracted",
+     "value": [
+      "AFNI",
+      "XBAM"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Data were analysed using the non-parametric XBAM software package"
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "The images were then transferred to an external Linux workstation where they were pre-processed using AFNI"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "steps": {
+     "extraction_status": "extracted",
+     "value": [
+      "realignment",
+      "Gaussian smoothing"
+     ],
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "fMRI data were first processed to minimise motion related artefacts"
+         }
+        ]
+       },
+       {
+        "spans": [
+         {
+          "text": "After realignment, data were then smoothed using a Gaussian filter at 7.8 mm FWHM"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "model_estimations": [
+   {
+    "local_id": "me_fc",
+    "model_type": {
+     "extraction_status": "extracted",
+     "value": "repeated-measures ANOVA",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "separate repeated-measures ANOVAs were conducted to test for functional connectivity differences"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "model_settings": {
+     "extraction_status": "extracted",
+     "value": "randomization-based tests for voxel- and cluster-wise differences; median correlation coefficient across subjects",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "randomization-based tests for voxel- and cluster-wise differences were used"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "level": {
+     "extraction_status": "extracted",
+     "value": "group-level",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Group connectivity maps were computed"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "estimator": {
+     "extraction_status": "extracted",
+     "value": "non-parametric randomization-based test",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "randomization-based tests for voxel- and cluster-wise differences were used"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "software": {
+     "extraction_status": "extracted",
+     "value": [
+      "XBAM"
+     ],
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "Data were analysed using the non-parametric XBAM software package"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "assessments": [
+   {
+    "local_id": "ass_adhdrs",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "ADHD Rating Scale (ADHD-RS-IV)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The primary outcome measure was the ADHD Rating Scale (ADHD-RS-IV)"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Tool to assess ADHD symptoms and monitor treatment effects.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a standard tool to assess ADHD symptoms according to DSM-5 and to monitor treatment effects"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical scale",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "The primary outcome measure was the ADHD Rating Scale (ADHD-RS-IV)"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   {
+    "local_id": "ass_cprs",
+    "name": {
+     "extraction_status": "extracted",
+     "value": "Conners' Parent Rating Scale (CPRS-R)",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the secondary outcome measure was the CPRS-R ADHD index"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "description": {
+     "extraction_status": "extracted",
+     "value": "Parent-rated index of ADHD severity.",
+     "value_source": "reported",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "a parent rated index of ADHD severity"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "assessment_type": {
+     "extraction_status": "extracted",
+     "value": "clinical scale",
+     "value_source": "generated",
+     "evidence": {
+      "status": "present",
+      "sets": [
+       {
+        "spans": [
+         {
+          "text": "the secondary outcome measure was the CPRS-R ADHD index"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "description": {
+   "extraction_status": "extracted",
+   "value": "The study examined changes in whole-brain functional connectivity following right inferior frontal cortex fMRI neurofeedback in adolescents with ADHD, using Brodmann area 44 and 45 seed regions and comparing findings with a left parahippocampal neurofeedback control group.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "we were particularly interested in the effects of rIFC self-regulation training in ADHD on functional connectivity with other brain networks."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "design": {
+   "extraction_status": "extracted",
+   "value": "Randomized controlled trial with an rIFC-Neurofeedback group and a lPHG-Neurofeedback control group; functional connectivity was compared between the first and last neurofeedback runs using seed-based whole-brain correlation analyses.",
+   "value_source": "generated",
+   "evidence": {
+    "status": "present",
+    "sets": [
+     {
+      "spans": [
+       {
+        "text": "The original study was a randomized controlled trial testing the efficacy of fMRI-Neurofeedback of rIFC in 18 ADHD adolescents compared to a group of 13 ADHD adolescents who had to enhance another control region, the left parahippocampal gyrus."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "external_datasets": []
+ },
+ "usage": {
+  "prompt": 18560,
+  "completion": 11973,
+  "reasoning": 87,
+  "cached": 0
+ },
+ "finish_reason": "stop",
+ "raw_chars": 48344,
+ "service_tier_echo": "flex"
+}
