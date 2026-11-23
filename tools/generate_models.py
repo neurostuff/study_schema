@@ -114,6 +114,25 @@ def _annotate_unique_keys(document: dict, view) -> None:
             definition["x-unique-keys"] = list(keys.values())
 
 
+def _annotate_value_parents(document: dict, view) -> None:
+    """Write each enum value's parent, the value its LinkML `is_a` names, as `x-parents`.
+
+    Only values with an `is_a` are listed, and an enum none of whose values has one gets no
+    annotation.
+    """
+    enums = view.all_enums()
+    for name, definition in document["$defs"].items():
+        if name not in enums:
+            continue
+        parents = {
+            value: permissible.is_a
+            for value, permissible in view.get_enum(name).permissible_values.items()
+            if permissible.is_a
+        }
+        if parents:
+            definition["x-parents"] = parents
+
+
 def _sort_keys(node, declared_order: bool = False):
     """Sort every object's keys, except a `properties` object, which keeps the generator's order."""
     if isinstance(node, list):
@@ -145,6 +164,7 @@ def render() -> dict[Path, str]:
             )
             _annotate_references(document, view)
             _annotate_unique_keys(document, view)
+            _annotate_value_parents(document, view)
             out[PACKAGE / "jsonschema" / f"{name}.schema.json"] = (
                 json.dumps(_sort_keys(document), indent=2, ensure_ascii=False) + "\n"
             )
