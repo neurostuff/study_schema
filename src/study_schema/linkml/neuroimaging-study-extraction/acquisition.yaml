@@ -33,36 +33,57 @@ enums:
   Modality:
     description: >-
       Imaging or recording modality of one Acquisition, and through `instantiates` the class
-      in this module holding that modality's parameters. fMRI, sMRI, dMRI, and MRI all instantiate
-      MRI; EEG, fNIRS, and PET instantiate their namesakes; MEG, SPECT, and other instantiate
-      OtherModality. `instantiates` carries a CURIE against this module's own `neurostudy`
-      prefix, so `neurostudy_ex:MRI` resolves to the MRI class below.
+      in this module holding that modality's parameters. fMRI, sMRI, dMRI, MRS, and MRI all
+      instantiate MRI; EEG, fNIRS, and PET instantiate their namesakes; MEG, SPECT, iEEG,
+      CT, physiological, and other instantiate OtherModality. `instantiates` carries a CURIE
+      against this module's own `neurostudy` prefix, so `neurostudy_ex:MRI` resolves to the
+      MRI class below. A value's `is_a` names the coarser value it refines: fMRI, sMRI, dMRI,
+      and MRS refine MRI, and iEEG, CT, and physiological refine other, so a search for the
+      coarser value can include its refinements.
     permissible_values:
       fMRI:
+        is_a: MRI
         instantiates:
           - neurostudy_ex:MRI
         description: Functional MRI, whether BOLD, ASL perfusion, or cerebral blood volume
           weighted.
       sMRI:
+        is_a: MRI
         instantiates:
           - neurostudy_ex:MRI
         description: >-
           Structural MRI, such as a T1- or T2-weighted anatomical scan, used for morphometry
           or as a coregistration target.
       dMRI:
+        is_a: MRI
         instantiates:
           - neurostudy_ex:MRI
         description: Diffusion-weighted MRI, including DTI and DWI.
+      MRS:
+        is_a: MRI
+        instantiates:
+          - neurostudy_ex:MRI
+        description: >-
+          Magnetic resonance spectroscopy, such as 1H or 31P MRS, measuring metabolite concentrations
+          rather than an image.
       MRI:
         instantiates:
           - neurostudy_ex:MRI
         description: >-
-          An MRI acquisition whose functional, structural, or diffusion role the source does
-          not make clear. Use a more specific value whenever the source supports one.
+          An MRI acquisition whose functional, structural, diffusion, or spectroscopy role
+          the source does not make clear. Use a more specific value whenever the source supports
+          one.
       EEG:
         instantiates:
           - neurostudy_ex:EEG
         description: Scalp electroencephalography.
+      iEEG:
+        is_a: other
+        instantiates:
+          - neurostudy_ex:OtherModality
+        description: >-
+          Intracranial electrophysiology: electrocorticography (ECoG), stereo-EEG, depth electrodes,
+          local field potentials, and single or multi-unit recordings.
       fNIRS:
         instantiates:
           - neurostudy_ex:FNIRS
@@ -80,12 +101,24 @@ enums:
         instantiates:
           - neurostudy_ex:OtherModality
         description: Single-photon emission computed tomography.
+      CT:
+        is_a: other
+        instantiates:
+          - neurostudy_ex:OtherModality
+        description: X-ray computed tomography, including cone-beam and micro-CT.
+      physiological:
+        is_a: other
+        instantiates:
+          - neurostudy_ex:OtherModality
+        description: >-
+          A peripheral physiological recording analysed on its own: EMG, ECG, electrodermal
+          activity, eye tracking or pupillometry, pulse, respiration, or body movement.
       other:
         instantiates:
           - neurostudy_ex:OtherModality
         description: >-
-          A modality none of the above names, such as intracranial EEG, ultrasound, or a physiological
-          recording analysed on its own. OtherModality holds both its label and its parameters.
+          A modality none of the above names, such as ultrasound. OtherModality holds both
+          its label and its parameters.
 classes:
   Acquisition:
     abstract: true
@@ -141,9 +174,9 @@ classes:
   MRI:
     is_a: Acquisition
     description: >-
-      An MRI acquisition of any kind -- functional, structural, or diffusion, as modality
-      records. Its own attributes are the ones commonly useful for study selection, subgrouping,
-      or sensitivity analyses in coordinate- or image-based meta-analysis.
+      An MRI acquisition of any kind -- functional, structural, diffusion, or spectroscopy,
+      as modality records. Its own attributes are the ones commonly useful for study selection,
+      subgrouping, or sensitivity analyses in coordinate- or image-based meta-analysis.
     attributes:
       magnetic_field_strength_tesla:
         range: ExtractedNumber
@@ -268,10 +301,10 @@ classes:
   OtherModality:
     is_a: Acquisition
     description: >-
-      An acquisition whose modality has no class of its own: MEG, SPECT, and `other`. Nothing
-      here is normalized, so this is where a modality the schema does not name keeps its parameters.
-      A parameter that MRI, EEG, FNIRS, or PET has no field for belongs on that sibling class
-      instead.
+      An acquisition whose modality has no class of its own: MEG, SPECT, iEEG, CT, physiological,
+      and `other`. Nothing here is normalized, so this is where a modality the schema does
+      not name keeps its parameters. A parameter that MRI, EEG, FNIRS, or PET has no field
+      for belongs on that sibling class instead.
     attributes:
       modality_label:
         range: ExtractedString
