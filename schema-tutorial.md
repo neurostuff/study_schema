@@ -662,11 +662,15 @@ subclass that the `modality` value **instantiates**:
 
 | `modality` (closed) | Class holding its parameters |
 |---|---|
-| `fMRI`, `sMRI`, `dMRI`, `MRI` | `MRI` |
+| `fMRI`, `sMRI`, `dMRI`, `MRS`, `MRI` | `MRI` |
 | `EEG` | `EEG` |
 | `fNIRS` | `FNIRS` |
 | `PET` | `PET` |
-| `MEG`, `SPECT`, `other` | `OtherModality` |
+| `MEG`, `SPECT`, `iEEG`, `CT`, `physiological`, `other` | `OtherModality` |
+
+Some values refine a coarser one, which their `is_a` names: `fMRI`, `sMRI`, `dMRI` and `MRS` refine
+`MRI`, and `iEEG`, `CT` and `physiological` refine `other`. A search for the coarser value can include
+its refinements; `study_schema.jsonschema.value_children` lists them.
 
 `acquisition_type` names the class the record instantiates. It is a **type designator**: derived from
 the modality value, never read off the page, and in neither provenance subset. `Modality` is the one

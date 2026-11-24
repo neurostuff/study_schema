@@ -571,7 +571,7 @@ class BrainCoverage(str, Enum):
 
 class Modality(str, Enum):
     """
-    Imaging or recording modality of one Acquisition, and through `instantiates` the class in this module holding that modality's parameters. fMRI, sMRI, dMRI, and MRI all instantiate MRI; EEG, fNIRS, and PET instantiate their namesakes; MEG, SPECT, and other instantiate OtherModality. `instantiates` carries a CURIE against this module's own `neurostudy` prefix, so `neurostudy_ex:MRI` resolves to the MRI class below.
+    Imaging or recording modality of one Acquisition, and through `instantiates` the class in this module holding that modality's parameters. fMRI, sMRI, dMRI, MRS, and MRI all instantiate MRI; EEG, fNIRS, and PET instantiate their namesakes; MEG, SPECT, iEEG, CT, physiological, and other instantiate OtherModality. `instantiates` carries a CURIE against this module's own `neurostudy` prefix, so `neurostudy_ex:MRI` resolves to the MRI class below. A value's `is_a` names the coarser value it refines: fMRI, sMRI, dMRI, and MRS refine MRI, and iEEG, CT, and physiological refine other, so a search for the coarser value can include its refinements.
     """
     fMRI = "fMRI"
     """
@@ -585,13 +585,21 @@ class Modality(str, Enum):
     """
     Diffusion-weighted MRI, including DTI and DWI.
     """
+    MRS = "MRS"
+    """
+    Magnetic resonance spectroscopy, such as 1H or 31P MRS, measuring metabolite concentrations rather than an image.
+    """
     MRI = "MRI"
     """
-    An MRI acquisition whose functional, structural, or diffusion role the source does not make clear. Use a more specific value whenever the source supports one.
+    An MRI acquisition whose functional, structural, diffusion, or spectroscopy role the source does not make clear. Use a more specific value whenever the source supports one.
     """
     EEG = "EEG"
     """
     Scalp electroencephalography.
+    """
+    iEEG = "iEEG"
+    """
+    Intracranial electrophysiology: electrocorticography (ECoG), stereo-EEG, depth electrodes, local field potentials, and single or multi-unit recordings.
     """
     fNIRS = "fNIRS"
     """
@@ -609,9 +617,17 @@ class Modality(str, Enum):
     """
     Single-photon emission computed tomography.
     """
+    CT = "CT"
+    """
+    X-ray computed tomography, including cone-beam and micro-CT.
+    """
+    physiological = "physiological"
+    """
+    A peripheral physiological recording analysed on its own: EMG, ECG, electrodermal activity, eye tracking or pupillometry, pulse, respiration, or body movement.
+    """
     other = "other"
     """
-    A modality none of the above names, such as intracranial EEG, ultrasound, or a physiological recording analysed on its own. OtherModality holds both its label and its parameters.
+    A modality none of the above names, such as ultrasound. OtherModality holds both its label and its parameters.
     """
 
 
@@ -2047,7 +2063,7 @@ A field of view or slice prescription in millimetres is not by itself a statemen
 
 class MRI(Acquisition):
     """
-    An MRI acquisition of any kind -- functional, structural, or diffusion, as modality records. Its own attributes are the ones commonly useful for study selection, subgrouping, or sensitivity analyses in coordinate- or image-based meta-analysis.
+    An MRI acquisition of any kind -- functional, structural, diffusion, or spectroscopy, as modality records. Its own attributes are the ones commonly useful for study selection, subgrouping, or sensitivity analyses in coordinate- or image-based meta-analysis.
     """
     magnetic_field_strength_tesla: Optional[ExtractedNumber] = Field(default=None, description="""Nominal static magnetic field strength in tesla.""")
     pulse_sequence_type: Optional[ExtractedString] = Field(default=None, description="""General pulse sequence family, such as EPI, MPRAGE, SPGR, or spin echo.""")
@@ -2191,7 +2207,7 @@ A field of view or slice prescription in millimetres is not by itself a statemen
 
 class OtherModality(Acquisition):
     """
-    An acquisition whose modality has no class of its own: MEG, SPECT, and `other`. Nothing here is normalized, so this is where a modality the schema does not name keeps its parameters. A parameter that MRI, EEG, FNIRS, or PET has no field for belongs on that sibling class instead.
+    An acquisition whose modality has no class of its own: MEG, SPECT, iEEG, CT, physiological, and `other`. Nothing here is normalized, so this is where a modality the schema does not name keeps its parameters. A parameter that MRI, EEG, FNIRS, or PET has no field for belongs on that sibling class instead.
     """
     modality_label: ExtractedString = Field(default=..., description="""The source's own name for the modality or recording technique, verbatim. Always populated, since the Modality vocabulary is coarser than what a source reports.""")
     reason_no_modality_class_used: Optional[ExtractedString] = Field(default=None, description="""Why this is not an MRI, EEG, FNIRS, or PET record.""")
