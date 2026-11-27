@@ -20,8 +20,9 @@ description: >-
   validator. The stage chain adds two more invariants: ModelEstimation.inputs_from must be
   acyclic, and a ModelTerm.name must be unique across a whole chain rather than within
   the one record ModelTerm.unique_keys can scope. One more does not come from that
-  specification: Group.is_healthy being true requires Group.medical_condition to be
-  empty, which LinkML cannot state because no slot condition emits a boolean constant.
+  specification: Group.is_healthy being true requires every Group.medical_condition entry
+  to state an absence or a risk, never a condition the group has, which LinkML cannot state
+  because no slot condition emits a boolean constant.
 
   No field in this schema binds a subject-matter vocabulary, and none stores a cognitive
   concept, construct, or domain. Values are the source's own wording; mapping them onto

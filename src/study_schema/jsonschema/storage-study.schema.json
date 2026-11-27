@@ -1140,6 +1140,17 @@
       "title": "ConditionKind",
       "type": "string"
     },
+    "ConditionRole": {
+      "description": "How a group stands to one condition its `medical_condition` names: the `value` of a `Normalization` entry with vocabulary `ConditionRole` on that item. Optional, like every `normalized` entry: a record carries none until a normalizer writes them. Written per condition, not per item, so an item naming two conditions (\"MDD with a family history of bipolar disorder\") carries a role for each, and one condition may carry more than one. Succeeds the pipeline's `astra medical role` (vocabulary manifest `medical_role`), which held the first three values, one per item.",
+      "enum": [
+        "none",
+        "primary",
+        "comorbid",
+        "at_risk"
+      ],
+      "title": "ConditionRole",
+      "type": "string"
+    },
     "ConjunctionComponent": {
       "additionalProperties": false,
       "description": "One component effect of a conjunction, carrying its own direction in its definition.",
@@ -2332,7 +2343,7 @@
           ]
         },
         "is_healthy": {
-          "description": "Whether this cohort is free of medical, neurological and psychiatric conditions. **Derived, not extracted**: code sets it from `medical_condition`, so it cannot disagree with it.\nTrue when the group records no condition, or records only an assertion of absence (\"no neurological or psychiatric disorder\", \"healthy controls\"). False when any entry is a condition. Unset when `medical_condition` was never extracted -- that is not a healthy cohort, it is an unread one.\nDerived rather than asked because the source's own wording does not settle it: the addiction and obesity literature says \"healthy\" to mean free of comorbidity.",
+          "description": "Whether this cohort is free of medical, neurological and psychiatric conditions. **Derived, not extracted**: code sets it from `medical_condition`, so it cannot disagree with it.\nTrue when the group has no condition: every entry is an assertion of absence (\"no neurological or psychiatric disorder\", \"healthy controls\") or a risk of a condition the group does not have (`ConditionRole` `at_risk`: unaffected relatives, presymptomatic carriers, a clinical high-risk group with attenuated symptoms). An at-risk group is healthy, with the risk recorded beside it. False when any entry is a condition the group has. Unset when `medical_condition` was never extracted -- that is not a healthy cohort, it is an unread one.\nDerived rather than asked because the source's own wording does not settle it: the addiction and obesity literature says \"healthy\" to mean free of comorbidity.",
           "type": [
             "boolean",
             "null"
@@ -4170,6 +4181,21 @@
         "analyses_reported_elsewhere"
       ],
       "title": "ResultReporting",
+      "type": "string"
+    },
+    "RiskBasis": {
+      "description": "The evidence that puts a group at risk of a condition whose `ConditionRole` is `at_risk`: the `value` of a `Normalization` entry with vocabulary `RiskBasis` on that condition. Optional: an at-risk condition carries one entry per basis the source states, so a mutation carrier from an affected family carries two, and none where the source states none (most do not say why in the sentence that names the group). Coded by the evidence, not the source's wording: \"high genetic risk because of a close family history\" is `familial`. The values are the kinds a survey of 2,377 papers that define an at-risk sample found (2026-11-27); age and sex appeared only as matching variables and are not among them.",
+      "enum": [
+        "familial",
+        "genetic",
+        "clinical",
+        "biomarker",
+        "condition",
+        "exposure",
+        "behavioral",
+        "trait"
+      ],
+      "title": "RiskBasis",
       "type": "string"
     },
     "SampleSource": {
