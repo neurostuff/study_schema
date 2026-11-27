@@ -368,7 +368,8 @@ so ingestion, pondie and neurostore read "Talairach & Tournoux 1988" the same wa
 
 **Vocabularies.** A record's `normalized` entries name the vocabulary each value was placed
 on, and `src/study_schema/vocabularies.json` pins the release of every vocabulary whose ids
-land there: MONDO and ONVOC, and the pipeline's own canonical tasks, task families,
+land there: MONDO and ONVOC, the conditions MONDO lacks (each under the MONDO node it falls
+under: mild cognitive impairment), and the pipeline's own canonical tasks, task families,
 condition atoms and phases, contrast keys, contrast sets and their orientation, and medical
 roles. The rule is that a `Normalization.vocabulary` is a manifest name (`mondo`,
 `canonical_task`, ...) or an enum this schema defines (`AgeUnit`), and its `value` resolves
