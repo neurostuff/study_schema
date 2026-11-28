@@ -8,6 +8,7 @@ from study_schema.models import extraction
 NAMES = [
     "mondo",
     "onvoc",
+    "condition_extension",
     "canonical_task",
     "task_family",
     "condition_atom",
@@ -47,6 +48,15 @@ def test_the_ontologies_are_downloads():
 def test_the_task_vocabularies_credit_hed_task(name):
     hed = [u for u in v.vocabulary(name).upstream if u.name.startswith("HED-task")]
     assert hed and all(u.commit and u.sha256 and u.license == "MIT" for u in hed)
+
+
+def test_a_condition_extension_falls_under_a_mondo_node():
+    """A condition MONDO lacks is carried with the MONDO node it falls under, so the normalizer
+    can write that node beside it and a MONDO search still finds the group."""
+    entry = v.vocabulary("condition_extension")
+    assert entry.hierarchy.parent_vocabulary == "mondo"
+    assert "mild_cognitive_impairment" in entry.values
+    assert entry.sources[0].repository == "neurostuff/pondie"
 
 
 def test_a_contrast_set_names_its_family():

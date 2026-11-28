@@ -42,6 +42,32 @@
       "notes": "owl:versionInfo 1.0.0. ONVOC is published on BioPortal, which serves downloads only with an API key; the URL is a commit-pinned copy in OpenNeuroOrg/onvoc-widget, byte-identical to the file pondie maps against."
     },
     {
+      "name": "condition_extension",
+      "title": "Conditions MONDO lacks",
+      "legacy_vocabularies": ["condition_extension"],
+      "release": "pondie-d561931",
+      "download": null,
+      "sources": [
+        {
+          "repository": "neurostuff/pondie",
+          "commit": "d561931edecb9be2929f4544204d425d5b805bd6",
+          "path": "pondie/vocabularies/curated/condition-extension.tsv",
+          "sha256": "71a4e488b5e586a522e41c729785a6bc7575ed206fa5821812ae1dc3787bf7b9",
+          "role": "the ids: `id`, each with its `label`, `mondo_parent` and `forms`"
+        }
+      ],
+      "upstream": [],
+      "id_form": "<snake_case condition>",
+      "hierarchy": {
+        "kind": "field",
+        "field": "mondo_parent",
+        "parent_vocabulary": "mondo",
+        "description": "The term's `mondo_parent`: the MONDO node it falls under."
+      },
+      "values": ["mild_cognitive_impairment"],
+      "notes": "A condition the corpus names that MONDO has no node for (mild cognitive impairment, under MONDO:0002039 cognitive disorder). The normalizer writes a `mondo` entry for `mondo_parent` with `rollup: true` beside every entry here, so a MONDO search finds the group without this vocabulary. When MONDO adds a term, the term leaves this vocabulary."
+    },
+    {
       "name": "canonical_task",
       "title": "Canonical tasks",
       "legacy_vocabularies": ["astra canonical task"],
