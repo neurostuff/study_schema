@@ -372,7 +372,7 @@ land there: MONDO and ONVOC, the conditions MONDO lacks (each under the MONDO no
 under: mild cognitive impairment), and the pipeline's own canonical tasks, task families,
 condition atoms and phases, contrast keys, contrast sets and their orientation, and medical
 roles. The rule is that a `Normalization.vocabulary` is a manifest name (`mondo`,
-`canonical_task`, ...) or an enum this schema defines (`AgeUnit`), and its `value` resolves
+`canonical_task`, ...) or an enum this schema defines (`AgeUnit`, `ConditionRole`, `RiskBasis`), and its `value` resolves
 against the release the manifest pins. Each entry gives the release, a download URL and
 sha256 for an external ontology or the source file, commit and sha256 for a vocabulary
 defined in pipeline code, where an id's parent comes from (`is_a`, `skos:broader`, a field,

@@ -240,6 +240,66 @@ class AgeUnit(str, Enum):
     """
 
 
+class ConditionRole(str, Enum):
+    """
+    How a group stands to one condition its `medical_condition` names: the `value` of a `Normalization` entry with vocabulary `ConditionRole` on that item. Optional, like every `normalized` entry: a record carries none until a normalizer writes them. Written per condition, not per item, so an item naming two conditions ("MDD with a family history of bipolar disorder") carries a role for each, and one condition may carry more than one. Succeeds the pipeline's `astra medical role` (vocabulary manifest `medical_role`), which held the first three values, one per item.
+    """
+    none = "none"
+    """
+    The item states no condition: an assertion of absence ("healthy controls", "no psychiatric disorder").
+    """
+    primary = "primary"
+    """
+    A condition the group has that defines or characterizes it.
+    """
+    comorbid = "comorbid"
+    """
+    A condition some or all of the group has besides the defining one, carrying a prevalence or a history ("depression in eight participants", "history of PTSD").
+    """
+    at_risk = "at_risk"
+    """
+    A condition the group does not have and is at risk of ("familial high risk for schizophrenia", "premanifest Huntington's disease", "clinical high risk for psychosis", "high risk of reoffending"). The condition is linked as any other is; `RiskBasis` entries, where the source gives one, say why. A group whose every condition is `at_risk` is healthy (`is_healthy`).
+    """
+
+
+class RiskBasis(str, Enum):
+    """
+    The evidence that puts a group at risk of a condition whose `ConditionRole` is `at_risk`: the `value` of a `Normalization` entry with vocabulary `RiskBasis` on that condition. Optional: an at-risk condition carries one entry per basis the source states, so a mutation carrier from an affected family carries two, and none where the source states none (most do not say why in the sentence that names the group). Coded by the evidence, not the source's wording: "high genetic risk because of a close family history" is `familial`. The values are the kinds a survey of 2,377 papers that define an at-risk sample found (2026-11-27); age and sex appeared only as matching variables and are not among them.
+    """
+    familial = "familial"
+    """
+    An affected relative (a parent, sibling, co-twin or other first-degree relative).
+    """
+    genetic = "genetic"
+    """
+    The participants' own genotype: a causal mutation or expansion (PSEN1, the HTT CAG expansion, 22q11.2 deletion), a risk allele (APOE ε4) or a polygenic score.
+    """
+    clinical = "clinical"
+    """
+    Symptoms below a diagnosis: attenuated or subthreshold symptoms, clinical or ultra-high risk for psychosis, an at-risk mental state, basic symptoms, a prodromal disease, or a screening score past its cutoff.
+    """
+    biomarker = "biomarker"
+    """
+    An asymptomatic biomarker, such as amyloid or tau positivity in preclinical Alzheimer's disease.
+    """
+    condition = "condition"
+    """
+    A condition the group has that raises the risk of another: insomnia and depression, mild cognitive impairment and conversion to Alzheimer's disease, REM sleep behavior disorder and phenoconversion. The condition the group has is a `primary` entry of its own.
+    """
+    exposure = "exposure"
+    """
+    What happened to the group: maltreatment, trauma, adversity, a prenatal or perinatal exposure, preterm birth, combat, stressful life events.
+    """
+    behavioral = "behavioral"
+    """
+    What the group does or did: substance use, gambling, offending, a suicide attempt.
+    """
+    trait = "trait"
+    """
+    A temperament or personality disposition (behavioral inhibition, neuroticism, hypomanic personality, schizotypy).
+    """
+
+
 class SampleSource(str, Enum):
     """
     Where a participant group came from. Closed, because the three cases carry different consequences for pooling and a fourth would be a judgement rather than a source.
@@ -1792,7 +1852,7 @@ Without it the age fields are not comparable across studies: `6` under \"months\
     race_distribution: Optional[list[CategoryDistribution]] = Field(default=None, description="""Aggregate racial distribution using the study-reported category labels.""")
     ethnicity_distribution: Optional[list[CategoryDistribution]] = Field(default=None, description="""Aggregate ethnic distribution using the study-reported category labels.""")
     is_healthy: Optional[bool] = Field(default=None, description="""Whether this cohort is free of medical, neurological and psychiatric conditions. **Derived, not extracted**: code sets it from `medical_condition`, so it cannot disagree with it.
-True when the group records no condition, or records only an assertion of absence (\"no neurological or psychiatric disorder\", \"healthy controls\"). False when any entry is a condition. Unset when `medical_condition` was never extracted -- that is not a healthy cohort, it is an unread one.
+True when the group has no condition: every entry is an assertion of absence (\"no neurological or psychiatric disorder\", \"healthy controls\") or a risk of a condition the group does not have (`ConditionRole` `at_risk`: unaffected relatives, presymptomatic carriers, a clinical high-risk group with attenuated symptoms). An at-risk group is healthy, with the risk recorded beside it. False when any entry is a condition the group has. Unset when `medical_condition` was never extracted -- that is not a healthy cohort, it is an unread one.
 Derived rather than asked because the source's own wording does not settle it: the addiction and obesity literature says \"healthy\" to mean free of comorbidity.""")
     population_characteristics: Optional[list[str]] = Field(default=None, description="""How this cohort **deviates from the typical**, where no other field covers it: habitual exposure (heavy caffeine use, social drinkers, smoking status), training or expertise (athletes, musicians, bilinguals, gamers), occupation or social role (veterans, undergraduates, shift workers), lifestyle (sedentary, vegetarian, meditation practitioners), and body habitus where it is atypical (obese, overweight, underweight).
 Deviation is the test, and it is what makes this field worth querying. A study selects its cohort for something; that something is what belongs here. The unremarkable does not: \"normal weight\", \"healthy weight\", \"typically developing\", \"right-handed\", \"no hearing loss\" and an ordinary age range describe a cohort that was not selected for anything, and recording them fills the field with the absence of information. If every plausible cohort could carry the value, leave it out.
